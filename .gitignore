@@ -1,0 +1,16 @@
+# Ignore Editor, IDE and OS stuff
+.DS_Store
+*~
+*.bak
+*.lock
+.idea
+workspace.xml
+*.iml
+
+# Ignore terraform state
+**/.terraform
+**/terraform.tfstate
+**/terraform.tfstate.backup
+
+# Ignore the binary
+terraform-provider-cdp
