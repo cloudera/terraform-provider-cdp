@@ -2,18 +2,11 @@ package environments
 
 import (
 	"fmt"
-	environmentclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	environmentmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-)
-
-const (
-	nameField          = "name"
-	roleArnField       = "role_arn"
-	descriptionField   = "description"
-	crnField           = "crn"
-	cloudPlatformField = "cloud_platform"
 )
 
 func ResourceCredential() *schema.Resource {
@@ -24,23 +17,23 @@ func ResourceCredential() *schema.Resource {
 		Delete: resourceCredentialDelete,
 
 		Schema: map[string]*schema.Schema{
-			nameField: &schema.Schema{
+			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			cloudPlatformField: &schema.Schema{
+			"cloud_platform": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			roleArnField: &schema.Schema{
+			"role_arn": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"description": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			descriptionField: &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			crnField: &schema.Schema{
+			"crn": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -49,12 +42,12 @@ func ResourceCredential() *schema.Resource {
 }
 
 func resourceCredentialCreate(d *schema.ResourceData, m interface{}) error {
-	environments := m.(*environmentclient.Environments)
+	client := m.(*utils.CdpClients).Environments
 
-	cloudPlatform := d.Get(cloudPlatformField).(string)
+	cloudPlatform := d.Get("cloud_platform").(string)
 	switch cloudPlatform {
 	case "AWS":
-		if err := resourceAWSCredentialCreate(d, environments); err != nil {
+		if err := resourceAWSCredentialCreate(d, client); err != nil {
 			return err
 		}
 	case "Azure":
@@ -66,39 +59,35 @@ func resourceCredentialCreate(d *schema.ResourceData, m interface{}) error {
 	return resourceCredentialRead(d, m)
 }
 
-func resourceAWSCredentialCreate(d *schema.ResourceData, environments *environmentclient.Environments) error {
+func resourceAWSCredentialCreate(d *schema.ResourceData, client *environmentsclient.Environments) error {
+	name := d.Get("name").(string)
+	roleArn := d.Get("role_arn").(string)
+	description := d.Get("description").(string)
+
 	params := operations.NewCreateAWSCredentialParams()
-	name := d.Get(nameField).(string)
-	roleArn, ok := d.GetOk(roleArnField)
-	if !ok {
-		return fmt.Errorf("%s field is required", roleArnField)
-	}
-	roleArnStr := roleArn.(string)
-
-	description := d.Get(descriptionField).(string)
-
-	params.WithInput(&environmentmodels.CreateAWSCredentialRequest{
+	params.WithInput(&environmentsmodels.CreateAWSCredentialRequest{
 		CredentialName: &name,
 		Description:    description,
-		RoleArn:        &roleArnStr,
+		RoleArn:        &roleArn,
 	})
-	resp, err := environments.Operations.CreateAWSCredential(params)
+
+	resp, err := client.Operations.CreateAWSCredential(params)
 	if err != nil {
 		return err
 	}
 
-	// We can also use CRN rather than name, but not supported in API
 	d.SetId(*resp.GetPayload().Credential.CredentialName)
+
 	return nil
 }
 
 func resourceCredentialRead(d *schema.ResourceData, m interface{}) error {
-	environments := m.(*environmentclient.Environments)
+	client := m.(*utils.CdpClients).Environments
 
 	name := d.Id()
 	params := operations.NewListCredentialsParams()
-	params.WithInput(&environmentmodels.ListCredentialsRequest{CredentialName: name})
-	resp, err := environments.Operations.ListCredentials(params)
+	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: name})
+	resp, err := client.Operations.ListCredentials(params)
 	if err != nil {
 		return err
 	}
@@ -110,10 +99,10 @@ func resourceCredentialRead(d *schema.ResourceData, m interface{}) error {
 
 	c := credentials[0]
 
-	d.Set(nameField, c.CredentialName)
-	d.Set(descriptionField, c.Description)
-	d.Set(crnField, c.Crn)
-	d.Set(cloudPlatformField, c.CloudPlatform)
+	d.Set("name", c.CredentialName)
+	d.Set("description", c.Description)
+	d.Set("crn", c.Crn)
+	d.Set("cloud_platform", c.CloudPlatform)
 	d.SetId(*c.CredentialName)
 
 	return nil
@@ -124,5 +113,15 @@ func resourceCredentialUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceCredentialDelete(d *schema.ResourceData, m interface{}) error {
+	client := m.(*utils.CdpClients).Environments
+
+	name := d.Id()
+	params := operations.NewDeleteCredentialParams()
+	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &name})
+	_, err := client.Operations.DeleteCredential(params)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
