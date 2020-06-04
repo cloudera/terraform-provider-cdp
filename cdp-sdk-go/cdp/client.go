@@ -8,7 +8,7 @@ import (
 
 type Client struct {
 	Environments *environmentclient.Environments
-	IAM  *iam.IAM
+	IAM          *iam.IAM
 }
 
 func NewEnvironmentsClient(config *Config) *environmentclient.Environments {

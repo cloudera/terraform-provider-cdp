@@ -122,6 +122,7 @@ func fileCdpCredentialsProvider(path string, profile string) (*Credentials, erro
 	if !ok || strings.TrimSpace(accessKeyId) == "" {
 		return nil, fmt.Errorf("cannot find %s in profile %s in the credentials file", cdpAccessKeyIdPropertyKey, profile)
 	}
+
 	privateKey, ok := profileData.properties[cdpPrivateKeyPropertyKey]
 	if !ok || strings.TrimSpace(privateKey) == "" {
 		return nil, fmt.Errorf("cannot find %s in profile %s in the credentials file", cdpPrivateKeyPropertyKey, profile)
@@ -140,7 +141,6 @@ func defaultCdpCredentialsFile() (string, error) {
 }
 
 func loadCdpCredentialsFile(path string) (*cdpCredentialsConfig, error) {
-	//fmt.Printf("Reading CDP credentials file: %s", path)
 	credsConfig := newCdpCredentialsConfig()
 	cfg, err := ini.InsensitiveLoad(path)
 	if err != nil {

@@ -53,7 +53,15 @@ type ClientService interface {
 
 	DescribeEnvironment(params *DescribeEnvironmentParams) (*DescribeEnvironmentOK, error)
 
+	GetAccountTelemetry(params *GetAccountTelemetryParams) (*GetAccountTelemetryOK, error)
+
+	GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams) (*GetAccountTelemetryDefaultOK, error)
+
 	GetConfigFiles(params *GetConfigFilesParams) (*GetConfigFilesOK, error)
+
+	GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams) (*GetCredentialPrerequisitesOK, error)
+
+	GetEnvironmentSetting(params *GetEnvironmentSettingParams) (*GetEnvironmentSettingOK, error)
 
 	GetFreeipaStatus(params *GetFreeipaStatusParams) (*GetFreeipaStatusOK, error)
 
@@ -75,9 +83,15 @@ type ClientService interface {
 
 	RepairFreeipa(params *RepairFreeipaParams) (*RepairFreeipaOK, error)
 
+	SetAccountTelemetry(params *SetAccountTelemetryParams) (*SetAccountTelemetryOK, error)
+
+	SetEnvironmentSetting(params *SetEnvironmentSettingParams) (*SetEnvironmentSettingOK, error)
+
 	SetIDBrokerMappings(params *SetIDBrokerMappingsParams) (*SetIDBrokerMappingsOK, error)
 
 	SetPassword(params *SetPasswordParams) (*SetPasswordOK, error)
+
+	SetTelemetryFeatures(params *SetTelemetryFeaturesParams) (*SetTelemetryFeaturesOK, error)
 
 	StartEnvironment(params *StartEnvironmentParams) (*StartEnvironmentOK, error)
 
@@ -90,6 +104,8 @@ type ClientService interface {
 	SyncStatus(params *SyncStatusParams) (*SyncStatusOK, error)
 
 	SyncUser(params *SyncUserParams) (*SyncUserOK, error)
+
+	TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams) (*TestAccountTelemetryRulesOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -585,6 +601,76 @@ func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams) (*Descri
 }
 
 /*
+  GetAccountTelemetry gets account level telemetry settings telemetry features and anonymization rules
+
+  Get account level telemetry settings. (telemetry features and anonymization rules)
+*/
+func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams) (*GetAccountTelemetryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAccountTelemetryParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getAccountTelemetry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getAccountTelemetry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetAccountTelemetryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetAccountTelemetryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetAccountTelemetryDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  GetAccountTelemetryDefault gets default account level telemetry settings helps to set back the default values
+
+  Get default account level telemetry settings. Helps to set back the default values.
+*/
+func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams) (*GetAccountTelemetryDefaultOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAccountTelemetryDefaultParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getAccountTelemetryDefault",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getAccountTelemetryDefault",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetAccountTelemetryDefaultReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetAccountTelemetryDefaultOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetAccountTelemetryDefaultDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
   GetConfigFiles gets the client configs for a datalake
 
   Get the client configs for a Datalake.
@@ -616,6 +702,76 @@ func (a *Client) GetConfigFiles(params *GetConfigFilesParams) (*GetConfigFilesOK
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*GetConfigFilesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  GetCredentialPrerequisites this API provides the credential prerequisites for the given cloud provider
+
+  Provides the the credential prerequisites for the given cloud provider.
+*/
+func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams) (*GetCredentialPrerequisitesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCredentialPrerequisitesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getCredentialPrerequisites",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getCredentialPrerequisites",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCredentialPrerequisitesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCredentialPrerequisitesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCredentialPrerequisitesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  GetEnvironmentSetting reads a configuration setting from the environment service
+
+  Read a configuration setting from the environment service.
+*/
+func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams) (*GetEnvironmentSettingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetEnvironmentSettingParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getEnvironmentSetting",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getEnvironmentSetting",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetEnvironmentSettingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetEnvironmentSettingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetEnvironmentSettingDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -970,6 +1126,76 @@ func (a *Client) RepairFreeipa(params *RepairFreeipaParams) (*RepairFreeipaOK, e
 }
 
 /*
+  SetAccountTelemetry sets account level telemetry settings telemetry features and anonymization rules
+
+  Set account level telemetry settings. (telemetry features and anonymization rules)
+*/
+func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams) (*SetAccountTelemetryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetAccountTelemetryParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "setAccountTelemetry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setAccountTelemetry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetAccountTelemetryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetAccountTelemetryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetAccountTelemetryDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  SetEnvironmentSetting reads a configuration setting from the environment service
+
+  Read a configuration setting from the environment service.
+*/
+func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams) (*SetEnvironmentSettingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetEnvironmentSettingParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "setEnvironmentSetting",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setEnvironmentSetting",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetEnvironmentSettingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetEnvironmentSettingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetEnvironmentSettingDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
   SetIDBrokerMappings sets all ID broker mappings for an environment
 
   Sets all ID Broker mappings for an environment. Overwrites all existing mappings.
@@ -1036,6 +1262,41 @@ func (a *Client) SetPassword(params *SetPasswordParams) (*SetPasswordOK, error) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SetPasswordDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  SetTelemetryFeatures configures environment level telemetry feature setting
+
+  Configure environment level telemetry feature setting.
+*/
+func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams) (*SetTelemetryFeaturesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetTelemetryFeaturesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "setTelemetryFeatures",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setTelemetryFeatures",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetTelemetryFeaturesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetTelemetryFeaturesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetTelemetryFeaturesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1246,6 +1507,41 @@ func (a *Client) SyncUser(params *SyncUserParams) (*SyncUserOK, error) {
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SyncUserDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  TestAccountTelemetryRules tests anonymization rules for account telemetry against text input
+
+  Test anonymization rules (for account telemetry) against text input.
+*/
+func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams) (*TestAccountTelemetryRulesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewTestAccountTelemetryRulesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "testAccountTelemetryRules",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/testAccountTelemetryRules",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &TestAccountTelemetryRulesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*TestAccountTelemetryRulesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*TestAccountTelemetryRulesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

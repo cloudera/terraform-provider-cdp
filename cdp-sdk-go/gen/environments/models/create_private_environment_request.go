@@ -255,7 +255,8 @@ type CreatePrivateEnvironmentRequestDockerUserPass struct {
 	Server *string `json:"server"`
 
 	// Docker username.
-	Username string `json:"username,omitempty"`
+	// Required: true
+	Username *string `json:"username"`
 }
 
 // Validate validates this create private environment request docker user pass
@@ -267,6 +268,10 @@ func (m *CreatePrivateEnvironmentRequestDockerUserPass) Validate(formats strfmt.
 	}
 
 	if err := m.validateServer(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUsername(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -288,6 +293,15 @@ func (m *CreatePrivateEnvironmentRequestDockerUserPass) validatePassword(formats
 func (m *CreatePrivateEnvironmentRequestDockerUserPass) validateServer(formats strfmt.Registry) error {
 
 	if err := validate.Required("dockerUserPass"+"."+"server", "body", m.Server); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *CreatePrivateEnvironmentRequestDockerUserPass) validateUsername(formats strfmt.Registry) error {
+
+	if err := validate.Required("dockerUserPass"+"."+"username", "body", m.Username); err != nil {
 		return err
 	}
 

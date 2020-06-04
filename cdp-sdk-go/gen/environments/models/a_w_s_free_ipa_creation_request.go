@@ -6,8 +6,10 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // AWSFreeIpaCreationRequest Request object for creating FreeIPA in the environment.
@@ -17,10 +19,41 @@ type AWSFreeIpaCreationRequest struct {
 
 	// The number of FreeIPA instances to create per group when creating FreeIPA in the environment
 	InstanceCountByGroup int32 `json:"instanceCountByGroup,omitempty"`
+
+	// Percentage of spot instances.
+	// Maximum: 100
+	// Minimum: 0
+	SpotPercentage *int32 `json:"spotPercentage,omitempty"`
 }
 
 // Validate validates this a w s free ipa creation request
 func (m *AWSFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateSpotPercentage(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AWSFreeIpaCreationRequest) validateSpotPercentage(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.SpotPercentage) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("spotPercentage", "body", int64(*m.SpotPercentage), 0, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("spotPercentage", "body", int64(*m.SpotPercentage), 100, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

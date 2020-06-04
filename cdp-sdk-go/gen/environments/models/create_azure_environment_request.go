@@ -73,6 +73,9 @@ type CreateAzureEnvironmentRequest struct {
 	// Whether to associate public ip's to the resources within the network.
 	// Required: true
 	UsePublicIP *bool `json:"usePublicIp"`
+
+	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
+	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`
 }
 
 // Validate validates this create azure environment request

@@ -23,6 +23,9 @@ type CreateAWSEnvironmentRequest struct {
 	// Required: true
 	Authentication *AuthenticationRequest `json:"authentication"`
 
+	// Whether to create private subnets or not.
+	CreatePrivateSubnets bool `json:"createPrivateSubnets,omitempty"`
+
 	// Name of the credential to use for the environment.
 	// Required: true
 	CredentialName *string `json:"credentialName"`
@@ -76,6 +79,9 @@ type CreateAWSEnvironmentRequest struct {
 
 	// The Amazon VPC ID. Mutually exclusive with networkCidr.
 	VpcID string `json:"vpcId,omitempty"`
+
+	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
+	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`
 }
 
 // Validate validates this create a w s environment request
