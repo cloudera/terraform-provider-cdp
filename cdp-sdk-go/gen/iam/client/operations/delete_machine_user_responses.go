@@ -51,21 +51,23 @@ func NewDeleteMachineUserOK() *DeleteMachineUserOK {
 Expected response to a valid request.
 */
 type DeleteMachineUserOK struct {
-	Payload models.DeleteMachineUserResponse
+	Payload *models.DeleteMachineUserResponse
 }
 
 func (o *DeleteMachineUserOK) Error() string {
 	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUserOK  %+v", 200, o.Payload)
 }
 
-func (o *DeleteMachineUserOK) GetPayload() models.DeleteMachineUserResponse {
+func (o *DeleteMachineUserOK) GetPayload() *models.DeleteMachineUserResponse {
 	return o.Payload
 }
 
 func (o *DeleteMachineUserOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.DeleteMachineUserResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

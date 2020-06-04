@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"strconv"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +18,9 @@ import (
 //
 // swagger:model MachineUser
 type MachineUser struct {
+
+	// The list of Azure cloud identities assigned to the machine user.
+	AzureCloudIdentities []*AzureCloudIdentity `json:"azureCloudIdentities"`
 
 	// The date when this machine user record was created.
 	// Required: true
@@ -38,6 +43,10 @@ type MachineUser struct {
 func (m *MachineUser) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAzureCloudIdentities(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCreationDate(formats); err != nil {
 		res = append(res, err)
 	}
@@ -53,6 +62,31 @@ func (m *MachineUser) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *MachineUser) validateAzureCloudIdentities(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AzureCloudIdentities) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.AzureCloudIdentities); i++ {
+		if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+			continue
+		}
+
+		if m.AzureCloudIdentities[i] != nil {
+			if err := m.AzureCloudIdentities[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

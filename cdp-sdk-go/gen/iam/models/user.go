@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"strconv"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -20,6 +22,9 @@ type User struct {
 	// Whether the user is an administrator of their Altus account.
 	// Required: true
 	AccountAdmin *bool `json:"accountAdmin"`
+
+	// The list of Azure cloud identities assigned to the user.
+	AzureCloudIdentities []*AzureCloudIdentity `json:"azureCloudIdentities"`
 
 	// The date when this user record was created.
 	// Required: true
@@ -66,6 +71,10 @@ func (m *User) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateAzureCloudIdentities(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCreationDate(formats); err != nil {
 		res = append(res, err)
 	}
@@ -108,6 +117,31 @@ func (m *User) validateAccountAdmin(formats strfmt.Registry) error {
 
 	if err := validate.Required("accountAdmin", "body", m.AccountAdmin); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *User) validateAzureCloudIdentities(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AzureCloudIdentities) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.AzureCloudIdentities); i++ {
+		if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+			continue
+		}
+
+		if m.AzureCloudIdentities[i] != nil {
+			if err := m.AzureCloudIdentities[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

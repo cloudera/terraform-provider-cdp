@@ -33,6 +33,8 @@ type ClientService interface {
 
 	AddUserToGroup(params *AddUserToGroupParams) (*AddUserToGroupOK, error)
 
+	AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams) (*AssignAzureCloudIdentityOK, error)
+
 	AssignGroupResourceRole(params *AssignGroupResourceRoleParams) (*AssignGroupResourceRoleOK, error)
 
 	AssignGroupRole(params *AssignGroupRoleParams) (*AssignGroupRoleOK, error)
@@ -40,6 +42,8 @@ type ClientService interface {
 	AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams) (*AssignMachineUserResourceRoleOK, error)
 
 	AssignMachineUserRole(params *AssignMachineUserRoleParams) (*AssignMachineUserRoleOK, error)
+
+	AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams) (*AssignServicePrincipalAzureCloudIdentityOK, error)
 
 	AssignUserResourceRole(params *AssignUserResourceRoleParams) (*AssignUserResourceRoleOK, error)
 
@@ -68,6 +72,10 @@ type ClientService interface {
 	DeleteSamlProvider(params *DeleteSamlProviderParams) (*DeleteSamlProviderOK, error)
 
 	DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams) (*DeleteSSHPublicKeyOK, error)
+
+	DeleteUser(params *DeleteUserParams) (*DeleteUserOK, error)
+
+	DescribeLdapProvider(params *DescribeLdapProviderParams) (*DescribeLdapProviderOK, error)
 
 	DescribeSamlProvider(params *DescribeSamlProviderParams) (*DescribeSamlProviderOK, error)
 
@@ -107,6 +115,8 @@ type ClientService interface {
 
 	ListGroupsForUser(params *ListGroupsForUserParams) (*ListGroupsForUserOK, error)
 
+	ListLdapProviders(params *ListLdapProvidersParams) (*ListLdapProvidersOK, error)
+
 	ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams) (*ListMachineUserAssignedResourceRolesOK, error)
 
 	ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams) (*ListMachineUserAssignedRolesOK, error)
@@ -143,6 +153,8 @@ type ClientService interface {
 
 	SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams) (*SetWorkloadPasswordPolicyOK, error)
 
+	UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams) (*UnassignAzureCloudIdentityOK, error)
+
 	UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams) (*UnassignGroupResourceRoleOK, error)
 
 	UnassignGroupRole(params *UnassignGroupRoleParams) (*UnassignGroupRoleOK, error)
@@ -151,6 +163,8 @@ type ClientService interface {
 
 	UnassignMachineUserRole(params *UnassignMachineUserRoleParams) (*UnassignMachineUserRoleOK, error)
 
+	UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams) (*UnassignServicePrincipalAzureCloudIdentityOK, error)
+
 	UnassignUserResourceRole(params *UnassignUserResourceRoleParams) (*UnassignUserResourceRoleOK, error)
 
 	UnassignUserRole(params *UnassignUserRoleParams) (*UnassignUserRoleOK, error)
@@ -158,6 +172,8 @@ type ClientService interface {
 	UpdateAccessKey(params *UpdateAccessKeyParams) (*UpdateAccessKeyOK, error)
 
 	UpdateGroup(params *UpdateGroupParams) (*UpdateGroupOK, error)
+
+	UpdateLdapProvider(params *UpdateLdapProviderParams) (*UpdateLdapProviderOK, error)
 
 	UpdateSamlProvider(params *UpdateSamlProviderParams) (*UpdateSamlProviderOK, error)
 
@@ -305,6 +321,41 @@ func (a *Client) AddUserToGroup(params *AddUserToGroupParams) (*AddUserToGroupOK
 }
 
 /*
+  AssignAzureCloudIdentity assigns an azure cloud identity to an actor or group
+
+  Assign an Azure cloud identity, i.e. an object ID (OID), to an actor or group.
+*/
+func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams) (*AssignAzureCloudIdentityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAssignAzureCloudIdentityParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "assignAzureCloudIdentity",
+		Method:             "POST",
+		PathPattern:        "/iam/assignAzureCloudIdentity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AssignAzureCloudIdentityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AssignAzureCloudIdentityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AssignAzureCloudIdentityDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
   AssignGroupResourceRole assigns a resource role to a group
 
   Assign a resource role to a group. If the resource role is already assigned to the group the request will fail.
@@ -441,6 +492,41 @@ func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams) (*As
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*AssignMachineUserRoleDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  AssignServicePrincipalAzureCloudIdentity assigns an azure cloud identity to a service principal or service principal category
+
+  Assign an Azure cloud identity, i.e. an object ID (OID), to a service principal or service principal category.
+*/
+func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams) (*AssignServicePrincipalAzureCloudIdentityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAssignServicePrincipalAzureCloudIdentityParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "assignServicePrincipalAzureCloudIdentity",
+		Method:             "POST",
+		PathPattern:        "/iam/assignServicePrincipalAzureCloudIdentity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AssignServicePrincipalAzureCloudIdentityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AssignServicePrincipalAzureCloudIdentityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AssignServicePrincipalAzureCloudIdentityDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -931,6 +1017,76 @@ func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams) (*DeleteSS
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DeleteSSHPublicKeyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  DeleteUser deletes a user and all associated resources
+
+  Deletes a user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the user. The user is also removed from all groups it belongs to. If the call succeeds the user will not be able to login interactively, or use any access keys to access the CDP control plane. This feature is under development and some reasources may be left behind after a successful call. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the user loses access to all environments as soon as possible.
+*/
+func (a *Client) DeleteUser(params *DeleteUserParams) (*DeleteUserOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteUserParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "deleteUser",
+		Method:             "POST",
+		PathPattern:        "/iam/deleteUser",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteUserReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteUserOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteUserDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  DescribeLdapProvider describes ldap provider
+
+  Describes an LDAP provider
+*/
+func (a *Client) DescribeLdapProvider(params *DescribeLdapProviderParams) (*DescribeLdapProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeLdapProviderParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "describeLdapProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/describeLdapProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeLdapProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeLdapProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeLdapProviderDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1600,6 +1756,41 @@ func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams) (*ListGroups
 }
 
 /*
+  ListLdapProviders lists l d a p providers
+
+  Lists LDAP providers in the CDP acccount.
+*/
+func (a *Client) ListLdapProviders(params *ListLdapProvidersParams) (*ListLdapProvidersOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListLdapProvidersParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "listLdapProviders",
+		Method:             "POST",
+		PathPattern:        "/iam/listLdapProviders",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListLdapProvidersReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListLdapProvidersOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListLdapProvidersDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
   ListMachineUserAssignedResourceRoles lists a machine user s assigned resource roles
 
   Lists a machine user's assigned resource roles.
@@ -2230,6 +2421,41 @@ func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyPara
 }
 
 /*
+  UnassignAzureCloudIdentity unassigns an azure cloud identity from an actor or group
+
+  Unassign an Azure cloud identity, i.e. an object ID (OID), from an actor or group.
+*/
+func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams) (*UnassignAzureCloudIdentityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUnassignAzureCloudIdentityParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "unassignAzureCloudIdentity",
+		Method:             "POST",
+		PathPattern:        "/iam/unassignAzureCloudIdentity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UnassignAzureCloudIdentityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UnassignAzureCloudIdentityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UnassignAzureCloudIdentityDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
   UnassignGroupResourceRole unassigns a resource role from a group
 
   Unassign a resource role from a group. If the resource role is not currently assigned to the group the request will fail.
@@ -2370,6 +2596,41 @@ func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams) 
 }
 
 /*
+  UnassignServicePrincipalAzureCloudIdentity unassigns an azure cloud identity from a service principal or service principal category
+
+  Unassign an Azure cloud identity, i.e. an object ID (OID), from a service principal or service principal category.
+*/
+func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams) (*UnassignServicePrincipalAzureCloudIdentityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUnassignServicePrincipalAzureCloudIdentityParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "unassignServicePrincipalAzureCloudIdentity",
+		Method:             "POST",
+		PathPattern:        "/iam/unassignServicePrincipalAzureCloudIdentity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UnassignServicePrincipalAzureCloudIdentityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UnassignServicePrincipalAzureCloudIdentityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UnassignServicePrincipalAzureCloudIdentityDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
   UnassignUserResourceRole unassigns a resource role from a user
 
   Unassign a resource role from a user. If the resource role is not currently assigned to the user the request will fail.
@@ -2506,6 +2767,41 @@ func (a *Client) UpdateGroup(params *UpdateGroupParams) (*UpdateGroupOK, error) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateGroupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  UpdateLdapProvider updates ldap provider
+
+  Update an LDAP provider.
+*/
+func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams) (*UpdateLdapProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateLdapProviderParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "updateLdapProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/updateLdapProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateLdapProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateLdapProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateLdapProviderDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

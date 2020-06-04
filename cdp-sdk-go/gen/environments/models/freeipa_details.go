@@ -12,21 +12,21 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// FreeipaDetails Details of FreeIPA instance.
+// FreeipaDetails Details of a FreeIPA instance.
 //
 // swagger:model FreeipaDetails
 type FreeipaDetails struct {
 
-	// CRN of the freeipa instance.
+	// CRN of the FreeIPA instance.
 	Crn string `json:"crn,omitempty"`
 
-	// DNS of this FreeIPA.
+	// The domain name of the FreeIPA instance.
 	Domain string `json:"domain,omitempty"`
 
-	// The hostname of the instance.
+	// The hostname of the FreeIPA instance.
 	Hostname string `json:"hostname,omitempty"`
 
-	// Thhe IP addresses iof the FreeIPA server.
+	// The IP addresses of the FreeIPA instance.
 	// Unique: true
 	ServerIP []string `json:"serverIP"`
 }
