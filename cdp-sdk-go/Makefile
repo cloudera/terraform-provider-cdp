@@ -4,8 +4,13 @@
 
 GO_FLAGS:=""
 
-IAM_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/master/services/libs/protocols-yaml/src/main/yaml/iam.yaml
-ENVIRONMENTS2_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/master/services/libs/protocols-yaml/src/main/yaml/environments2.yaml
+API_DEFINITION_COMMIT ?= f3d16d71b576f179f3d7df6407e12635ca077f8c
+
+IAM_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/iam.yaml
+ENVIRONMENTS_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/environments2.yaml
+DATALAKE_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/datalake.yaml
+DATAHUB_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/datahub.yaml
+ML_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/ml.yaml
 
 all: check-go test build
 
@@ -29,24 +34,33 @@ run: generate fmt vet
 
 # Run go fmt against code
 fmt:
-	go fmt ./authn/... ./common/... ./config/...
+	go fmt ./authn/... ./common/... ./cdp/...
 
 # Run go vet against code
 vet:
-	go vet ./authn/... ./common/... ./config/...
+	go vet ./authn/... ./common/... ./cdp/...
 
 # Generate code
 generate:
-	go generate ./authn/... ./common/... ./config/...
+	go generate ./authn/... ./common/... ./cdp/...
 
 mkdirs:
-	mkdir -p gen/iam gen/environments
+	mkdir -p gen/iam gen/environments gen/datalake gen/datahub gen/ml
 
 # TODO: should run this as a part of main build
-swagger-gen: mkdirs swagger-gen-iam swagger-gen-environments2
+swagger-gen: mkdirs swagger-gen-iam swagger-gen-environments swagger-gen-datalake swagger-gen-datahub swagger-gen-ml
 
 swagger-gen-iam: mkdirs
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(IAM_SWAGGER_YAML) -A iam -t  gen/iam/
+	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(IAM_SWAGGER_YAML) -A iam -t gen/iam/
 
-swagger-gen-environments2:
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(ENVIRONMENTS2_SWAGGER_YAML) -A environments -t  gen/environments/
+swagger-gen-environments: mkdirs
+	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(ENVIRONMENTS_SWAGGER_YAML) -A environments -t gen/environments/
+
+swagger-gen-datalake: mkdirs
+	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(DATALAKE_SWAGGER_YAML) -A datalake -t gen/datalake/
+
+swagger-gen-datahub: mkdirs
+	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(DATAHUB_SWAGGER_YAML) -A datahub -t  gen/datahub/
+
+swagger-gen-ml: mkdirs
+	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(ML_SWAGGER_YAML) -A ml -t  gen/ml/

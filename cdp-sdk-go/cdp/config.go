@@ -8,7 +8,7 @@ import (
 const (
 	defaultAltusApiEndpointUrl = "https://%sapi.us-west-1.altus.cloudera.com/"
 	defaultCdpApiEndpointUrl   = "https://api.us-west-1.cdp.cloudera.com/"
-	defaultBaseApiPath = ""
+	defaultBaseApiPath         = ""
 )
 
 type Config struct {
