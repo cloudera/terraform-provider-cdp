@@ -1,22 +1,47 @@
 package cdp
 
 import (
-	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
-	environmentclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
+	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
+	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 )
 
 type Client struct {
-	Environments *environmentclient.Environments
-	IAM          *iam.IAM
+	Environments *environmentsclient.Environments
+	Datalake     *datalakeclient.Datalake
+	Datahub      *datahubclient.Datahub
 }
 
-func NewEnvironmentsClient(config *Config) *environmentclient.Environments {
+func NewClient(config *Config) Client {
+	return Client{
+		Environments: NewEnvironmentsClient(config),
+		Datalake:     NewDatalakeClient(config),
+		Datahub:      NewDatahubClient(config),
+	}
+
+}
+
+func NewEnvironmentsClient(config *Config) *environmentsclient.Environments {
 	transport, err := authn.GetAPIKeyAuthTransport(config.CdpApiEndpointUrl, "")
 	if err != nil {
 		panic(err)
 	}
-	environments := environmentclient.New(transport, nil)
+	return environmentsclient.New(transport, nil)
+}
 
-	return environments
+func NewDatalakeClient(config *Config) *datalakeclient.Datalake {
+	transport, err := authn.GetAPIKeyAuthTransport(config.CdpApiEndpointUrl, "")
+	if err != nil {
+		panic(err)
+	}
+	return datalakeclient.New(transport, nil)
+}
+
+func NewDatahubClient(config *Config) *datahubclient.Datahub {
+	transport, err := authn.GetAPIKeyAuthTransport(config.CdpApiEndpointUrl, "")
+	if err != nil {
+		panic(err)
+	}
+	return datahubclient.New(transport, nil)
 }

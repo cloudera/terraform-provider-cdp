@@ -3,13 +3,9 @@ package provider
 import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
-	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
-	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -72,19 +68,8 @@ func providerSchema() map[string]*schema.Schema {
 }
 
 func configureProvider(d *schema.ResourceData) (interface{}, error) {
-	config := getCdpConfig(d)
-	transport, err := authn.GetAPIKeyAuthTransport(config.CdpApiEndpointUrl, config.BaseAPIPath)
-	if err != nil {
-		return nil, err
-	}
-
-	cdpClients := utils.CdpClients{
-		Environments: environmentsclient.New(transport, nil),
-		Datalake:     datalakeclient.New(transport, nil),
-		Datahub:      datahubclient.New(transport, nil),
-	}
-
-	return &cdpClients, nil
+	client := cdp.NewClient(getCdpConfig(d))
+	return &client, nil
 }
 
 func getCdpConfig(d *schema.ResourceData) *cdp.Config {

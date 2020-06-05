@@ -2,13 +2,12 @@ package datahub
 
 import (
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client/operations"
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"strings"
 	"time"
 )
 
@@ -115,7 +114,7 @@ func ResourceCluster() *schema.Resource {
 }
 
 func resourceClusterCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Datahub
+	client := m.(*cdp.Client).Datahub
 
 	cloudPlatform := d.Get("cloud_platform").(string)
 	switch cloudPlatform {
@@ -172,7 +171,7 @@ func waitForClusterToBeAvailable(datahubName string, timeout time.Duration, clie
 			params.WithInput(&datahubmodels.DescribeClusterRequest{ClusterName: &datahubName})
 			resp, err := client.Operations.DescribeCluster(params)
 			if err != nil {
-				return 42, "", err
+				return nil, "", err
 			}
 
 			return resp, resp.GetPayload().Cluster.Status, nil
@@ -184,7 +183,7 @@ func waitForClusterToBeAvailable(datahubName string, timeout time.Duration, clie
 }
 
 func resourceClusterRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Datahub
+	client := m.(*cdp.Client).Datahub
 
 	name := d.Id()
 	params := operations.NewDescribeClusterParams()
@@ -192,7 +191,7 @@ func resourceClusterRead(d *schema.ResourceData, m interface{}) error {
 	resp, err := client.Operations.DescribeCluster(params)
 	if err != nil {
 		if dlErr, ok := err.(*operations.DescribeClusterDefault); ok {
-			if matches(dlErr.GetPayload(), "NOT_FOUND", "") {
+			if cdp.IsDatahubError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				d.SetId("") // deleted
 				return nil
 			}
@@ -217,7 +216,7 @@ func resourceClusterUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceClusterDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Datahub
+	client := m.(*cdp.Client).Datahub
 
 	name := d.Id()
 	params := operations.NewDeleteClusterParams()
@@ -248,11 +247,11 @@ func waitForClusterToBeDeleted(datahubName string, timeout time.Duration, datahu
 			resp, err := datahub.Operations.DescribeCluster(params)
 			if err != nil {
 				if dlErr, ok := err.(*operations.DescribeClusterDefault); ok {
-					if matches(dlErr.GetPayload(), "NOT_FOUND", "") {
+					if cdp.IsDatahubError(dlErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}
 				}
-				return 42, "", err
+				return nil, "", err
 			}
 			if resp.GetPayload().Cluster == nil {
 				return nil, "", nil
@@ -263,19 +262,4 @@ func waitForClusterToBeDeleted(datahubName string, timeout time.Duration, datahu
 	_, err := stateConf.WaitForState()
 
 	return err
-}
-
-func toStringList(configured []interface{}) []string {
-	vs := make([]string, 0, len(configured))
-	for _, v := range configured {
-		val, ok := v.(string)
-		if ok && val != "" {
-			vs = append(vs, v.(string))
-		}
-	}
-	return vs
-}
-
-func matches(err *datahubmodels.Error, code string, message string) bool {
-	return err.Code == code && strings.Contains(err.Message, message)
 }

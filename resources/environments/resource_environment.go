@@ -2,6 +2,7 @@ package environments
 
 import (
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
@@ -9,7 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"sort"
-	"strings"
 	"time"
 )
 
@@ -101,7 +101,7 @@ func ResourceEnvironment() *schema.Resource {
 }
 
 func resourceEnvironmentCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Environments
+	client := m.(*cdp.Client).Environments
 
 	cloudPlatform := d.Get("cloud_platform").(string)
 	switch cloudPlatform {
@@ -127,7 +127,7 @@ func resourceAWSEnvironmentCreate(d *schema.ResourceData, client *environmentscl
 	defaultSecurityGroupId := d.Get("default_security_group_id").(string)
 	publicKeyId := d.Get("public_key_id").(string)
 	vpcId := d.Get("vpc_id").(string)
-	subnetIds := toStringList(d.Get("subnet_ids").([]interface{}))
+	subnetIds := utils.ToStringList(d.Get("subnet_ids").([]interface{}))
 	logStorageLocationBase := d.Get("log_storage_location_base").(string)
 	logStorageInstanceProfile := d.Get("log_storage_instance_profile").(string)
 	s3GuardTableName := d.Get("s3_guard_table_name").(string)
@@ -196,7 +196,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
-				return 42, "", err
+				return nil, "", err
 			}
 
 			return resp, *resp.GetPayload().Environment.Status, nil
@@ -208,7 +208,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 }
 
 func resourceEnvironmentRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Environments
+	client := m.(*cdp.Client).Environments
 
 	name := d.Id()
 
@@ -217,7 +217,7 @@ func resourceEnvironmentRead(d *schema.ResourceData, m interface{}) error {
 	describeEnvironmentResp, err := client.Operations.DescribeEnvironment(describeParams)
 	if err != nil {
 		if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
-			if matches(envErr.GetPayload(), "NOT_FOUND", "") {
+			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
 				d.SetId("") // deleted
 				return nil
 			}
@@ -262,7 +262,7 @@ func resourceEnvironmentRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceEnvironmentUpdate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Environments
+	client := m.(*cdp.Client).Environments
 
 	name := d.Id()
 
@@ -284,7 +284,7 @@ func resourceEnvironmentUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceEnvironmentDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Environments
+	client := m.(*cdp.Client).Environments
 
 	name := d.Id()
 	params := operations.NewDeleteEnvironmentParams()
@@ -318,11 +318,11 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
 				if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
-					if matches(envErr.GetPayload(), "NOT_FOUND", "") {
+					if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}
 				}
-				return 42, "", err
+				return nil, "", err
 			}
 			if resp.GetPayload().Environment == nil {
 				return nil, "", nil
@@ -333,19 +333,4 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 	_, err := stateConf.WaitForState()
 
 	return err
-}
-
-func toStringList(configured []interface{}) []string {
-	vs := make([]string, 0, len(configured))
-	for _, v := range configured {
-		val, ok := v.(string)
-		if ok && val != "" {
-			vs = append(vs, v.(string))
-		}
-	}
-	return vs
-}
-
-func matches(err *environmentsmodels.Error, code string, message string) bool {
-	return err.Code == code && strings.Contains(err.Message, message)
 }

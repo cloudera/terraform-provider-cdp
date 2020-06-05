@@ -2,10 +2,10 @@ package environments
 
 import (
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -42,7 +42,7 @@ func ResourceCredential() *schema.Resource {
 }
 
 func resourceCredentialCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Environments
+	client := m.(*cdp.Client).Environments
 
 	cloudPlatform := d.Get("cloud_platform").(string)
 	switch cloudPlatform {
@@ -82,7 +82,7 @@ func resourceAWSCredentialCreate(d *schema.ResourceData, client *environmentscli
 }
 
 func resourceCredentialRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Environments
+	client := m.(*cdp.Client).Environments
 
 	name := d.Id()
 	params := operations.NewListCredentialsParams()
@@ -113,7 +113,7 @@ func resourceCredentialUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceCredentialDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Environments
+	client := m.(*cdp.Client).Environments
 
 	name := d.Id()
 	params := operations.NewDeleteCredentialParams()

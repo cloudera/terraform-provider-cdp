@@ -2,13 +2,12 @@ package datalake
 
 import (
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client/operations"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"strings"
 	"time"
 )
 
@@ -50,7 +49,7 @@ func ResourceDatalake() *schema.Resource {
 }
 
 func resourceDatalakeCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Datalake
+	client := m.(*cdp.Client).Datalake
 
 	cloudPlatform := d.Get("cloud_platform").(string)
 	switch cloudPlatform {
@@ -111,7 +110,7 @@ func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, clie
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 			resp, err := client.Operations.DescribeDatalake(params)
 			if err != nil {
-				return 42, "", err
+				return nil, "", err
 			}
 
 			return resp, resp.GetPayload().Datalake.Status, nil
@@ -123,7 +122,7 @@ func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, clie
 }
 
 func resourceDatalakeRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Datalake
+	client := m.(*cdp.Client).Datalake
 
 	name := d.Id()
 	params := operations.NewDescribeDatalakeParams()
@@ -131,7 +130,7 @@ func resourceDatalakeRead(d *schema.ResourceData, m interface{}) error {
 	resp, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
-			if matches(dlErr.GetPayload(), "NOT_FOUND", "") {
+			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				d.SetId("") // deleted
 				return nil
 			}
@@ -156,7 +155,7 @@ func resourceDatalakeUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceDatalakeDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*utils.CdpClients).Datalake
+	client := m.(*cdp.Client).Datalake
 
 	name := d.Id()
 	params := operations.NewDeleteDatalakeParams()
@@ -187,11 +186,11 @@ func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, data
 			resp, err := datalake.Operations.DescribeDatalake(params)
 			if err != nil {
 				if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
-					if matches(dlErr.GetPayload(), "NOT_FOUND", "") {
+					if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}
 				}
-				return 42, "", err
+				return nil, "", err
 			}
 			if resp.GetPayload().Datalake == nil {
 				return nil, "", nil
@@ -202,19 +201,4 @@ func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, data
 	_, err := stateConf.WaitForState()
 
 	return err
-}
-
-func toStringList(configured []interface{}) []string {
-	vs := make([]string, 0, len(configured))
-	for _, v := range configured {
-		val, ok := v.(string)
-		if ok && val != "" {
-			vs = append(vs, v.(string))
-		}
-	}
-	return vs
-}
-
-func matches(err *datalakemodels.Error, code string, message string) bool {
-	return err.Code == code && strings.Contains(err.Message, message)
 }
