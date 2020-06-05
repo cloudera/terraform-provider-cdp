@@ -3,9 +3,10 @@ package provider
 import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
-	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
-	"github.com/cloudera/terraform-provider-cdp/resources/environments"
+	environmentsdatasources "github.com/cloudera/terraform-provider-cdp/data-sources/environments"
+	datahubresources "github.com/cloudera/terraform-provider-cdp/resources/datahub"
+	datalakeresources "github.com/cloudera/terraform-provider-cdp/resources/datalake"
+	environmentsresources "github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -38,9 +39,10 @@ const (
 
 func Provider() *schema.Provider {
 	return &schema.Provider{
-		Schema:        providerSchema(),
-		ResourcesMap:  resourcesMap(),
-		ConfigureFunc: configureProvider,
+		Schema:         providerSchema(),
+		ResourcesMap:   resourcesMap(),
+		DataSourcesMap: dataSourcesMap(),
+		ConfigureFunc:  configureProvider,
 	}
 }
 
@@ -88,9 +90,15 @@ func getCdpConfig(d *schema.ResourceData) *cdp.Config {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"cdp_environments_credential":  environments.ResourceCredential(),
-		"cdp_environments_environment": environments.ResourceEnvironment(),
-		"cdp_datalake_datalake":        datalake.ResourceDatalake(),
-		"cdp_datahub_cluster":          datahub.ResourceCluster(),
+		"cdp_environments_credential":  environmentsresources.ResourceCredential(),
+		"cdp_environments_environment": environmentsresources.ResourceEnvironment(),
+		"cdp_datalake_datalake":        datalakeresources.ResourceDatalake(),
+		"cdp_datahub_cluster":          datahubresources.ResourceCluster(),
+	}
+}
+
+func dataSourcesMap() map[string]*schema.Resource {
+	return map[string]*schema.Resource{
+		"cdp_environments_aws_credential_prerequisites": environmentsdatasources.DataSourceCredentialPrerequisites(),
 	}
 }

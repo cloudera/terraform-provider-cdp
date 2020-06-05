@@ -14,7 +14,7 @@ endif
 
 # Run tests
 test: generate fmt vet
-	go test $(GO_FLAGS) . ./provider/... ./resources/... ./utils/...
+	go test $(GO_FLAGS) . ./provider/... ./resources/... ./data-sources/... ./utils/...
 
 # Build main binary
 main: generate fmt vet
@@ -26,13 +26,17 @@ run: generate fmt vet
 
 # Run go fmt against code
 fmt:
-	go fmt . ./provider/... ./resources/... ./utils/...
+	go fmt . ./provider/... ./resources/... ./data-sources/... ./utils/...
 
 # Run go vet against code
 vet:
-	go vet . ./provider/... ./resources/... ./utils/...
+	go vet . ./provider/... ./resources/... ./data-sources/... ./utils/...
 
 # Generate code
 generate:
-	go generate . ./provider/... ./resources/... ./utils/...
+	go generate . ./provider/... ./resources/... ./data-sources/... ./utils/...
 
+# Deploy
+deploy: all
+	cp terraform-provider-cdp ~/.terraform.d/plugins/terraform-provider-cdp
+.PHONY: deploy
