@@ -1,5 +1,7 @@
 provider "cdp" {
-
+  # cdp_access_key_id = ""
+  # cdp_private_key = ""
+  # cdp_profile = "default"
 }
 
 resource "cdp_environments_credential" "my-credentials" {

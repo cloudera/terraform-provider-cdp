@@ -52,3 +52,13 @@ func (config *Config) String() string {
 	return fmt.Sprintf("{CdpApiEndpointUrl: %s, AltusApiEndpointUrl: %s, Profile: %s, Credentials: %s}",
 		config.CdpApiEndpointUrl, config.AltusApiEndpointUrl, config.Profile, config.Credentials.String())
 }
+
+func (config *Config) toInternalConfig() *authn.InternalConfig {
+	return &authn.InternalConfig{
+		CdpApiEndpointUrl:   config.CdpApiEndpointUrl,
+		AltusApiEndpointUrl: config.AltusApiEndpointUrl,
+		Profile:             config.Profile,
+		Credentials:         config.Credentials,
+		BaseAPIPath:         config.BaseAPIPath,
+	}
+}

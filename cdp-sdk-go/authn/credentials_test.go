@@ -9,7 +9,7 @@ import (
 func TestEnvCdpCredentialsProviderWithUnsetEnv(t *testing.T) {
 	os.Unsetenv(cdpAccessKeyIdEnvVar)
 	os.Unsetenv(cdpPrivateKeyEnvVar)
-	credentials, err := envCdpCredentialsProvider()
+	credentials, err := (&envCdpCredentialsProvider{}).getCredentials()
 	if err == nil {
 		t.Errorf("Env credentials provider should have returned error with empty environment %s", credentials)
 	}
@@ -18,7 +18,7 @@ func TestEnvCdpCredentialsProviderWithUnsetEnv(t *testing.T) {
 func TestEnvCdpCredentialsProviderWithEmptyEnv(t *testing.T) {
 	os.Setenv(cdpAccessKeyIdEnvVar, "")
 	os.Setenv(cdpPrivateKeyEnvVar, "")
-	credentials, err := envCdpCredentialsProvider()
+	credentials, err := (&envCdpCredentialsProvider{}).getCredentials()
 	if err == nil {
 		t.Errorf("Env credentials provider should have returned error with empty environment %s", credentials)
 	}
@@ -27,7 +27,7 @@ func TestEnvCdpCredentialsProviderWithEmptyEnv(t *testing.T) {
 func TestEnvCdpCredentialsProviderWithWhitespaceEnv(t *testing.T) {
 	os.Setenv(cdpAccessKeyIdEnvVar, " ")
 	os.Setenv(cdpPrivateKeyEnvVar, "\t")
-	credentials, err := envCdpCredentialsProvider()
+	credentials, err := (&envCdpCredentialsProvider{}).getCredentials()
 	if err == nil {
 		t.Errorf("Env credentials provider should have returned error with empty environment %s", credentials)
 	}
@@ -36,7 +36,7 @@ func TestEnvCdpCredentialsProviderWithWhitespaceEnv(t *testing.T) {
 func TestEnvCdpCredentialsProviderWithAccessKeyId(t *testing.T) {
 	os.Setenv(cdpAccessKeyIdEnvVar, "foo")
 	os.Unsetenv(cdpPrivateKeyEnvVar)
-	credentials, err := envCdpCredentialsProvider()
+	credentials, err := (&envCdpCredentialsProvider{}).getCredentials()
 	if err == nil {
 		t.Errorf("Env credentials provider should have returned error with just access key %s", credentials)
 	}
@@ -45,7 +45,7 @@ func TestEnvCdpCredentialsProviderWithAccessKeyId(t *testing.T) {
 func TestEnvCdpCredentialsProviderWithPrivateKey(t *testing.T) {
 	os.Unsetenv(cdpAccessKeyIdEnvVar)
 	os.Setenv(cdpPrivateKeyEnvVar, "bar")
-	credentials, err := envCdpCredentialsProvider()
+	credentials, err := (&envCdpCredentialsProvider{}).getCredentials()
 	if err == nil {
 		t.Errorf("Env credentials provider should have returned error with just private key %s", credentials)
 	}
@@ -54,7 +54,7 @@ func TestEnvCdpCredentialsProviderWithPrivateKey(t *testing.T) {
 func TestEnvCdpCredentialsProviderWithAccessKeyAndPrivateKey(t *testing.T) {
 	os.Setenv(cdpAccessKeyIdEnvVar, "foo")
 	os.Setenv(cdpPrivateKeyEnvVar, "bar")
-	res, err := envCdpCredentialsProvider()
+	res, err := (&envCdpCredentialsProvider{}).getCredentials()
 	if err != nil {
 		t.Errorf("Env credentials provider should returned successfully")
 	}
@@ -105,6 +105,11 @@ func TestLoadCdpCredentialsFile(t *testing.T) {
 		"cdp_access_key_id": "value6",
 		"cdp_private_key":   "value7",
 	}
+	expected.profiles["file_cdp_credentials_provider_profile"] = newCdpProfile()
+	expected.profiles["file_cdp_credentials_provider_profile"].properties = map[string]string{
+		"cdp_access_key_id": "value-from-file",
+		"cdp_private_key":   "value-from-file",
+	}
 
 	path := "testdata/test-credentials"
 	credsConfig, err := loadCdpCredentialsFile(path)
@@ -115,10 +120,19 @@ func TestLoadCdpCredentialsFile(t *testing.T) {
 	common.AssertEquals(t, expected, credsConfig)
 }
 
+func getCredentialsFromFileProvider(t *testing.T, path string, profile string) (*Credentials, error) {
+	provider, err := newFileCdpCredentialsProvider(path, profile)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return provider.getCredentials()
+}
+
 func TestFileCdpCredentialsProviderDefaultProfile(t *testing.T) {
 	path := "testdata/test-credentials"
 	profile := ""
-	cdpCredentials, err := fileCdpCredentialsProvider(path, profile)
+
+	cdpCredentials, err := getCredentialsFromFileProvider(t, path, profile)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -133,7 +147,7 @@ func TestFileCdpCredentialsProviderDefaultProfile(t *testing.T) {
 func TestFileCdpCredentialsProviderBarProfile(t *testing.T) {
 	path := "testdata/test-credentials"
 	profile := "profile_bar"
-	cdpCredentials, err := fileCdpCredentialsProvider(path, profile)
+	cdpCredentials, err := getCredentialsFromFileProvider(t, path, profile)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -148,7 +162,7 @@ func TestFileCdpCredentialsProviderBarProfile(t *testing.T) {
 func TestFileCdpCredentialsProviderFooProfile(t *testing.T) {
 	path := "testdata/test-credentials"
 	profile := "profile_foo"
-	cdpCredentials, err := fileCdpCredentialsProvider(path, profile)
+	cdpCredentials, err := getCredentialsFromFileProvider(t, path, profile)
 	if err == nil || cdpCredentials != nil {
 		t.Fatal(err)
 	}
@@ -157,10 +171,96 @@ func TestFileCdpCredentialsProviderFooProfile(t *testing.T) {
 func TestFileCdpCredentialsProviderNonExistingProfile(t *testing.T) {
 	path := "testdata/test-credentials"
 	profile := "profile_non_existing"
-	cdpCredentials, err := fileCdpCredentialsProvider(path, profile)
+	cdpCredentials, err := getCredentialsFromFileProvider(t, path, profile)
 	if err == nil || cdpCredentials != nil {
 		t.Fatal(err)
 	}
 }
 
-// TODO: test getCdpCredentials()
+func TestConfigCdpCredentialsProviderEmptyConfig(t *testing.T) {
+	var provider = configCdpCredentialsProvider{config: &InternalConfig{}}
+	res, err := provider.getCredentials()
+	if err == nil || res != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestConfigCdpCredentialsProviderNonEmptyConfig(t *testing.T) {
+	var provider = configCdpCredentialsProvider{config: &InternalConfig{
+		Credentials: &Credentials{AccessKeyId: "foo", PrivateKey: "bar"},
+	}}
+	res, err := provider.getCredentials()
+	if err != nil {
+		t.Errorf("Env credentials provider should returned successfully")
+	}
+	if res.AccessKeyId != "foo" && res.PrivateKey != "bar" {
+		t.Errorf("Wrong values returned as CDP credentials: accesKey: %s privateKey:%s", res.AccessKeyId, res.PrivateKey)
+	}
+}
+
+func TestGetCdpCredentialsNotFound(t *testing.T) {
+	// empty env vars.
+	os.Setenv(cdpAccessKeyIdEnvVar, "")
+	os.Setenv(cdpPrivateKeyEnvVar, "")
+	os.Setenv(cdpProfileEnvVar, "")
+	os.Setenv(cdpDefaultProfileEnvVar, "")
+
+	path := "testdata/test-credentials"
+	profile := "profile_non_existing"
+
+	emptyConfig := InternalConfig{Profile: profile}
+	_, err := getCdpCredentials(&emptyConfig, path)
+	if err == nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGetCdpCredentials(t *testing.T) {
+	// empty env vars.
+	os.Setenv(cdpAccessKeyIdEnvVar, "value-from-env")
+	os.Setenv(cdpPrivateKeyEnvVar, "value-from-env")
+	os.Setenv(cdpProfileEnvVar, "")
+	os.Setenv(cdpDefaultProfileEnvVar, "")
+
+	path := "testdata/test-credentials"
+	profile := "file_cdp_credentials_provider_profile"
+
+	config := InternalConfig{
+		Profile: profile,
+		Credentials: &Credentials{
+			AccessKeyId: "value-from-config",
+			PrivateKey:  "value-from-config"},
+	}
+	credentials, err := getCdpCredentials(&config, path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if credentials.AccessKeyId != "value-from-config" && credentials.PrivateKey != "value-from-config" {
+		if err != nil {
+			t.Errorf("Expected the provider chain to prioritize credentials from config")
+		}
+	}
+
+	credentials, err = getCdpCredentials(&InternalConfig{}, path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if credentials.AccessKeyId != "value-from-env" && credentials.PrivateKey != "value-from-env" {
+		if err != nil {
+			t.Errorf("Expected the provider chain to prioritize credentials from env after config")
+		}
+	}
+
+	os.Setenv(cdpAccessKeyIdEnvVar, "")
+	os.Setenv(cdpPrivateKeyEnvVar, "")
+	credentials, err = getCdpCredentials(&InternalConfig{}, path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if credentials.AccessKeyId != "value-from-file" && credentials.PrivateKey != "value-from-file" {
+		if err != nil {
+			t.Errorf("Expected the provider chain to use credentials from file last")
+		}
+	}
+}

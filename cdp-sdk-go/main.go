@@ -10,7 +10,7 @@ import (
 
 func main() {
 	cdpEndpoint := "https://api.us-west-1.cdp.cloudera.com"
-	transport, err := authn.GetAPIKeyAuthTransport(cdpEndpoint, "")
+	transport, err := authn.GetAPIKeyAuthTransport(&authn.InternalConfig{CdpApiEndpointUrl:cdpEndpoint}, false)
 	if err != nil {
 		panic(err)
 	}

@@ -42,6 +42,15 @@ type Credentials struct {
 	PrivateKey  string
 }
 
+// packages in go cannot have cyclic dependencies. Use this for now.
+type InternalConfig struct {
+	CdpApiEndpointUrl   string
+	AltusApiEndpointUrl string
+	Profile             string
+	Credentials         *Credentials
+	BaseAPIPath         string
+}
+
 func (credentials *Credentials) String() string {
 	return fmt.Sprintf("{AccessKeyId: %s, PrivateKey: %s}", credentials.AccessKeyId, "*****")
 }
@@ -81,9 +90,36 @@ func getCdpProfile(cdpProfile string) string {
 	return cdpDefaultProfile
 }
 
-// TODO: terraform should be able to pass provider, and credentials
+type cdpCredentialsProvider interface {
+	getCredentials() (*Credentials, error)
+}
 
-func envCdpCredentialsProvider() (*Credentials, error) {
+type configCdpCredentialsProvider struct {
+	config *InternalConfig
+}
+
+func (p *configCdpCredentialsProvider) getCredentials() (*Credentials, error) {
+	if p.config == nil {
+		return nil, fmt.Errorf("empty config provided for the config credentials provider")
+	}
+	if p.config.Credentials == nil {
+		return nil, fmt.Errorf("empty credentials provided for the config credentials provider")
+	}
+	accessKey := p.config.Credentials.AccessKeyId
+	if strings.TrimSpace(accessKey) == "" {
+		return nil, fmt.Errorf("config does not contain AccessKeyId")
+	}
+	privateKey := p.config.Credentials.PrivateKey
+	if strings.TrimSpace(privateKey) == "" {
+		return nil, fmt.Errorf("config does not contain PrivateKey")
+	}
+	return p.config.Credentials, nil
+}
+
+type envCdpCredentialsProvider struct {
+}
+
+func (*envCdpCredentialsProvider) getCredentials() (*Credentials, error) {
 	accessKey, ok := os.LookupEnv(cdpAccessKeyIdEnvVar)
 	if !ok || strings.TrimSpace(accessKey) == "" {
 		return nil, fmt.Errorf("env variable %s not defined", cdpAccessKeyIdEnvVar)
@@ -95,23 +131,31 @@ func envCdpCredentialsProvider() (*Credentials, error) {
 	return &Credentials{AccessKeyId: accessKey, PrivateKey: privateKey}, nil
 }
 
-func sharedFileCdpCredentialsProvider() (*Credentials, error) {
-	path, err := defaultCdpCredentialsFile()
-	if err != nil {
-		return nil, err
-	}
-
-	// TODO: pass in profile
-	return fileCdpCredentialsProvider(path, "")
+type fileCdpCredentialsProvider struct {
+	path    string
+	profile string
 }
 
-func fileCdpCredentialsProvider(path string, profile string) (*Credentials, error) {
-	credsConfig, err := loadCdpCredentialsFile(path)
+func newFileCdpCredentialsProvider(path string, profile string) (*fileCdpCredentialsProvider, error) {
+	var err error
+	if path == "" {
+		path, err = defaultCdpCredentialsFile()
+		if err != nil {
+			return nil, err
+		}
+
+	}
+	return &fileCdpCredentialsProvider{path: path, profile: profile}, nil
+}
+
+func (p *fileCdpCredentialsProvider) getCredentials() (*Credentials, error) {
+	credsConfig, err := loadCdpCredentialsFile(p.path)
 	if err != nil {
 		return nil, err
 	}
 
-	profile = getCdpProfile(profile)
+	profile := getCdpProfile(p.profile)
+	// fmt.Printf("CDP Profile to use: %s\n", profile) // TODO: switch to proper logging
 
 	profileData, ok := credsConfig.profiles[profile]
 	if !ok || strings.TrimSpace(profile) == "" {
@@ -156,17 +200,31 @@ func loadCdpCredentialsFile(path string) (*cdpCredentialsConfig, error) {
 	return credsConfig, nil
 }
 
-func getCdpCredentials() (*Credentials, error) {
-	// default provider chain
-	providerChain := [...]func() (*Credentials, error){envCdpCredentialsProvider, sharedFileCdpCredentialsProvider}
+// getCdpCredentials returns CDP credentials by using a chain of credential providers in order. By default, it first
+// checks whether the given InternalConfig contains any, then it checks the environment variables, and lastly it checks
+// the credentials from the shared credentials file under ~/.cdp/credentials.
+func getCdpCredentials(config *InternalConfig, credentialsFile string) (*Credentials, error) {
+	fileCdpCredentialsProvider, err := newFileCdpCredentialsProvider(credentialsFile, config.Profile)
+	if err != nil {
+		return nil, err
+	}
 
-	var err error
+	// default provider chain
+	providerChain := [...]cdpCredentialsProvider{
+		&configCdpCredentialsProvider{config: config},
+		&envCdpCredentialsProvider{},
+		fileCdpCredentialsProvider,
+	}
+
 	for _, provider := range providerChain {
-		credentials, err := provider()
+		credentials, err := provider.getCredentials()
 		if err == nil {
 			return credentials, nil
+		} else {
+			// TODO: switch to proper logging
+			//fmt.Printf("error: %v\n", err)
 		}
 	}
 
-	return nil, err
+	return nil, fmt.Errorf("no CDP Credentials from the providers in the default chain")
 }

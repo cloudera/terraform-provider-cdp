@@ -32,7 +32,7 @@ const (
 	// Provider key for configuring CDP private key
 	cdpPrivateKeyField = "cdp_private_key"
 
-	profileField = "profile"
+	profileField = "cdp_profile"
 
 	// TODO: add endpoint URLs
 )
@@ -70,12 +70,11 @@ func providerSchema() map[string]*schema.Schema {
 }
 
 func configureProvider(d *schema.ResourceData) (interface{}, error) {
-	client := cdp.NewClient(getCdpConfig(d))
-	return &client, nil
+	return cdp.NewClient(getCdpConfig(d))
 }
 
 func getCdpConfig(d *schema.ResourceData) *cdp.Config {
-	accessKeyId := d.Get(cdpPrivateKeyField).(string)
+	accessKeyId := d.Get(cdpAccessKeyIdField).(string)
 	privateKey := d.Get(cdpPrivateKeyField).(string)
 	profile := d.Get(profileField).(string)
 
