@@ -4,9 +4,8 @@ provider "cdp" {
   # cdp_profile = "default"
 }
 
-resource "cdp_environments_credential" "my-credentials" {
+resource "cdp_environments_aws_credential" "my-credentials" {
   name = "my-cloudera-cdp-credentials"
-  cloud_platform = "AWS"
   role_arn = "arn:aws:iam::643594445606:role/EGRESS_TEST_cdp-cross-account-role"
   description = "testing the terrafrom-provider-cdp"
 }

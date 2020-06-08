@@ -6,79 +6,80 @@ import (
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client/operations"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"time"
 )
 
-func ResourceDatalake() *schema.Resource {
+func ResourceAWSDatalake() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceDatalakeCreate,
-		Read:   resourceDatalakeRead,
-		Update: resourceDatalakeUpdate,
-		Delete: resourceDatalakeDelete,
+		Create: resourceAWSDatalakeCreate,
+		Read:   resourceAWSDatalakeRead,
+		Delete: resourceAWSDatalakeDelete,
 
 		Timeouts: &schema.ResourceTimeout{
-			Create: schema.DefaultTimeout(30 * time.Minute),
-			Delete: schema.DefaultTimeout(30 * time.Minute),
+			Create: schema.DefaultTimeout(60 * time.Minute),
+			Delete: schema.DefaultTimeout(60 * time.Minute),
 		},
 
 		Schema: map[string]*schema.Schema{
-			"name": &schema.Schema{
+			"datalake_name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
-			},
-			"cloud_platform": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
+				ForceNew: true,
 			},
 			"environment_name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
-			"data_storage_base": &schema.Schema{
-				Type:     schema.TypeString,
+			"cloud_provider_configuration": {
+				Type:     schema.TypeList,
 				Required: true,
+				ForceNew: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"storage_bucket_location": &schema.Schema{
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"instance_profile": &schema.Schema{
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+					},
+				},
 			},
-			"id_broker_instance_profile": &schema.Schema{
+			"crn": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 		},
 	}
 }
 
-func resourceDatalakeCreate(d *schema.ResourceData, m interface{}) error {
+func resourceAWSDatalakeCreate(d *schema.ResourceData, m interface{}) error {
 	client := m.(*cdp.Client).Datalake
 
-	cloudPlatform := d.Get("cloud_platform").(string)
-	switch cloudPlatform {
-	case "AWS":
-		if err := resourceAWSDatalakeCreate(d, client); err != nil {
-			return err
-		}
-	case "Azure":
-		return fmt.Errorf("azure Not supported yet")
-	default:
-		return fmt.Errorf("unsupported cloud platform: %s. Must be one of {AWS, AZURE}", "cloud_platform")
-	}
-
-	return resourceDatalakeRead(d, m)
-}
-
-func resourceAWSDatalakeCreate(d *schema.ResourceData, client *datalakeclient.Datalake) error {
-	name := d.Get("name").(string)
+	datalakeName := d.Get("datalake_name").(string)
 	environmentName := d.Get("environment_name").(string)
-	dataStorageBase := d.Get("data_storage_base").(string)
-	idBrokerInstanceProfile := d.Get("id_broker_instance_profile").(string)
+
+	storageBucketLocation, instanceProfile, getCloudProviderConfigurationErr := getCloudProviderConfiguration(d)
+	if getCloudProviderConfigurationErr != nil {
+		return getCloudProviderConfigurationErr
+	}
 
 	params := operations.NewCreateAWSDatalakeParams()
 	params.WithInput(&datalakemodels.CreateAWSDatalakeRequest{
-		DatalakeName:    &name,
+		DatalakeName:    &datalakeName,
 		EnvironmentName: &environmentName,
 		CloudProviderConfiguration: &datalakemodels.AWSConfigurationRequest{
-			InstanceProfile:       &idBrokerInstanceProfile,
-			StorageBucketLocation: &dataStorageBase,
+			InstanceProfile:       &instanceProfile,
+			StorageBucketLocation: &storageBucketLocation,
 		},
 	})
 	resp, err := client.Operations.CreateAWSDatalake(params)
@@ -86,9 +87,7 @@ func resourceAWSDatalakeCreate(d *schema.ResourceData, client *datalakeclient.Da
 		return err
 	}
 
-	// We can also use CRN rather than name, but not supported in API
 	d.SetId(*resp.GetPayload().Datalake.DatalakeName)
-	d.Set("crn", *resp.GetPayload().Datalake.Crn)
 
 	// TODO: file a JIRA, this shouldn't be necessary.
 	time.Sleep(5 * time.Second)
@@ -102,7 +101,7 @@ func resourceAWSDatalakeCreate(d *schema.ResourceData, client *datalakeclient.Da
 
 func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, client *datalakeclient.Datalake) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"EXTERNAL_DATABASE_CREATION_IN_PROGRESS"},
+		Pending: []string{"EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED", "STACK_CREATION_IN_PROGRESS"},
 		Target:  []string{"RUNNING"},
 		Timeout: timeout,
 		Refresh: func() (interface{}, string, error) {
@@ -121,12 +120,12 @@ func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, clie
 	return err
 }
 
-func resourceDatalakeRead(d *schema.ResourceData, m interface{}) error {
+func resourceAWSDatalakeRead(d *schema.ResourceData, m interface{}) error {
 	client := m.(*cdp.Client).Datalake
 
-	name := d.Id()
+	datalakeName := d.Id()
 	params := operations.NewDescribeDatalakeParams()
-	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &name})
+	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 	resp, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
@@ -143,23 +142,36 @@ func resourceDatalakeRead(d *schema.ResourceData, m interface{}) error {
 		return nil
 	}
 
-	d.Set("name", datalake.DatalakeName)
-	d.Set("crn", datalake.Crn)
 	d.SetId(*datalake.DatalakeName)
+	d.Set("datalake_name", datalake.DatalakeName)
+	d.Set("crn", datalake.Crn)
+	// TODO: file a JIRA, we can't get the environment name from the describe datalake call, and creating via an environment CRN does not seem to work.
+
+	// TODO: file a JIRA, we can't get the storage location from the describe datalake call.
+	storageBucketLocation, _, getCloudProviderConfigurationErr := getCloudProviderConfiguration(d)
+	if getCloudProviderConfigurationErr != nil {
+		return getCloudProviderConfigurationErr
+	}
+
+	cloudProviderConfiguration := []interface{}{
+		map[string]interface{}{
+			"storage_bucket_location": storageBucketLocation,
+			"instance_profile":        datalake.AwsConfiguration.InstanceProfile,
+		},
+	}
+	if err := d.Set("cloud_provider_configuration", cloudProviderConfiguration); err != nil {
+		return fmt.Errorf("error setting authentication: %s", err)
+	}
 
 	return nil
 }
 
-func resourceDatalakeUpdate(d *schema.ResourceData, m interface{}) error {
-	return resourceDatalakeRead(d, m)
-}
-
-func resourceDatalakeDelete(d *schema.ResourceData, m interface{}) error {
+func resourceAWSDatalakeDelete(d *schema.ResourceData, m interface{}) error {
 	client := m.(*cdp.Client).Datalake
 
-	name := d.Id()
+	datalakeName := d.Id()
 	params := operations.NewDeleteDatalakeParams()
-	params.WithInput(&datalakemodels.DeleteDatalakeRequest{DatalakeName: &name})
+	params.WithInput(&datalakemodels.DeleteDatalakeRequest{DatalakeName: &datalakeName})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {
 		return err
@@ -177,7 +189,7 @@ func resourceDatalakeDelete(d *schema.ResourceData, m interface{}) error {
 
 func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, datalake *datalakeclient.Datalake) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"EXTERNAL_DATABASE_DELETION_IN_PROGRESS"},
+		Pending: []string{"EXTERNAL_DATABASE_DELETION_IN_PROGRESS", "STACK_DELETION_IN_PROGRESS", "STACK_DELETED"},
 		Target:  []string{},
 		Timeout: timeout,
 		Refresh: func() (interface{}, string, error) {
@@ -201,4 +213,12 @@ func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, data
 	_, err := stateConf.WaitForState()
 
 	return err
+}
+
+func getCloudProviderConfiguration(d *schema.ResourceData) (string, string, error) {
+	cloudProviderConfiguration, cloudProviderConfigurationErr := utils.GetMapFromSingleItemList(d, "cloud_provider_configuration")
+	if cloudProviderConfigurationErr != nil {
+		return "", "", cloudProviderConfigurationErr
+	}
+	return cloudProviderConfiguration["storage_bucket_location"].(string), cloudProviderConfiguration["instance_profile"].(string), nil
 }

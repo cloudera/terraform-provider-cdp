@@ -1,6 +1,6 @@
 # Terraform-provider-cdp
 
-Implements a terraform provider for CDP resources. Terraform is the de facto tool for "declerative infrastructure". This repo
+Implements a terraform provider for CDP resources. Terraform is the de facto tool for "declarative infrastructure". This repo
 implements a provider for CDP so that CDP resources (credentials, environments, datalakes, datahubs, etc) can be created using
 terraform. Target terraform version is 0.12.
 
@@ -14,9 +14,8 @@ provider "cdp" {
   cdp_profile = ""        # Optional
 }
 
-resource "cdp_environments_credential" "my-credentials" {
+resource "cdp_environments_aws_credential" "my-credentials" {
   name = "my-cloudera-cdp-credentials"
-  cloud_platform = "AWS"
   role_arn = "arn:aws:iam::11111111111:role/my-cross-account-role"
   description = "testing the terrafrom-provider-cdp"
 }

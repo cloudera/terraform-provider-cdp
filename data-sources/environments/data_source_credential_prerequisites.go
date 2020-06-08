@@ -7,9 +7,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
-func DataSourceCredentialPrerequisites() *schema.Resource {
+func DataSourceAWSCredentialPrerequisites() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceCredentialPrerequisitesRead,
+		Read: dataSourceAWSCredentialPrerequisitesRead,
 
 		Schema: map[string]*schema.Schema{
 			"account_id": &schema.Schema{
@@ -24,7 +24,7 @@ func DataSourceCredentialPrerequisites() *schema.Resource {
 	}
 }
 
-func dataSourceCredentialPrerequisitesRead(d *schema.ResourceData, m interface{}) error {
+func dataSourceAWSCredentialPrerequisitesRead(d *schema.ResourceData, m interface{}) error {
 	client := m.(*cdp.Client).Environments
 
 	cloudPlatform := "AWS"

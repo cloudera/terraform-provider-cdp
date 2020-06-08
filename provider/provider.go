@@ -89,15 +89,16 @@ func getCdpConfig(d *schema.ResourceData) *cdp.Config {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"cdp_environments_credential":  environmentsresources.ResourceCredential(),
-		"cdp_environments_environment": environmentsresources.ResourceEnvironment(),
-		"cdp_datalake_datalake":        datalakeresources.ResourceDatalake(),
-		"cdp_datahub_cluster":          datahubresources.ResourceCluster(),
+		"cdp_environments_aws_credential":     environmentsresources.ResourceAWSCredential(),
+		"cdp_environments_aws_environment":    environmentsresources.ResourceAWSEnvironment(),
+		"cdp_environments_id_broker_mappings": environmentsresources.ResourceIDBrokerMappings(),
+		"cdp_datalake_aws_datalake":           datalakeresources.ResourceAWSDatalake(),
+		"cdp_datahub_aws_cluster":             datahubresources.ResourceAWSCluster(),
 	}
 }
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"cdp_environments_aws_credential_prerequisites": environmentsdatasources.DataSourceCredentialPrerequisites(),
+		"cdp_environments_aws_credential_prerequisites": environmentsdatasources.DataSourceAWSCredentialPrerequisites(),
 	}
 }
