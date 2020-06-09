@@ -57,8 +57,8 @@ history.
 
 When an appropriate commit has been identified for release, the release author
 should first review the change log and update it as necessary. Ideally this
-should be a no-op as it should have been maintained along the way.
-
-Once the change log looks good. A semantic version tag should be created, e.g.
-v0.0.1 and then a github release should be created. Binaries should be manually
-produced and attached to the release.
+should be a no-op as it should have been maintained along the way. Once the
+change log looks gooda github release should be created. It should be tagged
+with the appropriate semantic version tag, e.g. v0.0.1 as part of creating the
+github release. Binaries should be manually produced and attached to the
+release.
