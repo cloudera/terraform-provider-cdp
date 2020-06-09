@@ -1,9 +1,5 @@
-. you were curious about what to do for resource fields that are only used on input but are not available after -- e.g. the volume configuration stuff
-. datalake creation timed out, and you were curious if it was going to make you re-create the resource or would pick it up and why the answer was what it was (do you understand taint?)
 . Lots of name vs. CRN stuff to resolve. 
 . Need to add unit testing.
-. Need to add documentation.
-. Need to add a release plan and establish versioning.
 . Need to fill out properties of the resources. Review for optional, force new, etc.
 . File JIRAs to make more properties mutable.
 . Lots of validation to add.
@@ -15,3 +11,4 @@
 . Do we need debug logging of our calls in TF_LOG like AWS has? Do we have that?
 . Do we want to add additional provider arguments from the AWS list that would make sense for us?
 . Enis's point on data source in addition to resource.
+. This is worth investigating.a
