@@ -133,7 +133,7 @@ func ResourceAWSCluster() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"enable_encryption": &schema.Schema{
-										Type:     schema.TypeString,
+										Type:     schema.TypeBool,
 										Required: true,
 										ForceNew: true,
 									},
@@ -168,39 +168,52 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 		return imageErr
 	}
 	catalogName := image["catalog_name"].(string)
-	id := image["image"].(string)
+	id := image["id"].(string)
 
 	instanceGroups := []*datahubmodels.InstanceGroupRequest{}
-	for _, instanceGroupObject := range d.Get("instanceGroup").([]interface{}) {
+	instanceGroupSet := d.Get("instance_group").(*schema.Set)
+	for _, instanceGroupObject := range instanceGroupSet.List() {
 		instanceGroup := instanceGroupObject.(map[string]interface{})
 
 		instanceGroupName := instanceGroup["instance_group_name"].(string)
 		instanceGroupType := instanceGroup["instance_group_type"].(string)
 		instanceType := instanceGroup["instance_type"].(string)
-		nodeCount := instanceGroup["node_count"].(int32)
-		rootVolumeSize := instanceGroup["root_volume_size"].(int32)
+		nodeCount := int32(instanceGroup["node_count"].(int))
+		rootVolumeSize := int32(instanceGroup["root_volume_size"].(int))
 		recoveryMode := instanceGroup["recovery_mode"].(string)
-		recipeNames := utils.ToStringList(instanceGroup["recipeNames"].([]interface{}))
+		recipeNames := utils.ToStringList(instanceGroup["recipe_names"].([]interface{}))
 
-		attachedVolumeRequests := []*datahubmodels.AttachedVolumeRequest{}
-		for _, attachedVolumesObject := range instanceGroup["attached_volumes"].([]interface{}) {
-			attachedVolumes := attachedVolumesObject.(map[string]interface{})
-			volumeSize := attachedVolumes["volume_size"].(int32)
-			volumeType := attachedVolumes["volume_type"].(string)
-			volumeCount := attachedVolumes["volume_count"].(int32)
-			attachedVolumeRequests = append(attachedVolumeRequests, &datahubmodels.AttachedVolumeRequest{
+		attachedVolumes := []*datahubmodels.AttachedVolumeRequest{}
+		attachedVolumeSet := instanceGroup["attached_volumes"].(*schema.Set)
+		for _, attachedVolumesObject := range attachedVolumeSet.List() {
+			attachedVolume := attachedVolumesObject.(map[string]interface{})
+			volumeSize := int32(attachedVolume["volume_size"].(int))
+			volumeType := attachedVolume["volume_type"].(string)
+			volumeCount := int32(attachedVolume["volume_count"].(int))
+			attachedVolumes = append(attachedVolumes, &datahubmodels.AttachedVolumeRequest{
 				VolumeSize:  &volumeSize,
 				VolumeType:  &volumeType,
 				VolumeCount: &volumeCount,
 			})
 		}
 
-		volumeEncryption, volumeEncryptionErr := utils.GetMapFromSingleItemListInMap(instanceGroup, "volume_encyption")
+		volumeEncryption, volumeEncryptionErr := utils.GetMapFromSingleItemListInMap(instanceGroup, "volume_encryption")
 		if volumeEncryptionErr != nil {
 			return volumeEncryptionErr
 		}
+
 		enableEncryption := volumeEncryption["enable_encryption"].(bool)
 		encryptionKey := volumeEncryption["encryption_key"].(string)
+
+		// TODO: go-swagger uses omit-empty and will not send over false boolean
+		// values, so we have to do this. We need to figure out a better fix.
+		var volumeEncryptionRequest *datahubmodels.VolumeEncryptionRequest
+		if enableEncryption {
+			volumeEncryptionRequest = &datahubmodels.VolumeEncryptionRequest{
+				EnableEncryption: enableEncryption,
+				EncryptionKey:    encryptionKey,
+			}
+		}
 
 		instanceGroups = append(instanceGroups, &datahubmodels.InstanceGroupRequest{
 			InstanceGroupName:           &instanceGroupName,
@@ -210,11 +223,8 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 			RootVolumeSize:              &rootVolumeSize,
 			RecoveryMode:                recoveryMode,
 			RecipeNames:                 recipeNames,
-			AttachedVolumeConfiguration: attachedVolumeRequests,
-			VolumeEncryption: &datahubmodels.VolumeEncryptionRequest{
-				EnableEncryption: enableEncryption,
-				EncryptionKey:    encryptionKey,
-			},
+			AttachedVolumeConfiguration: attachedVolumes,
+			VolumeEncryption:            volumeEncryptionRequest,
 		})
 	}
 
@@ -255,7 +265,7 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 
 func waitForClusterToBeAvailable(datahubName string, timeout time.Duration, client *datahubclient.Datahub) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"EXTERNAL_DATABASE_CREATION_IN_PROGRESS"},
+		Pending: []string{"REQUESTED", "UPDATE_IN_PROGRESS"},
 		Target:  []string{"AVAILABLE"},
 		Timeout: timeout,
 		Refresh: func() (interface{}, string, error) {
@@ -298,8 +308,6 @@ func resourceAWSClusterRead(d *schema.ResourceData, m interface{}) error {
 
 	d.SetId(*cluster.ClusterName)
 	d.Set("cluster_name", *cluster.ClusterName)
-	// TODO: file a JIRA, we can't get the environment name from the describe cluster call.
-	// TODO: file a JIRA, we can't get the cluster template name from the desrcibe cluster call.
 
 	image := []interface{}{
 		map[string]interface{}{
@@ -309,16 +317,6 @@ func resourceAWSClusterRead(d *schema.ResourceData, m interface{}) error {
 	}
 	if err := d.Set("image", image); err != nil {
 		return fmt.Errorf("error setting image: %s", err)
-	}
-
-	instanceGroups := make([]map[string]interface{}, 0)
-	for _, instanceGroup := range cluster.InstanceGroups {
-		item := map[string]interface{}{}
-		item["instance_group_name"] = instanceGroup.Name
-		instanceGroups = append(instanceGroups, item)
-	}
-	if err := d.Set("instance_group", instanceGroups); err != nil {
-		return fmt.Errorf("error setting instance_group: %s", err)
 	}
 
 	d.Set("crn", *cluster.Crn)
@@ -349,7 +347,7 @@ func resourceAWSClusterDelete(d *schema.ResourceData, m interface{}) error {
 
 func waitForClusterToBeDeleted(datahubName string, timeout time.Duration, datahub *datahubclient.Datahub) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"EXTERNAL_DATABASE_DELETION_IN_PROGRESS"},
+		Pending: []string{"DELETE_IN_PROGRESS"},
 		Target:  []string{},
 		Timeout: timeout,
 		Refresh: func() (interface{}, string, error) {
