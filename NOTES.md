@@ -12,4 +12,6 @@
 . Deleting ID broker mappings requires a CRN while the rest of the ID broker mapping calls take the name or CRN.
 . We should revisit the CRN format, and general CRN guidance, for the environment, datalake, etc.
 . The modeling of the ID broker mappings, and the interaction with the datalake should be reviewed. 
-. Do we need debug logging of our calls in TF_LOG like AWS has? Do we ahve that?
+. Do we need debug logging of our calls in TF_LOG like AWS has? Do we have that?
+. Do we want to add additional provider arguments from the AWS list that would make sense for us?
+. Enis's point on data source in addition to resource.
