@@ -4,6 +4,8 @@
 
 GO_FLAGS:=""
 
+ARCH := $(shell uname -s | tr A-Z a-z)-x86_$(shell getconf LONG_BIT)
+
 all: check-go test main
 
 check-go:
@@ -20,9 +22,16 @@ test: generate fmt vet
 main: generate fmt vet
 	go build $(GO_FLAGS) ./
 
-# Run main binary
-run: generate fmt vet
-	go run $(GO_FLAGS) ./main.go
+# Build main binary
+dist: main
+	mkdir -p dist
+	cp terraform-provider-cdp dist/terraform-provider-cdp-$(ARCH)
+	sha256sum terraform-provider-cdp > dist/terraform-provider-cdp-$(ARCH).sha256
+
+clean:
+	rm -f terraform-provider-cdp
+	rm -rf dist
+.PHONY: clean
 
 # Run go fmt against code
 fmt:

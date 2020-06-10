@@ -10,6 +10,20 @@ Find detailed documentation for the provider in the [docs](./docs) folder.
 
 Provider documentation is maintained according to [terraform guidance](https://www.terraform.io/docs/registry/providers/docs.html).
 
+## Installation
+
+The plugin binary must be placed in ~/.terraform.d/plugins/terraform-provider-cdp.
+
+If downloading the binary from a github release, make sure to select the platform appropriate binary and to rename it to terraform-provider-cdp when placing it in ~/.terraform.d/plugins/terraform-provider-cdp.
+
+Any time the plugin binary is changed, you will need to re-run `terraform init`.
+
+## Filing Bugs
+
+File JIRAs using the CDPCP JIRA project using the cdp terraform provider component.
+
+Generate logs by setting the TF_LOG environment variable to any value and capturing the output, for example by running `TF_LOG=true terraform apply plan.txt > tf.log 2>&1`. Please attach the output file to the filed bug. Please also attach the crash.log file from any terraform crash. See the [terraform docs](https://www.terraform.io/docs/internals/debugging.html) for more debugging information.
+
 ## Development
 
 Find documentation about writing terraform providers is here: https://www.terraform.io/docs/extend/writing-custom-providers.html.
@@ -55,10 +69,19 @@ We aim to follow [official guidance](https://www.terraform.io/docs/extend/best-p
 on versioning our provider. See the [change log](./CHANGELOG.md) for the release
 history.
 
-When an appropriate commit has been identified for release, the release author
-should first review the change log and update it as necessary. Ideally this
-should be a no-op as it should have been maintained along the way. Once the
-change log looks gooda github release should be created. It should be tagged
-with the appropriate semantic version tag, e.g. v0.0.1 as part of creating the
-github release. Binaries should be manually produced and attached to the
-release.
+To make a new release:
+
+* Review the change log and update it as necessary. Ideally the content is
+  up-to-date as it has been maintained along the way. Note the data of the
+  release and create a new, empty unreleased entry at the top.
+* Tag the comit with an appropriate semantic version, e.g. `git tag v0.0.1`.
+* Push the tag: `git push --tags`.
+* Create a github release off the tag.
+ * The title of the release should be `tag (Month Day, Year)`.
+ * The change log entry for the release should be copied as the description.
+ * Build distributable artifacts by running `make dist`. Attach the binary and
+   checksum artifacts to the release. Ideally we will produce macos and linux
+   binaries for each release.
+ * Until otherwise noted, select the pre-release checkbox to indicate that we
+   are not yet production ready.
+
