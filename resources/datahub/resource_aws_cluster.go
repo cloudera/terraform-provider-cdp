@@ -205,16 +205,6 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 		enableEncryption := volumeEncryption["enable_encryption"].(bool)
 		encryptionKey := volumeEncryption["encryption_key"].(string)
 
-		// TODO: go-swagger uses omit-empty and will not send over false boolean
-		// values, so we have to do this. We need to figure out a better fix.
-		var volumeEncryptionRequest *datahubmodels.VolumeEncryptionRequest
-		if enableEncryption {
-			volumeEncryptionRequest = &datahubmodels.VolumeEncryptionRequest{
-				EnableEncryption: enableEncryption,
-				EncryptionKey:    encryptionKey,
-			}
-		}
-
 		instanceGroups = append(instanceGroups, &datahubmodels.InstanceGroupRequest{
 			InstanceGroupName:           &instanceGroupName,
 			InstanceGroupType:           &instanceGroupType,
@@ -224,7 +214,10 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 			RecoveryMode:                recoveryMode,
 			RecipeNames:                 recipeNames,
 			AttachedVolumeConfiguration: attachedVolumes,
-			VolumeEncryption:            volumeEncryptionRequest,
+			VolumeEncryption: &datahubmodels.VolumeEncryptionRequest{
+				EnableEncryption: &enableEncryption,
+				EncryptionKey:    encryptionKey,
+			},
 		})
 	}
 

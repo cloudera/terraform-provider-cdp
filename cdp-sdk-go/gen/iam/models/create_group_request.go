@@ -22,7 +22,7 @@ type CreateGroupRequest struct {
 	GroupName *string `json:"groupName"`
 
 	// Whether group membership is synced when a user logs in. The default is to sync group membership.
-	SyncMembershipOnUserLogin bool `json:"syncMembershipOnUserLogin,omitempty"`
+	SyncMembershipOnUserLogin *bool `json:"syncMembershipOnUserLogin,omitempty"`
 }
 
 // Validate validates this create group request

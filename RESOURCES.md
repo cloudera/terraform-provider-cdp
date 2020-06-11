@@ -10,6 +10,10 @@ As of this writing documentation and tests do not exist for any entities, so the
 
 This is complete with no known issues.
 
+### cdp_iam_group
+
+This is complete with no known issues.
+
 ## Resources
 
 ### cdp_environments_aws_credential
@@ -67,3 +71,7 @@ The provider needs to to be reviewed for the following:
 * Are there gaps compared to the UI? On Create?  (create, read, update)
 
 This resource needs to be documented.
+
+### cdp_iam_group
+
+This is complete with no known issues.

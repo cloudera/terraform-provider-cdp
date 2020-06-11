@@ -4,7 +4,7 @@
 
 GO_FLAGS:=""
 
-API_DEFINITION_COMMIT ?= f3d16d71b576f179f3d7df6407e12635ca077f8c
+API_DEFINITION_COMMIT ?= ab65674c1ad0f9fd178600e9d8a5ea885d1a5a5e
 
 IAM_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/iam.yaml
 ENVIRONMENTS_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/environments2.yaml

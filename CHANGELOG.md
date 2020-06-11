@@ -1,6 +1,9 @@
 ## 0.0.2 (Unreleased)
 
-IN PROGRESS
+FEATURES:
+
+* **New Resource:** `cdp_iam_group`
+* **New Data Source:** `cdp_iam_group`
 
 ## 0.0.1 (June 8, 2020)
 

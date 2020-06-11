@@ -16,7 +16,7 @@ import (
 type VolumeEncryptionRequest struct {
 
 	// Enable encyrption for all volumes in the instance group. Default is false.
-	EnableEncryption bool `json:"enableEncryption,omitempty"`
+	EnableEncryption *bool `json:"enableEncryption,omitempty"`
 
 	// The ARN of the encryption key to use. If nothing is specified, the default key will be used.
 	EncryptionKey string `json:"encryptionKey,omitempty"`

@@ -6,6 +6,7 @@ import (
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	iamclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
+	mlclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client"
 )
 
 type Client struct {
@@ -13,6 +14,7 @@ type Client struct {
 	Datalake     *datalakeclient.Datalake
 	Datahub      *datahubclient.Datahub
 	IAM          *iamclient.Iam
+	ML           *mlclient.Ml
 }
 
 func NewClient(config *Config) (*Client, error) {
@@ -35,16 +37,22 @@ func NewClient(config *Config) (*Client, error) {
 		return nil, err
 	}
 
+	mlClient, err := NewMlClient(config)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Client{
 		Environments: environmentsClient,
 		Datalake:     datalakeClient,
 		Datahub:      datahubClient,
 		IAM:          iamClient,
+		ML:           mlClient,
 	}, nil
 }
 
 func NewIamClient(config *Config) (*iamclient.Iam, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), true)
+	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "iam", true)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +60,7 @@ func NewIamClient(config *Config) (*iamclient.Iam, error) {
 }
 
 func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), false)
+	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "environments", false)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +68,7 @@ func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, er
 }
 
 func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), false)
+	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "datalake", false)
 	if err != nil {
 		return nil, err
 	}
@@ -68,9 +76,17 @@ func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
 }
 
 func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), false)
+	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "datahub", false)
 	if err != nil {
 		return nil, err
 	}
 	return datahubclient.New(transport, nil), nil
+}
+
+func NewMlClient(config *Config) (*mlclient.Ml, error) {
+	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "ml", false)
+	if err != nil {
+		return nil, err
+	}
+	return mlclient.New(transport, nil), nil
 }

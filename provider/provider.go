@@ -3,10 +3,10 @@ package provider
 import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	environmentsdatasources "github.com/cloudera/terraform-provider-cdp/data-sources/environments"
 	datahubresources "github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	datalakeresources "github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	environmentsresources "github.com/cloudera/terraform-provider-cdp/resources/environments"
+	iamresources "github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -89,6 +89,7 @@ func getCdpConfig(d *schema.ResourceData) *cdp.Config {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"cdp_iam_group":                       iamresources.ResourceGroup(),
 		"cdp_environments_aws_credential":     environmentsresources.ResourceAWSCredential(),
 		"cdp_environments_aws_environment":    environmentsresources.ResourceAWSEnvironment(),
 		"cdp_environments_id_broker_mappings": environmentsresources.ResourceIDBrokerMappings(),
@@ -99,6 +100,7 @@ func resourcesMap() map[string]*schema.Resource {
 
 func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"cdp_environments_aws_credential_prerequisites": environmentsdatasources.DataSourceAWSCredentialPrerequisites(),
+		"cdp_iam_group": iamresources.DataSourceGroup(),
+		"cdp_environments_aws_credential_prerequisites": environmentsresources.DataSourceAWSCredentialPrerequisites(),
 	}
 }

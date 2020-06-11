@@ -55,21 +55,23 @@ func resourceAWSCredentialCreate(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
+	d.SetId(credentialName)
+
 	return resourceAWSCredentialRead(d, m)
 }
 
 func resourceAWSCredentialRead(d *schema.ResourceData, m interface{}) error {
 	client := m.(*cdp.Client).Environments
 
-	name := d.Id()
+	credentialName := d.Id()
 	params := operations.NewListCredentialsParams()
-	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: name})
+	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	resp, err := client.Operations.ListCredentials(params)
 	if err != nil {
 		return err
 	}
 	credentials := resp.GetPayload().Credentials
-	if len(credentials) == 0 || *credentials[0].CredentialName != name {
+	if len(credentials) == 0 || *credentials[0].CredentialName != credentialName {
 		d.SetId("") // deleted
 		return nil
 	}
@@ -86,9 +88,9 @@ func resourceAWSCredentialRead(d *schema.ResourceData, m interface{}) error {
 func resourceAWSCredentialDelete(d *schema.ResourceData, m interface{}) error {
 	client := m.(*cdp.Client).Environments
 
-	name := d.Id()
+	credentialName := d.Id()
 	params := operations.NewDeleteCredentialParams()
-	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &name})
+	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := client.Operations.DeleteCredential(params)
 	if err != nil {
 		return err

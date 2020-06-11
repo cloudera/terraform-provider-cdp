@@ -36,14 +36,14 @@ func newMetastr(accessKeyID string) *metastr {
 	return &metastr{accessKeyID, authAlgo}
 }
 
-func GetAPIKeyAuthTransport(config *InternalConfig, isAltusService bool) (*Transport, error) {
+func GetAPIKeyAuthTransport(config *InternalConfig, serviceName string, isAltusService bool) (*Transport, error) {
 	credentials, err := getCdpCredentials(config, "")
 	if err != nil {
 		return nil, err
 	}
 	var endpoint string
 	if isAltusService {
-		endpoint = config.AltusApiEndpointUrl
+		endpoint = fmt.Sprintf(config.AltusApiEndpointUrl, serviceName)
 	} else {
 		endpoint = config.CdpApiEndpointUrl
 	}
