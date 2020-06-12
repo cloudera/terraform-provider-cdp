@@ -79,9 +79,8 @@ To make a new release:
 * Create a github release off the tag.
  * The title of the release should be `tag (Month Day, Year)`.
  * The change log entry for the release should be copied as the description.
- * Build distributable artifacts by running `make dist`. Attach the binary and
-   checksum artifacts to the release. Ideally we will produce macos and linux
-   binaries for each release.
+ * Build distributable artifacts by running `make clean dist`. Attach the binaries and
+   checksum artifacts to the release for each supported platform.
  * Until otherwise noted, select the pre-release checkbox to indicate that we
    are not yet production ready.
 

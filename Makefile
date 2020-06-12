@@ -23,10 +23,9 @@ main: generate fmt vet
 	go build $(GO_FLAGS) ./
 
 # Build main binary
-dist: main
-	mkdir -p dist
-	cp terraform-provider-cdp dist/terraform-provider-cdp-$(ARCH)
-	sha256sum terraform-provider-cdp > dist/terraform-provider-cdp-$(ARCH).sha256
+dist: test
+	@build-tools/make-release.sh dist terraform-provider-cdp $(GO_FLAGS)
+.PHONY: dist
 
 clean:
 	rm -f terraform-provider-cdp
