@@ -34,7 +34,7 @@ func ResourceGroup() *schema.Resource {
 }
 
 func resourceGroupCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).IAM
+	client := m.(*cdp.Client).Iam
 
 	groupName := d.Get("group_name").(string)
 	syncMembershipOnUserLogin := d.Get("sync_membership_on_user_login").(bool)
@@ -59,7 +59,7 @@ func resourceGroupRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func sharedGroupRead(d *schema.ResourceData, m interface{}, groupName string) error {
-	client := m.(*cdp.Client).IAM
+	client := m.(*cdp.Client).Iam
 
 	params := operations.NewListGroupsParams()
 	params.WithInput(&iammodels.ListGroupsRequest{GroupNames: []string{groupName}})
@@ -83,7 +83,7 @@ func sharedGroupRead(d *schema.ResourceData, m interface{}, groupName string) er
 }
 
 func resourceGroupUpdate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).IAM
+	client := m.(*cdp.Client).Iam
 
 	groupName := d.Id()
 
@@ -105,7 +105,7 @@ func resourceGroupUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceGroupDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).IAM
+	client := m.(*cdp.Client).Iam
 
 	groupName := d.Id()
 	params := operations.NewDeleteGroupParams()

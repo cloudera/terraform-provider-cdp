@@ -7,6 +7,7 @@ import (
 	datalakeresources "github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	environmentsresources "github.com/cloudera/terraform-provider-cdp/resources/environments"
 	iamresources "github.com/cloudera/terraform-provider-cdp/resources/iam"
+	mlresources "github.com/cloudera/terraform-provider-cdp/resources/ml"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -95,6 +96,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"cdp_environments_id_broker_mappings": environmentsresources.ResourceIDBrokerMappings(),
 		"cdp_datalake_aws_datalake":           datalakeresources.ResourceAWSDatalake(),
 		"cdp_datahub_aws_cluster":             datahubresources.ResourceAWSCluster(),
+		"cdp_ml_workspace":                    mlresources.ResourceWorkspace(),
 	}
 }
 

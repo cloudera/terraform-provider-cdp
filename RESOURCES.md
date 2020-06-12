@@ -75,3 +75,17 @@ This resource needs to be documented.
 ### cdp_iam_group
 
 This is complete with no known issues.
+
+### cdp_ml_workspace
+
+This is relatively fleshed out and should be usable.
+
+The provider needs to to be reviewed for the following:
+
+* Are there gaps compared to the API definition? (create, read, update)
+ * Are fields missing?
+ * Are fields correctly modeled? (optional, required, force new, etc)
+* Are there gaps compared to the UI? On Create?  (create, read, update)
+
+I need to file bugs on having to use list-workspaces over describe-workspace.
+

@@ -22,8 +22,7 @@ The following arguments are supported:
 
 ## Attribute Reference
 
-`id` is set to the external ID value. In addition, the following attributes are
-exported:
+`id` is set to the group name. In addition, the following attributes are exported:
 
 * `sync_membership_on_user_login` - Whether group membership is synced when a user logs in.
 * `crn` - The CRN of the group.

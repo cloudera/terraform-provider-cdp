@@ -11,4 +11,4 @@
 . Do we need debug logging of our calls in TF_LOG like AWS has? Do we have that?
 . Do we want to add additional provider arguments from the AWS list that would make sense for us?
 . Enis's point on data source in addition to resource.
-. This is worth investigating.a
+. This is worth investigating: (https://github.com/bflad/tfproviderlint). AWS provider has an extended version as well.

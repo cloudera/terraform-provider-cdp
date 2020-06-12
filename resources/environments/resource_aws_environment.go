@@ -9,6 +9,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"log"
 	"sort"
 	"time"
 )
@@ -170,9 +171,6 @@ func resourceAWSEnvironmentCreate(d *schema.ResourceData, m interface{}) error {
 
 	d.SetId(*resp.GetPayload().Environment.EnvironmentName)
 
-	// TODO: file a JIRA, this shouldn't be necessary.
-	time.Sleep(5 * time.Second)
-
 	if err := waitForEnvironmentToBeAvailable(d.Id(), d.Timeout(schema.TimeoutCreate), client); err != nil {
 		return err
 	}
@@ -182,17 +180,21 @@ func resourceAWSEnvironmentCreate(d *schema.ResourceData, m interface{}) error {
 
 func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Duration, client *environmentsclient.Environments) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"FREEIPA_CREATION_IN_PROGRESS"},
-		Target:  []string{"AVAILABLE"},
-		Timeout: timeout,
+		Pending:      []string{"FREEIPA_CREATION_IN_PROGRESS"},
+		Target:       []string{"AVAILABLE"},
+		Delay:        5 * time.Second,
+		Timeout:      timeout,
+		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
+			log.Printf("About to describe environment")
 			params := operations.NewDescribeEnvironmentParams()
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
+				log.Printf("Error describing environment: %s", err)
 				return nil, "", err
 			}
-
+			log.Printf("Described environment: %s", *resp.GetPayload().Environment.Status)
 			return resp, *resp.GetPayload().Environment.Status, nil
 		},
 	}
@@ -301,29 +303,27 @@ func resourceAWSEnvironmentDelete(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	// TODO: file a JIRA, this shouldn't be necessary.
-	time.Sleep(5 * time.Second)
-
 	if err := waitForEnvironmentToBeDeleted(d.Id(), d.Timeout(schema.TimeoutDelete), client); err != nil {
 		return err
 	}
-
-	// TODO: file a JIRA, this shouldn't be necessary.
-	time.Sleep(5 * time.Second)
 
 	return nil
 }
 
 func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration, client *environmentsclient.Environments) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"FREEIPA_DELETE_IN_PROGRESS"},
-		Target:  []string{},
-		Timeout: timeout,
+		Pending:      []string{"FREEIPA_DELETE_IN_PROGRESS"},
+		Target:       []string{},
+		Delay:        5 * time.Second,
+		Timeout:      timeout,
+		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
+			log.Printf("About to describe environment")
 			params := operations.NewDescribeEnvironmentParams()
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
+				log.Printf("Error describing environment: %s", err)
 				if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
 					if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
@@ -332,8 +332,10 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 				return nil, "", err
 			}
 			if resp.GetPayload().Environment == nil {
+				log.Printf("Described environment. No environment.")
 				return nil, "", nil
 			}
+			log.Printf("Described environment: %s", *resp.GetPayload().Environment.Status)
 			return resp, *resp.GetPayload().Environment.Status, nil
 		},
 	}

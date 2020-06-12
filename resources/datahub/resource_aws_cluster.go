@@ -9,6 +9,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"log"
 	"time"
 )
 
@@ -246,9 +247,6 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 	d.Set("cluster_name", *cluster.ClusterName)
 	d.Set("crn", *cluster.Crn)
 
-	// TODO: file a JIRA, this shouldn't be necessary.
-	time.Sleep(5 * time.Second)
-
 	if err := waitForClusterToBeAvailable(d.Id(), d.Timeout(schema.TimeoutCreate), client); err != nil {
 		return err
 	}
@@ -258,17 +256,21 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 
 func waitForClusterToBeAvailable(datahubName string, timeout time.Duration, client *datahubclient.Datahub) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"REQUESTED", "UPDATE_IN_PROGRESS"},
-		Target:  []string{"AVAILABLE"},
-		Timeout: timeout,
+		Pending:      []string{"REQUESTED", "UPDATE_IN_PROGRESS"},
+		Target:       []string{"AVAILABLE"},
+		Delay:        5 * time.Second,
+		Timeout:      timeout,
+		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
+			log.Printf("About to describe cluster")
 			params := operations.NewDescribeClusterParams()
 			params.WithInput(&datahubmodels.DescribeClusterRequest{ClusterName: &datahubName})
 			resp, err := client.Operations.DescribeCluster(params)
 			if err != nil {
+				log.Printf("Error describing cluster: %s", err)
 				return nil, "", err
 			}
-
+			log.Printf("Described cluster: %s", resp.GetPayload().Cluster.Status)
 			return resp, resp.GetPayload().Cluster.Status, nil
 		},
 	}
@@ -328,9 +330,6 @@ func resourceAWSClusterDelete(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	// TODO: file a JIRA, this shouldn't be necessary.
-	time.Sleep(5 * time.Second)
-
 	if err := waitForClusterToBeDeleted(d.Id(), d.Timeout(schema.TimeoutDelete), client); err != nil {
 		return err
 	}
@@ -338,16 +337,20 @@ func resourceAWSClusterDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func waitForClusterToBeDeleted(datahubName string, timeout time.Duration, datahub *datahubclient.Datahub) error {
+func waitForClusterToBeDeleted(datahubName string, timeout time.Duration, client *datahubclient.Datahub) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"DELETE_IN_PROGRESS"},
-		Target:  []string{},
-		Timeout: timeout,
+		Pending:      []string{"DELETE_IN_PROGRESS"},
+		Target:       []string{},
+		Delay:        5 * time.Second,
+		Timeout:      timeout,
+		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
+			log.Printf("About to describe cluster")
 			params := operations.NewDescribeClusterParams()
 			params.WithInput(&datahubmodels.DescribeClusterRequest{ClusterName: &datahubName})
-			resp, err := datahub.Operations.DescribeCluster(params)
+			resp, err := client.Operations.DescribeCluster(params)
 			if err != nil {
+				log.Printf("Error describing cluster: %s", err)
 				if dlErr, ok := err.(*operations.DescribeClusterDefault); ok {
 					if cdp.IsDatahubError(dlErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
@@ -356,8 +359,10 @@ func waitForClusterToBeDeleted(datahubName string, timeout time.Duration, datahu
 				return nil, "", err
 			}
 			if resp.GetPayload().Cluster == nil {
+				log.Printf("Described cluster. No cluster.")
 				return nil, "", nil
 			}
+			log.Printf("Described cluster: %s", resp.GetPayload().Cluster.Status)
 			return resp, resp.GetPayload().Cluster.Status, nil
 		},
 	}

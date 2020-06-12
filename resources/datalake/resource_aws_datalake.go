@@ -9,6 +9,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"log"
 	"time"
 )
 
@@ -89,9 +90,6 @@ func resourceAWSDatalakeCreate(d *schema.ResourceData, m interface{}) error {
 
 	d.SetId(*resp.GetPayload().Datalake.DatalakeName)
 
-	// TODO: file a JIRA, this shouldn't be necessary.
-	time.Sleep(5 * time.Second)
-
 	if err := waitForDatalakeToBeRunning(d.Id(), d.Timeout(schema.TimeoutCreate), client); err != nil {
 		return err
 	}
@@ -101,17 +99,21 @@ func resourceAWSDatalakeCreate(d *schema.ResourceData, m interface{}) error {
 
 func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, client *datalakeclient.Datalake) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED", "STACK_CREATION_IN_PROGRESS"},
-		Target:  []string{"RUNNING"},
-		Timeout: timeout,
+		Pending:      []string{"REQUESTED", "EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED", "STACK_CREATION_IN_PROGRESS"},
+		Target:       []string{"RUNNING"},
+		Delay:        5 * time.Second,
+		Timeout:      timeout,
+		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
+			log.Printf("About to describe datalake")
 			params := operations.NewDescribeDatalakeParams()
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 			resp, err := client.Operations.DescribeDatalake(params)
 			if err != nil {
+				log.Printf("Error describing datalake: %s", err)
 				return nil, "", err
 			}
-
+			log.Printf("Described datalake: %s", resp.GetPayload().Datalake.Status)
 			return resp, resp.GetPayload().Datalake.Status, nil
 		},
 	}
@@ -177,9 +179,6 @@ func resourceAWSDatalakeDelete(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	// TODO: file a JIRA, this shouldn't be necessary.
-	time.Sleep(5 * time.Second)
-
 	if err := waitForDatalakeToBeDeleted(d.Id(), d.Timeout(schema.TimeoutDelete), client); err != nil {
 		return err
 	}
@@ -187,16 +186,20 @@ func resourceAWSDatalakeDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, datalake *datalakeclient.Datalake) error {
+func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, client *datalakeclient.Datalake) error {
 	stateConf := &resource.StateChangeConf{
-		Pending: []string{"EXTERNAL_DATABASE_DELETION_IN_PROGRESS", "STACK_DELETION_IN_PROGRESS", "STACK_DELETED"},
-		Target:  []string{},
-		Timeout: timeout,
+		Pending:      []string{"EXTERNAL_DATABASE_DELETION_IN_PROGRESS", "STACK_DELETION_IN_PROGRESS", "STACK_DELETED"},
+		Target:       []string{},
+		Delay:        5 * time.Second,
+		Timeout:      timeout,
+		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
+			log.Printf("About to describe datalake")
 			params := operations.NewDescribeDatalakeParams()
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
-			resp, err := datalake.Operations.DescribeDatalake(params)
+			resp, err := client.Operations.DescribeDatalake(params)
 			if err != nil {
+				log.Printf("Error describing datalake: %s", err)
 				if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 					if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
@@ -205,8 +208,10 @@ func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, data
 				return nil, "", err
 			}
 			if resp.GetPayload().Datalake == nil {
+				log.Printf("Described datalake. No datalake.")
 				return nil, "", nil
 			}
+			log.Printf("Described datalake: %s", resp.GetPayload().Datalake.Status)
 			return resp, resp.GetPayload().Datalake.Status, nil
 		},
 	}

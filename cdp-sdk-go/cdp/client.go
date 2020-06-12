@@ -13,8 +13,8 @@ type Client struct {
 	Environments *environmentsclient.Environments
 	Datalake     *datalakeclient.Datalake
 	Datahub      *datahubclient.Datahub
-	IAM          *iamclient.Iam
-	ML           *mlclient.Ml
+	Iam          *iamclient.Iam
+	Ml           *mlclient.Ml
 }
 
 func NewClient(config *Config) (*Client, error) {
@@ -46,8 +46,8 @@ func NewClient(config *Config) (*Client, error) {
 		Environments: environmentsClient,
 		Datalake:     datalakeClient,
 		Datahub:      datahubClient,
-		IAM:          iamClient,
-		ML:           mlClient,
+		Iam:          iamClient,
+		Ml:           mlClient,
 	}, nil
 }
 

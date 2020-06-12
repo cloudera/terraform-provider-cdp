@@ -4,6 +4,7 @@ FEATURES:
 
 * **New Resource:** `cdp_iam_group`
 * **New Data Source:** `cdp_iam_group`
+* **New Resource:** `cdp_ml_workspace`
 
 ## 0.0.1 (June 8, 2020)
 
