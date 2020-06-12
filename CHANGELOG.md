@@ -1,4 +1,13 @@
-## 0.0.2 (Unreleased)
+## 0.0.3 (Unreleased)
+
+IN PROGRESS
+
+## 0.0.2 (June 12, 2020)
+
+NOTES:
+
+* The provider is in a pre-release state. Expect many breaking changes. The provider supports resource creation and destruction, but is not a good fit yet ongoing resource management.
+* Documentation of existing resources is in progress but far from complete
 
 FEATURES:
 
