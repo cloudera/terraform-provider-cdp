@@ -28,6 +28,12 @@ Generate logs by setting the TF_LOG environment variable to any value and captur
 
 Find documentation about writing terraform providers is here: https://www.terraform.io/docs/extend/writing-custom-providers.html.
 
+## Contributing
+
+All code and documentation contributions are welcome. Please fork the repository and send a pull request for your code
+change. If you want to review patches you can add yourself in the [Code Owners file](.github/CODEOWNERS). You can also
+use that file to ping people about the code reviews.
+
 Pull requests are expected to include appropriate updates to the [change log](./CHANGELOG.md) as detailed [here](https://www.terraform.io/docs/extend/best-practices/versioning.html#changelog-specification).
 
 ### Compiling
