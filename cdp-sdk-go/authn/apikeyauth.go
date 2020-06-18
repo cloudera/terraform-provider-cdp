@@ -36,19 +36,8 @@ func newMetastr(accessKeyID string) *metastr {
 	return &metastr{accessKeyID, authAlgo}
 }
 
-func GetAPIKeyAuthTransport(config *InternalConfig, serviceName string, isAltusService bool) (*Transport, error) {
-	credentials, err := getCdpCredentials(config, "")
-	if err != nil {
-		return nil, err
-	}
-	var endpoint string
-	if isAltusService {
-		endpoint = fmt.Sprintf(config.AltusApiEndpointUrl, serviceName)
-	} else {
-		endpoint = config.CdpApiEndpointUrl
-	}
+func GetAPIKeyAuthTransport(credentials *Credentials, endpoint string, baseApiPath string) (*Transport, error) {
 	address, basePath := cutAndTrimAddress(endpoint)
-	baseApiPath := config.BaseAPIPath
 	transport := &Transport{client.New(address, basePath+baseApiPath, []string{"https"})}
 	transport.Runtime.DefaultAuthentication = apiKeyAuth(baseApiPath, credentials)
 	// transport.Runtime.Transport = utils.LoggedTransportConfig

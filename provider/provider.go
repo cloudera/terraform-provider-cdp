@@ -35,7 +35,23 @@ const (
 
 	profileField = "cdp_profile"
 
-	// TODO: add endpoint URLs
+	cdpEndpointUrlEnvVar = "CDP_ENDPOINT_URL"
+
+	altusEndpointUrlEnvVar = "ENDPOINT_URL"
+
+	cdpEndpointUrlField = "cdp_endpoint_url"
+
+	altusEndpointUrlField = "endpoint_url"
+
+	configFileField = "cdp_config_file"
+
+	configFileEnvVar = "CDP_CONFIG_FILE"
+
+	credentialsFileField = "cdp_shared_credentials_file"
+
+	credentialsFileEnvVar = "CDP_SHARED_CREDENTIALS_FILE"
+
+	// TODO: shared_credentials_file
 )
 
 func Provider() *schema.Provider {
@@ -49,6 +65,18 @@ func Provider() *schema.Provider {
 
 func providerSchema() map[string]*schema.Schema {
 	return map[string]*schema.Schema{
+		configFileField: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			DefaultFunc: schema.EnvDefaultFunc(configFileEnvVar, nil),
+			Description: "CDP configuration file. Defaults to ~/.cdp/config",
+		},
+		credentialsFileField: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			DefaultFunc: schema.EnvDefaultFunc(credentialsFileEnvVar, nil),
+			Description: "CDP shared credentials file. Defaults to ~/.cdp/credentials",
+		},
 		profileField: {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -67,6 +95,18 @@ func providerSchema() map[string]*schema.Schema {
 			DefaultFunc: schema.EnvDefaultFunc(cdpPrivateKeyEnvVar, nil),
 			Description: "CDP private key associated with the given access key",
 		},
+		cdpEndpointUrlField: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			DefaultFunc: schema.EnvDefaultFunc(cdpEndpointUrlEnvVar, nil),
+			Description: "CDP Endpoint URL",
+		},
+		altusEndpointUrlField: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			DefaultFunc: schema.EnvDefaultFunc(altusEndpointUrlEnvVar, nil),
+			Description: "Altus Endpoint URL Format",
+		},
 	}
 }
 
@@ -79,13 +119,17 @@ func getCdpConfig(d *schema.ResourceData) *cdp.Config {
 	privateKey := d.Get(cdpPrivateKeyField).(string)
 	profile := d.Get(profileField).(string)
 
-	config := cdp.NewConfig()
+	config := cdp.Config{}
 	config.WithProfile(profile)
+	config.WithCdpApiEndpointUrl(d.Get(cdpEndpointUrlField).(string))
+	config.WithAltusApiEndpointUrl(d.Get(cdpEndpointUrlField).(string))
 	config.WithCredentials(&authn.Credentials{
 		AccessKeyId: accessKeyId,
 		PrivateKey:  privateKey,
 	})
-	return config
+	config.WithConfigFile(d.Get(configFileField).(string))
+	config.WithCredentialsFile(d.Get(credentialsFileField).(string))
+	return &config
 }
 
 func resourcesMap() map[string]*schema.Resource {

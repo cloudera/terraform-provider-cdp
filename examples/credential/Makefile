@@ -12,3 +12,6 @@ terraform-plan: terraform-init
 
 terraform-apply: terraform-init
 	$(TERRAFORM) apply
+
+terraform-destroy: terraform-init
+	$(TERRAFORM) destroy

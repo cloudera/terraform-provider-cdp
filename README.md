@@ -89,4 +89,6 @@ To make a new release:
    checksum artifacts to the release for each supported platform.
  * Until otherwise noted, select the pre-release checkbox to indicate that we
    are not yet production ready.
+ * Once the release is done, send a PR to update the `CHANGELOG.md` with the new
+   release section, and update the release date.
 

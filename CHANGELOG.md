@@ -1,6 +1,7 @@
 ## 0.0.3 (Unreleased)
 
-IN PROGRESS
+IMPROVEMENTS:
+* provider: Add `cdp_config_file`, `cdp_shared_credentials_file`, `cdp_endpoint_url` and `endpoint_url` arguments
 
 ## 0.0.2 (June 12, 2020)
 

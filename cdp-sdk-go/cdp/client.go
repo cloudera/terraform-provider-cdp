@@ -10,6 +10,7 @@ import (
 )
 
 type Client struct {
+	config       *Config
 	Environments *environmentsclient.Environments
 	Datalake     *datalakeclient.Datalake
 	Datahub      *datahubclient.Datahub
@@ -18,6 +19,10 @@ type Client struct {
 }
 
 func NewClient(config *Config) (*Client, error) {
+	if err := config.initConfig(); err != nil {
+		return nil, err
+	}
+
 	environmentsClient, err := NewEnvironmentsClient(config)
 	if err != nil {
 		return nil, err
@@ -43,6 +48,7 @@ func NewClient(config *Config) (*Client, error) {
 	}
 
 	return &Client{
+		config:       config,
 		Environments: environmentsClient,
 		Datalake:     datalakeClient,
 		Datahub:      datahubClient,
@@ -52,7 +58,11 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 func NewIamClient(config *Config) (*iamclient.Iam, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "iam", true)
+	credentials, err := config.GetCredentials()
+	if err != nil {
+		return nil, err
+	}
+	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("iam", true), config.BaseApiPath)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +70,11 @@ func NewIamClient(config *Config) (*iamclient.Iam, error) {
 }
 
 func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "environments", false)
+	credentials, err := config.GetCredentials()
+	if err != nil {
+		return nil, err
+	}
+	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("environments", false), config.BaseApiPath)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +82,11 @@ func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, er
 }
 
 func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "datalake", false)
+	credentials, err := config.GetCredentials()
+	if err != nil {
+		return nil, err
+	}
+	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("datalake", false), config.BaseApiPath)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +94,11 @@ func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
 }
 
 func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "datahub", false)
+	credentials, err := config.GetCredentials()
+	if err != nil {
+		return nil, err
+	}
+	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("datahub", false), config.BaseApiPath)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +106,11 @@ func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
 }
 
 func NewMlClient(config *Config) (*mlclient.Ml, error) {
-	transport, err := authn.GetAPIKeyAuthTransport(config.toInternalConfig(), "ml", false)
+	credentials, err := config.GetCredentials()
+	if err != nil {
+		return nil, err
+	}
+	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("ml", false), config.BaseApiPath)
 	if err != nil {
 		return nil, err
 	}
