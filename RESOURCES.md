@@ -1,6 +1,6 @@
 # Resource Status
 
-This document exists to give a high level overview of the currently supported data sources and resoures and their levels of completenes.
+This document exists to give a high level overview of the currently supported data sources and resoures and their levels of completeness.
 
 As of this writing documentation and tests do not exist for any entities, so these are not mentioned as gaps. Once these begin to be added, this document will be updated to indicate which entities need work in those areas.
 

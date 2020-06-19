@@ -53,6 +53,8 @@ type ClientService interface {
 
 	CreateGroup(params *CreateGroupParams) (*CreateGroupOK, error)
 
+	CreateLdapProvider(params *CreateLdapProviderParams) (*CreateLdapProviderOK, error)
+
 	CreateMachineUser(params *CreateMachineUserParams) (*CreateMachineUserOK, error)
 
 	CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams) (*CreateMachineUserAccessKeyOK, error)
@@ -667,6 +669,41 @@ func (a *Client) CreateGroup(params *CreateGroupParams) (*CreateGroupOK, error) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CreateGroupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  CreateLdapProvider creates ldap provider
+
+  Create an LDAP provider.
+*/
+func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams) (*CreateLdapProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateLdapProviderParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createLdapProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/createLdapProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateLdapProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateLdapProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateLdapProviderDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

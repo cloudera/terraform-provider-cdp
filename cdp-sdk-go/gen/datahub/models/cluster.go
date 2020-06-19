@@ -22,6 +22,9 @@ type Cluster struct {
 	// The cloud platform.
 	CloudPlatform string `json:"cloudPlatform,omitempty"`
 
+	// The Cloudera Manager details.
+	ClouderaManager *ClouderaManagerDetails `json:"clouderaManager,omitempty"`
+
 	// The name of the cluster.
 	// Required: true
 	ClusterName *string `json:"clusterName"`
@@ -75,6 +78,10 @@ type Cluster struct {
 func (m *Cluster) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateClouderaManager(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateClusterName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -102,6 +109,24 @@ func (m *Cluster) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Cluster) validateClouderaManager(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ClouderaManager) { // not required
+		return nil
+	}
+
+	if m.ClouderaManager != nil {
+		if err := m.ClouderaManager.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clouderaManager")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

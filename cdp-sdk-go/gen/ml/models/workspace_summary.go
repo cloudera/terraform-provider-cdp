@@ -80,6 +80,9 @@ type WorkspaceSummary struct {
 	// Required: true
 	MonitoringEnabled *bool `json:"monitoringEnabled"`
 
+	// The namespace the workspace is deployed in.
+	Namespace string `json:"namespace,omitempty"`
+
 	// The version of Cloudera Machine Learning that was installed on the workspace.
 	// Required: true
 	Version *string `json:"version"`

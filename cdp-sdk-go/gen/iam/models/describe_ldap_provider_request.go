@@ -6,8 +6,10 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // DescribeLdapProviderRequest Request object to describe LDAP provider request.
@@ -16,11 +18,30 @@ import (
 type DescribeLdapProviderRequest struct {
 
 	// The name or CRN of the LDAP provider to describe.
-	LdapProviderName string `json:"ldapProviderName,omitempty"`
+	// Required: true
+	LdapProviderName *string `json:"ldapProviderName"`
 }
 
 // Validate validates this describe ldap provider request
 func (m *DescribeLdapProviderRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLdapProviderName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DescribeLdapProviderRequest) validateLdapProviderName(formats strfmt.Registry) error {
+
+	if err := validate.Required("ldapProviderName", "body", m.LdapProviderName); err != nil {
+		return err
+	}
+
 	return nil
 }
 

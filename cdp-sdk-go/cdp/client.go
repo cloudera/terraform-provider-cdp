@@ -4,6 +4,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
+	dwclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client"
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	iamclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
 	mlclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client"
@@ -16,6 +17,7 @@ type Client struct {
 	Datahub      *datahubclient.Datahub
 	Iam          *iamclient.Iam
 	Ml           *mlclient.Ml
+	Dw           *dwclient.Dw
 }
 
 func NewClient(config *Config) (*Client, error) {
@@ -47,6 +49,11 @@ func NewClient(config *Config) (*Client, error) {
 		return nil, err
 	}
 
+	dwClient, err := NewDwClient(config)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Client{
 		config:       config,
 		Environments: environmentsClient,
@@ -54,6 +61,7 @@ func NewClient(config *Config) (*Client, error) {
 		Datahub:      datahubClient,
 		Iam:          iamClient,
 		Ml:           mlClient,
+		Dw:           dwClient,
 	}, nil
 }
 
@@ -115,4 +123,16 @@ func NewMlClient(config *Config) (*mlclient.Ml, error) {
 		return nil, err
 	}
 	return mlclient.New(transport, nil), nil
+}
+
+func NewDwClient(config *Config) (*dwclient.Dw, error) {
+	credentials, err := config.GetCredentials()
+	if err != nil {
+		return nil, err
+	}
+	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("dw", false), config.BaseApiPath)
+	if err != nil {
+		return nil, err
+	}
+	return dwclient.New(transport, nil), nil
 }

@@ -97,6 +97,9 @@ type Workspace struct {
 	// Required: true
 	MonitoringEnabled *bool `json:"monitoringEnabled"`
 
+	// The namespace the workspace is deployed in.
+	Namespace string `json:"namespace,omitempty"`
+
 	// Tags provided by the user at the time of workspace creation.
 	// Required: true
 	Tags []*Tag `json:"tags"`

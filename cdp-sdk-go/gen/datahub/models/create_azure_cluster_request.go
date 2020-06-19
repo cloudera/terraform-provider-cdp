@@ -40,7 +40,7 @@ type CreateAzureClusterRequest struct {
 	Image *ImageRequest `json:"image,omitempty"`
 
 	// Instance group details.
-	InstanceGroups []*InstanceGroupRequest `json:"instanceGroups"`
+	InstanceGroups []*AzureInstanceGroupRequest `json:"instanceGroups"`
 
 	// JSON template to use for cluster creation. This is different from cluster template and would be removed in the future.
 	RequestTemplate string `json:"requestTemplate,omitempty"`

@@ -63,6 +63,9 @@ type CreateWorkspaceRequest struct {
 	// The request for Kubernetes workspace provision.
 	ProvisionK8sRequest *ProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
 
+	// Optional set of subnet IDs for cluster to use
+	Subnets []string `json:"subnets"`
+
 	// The boolean flag to request public load balancer. By default private load balancer is used.
 	UsePublicLoadBalancer bool `json:"usePublicLoadBalancer,omitempty"`
 
