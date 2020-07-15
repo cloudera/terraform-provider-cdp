@@ -2,6 +2,7 @@
 
 IMPROVEMENTS:
 * provider: Add `cdp_config_file`, `cdp_shared_credentials_file`, `cdp_endpoint_url` and `endpoint_url` arguments
+* resource/cdp_environments_aws_environment: Add retries with exponential backoff to ride over consistency issues.
 
 ## 0.0.2 (June 12, 2020)
 

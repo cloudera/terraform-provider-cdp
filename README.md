@@ -80,7 +80,7 @@ To make a new release:
 * Review the change log and update it as necessary. Ideally the content is
   up-to-date as it has been maintained along the way. Note the data of the
   release and create a new, empty unreleased entry at the top.
-* Tag the comit with an appropriate semantic version, e.g. `git tag v0.0.1`.
+* Tag the commit with an appropriate semantic version, e.g. `git tag v0.0.1`.
 * Push the tag: `git push --tags`.
 * Create a github release off the tag.
  * The title of the release should be `tag (Month Day, Year)`.

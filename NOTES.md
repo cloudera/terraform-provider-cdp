@@ -12,3 +12,4 @@
 . Do we want to add additional provider arguments from the AWS list that would make sense for us?
 . Enis's point on data source in addition to resource.
 . This is worth investigating: (https://github.com/bflad/tfproviderlint). AWS provider has an extended version as well.
+. Look into https://goreleaser.com/quick-start/ and https://github.com/goreleaser/godownloader

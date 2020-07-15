@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"log"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -164,7 +165,25 @@ func resourceAWSEnvironmentCreate(d *schema.ResourceData, m interface{}) error {
 		S3GuardTableName: d.Get("s3_guard_table_name").(string),
 		EnableTunnel:     d.Get("enable_tunnel").(bool),
 	})
-	resp, err := client.Operations.CreateAWSEnvironment(params)
+
+	var resp *operations.CreateAWSEnvironmentOK
+	err := resource.Retry(30*time.Second, func() *resource.RetryError {
+		var err error
+		resp, err = client.Operations.CreateAWSEnvironment(params)
+
+		// There is an eventual consistency issue when the env is deleted and re-created. We check for this condition and
+		// retry for a short time if it is the case.
+		if err != nil {
+			if isAlreadyExistsError(err) {
+				log.Printf("[DEBUG] Got recoverable error while creating environment %v", err)
+				return resource.RetryableError(err)
+			} else {
+				return resource.NonRetryableError(err)
+			}
+		}
+		return nil
+	})
+
 	if err != nil {
 		return err
 	}
@@ -178,6 +197,20 @@ func resourceAWSEnvironmentCreate(d *schema.ResourceData, m interface{}) error {
 	return resourceAWSEnvironmentRead(d, m)
 }
 
+func isAlreadyExistsError(err error) bool {
+	if d, ok := err.(*operations.CreateAWSEnvironmentDefault); ok && d.GetPayload() != nil {
+		return d.GetPayload().Code == "INVALID_ARGUMENT" && strings.Contains(d.GetPayload().Message, "already exist")
+	}
+	return false
+}
+
+func isNotFoundError(err error) bool {
+	if d, ok := err.(*operations.DescribeEnvironmentDefault); ok && d.GetPayload() != nil {
+		return d.GetPayload().Code == "NOT_FOUND"
+	}
+	return false
+}
+
 func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Duration, client *environmentsclient.Environments) error {
 	stateConf := &resource.StateChangeConf{
 		Pending:      []string{"FREEIPA_CREATION_IN_PROGRESS"},
@@ -186,11 +219,18 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
-			log.Printf("About to describe environment")
+			log.Printf("[DEBUG] About to describe environment %s", environmentName)
 			params := operations.NewDescribeEnvironmentParams()
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
+				// Envs that have just been created may not be returned from Describe Environment request because of eventual
+				// consistency. We return an empty state to retry.
+
+				if isNotFoundError(err) {
+					log.Printf("[DEBUG] Recoverable error describing environment: %s", err)
+					return nil, "", nil
+				}
 				log.Printf("Error describing environment: %s", err)
 				return nil, "", err
 			}
