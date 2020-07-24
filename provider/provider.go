@@ -136,6 +136,7 @@ func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"cdp_iam_group":                       iamresources.ResourceGroup(),
 		"cdp_environments_aws_credential":     environmentsresources.ResourceAWSCredential(),
+		"cdp_environments_azure_credential":   environmentsresources.ResourceAzureCredential(),
 		"cdp_environments_aws_environment":    environmentsresources.ResourceAWSEnvironment(),
 		"cdp_environments_id_broker_mappings": environmentsresources.ResourceIDBrokerMappings(),
 		"cdp_datalake_aws_datalake":           datalakeresources.ResourceAWSDatalake(),
