@@ -1,4 +1,16 @@
-## 0.0.3 (Unreleased)
+## 0.0.4 (Unreleased)
+
+IMPROVEMENTS:
+
+FEATURES:
+
+## 0.0.3 (Sep 28, 2020)
+
+NOTES:
+
+* The provider is in a pre-release state. Expect many breaking changes. The provider supports resource creation and destruction, but is not a good fit yet ongoing resource management.
+* Documentation of existing resources is in progress but far from complete
+
 
 IMPROVEMENTS:
 * provider: Add `cdp_config_file`, `cdp_shared_credentials_file`, `cdp_endpoint_url` and `endpoint_url` arguments
