@@ -99,7 +99,10 @@ func resourceAWSDatalakeCreate(d *schema.ResourceData, m interface{}) error {
 
 func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, client *datalakeclient.Datalake) error {
 	stateConf := &resource.StateChangeConf{
-		Pending:      []string{"REQUESTED", "EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED", "STACK_CREATION_IN_PROGRESS"},
+		// cloudbreak/datalake/src/main/java/com/sequenceiq/datalake/entity/DatalakeStatusEnum.java
+		Pending: []string{"REQUESTED", "START_IN_PROGRESS", "STOP_IN_PROGRESS", "WAIT_FOR_ENVIRONMENT",
+			"ENVIRONMENT_CREATED", "EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED",
+			"STACK_CREATION_IN_PROGRESS"},
 		Target:       []string{"RUNNING"},
 		Delay:        5 * time.Second,
 		Timeout:      timeout,
