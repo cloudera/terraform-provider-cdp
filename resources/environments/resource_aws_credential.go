@@ -4,7 +4,11 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"log"
+	"strings"
+	"time"
 )
 
 func ResourceAWSCredential() *schema.Resource {
@@ -37,6 +41,13 @@ func ResourceAWSCredential() *schema.Resource {
 	}
 }
 
+func isNotAuthorizedError(err error) bool {
+	if d, ok := err.(*operations.CreateAWSEnvironmentDefault); ok && d.GetPayload() != nil {
+		return d.GetPayload().Code == "INVALID_ARGUMENT" && strings.Contains(d.GetPayload().Message, "You are not authorized")
+	}
+	return false
+}
+
 func resourceAWSCredentialCreate(d *schema.ResourceData, m interface{}) error {
 	client := m.(*cdp.Client).Environments
 
@@ -50,7 +61,24 @@ func resourceAWSCredentialCreate(d *schema.ResourceData, m interface{}) error {
 		Description:    description,
 		RoleArn:        &roleArn,
 	})
-	_, err := client.Operations.CreateAWSCredential(params)
+
+	err := resource.Retry(30*time.Second, func() *resource.RetryError {
+		var err error
+		_, err = client.Operations.CreateAWSCredential(params)
+
+		// There is an eventual consistency issue when the AWS cross account credential is just created but is not
+		// "synced up" in AWS. We retry for a short time if it is the case.
+		if err != nil {
+			if isNotAuthorizedError(err) {
+				log.Printf("[DEBUG] Got recoverable error while creating credential %v", err)
+				return resource.RetryableError(err)
+			} else {
+				return resource.NonRetryableError(err)
+			}
+		}
+		return nil
+	})
+
 	if err != nil {
 		return err
 	}
