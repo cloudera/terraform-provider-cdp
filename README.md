@@ -2,7 +2,9 @@
 
 Implements a terraform provider for CDP resources. Terraform is the de facto tool for "declarative infrastructure". This repo
 implements a provider for CDP so that CDP resources (credentials, environments, datalakes, datahubs, etc) can be created using
-terraform. Target terraform version is 0.12.
+terraform.
+
+Target terraform version is 0.13 although it should also work with 0.12. Older versions are not supported.
 
 ## Provider Documentation
 
@@ -12,6 +14,27 @@ Provider documentation is maintained according to [terraform guidance](https://w
 
 ## Installation
 
+The installation instructions for custom terraform providers was changed in a backwards incompatible way in
+Terraform-0.13. See [Upgrading to Terraform v0.13](https://www.terraform.io/upgrade-guides/0-13.html).
+
+## Terraform-0.13
+The easiest way to install the CDP provider from source code is by
+```
+  make install
+```
+
+which copies the binary to the directory: `~/.terraform.d/plugins/terraform.cloudera.com/cloudera/cdp/$VERSION/$ARCH/terraform-provider-cdp_v$VERSION`.
+
+If you have downloaded a binary release, you can execute these steps to install:
+```
+mkdir -p ~/.terraform.d/plugins/terraform.cloudera.com/cloudera/cdp/$VERSION/$ARCH
+cp terraform-provider-cdp ~/.terraform.d/plugins/terraform.cloudera.com/cloudera/cdp/$VERSION/$ARCH/terraform-provider-cdp_v$VERSION
+```
+
+where VERSION should be replaced with something like `0.0.3`
+and ARCH should be replaced with something like `darwin_amd64` or `linux_amd64`
+
+### Terraform-0.12
 The plugin binary must be placed in ~/.terraform.d/plugins/terraform-provider-cdp.
 
 If downloading the binary from a github release, make sure to select the platform appropriate binary and to rename it to terraform-provider-cdp when placing it in ~/.terraform.d/plugins/terraform-provider-cdp.

@@ -4,7 +4,10 @@
 
 GO_FLAGS:=""
 
-ARCH := $(shell uname -s | tr A-Z a-z)-x86_$(shell getconf LONG_BIT)
+VERSION ?= 0.0.4
+ARCH := $(shell uname -s | tr A-Z a-z)_amd64
+TF_PLUGIN_DIR ?= ~/.terraform.d/plugins
+TF_PROVIDER_NAME ?= terraform.cloudera.com/cloudera/cdp
 
 all: check-go test main
 
@@ -21,6 +24,10 @@ test: generate fmt vet
 # Build main binary
 main: generate fmt vet
 	go build $(GO_FLAGS) ./
+
+install: main
+	mkdir -p $(TF_PLUGIN_DIR)/$(TF_PROVIDER_NAME)/$(VERSION)/$(ARCH)/
+	cp terraform-provider-cdp $(TF_PLUGIN_DIR)/$(TF_PROVIDER_NAME)/$(VERSION)/$(ARCH)/terraform-provider-cdp_v$(VERSION)
 
 # Build main binary
 dist: test
