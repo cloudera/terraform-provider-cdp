@@ -8,7 +8,7 @@ import (
 	environmentsresources "github.com/cloudera/terraform-provider-cdp/resources/environments"
 	iamresources "github.com/cloudera/terraform-provider-cdp/resources/iam"
 	mlresources "github.com/cloudera/terraform-provider-cdp/resources/ml"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 const (
