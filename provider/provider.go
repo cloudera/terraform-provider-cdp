@@ -1,153 +1,196 @@
 package provider
 
 import (
+	"context"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	datahubresources "github.com/cloudera/terraform-provider-cdp/resources/datahub"
-	datalakeresources "github.com/cloudera/terraform-provider-cdp/resources/datalake"
-	environmentsresources "github.com/cloudera/terraform-provider-cdp/resources/environments"
-	iamresources "github.com/cloudera/terraform-provider-cdp/resources/iam"
-	mlresources "github.com/cloudera/terraform-provider-cdp/resources/ml"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"os"
+
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	// Skip all datasources and resources for now
+	//datahubresources "github.com/cloudera/terraform-provider-cdp/resources/datahub"
+	//datalakeresources "github.com/cloudera/terraform-provider-cdp/resources/datalake"
+	//environmentsresources "github.com/cloudera/terraform-provider-cdp/resources/environments"
+	//iamresources "github.com/cloudera/terraform-provider-cdp/resources/iam"
+	//mlresources "github.com/cloudera/terraform-provider-cdp/resources/ml"
 )
 
-const (
-	// Name of environment variable holding the users CDP access key ID.
-	cdpAccessKeyIdEnvVar = "CDP_ACCESS_KEY_ID"
-
-	// Name of environment variable holding the users CDP private key.
-	cdpPrivateKeyEnvVar = "CDP_PRIVATE_KEY"
-
-	// Name of system environment variable holding the name of profile to use
-	// when reading the credentials file. Overrides cdpDefaultProfile.
-	cdpDefaultProfileEnvVar = "CDP_DEFAULT_PROFILE"
-
-	// TODO: is this CDP_PROFILE or CDP_DEFAULT_PROFILE? Both are respected for now.
-	cdpProfileEnvVar = "CDP_PROFILE"
-
-	//==== Below are fields for the provider =====
-
-	// Provider key for configuring CDP access key id
-	cdpAccessKeyIdField = "cdp_access_key_id"
-
-	// Provider key for configuring CDP private key
-	cdpPrivateKeyField = "cdp_private_key"
-
-	profileField = "cdp_profile"
-
-	cdpEndpointUrlEnvVar = "CDP_ENDPOINT_URL"
-
-	altusEndpointUrlEnvVar = "ENDPOINT_URL"
-
-	cdpEndpointUrlField = "cdp_endpoint_url"
-
-	altusEndpointUrlField = "endpoint_url"
-
-	configFileField = "cdp_config_file"
-
-	configFileEnvVar = "CDP_CONFIG_FILE"
-
-	credentialsFileField = "cdp_shared_credentials_file"
-
-	credentialsFileEnvVar = "CDP_SHARED_CREDENTIALS_FILE"
-
-	// TODO: shared_credentials_file
+// Ensure the implementation satisfies the expected interfaces.
+var (
+	_ provider.Provider = &CdpProvider{}
 )
 
-func Provider() *schema.Provider {
-	return &schema.Provider{
-		Schema:         providerSchema(),
-		ResourcesMap:   resourcesMap(),
-		DataSourcesMap: dataSourcesMap(),
-		ConfigureFunc:  configureProvider,
+func New(version string) func() provider.Provider {
+	return func() provider.Provider {
+		return &CdpProvider{
+			version: version,
+		}
 	}
 }
 
-func providerSchema() map[string]*schema.Schema {
-	return map[string]*schema.Schema{
-		configFileField: {
-			Type:        schema.TypeString,
-			Optional:    true,
-			DefaultFunc: schema.EnvDefaultFunc(configFileEnvVar, nil),
-			Description: "CDP configuration file. Defaults to ~/.cdp/config",
-		},
-		credentialsFileField: {
-			Type:        schema.TypeString,
-			Optional:    true,
-			DefaultFunc: schema.EnvDefaultFunc(credentialsFileEnvVar, nil),
-			Description: "CDP shared credentials file. Defaults to ~/.cdp/credentials",
-		},
-		profileField: {
-			Type:        schema.TypeString,
-			Optional:    true,
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{cdpProfileEnvVar, cdpDefaultProfileEnvVar}, nil),
-			Description: "CDP Profile to use for the configuration in ~/.cdp/",
-		},
-		cdpAccessKeyIdField: {
-			Type:        schema.TypeString,
-			Optional:    true,
-			DefaultFunc: schema.EnvDefaultFunc(cdpAccessKeyIdEnvVar, nil),
-			Description: "CDP access key id",
-		},
-		cdpPrivateKeyField: {
-			Type:        schema.TypeString,
-			Optional:    true,
-			DefaultFunc: schema.EnvDefaultFunc(cdpPrivateKeyEnvVar, nil),
-			Description: "CDP private key associated with the given access key",
-		},
-		cdpEndpointUrlField: {
-			Type:        schema.TypeString,
-			Optional:    true,
-			DefaultFunc: schema.EnvDefaultFunc(cdpEndpointUrlEnvVar, nil),
-			Description: "CDP Endpoint URL",
-		},
-		altusEndpointUrlField: {
-			Type:        schema.TypeString,
-			Optional:    true,
-			DefaultFunc: schema.EnvDefaultFunc(altusEndpointUrlEnvVar, nil),
-			Description: "Altus Endpoint URL Format",
+type CdpProvider struct {
+	version string
+}
+
+type CdpProviderModel struct {
+	CdpAccessKeyId           types.String `tfsdk:"cdp_access_key_id"`
+	CdpPrivateKey            types.String `tfsdk:"cdp_private_key"`
+	Profile                  types.String `tfsdk:"cdp_profile"`
+	AltusEndpointUrl         types.String `tfsdk:"endpoint_url"`
+	CdpEndpointUrl           types.String `tfsdk:"cdp_endpoint_url"`
+	CdpConfigFile            types.String `tfsdk:"cdp_config_file"`
+	CdpSharedCredentialsFile types.String `tfsdk:"cdp_shared_credentials_file"`
+}
+
+// Metadata returns the provider type name.
+func (p *CdpProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "cdp"
+	resp.Version = p.version
+}
+
+func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Attributes: map[string]schema.Attribute{
+			"cdp_access_key_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "CDP access key id",
+			},
+			"cdp_private_key": schema.StringAttribute{
+				Optional:            true,
+				Sensitive:           true,
+				MarkdownDescription: "CDP private key associated with the given access key",
+			},
+			"cdp_profile": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "CDP Profile to use for the configuration in ~/.cdp/",
+			},
+			"endpoint_url": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Altus Endpoint URL Format",
+			},
+			"cdp_endpoint_url": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "CDP Endpoint URL",
+			},
+			"cdp_config_file": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "CDP configuration file. Defaults to ~/.cdp/config",
+			},
+			"cdp_shared_credentials_file": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "CDP shared credentials file. Defaults to ~/.cdp/credentials",
+			},
 		},
 	}
 }
 
-func configureProvider(d *schema.ResourceData) (interface{}, error) {
-	return cdp.NewClient(getCdpConfig(d))
+func (p *CdpProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	tflog.Info(ctx, "Configuring CDP client")
+	var data CdpProviderModel
+	diags := req.Config.Get(ctx, &data)
+	resp.Diagnostics.Append(diags...)
+
+	// Create a new CDP client using the configuration values
+	client, err := cdp.NewClient(getCdpConfig(ctx, data))
+
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to Create CDP API Client",
+			"An unexpected error occurred when creating the CDP API client. "+
+				"If the error is not clear, please contact Cloudera.\n\n"+
+				"CDP API Client Error: "+err.Error(),
+		)
+		return
+	}
+
+	// Make the CDP client available during DataSource and Resource
+	// type Configure methods.
+	resp.DataSourceData = client
+	resp.ResourceData = client
 }
 
-func getCdpConfig(d *schema.ResourceData) *cdp.Config {
-	accessKeyId := d.Get(cdpAccessKeyIdField).(string)
-	privateKey := d.Get(cdpPrivateKeyField).(string)
-	profile := d.Get(profileField).(string)
+// getOrDefaultFromEnv returns the string value if it is non-empty. Otherwise returns the environment
+// variable value from the operating system.
+func getOrDefaultFromEnv(val basetypes.StringValue, envVars ...string) string {
+	if !val.IsNull() {
+		return val.ValueString()
+	}
+
+	for _, envVar := range envVars {
+		env, ok := os.LookupEnv(envVar)
+		if ok {
+			return env
+		}
+	}
+	return ""
+}
+
+func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
+	tflog.Info(ctx, "Setting up CDP config")
+
+	accessKeyId := getOrDefaultFromEnv(data.CdpAccessKeyId, "CDP_ACCESS_KEY_ID")
+	privateKey := getOrDefaultFromEnv(data.CdpPrivateKey, "CDP_PRIVATE_KEY")
+	cdpProfile := getOrDefaultFromEnv(data.Profile, "CDP_PROFILE", "CDP_DEFAULT_PROFILE")
+	altusEndpointUrl := getOrDefaultFromEnv(data.AltusEndpointUrl, "ENDPOINT_URL")
+	cdpEndpointUrl := getOrDefaultFromEnv(data.CdpEndpointUrl, "CDP_ENDPOINT_URL")
+	cdpConfigFile := getOrDefaultFromEnv(data.CdpConfigFile, "CDP_CONFIG_FILE")
+	cdpSharedCredentialsFile := getOrDefaultFromEnv(data.CdpSharedCredentialsFile, "CDP_SHARED_CREDENTIALS_FILE")
 
 	config := cdp.Config{}
-	config.WithProfile(profile)
-	config.WithCdpApiEndpointUrl(d.Get(cdpEndpointUrlField).(string))
-	config.WithAltusApiEndpointUrl(d.Get(cdpEndpointUrlField).(string))
+	config.WithProfile(cdpProfile)
+	config.WithAltusApiEndpointUrl(altusEndpointUrl)
+	config.WithCdpApiEndpointUrl(cdpEndpointUrl)
 	config.WithCredentials(&authn.Credentials{
 		AccessKeyId: accessKeyId,
 		PrivateKey:  privateKey,
 	})
-	config.WithConfigFile(d.Get(configFileField).(string))
-	config.WithCredentialsFile(d.Get(credentialsFileField).(string))
+	config.WithConfigFile(cdpConfigFile)
+	config.WithCredentialsFile(cdpSharedCredentialsFile)
+
+	ctx = tflog.MaskFieldValuesWithFieldKeys(ctx, "privateKey")
+	ctx = tflog.SetField(ctx, "accessKeyId", accessKeyId)
+	ctx = tflog.SetField(ctx, "privateKey", privateKey)
+	ctx = tflog.SetField(ctx, "cdpProfile", cdpProfile)
+	ctx = tflog.SetField(ctx, "altusEndpointUrl", altusEndpointUrl)
+	ctx = tflog.SetField(ctx, "cdpEndpointUrl", cdpEndpointUrl)
+	ctx = tflog.SetField(ctx, "cdpConfigFile", cdpConfigFile)
+	ctx = tflog.SetField(ctx, "cdpSharedCredentialsFile", cdpSharedCredentialsFile)
+
+	tflog.Info(ctx, "CDP config set up. Creating client")
 	return &config
 }
 
-func resourcesMap() map[string]*schema.Resource {
-	return map[string]*schema.Resource{
-		"cdp_iam_group":                       iamresources.ResourceGroup(),
-		"cdp_environments_aws_credential":     environmentsresources.ResourceAWSCredential(),
-		"cdp_environments_azure_credential":   environmentsresources.ResourceAzureCredential(),
-		"cdp_environments_aws_environment":    environmentsresources.ResourceAWSEnvironment(),
-		"cdp_environments_id_broker_mappings": environmentsresources.ResourceIDBrokerMappings(),
-		"cdp_datalake_aws_datalake":           datalakeresources.ResourceAWSDatalake(),
-		"cdp_datahub_aws_cluster":             datahubresources.ResourceAWSCluster(),
-		"cdp_ml_workspace":                    mlresources.ResourceWorkspace(),
-	}
+func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
+	// TODO: add resources one by one and remove this comment afterwards
+	return nil
+	/*	return map[string]*schema.Resource{
+			"cdp_iam_group":                       iamresources.ResourceGroup(),
+			"cdp_environments_aws_credential":     environmentsresources.ResourceAWSCredential(),
+			"cdp_environments_azure_credential":   environmentsresources.ResourceAzureCredential(),
+			"cdp_environments_aws_environment":    environmentsresources.ResourceAWSEnvironment(),
+			"cdp_environments_id_broker_mappings": environmentsresources.ResourceIDBrokerMappings(),
+			"cdp_datalake_aws_datalake":           datalakeresources.ResourceAWSDatalake(),
+			"cdp_datahub_aws_cluster":             datahubresources.ResourceAWSCluster(),
+			"cdp_ml_workspace":                    mlresources.ResourceWorkspace(),
+		}
+	*/
 }
 
-func dataSourcesMap() map[string]*schema.Resource {
-	return map[string]*schema.Resource{
-		"cdp_iam_group": iamresources.DataSourceGroup(),
-		"cdp_environments_aws_credential_prerequisites": environmentsresources.DataSourceAWSCredentialPrerequisites(),
+func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSource {
+	return []func() datasource.DataSource{
+		environments.NewAWSCredentialPrerequisitesDataSource,
 	}
+	/*	return map[string]*schema.Resource{
+			"cdp_iam_group": iamresources.DataSourceGroup(),
+			"cdp_environments_aws_credential_prerequisites": environmentsresources.DataSourceAWSCredentialPrerequisites(),
+		}
+	*/
+
 }

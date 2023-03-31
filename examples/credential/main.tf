@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    cdp = {
+      source  = "cloudera.com/dev/cdp"
+      version = "0.4.0"
+    }
+  }
+}
+
 provider "cdp" {
   # cdp_access_key_id = ""
   # cdp_private_key = ""
@@ -8,8 +17,8 @@ provider "cdp" {
 
 resource "cdp_environments_aws_credential" "my-credentials" {
   credential_name = "my-cloudera-cdp-credentials"
-  role_arn = "arn:aws:iam::111111111111:role/my-cdp-cross-account-role"
-  description = "testing the terrafrom-provider-cdp"
+  role_arn        = "arn:aws:iam::111111111111:role/my-cdp-cross-account-role"
+  description     = "testing the terrafrom-provider-cdp"
 }
 
 output "credential_name" {

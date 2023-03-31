@@ -4,28 +4,34 @@ import (
 	"context"
 	"flag"
 	"github.com/cloudera/terraform-provider-cdp/provider"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"log"
 )
 
-func main() {
-	var debugMode bool
+var (
+	// these will be set by the goreleaser configuration
+	// to appropriate values for the compiled binary.
+	version string = "dev"
 
-	flag.BoolVar(&debugMode, "debug", false, "Set to true to run provider with debugger")
+	// goreleaser can pass other information to the main package, such as the specific commit
+	// https://goreleaser.com/cookbooks/using-main.version/
+)
+
+func main() {
+	var debug bool
+
+	flag.BoolVar(&debug, "debug", false, "set to true to run the provider with support for debuggers like delve")
 	flag.Parse()
 
-	opts := &plugin.ServeOpts{
-		ProviderFunc: func() *schema.Provider {
-			return provider.Provider()
-		},
+	opts := providerserver.ServeOpts{
+		// TODO: To be changed to Terraform Registry address
+		// Address: "registry.terraform.io/cloudera/cdp",
+		Address: "terraform.cloudera.com/cloudera/cdp",
+		Debug:   debug,
 	}
-	if debugMode {
-		err := plugin.Debug(context.Background(), "terraform.cloudera.com/cloudera/cdp", opts)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		return
+	err := providerserver.Serve(context.Background(), provider.New(version), opts)
+
+	if err != nil {
+		log.Fatal(err.Error())
 	}
-	plugin.Serve(opts)
 }

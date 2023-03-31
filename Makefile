@@ -21,13 +21,20 @@ endif
 test: generate fmt vet
 	go test $(GO_FLAGS) . ./provider/... ./resources/... ./utils/...
 
+# Run terraform provider acceptance tests
+testacc:
+	TF_ACC=1 go test -count=1 -parallel=4 -timeout 10m -v ./...
+
 # Build main binary
 main: generate fmt vet
 	go build $(GO_FLAGS) ./
 
 install: main
-	mkdir -p $(TF_PLUGIN_DIR)/$(TF_PROVIDER_NAME)/$(VERSION)/$(ARCH)/
-	cp terraform-provider-cdp $(TF_PLUGIN_DIR)/$(TF_PROVIDER_NAME)/$(VERSION)/$(ARCH)/terraform-provider-cdp_v$(VERSION)
+	go install .
+
+# for local development
+install-terraformrc:
+	cp -iv .terraformrc ~/.terraformrc && sed -i -e 's/_USERNAME_/$(USER)/g' ~/.terraformrc
 
 # Build main binary
 dist: test
@@ -42,6 +49,7 @@ clean:
 # Run go fmt against code
 fmt:
 	go fmt . ./provider/... ./resources/... ./utils/...
+	terraform fmt -recursive ./examples/
 
 # Run go vet against code
 vet:
@@ -50,6 +58,9 @@ vet:
 # Generate code
 generate:
 	go generate . ./provider/... ./resources/... ./utils/...
+
+tfplugindocs:
+	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate --provider-name cdp
 
 # Deploy
 deploy: all

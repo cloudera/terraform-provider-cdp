@@ -1,6 +1,11 @@
 ## 0.0.4 (Unreleased)
 
+NOTES:
+* The provider is in a pre-release state. Expect many breaking changes. The provider supports resource creation and destruction, but is not a good fit yet ongoing resource management.
+* Documentation of existing resources is in progress but far from complete
+
 IMPROVEMENTS:
+* Rebased the terraform provider code into the recommended terraform-plugin-framework.
 
 FEATURES:
 
