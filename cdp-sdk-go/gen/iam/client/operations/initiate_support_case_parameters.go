@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewInitiateSupportCaseParams creates a new InitiateSupportCaseParams object
-// with the default values initialized.
+// NewInitiateSupportCaseParams creates a new InitiateSupportCaseParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewInitiateSupportCaseParams() *InitiateSupportCaseParams {
-	var ()
 	return &InitiateSupportCaseParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewInitiateSupportCaseParamsWithTimeout creates a new InitiateSupportCaseParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewInitiateSupportCaseParamsWithTimeout(timeout time.Duration) *InitiateSupportCaseParams {
-	var ()
 	return &InitiateSupportCaseParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewInitiateSupportCaseParamsWithContext creates a new InitiateSupportCaseParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewInitiateSupportCaseParamsWithContext(ctx context.Context) *InitiateSupportCaseParams {
-	var ()
 	return &InitiateSupportCaseParams{
-
 		Context: ctx,
 	}
 }
 
 // NewInitiateSupportCaseParamsWithHTTPClient creates a new InitiateSupportCaseParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewInitiateSupportCaseParamsWithHTTPClient(client *http.Client) *InitiateSupportCaseParams {
-	var ()
 	return &InitiateSupportCaseParams{
 		HTTPClient: client,
 	}
 }
 
-/*InitiateSupportCaseParams contains all the parameters to send to the API endpoint
-for the initiate support case operation typically these are written to a http.Request
+/*
+InitiateSupportCaseParams contains all the parameters to send to the API endpoint
+
+	for the initiate support case operation.
+
+	Typically these are written to a http.Request.
 */
 type InitiateSupportCaseParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.InitiateSupportCaseRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the initiate support case params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InitiateSupportCaseParams) WithDefaults() *InitiateSupportCaseParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the initiate support case params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InitiateSupportCaseParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the initiate support case params
@@ -121,7 +137,6 @@ func (o *InitiateSupportCaseParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

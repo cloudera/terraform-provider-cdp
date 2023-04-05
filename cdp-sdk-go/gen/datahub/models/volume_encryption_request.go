@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -24,6 +26,11 @@ type VolumeEncryptionRequest struct {
 
 // Validate validates this volume encryption request
 func (m *VolumeEncryptionRequest) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this volume encryption request based on context it is used
+func (m *VolumeEncryptionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

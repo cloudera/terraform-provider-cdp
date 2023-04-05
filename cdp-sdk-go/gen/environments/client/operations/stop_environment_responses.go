@@ -46,7 +46,8 @@ func NewStopEnvironmentOK() *StopEnvironmentOK {
 	return &StopEnvironmentOK{}
 }
 
-/*StopEnvironmentOK handles this case with default header values.
+/*
+StopEnvironmentOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type StopEnvironmentOK struct {
 	Payload models.StopEnvironmentResponse
 }
 
+// IsSuccess returns true when this stop environment o k response has a 2xx status code
+func (o *StopEnvironmentOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this stop environment o k response has a 3xx status code
+func (o *StopEnvironmentOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this stop environment o k response has a 4xx status code
+func (o *StopEnvironmentOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this stop environment o k response has a 5xx status code
+func (o *StopEnvironmentOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this stop environment o k response a status code equal to that given
+func (o *StopEnvironmentOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the stop environment o k response
+func (o *StopEnvironmentOK) Code() int {
+	return 200
+}
+
 func (o *StopEnvironmentOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironmentOK  %+v", 200, o.Payload)
+}
+
+func (o *StopEnvironmentOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironmentOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewStopEnvironmentDefault(code int) *StopEnvironmentDefault {
 	}
 }
 
-/*StopEnvironmentDefault handles this case with default header values.
+/*
+StopEnvironmentDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type StopEnvironmentDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this stop environment default response has a 2xx status code
+func (o *StopEnvironmentDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this stop environment default response has a 3xx status code
+func (o *StopEnvironmentDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this stop environment default response has a 4xx status code
+func (o *StopEnvironmentDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this stop environment default response has a 5xx status code
+func (o *StopEnvironmentDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this stop environment default response a status code equal to that given
+func (o *StopEnvironmentDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the stop environment default response
 func (o *StopEnvironmentDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *StopEnvironmentDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironment default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *StopEnvironmentDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironment default  %+v", o._statusCode, o.Payload)
 }
 

@@ -46,7 +46,8 @@ func NewListRolesOK() *ListRolesOK {
 	return &ListRolesOK{}
 }
 
-/*ListRolesOK handles this case with default header values.
+/*
+ListRolesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListRolesOK struct {
 	Payload *models.ListRolesResponse
 }
 
+// IsSuccess returns true when this list roles o k response has a 2xx status code
+func (o *ListRolesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list roles o k response has a 3xx status code
+func (o *ListRolesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list roles o k response has a 4xx status code
+func (o *ListRolesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list roles o k response has a 5xx status code
+func (o *ListRolesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list roles o k response a status code equal to that given
+func (o *ListRolesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list roles o k response
+func (o *ListRolesOK) Code() int {
+	return 200
+}
+
 func (o *ListRolesOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listRoles][%d] listRolesOK  %+v", 200, o.Payload)
+}
+
+func (o *ListRolesOK) String() string {
 	return fmt.Sprintf("[POST /iam/listRoles][%d] listRolesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListRolesDefault(code int) *ListRolesDefault {
 	}
 }
 
-/*ListRolesDefault handles this case with default header values.
+/*
+ListRolesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListRolesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list roles default response has a 2xx status code
+func (o *ListRolesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list roles default response has a 3xx status code
+func (o *ListRolesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list roles default response has a 4xx status code
+func (o *ListRolesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list roles default response has a 5xx status code
+func (o *ListRolesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list roles default response a status code equal to that given
+func (o *ListRolesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list roles default response
 func (o *ListRolesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListRolesDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listRoles][%d] listRoles default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListRolesDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listRoles][%d] listRoles default  %+v", o._statusCode, o.Payload)
 }
 

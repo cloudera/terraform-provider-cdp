@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -56,6 +57,42 @@ func (m *ListTermsResponse) validateTermsAcceptanceStates(formats strfmt.Registr
 			if err := m.TermsAcceptanceStates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("termsAcceptanceStates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("termsAcceptanceStates" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this list terms response based on the context it is used
+func (m *ListTermsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTermsAcceptanceStates(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ListTermsResponse) contextValidateTermsAcceptanceStates(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.TermsAcceptanceStates); i++ {
+
+		if m.TermsAcceptanceStates[i] != nil {
+			if err := m.TermsAcceptanceStates[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("termsAcceptanceStates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("termsAcceptanceStates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

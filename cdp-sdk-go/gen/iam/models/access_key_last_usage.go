@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -40,7 +42,6 @@ func (m *AccessKeyLastUsage) Validate(formats strfmt.Registry) error {
 }
 
 func (m *AccessKeyLastUsage) validateLastUsageDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastUsageDate) { // not required
 		return nil
 	}
@@ -49,6 +50,11 @@ func (m *AccessKeyLastUsage) validateLastUsageDate(formats strfmt.Registry) erro
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this access key last usage based on context it is used
+func (m *AccessKeyLastUsage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

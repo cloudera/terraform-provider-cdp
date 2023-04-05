@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewCreateMachineUserAccessKeyParams creates a new CreateMachineUserAccessKeyParams object
-// with the default values initialized.
+// NewCreateMachineUserAccessKeyParams creates a new CreateMachineUserAccessKeyParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateMachineUserAccessKeyParams() *CreateMachineUserAccessKeyParams {
-	var ()
 	return &CreateMachineUserAccessKeyParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateMachineUserAccessKeyParamsWithTimeout creates a new CreateMachineUserAccessKeyParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateMachineUserAccessKeyParamsWithTimeout(timeout time.Duration) *CreateMachineUserAccessKeyParams {
-	var ()
 	return &CreateMachineUserAccessKeyParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateMachineUserAccessKeyParamsWithContext creates a new CreateMachineUserAccessKeyParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateMachineUserAccessKeyParamsWithContext(ctx context.Context) *CreateMachineUserAccessKeyParams {
-	var ()
 	return &CreateMachineUserAccessKeyParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateMachineUserAccessKeyParamsWithHTTPClient creates a new CreateMachineUserAccessKeyParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateMachineUserAccessKeyParamsWithHTTPClient(client *http.Client) *CreateMachineUserAccessKeyParams {
-	var ()
 	return &CreateMachineUserAccessKeyParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateMachineUserAccessKeyParams contains all the parameters to send to the API endpoint
-for the create machine user access key operation typically these are written to a http.Request
+/*
+CreateMachineUserAccessKeyParams contains all the parameters to send to the API endpoint
+
+	for the create machine user access key operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateMachineUserAccessKeyParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateMachineUserAccessKeyRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create machine user access key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateMachineUserAccessKeyParams) WithDefaults() *CreateMachineUserAccessKeyParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create machine user access key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateMachineUserAccessKeyParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create machine user access key params
@@ -121,7 +137,6 @@ func (o *CreateMachineUserAccessKeyParams) WriteToRequest(r runtime.ClientReques
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

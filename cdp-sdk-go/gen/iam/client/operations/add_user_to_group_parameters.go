@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewAddUserToGroupParams creates a new AddUserToGroupParams object
-// with the default values initialized.
+// NewAddUserToGroupParams creates a new AddUserToGroupParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddUserToGroupParams() *AddUserToGroupParams {
-	var ()
 	return &AddUserToGroupParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAddUserToGroupParamsWithTimeout creates a new AddUserToGroupParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAddUserToGroupParamsWithTimeout(timeout time.Duration) *AddUserToGroupParams {
-	var ()
 	return &AddUserToGroupParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAddUserToGroupParamsWithContext creates a new AddUserToGroupParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAddUserToGroupParamsWithContext(ctx context.Context) *AddUserToGroupParams {
-	var ()
 	return &AddUserToGroupParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAddUserToGroupParamsWithHTTPClient creates a new AddUserToGroupParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAddUserToGroupParamsWithHTTPClient(client *http.Client) *AddUserToGroupParams {
-	var ()
 	return &AddUserToGroupParams{
 		HTTPClient: client,
 	}
 }
 
-/*AddUserToGroupParams contains all the parameters to send to the API endpoint
-for the add user to group operation typically these are written to a http.Request
+/*
+AddUserToGroupParams contains all the parameters to send to the API endpoint
+
+	for the add user to group operation.
+
+	Typically these are written to a http.Request.
 */
 type AddUserToGroupParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.AddUserToGroupRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the add user to group params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddUserToGroupParams) WithDefaults() *AddUserToGroupParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the add user to group params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddUserToGroupParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the add user to group params
@@ -121,7 +137,6 @@ func (o *AddUserToGroupParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

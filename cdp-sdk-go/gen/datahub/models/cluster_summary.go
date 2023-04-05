@@ -6,6 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"encoding/json"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +19,10 @@ import (
 //
 // swagger:model ClusterSummary
 type ClusterSummary struct {
+
+	// Indicates the certificate status on the cluster.
+	// Enum: [VALID HOST_CERT_EXPIRING]
+	CertificateExpirationState string `json:"certificateExpirationState,omitempty"`
 
 	// The name of the cloud platform.
 	CloudPlatform string `json:"cloudPlatform,omitempty"`
@@ -55,6 +62,10 @@ type ClusterSummary struct {
 func (m *ClusterSummary) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCertificateExpirationState(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateClusterName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -73,6 +84,48 @@ func (m *ClusterSummary) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+var clusterSummaryTypeCertificateExpirationStatePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["VALID","HOST_CERT_EXPIRING"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		clusterSummaryTypeCertificateExpirationStatePropEnum = append(clusterSummaryTypeCertificateExpirationStatePropEnum, v)
+	}
+}
+
+const (
+
+	// ClusterSummaryCertificateExpirationStateVALID captures enum value "VALID"
+	ClusterSummaryCertificateExpirationStateVALID string = "VALID"
+
+	// ClusterSummaryCertificateExpirationStateHOSTCERTEXPIRING captures enum value "HOST_CERT_EXPIRING"
+	ClusterSummaryCertificateExpirationStateHOSTCERTEXPIRING string = "HOST_CERT_EXPIRING"
+)
+
+// prop value enum
+func (m *ClusterSummary) validateCertificateExpirationStateEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, clusterSummaryTypeCertificateExpirationStatePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *ClusterSummary) validateCertificateExpirationState(formats strfmt.Registry) error {
+	if swag.IsZero(m.CertificateExpirationState) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateCertificateExpirationStateEnum("certificateExpirationState", "body", m.CertificateExpirationState); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *ClusterSummary) validateClusterName(formats strfmt.Registry) error {
 
 	if err := validate.Required("clusterName", "body", m.ClusterName); err != nil {
@@ -83,7 +136,6 @@ func (m *ClusterSummary) validateClusterName(formats strfmt.Registry) error {
 }
 
 func (m *ClusterSummary) validateCreationDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreationDate) { // not required
 		return nil
 	}
@@ -101,6 +153,11 @@ func (m *ClusterSummary) validateCrn(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this cluster summary based on context it is used
+func (m *ClusterSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

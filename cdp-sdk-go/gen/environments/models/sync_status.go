@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model SyncStatus
 type SyncStatus string
+
+func NewSyncStatus(value SyncStatus) *SyncStatus {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated SyncStatus.
+func (m SyncStatus) Pointer() *SyncStatus {
+	return &m
+}
 
 const (
 
@@ -56,7 +66,7 @@ func init() {
 }
 
 func (m SyncStatus) validateSyncStatusEnum(path, location string, value SyncStatus) error {
-	if err := validate.Enum(path, location, value, syncStatusEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, syncStatusEnum, true); err != nil {
 		return err
 	}
 	return nil
@@ -74,5 +84,10 @@ func (m SyncStatus) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this sync status based on context it is used
+func (m SyncStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

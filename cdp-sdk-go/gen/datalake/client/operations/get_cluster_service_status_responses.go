@@ -46,7 +46,8 @@ func NewGetClusterServiceStatusOK() *GetClusterServiceStatusOK {
 	return &GetClusterServiceStatusOK{}
 }
 
-/*GetClusterServiceStatusOK handles this case with default header values.
+/*
+GetClusterServiceStatusOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetClusterServiceStatusOK struct {
 	Payload *models.GetClusterServiceStatusResponse
 }
 
+// IsSuccess returns true when this get cluster service status o k response has a 2xx status code
+func (o *GetClusterServiceStatusOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get cluster service status o k response has a 3xx status code
+func (o *GetClusterServiceStatusOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get cluster service status o k response has a 4xx status code
+func (o *GetClusterServiceStatusOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get cluster service status o k response has a 5xx status code
+func (o *GetClusterServiceStatusOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get cluster service status o k response a status code equal to that given
+func (o *GetClusterServiceStatusOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get cluster service status o k response
+func (o *GetClusterServiceStatusOK) Code() int {
+	return 200
+}
+
 func (o *GetClusterServiceStatusOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/getClusterServiceStatus][%d] getClusterServiceStatusOK  %+v", 200, o.Payload)
+}
+
+func (o *GetClusterServiceStatusOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/getClusterServiceStatus][%d] getClusterServiceStatusOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetClusterServiceStatusDefault(code int) *GetClusterServiceStatusDefault
 	}
 }
 
-/*GetClusterServiceStatusDefault handles this case with default header values.
+/*
+GetClusterServiceStatusDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetClusterServiceStatusDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get cluster service status default response has a 2xx status code
+func (o *GetClusterServiceStatusDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get cluster service status default response has a 3xx status code
+func (o *GetClusterServiceStatusDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get cluster service status default response has a 4xx status code
+func (o *GetClusterServiceStatusDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get cluster service status default response has a 5xx status code
+func (o *GetClusterServiceStatusDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get cluster service status default response a status code equal to that given
+func (o *GetClusterServiceStatusDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get cluster service status default response
 func (o *GetClusterServiceStatusDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetClusterServiceStatusDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/getClusterServiceStatus][%d] getClusterServiceStatus default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetClusterServiceStatusDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/getClusterServiceStatus][%d] getClusterServiceStatus default  %+v", o._statusCode, o.Payload)
 }
 

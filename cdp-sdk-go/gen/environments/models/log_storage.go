@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -26,6 +28,9 @@ type LogStorage struct {
 	// Whether external log storage is enabled.
 	// Required: true
 	Enabled *bool `json:"enabled"`
+
+	// gcp details
+	GcpDetails *LogStorageGcpDetails `json:"gcpDetails,omitempty"`
 }
 
 // Validate validates this log storage
@@ -44,6 +49,10 @@ func (m *LogStorage) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateGcpDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -51,7 +60,6 @@ func (m *LogStorage) Validate(formats strfmt.Registry) error {
 }
 
 func (m *LogStorage) validateAwsDetails(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AwsDetails) { // not required
 		return nil
 	}
@@ -60,6 +68,8 @@ func (m *LogStorage) validateAwsDetails(formats strfmt.Registry) error {
 		if err := m.AwsDetails.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsDetails")
 			}
 			return err
 		}
@@ -69,7 +79,6 @@ func (m *LogStorage) validateAwsDetails(formats strfmt.Registry) error {
 }
 
 func (m *LogStorage) validateAzureDetails(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AzureDetails) { // not required
 		return nil
 	}
@@ -78,6 +87,8 @@ func (m *LogStorage) validateAzureDetails(formats strfmt.Registry) error {
 		if err := m.AzureDetails.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azureDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails")
 			}
 			return err
 		}
@@ -90,6 +101,95 @@ func (m *LogStorage) validateEnabled(formats strfmt.Registry) error {
 
 	if err := validate.Required("enabled", "body", m.Enabled); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *LogStorage) validateGcpDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.GcpDetails) { // not required
+		return nil
+	}
+
+	if m.GcpDetails != nil {
+		if err := m.GcpDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcpDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcpDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this log storage based on the context it is used
+func (m *LogStorage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAwsDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAzureDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateGcpDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *LogStorage) contextValidateAwsDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AwsDetails != nil {
+		if err := m.AwsDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *LogStorage) contextValidateAzureDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AzureDetails != nil {
+		if err := m.AzureDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *LogStorage) contextValidateGcpDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.GcpDetails != nil {
+		if err := m.GcpDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcpDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcpDetails")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -130,6 +230,11 @@ func (m *LogStorageAwsDetails) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+// ContextValidate validates this log storage aws details based on context it is used
+func (m *LogStorageAwsDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (m *LogStorageAwsDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
@@ -165,6 +270,11 @@ func (m *LogStorageAzureDetails) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+// ContextValidate validates this log storage azure details based on context it is used
+func (m *LogStorageAzureDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (m *LogStorageAzureDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
@@ -176,6 +286,46 @@ func (m *LogStorageAzureDetails) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *LogStorageAzureDetails) UnmarshalBinary(b []byte) error {
 	var res LogStorageAzureDetails
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// LogStorageGcpDetails GCP-specific log storage configuration information.
+//
+// swagger:model LogStorageGcpDetails
+type LogStorageGcpDetails struct {
+
+	// Email ID of the service account associated with the logging instances.
+	ServiceAccountEmail string `json:"serviceAccountEmail,omitempty"`
+
+	// The storage location to use. This should be a gs:// url.
+	StorageLocationBase string `json:"storageLocationBase,omitempty"`
+}
+
+// Validate validates this log storage gcp details
+func (m *LogStorageGcpDetails) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this log storage gcp details based on context it is used
+func (m *LogStorageGcpDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *LogStorageGcpDetails) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *LogStorageGcpDetails) UnmarshalBinary(b []byte) error {
+	var res LogStorageGcpDetails
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

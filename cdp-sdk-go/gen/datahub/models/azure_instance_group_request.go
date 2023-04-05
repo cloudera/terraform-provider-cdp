@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -53,6 +55,10 @@ type AzureInstanceGroupRequest struct {
 	// Maximum: 100
 	// Minimum: 0
 	SpotPercentage *int32 `json:"spotPercentage,omitempty"`
+
+	// Controls how to handle local storage in the instance group. Supported values: ATTACHED_VOLUMES - default behaviour. EPHEMERAL_VOLUMES - use local storage as cache. EPHEMERAL_VOLUMES_ONLY - use local storage for everything.
+	// Enum: [ATTACHED_VOLUMES EPHEMERAL_VOLUMES EPHEMERAL_VOLUMES_ONLY]
+	TemporaryStorage string `json:"temporaryStorage,omitempty"`
 }
 
 // Validate validates this azure instance group request
@@ -87,6 +93,10 @@ func (m *AzureInstanceGroupRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateTemporaryStorage(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -108,6 +118,8 @@ func (m *AzureInstanceGroupRequest) validateAttachedVolumeConfiguration(formats 
 			if err := m.AttachedVolumeConfiguration[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -164,7 +176,6 @@ func (m *AzureInstanceGroupRequest) validateRootVolumeSize(formats strfmt.Regist
 }
 
 func (m *AzureInstanceGroupRequest) validateSpotPercentage(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SpotPercentage) { // not required
 		return nil
 	}
@@ -175,6 +186,85 @@ func (m *AzureInstanceGroupRequest) validateSpotPercentage(formats strfmt.Regist
 
 	if err := validate.MaximumInt("spotPercentage", "body", int64(*m.SpotPercentage), 100, false); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+var azureInstanceGroupRequestTypeTemporaryStoragePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["ATTACHED_VOLUMES","EPHEMERAL_VOLUMES","EPHEMERAL_VOLUMES_ONLY"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		azureInstanceGroupRequestTypeTemporaryStoragePropEnum = append(azureInstanceGroupRequestTypeTemporaryStoragePropEnum, v)
+	}
+}
+
+const (
+
+	// AzureInstanceGroupRequestTemporaryStorageATTACHEDVOLUMES captures enum value "ATTACHED_VOLUMES"
+	AzureInstanceGroupRequestTemporaryStorageATTACHEDVOLUMES string = "ATTACHED_VOLUMES"
+
+	// AzureInstanceGroupRequestTemporaryStorageEPHEMERALVOLUMES captures enum value "EPHEMERAL_VOLUMES"
+	AzureInstanceGroupRequestTemporaryStorageEPHEMERALVOLUMES string = "EPHEMERAL_VOLUMES"
+
+	// AzureInstanceGroupRequestTemporaryStorageEPHEMERALVOLUMESONLY captures enum value "EPHEMERAL_VOLUMES_ONLY"
+	AzureInstanceGroupRequestTemporaryStorageEPHEMERALVOLUMESONLY string = "EPHEMERAL_VOLUMES_ONLY"
+)
+
+// prop value enum
+func (m *AzureInstanceGroupRequest) validateTemporaryStorageEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, azureInstanceGroupRequestTypeTemporaryStoragePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *AzureInstanceGroupRequest) validateTemporaryStorage(formats strfmt.Registry) error {
+	if swag.IsZero(m.TemporaryStorage) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateTemporaryStorageEnum("temporaryStorage", "body", m.TemporaryStorage); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this azure instance group request based on the context it is used
+func (m *AzureInstanceGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAttachedVolumeConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AzureInstanceGroupRequest) contextValidateAttachedVolumeConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AttachedVolumeConfiguration); i++ {
+
+		if m.AttachedVolumeConfiguration[i] != nil {
+			if err := m.AttachedVolumeConfiguration[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

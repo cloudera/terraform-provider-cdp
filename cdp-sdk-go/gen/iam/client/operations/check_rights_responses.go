@@ -46,7 +46,8 @@ func NewCheckRightsOK() *CheckRightsOK {
 	return &CheckRightsOK{}
 }
 
-/*CheckRightsOK handles this case with default header values.
+/*
+CheckRightsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CheckRightsOK struct {
 	Payload *models.CheckRightsResponse
 }
 
+// IsSuccess returns true when this check rights o k response has a 2xx status code
+func (o *CheckRightsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this check rights o k response has a 3xx status code
+func (o *CheckRightsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this check rights o k response has a 4xx status code
+func (o *CheckRightsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this check rights o k response has a 5xx status code
+func (o *CheckRightsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this check rights o k response a status code equal to that given
+func (o *CheckRightsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the check rights o k response
+func (o *CheckRightsOK) Code() int {
+	return 200
+}
+
 func (o *CheckRightsOK) Error() string {
+	return fmt.Sprintf("[POST /iam/checkRights][%d] checkRightsOK  %+v", 200, o.Payload)
+}
+
+func (o *CheckRightsOK) String() string {
 	return fmt.Sprintf("[POST /iam/checkRights][%d] checkRightsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCheckRightsDefault(code int) *CheckRightsDefault {
 	}
 }
 
-/*CheckRightsDefault handles this case with default header values.
+/*
+CheckRightsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CheckRightsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this check rights default response has a 2xx status code
+func (o *CheckRightsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this check rights default response has a 3xx status code
+func (o *CheckRightsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this check rights default response has a 4xx status code
+func (o *CheckRightsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this check rights default response has a 5xx status code
+func (o *CheckRightsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this check rights default response a status code equal to that given
+func (o *CheckRightsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the check rights default response
 func (o *CheckRightsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CheckRightsDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/checkRights][%d] checkRights default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CheckRightsDefault) String() string {
 	return fmt.Sprintf("[POST /iam/checkRights][%d] checkRights default  %+v", o._statusCode, o.Payload)
 }
 

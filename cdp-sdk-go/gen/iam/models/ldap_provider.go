@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -25,7 +27,7 @@ type LdapProvider struct {
 	// Required: true
 	Crn *string `json:"crn"`
 
-	// Name of the LDAP provider connector.
+	// The unique ID of the LDAP provider.
 	// Required: true
 	IdentityProviderConnectorID *string `json:"identityProviderConnectorId"`
 
@@ -103,7 +105,6 @@ func (m *LdapProvider) validateIdentityProviderConnectorID(formats strfmt.Regist
 }
 
 func (m *LdapProvider) validateLdapDetails(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LdapDetails) { // not required
 		return nil
 	}
@@ -112,6 +113,8 @@ func (m *LdapProvider) validateLdapDetails(formats strfmt.Registry) error {
 		if err := m.LdapDetails.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ldapDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ldapDetails")
 			}
 			return err
 		}
@@ -133,6 +136,36 @@ func (m *LdapProvider) validateSkipGroupSyncOnLogin(formats strfmt.Registry) err
 
 	if err := validate.Required("skipGroupSyncOnLogin", "body", m.SkipGroupSyncOnLogin); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this ldap provider based on the context it is used
+func (m *LdapProvider) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLdapDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *LdapProvider) contextValidateLdapDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LdapDetails != nil {
+		if err := m.LdapDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ldapDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ldapDetails")
+			}
+			return err
+		}
 	}
 
 	return nil

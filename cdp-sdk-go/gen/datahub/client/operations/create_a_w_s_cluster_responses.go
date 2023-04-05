@@ -46,7 +46,8 @@ func NewCreateAWSClusterOK() *CreateAWSClusterOK {
 	return &CreateAWSClusterOK{}
 }
 
-/*CreateAWSClusterOK handles this case with default header values.
+/*
+CreateAWSClusterOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateAWSClusterOK struct {
 	Payload *models.CreateAWSClusterResponse
 }
 
+// IsSuccess returns true when this create a w s cluster o k response has a 2xx status code
+func (o *CreateAWSClusterOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create a w s cluster o k response has a 3xx status code
+func (o *CreateAWSClusterOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create a w s cluster o k response has a 4xx status code
+func (o *CreateAWSClusterOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create a w s cluster o k response has a 5xx status code
+func (o *CreateAWSClusterOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create a w s cluster o k response a status code equal to that given
+func (o *CreateAWSClusterOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create a w s cluster o k response
+func (o *CreateAWSClusterOK) Code() int {
+	return 200
+}
+
 func (o *CreateAWSClusterOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSClusterOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateAWSClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSClusterOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateAWSClusterDefault(code int) *CreateAWSClusterDefault {
 	}
 }
 
-/*CreateAWSClusterDefault handles this case with default header values.
+/*
+CreateAWSClusterDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateAWSClusterDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create a w s cluster default response has a 2xx status code
+func (o *CreateAWSClusterDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create a w s cluster default response has a 3xx status code
+func (o *CreateAWSClusterDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create a w s cluster default response has a 4xx status code
+func (o *CreateAWSClusterDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create a w s cluster default response has a 5xx status code
+func (o *CreateAWSClusterDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create a w s cluster default response a status code equal to that given
+func (o *CreateAWSClusterDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create a w s cluster default response
 func (o *CreateAWSClusterDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateAWSClusterDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSCluster default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateAWSClusterDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSCluster default  %+v", o._statusCode, o.Payload)
 }
 

@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewDescribeClusterTemplateParams creates a new DescribeClusterTemplateParams object
-// with the default values initialized.
+// NewDescribeClusterTemplateParams creates a new DescribeClusterTemplateParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeClusterTemplateParams() *DescribeClusterTemplateParams {
-	var ()
 	return &DescribeClusterTemplateParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDescribeClusterTemplateParamsWithTimeout creates a new DescribeClusterTemplateParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDescribeClusterTemplateParamsWithTimeout(timeout time.Duration) *DescribeClusterTemplateParams {
-	var ()
 	return &DescribeClusterTemplateParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDescribeClusterTemplateParamsWithContext creates a new DescribeClusterTemplateParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDescribeClusterTemplateParamsWithContext(ctx context.Context) *DescribeClusterTemplateParams {
-	var ()
 	return &DescribeClusterTemplateParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDescribeClusterTemplateParamsWithHTTPClient creates a new DescribeClusterTemplateParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDescribeClusterTemplateParamsWithHTTPClient(client *http.Client) *DescribeClusterTemplateParams {
-	var ()
 	return &DescribeClusterTemplateParams{
 		HTTPClient: client,
 	}
 }
 
-/*DescribeClusterTemplateParams contains all the parameters to send to the API endpoint
-for the describe cluster template operation typically these are written to a http.Request
+/*
+DescribeClusterTemplateParams contains all the parameters to send to the API endpoint
+
+	for the describe cluster template operation.
+
+	Typically these are written to a http.Request.
 */
 type DescribeClusterTemplateParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DescribeClusterTemplateRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the describe cluster template params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeClusterTemplateParams) WithDefaults() *DescribeClusterTemplateParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the describe cluster template params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeClusterTemplateParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the describe cluster template params
@@ -121,7 +137,6 @@ func (o *DescribeClusterTemplateParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

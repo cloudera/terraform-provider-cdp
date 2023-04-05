@@ -6,36 +6,112 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"strconv"
+
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
-// ExposedService Discovered CdpCluster object.
+// ExposedService Exposed CDP DC service object.
 //
 // swagger:model ExposedService
 type ExposedService struct {
 
-	// Display name of service
+	// Display name of service.
 	DisplayName string `json:"displayName,omitempty"`
 
-	// Name of service
+	// Name of service.
 	Name string `json:"name,omitempty"`
 
-	// Url of service
+	// URL of service.
 	ServiceURL string `json:"serviceUrl,omitempty"`
 
-	// Version of service
+	// List of service validation message.
+	ServiceValidationMessages []*EnvValidation `json:"serviceValidationMessages"`
+
+	// Version of service.
 	ServiceVersion string `json:"serviceVersion,omitempty"`
 
-	// Status of service
+	// Status of service.
 	Status string `json:"status,omitempty"`
 
-	// Type of service
+	// Type of service.
 	Type string `json:"type,omitempty"`
 }
 
 // Validate validates this exposed service
 func (m *ExposedService) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateServiceValidationMessages(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ExposedService) validateServiceValidationMessages(formats strfmt.Registry) error {
+	if swag.IsZero(m.ServiceValidationMessages) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.ServiceValidationMessages); i++ {
+		if swag.IsZero(m.ServiceValidationMessages[i]) { // not required
+			continue
+		}
+
+		if m.ServiceValidationMessages[i] != nil {
+			if err := m.ServiceValidationMessages[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("serviceValidationMessages" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("serviceValidationMessages" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this exposed service based on the context it is used
+func (m *ExposedService) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateServiceValidationMessages(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ExposedService) contextValidateServiceValidationMessages(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ServiceValidationMessages); i++ {
+
+		if m.ServiceValidationMessages[i] != nil {
+			if err := m.ServiceValidationMessages[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("serviceValidationMessages" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("serviceValidationMessages" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

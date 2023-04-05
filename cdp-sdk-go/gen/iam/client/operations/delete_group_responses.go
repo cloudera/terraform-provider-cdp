@@ -46,7 +46,8 @@ func NewDeleteGroupOK() *DeleteGroupOK {
 	return &DeleteGroupOK{}
 }
 
-/*DeleteGroupOK handles this case with default header values.
+/*
+DeleteGroupOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteGroupOK struct {
 	Payload models.DeleteGroupResponse
 }
 
+// IsSuccess returns true when this delete group o k response has a 2xx status code
+func (o *DeleteGroupOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete group o k response has a 3xx status code
+func (o *DeleteGroupOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete group o k response has a 4xx status code
+func (o *DeleteGroupOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete group o k response has a 5xx status code
+func (o *DeleteGroupOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete group o k response a status code equal to that given
+func (o *DeleteGroupOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete group o k response
+func (o *DeleteGroupOK) Code() int {
+	return 200
+}
+
 func (o *DeleteGroupOK) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroupOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteGroupOK) String() string {
 	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroupOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteGroupDefault(code int) *DeleteGroupDefault {
 	}
 }
 
-/*DeleteGroupDefault handles this case with default header values.
+/*
+DeleteGroupDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteGroupDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete group default response has a 2xx status code
+func (o *DeleteGroupDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete group default response has a 3xx status code
+func (o *DeleteGroupDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete group default response has a 4xx status code
+func (o *DeleteGroupDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete group default response has a 5xx status code
+func (o *DeleteGroupDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete group default response a status code equal to that given
+func (o *DeleteGroupDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete group default response
 func (o *DeleteGroupDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteGroupDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroup default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteGroupDefault) String() string {
 	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroup default  %+v", o._statusCode, o.Payload)
 }
 

@@ -46,7 +46,8 @@ func NewGetLogsOK() *GetLogsOK {
 	return &GetLogsOK{}
 }
 
-/*GetLogsOK handles this case with default header values.
+/*
+GetLogsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetLogsOK struct {
 	Payload *models.GetLogsResponse
 }
 
+// IsSuccess returns true when this get logs o k response has a 2xx status code
+func (o *GetLogsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get logs o k response has a 3xx status code
+func (o *GetLogsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get logs o k response has a 4xx status code
+func (o *GetLogsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get logs o k response has a 5xx status code
+func (o *GetLogsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get logs o k response a status code equal to that given
+func (o *GetLogsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get logs o k response
+func (o *GetLogsOK) Code() int {
+	return 200
+}
+
 func (o *GetLogsOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/getLogs][%d] getLogsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetLogsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/getLogs][%d] getLogsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetLogsDefault(code int) *GetLogsDefault {
 	}
 }
 
-/*GetLogsDefault handles this case with default header values.
+/*
+GetLogsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetLogsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get logs default response has a 2xx status code
+func (o *GetLogsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get logs default response has a 3xx status code
+func (o *GetLogsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get logs default response has a 4xx status code
+func (o *GetLogsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get logs default response has a 5xx status code
+func (o *GetLogsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get logs default response a status code equal to that given
+func (o *GetLogsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get logs default response
 func (o *GetLogsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetLogsDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/getLogs][%d] getLogs default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetLogsDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/getLogs][%d] getLogs default  %+v", o._statusCode, o.Payload)
 }
 

@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewAddMachineUserToGroupParams creates a new AddMachineUserToGroupParams object
-// with the default values initialized.
+// NewAddMachineUserToGroupParams creates a new AddMachineUserToGroupParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddMachineUserToGroupParams() *AddMachineUserToGroupParams {
-	var ()
 	return &AddMachineUserToGroupParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAddMachineUserToGroupParamsWithTimeout creates a new AddMachineUserToGroupParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAddMachineUserToGroupParamsWithTimeout(timeout time.Duration) *AddMachineUserToGroupParams {
-	var ()
 	return &AddMachineUserToGroupParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAddMachineUserToGroupParamsWithContext creates a new AddMachineUserToGroupParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAddMachineUserToGroupParamsWithContext(ctx context.Context) *AddMachineUserToGroupParams {
-	var ()
 	return &AddMachineUserToGroupParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAddMachineUserToGroupParamsWithHTTPClient creates a new AddMachineUserToGroupParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAddMachineUserToGroupParamsWithHTTPClient(client *http.Client) *AddMachineUserToGroupParams {
-	var ()
 	return &AddMachineUserToGroupParams{
 		HTTPClient: client,
 	}
 }
 
-/*AddMachineUserToGroupParams contains all the parameters to send to the API endpoint
-for the add machine user to group operation typically these are written to a http.Request
+/*
+AddMachineUserToGroupParams contains all the parameters to send to the API endpoint
+
+	for the add machine user to group operation.
+
+	Typically these are written to a http.Request.
 */
 type AddMachineUserToGroupParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.AddMachineUserToGroupRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the add machine user to group params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddMachineUserToGroupParams) WithDefaults() *AddMachineUserToGroupParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the add machine user to group params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddMachineUserToGroupParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the add machine user to group params
@@ -121,7 +137,6 @@ func (o *AddMachineUserToGroupParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

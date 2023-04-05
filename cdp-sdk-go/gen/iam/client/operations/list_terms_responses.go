@@ -46,7 +46,8 @@ func NewListTermsOK() *ListTermsOK {
 	return &ListTermsOK{}
 }
 
-/*ListTermsOK handles this case with default header values.
+/*
+ListTermsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListTermsOK struct {
 	Payload *models.ListTermsResponse
 }
 
+// IsSuccess returns true when this list terms o k response has a 2xx status code
+func (o *ListTermsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list terms o k response has a 3xx status code
+func (o *ListTermsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list terms o k response has a 4xx status code
+func (o *ListTermsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list terms o k response has a 5xx status code
+func (o *ListTermsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list terms o k response a status code equal to that given
+func (o *ListTermsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list terms o k response
+func (o *ListTermsOK) Code() int {
+	return 200
+}
+
 func (o *ListTermsOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listTerms][%d] listTermsOK  %+v", 200, o.Payload)
+}
+
+func (o *ListTermsOK) String() string {
 	return fmt.Sprintf("[POST /iam/listTerms][%d] listTermsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListTermsDefault(code int) *ListTermsDefault {
 	}
 }
 
-/*ListTermsDefault handles this case with default header values.
+/*
+ListTermsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListTermsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list terms default response has a 2xx status code
+func (o *ListTermsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list terms default response has a 3xx status code
+func (o *ListTermsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list terms default response has a 4xx status code
+func (o *ListTermsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list terms default response has a 5xx status code
+func (o *ListTermsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list terms default response a status code equal to that given
+func (o *ListTermsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list terms default response
 func (o *ListTermsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListTermsDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listTerms][%d] listTerms default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListTermsDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listTerms][%d] listTerms default  %+v", o._statusCode, o.Payload)
 }
 

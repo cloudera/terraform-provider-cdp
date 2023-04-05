@@ -46,7 +46,8 @@ func NewDescribeDatalakeOK() *DescribeDatalakeOK {
 	return &DescribeDatalakeOK{}
 }
 
-/*DescribeDatalakeOK handles this case with default header values.
+/*
+DescribeDatalakeOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DescribeDatalakeOK struct {
 	Payload *models.DescribeDatalakeResponse
 }
 
+// IsSuccess returns true when this describe datalake o k response has a 2xx status code
+func (o *DescribeDatalakeOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this describe datalake o k response has a 3xx status code
+func (o *DescribeDatalakeOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this describe datalake o k response has a 4xx status code
+func (o *DescribeDatalakeOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this describe datalake o k response has a 5xx status code
+func (o *DescribeDatalakeOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this describe datalake o k response a status code equal to that given
+func (o *DescribeDatalakeOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the describe datalake o k response
+func (o *DescribeDatalakeOK) Code() int {
+	return 200
+}
+
 func (o *DescribeDatalakeOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/describeDatalake][%d] describeDatalakeOK  %+v", 200, o.Payload)
+}
+
+func (o *DescribeDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/describeDatalake][%d] describeDatalakeOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDescribeDatalakeDefault(code int) *DescribeDatalakeDefault {
 	}
 }
 
-/*DescribeDatalakeDefault handles this case with default header values.
+/*
+DescribeDatalakeDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DescribeDatalakeDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this describe datalake default response has a 2xx status code
+func (o *DescribeDatalakeDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this describe datalake default response has a 3xx status code
+func (o *DescribeDatalakeDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this describe datalake default response has a 4xx status code
+func (o *DescribeDatalakeDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this describe datalake default response has a 5xx status code
+func (o *DescribeDatalakeDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this describe datalake default response a status code equal to that given
+func (o *DescribeDatalakeDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the describe datalake default response
 func (o *DescribeDatalakeDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DescribeDatalakeDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/describeDatalake][%d] describeDatalake default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DescribeDatalakeDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/describeDatalake][%d] describeDatalake default  %+v", o._statusCode, o.Payload)
 }
 

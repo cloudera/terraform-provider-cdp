@@ -23,177 +23,209 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	AcceptTerms(params *AcceptTermsParams) (*AcceptTermsOK, error)
+	AcceptTerms(params *AcceptTermsParams, opts ...ClientOption) (*AcceptTermsOK, error)
 
-	AddMachineUserToGroup(params *AddMachineUserToGroupParams) (*AddMachineUserToGroupOK, error)
+	AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error)
 
-	AddSSHPublicKey(params *AddSSHPublicKeyParams) (*AddSSHPublicKeyOK, error)
+	AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error)
 
-	AddUserToGroup(params *AddUserToGroupParams) (*AddUserToGroupOK, error)
+	AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error)
 
-	AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams) (*AssignAzureCloudIdentityOK, error)
+	AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error)
 
-	AssignGroupResourceRole(params *AssignGroupResourceRoleParams) (*AssignGroupResourceRoleOK, error)
+	AssignGroupResourceRole(params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error)
 
-	AssignGroupRole(params *AssignGroupRoleParams) (*AssignGroupRoleOK, error)
+	AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error)
 
-	AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams) (*AssignMachineUserResourceRoleOK, error)
+	AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error)
 
-	AssignMachineUserRole(params *AssignMachineUserRoleParams) (*AssignMachineUserRoleOK, error)
+	AssignMachineUserRole(params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error)
 
-	AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams) (*AssignServicePrincipalAzureCloudIdentityOK, error)
+	AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error)
 
-	AssignUserResourceRole(params *AssignUserResourceRoleParams) (*AssignUserResourceRoleOK, error)
+	AssignUserResourceRole(params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error)
 
-	AssignUserRole(params *AssignUserRoleParams) (*AssignUserRoleOK, error)
+	AssignUserRole(params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error)
 
-	CheckRights(params *CheckRightsParams) (*CheckRightsOK, error)
+	CheckRights(params *CheckRightsParams, opts ...ClientOption) (*CheckRightsOK, error)
 
-	CreateGroup(params *CreateGroupParams) (*CreateGroupOK, error)
+	CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error)
 
-	CreateLdapProvider(params *CreateLdapProviderParams) (*CreateLdapProviderOK, error)
+	CreateLdapProvider(params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error)
 
-	CreateMachineUser(params *CreateMachineUserParams) (*CreateMachineUserOK, error)
+	CreateMachineUser(params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error)
 
-	CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams) (*CreateMachineUserAccessKeyOK, error)
+	CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error)
 
-	CreateSamlProvider(params *CreateSamlProviderParams) (*CreateSamlProviderOK, error)
+	CreateSamlProvider(params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error)
 
-	CreateUser(params *CreateUserParams) (*CreateUserOK, error)
+	CreateScimAccessToken(params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error)
 
-	CreateUserAccessKey(params *CreateUserAccessKeyParams) (*CreateUserAccessKeyOK, error)
+	CreateUser(params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error)
 
-	DeleteAccessKey(params *DeleteAccessKeyParams) (*DeleteAccessKeyOK, error)
+	CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error)
 
-	DeleteGroup(params *DeleteGroupParams) (*DeleteGroupOK, error)
+	DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error)
 
-	DeleteMachineUser(params *DeleteMachineUserParams) (*DeleteMachineUserOK, error)
+	DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error)
 
-	DeleteSamlProvider(params *DeleteSamlProviderParams) (*DeleteSamlProviderOK, error)
+	DeleteMachineUser(params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error)
 
-	DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams) (*DeleteSSHPublicKeyOK, error)
+	DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error)
 
-	DeleteUser(params *DeleteUserParams) (*DeleteUserOK, error)
+	DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error)
 
-	DescribeLdapProvider(params *DescribeLdapProviderParams) (*DescribeLdapProviderOK, error)
+	DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error)
 
-	DescribeSamlProvider(params *DescribeSamlProviderParams) (*DescribeSamlProviderOK, error)
+	DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error)
 
-	DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams) (*DescribeSSHPublicKeyOK, error)
+	DescribeLdapProvider(params *DescribeLdapProviderParams, opts ...ClientOption) (*DescribeLdapProviderOK, error)
 
-	DescribeTerms(params *DescribeTermsParams) (*DescribeTermsOK, error)
+	DescribeSamlProvider(params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error)
 
-	DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams) (*DisableClouderaSSOLoginOK, error)
+	DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error)
 
-	EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams) (*EnableClouderaSSOLoginOK, error)
+	DescribeTerms(params *DescribeTermsParams, opts ...ClientOption) (*DescribeTermsOK, error)
 
-	GetAccessKey(params *GetAccessKeyParams) (*GetAccessKeyOK, error)
+	DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error)
 
-	GetAccount(params *GetAccountParams) (*GetAccountOK, error)
+	EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error)
 
-	GetAccountMessages(params *GetAccountMessagesParams) (*GetAccountMessagesOK, error)
+	GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error)
 
-	GetAssigneeAuthorizationInformation(params *GetAssigneeAuthorizationInformationParams) (*GetAssigneeAuthorizationInformationOK, error)
+	GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error)
 
-	GetUser(params *GetUserParams) (*GetUserOK, error)
+	GetAccount(params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error)
 
-	InitiateSupportCase(params *InitiateSupportCaseParams) (*InitiateSupportCaseOK, error)
+	GetAccountMessages(params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error)
 
-	ListAccessKeys(params *ListAccessKeysParams) (*ListAccessKeysOK, error)
+	GetAssigneeAuthorizationInformation(params *GetAssigneeAuthorizationInformationParams, opts ...ClientOption) (*GetAssigneeAuthorizationInformationOK, error)
 
-	ListEntitlements(params *ListEntitlementsParams) (*ListEntitlementsOK, error)
+	GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error)
 
-	ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams) (*ListGroupAssignedResourceRolesOK, error)
+	GetIntercomEncryptedEmailAddress(params *GetIntercomEncryptedEmailAddressParams, opts ...ClientOption) (*GetIntercomEncryptedEmailAddressOK, error)
 
-	ListGroupAssignedRoles(params *ListGroupAssignedRolesParams) (*ListGroupAssignedRolesOK, error)
+	GetPasswordPolicy(params *GetPasswordPolicyParams, opts ...ClientOption) (*GetPasswordPolicyOK, error)
 
-	ListGroupMembers(params *ListGroupMembersParams) (*ListGroupMembersOK, error)
+	GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserOK, error)
 
-	ListGroups(params *ListGroupsParams) (*ListGroupsOK, error)
+	InitiateSupportCase(params *InitiateSupportCaseParams, opts ...ClientOption) (*InitiateSupportCaseOK, error)
 
-	ListGroupsForMachineUser(params *ListGroupsForMachineUserParams) (*ListGroupsForMachineUserOK, error)
+	ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error)
 
-	ListGroupsForUser(params *ListGroupsForUserParams) (*ListGroupsForUserOK, error)
+	ListEntitlements(params *ListEntitlementsParams, opts ...ClientOption) (*ListEntitlementsOK, error)
 
-	ListLdapProviders(params *ListLdapProvidersParams) (*ListLdapProvidersOK, error)
+	ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error)
 
-	ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams) (*ListMachineUserAssignedResourceRolesOK, error)
+	ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error)
 
-	ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams) (*ListMachineUserAssignedRolesOK, error)
+	ListGroupMembers(params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error)
 
-	ListMachineUsers(params *ListMachineUsersParams) (*ListMachineUsersOK, error)
+	ListGroups(params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error)
 
-	ListResourceAssignees(params *ListResourceAssigneesParams) (*ListResourceAssigneesOK, error)
+	ListGroupsForMachineUser(params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error)
 
-	ListResourceRoleAssignments(params *ListResourceRoleAssignmentsParams) (*ListResourceRoleAssignmentsOK, error)
+	ListGroupsForUser(params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error)
 
-	ListResourceRoles(params *ListResourceRolesParams) (*ListResourceRolesOK, error)
+	ListLdapProviders(params *ListLdapProvidersParams, opts ...ClientOption) (*ListLdapProvidersOK, error)
 
-	ListRoles(params *ListRolesParams) (*ListRolesOK, error)
+	ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error)
 
-	ListSamlProviders(params *ListSamlProvidersParams) (*ListSamlProvidersOK, error)
+	ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error)
 
-	ListSSHPublicKeys(params *ListSSHPublicKeysParams) (*ListSSHPublicKeysOK, error)
+	ListMachineUsers(params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error)
 
-	ListTerms(params *ListTermsParams) (*ListTermsOK, error)
+	ListResourceAssignees(params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error)
 
-	ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams) (*ListUserAssignedResourceRolesOK, error)
+	ListResourceRoleAssignments(params *ListResourceRoleAssignmentsParams, opts ...ClientOption) (*ListResourceRoleAssignmentsOK, error)
 
-	ListUserAssignedRoles(params *ListUserAssignedRolesParams) (*ListUserAssignedRolesOK, error)
+	ListResourceRoles(params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error)
 
-	ListUsers(params *ListUsersParams) (*ListUsersOK, error)
+	ListRoles(params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error)
 
-	RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams) (*RemoveMachineUserFromGroupOK, error)
+	ListSamlProviders(params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error)
 
-	RemoveUserFromGroup(params *RemoveUserFromGroupParams) (*RemoveUserFromGroupOK, error)
+	ListScimAccessTokens(params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error)
 
-	SetAccountMessages(params *SetAccountMessagesParams) (*SetAccountMessagesOK, error)
+	ListServicePrincipalCloudIdentities(params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error)
 
-	SetWorkloadPassword(params *SetWorkloadPasswordParams) (*SetWorkloadPasswordOK, error)
+	ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error)
 
-	SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams) (*SetWorkloadPasswordPolicyOK, error)
+	ListTerms(params *ListTermsParams, opts ...ClientOption) (*ListTermsOK, error)
 
-	UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams) (*UnassignAzureCloudIdentityOK, error)
+	ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error)
 
-	UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams) (*UnassignGroupResourceRoleOK, error)
+	ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error)
 
-	UnassignGroupRole(params *UnassignGroupRoleParams) (*UnassignGroupRoleOK, error)
+	ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
 
-	UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams) (*UnassignMachineUserResourceRoleOK, error)
+	RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error)
 
-	UnassignMachineUserRole(params *UnassignMachineUserRoleParams) (*UnassignMachineUserRoleOK, error)
+	RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error)
 
-	UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams) (*UnassignServicePrincipalAzureCloudIdentityOK, error)
+	SetAccountMessages(params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error)
 
-	UnassignUserResourceRole(params *UnassignUserResourceRoleParams) (*UnassignUserResourceRoleOK, error)
+	SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error)
 
-	UnassignUserRole(params *UnassignUserRoleParams) (*UnassignUserRoleOK, error)
+	SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error)
 
-	UpdateAccessKey(params *UpdateAccessKeyParams) (*UpdateAccessKeyOK, error)
+	SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error)
 
-	UpdateGroup(params *UpdateGroupParams) (*UpdateGroupOK, error)
+	SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error)
 
-	UpdateLdapProvider(params *UpdateLdapProviderParams) (*UpdateLdapProviderOK, error)
+	UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error)
 
-	UpdateSamlProvider(params *UpdateSamlProviderParams) (*UpdateSamlProviderOK, error)
+	UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error)
+
+	UnassignGroupRole(params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error)
+
+	UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error)
+
+	UnassignMachineUserRole(params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error)
+
+	UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error)
+
+	UnassignUserResourceRole(params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error)
+
+	UnassignUserRole(params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error)
+
+	UnlockMachineUserInControlPlane(params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error)
+
+	UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error)
+
+	UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error)
+
+	UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error)
+
+	UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error)
+
+	UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error)
+
+	UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error)
+
+	UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error)
+
+	UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-  AcceptTerms accepts certain terms
+AcceptTerms accepts certain terms
 
-  Accept certain terms.
+Accept certain terms.
 */
-func (a *Client) AcceptTerms(params *AcceptTermsParams) (*AcceptTermsOK, error) {
+func (a *Client) AcceptTerms(params *AcceptTermsParams, opts ...ClientOption) (*AcceptTermsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAcceptTermsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "acceptTerms",
 		Method:             "POST",
 		PathPattern:        "/iam/acceptTerms",
@@ -204,7 +236,12 @@ func (a *Client) AcceptTerms(params *AcceptTermsParams) (*AcceptTermsOK, error) 
 		Reader:             &AcceptTermsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -218,17 +255,16 @@ func (a *Client) AcceptTerms(params *AcceptTermsParams) (*AcceptTermsOK, error) 
 }
 
 /*
-  AddMachineUserToGroup adds a machine user to group
+AddMachineUserToGroup adds a machine user to group
 
-  Add a machine user to a group.
+Add a machine user to a group.
 */
-func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams) (*AddMachineUserToGroupOK, error) {
+func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddMachineUserToGroupParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addMachineUserToGroup",
 		Method:             "POST",
 		PathPattern:        "/iam/addMachineUserToGroup",
@@ -239,7 +275,12 @@ func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams) (*Ad
 		Reader:             &AddMachineUserToGroupReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -253,17 +294,16 @@ func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams) (*Ad
 }
 
 /*
-  AddSSHPublicKey adds an SSH public key for an actor
+AddSSHPublicKey adds an SSH public key for an actor
 
-  Adds an SSH public key for an actor. The private key that corresponds to this public key can be used to SSH into any workload cluster that the actor is authorized to use.
+Adds an SSH public key for an actor. The private key that corresponds to this public key can be used to SSH into any workload cluster that the actor is authorized to use.
 */
-func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams) (*AddSSHPublicKeyOK, error) {
+func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddSSHPublicKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addSshPublicKey",
 		Method:             "POST",
 		PathPattern:        "/iam/addSshPublicKey",
@@ -274,7 +314,12 @@ func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams) (*AddSSHPublicKe
 		Reader:             &AddSSHPublicKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -288,17 +333,16 @@ func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams) (*AddSSHPublicKe
 }
 
 /*
-  AddUserToGroup adds a user to a group
+AddUserToGroup adds a user to a group
 
-  Add a user to group.
+Add a user to group.
 */
-func (a *Client) AddUserToGroup(params *AddUserToGroupParams) (*AddUserToGroupOK, error) {
+func (a *Client) AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddUserToGroupParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addUserToGroup",
 		Method:             "POST",
 		PathPattern:        "/iam/addUserToGroup",
@@ -309,7 +353,12 @@ func (a *Client) AddUserToGroup(params *AddUserToGroupParams) (*AddUserToGroupOK
 		Reader:             &AddUserToGroupReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -323,17 +372,16 @@ func (a *Client) AddUserToGroup(params *AddUserToGroupParams) (*AddUserToGroupOK
 }
 
 /*
-  AssignAzureCloudIdentity assigns an azure cloud identity to an actor or group
+AssignAzureCloudIdentity assigns an azure cloud identity to an actor or group
 
-  Assign an Azure cloud identity, i.e. an object ID (OID), to an actor or group.
+Assign an Azure cloud identity, i.e. an object ID (OID), to an actor or group.
 */
-func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams) (*AssignAzureCloudIdentityOK, error) {
+func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignAzureCloudIdentityParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignAzureCloudIdentity",
 		Method:             "POST",
 		PathPattern:        "/iam/assignAzureCloudIdentity",
@@ -344,7 +392,12 @@ func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams
 		Reader:             &AssignAzureCloudIdentityReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -358,17 +411,16 @@ func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams
 }
 
 /*
-  AssignGroupResourceRole assigns a resource role to a group
+AssignGroupResourceRole assigns a resource role to a group
 
-  Assign a resource role to a group. If the resource role is already assigned to the group the request will fail.
+Assign a resource role to a group. If the resource role is already assigned to the group the request will fail.
 */
-func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams) (*AssignGroupResourceRoleOK, error) {
+func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignGroupResourceRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignGroupResourceRole",
 		Method:             "POST",
 		PathPattern:        "/iam/assignGroupResourceRole",
@@ -379,7 +431,12 @@ func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams) 
 		Reader:             &AssignGroupResourceRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -393,17 +450,16 @@ func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams) 
 }
 
 /*
-  AssignGroupRole assigns a role to a group
+AssignGroupRole assigns a role to a group
 
-  Assign a role to a group. If the role is already assigned to the group the request will fail.
+Assign a role to a group. If the role is already assigned to the group the request will fail.
 */
-func (a *Client) AssignGroupRole(params *AssignGroupRoleParams) (*AssignGroupRoleOK, error) {
+func (a *Client) AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignGroupRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignGroupRole",
 		Method:             "POST",
 		PathPattern:        "/iam/assignGroupRole",
@@ -414,7 +470,12 @@ func (a *Client) AssignGroupRole(params *AssignGroupRoleParams) (*AssignGroupRol
 		Reader:             &AssignGroupRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -428,17 +489,16 @@ func (a *Client) AssignGroupRole(params *AssignGroupRoleParams) (*AssignGroupRol
 }
 
 /*
-  AssignMachineUserResourceRole assigns a resource role to a machine user
+AssignMachineUserResourceRole assigns a resource role to a machine user
 
-  Assign a resource role to a machine user. If the resource role is already assigned to the machine user the request will fail.
+Assign a resource role to a machine user. If the resource role is already assigned to the machine user the request will fail.
 */
-func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams) (*AssignMachineUserResourceRoleOK, error) {
+func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignMachineUserResourceRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignMachineUserResourceRole",
 		Method:             "POST",
 		PathPattern:        "/iam/assignMachineUserResourceRole",
@@ -449,7 +509,12 @@ func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResource
 		Reader:             &AssignMachineUserResourceRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -463,17 +528,16 @@ func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResource
 }
 
 /*
-  AssignMachineUserRole assigns a role to a machine user
+AssignMachineUserRole assigns a role to a machine user
 
-  Assign a role to a machine user. If the role is already assigned to the machine user the request will fail.
+Assign a role to a machine user. If the role is already assigned to the machine user the request will fail.
 */
-func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams) (*AssignMachineUserRoleOK, error) {
+func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignMachineUserRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignMachineUserRole",
 		Method:             "POST",
 		PathPattern:        "/iam/assignMachineUserRole",
@@ -484,7 +548,12 @@ func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams) (*As
 		Reader:             &AssignMachineUserRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -498,17 +567,16 @@ func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams) (*As
 }
 
 /*
-  AssignServicePrincipalAzureCloudIdentity assigns an azure cloud identity to a service principal or service principal category
+AssignServicePrincipalAzureCloudIdentity assigns an azure cloud identity to a service principal
 
-  Assign an Azure cloud identity, i.e. an object ID (OID), to a service principal or service principal category.
+Assign an Azure cloud identity, i.e. an object ID (OID), to a service principal.
 */
-func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams) (*AssignServicePrincipalAzureCloudIdentityOK, error) {
+func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignServicePrincipalAzureCloudIdentityParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignServicePrincipalAzureCloudIdentity",
 		Method:             "POST",
 		PathPattern:        "/iam/assignServicePrincipalAzureCloudIdentity",
@@ -519,7 +587,12 @@ func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServiceP
 		Reader:             &AssignServicePrincipalAzureCloudIdentityReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -533,17 +606,16 @@ func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServiceP
 }
 
 /*
-  AssignUserResourceRole assigns a resource role to a user
+AssignUserResourceRole assigns a resource role to a user
 
-  Assign a resource role to a user. If the resource role is already assigned to the user the request will fail.
+Assign a resource role to a user. If the resource role is already assigned to the user the request will fail.
 */
-func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams) (*AssignUserResourceRoleOK, error) {
+func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignUserResourceRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignUserResourceRole",
 		Method:             "POST",
 		PathPattern:        "/iam/assignUserResourceRole",
@@ -554,7 +626,12 @@ func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams) (*
 		Reader:             &AssignUserResourceRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -568,17 +645,16 @@ func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams) (*
 }
 
 /*
-  AssignUserRole assigns a role to a user
+AssignUserRole assigns a role to a user
 
-  Assign a role to a user. If the role is already assigned to the user the request will fail.
+Assign a role to a user. If the role is already assigned to the user the request will fail.
 */
-func (a *Client) AssignUserRole(params *AssignUserRoleParams) (*AssignUserRoleOK, error) {
+func (a *Client) AssignUserRole(params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAssignUserRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "assignUserRole",
 		Method:             "POST",
 		PathPattern:        "/iam/assignUserRole",
@@ -589,7 +665,12 @@ func (a *Client) AssignUserRole(params *AssignUserRoleParams) (*AssignUserRoleOK
 		Reader:             &AssignUserRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -603,17 +684,16 @@ func (a *Client) AssignUserRole(params *AssignUserRoleParams) (*AssignUserRoleOK
 }
 
 /*
-  CheckRights checks if the user has the input rights on the input resources
+CheckRights checks if the user has the input rights on the input resources
 
-  Checks if the user has the input rights on the input resources.
+Checks if the user has the input rights on the input resources.
 */
-func (a *Client) CheckRights(params *CheckRightsParams) (*CheckRightsOK, error) {
+func (a *Client) CheckRights(params *CheckRightsParams, opts ...ClientOption) (*CheckRightsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCheckRightsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "checkRights",
 		Method:             "POST",
 		PathPattern:        "/iam/checkRights",
@@ -624,7 +704,12 @@ func (a *Client) CheckRights(params *CheckRightsParams) (*CheckRightsOK, error) 
 		Reader:             &CheckRightsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -638,17 +723,16 @@ func (a *Client) CheckRights(params *CheckRightsParams) (*CheckRightsOK, error) 
 }
 
 /*
-  CreateGroup creates a group
+CreateGroup creates a group
 
-  Create a group. A group is a named collection of users and machine users. Roles and resource roles can be assigned to a group impacting all members of the group.
+Create a group. A group is a named collection of users and machine users. Roles and resource roles can be assigned to a group impacting all members of the group.
 */
-func (a *Client) CreateGroup(params *CreateGroupParams) (*CreateGroupOK, error) {
+func (a *Client) CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateGroupParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createGroup",
 		Method:             "POST",
 		PathPattern:        "/iam/createGroup",
@@ -659,7 +743,12 @@ func (a *Client) CreateGroup(params *CreateGroupParams) (*CreateGroupOK, error) 
 		Reader:             &CreateGroupReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -673,17 +762,16 @@ func (a *Client) CreateGroup(params *CreateGroupParams) (*CreateGroupOK, error) 
 }
 
 /*
-  CreateLdapProvider creates ldap provider
+CreateLdapProvider creates ldap provider
 
-  Create an LDAP provider.
+Create an LDAP provider.
 */
-func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams) (*CreateLdapProviderOK, error) {
+func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateLdapProviderParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createLdapProvider",
 		Method:             "POST",
 		PathPattern:        "/iam/createLdapProvider",
@@ -694,7 +782,12 @@ func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams) (*CreateLd
 		Reader:             &CreateLdapProviderReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -708,17 +801,16 @@ func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams) (*CreateLd
 }
 
 /*
-  CreateMachineUser creates a machine user
+CreateMachineUser creates a machine user
 
-  Creates a machine user in the account. A machine user can be used to access Altus API. A machine user can have access keys associated with it and can be assigned roles and resource roles. A machine user cannot login to the Altus console.
+Creates a machine user in the account. A machine user can be used to access CDP API. A machine user can have access keys associated with it and can be assigned roles and resource roles. A machine user cannot login to the CDP console.
 */
-func (a *Client) CreateMachineUser(params *CreateMachineUserParams) (*CreateMachineUserOK, error) {
+func (a *Client) CreateMachineUser(params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateMachineUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createMachineUser",
 		Method:             "POST",
 		PathPattern:        "/iam/createMachineUser",
@@ -729,7 +821,12 @@ func (a *Client) CreateMachineUser(params *CreateMachineUserParams) (*CreateMach
 		Reader:             &CreateMachineUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -743,17 +840,16 @@ func (a *Client) CreateMachineUser(params *CreateMachineUserParams) (*CreateMach
 }
 
 /*
-  CreateMachineUserAccessKey creates a new access key for a machine user
+CreateMachineUserAccessKey creates a new access key for a machine user
 
-  Creates a new access key for a machine user.
+Creates a new access key for a machine user.
 */
-func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams) (*CreateMachineUserAccessKeyOK, error) {
+func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateMachineUserAccessKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createMachineUserAccessKey",
 		Method:             "POST",
 		PathPattern:        "/iam/createMachineUserAccessKey",
@@ -764,7 +860,12 @@ func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyPa
 		Reader:             &CreateMachineUserAccessKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -778,17 +879,16 @@ func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyPa
 }
 
 /*
-  CreateSamlProvider creates a s a m l provider in altus
+CreateSamlProvider creates a s a m l provider in c d p
 
-  Creates a SAML provider in Altus.
+Creates a SAML provider in CDP.
 */
-func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams) (*CreateSamlProviderOK, error) {
+func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateSamlProviderParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSamlProvider",
 		Method:             "POST",
 		PathPattern:        "/iam/createSamlProvider",
@@ -799,7 +899,12 @@ func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams) (*CreateSa
 		Reader:             &CreateSamlProviderReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -813,17 +918,55 @@ func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams) (*CreateSa
 }
 
 /*
-  CreateUser creates a user in altus
+CreateScimAccessToken creates a s c i m access token for a s c i m enabled identity provider
 
-  Creates a user in Altus.
+Creates a SCIM access token for a SCIM enabled identity provider. This token is used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government.
 */
-func (a *Client) CreateUser(params *CreateUserParams) (*CreateUserOK, error) {
+func (a *Client) CreateScimAccessToken(params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateScimAccessTokenParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createScimAccessToken",
+		Method:             "POST",
+		PathPattern:        "/iam/createScimAccessToken",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateScimAccessTokenReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateScimAccessTokenOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateScimAccessTokenDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateUser creates a user in c d p
+
+Creates a user in CDP.
+*/
+func (a *Client) CreateUser(params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createUser",
 		Method:             "POST",
 		PathPattern:        "/iam/createUser",
@@ -834,7 +977,12 @@ func (a *Client) CreateUser(params *CreateUserParams) (*CreateUserOK, error) {
 		Reader:             &CreateUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -848,17 +996,16 @@ func (a *Client) CreateUser(params *CreateUserParams) (*CreateUserOK, error) {
 }
 
 /*
-  CreateUserAccessKey creates a new access key for a user
+CreateUserAccessKey creates a new access key for a user
 
-  Creates a new access key for a user.
+Creates a new access key for a user.
 */
-func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams) (*CreateUserAccessKeyOK, error) {
+func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateUserAccessKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createUserAccessKey",
 		Method:             "POST",
 		PathPattern:        "/iam/createUserAccessKey",
@@ -869,7 +1016,12 @@ func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams) (*Create
 		Reader:             &CreateUserAccessKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -883,17 +1035,16 @@ func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams) (*Create
 }
 
 /*
-  DeleteAccessKey deletes an access key
+DeleteAccessKey deletes an access key
 
-  Deletes an access key.
+Deletes an access key.
 */
-func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams) (*DeleteAccessKeyOK, error) {
+func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteAccessKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteAccessKey",
 		Method:             "POST",
 		PathPattern:        "/iam/deleteAccessKey",
@@ -904,7 +1055,12 @@ func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams) (*DeleteAccessKe
 		Reader:             &DeleteAccessKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -918,17 +1074,16 @@ func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams) (*DeleteAccessKe
 }
 
 /*
-  DeleteGroup deletes a group
+DeleteGroup deletes a group
 
-  Delete a group.
+Delete a group.
 */
-func (a *Client) DeleteGroup(params *DeleteGroupParams) (*DeleteGroupOK, error) {
+func (a *Client) DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteGroupParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteGroup",
 		Method:             "POST",
 		PathPattern:        "/iam/deleteGroup",
@@ -939,7 +1094,12 @@ func (a *Client) DeleteGroup(params *DeleteGroupParams) (*DeleteGroupOK, error) 
 		Reader:             &DeleteGroupReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -953,17 +1113,16 @@ func (a *Client) DeleteGroup(params *DeleteGroupParams) (*DeleteGroupOK, error) 
 }
 
 /*
-  DeleteMachineUser deletes a machine user
+DeleteMachineUser deletes a machine user
 
-  Deletes a machine user previously created in the account.
+Deletes a machine user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the machine user. The machine user is also removed from all groups it belongs to. If the call succeeds the machine user will not be able to use any access keys to access the CDP control plane. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the machine user loses access to all environments as soon as possible.
 */
-func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams) (*DeleteMachineUserOK, error) {
+func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteMachineUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteMachineUser",
 		Method:             "POST",
 		PathPattern:        "/iam/deleteMachineUser",
@@ -974,7 +1133,12 @@ func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams) (*DeleteMach
 		Reader:             &DeleteMachineUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -988,17 +1152,16 @@ func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams) (*DeleteMach
 }
 
 /*
-  DeleteSamlProvider deletes a s a m l provider in altus account
+DeleteSamlProvider deletes a s a m l provider in c d p account
 
-  Deletes a SAML provider in Altus account.
+Deletes a SAML provider in CDP account.
 */
-func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams) (*DeleteSamlProviderOK, error) {
+func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteSamlProviderParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteSamlProvider",
 		Method:             "POST",
 		PathPattern:        "/iam/deleteSamlProvider",
@@ -1009,7 +1172,12 @@ func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams) (*DeleteSa
 		Reader:             &DeleteSamlProviderReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1023,17 +1191,55 @@ func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams) (*DeleteSa
 }
 
 /*
-  DeleteSSHPublicKey deletes an SSH public key for an actor
+DeleteScimAccessToken deletes a s c i m access token
 
-  Delete an SSH public key for an actor.
+Deletes a SCIM access token. This operation is not supported for Cloudera for Government.
 */
-func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams) (*DeleteSSHPublicKeyOK, error) {
+func (a *Client) DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteScimAccessTokenParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteScimAccessToken",
+		Method:             "POST",
+		PathPattern:        "/iam/deleteScimAccessToken",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteScimAccessTokenReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteScimAccessTokenOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteScimAccessTokenDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteSSHPublicKey deletes an SSH public key for an actor
+
+Delete an SSH public key for an actor.
+*/
+func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteSSHPublicKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteSshPublicKey",
 		Method:             "POST",
 		PathPattern:        "/iam/deleteSshPublicKey",
@@ -1044,7 +1250,12 @@ func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams) (*DeleteSS
 		Reader:             &DeleteSSHPublicKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1058,17 +1269,16 @@ func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams) (*DeleteSS
 }
 
 /*
-  DeleteUser deletes a user and all associated resources
+DeleteUser deletes a user and all associated resources
 
-  Deletes a user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the user. The user is also removed from all groups it belongs to. If the call succeeds the user will not be able to login interactively, or use any access keys to access the CDP control plane. This feature is under development and some reasources may be left behind after a successful call. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the user loses access to all environments as soon as possible.
+Deletes a user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the user. The user is also removed from all groups it belongs to. If the call succeeds the user will not be able to login interactively, or use any access keys to access the CDP control plane. This feature is under development and some resources may be left behind after a successful call. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the user loses access to all environments as soon as possible.
 */
-func (a *Client) DeleteUser(params *DeleteUserParams) (*DeleteUserOK, error) {
+func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteUser",
 		Method:             "POST",
 		PathPattern:        "/iam/deleteUser",
@@ -1079,7 +1289,12 @@ func (a *Client) DeleteUser(params *DeleteUserParams) (*DeleteUserOK, error) {
 		Reader:             &DeleteUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1093,17 +1308,16 @@ func (a *Client) DeleteUser(params *DeleteUserParams) (*DeleteUserOK, error) {
 }
 
 /*
-  DescribeLdapProvider describes ldap provider
+DescribeLdapProvider describes ldap provider
 
-  Describes an LDAP provider
+Describes an LDAP provider
 */
-func (a *Client) DescribeLdapProvider(params *DescribeLdapProviderParams) (*DescribeLdapProviderOK, error) {
+func (a *Client) DescribeLdapProvider(params *DescribeLdapProviderParams, opts ...ClientOption) (*DescribeLdapProviderOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeLdapProviderParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeLdapProvider",
 		Method:             "POST",
 		PathPattern:        "/iam/describeLdapProvider",
@@ -1114,7 +1328,12 @@ func (a *Client) DescribeLdapProvider(params *DescribeLdapProviderParams) (*Desc
 		Reader:             &DescribeLdapProviderReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1128,17 +1347,16 @@ func (a *Client) DescribeLdapProvider(params *DescribeLdapProviderParams) (*Desc
 }
 
 /*
-  DescribeSamlProvider describes one s a m l provider
+DescribeSamlProvider describes one s a m l provider
 
-  Describes one SAML provider.
+Describes one SAML provider.
 */
-func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams) (*DescribeSamlProviderOK, error) {
+func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeSamlProviderParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeSamlProvider",
 		Method:             "POST",
 		PathPattern:        "/iam/describeSamlProvider",
@@ -1149,7 +1367,12 @@ func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams) (*Desc
 		Reader:             &DescribeSamlProviderReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1163,17 +1386,16 @@ func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams) (*Desc
 }
 
 /*
-  DescribeSSHPublicKey describes an SSH public key for an actor
+DescribeSSHPublicKey describes an SSH public key for an actor
 
-  Describe an SSH public key for an actor.
+Describe an SSH public key for an actor.
 */
-func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams) (*DescribeSSHPublicKeyOK, error) {
+func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeSSHPublicKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeSshPublicKey",
 		Method:             "POST",
 		PathPattern:        "/iam/describeSshPublicKey",
@@ -1184,7 +1406,12 @@ func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams) (*Desc
 		Reader:             &DescribeSSHPublicKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1198,17 +1425,16 @@ func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams) (*Desc
 }
 
 /*
-  DescribeTerms describes one set of terms
+DescribeTerms describes one set of terms
 
-  Describes one set of terms.
+Describes one set of terms.
 */
-func (a *Client) DescribeTerms(params *DescribeTermsParams) (*DescribeTermsOK, error) {
+func (a *Client) DescribeTerms(params *DescribeTermsParams, opts ...ClientOption) (*DescribeTermsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeTermsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeTerms",
 		Method:             "POST",
 		PathPattern:        "/iam/describeTerms",
@@ -1219,7 +1445,12 @@ func (a *Client) DescribeTerms(params *DescribeTermsParams) (*DescribeTermsOK, e
 		Reader:             &DescribeTermsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1233,17 +1464,16 @@ func (a *Client) DescribeTerms(params *DescribeTermsParams) (*DescribeTermsOK, e
 }
 
 /*
-  DisableClouderaSSOLogin disables interactive login using cloudera s s o for this account
+DisableClouderaSSOLogin disables interactive login using cloudera s s o for this account
 
-  Disables interactive login using Cloudera SSO for this account. When disabled, only users who are designated account administrators will be able to use Cloudera SSO to interactively login to the Altus account. All other users will only be able to interactively login using SAML providers defined for the account. This is a no-op if login using Cloudera SSO are already disabled.
+Disables interactive login using Cloudera SSO for this account. When disabled, only users who are designated account administrators will be able to use Cloudera SSO to interactively login to the CDP account. All other users will only be able to interactively login using SAML providers defined for the account. This is a no-op if login using Cloudera SSO are already disabled.
 */
-func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams) (*DisableClouderaSSOLoginOK, error) {
+func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDisableClouderaSSOLoginParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "disableClouderaSSOLogin",
 		Method:             "POST",
 		PathPattern:        "/iam/disableClouderaSSOLogin",
@@ -1254,7 +1484,12 @@ func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams) 
 		Reader:             &DisableClouderaSSOLoginReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1268,17 +1503,16 @@ func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams) 
 }
 
 /*
-  EnableClouderaSSOLogin enables interactive login using cloudera s s o for this account
+EnableClouderaSSOLogin enables interactive login using cloudera s s o for this account
 
-  Enables interactive login using Cloudera SSO for this account. This is a no-op if login using Cloudera SSO are already enabled.
+Enables interactive login using Cloudera SSO for this account. This is a no-op if login using Cloudera SSO are already enabled.
 */
-func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams) (*EnableClouderaSSOLoginOK, error) {
+func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewEnableClouderaSSOLoginParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "enableClouderaSSOLogin",
 		Method:             "POST",
 		PathPattern:        "/iam/enableClouderaSSOLogin",
@@ -1289,7 +1523,12 @@ func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams) (*
 		Reader:             &EnableClouderaSSOLoginReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1303,17 +1542,55 @@ func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams) (*
 }
 
 /*
-  GetAccessKey gets information on an access key
+GenerateWorkloadAuthToken generates an authentication token for workload a p is
 
-  Gets information on an access key. If no access key ID is specified. Information on the access key used to make the request is returned.
+Generates an authentication token which is required for sending requests to workload APIs.
 */
-func (a *Client) GetAccessKey(params *GetAccessKeyParams) (*GetAccessKeyOK, error) {
+func (a *Client) GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGenerateWorkloadAuthTokenParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "generateWorkloadAuthToken",
+		Method:             "POST",
+		PathPattern:        "/iam/generateWorkloadAuthToken",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GenerateWorkloadAuthTokenReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GenerateWorkloadAuthTokenOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GenerateWorkloadAuthTokenDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetAccessKey gets information on an access key
+
+Gets information on an access key. If no access key ID is specified. Information on the access key used to make the request is returned.
+*/
+func (a *Client) GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccessKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccessKey",
 		Method:             "POST",
 		PathPattern:        "/iam/getAccessKey",
@@ -1324,7 +1601,12 @@ func (a *Client) GetAccessKey(params *GetAccessKeyParams) (*GetAccessKeyOK, erro
 		Reader:             &GetAccessKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1338,17 +1620,16 @@ func (a *Client) GetAccessKey(params *GetAccessKeyParams) (*GetAccessKeyOK, erro
 }
 
 /*
-  GetAccount retrieves information about the altus account
+GetAccount retrieves information about the c d p account
 
-  Retrieves information about the Altus account.
+Retrieves information about the CDP account.
 */
-func (a *Client) GetAccount(params *GetAccountParams) (*GetAccountOK, error) {
+func (a *Client) GetAccount(params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccount",
 		Method:             "POST",
 		PathPattern:        "/iam/getAccount",
@@ -1359,7 +1640,12 @@ func (a *Client) GetAccount(params *GetAccountParams) (*GetAccountOK, error) {
 		Reader:             &GetAccountReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1373,17 +1659,16 @@ func (a *Client) GetAccount(params *GetAccountParams) (*GetAccountOK, error) {
 }
 
 /*
-  GetAccountMessages gets account messages
+GetAccountMessages gets account messages
 
-  Get account messages.
+Get account messages.
 */
-func (a *Client) GetAccountMessages(params *GetAccountMessagesParams) (*GetAccountMessagesOK, error) {
+func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountMessagesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountMessages",
 		Method:             "POST",
 		PathPattern:        "/iam/getAccountMessages",
@@ -1394,7 +1679,12 @@ func (a *Client) GetAccountMessages(params *GetAccountMessagesParams) (*GetAccou
 		Reader:             &GetAccountMessagesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1408,17 +1698,16 @@ func (a *Client) GetAccountMessages(params *GetAccountMessagesParams) (*GetAccou
 }
 
 /*
-  GetAssigneeAuthorizationInformation retrieves authorization information about an assignee
+GetAssigneeAuthorizationInformation retrieves authorization information about an assignee
 
-  Retrieve authorization information about an assignee. This includes role and resource role assignments, group membership, as well as all role and resource roles assigned to the groups the assignee belongs to.
+Retrieve authorization information about an assignee. This includes role and resource role assignments, group membership, as well as all role and resource roles assigned to the groups the assignee belongs to.
 */
-func (a *Client) GetAssigneeAuthorizationInformation(params *GetAssigneeAuthorizationInformationParams) (*GetAssigneeAuthorizationInformationOK, error) {
+func (a *Client) GetAssigneeAuthorizationInformation(params *GetAssigneeAuthorizationInformationParams, opts ...ClientOption) (*GetAssigneeAuthorizationInformationOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAssigneeAuthorizationInformationParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAssigneeAuthorizationInformation",
 		Method:             "POST",
 		PathPattern:        "/iam/getAssigneeAuthorizationInformation",
@@ -1429,7 +1718,12 @@ func (a *Client) GetAssigneeAuthorizationInformation(params *GetAssigneeAuthoriz
 		Reader:             &GetAssigneeAuthorizationInformationReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1443,17 +1737,133 @@ func (a *Client) GetAssigneeAuthorizationInformation(params *GetAssigneeAuthoriz
 }
 
 /*
-  GetUser gets information on a user
+GetDefaultIdentityProvider retrieves the c r n of the default identity provider
 
-  Gets information on a user. If no user name is specified. The user name is determined from the access key used to make the request.
+Retrieves the CRN of the default identity provider used for CDP initiated login requests.
 */
-func (a *Client) GetUser(params *GetUserParams) (*GetUserOK, error) {
+func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetDefaultIdentityProviderParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getDefaultIdentityProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/getDefaultIdentityProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetDefaultIdentityProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetDefaultIdentityProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetDefaultIdentityProviderDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetIntercomEncryptedEmailAddress gets a user s intercom identity verification string
+
+Get a user's Intercom Identity Verification string. Uses a secret shared with Intercom to encrypt the user's email address.
+*/
+func (a *Client) GetIntercomEncryptedEmailAddress(params *GetIntercomEncryptedEmailAddressParams, opts ...ClientOption) (*GetIntercomEncryptedEmailAddressOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetIntercomEncryptedEmailAddressParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getIntercomEncryptedEmailAddress",
+		Method:             "POST",
+		PathPattern:        "/iam/getIntercomEncryptedEmailAddress",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetIntercomEncryptedEmailAddressReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetIntercomEncryptedEmailAddressOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetIntercomEncryptedEmailAddressDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetPasswordPolicy retrieves the password policy for the account
+
+Retrieves the password policy for the account.
+*/
+func (a *Client) GetPasswordPolicy(params *GetPasswordPolicyParams, opts ...ClientOption) (*GetPasswordPolicyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetPasswordPolicyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getPasswordPolicy",
+		Method:             "POST",
+		PathPattern:        "/iam/getPasswordPolicy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetPasswordPolicyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetPasswordPolicyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetPasswordPolicyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetUser gets information on a user
+
+Gets information on a user. If no user name is specified. The user name is determined from the access key used to make the request.
+*/
+func (a *Client) GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getUser",
 		Method:             "POST",
 		PathPattern:        "/iam/getUser",
@@ -1464,7 +1874,12 @@ func (a *Client) GetUser(params *GetUserParams) (*GetUserOK, error) {
 		Reader:             &GetUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1478,17 +1893,16 @@ func (a *Client) GetUser(params *GetUserParams) (*GetUserOK, error) {
 }
 
 /*
-  InitiateSupportCase initiates a new support case
+InitiateSupportCase initiates a new support case
 
-  Initiate a new support case. User must complete submission in browser using a web form URL included in the response.
+Initiate a new support case. User must complete submission in browser using a web form URL included in the response.
 */
-func (a *Client) InitiateSupportCase(params *InitiateSupportCaseParams) (*InitiateSupportCaseOK, error) {
+func (a *Client) InitiateSupportCase(params *InitiateSupportCaseParams, opts ...ClientOption) (*InitiateSupportCaseOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewInitiateSupportCaseParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "initiateSupportCase",
 		Method:             "POST",
 		PathPattern:        "/iam/initiateSupportCase",
@@ -1499,7 +1913,12 @@ func (a *Client) InitiateSupportCase(params *InitiateSupportCaseParams) (*Initia
 		Reader:             &InitiateSupportCaseReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1513,17 +1932,16 @@ func (a *Client) InitiateSupportCase(params *InitiateSupportCaseParams) (*Initia
 }
 
 /*
-  ListAccessKeys lists access keys
+ListAccessKeys lists access keys
 
-  Lists access keys.
+Lists access keys.
 */
-func (a *Client) ListAccessKeys(params *ListAccessKeysParams) (*ListAccessKeysOK, error) {
+func (a *Client) ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListAccessKeysParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listAccessKeys",
 		Method:             "POST",
 		PathPattern:        "/iam/listAccessKeys",
@@ -1534,7 +1952,12 @@ func (a *Client) ListAccessKeys(params *ListAccessKeysParams) (*ListAccessKeysOK
 		Reader:             &ListAccessKeysReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1548,17 +1971,16 @@ func (a *Client) ListAccessKeys(params *ListAccessKeysParams) (*ListAccessKeysOK
 }
 
 /*
-  ListEntitlements lists granted entitlements
+ListEntitlements lists granted entitlements
 
-  Lists granted entitlements.
+Lists granted entitlements.
 */
-func (a *Client) ListEntitlements(params *ListEntitlementsParams) (*ListEntitlementsOK, error) {
+func (a *Client) ListEntitlements(params *ListEntitlementsParams, opts ...ClientOption) (*ListEntitlementsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListEntitlementsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listEntitlements",
 		Method:             "POST",
 		PathPattern:        "/iam/listEntitlements",
@@ -1569,7 +1991,12 @@ func (a *Client) ListEntitlements(params *ListEntitlementsParams) (*ListEntitlem
 		Reader:             &ListEntitlementsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1583,17 +2010,16 @@ func (a *Client) ListEntitlements(params *ListEntitlementsParams) (*ListEntitlem
 }
 
 /*
-  ListGroupAssignedResourceRoles lists a group s assigned resource roles
+ListGroupAssignedResourceRoles lists a group s assigned resource roles
 
-  Lists a group's assigned resource roles.
+Lists a group's assigned resource roles.
 */
-func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams) (*ListGroupAssignedResourceRolesOK, error) {
+func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListGroupAssignedResourceRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listGroupAssignedResourceRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listGroupAssignedResourceRoles",
@@ -1604,7 +2030,12 @@ func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourc
 		Reader:             &ListGroupAssignedResourceRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1618,17 +2049,16 @@ func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourc
 }
 
 /*
-  ListGroupAssignedRoles lists the group s assigned roles
+ListGroupAssignedRoles lists the group s assigned roles
 
-  Lists the group's assigned roles.
+Lists the group's assigned roles.
 */
-func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams) (*ListGroupAssignedRolesOK, error) {
+func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListGroupAssignedRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listGroupAssignedRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listGroupAssignedRoles",
@@ -1639,7 +2069,12 @@ func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams) (*
 		Reader:             &ListGroupAssignedRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1653,17 +2088,16 @@ func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams) (*
 }
 
 /*
-  ListGroupMembers lists the members of a group
+ListGroupMembers lists the members of a group
 
-  List the members of a group.
+List the members of a group.
 */
-func (a *Client) ListGroupMembers(params *ListGroupMembersParams) (*ListGroupMembersOK, error) {
+func (a *Client) ListGroupMembers(params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListGroupMembersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listGroupMembers",
 		Method:             "POST",
 		PathPattern:        "/iam/listGroupMembers",
@@ -1674,7 +2108,12 @@ func (a *Client) ListGroupMembers(params *ListGroupMembersParams) (*ListGroupMem
 		Reader:             &ListGroupMembersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1688,17 +2127,16 @@ func (a *Client) ListGroupMembers(params *ListGroupMembersParams) (*ListGroupMem
 }
 
 /*
-  ListGroups lists groups
+ListGroups lists groups
 
-  Lists groups. If no group names are specified, the call lists all groups.
+Lists groups. If no group names are specified, the call lists all groups.
 */
-func (a *Client) ListGroups(params *ListGroupsParams) (*ListGroupsOK, error) {
+func (a *Client) ListGroups(params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListGroupsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listGroups",
 		Method:             "POST",
 		PathPattern:        "/iam/listGroups",
@@ -1709,7 +2147,12 @@ func (a *Client) ListGroups(params *ListGroupsParams) (*ListGroupsOK, error) {
 		Reader:             &ListGroupsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1723,17 +2166,16 @@ func (a *Client) ListGroups(params *ListGroupsParams) (*ListGroupsOK, error) {
 }
 
 /*
-  ListGroupsForMachineUser lists the groups that the machine user belongs to
+ListGroupsForMachineUser lists the groups that the machine user belongs to
 
-  List the groups that the machine user belongs to.
+List the groups that the machine user belongs to.
 */
-func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams) (*ListGroupsForMachineUserOK, error) {
+func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListGroupsForMachineUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listGroupsForMachineUser",
 		Method:             "POST",
 		PathPattern:        "/iam/listGroupsForMachineUser",
@@ -1744,7 +2186,12 @@ func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams
 		Reader:             &ListGroupsForMachineUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1758,17 +2205,16 @@ func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams
 }
 
 /*
-  ListGroupsForUser lists the groups that the user belongs to
+ListGroupsForUser lists the groups that the user belongs to
 
-  List the groups that the user belongs to.
+List the groups that the user belongs to.
 */
-func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams) (*ListGroupsForUserOK, error) {
+func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListGroupsForUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listGroupsForUser",
 		Method:             "POST",
 		PathPattern:        "/iam/listGroupsForUser",
@@ -1779,7 +2225,12 @@ func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams) (*ListGroups
 		Reader:             &ListGroupsForUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1793,17 +2244,16 @@ func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams) (*ListGroups
 }
 
 /*
-  ListLdapProviders lists l d a p providers
+ListLdapProviders lists l d a p providers
 
-  Lists LDAP providers in the CDP acccount.
+Lists LDAP providers in the CDP acccount.
 */
-func (a *Client) ListLdapProviders(params *ListLdapProvidersParams) (*ListLdapProvidersOK, error) {
+func (a *Client) ListLdapProviders(params *ListLdapProvidersParams, opts ...ClientOption) (*ListLdapProvidersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListLdapProvidersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listLdapProviders",
 		Method:             "POST",
 		PathPattern:        "/iam/listLdapProviders",
@@ -1814,7 +2264,12 @@ func (a *Client) ListLdapProviders(params *ListLdapProvidersParams) (*ListLdapPr
 		Reader:             &ListLdapProvidersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1828,17 +2283,16 @@ func (a *Client) ListLdapProviders(params *ListLdapProvidersParams) (*ListLdapPr
 }
 
 /*
-  ListMachineUserAssignedResourceRoles lists a machine user s assigned resource roles
+ListMachineUserAssignedResourceRoles lists a machine user s assigned resource roles
 
-  Lists a machine user's assigned resource roles.
+Lists a machine user's assigned resource roles.
 */
-func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams) (*ListMachineUserAssignedResourceRolesOK, error) {
+func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListMachineUserAssignedResourceRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listMachineUserAssignedResourceRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listMachineUserAssignedResourceRoles",
@@ -1849,7 +2303,12 @@ func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAss
 		Reader:             &ListMachineUserAssignedResourceRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1863,17 +2322,16 @@ func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAss
 }
 
 /*
-  ListMachineUserAssignedRoles lists the machine user s assigned roles
+ListMachineUserAssignedRoles lists the machine user s assigned roles
 
-  Lists the machine user's assigned roles.
+Lists the machine user's assigned roles.
 */
-func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams) (*ListMachineUserAssignedRolesOK, error) {
+func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListMachineUserAssignedRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listMachineUserAssignedRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listMachineUserAssignedRoles",
@@ -1884,7 +2342,12 @@ func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRol
 		Reader:             &ListMachineUserAssignedRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1898,17 +2361,16 @@ func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRol
 }
 
 /*
-  ListMachineUsers lists machine users
+ListMachineUsers lists machine users
 
-  Lists machine users in the account.
+Lists machine users in the account.
 */
-func (a *Client) ListMachineUsers(params *ListMachineUsersParams) (*ListMachineUsersOK, error) {
+func (a *Client) ListMachineUsers(params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListMachineUsersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listMachineUsers",
 		Method:             "POST",
 		PathPattern:        "/iam/listMachineUsers",
@@ -1919,7 +2381,12 @@ func (a *Client) ListMachineUsers(params *ListMachineUsersParams) (*ListMachineU
 		Reader:             &ListMachineUsersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1933,17 +2400,16 @@ func (a *Client) ListMachineUsers(params *ListMachineUsersParams) (*ListMachineU
 }
 
 /*
-  ListResourceAssignees lists the resource assignees and their respective resource roles for the resource
+ListResourceAssignees lists the resource assignees and their respective resource roles for the resource
 
-  List the resource assignees and their respective resource roles for the resource.
+List the resource assignees and their respective resource roles for the resource.
 */
-func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams) (*ListResourceAssigneesOK, error) {
+func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListResourceAssigneesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listResourceAssignees",
 		Method:             "POST",
 		PathPattern:        "/iam/listResourceAssignees",
@@ -1954,7 +2420,12 @@ func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams) (*Li
 		Reader:             &ListResourceAssigneesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1968,17 +2439,16 @@ func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams) (*Li
 }
 
 /*
-  ListResourceRoleAssignments lists resource role assignments in the account
+ListResourceRoleAssignments lists resource role assignments in the account
 
-  Lists resource role assignments in the account.
+Lists resource role assignments in the account.
 */
-func (a *Client) ListResourceRoleAssignments(params *ListResourceRoleAssignmentsParams) (*ListResourceRoleAssignmentsOK, error) {
+func (a *Client) ListResourceRoleAssignments(params *ListResourceRoleAssignmentsParams, opts ...ClientOption) (*ListResourceRoleAssignmentsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListResourceRoleAssignmentsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listResourceRoleAssignments",
 		Method:             "POST",
 		PathPattern:        "/iam/listResourceRoleAssignments",
@@ -1989,7 +2459,12 @@ func (a *Client) ListResourceRoleAssignments(params *ListResourceRoleAssignments
 		Reader:             &ListResourceRoleAssignmentsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2003,17 +2478,16 @@ func (a *Client) ListResourceRoleAssignments(params *ListResourceRoleAssignments
 }
 
 /*
-  ListResourceRoles lists all the available resource roles
+ListResourceRoles lists all the available resource roles
 
-  Lists all the available reource roles. Resource roles grants rights over certain resources.
+Lists all the available resource roles. Resource roles grant rights over certain resources.
 */
-func (a *Client) ListResourceRoles(params *ListResourceRolesParams) (*ListResourceRolesOK, error) {
+func (a *Client) ListResourceRoles(params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListResourceRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listResourceRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listResourceRoles",
@@ -2024,7 +2498,12 @@ func (a *Client) ListResourceRoles(params *ListResourceRolesParams) (*ListResour
 		Reader:             &ListResourceRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2038,17 +2517,16 @@ func (a *Client) ListResourceRoles(params *ListResourceRolesParams) (*ListResour
 }
 
 /*
-  ListRoles lists all the available roles
+ListRoles lists all the available roles
 
-  Lists all the available roles. Roles grant rights to users via policies that are attached to the roles.
+Lists all the available roles. Roles grant rights to users via policies that are attached to the roles.
 */
-func (a *Client) ListRoles(params *ListRolesParams) (*ListRolesOK, error) {
+func (a *Client) ListRoles(params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listRoles",
@@ -2059,7 +2537,12 @@ func (a *Client) ListRoles(params *ListRolesParams) (*ListRolesOK, error) {
 		Reader:             &ListRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2073,17 +2556,16 @@ func (a *Client) ListRoles(params *ListRolesParams) (*ListRolesOK, error) {
 }
 
 /*
-  ListSamlProviders lists s a m l providers in altus account
+ListSamlProviders lists s a m l providers in c d p account
 
-  Lists SAML providers in Altus account.
+Lists SAML providers in CDP account.
 */
-func (a *Client) ListSamlProviders(params *ListSamlProvidersParams) (*ListSamlProvidersOK, error) {
+func (a *Client) ListSamlProviders(params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListSamlProvidersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listSamlProviders",
 		Method:             "POST",
 		PathPattern:        "/iam/listSamlProviders",
@@ -2094,7 +2576,12 @@ func (a *Client) ListSamlProviders(params *ListSamlProvidersParams) (*ListSamlPr
 		Reader:             &ListSamlProvidersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2108,17 +2595,94 @@ func (a *Client) ListSamlProviders(params *ListSamlProvidersParams) (*ListSamlPr
 }
 
 /*
-  ListSSHPublicKeys lists SSH public keys for an actor
+ListScimAccessTokens lists s c i m access tokens for a s c i m enabled identity provider
 
-  Lists SSH public keys for an actor.
+Lists SCIM access tokens for a SCIM enabled identity provider. These access tokens are used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government.
 */
-func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams) (*ListSSHPublicKeysOK, error) {
+func (a *Client) ListScimAccessTokens(params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListScimAccessTokensParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listScimAccessTokens",
+		Method:             "POST",
+		PathPattern:        "/iam/listScimAccessTokens",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListScimAccessTokensReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListScimAccessTokensOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListScimAccessTokensDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListServicePrincipalCloudIdentities lists cloud identity mappings for service principals
+
+List cloud identity mappings for service principals.
+*/
+func (a *Client) ListServicePrincipalCloudIdentities(params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListServicePrincipalCloudIdentitiesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listServicePrincipalCloudIdentities",
+		Method:             "POST",
+		PathPattern:        "/iam/listServicePrincipalCloudIdentities",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListServicePrincipalCloudIdentitiesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListServicePrincipalCloudIdentitiesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListServicePrincipalCloudIdentitiesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListSSHPublicKeys lists SSH public keys for an actor
+
+Lists SSH public keys for an actor.
+*/
+func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListSSHPublicKeysParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listSshPublicKeys",
 		Method:             "POST",
 		PathPattern:        "/iam/listSshPublicKeys",
@@ -2129,7 +2693,12 @@ func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams) (*ListSSHPub
 		Reader:             &ListSSHPublicKeysReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2143,17 +2712,16 @@ func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams) (*ListSSHPub
 }
 
 /*
-  ListTerms lists relevant terms
+ListTerms lists relevant terms
 
-  Lists relevant terms.
+Lists relevant terms.
 */
-func (a *Client) ListTerms(params *ListTermsParams) (*ListTermsOK, error) {
+func (a *Client) ListTerms(params *ListTermsParams, opts ...ClientOption) (*ListTermsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListTermsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listTerms",
 		Method:             "POST",
 		PathPattern:        "/iam/listTerms",
@@ -2164,7 +2732,12 @@ func (a *Client) ListTerms(params *ListTermsParams) (*ListTermsOK, error) {
 		Reader:             &ListTermsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2178,17 +2751,16 @@ func (a *Client) ListTerms(params *ListTermsParams) (*ListTermsOK, error) {
 }
 
 /*
-  ListUserAssignedResourceRoles lists a user s assigned resource roles
+ListUserAssignedResourceRoles lists a user s assigned resource roles
 
-  Lists a user's assigned resource roles.
+Lists a user's assigned resource roles.
 */
-func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams) (*ListUserAssignedResourceRolesOK, error) {
+func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListUserAssignedResourceRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listUserAssignedResourceRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listUserAssignedResourceRoles",
@@ -2199,7 +2771,12 @@ func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceR
 		Reader:             &ListUserAssignedResourceRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2213,17 +2790,16 @@ func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceR
 }
 
 /*
-  ListUserAssignedRoles lists the user s assigned roles
+ListUserAssignedRoles lists the user s assigned roles
 
-  Lists the user's assigned roles.
+Lists the user's assigned roles.
 */
-func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams) (*ListUserAssignedRolesOK, error) {
+func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListUserAssignedRolesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listUserAssignedRoles",
 		Method:             "POST",
 		PathPattern:        "/iam/listUserAssignedRoles",
@@ -2234,7 +2810,12 @@ func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams) (*Li
 		Reader:             &ListUserAssignedRolesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2248,17 +2829,16 @@ func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams) (*Li
 }
 
 /*
-  ListUsers lists users
+ListUsers lists users
 
-  Lists users.
+Lists users.
 */
-func (a *Client) ListUsers(params *ListUsersParams) (*ListUsersOK, error) {
+func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListUsersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listUsers",
 		Method:             "POST",
 		PathPattern:        "/iam/listUsers",
@@ -2269,7 +2849,12 @@ func (a *Client) ListUsers(params *ListUsersParams) (*ListUsersOK, error) {
 		Reader:             &ListUsersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2283,17 +2868,16 @@ func (a *Client) ListUsers(params *ListUsersParams) (*ListUsersOK, error) {
 }
 
 /*
-  RemoveMachineUserFromGroup removes a machine user from a group
+RemoveMachineUserFromGroup removes a machine user from a group
 
-  Remove a machine user from a group.
+Remove a machine user from a group.
 */
-func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams) (*RemoveMachineUserFromGroupOK, error) {
+func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRemoveMachineUserFromGroupParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "removeMachineUserFromGroup",
 		Method:             "POST",
 		PathPattern:        "/iam/removeMachineUserFromGroup",
@@ -2304,7 +2888,12 @@ func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupPa
 		Reader:             &RemoveMachineUserFromGroupReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2318,17 +2907,16 @@ func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupPa
 }
 
 /*
-  RemoveUserFromGroup removes a user from a group
+RemoveUserFromGroup removes a user from a group
 
-  Remove a user from a group.
+Remove a user from a group.
 */
-func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams) (*RemoveUserFromGroupOK, error) {
+func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRemoveUserFromGroupParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "removeUserFromGroup",
 		Method:             "POST",
 		PathPattern:        "/iam/removeUserFromGroup",
@@ -2339,7 +2927,12 @@ func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams) (*Remove
 		Reader:             &RemoveUserFromGroupReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2353,17 +2946,16 @@ func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams) (*Remove
 }
 
 /*
-  SetAccountMessages sets messages for an account
+SetAccountMessages sets messages for an account
 
-  Set messages for an account.
+Set messages for an account.
 */
-func (a *Client) SetAccountMessages(params *SetAccountMessagesParams) (*SetAccountMessagesOK, error) {
+func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetAccountMessagesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setAccountMessages",
 		Method:             "POST",
 		PathPattern:        "/iam/setAccountMessages",
@@ -2374,7 +2966,12 @@ func (a *Client) SetAccountMessages(params *SetAccountMessagesParams) (*SetAccou
 		Reader:             &SetAccountMessagesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2388,17 +2985,94 @@ func (a *Client) SetAccountMessages(params *SetAccountMessagesParams) (*SetAccou
 }
 
 /*
-  SetWorkloadPassword sets the workload password for an actor
+SetAuthenticationPolicy sets the authentication policy for the account
 
-  Set the workload password for an actor. This will be the actor's password in all Environments they have access to, including Environments they are given access to after setting the password. The password plaintext is not kept.
+Set the authentication policy for the account. Check each request parameter for its default values. Changes to the authentication policy only affect authentications that are done after the policy has been updated.
 */
-func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams) (*SetWorkloadPasswordOK, error) {
+func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetAuthenticationPolicyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setAuthenticationPolicy",
+		Method:             "POST",
+		PathPattern:        "/iam/setAuthenticationPolicy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetAuthenticationPolicyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetAuthenticationPolicyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetAuthenticationPolicyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetDefaultIdentityProvider sets the default identity provider
+
+Sets the default identity provider used for CDP initiated login requests.
+*/
+func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetDefaultIdentityProviderParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setDefaultIdentityProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/setDefaultIdentityProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetDefaultIdentityProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetDefaultIdentityProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetDefaultIdentityProviderDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetWorkloadPassword sets the workload password for an actor
+
+Set the workload password for an actor. This will be the actor's password in all Environments they have access to, including Environments they are given access to after setting the password. The password plaintext is not kept.
+*/
+func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetWorkloadPasswordParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setWorkloadPassword",
 		Method:             "POST",
 		PathPattern:        "/iam/setWorkloadPassword",
@@ -2409,7 +3083,12 @@ func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams) (*SetWor
 		Reader:             &SetWorkloadPasswordReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2423,17 +3102,16 @@ func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams) (*SetWor
 }
 
 /*
-  SetWorkloadPasswordPolicy sets the workload password policy for the account
+SetWorkloadPasswordPolicy sets the workload password policy for the account
 
-  Set the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated. By default, passwords never expire.
+Set the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated. By default, passwords never expire.
 */
-func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams) (*SetWorkloadPasswordPolicyOK, error) {
+func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetWorkloadPasswordPolicyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setWorkloadPasswordPolicy",
 		Method:             "POST",
 		PathPattern:        "/iam/setWorkloadPasswordPolicy",
@@ -2444,7 +3122,12 @@ func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyPara
 		Reader:             &SetWorkloadPasswordPolicyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2458,17 +3141,16 @@ func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyPara
 }
 
 /*
-  UnassignAzureCloudIdentity unassigns an azure cloud identity from an actor or group
+UnassignAzureCloudIdentity unassigns an azure cloud identity from an actor or group
 
-  Unassign an Azure cloud identity, i.e. an object ID (OID), from an actor or group.
+Unassign an Azure cloud identity, i.e. an object ID (OID), from an actor or group.
 */
-func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams) (*UnassignAzureCloudIdentityOK, error) {
+func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignAzureCloudIdentityParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignAzureCloudIdentity",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignAzureCloudIdentity",
@@ -2479,7 +3161,12 @@ func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityPa
 		Reader:             &UnassignAzureCloudIdentityReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2493,17 +3180,16 @@ func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityPa
 }
 
 /*
-  UnassignGroupResourceRole unassigns a resource role from a group
+UnassignGroupResourceRole unassigns a resource role from a group
 
-  Unassign a resource role from a group. If the resource role is not currently assigned to the group the request will fail.
+Unassign a resource role from a group. If the resource role is not currently assigned to the group the request will fail.
 */
-func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams) (*UnassignGroupResourceRoleOK, error) {
+func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignGroupResourceRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignGroupResourceRole",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignGroupResourceRole",
@@ -2514,7 +3200,12 @@ func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRolePara
 		Reader:             &UnassignGroupResourceRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2528,17 +3219,16 @@ func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRolePara
 }
 
 /*
-  UnassignGroupRole unassigns a role from a group
+UnassignGroupRole unassigns a role from a group
 
-  Unassign a role from a group. If the role is not currently assigned to the group the request will fail.
+Unassign a role from a group. If the role is not currently assigned to the group the request will fail.
 */
-func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams) (*UnassignGroupRoleOK, error) {
+func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignGroupRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignGroupRole",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignGroupRole",
@@ -2549,7 +3239,12 @@ func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams) (*UnassignGr
 		Reader:             &UnassignGroupRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2563,17 +3258,16 @@ func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams) (*UnassignGr
 }
 
 /*
-  UnassignMachineUserResourceRole unassigns a resource role from a machine user
+UnassignMachineUserResourceRole unassigns a resource role from a machine user
 
-  Unassign a resource role from a machine user. If the resource role is not currently assigned to the machine user the request will fail.
+Unassign a resource role from a machine user. If the resource role is not currently assigned to the machine user the request will fail.
 */
-func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams) (*UnassignMachineUserResourceRoleOK, error) {
+func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignMachineUserResourceRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignMachineUserResourceRole",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignMachineUserResourceRole",
@@ -2584,7 +3278,12 @@ func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserReso
 		Reader:             &UnassignMachineUserResourceRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2598,17 +3297,16 @@ func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserReso
 }
 
 /*
-  UnassignMachineUserRole unassigns a role from a machine user
+UnassignMachineUserRole unassigns a role from a machine user
 
-  Unassign a role from a machine user. If the role is not currently assigned to the machine user the request will fail.
+Unassign a role from a machine user. If the role is not currently assigned to the machine user the request will fail.
 */
-func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams) (*UnassignMachineUserRoleOK, error) {
+func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignMachineUserRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignMachineUserRole",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignMachineUserRole",
@@ -2619,7 +3317,12 @@ func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams) 
 		Reader:             &UnassignMachineUserRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2633,17 +3336,16 @@ func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams) 
 }
 
 /*
-  UnassignServicePrincipalAzureCloudIdentity unassigns an azure cloud identity from a service principal or service principal category
+UnassignServicePrincipalAzureCloudIdentity unassigns an azure cloud identity from a service principal
 
-  Unassign an Azure cloud identity, i.e. an object ID (OID), from a service principal or service principal category.
+Unassign an Azure cloud identity, i.e. an object ID (OID), from a service principal.
 */
-func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams) (*UnassignServicePrincipalAzureCloudIdentityOK, error) {
+func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignServicePrincipalAzureCloudIdentityParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignServicePrincipalAzureCloudIdentity",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignServicePrincipalAzureCloudIdentity",
@@ -2654,7 +3356,12 @@ func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServ
 		Reader:             &UnassignServicePrincipalAzureCloudIdentityReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2668,17 +3375,16 @@ func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServ
 }
 
 /*
-  UnassignUserResourceRole unassigns a resource role from a user
+UnassignUserResourceRole unassigns a resource role from a user
 
-  Unassign a resource role from a user. If the resource role is not currently assigned to the user the request will fail.
+Unassign a resource role from a user. If the resource role is not currently assigned to the user the request will fail.
 */
-func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams) (*UnassignUserResourceRoleOK, error) {
+func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignUserResourceRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignUserResourceRole",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignUserResourceRole",
@@ -2689,7 +3395,12 @@ func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams
 		Reader:             &UnassignUserResourceRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2703,17 +3414,16 @@ func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams
 }
 
 /*
-  UnassignUserRole unassigns a role from a user
+UnassignUserRole unassigns a role from a user
 
-  Unassign a role from a user. If the role is not currently assigned to the user the request will fail.
+Unassign a role from a user. If the role is not currently assigned to the user the request will fail.
 */
-func (a *Client) UnassignUserRole(params *UnassignUserRoleParams) (*UnassignUserRoleOK, error) {
+func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUnassignUserRoleParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "unassignUserRole",
 		Method:             "POST",
 		PathPattern:        "/iam/unassignUserRole",
@@ -2724,7 +3434,12 @@ func (a *Client) UnassignUserRole(params *UnassignUserRoleParams) (*UnassignUser
 		Reader:             &UnassignUserRoleReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2738,17 +3453,172 @@ func (a *Client) UnassignUserRole(params *UnassignUserRoleParams) (*UnassignUser
 }
 
 /*
-  UpdateAccessKey updates an access key
+UnlockMachineUserInControlPlane unlocks machine user in the c d p control plane
 
-  Updates an access key.
+Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active.
 */
-func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams) (*UpdateAccessKeyOK, error) {
+func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUnlockMachineUserInControlPlaneParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "unlockMachineUserInControlPlane",
+		Method:             "POST",
+		PathPattern:        "/iam/unlockMachineUserInControlPlane",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UnlockMachineUserInControlPlaneReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UnlockMachineUserInControlPlaneOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UnlockMachineUserInControlPlaneDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UnlockUserInControlPlane unlocks user in the c d p control plane
+
+Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active.
+*/
+func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUnlockUserInControlPlaneParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "unlockUserInControlPlane",
+		Method:             "POST",
+		PathPattern:        "/iam/unlockUserInControlPlane",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UnlockUserInControlPlaneReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UnlockUserInControlPlaneOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UnlockUserInControlPlaneDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UnsetWorkloadPasswordMinLifetime removes workload password minimum lifetime date for an actor
+
+Removes the workload password minimum lifetime date for an actor.
+*/
+func (a *Client) UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUnsetWorkloadPasswordMinLifetimeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "unsetWorkloadPasswordMinLifetime",
+		Method:             "POST",
+		PathPattern:        "/iam/unsetWorkloadPasswordMinLifetime",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UnsetWorkloadPasswordMinLifetimeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UnsetWorkloadPasswordMinLifetimeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UnsetWorkloadPasswordMinLifetimeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UnsetWorkloadPasswordPolicy unsets workload password policy for the account
+
+Unset the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated.
+*/
+func (a *Client) UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUnsetWorkloadPasswordPolicyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "unsetWorkloadPasswordPolicy",
+		Method:             "POST",
+		PathPattern:        "/iam/unsetWorkloadPasswordPolicy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UnsetWorkloadPasswordPolicyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UnsetWorkloadPasswordPolicyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UnsetWorkloadPasswordPolicyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAccessKey updates an access key
+
+Updates an access key.
+*/
+func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateAccessKeyParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateAccessKey",
 		Method:             "POST",
 		PathPattern:        "/iam/updateAccessKey",
@@ -2759,7 +3629,12 @@ func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams) (*UpdateAccessKe
 		Reader:             &UpdateAccessKeyReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2773,17 +3648,16 @@ func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams) (*UpdateAccessKe
 }
 
 /*
-  UpdateGroup updates a group
+UpdateGroup updates a group
 
-  Update a group.
+Update a group.
 */
-func (a *Client) UpdateGroup(params *UpdateGroupParams) (*UpdateGroupOK, error) {
+func (a *Client) UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateGroupParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateGroup",
 		Method:             "POST",
 		PathPattern:        "/iam/updateGroup",
@@ -2794,7 +3668,12 @@ func (a *Client) UpdateGroup(params *UpdateGroupParams) (*UpdateGroupOK, error) 
 		Reader:             &UpdateGroupReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2808,17 +3687,16 @@ func (a *Client) UpdateGroup(params *UpdateGroupParams) (*UpdateGroupOK, error) 
 }
 
 /*
-  UpdateLdapProvider updates ldap provider
+UpdateLdapProvider updates ldap provider
 
-  Update an LDAP provider.
+Update an LDAP provider.
 */
-func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams) (*UpdateLdapProviderOK, error) {
+func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateLdapProviderParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateLdapProvider",
 		Method:             "POST",
 		PathPattern:        "/iam/updateLdapProvider",
@@ -2829,7 +3707,12 @@ func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams) (*UpdateLd
 		Reader:             &UpdateLdapProviderReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2843,17 +3726,16 @@ func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams) (*UpdateLd
 }
 
 /*
-  UpdateSamlProvider updates a s a m l provider in altus
+UpdateSamlProvider updates a s a m l provider in c d p
 
-  Updates a SAML provider in Altus.
+Updates a SAML provider in CDP.
 */
-func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams) (*UpdateSamlProviderOK, error) {
+func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateSamlProviderParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateSamlProvider",
 		Method:             "POST",
 		PathPattern:        "/iam/updateSamlProvider",
@@ -2864,7 +3746,12 @@ func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams) (*UpdateSa
 		Reader:             &UpdateSamlProviderReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2874,6 +3761,45 @@ func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams) (*UpdateSa
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateSamlProviderDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateUser updates a user
+
+Updates a user. Updates request fields provided. An error is returned if no field updates are defined in the request.
+*/
+func (a *Client) UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateUserParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateUser",
+		Method:             "POST",
+		PathPattern:        "/iam/updateUser",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateUserReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateUserOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateUserDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

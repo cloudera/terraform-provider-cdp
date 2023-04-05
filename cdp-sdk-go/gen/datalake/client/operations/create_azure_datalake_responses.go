@@ -46,7 +46,8 @@ func NewCreateAzureDatalakeOK() *CreateAzureDatalakeOK {
 	return &CreateAzureDatalakeOK{}
 }
 
-/*CreateAzureDatalakeOK handles this case with default header values.
+/*
+CreateAzureDatalakeOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateAzureDatalakeOK struct {
 	Payload *models.CreateAzureDatalakeResponse
 }
 
+// IsSuccess returns true when this create azure datalake o k response has a 2xx status code
+func (o *CreateAzureDatalakeOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create azure datalake o k response has a 3xx status code
+func (o *CreateAzureDatalakeOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create azure datalake o k response has a 4xx status code
+func (o *CreateAzureDatalakeOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create azure datalake o k response has a 5xx status code
+func (o *CreateAzureDatalakeOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create azure datalake o k response a status code equal to that given
+func (o *CreateAzureDatalakeOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create azure datalake o k response
+func (o *CreateAzureDatalakeOK) Code() int {
+	return 200
+}
+
 func (o *CreateAzureDatalakeOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalakeOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateAzureDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalakeOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateAzureDatalakeDefault(code int) *CreateAzureDatalakeDefault {
 	}
 }
 
-/*CreateAzureDatalakeDefault handles this case with default header values.
+/*
+CreateAzureDatalakeDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateAzureDatalakeDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create azure datalake default response has a 2xx status code
+func (o *CreateAzureDatalakeDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create azure datalake default response has a 3xx status code
+func (o *CreateAzureDatalakeDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create azure datalake default response has a 4xx status code
+func (o *CreateAzureDatalakeDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create azure datalake default response has a 5xx status code
+func (o *CreateAzureDatalakeDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create azure datalake default response a status code equal to that given
+func (o *CreateAzureDatalakeDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create azure datalake default response
 func (o *CreateAzureDatalakeDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateAzureDatalakeDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalake default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateAzureDatalakeDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalake default  %+v", o._statusCode, o.Payload)
 }
 

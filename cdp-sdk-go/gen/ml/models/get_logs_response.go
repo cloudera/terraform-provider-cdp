@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *GetLogsResponse) validateAuditLogs(formats strfmt.Registry) error {
 		if err := m.AuditLogs.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("auditLogs")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("auditLogs")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this get logs response based on the context it is used
+func (m *GetLogsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *GetLogsResponse) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AuditLogs != nil {
+		if err := m.AuditLogs.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("auditLogs")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("auditLogs")
 			}
 			return err
 		}

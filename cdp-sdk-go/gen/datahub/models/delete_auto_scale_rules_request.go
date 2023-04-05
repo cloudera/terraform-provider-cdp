@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,14 +46,19 @@ func (m *DeleteAutoScaleRulesRequest) validateClusterName(formats strfmt.Registr
 		return err
 	}
 
-	if err := validate.MinLength("clusterName", "body", string(*m.ClusterName), 5); err != nil {
+	if err := validate.MinLength("clusterName", "body", *m.ClusterName, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("clusterName", "body", string(*m.ClusterName), 500); err != nil {
+	if err := validate.MaxLength("clusterName", "body", *m.ClusterName, 500); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this delete auto scale rules request based on context it is used
+func (m *DeleteAutoScaleRulesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

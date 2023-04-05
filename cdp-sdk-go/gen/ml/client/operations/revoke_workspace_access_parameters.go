@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewRevokeWorkspaceAccessParams creates a new RevokeWorkspaceAccessParams object
-// with the default values initialized.
+// NewRevokeWorkspaceAccessParams creates a new RevokeWorkspaceAccessParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRevokeWorkspaceAccessParams() *RevokeWorkspaceAccessParams {
-	var ()
 	return &RevokeWorkspaceAccessParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRevokeWorkspaceAccessParamsWithTimeout creates a new RevokeWorkspaceAccessParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRevokeWorkspaceAccessParamsWithTimeout(timeout time.Duration) *RevokeWorkspaceAccessParams {
-	var ()
 	return &RevokeWorkspaceAccessParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRevokeWorkspaceAccessParamsWithContext creates a new RevokeWorkspaceAccessParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRevokeWorkspaceAccessParamsWithContext(ctx context.Context) *RevokeWorkspaceAccessParams {
-	var ()
 	return &RevokeWorkspaceAccessParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRevokeWorkspaceAccessParamsWithHTTPClient creates a new RevokeWorkspaceAccessParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRevokeWorkspaceAccessParamsWithHTTPClient(client *http.Client) *RevokeWorkspaceAccessParams {
-	var ()
 	return &RevokeWorkspaceAccessParams{
 		HTTPClient: client,
 	}
 }
 
-/*RevokeWorkspaceAccessParams contains all the parameters to send to the API endpoint
-for the revoke workspace access operation typically these are written to a http.Request
+/*
+RevokeWorkspaceAccessParams contains all the parameters to send to the API endpoint
+
+	for the revoke workspace access operation.
+
+	Typically these are written to a http.Request.
 */
 type RevokeWorkspaceAccessParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.RevokeWorkspaceAccessRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the revoke workspace access params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RevokeWorkspaceAccessParams) WithDefaults() *RevokeWorkspaceAccessParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the revoke workspace access params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RevokeWorkspaceAccessParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the revoke workspace access params
@@ -121,7 +137,6 @@ func (o *RevokeWorkspaceAccessParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

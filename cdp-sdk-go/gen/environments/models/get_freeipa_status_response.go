@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -83,6 +84,10 @@ func (m *GetFreeipaStatusResponse) validateEnvironmentName(formats strfmt.Regist
 
 func (m *GetFreeipaStatusResponse) validateInstances(formats strfmt.Registry) error {
 
+	if err := validate.Required("instances", "body", m.Instances); err != nil {
+		return err
+	}
+
 	for k := range m.Instances {
 
 		if err := validate.Required("instances"+"."+k, "body", m.Instances[k]); err != nil {
@@ -90,6 +95,11 @@ func (m *GetFreeipaStatusResponse) validateInstances(formats strfmt.Registry) er
 		}
 		if val, ok := m.Instances[k]; ok {
 			if err := val.Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("instances" + "." + k)
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instances" + "." + k)
+				}
 				return err
 			}
 		}
@@ -188,7 +198,7 @@ const (
 
 // prop value enum
 func (m *GetFreeipaStatusResponse) validateStatusEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getFreeipaStatusResponseTypeStatusPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, getFreeipaStatusResponseTypeStatusPropEnum, true); err != nil {
 		return err
 	}
 	return nil
@@ -203,6 +213,39 @@ func (m *GetFreeipaStatusResponse) validateStatus(formats strfmt.Registry) error
 	// value enum
 	if err := m.validateStatusEnum("status", "body", *m.Status); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this get freeipa status response based on the context it is used
+func (m *GetFreeipaStatusResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstances(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *GetFreeipaStatusResponse) contextValidateInstances(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := validate.Required("instances", "body", m.Instances); err != nil {
+		return err
+	}
+
+	for k := range m.Instances {
+
+		if val, ok := m.Instances[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	return nil

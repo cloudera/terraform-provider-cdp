@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewGetAuditEventsParams creates a new GetAuditEventsParams object
-// with the default values initialized.
+// NewGetAuditEventsParams creates a new GetAuditEventsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAuditEventsParams() *GetAuditEventsParams {
-	var ()
 	return &GetAuditEventsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAuditEventsParamsWithTimeout creates a new GetAuditEventsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAuditEventsParamsWithTimeout(timeout time.Duration) *GetAuditEventsParams {
-	var ()
 	return &GetAuditEventsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAuditEventsParamsWithContext creates a new GetAuditEventsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAuditEventsParamsWithContext(ctx context.Context) *GetAuditEventsParams {
-	var ()
 	return &GetAuditEventsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetAuditEventsParamsWithHTTPClient creates a new GetAuditEventsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAuditEventsParamsWithHTTPClient(client *http.Client) *GetAuditEventsParams {
-	var ()
 	return &GetAuditEventsParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetAuditEventsParams contains all the parameters to send to the API endpoint
-for the get audit events operation typically these are written to a http.Request
+/*
+GetAuditEventsParams contains all the parameters to send to the API endpoint
+
+	for the get audit events operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAuditEventsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.GetAuditEventsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get audit events params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAuditEventsParams) WithDefaults() *GetAuditEventsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get audit events params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAuditEventsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get audit events params
@@ -121,7 +137,6 @@ func (o *GetAuditEventsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

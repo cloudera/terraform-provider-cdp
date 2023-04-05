@@ -46,7 +46,8 @@ func NewAddMachineUserToGroupOK() *AddMachineUserToGroupOK {
 	return &AddMachineUserToGroupOK{}
 }
 
-/*AddMachineUserToGroupOK handles this case with default header values.
+/*
+AddMachineUserToGroupOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type AddMachineUserToGroupOK struct {
 	Payload models.AddMachineUserToGroupResponse
 }
 
+// IsSuccess returns true when this add machine user to group o k response has a 2xx status code
+func (o *AddMachineUserToGroupOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add machine user to group o k response has a 3xx status code
+func (o *AddMachineUserToGroupOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add machine user to group o k response has a 4xx status code
+func (o *AddMachineUserToGroupOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add machine user to group o k response has a 5xx status code
+func (o *AddMachineUserToGroupOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add machine user to group o k response a status code equal to that given
+func (o *AddMachineUserToGroupOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the add machine user to group o k response
+func (o *AddMachineUserToGroupOK) Code() int {
+	return 200
+}
+
 func (o *AddMachineUserToGroupOK) Error() string {
+	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroupOK  %+v", 200, o.Payload)
+}
+
+func (o *AddMachineUserToGroupOK) String() string {
 	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroupOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewAddMachineUserToGroupDefault(code int) *AddMachineUserToGroupDefault {
 	}
 }
 
-/*AddMachineUserToGroupDefault handles this case with default header values.
+/*
+AddMachineUserToGroupDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type AddMachineUserToGroupDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this add machine user to group default response has a 2xx status code
+func (o *AddMachineUserToGroupDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this add machine user to group default response has a 3xx status code
+func (o *AddMachineUserToGroupDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this add machine user to group default response has a 4xx status code
+func (o *AddMachineUserToGroupDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this add machine user to group default response has a 5xx status code
+func (o *AddMachineUserToGroupDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this add machine user to group default response a status code equal to that given
+func (o *AddMachineUserToGroupDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the add machine user to group default response
 func (o *AddMachineUserToGroupDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *AddMachineUserToGroupDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroup default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *AddMachineUserToGroupDefault) String() string {
 	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroup default  %+v", o._statusCode, o.Payload)
 }
 

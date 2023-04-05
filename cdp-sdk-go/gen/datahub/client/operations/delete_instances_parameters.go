@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewDeleteInstancesParams creates a new DeleteInstancesParams object
-// with the default values initialized.
+// NewDeleteInstancesParams creates a new DeleteInstancesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteInstancesParams() *DeleteInstancesParams {
-	var ()
 	return &DeleteInstancesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteInstancesParamsWithTimeout creates a new DeleteInstancesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteInstancesParamsWithTimeout(timeout time.Duration) *DeleteInstancesParams {
-	var ()
 	return &DeleteInstancesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteInstancesParamsWithContext creates a new DeleteInstancesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteInstancesParamsWithContext(ctx context.Context) *DeleteInstancesParams {
-	var ()
 	return &DeleteInstancesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteInstancesParamsWithHTTPClient creates a new DeleteInstancesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteInstancesParamsWithHTTPClient(client *http.Client) *DeleteInstancesParams {
-	var ()
 	return &DeleteInstancesParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteInstancesParams contains all the parameters to send to the API endpoint
-for the delete instances operation typically these are written to a http.Request
+/*
+DeleteInstancesParams contains all the parameters to send to the API endpoint
+
+	for the delete instances operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteInstancesParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DeleteInstancesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete instances params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteInstancesParams) WithDefaults() *DeleteInstancesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete instances params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteInstancesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete instances params
@@ -121,7 +137,6 @@ func (o *DeleteInstancesParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

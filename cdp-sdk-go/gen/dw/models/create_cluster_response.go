@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -15,12 +17,17 @@ import (
 // swagger:model CreateClusterResponse
 type CreateClusterResponse struct {
 
-	// ID of new cluster
+	// ID of new cluster.
 	ClusterID string `json:"clusterId,omitempty"`
 }
 
 // Validate validates this create cluster response
 func (m *CreateClusterResponse) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this create cluster response based on context it is used
+func (m *CreateClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

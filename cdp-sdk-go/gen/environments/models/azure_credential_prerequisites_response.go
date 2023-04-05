@@ -6,6 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"strconv"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,13 +20,16 @@ import (
 // swagger:model AzureCredentialPrerequisitesResponse
 type AzureCredentialPrerequisitesResponse struct {
 
-	// Azure CLI command to create Azure AD Application.
+	// Azure CLI command to create Azure AD Application encoded in base64.
 	// Required: true
 	AppCreationCommand *string `json:"appCreationCommand"`
 
+	// The fine-grained policies related to each service.
+	Policies []*CredentialGranularPolicyResponse `json:"policies"`
+
 	// The related role definition json encoded in base64
 	// Required: true
-	RoleDefitionJSON *string `json:"roleDefitionJson"`
+	RoleDefinitionJSON *string `json:"roleDefinitionJson"`
 }
 
 // Validate validates this azure credential prerequisites response
@@ -34,7 +40,11 @@ func (m *AzureCredentialPrerequisitesResponse) Validate(formats strfmt.Registry)
 		res = append(res, err)
 	}
 
-	if err := m.validateRoleDefitionJSON(formats); err != nil {
+	if err := m.validatePolicies(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRoleDefinitionJSON(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -53,10 +63,70 @@ func (m *AzureCredentialPrerequisitesResponse) validateAppCreationCommand(format
 	return nil
 }
 
-func (m *AzureCredentialPrerequisitesResponse) validateRoleDefitionJSON(formats strfmt.Registry) error {
+func (m *AzureCredentialPrerequisitesResponse) validatePolicies(formats strfmt.Registry) error {
+	if swag.IsZero(m.Policies) { // not required
+		return nil
+	}
 
-	if err := validate.Required("roleDefitionJson", "body", m.RoleDefitionJSON); err != nil {
+	for i := 0; i < len(m.Policies); i++ {
+		if swag.IsZero(m.Policies[i]) { // not required
+			continue
+		}
+
+		if m.Policies[i] != nil {
+			if err := m.Policies[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("policies" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("policies" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *AzureCredentialPrerequisitesResponse) validateRoleDefinitionJSON(formats strfmt.Registry) error {
+
+	if err := validate.Required("roleDefinitionJson", "body", m.RoleDefinitionJSON); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this azure credential prerequisites response based on the context it is used
+func (m *AzureCredentialPrerequisitesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePolicies(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AzureCredentialPrerequisitesResponse) contextValidatePolicies(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Policies); i++ {
+
+		if m.Policies[i] != nil {
+			if err := m.Policies[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("policies" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("policies" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

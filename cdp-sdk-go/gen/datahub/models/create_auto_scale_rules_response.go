@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -35,7 +37,6 @@ func (m *CreateAutoScaleRulesResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateAutoScaleRulesResponse) validateAutoScaleRules(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AutoScaleRules) { // not required
 		return nil
 	}
@@ -44,6 +45,38 @@ func (m *CreateAutoScaleRulesResponse) validateAutoScaleRules(formats strfmt.Reg
 		if err := m.AutoScaleRules.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("autoScaleRules")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("autoScaleRules")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create auto scale rules response based on the context it is used
+func (m *CreateAutoScaleRulesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAutoScaleRules(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateAutoScaleRulesResponse) contextValidateAutoScaleRules(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AutoScaleRules != nil {
+		if err := m.AutoScaleRules.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("autoScaleRules")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("autoScaleRules")
 			}
 			return err
 		}

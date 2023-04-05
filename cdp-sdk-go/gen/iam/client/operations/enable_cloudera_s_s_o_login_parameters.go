@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewEnableClouderaSSOLoginParams creates a new EnableClouderaSSOLoginParams object
-// with the default values initialized.
+// NewEnableClouderaSSOLoginParams creates a new EnableClouderaSSOLoginParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewEnableClouderaSSOLoginParams() *EnableClouderaSSOLoginParams {
-	var ()
 	return &EnableClouderaSSOLoginParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewEnableClouderaSSOLoginParamsWithTimeout creates a new EnableClouderaSSOLoginParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewEnableClouderaSSOLoginParamsWithTimeout(timeout time.Duration) *EnableClouderaSSOLoginParams {
-	var ()
 	return &EnableClouderaSSOLoginParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewEnableClouderaSSOLoginParamsWithContext creates a new EnableClouderaSSOLoginParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewEnableClouderaSSOLoginParamsWithContext(ctx context.Context) *EnableClouderaSSOLoginParams {
-	var ()
 	return &EnableClouderaSSOLoginParams{
-
 		Context: ctx,
 	}
 }
 
 // NewEnableClouderaSSOLoginParamsWithHTTPClient creates a new EnableClouderaSSOLoginParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewEnableClouderaSSOLoginParamsWithHTTPClient(client *http.Client) *EnableClouderaSSOLoginParams {
-	var ()
 	return &EnableClouderaSSOLoginParams{
 		HTTPClient: client,
 	}
 }
 
-/*EnableClouderaSSOLoginParams contains all the parameters to send to the API endpoint
-for the enable cloudera s s o login operation typically these are written to a http.Request
+/*
+EnableClouderaSSOLoginParams contains all the parameters to send to the API endpoint
+
+	for the enable cloudera s s o login operation.
+
+	Typically these are written to a http.Request.
 */
 type EnableClouderaSSOLoginParams struct {
 
-	/*Input*/
+	// Input.
 	Input models.EnableClouderaSSOLoginRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the enable cloudera s s o login params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *EnableClouderaSSOLoginParams) WithDefaults() *EnableClouderaSSOLoginParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the enable cloudera s s o login params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *EnableClouderaSSOLoginParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the enable cloudera s s o login params
@@ -121,7 +137,6 @@ func (o *EnableClouderaSSOLoginParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

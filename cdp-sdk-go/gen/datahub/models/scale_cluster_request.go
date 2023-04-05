@@ -6,6 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"encoding/json"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +19,10 @@ import (
 //
 // swagger:model ScaleClusterRequest
 type ScaleClusterRequest struct {
+
+	// The adjustment type for the scaling operation.
+	// Enum: [EXACT PERCENTAGE BEST_EFFORT]
+	AdjustmentType string `json:"adjustmentType,omitempty"`
 
 	// The name or CRN of the cluster to be scaled.
 	// Required: true
@@ -28,11 +35,22 @@ type ScaleClusterRequest struct {
 	// The name of the instance group which needs to be scaled.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
+
+	// The preferred subnet IDs for the scaling cluster.
+	PreferredSubnetIds []string `json:"preferredSubnetIds"`
+
+	// Threshold value for adjustment. Required for EXACT and PERCENTAGE adjustment types. The maximum allowed threshold value is 100 for adjustment type PERCENTAGE.
+	// Minimum: 0
+	Threshold *int32 `json:"threshold,omitempty"`
 }
 
 // Validate validates this scale cluster request
 func (m *ScaleClusterRequest) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateAdjustmentType(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateClusterName(formats); err != nil {
 		res = append(res, err)
@@ -46,9 +64,58 @@ func (m *ScaleClusterRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateThreshold(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+var scaleClusterRequestTypeAdjustmentTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["EXACT","PERCENTAGE","BEST_EFFORT"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		scaleClusterRequestTypeAdjustmentTypePropEnum = append(scaleClusterRequestTypeAdjustmentTypePropEnum, v)
+	}
+}
+
+const (
+
+	// ScaleClusterRequestAdjustmentTypeEXACT captures enum value "EXACT"
+	ScaleClusterRequestAdjustmentTypeEXACT string = "EXACT"
+
+	// ScaleClusterRequestAdjustmentTypePERCENTAGE captures enum value "PERCENTAGE"
+	ScaleClusterRequestAdjustmentTypePERCENTAGE string = "PERCENTAGE"
+
+	// ScaleClusterRequestAdjustmentTypeBESTEFFORT captures enum value "BEST_EFFORT"
+	ScaleClusterRequestAdjustmentTypeBESTEFFORT string = "BEST_EFFORT"
+)
+
+// prop value enum
+func (m *ScaleClusterRequest) validateAdjustmentTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, scaleClusterRequestTypeAdjustmentTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *ScaleClusterRequest) validateAdjustmentType(formats strfmt.Registry) error {
+	if swag.IsZero(m.AdjustmentType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateAdjustmentTypeEnum("adjustmentType", "body", m.AdjustmentType); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -76,6 +143,23 @@ func (m *ScaleClusterRequest) validateInstanceGroupName(formats strfmt.Registry)
 		return err
 	}
 
+	return nil
+}
+
+func (m *ScaleClusterRequest) validateThreshold(formats strfmt.Registry) error {
+	if swag.IsZero(m.Threshold) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("threshold", "body", int64(*m.Threshold), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validates this scale cluster request based on context it is used
+func (m *ScaleClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

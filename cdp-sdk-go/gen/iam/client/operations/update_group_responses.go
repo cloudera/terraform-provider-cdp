@@ -46,7 +46,8 @@ func NewUpdateGroupOK() *UpdateGroupOK {
 	return &UpdateGroupOK{}
 }
 
-/*UpdateGroupOK handles this case with default header values.
+/*
+UpdateGroupOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UpdateGroupOK struct {
 	Payload *models.UpdateGroupResponse
 }
 
+// IsSuccess returns true when this update group o k response has a 2xx status code
+func (o *UpdateGroupOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this update group o k response has a 3xx status code
+func (o *UpdateGroupOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update group o k response has a 4xx status code
+func (o *UpdateGroupOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this update group o k response has a 5xx status code
+func (o *UpdateGroupOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update group o k response a status code equal to that given
+func (o *UpdateGroupOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the update group o k response
+func (o *UpdateGroupOK) Code() int {
+	return 200
+}
+
 func (o *UpdateGroupOK) Error() string {
+	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroupOK  %+v", 200, o.Payload)
+}
+
+func (o *UpdateGroupOK) String() string {
 	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroupOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewUpdateGroupDefault(code int) *UpdateGroupDefault {
 	}
 }
 
-/*UpdateGroupDefault handles this case with default header values.
+/*
+UpdateGroupDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type UpdateGroupDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this update group default response has a 2xx status code
+func (o *UpdateGroupDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this update group default response has a 3xx status code
+func (o *UpdateGroupDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this update group default response has a 4xx status code
+func (o *UpdateGroupDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this update group default response has a 5xx status code
+func (o *UpdateGroupDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this update group default response a status code equal to that given
+func (o *UpdateGroupDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the update group default response
 func (o *UpdateGroupDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UpdateGroupDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroup default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UpdateGroupDefault) String() string {
 	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroup default  %+v", o._statusCode, o.Payload)
 }
 

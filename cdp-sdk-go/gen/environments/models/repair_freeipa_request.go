@@ -6,6 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"encoding/json"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -26,6 +29,10 @@ type RepairFreeipaRequest struct {
 
 	// The instance Ids to repair. If not provided then all instances are looked at for repair.
 	Instances []string `json:"instances"`
+
+	// The type of FreeIPA repair to perform. * AUTO - Currently, this is the same as reboot but this may change in the future. * REBOOT - Repair the failed instances by rebooting them. * REBUILD - Repair the failed instances by deleting them and creating new instances, then replicate data from an existing instance to the new instances.
+	// Enum: [AUTO REBOOT REBUILD]
+	RepairType string `json:"repairType,omitempty"`
 }
 
 // Validate validates this repair freeipa request
@@ -33,6 +40,10 @@ func (m *RepairFreeipaRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateEnvironmentName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRepairType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -48,6 +59,56 @@ func (m *RepairFreeipaRequest) validateEnvironmentName(formats strfmt.Registry) 
 		return err
 	}
 
+	return nil
+}
+
+var repairFreeipaRequestTypeRepairTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["AUTO","REBOOT","REBUILD"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		repairFreeipaRequestTypeRepairTypePropEnum = append(repairFreeipaRequestTypeRepairTypePropEnum, v)
+	}
+}
+
+const (
+
+	// RepairFreeipaRequestRepairTypeAUTO captures enum value "AUTO"
+	RepairFreeipaRequestRepairTypeAUTO string = "AUTO"
+
+	// RepairFreeipaRequestRepairTypeREBOOT captures enum value "REBOOT"
+	RepairFreeipaRequestRepairTypeREBOOT string = "REBOOT"
+
+	// RepairFreeipaRequestRepairTypeREBUILD captures enum value "REBUILD"
+	RepairFreeipaRequestRepairTypeREBUILD string = "REBUILD"
+)
+
+// prop value enum
+func (m *RepairFreeipaRequest) validateRepairTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, repairFreeipaRequestTypeRepairTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *RepairFreeipaRequest) validateRepairType(formats strfmt.Registry) error {
+	if swag.IsZero(m.RepairType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateRepairTypeEnum("repairType", "body", m.RepairType); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validates this repair freeipa request based on context it is used
+func (m *RepairFreeipaRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

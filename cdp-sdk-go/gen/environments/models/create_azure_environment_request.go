@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -19,18 +21,46 @@ import (
 // swagger:model CreateAzureEnvironmentRequest
 type CreateAzureEnvironmentRequest struct {
 
+	// CCM V2 TLS connectivity types
+	CcmV2TLSType CcmV2TLSType `json:"ccmV2TlsType,omitempty"`
+
+	// When this is enabled, logs from the VMs will end up on the pre-defined cloud storage (enabled by default).
+	CloudStorageLogging bool `json:"cloudStorageLogging,omitempty"`
+
+	// When this is enabled, then Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. When this is disabled, then Azure Service Endpoints will be created. The default value is disabled.
+	CreatePrivateEndpoints bool `json:"createPrivateEndpoints,omitempty"`
+
 	// Name of the credential to use for the environment.
 	// Required: true
 	CredentialName *string `json:"credentialName"`
 
+	// When this is enabled, a dedicated storage account will be used in a pre-defined resource group for storing the images in each region.
+	DedicatedStorageAccount bool `json:"dedicatedStorageAccount,omitempty"`
+
 	// An description of the environment.
 	Description string `json:"description,omitempty"`
 
-	// Whether to enable SSH tunnelling for the environment.
+	// Whether or not Knox and Oozie load balancers are enabled for all Data Lakes and Data Hubs in the environment. This will override the load balancer creation mode at the cluster level. The default behavior is to create load balancers on all Data Lakes, and on HA Data Hubs.
+	EnableLoadBalancers bool `json:"enableLoadBalancers,omitempty"`
+
+	// Whether or not outbound load balancers should be created for Azure environments. The default behavior is to not create the outbound load balancer.
+	EnableOutboundLoadBalancer bool `json:"enableOutboundLoadBalancer,omitempty"`
+
+	// Whether to enable SSH tunneling for the environment.
 	EnableTunnel bool `json:"enableTunnel,omitempty"`
 
 	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
 	EnableWorkloadAnalytics bool `json:"enableWorkloadAnalytics,omitempty"`
+
+	// Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disks. It is required only when the entitlement is granted and the resource group of the key vault is different from the resource group in which the environment is to be created. Omitting it implies that, the key vault containing the encryption key is present in the same resource group where the environment would be created.
+	EncryptionKeyResourceGroupName string `json:"encryptionKeyResourceGroupName,omitempty"`
+
+	// URL of the key which will be used to encrypt the Azure Managed Disks, if entitlement has been granted.
+	EncryptionKeyURL string `json:"encryptionKeyUrl,omitempty"`
+
+	// The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VNet.
+	// Enum: [PUBLIC PRIVATE]
+	EndpointAccessGatewayScheme string `json:"endpointAccessGatewayScheme,omitempty"`
 
 	// The name of the environment. Must contain only lowercase letters, numbers and hyphens.
 	// Required: true
@@ -41,6 +71,12 @@ type CreateAzureEnvironmentRequest struct {
 
 	// The FreeIPA creation request for the environment
 	FreeIpa *AzureFreeIpaCreationRequest `json:"freeIpa,omitempty"`
+
+	// This is an optional field. This is for QE testing purposes and internal use only.
+	IDBrokerMappingSource string `json:"idBrokerMappingSource,omitempty"`
+
+	// The FreeIPA image request for the environment
+	Image *FreeIpaImageRequest `json:"image,omitempty"`
 
 	// Azure storage configuration for cluster and audit logs.
 	// Required: true
@@ -63,12 +99,18 @@ type CreateAzureEnvironmentRequest struct {
 	// When true, this will report additional diagnostic information back to Cloudera.
 	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
 
-	// Security control for FreeIPA and Datalake deployment.
+	// Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.
+	ResourceGroupName string `json:"resourceGroupName,omitempty"`
+
+	// Security control for FreeIPA and Data Lake deployment.
 	// Required: true
 	SecurityAccess *SecurityAccessRequest `json:"securityAccess"`
 
 	// Tags associated with the resources.
 	Tags []*TagRequest `json:"tags"`
+
+	// The CCM version that will be used for tunneling
+	TunnelType TunnelType `json:"tunnelType,omitempty"`
 
 	// Whether to associate public ip's to the resources within the network.
 	// Required: true
@@ -82,7 +124,15 @@ type CreateAzureEnvironmentRequest struct {
 func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCcmV2TLSType(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCredentialName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateEndpointAccessGatewayScheme(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -95,6 +145,10 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	}
 
 	if err := m.validateFreeIpa(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImage(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -122,6 +176,10 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 		res = append(res, err)
 	}
 
+	if err := m.validateTunnelType(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateUsePublicIP(formats); err != nil {
 		res = append(res, err)
 	}
@@ -132,9 +190,68 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	return nil
 }
 
+func (m *CreateAzureEnvironmentRequest) validateCcmV2TLSType(formats strfmt.Registry) error {
+	if swag.IsZero(m.CcmV2TLSType) { // not required
+		return nil
+	}
+
+	if err := m.CcmV2TLSType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("ccmV2TlsType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("ccmV2TlsType")
+		}
+		return err
+	}
+
+	return nil
+}
+
 func (m *CreateAzureEnvironmentRequest) validateCredentialName(formats strfmt.Registry) error {
 
 	if err := validate.Required("credentialName", "body", m.CredentialName); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var createAzureEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["PUBLIC","PRIVATE"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createAzureEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum = append(createAzureEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateAzureEnvironmentRequestEndpointAccessGatewaySchemePUBLIC captures enum value "PUBLIC"
+	CreateAzureEnvironmentRequestEndpointAccessGatewaySchemePUBLIC string = "PUBLIC"
+
+	// CreateAzureEnvironmentRequestEndpointAccessGatewaySchemePRIVATE captures enum value "PRIVATE"
+	CreateAzureEnvironmentRequestEndpointAccessGatewaySchemePRIVATE string = "PRIVATE"
+)
+
+// prop value enum
+func (m *CreateAzureEnvironmentRequest) validateEndpointAccessGatewaySchemeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createAzureEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) validateEndpointAccessGatewayScheme(formats strfmt.Registry) error {
+	if swag.IsZero(m.EndpointAccessGatewayScheme) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateEndpointAccessGatewaySchemeEnum("endpointAccessGatewayScheme", "body", m.EndpointAccessGatewayScheme); err != nil {
 		return err
 	}
 
@@ -151,7 +268,6 @@ func (m *CreateAzureEnvironmentRequest) validateEnvironmentName(formats strfmt.R
 }
 
 func (m *CreateAzureEnvironmentRequest) validateExistingNetworkParams(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ExistingNetworkParams) { // not required
 		return nil
 	}
@@ -160,6 +276,8 @@ func (m *CreateAzureEnvironmentRequest) validateExistingNetworkParams(formats st
 		if err := m.ExistingNetworkParams.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("existingNetworkParams")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("existingNetworkParams")
 			}
 			return err
 		}
@@ -169,7 +287,6 @@ func (m *CreateAzureEnvironmentRequest) validateExistingNetworkParams(formats st
 }
 
 func (m *CreateAzureEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.FreeIpa) { // not required
 		return nil
 	}
@@ -178,6 +295,27 @@ func (m *CreateAzureEnvironmentRequest) validateFreeIpa(formats strfmt.Registry)
 		if err := m.FreeIpa.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("freeIpa")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("freeIpa")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) validateImage(formats strfmt.Registry) error {
+	if swag.IsZero(m.Image) { // not required
+		return nil
+	}
+
+	if m.Image != nil {
+		if err := m.Image.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("image")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("image")
 			}
 			return err
 		}
@@ -196,6 +334,8 @@ func (m *CreateAzureEnvironmentRequest) validateLogStorage(formats strfmt.Regist
 		if err := m.LogStorage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("logStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("logStorage")
 			}
 			return err
 		}
@@ -205,7 +345,6 @@ func (m *CreateAzureEnvironmentRequest) validateLogStorage(formats strfmt.Regist
 }
 
 func (m *CreateAzureEnvironmentRequest) validateNewNetworkParams(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.NewNetworkParams) { // not required
 		return nil
 	}
@@ -214,6 +353,8 @@ func (m *CreateAzureEnvironmentRequest) validateNewNetworkParams(formats strfmt.
 		if err := m.NewNetworkParams.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("newNetworkParams")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("newNetworkParams")
 			}
 			return err
 		}
@@ -250,6 +391,8 @@ func (m *CreateAzureEnvironmentRequest) validateSecurityAccess(formats strfmt.Re
 		if err := m.SecurityAccess.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("securityAccess")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityAccess")
 			}
 			return err
 		}
@@ -259,7 +402,6 @@ func (m *CreateAzureEnvironmentRequest) validateSecurityAccess(formats strfmt.Re
 }
 
 func (m *CreateAzureEnvironmentRequest) validateTags(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Tags) { // not required
 		return nil
 	}
@@ -273,6 +415,8 @@ func (m *CreateAzureEnvironmentRequest) validateTags(formats strfmt.Registry) er
 			if err := m.Tags[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -283,9 +427,216 @@ func (m *CreateAzureEnvironmentRequest) validateTags(formats strfmt.Registry) er
 	return nil
 }
 
+func (m *CreateAzureEnvironmentRequest) validateTunnelType(formats strfmt.Registry) error {
+	if swag.IsZero(m.TunnelType) { // not required
+		return nil
+	}
+
+	if err := m.TunnelType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("tunnelType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("tunnelType")
+		}
+		return err
+	}
+
+	return nil
+}
+
 func (m *CreateAzureEnvironmentRequest) validateUsePublicIP(formats strfmt.Registry) error {
 
 	if err := validate.Required("usePublicIp", "body", m.UsePublicIP); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create azure environment request based on the context it is used
+func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCcmV2TLSType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateExistingNetworkParams(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFreeIpa(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLogStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNewNetworkParams(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurityAccess(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTags(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTunnelType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateCcmV2TLSType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.CcmV2TLSType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("ccmV2TlsType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("ccmV2TlsType")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateExistingNetworkParams(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ExistingNetworkParams != nil {
+		if err := m.ExistingNetworkParams.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("existingNetworkParams")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("existingNetworkParams")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateFreeIpa(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.FreeIpa != nil {
+		if err := m.FreeIpa.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("freeIpa")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("freeIpa")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Image != nil {
+		if err := m.Image.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("image")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("image")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateLogStorage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LogStorage != nil {
+		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("logStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("logStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateNewNetworkParams(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.NewNetworkParams != nil {
+		if err := m.NewNetworkParams.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("newNetworkParams")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("newNetworkParams")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateSecurityAccess(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SecurityAccess != nil {
+		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("securityAccess")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityAccess")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Tags); i++ {
+
+		if m.Tags[i] != nil {
+			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateTunnelType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.TunnelType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("tunnelType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("tunnelType")
+		}
 		return err
 	}
 
@@ -340,6 +691,11 @@ func (m *CreateAzureEnvironmentRequestNewNetworkParams) validateNetworkCidr(form
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create azure environment request new network params based on context it is used
+func (m *CreateAzureEnvironmentRequestNewNetworkParams) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

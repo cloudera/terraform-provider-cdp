@@ -46,7 +46,8 @@ func NewCreateGroupOK() *CreateGroupOK {
 	return &CreateGroupOK{}
 }
 
-/*CreateGroupOK handles this case with default header values.
+/*
+CreateGroupOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateGroupOK struct {
 	Payload *models.CreateGroupResponse
 }
 
+// IsSuccess returns true when this create group o k response has a 2xx status code
+func (o *CreateGroupOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create group o k response has a 3xx status code
+func (o *CreateGroupOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create group o k response has a 4xx status code
+func (o *CreateGroupOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create group o k response has a 5xx status code
+func (o *CreateGroupOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create group o k response a status code equal to that given
+func (o *CreateGroupOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create group o k response
+func (o *CreateGroupOK) Code() int {
+	return 200
+}
+
 func (o *CreateGroupOK) Error() string {
+	return fmt.Sprintf("[POST /iam/createGroup][%d] createGroupOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateGroupOK) String() string {
 	return fmt.Sprintf("[POST /iam/createGroup][%d] createGroupOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateGroupDefault(code int) *CreateGroupDefault {
 	}
 }
 
-/*CreateGroupDefault handles this case with default header values.
+/*
+CreateGroupDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateGroupDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create group default response has a 2xx status code
+func (o *CreateGroupDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create group default response has a 3xx status code
+func (o *CreateGroupDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create group default response has a 4xx status code
+func (o *CreateGroupDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create group default response has a 5xx status code
+func (o *CreateGroupDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create group default response a status code equal to that given
+func (o *CreateGroupDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create group default response
 func (o *CreateGroupDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateGroupDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/createGroup][%d] createGroup default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateGroupDefault) String() string {
 	return fmt.Sprintf("[POST /iam/createGroup][%d] createGroup default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -47,7 +49,6 @@ func (m *ImageInfo) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ImageInfo) validateComponentVersions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ComponentVersions) { // not required
 		return nil
 	}
@@ -56,6 +57,38 @@ func (m *ImageInfo) validateComponentVersions(formats strfmt.Registry) error {
 		if err := m.ComponentVersions.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("componentVersions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("componentVersions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this image info based on the context it is used
+func (m *ImageInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateComponentVersions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ImageInfo) contextValidateComponentVersions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ComponentVersions != nil {
+		if err := m.ComponentVersions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("componentVersions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("componentVersions")
 			}
 			return err
 		}

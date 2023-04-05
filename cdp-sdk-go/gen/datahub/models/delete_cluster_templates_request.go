@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,6 +44,11 @@ func (m *DeleteClusterTemplatesRequest) validateClusterTemplateNames(formats str
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this delete cluster templates request based on context it is used
+func (m *DeleteClusterTemplatesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

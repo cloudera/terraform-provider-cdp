@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewSetAccountTelemetryParams creates a new SetAccountTelemetryParams object
-// with the default values initialized.
+// NewSetAccountTelemetryParams creates a new SetAccountTelemetryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetAccountTelemetryParams() *SetAccountTelemetryParams {
-	var ()
 	return &SetAccountTelemetryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSetAccountTelemetryParamsWithTimeout creates a new SetAccountTelemetryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSetAccountTelemetryParamsWithTimeout(timeout time.Duration) *SetAccountTelemetryParams {
-	var ()
 	return &SetAccountTelemetryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSetAccountTelemetryParamsWithContext creates a new SetAccountTelemetryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSetAccountTelemetryParamsWithContext(ctx context.Context) *SetAccountTelemetryParams {
-	var ()
 	return &SetAccountTelemetryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSetAccountTelemetryParamsWithHTTPClient creates a new SetAccountTelemetryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSetAccountTelemetryParamsWithHTTPClient(client *http.Client) *SetAccountTelemetryParams {
-	var ()
 	return &SetAccountTelemetryParams{
 		HTTPClient: client,
 	}
 }
 
-/*SetAccountTelemetryParams contains all the parameters to send to the API endpoint
-for the set account telemetry operation typically these are written to a http.Request
+/*
+SetAccountTelemetryParams contains all the parameters to send to the API endpoint
+
+	for the set account telemetry operation.
+
+	Typically these are written to a http.Request.
 */
 type SetAccountTelemetryParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.SetAccountTelemetryRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the set account telemetry params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetAccountTelemetryParams) WithDefaults() *SetAccountTelemetryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the set account telemetry params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetAccountTelemetryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the set account telemetry params
@@ -121,7 +137,6 @@ func (o *SetAccountTelemetryParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

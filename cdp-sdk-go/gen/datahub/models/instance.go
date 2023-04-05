@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -24,9 +26,19 @@ type Instance struct {
 	// Required: true
 	ID *string `json:"id"`
 
+	// The type of the given instance.
+	// Required: true
+	InstanceType *string `json:"instanceType"`
+
 	// The lifecycle of the instance, either normal or spot.
 	// Required: true
 	LifeCycle *string `json:"lifeCycle"`
+
+	// The private ip of the given instance.
+	PrivateIP string `json:"privateIp,omitempty"`
+
+	// The public ip of the given instance.
+	PublicIP string `json:"publicIp,omitempty"`
 
 	// The health state of the instance. UNHEALTHY represents instances with unhealthy services, lost instances, or failed operations.
 	// Required: true
@@ -41,6 +53,10 @@ func (m *Instance) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateInstanceType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -67,6 +83,15 @@ func (m *Instance) validateID(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Instance) validateInstanceType(formats strfmt.Registry) error {
+
+	if err := validate.Required("instanceType", "body", m.InstanceType); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *Instance) validateLifeCycle(formats strfmt.Registry) error {
 
 	if err := validate.Required("lifeCycle", "body", m.LifeCycle); err != nil {
@@ -82,6 +107,11 @@ func (m *Instance) validateState(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this instance based on context it is used
+func (m *Instance) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

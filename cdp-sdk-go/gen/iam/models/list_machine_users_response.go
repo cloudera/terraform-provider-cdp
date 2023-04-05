@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -56,6 +57,42 @@ func (m *ListMachineUsersResponse) validateMachineUsers(formats strfmt.Registry)
 			if err := m.MachineUsers[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("machineUsers" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("machineUsers" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this list machine users response based on the context it is used
+func (m *ListMachineUsersResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMachineUsers(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ListMachineUsersResponse) contextValidateMachineUsers(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.MachineUsers); i++ {
+
+		if m.MachineUsers[i] != nil {
+			if err := m.MachineUsers[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("machineUsers" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("machineUsers" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

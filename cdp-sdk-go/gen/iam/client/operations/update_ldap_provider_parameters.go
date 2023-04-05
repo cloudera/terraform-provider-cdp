@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewUpdateLdapProviderParams creates a new UpdateLdapProviderParams object
-// with the default values initialized.
+// NewUpdateLdapProviderParams creates a new UpdateLdapProviderParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateLdapProviderParams() *UpdateLdapProviderParams {
-	var ()
 	return &UpdateLdapProviderParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUpdateLdapProviderParamsWithTimeout creates a new UpdateLdapProviderParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUpdateLdapProviderParamsWithTimeout(timeout time.Duration) *UpdateLdapProviderParams {
-	var ()
 	return &UpdateLdapProviderParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUpdateLdapProviderParamsWithContext creates a new UpdateLdapProviderParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUpdateLdapProviderParamsWithContext(ctx context.Context) *UpdateLdapProviderParams {
-	var ()
 	return &UpdateLdapProviderParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUpdateLdapProviderParamsWithHTTPClient creates a new UpdateLdapProviderParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUpdateLdapProviderParamsWithHTTPClient(client *http.Client) *UpdateLdapProviderParams {
-	var ()
 	return &UpdateLdapProviderParams{
 		HTTPClient: client,
 	}
 }
 
-/*UpdateLdapProviderParams contains all the parameters to send to the API endpoint
-for the update ldap provider operation typically these are written to a http.Request
+/*
+UpdateLdapProviderParams contains all the parameters to send to the API endpoint
+
+	for the update ldap provider operation.
+
+	Typically these are written to a http.Request.
 */
 type UpdateLdapProviderParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.UpdateLdapProviderRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the update ldap provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UpdateLdapProviderParams) WithDefaults() *UpdateLdapProviderParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the update ldap provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UpdateLdapProviderParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the update ldap provider params
@@ -121,7 +137,6 @@ func (o *UpdateLdapProviderParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

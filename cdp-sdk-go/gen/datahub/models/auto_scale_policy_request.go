@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -24,7 +26,7 @@ type AutoScalePolicyRequest struct {
 	HostGroups *string `json:"hostGroups"`
 
 	// Load based policy
-	LoadBasdePolicy *AutoScaleLoadRequest `json:"loadBasdePolicy,omitempty"`
+	LoadBasedPolicy *AutoScaleLoadRequest `json:"loadBasedPolicy,omitempty"`
 
 	// Scheduled based policy
 	ScheduleBasedPolicy *AutoScaleScheduleRequest `json:"scheduleBasedPolicy,omitempty"`
@@ -38,7 +40,7 @@ func (m *AutoScalePolicyRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateLoadBasdePolicy(formats); err != nil {
+	if err := m.validateLoadBasedPolicy(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -58,27 +60,28 @@ func (m *AutoScalePolicyRequest) validateHostGroups(formats strfmt.Registry) err
 		return err
 	}
 
-	if err := validate.MinLength("hostGroups", "body", string(*m.HostGroups), 1); err != nil {
+	if err := validate.MinLength("hostGroups", "body", *m.HostGroups, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("hostGroups", "body", string(*m.HostGroups), 200); err != nil {
+	if err := validate.MaxLength("hostGroups", "body", *m.HostGroups, 200); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (m *AutoScalePolicyRequest) validateLoadBasdePolicy(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.LoadBasdePolicy) { // not required
+func (m *AutoScalePolicyRequest) validateLoadBasedPolicy(formats strfmt.Registry) error {
+	if swag.IsZero(m.LoadBasedPolicy) { // not required
 		return nil
 	}
 
-	if m.LoadBasdePolicy != nil {
-		if err := m.LoadBasdePolicy.Validate(formats); err != nil {
+	if m.LoadBasedPolicy != nil {
+		if err := m.LoadBasedPolicy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("loadBasdePolicy")
+				return ve.ValidateName("loadBasedPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loadBasedPolicy")
 			}
 			return err
 		}
@@ -88,7 +91,6 @@ func (m *AutoScalePolicyRequest) validateLoadBasdePolicy(formats strfmt.Registry
 }
 
 func (m *AutoScalePolicyRequest) validateScheduleBasedPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ScheduleBasedPolicy) { // not required
 		return nil
 	}
@@ -97,6 +99,58 @@ func (m *AutoScalePolicyRequest) validateScheduleBasedPolicy(formats strfmt.Regi
 		if err := m.ScheduleBasedPolicy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("scheduleBasedPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scheduleBasedPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this auto scale policy request based on the context it is used
+func (m *AutoScalePolicyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLoadBasedPolicy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateScheduleBasedPolicy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AutoScalePolicyRequest) contextValidateLoadBasedPolicy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LoadBasedPolicy != nil {
+		if err := m.LoadBasedPolicy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("loadBasedPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loadBasedPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *AutoScalePolicyRequest) contextValidateScheduleBasedPolicy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ScheduleBasedPolicy != nil {
+		if err := m.ScheduleBasedPolicy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("scheduleBasedPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scheduleBasedPolicy")
 			}
 			return err
 		}

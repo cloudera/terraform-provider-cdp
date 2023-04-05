@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewListWorkspacesParams creates a new ListWorkspacesParams object
-// with the default values initialized.
+// NewListWorkspacesParams creates a new ListWorkspacesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListWorkspacesParams() *ListWorkspacesParams {
-	var ()
 	return &ListWorkspacesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListWorkspacesParamsWithTimeout creates a new ListWorkspacesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListWorkspacesParamsWithTimeout(timeout time.Duration) *ListWorkspacesParams {
-	var ()
 	return &ListWorkspacesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListWorkspacesParamsWithContext creates a new ListWorkspacesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListWorkspacesParamsWithContext(ctx context.Context) *ListWorkspacesParams {
-	var ()
 	return &ListWorkspacesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListWorkspacesParamsWithHTTPClient creates a new ListWorkspacesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListWorkspacesParamsWithHTTPClient(client *http.Client) *ListWorkspacesParams {
-	var ()
 	return &ListWorkspacesParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListWorkspacesParams contains all the parameters to send to the API endpoint
-for the list workspaces operation typically these are written to a http.Request
+/*
+ListWorkspacesParams contains all the parameters to send to the API endpoint
+
+	for the list workspaces operation.
+
+	Typically these are written to a http.Request.
 */
 type ListWorkspacesParams struct {
 
-	/*Input*/
-	Input models.ListWorkspacesRequest
+	// Input.
+	Input *models.ListWorkspacesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list workspaces params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListWorkspacesParams) WithDefaults() *ListWorkspacesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list workspaces params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListWorkspacesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list workspaces params
@@ -104,13 +120,13 @@ func (o *ListWorkspacesParams) SetHTTPClient(client *http.Client) {
 }
 
 // WithInput adds the input to the list workspaces params
-func (o *ListWorkspacesParams) WithInput(input models.ListWorkspacesRequest) *ListWorkspacesParams {
+func (o *ListWorkspacesParams) WithInput(input *models.ListWorkspacesRequest) *ListWorkspacesParams {
 	o.SetInput(input)
 	return o
 }
 
 // SetInput adds the input to the list workspaces params
-func (o *ListWorkspacesParams) SetInput(input models.ListWorkspacesRequest) {
+func (o *ListWorkspacesParams) SetInput(input *models.ListWorkspacesRequest) {
 	o.Input = input
 }
 
@@ -121,7 +137,6 @@ func (o *ListWorkspacesParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

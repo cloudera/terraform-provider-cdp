@@ -46,7 +46,8 @@ func NewCreateClusterTemplateOK() *CreateClusterTemplateOK {
 	return &CreateClusterTemplateOK{}
 }
 
-/*CreateClusterTemplateOK handles this case with default header values.
+/*
+CreateClusterTemplateOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateClusterTemplateOK struct {
 	Payload *models.CreateClusterTemplateResponse
 }
 
+// IsSuccess returns true when this create cluster template o k response has a 2xx status code
+func (o *CreateClusterTemplateOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create cluster template o k response has a 3xx status code
+func (o *CreateClusterTemplateOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create cluster template o k response has a 4xx status code
+func (o *CreateClusterTemplateOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create cluster template o k response has a 5xx status code
+func (o *CreateClusterTemplateOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create cluster template o k response a status code equal to that given
+func (o *CreateClusterTemplateOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create cluster template o k response
+func (o *CreateClusterTemplateOK) Code() int {
+	return 200
+}
+
 func (o *CreateClusterTemplateOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/createClusterTemplate][%d] createClusterTemplateOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateClusterTemplateOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/createClusterTemplate][%d] createClusterTemplateOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateClusterTemplateDefault(code int) *CreateClusterTemplateDefault {
 	}
 }
 
-/*CreateClusterTemplateDefault handles this case with default header values.
+/*
+CreateClusterTemplateDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateClusterTemplateDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create cluster template default response has a 2xx status code
+func (o *CreateClusterTemplateDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create cluster template default response has a 3xx status code
+func (o *CreateClusterTemplateDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create cluster template default response has a 4xx status code
+func (o *CreateClusterTemplateDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create cluster template default response has a 5xx status code
+func (o *CreateClusterTemplateDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create cluster template default response a status code equal to that given
+func (o *CreateClusterTemplateDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create cluster template default response
 func (o *CreateClusterTemplateDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateClusterTemplateDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/createClusterTemplate][%d] createClusterTemplate default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateClusterTemplateDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/createClusterTemplate][%d] createClusterTemplate default  %+v", o._statusCode, o.Payload)
 }
 

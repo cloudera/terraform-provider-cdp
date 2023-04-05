@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -19,9 +20,15 @@ import (
 // swagger:model WorkspaceSummary
 type WorkspaceSummary struct {
 
+	// The Backup Metadata for the workspace.
+	BackupMetadata *BackupMetadata `json:"backupMetadata,omitempty"`
+
 	// The cloud platform of the environment that was used to create this workspace.
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
+
+	// The Cluster ID for the workspace.
+	ClusterID string `json:"clusterID,omitempty"`
 
 	// Creation date of workspace.
 	// Format: date-time
@@ -34,6 +41,9 @@ type WorkspaceSummary struct {
 	// The CRN of the workspace.
 	// Required: true
 	Crn *string `json:"crn"`
+
+	// Encryption Key ID used to create the workspace.
+	EncryptionKeyID string `json:"encryptionKeyId,omitempty"`
 
 	// CRN of the environment.
 	// Required: true
@@ -69,11 +79,14 @@ type WorkspaceSummary struct {
 	// Required: true
 	InstanceURL *string `json:"instanceUrl"`
 
+	// The value to indicate if the cluster is private or not.
+	IsPrivate bool `json:"isPrivate,omitempty"`
+
 	// The Kubernetes cluster name.
 	// Required: true
 	K8sClusterName *string `json:"k8sClusterName"`
 
-	// The whitelist of ips for loadBalancer.
+	// The whitelist of IPs for load balancer.
 	LoadBalancerIPWhitelists []string `json:"loadBalancerIPWhitelists"`
 
 	// If usage monitoring is enabled or not on this workspace.
@@ -83,6 +96,12 @@ type WorkspaceSummary struct {
 	// The namespace the workspace is deployed in.
 	Namespace string `json:"namespace,omitempty"`
 
+	// NFS Version of the filesystem.
+	NfsVersion string `json:"nfsVersion,omitempty"`
+
+	// The upgrade state contains the workspace upgrade information.
+	UpgradeState *UpgradeState `json:"upgradeState,omitempty"`
+
 	// The version of Cloudera Machine Learning that was installed on the workspace.
 	// Required: true
 	Version *string `json:"version"`
@@ -91,6 +110,10 @@ type WorkspaceSummary struct {
 // Validate validates this workspace summary
 func (m *WorkspaceSummary) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateBackupMetadata(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateCloudPlatform(formats); err != nil {
 		res = append(res, err)
@@ -148,6 +171,10 @@ func (m *WorkspaceSummary) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateUpgradeState(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateVersion(formats); err != nil {
 		res = append(res, err)
 	}
@@ -155,6 +182,25 @@ func (m *WorkspaceSummary) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *WorkspaceSummary) validateBackupMetadata(formats strfmt.Registry) error {
+	if swag.IsZero(m.BackupMetadata) { // not required
+		return nil
+	}
+
+	if m.BackupMetadata != nil {
+		if err := m.BackupMetadata.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupMetadata")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -168,7 +214,6 @@ func (m *WorkspaceSummary) validateCloudPlatform(formats strfmt.Registry) error 
 }
 
 func (m *WorkspaceSummary) validateCreationDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreationDate) { // not required
 		return nil
 	}
@@ -226,7 +271,6 @@ func (m *WorkspaceSummary) validateFilesystemID(formats strfmt.Registry) error {
 }
 
 func (m *WorkspaceSummary) validateHealthInfoLists(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HealthInfoLists) { // not required
 		return nil
 	}
@@ -240,6 +284,8 @@ func (m *WorkspaceSummary) validateHealthInfoLists(formats strfmt.Registry) erro
 			if err := m.HealthInfoLists[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -304,10 +350,103 @@ func (m *WorkspaceSummary) validateMonitoringEnabled(formats strfmt.Registry) er
 	return nil
 }
 
+func (m *WorkspaceSummary) validateUpgradeState(formats strfmt.Registry) error {
+	if swag.IsZero(m.UpgradeState) { // not required
+		return nil
+	}
+
+	if m.UpgradeState != nil {
+		if err := m.UpgradeState.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("upgradeState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("upgradeState")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *WorkspaceSummary) validateVersion(formats strfmt.Registry) error {
 
 	if err := validate.Required("version", "body", m.Version); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this workspace summary based on the context it is used
+func (m *WorkspaceSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBackupMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHealthInfoLists(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUpgradeState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *WorkspaceSummary) contextValidateBackupMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.BackupMetadata != nil {
+		if err := m.BackupMetadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupMetadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *WorkspaceSummary) contextValidateHealthInfoLists(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.HealthInfoLists); i++ {
+
+		if m.HealthInfoLists[i] != nil {
+			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *WorkspaceSummary) contextValidateUpgradeState(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.UpgradeState != nil {
+		if err := m.UpgradeState.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("upgradeState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("upgradeState")
+			}
+			return err
+		}
 	}
 
 	return nil

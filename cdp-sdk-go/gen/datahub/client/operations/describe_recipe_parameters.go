@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewDescribeRecipeParams creates a new DescribeRecipeParams object
-// with the default values initialized.
+// NewDescribeRecipeParams creates a new DescribeRecipeParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeRecipeParams() *DescribeRecipeParams {
-	var ()
 	return &DescribeRecipeParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDescribeRecipeParamsWithTimeout creates a new DescribeRecipeParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDescribeRecipeParamsWithTimeout(timeout time.Duration) *DescribeRecipeParams {
-	var ()
 	return &DescribeRecipeParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDescribeRecipeParamsWithContext creates a new DescribeRecipeParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDescribeRecipeParamsWithContext(ctx context.Context) *DescribeRecipeParams {
-	var ()
 	return &DescribeRecipeParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDescribeRecipeParamsWithHTTPClient creates a new DescribeRecipeParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDescribeRecipeParamsWithHTTPClient(client *http.Client) *DescribeRecipeParams {
-	var ()
 	return &DescribeRecipeParams{
 		HTTPClient: client,
 	}
 }
 
-/*DescribeRecipeParams contains all the parameters to send to the API endpoint
-for the describe recipe operation typically these are written to a http.Request
+/*
+DescribeRecipeParams contains all the parameters to send to the API endpoint
+
+	for the describe recipe operation.
+
+	Typically these are written to a http.Request.
 */
 type DescribeRecipeParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DescribeRecipeRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the describe recipe params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeRecipeParams) WithDefaults() *DescribeRecipeParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the describe recipe params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeRecipeParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the describe recipe params
@@ -121,7 +137,6 @@ func (o *DescribeRecipeParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

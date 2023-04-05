@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewGetKubeconfigParams creates a new GetKubeconfigParams object
-// with the default values initialized.
+// NewGetKubeconfigParams creates a new GetKubeconfigParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetKubeconfigParams() *GetKubeconfigParams {
-	var ()
 	return &GetKubeconfigParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetKubeconfigParamsWithTimeout creates a new GetKubeconfigParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetKubeconfigParamsWithTimeout(timeout time.Duration) *GetKubeconfigParams {
-	var ()
 	return &GetKubeconfigParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetKubeconfigParamsWithContext creates a new GetKubeconfigParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetKubeconfigParamsWithContext(ctx context.Context) *GetKubeconfigParams {
-	var ()
 	return &GetKubeconfigParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetKubeconfigParamsWithHTTPClient creates a new GetKubeconfigParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetKubeconfigParamsWithHTTPClient(client *http.Client) *GetKubeconfigParams {
-	var ()
 	return &GetKubeconfigParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetKubeconfigParams contains all the parameters to send to the API endpoint
-for the get kubeconfig operation typically these are written to a http.Request
+/*
+GetKubeconfigParams contains all the parameters to send to the API endpoint
+
+	for the get kubeconfig operation.
+
+	Typically these are written to a http.Request.
 */
 type GetKubeconfigParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.GetKubeconfigRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get kubeconfig params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetKubeconfigParams) WithDefaults() *GetKubeconfigParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get kubeconfig params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetKubeconfigParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get kubeconfig params
@@ -121,7 +137,6 @@ func (o *GetKubeconfigParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

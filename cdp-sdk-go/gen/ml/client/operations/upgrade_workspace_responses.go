@@ -46,7 +46,8 @@ func NewUpgradeWorkspaceOK() *UpgradeWorkspaceOK {
 	return &UpgradeWorkspaceOK{}
 }
 
-/*UpgradeWorkspaceOK handles this case with default header values.
+/*
+UpgradeWorkspaceOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UpgradeWorkspaceOK struct {
 	Payload models.UpgradeWorkspaceResponse
 }
 
+// IsSuccess returns true when this upgrade workspace o k response has a 2xx status code
+func (o *UpgradeWorkspaceOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this upgrade workspace o k response has a 3xx status code
+func (o *UpgradeWorkspaceOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upgrade workspace o k response has a 4xx status code
+func (o *UpgradeWorkspaceOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this upgrade workspace o k response has a 5xx status code
+func (o *UpgradeWorkspaceOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upgrade workspace o k response a status code equal to that given
+func (o *UpgradeWorkspaceOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the upgrade workspace o k response
+func (o *UpgradeWorkspaceOK) Code() int {
+	return 200
+}
+
 func (o *UpgradeWorkspaceOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/upgradeWorkspace][%d] upgradeWorkspaceOK  %+v", 200, o.Payload)
+}
+
+func (o *UpgradeWorkspaceOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/upgradeWorkspace][%d] upgradeWorkspaceOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewUpgradeWorkspaceDefault(code int) *UpgradeWorkspaceDefault {
 	}
 }
 
-/*UpgradeWorkspaceDefault handles this case with default header values.
+/*
+UpgradeWorkspaceDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type UpgradeWorkspaceDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this upgrade workspace default response has a 2xx status code
+func (o *UpgradeWorkspaceDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this upgrade workspace default response has a 3xx status code
+func (o *UpgradeWorkspaceDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this upgrade workspace default response has a 4xx status code
+func (o *UpgradeWorkspaceDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this upgrade workspace default response has a 5xx status code
+func (o *UpgradeWorkspaceDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this upgrade workspace default response a status code equal to that given
+func (o *UpgradeWorkspaceDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the upgrade workspace default response
 func (o *UpgradeWorkspaceDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UpgradeWorkspaceDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/upgradeWorkspace][%d] upgradeWorkspace default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UpgradeWorkspaceDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/upgradeWorkspace][%d] upgradeWorkspace default  %+v", o._statusCode, o.Payload)
 }
 

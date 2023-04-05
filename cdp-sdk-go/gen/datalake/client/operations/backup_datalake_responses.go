@@ -46,7 +46,8 @@ func NewBackupDatalakeOK() *BackupDatalakeOK {
 	return &BackupDatalakeOK{}
 }
 
-/*BackupDatalakeOK handles this case with default header values.
+/*
+BackupDatalakeOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type BackupDatalakeOK struct {
 	Payload *models.BackupDatalakeResponse
 }
 
+// IsSuccess returns true when this backup datalake o k response has a 2xx status code
+func (o *BackupDatalakeOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this backup datalake o k response has a 3xx status code
+func (o *BackupDatalakeOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this backup datalake o k response has a 4xx status code
+func (o *BackupDatalakeOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this backup datalake o k response has a 5xx status code
+func (o *BackupDatalakeOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this backup datalake o k response a status code equal to that given
+func (o *BackupDatalakeOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the backup datalake o k response
+func (o *BackupDatalakeOK) Code() int {
+	return 200
+}
+
 func (o *BackupDatalakeOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/backupDatalake][%d] backupDatalakeOK  %+v", 200, o.Payload)
+}
+
+func (o *BackupDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/backupDatalake][%d] backupDatalakeOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewBackupDatalakeDefault(code int) *BackupDatalakeDefault {
 	}
 }
 
-/*BackupDatalakeDefault handles this case with default header values.
+/*
+BackupDatalakeDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type BackupDatalakeDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this backup datalake default response has a 2xx status code
+func (o *BackupDatalakeDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this backup datalake default response has a 3xx status code
+func (o *BackupDatalakeDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this backup datalake default response has a 4xx status code
+func (o *BackupDatalakeDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this backup datalake default response has a 5xx status code
+func (o *BackupDatalakeDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this backup datalake default response a status code equal to that given
+func (o *BackupDatalakeDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the backup datalake default response
 func (o *BackupDatalakeDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *BackupDatalakeDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/backupDatalake][%d] backupDatalake default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *BackupDatalakeDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/backupDatalake][%d] backupDatalake default  %+v", o._statusCode, o.Payload)
 }
 

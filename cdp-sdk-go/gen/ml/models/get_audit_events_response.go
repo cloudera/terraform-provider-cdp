@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *GetAuditEventsResponse) validateAuditEvents(formats strfmt.Registry) er
 		if err := m.AuditEvents.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("auditEvents")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("auditEvents")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this get audit events response based on the context it is used
+func (m *GetAuditEventsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditEvents(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *GetAuditEventsResponse) contextValidateAuditEvents(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AuditEvents != nil {
+		if err := m.AuditEvents.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("auditEvents")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("auditEvents")
 			}
 			return err
 		}

@@ -46,7 +46,8 @@ func NewDeleteSSHPublicKeyOK() *DeleteSSHPublicKeyOK {
 	return &DeleteSSHPublicKeyOK{}
 }
 
-/*DeleteSSHPublicKeyOK handles this case with default header values.
+/*
+DeleteSSHPublicKeyOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteSSHPublicKeyOK struct {
 	Payload models.DeleteSSHPublicKeyResponse
 }
 
+// IsSuccess returns true when this delete Ssh public key o k response has a 2xx status code
+func (o *DeleteSSHPublicKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete Ssh public key o k response has a 3xx status code
+func (o *DeleteSSHPublicKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete Ssh public key o k response has a 4xx status code
+func (o *DeleteSSHPublicKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete Ssh public key o k response has a 5xx status code
+func (o *DeleteSSHPublicKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete Ssh public key o k response a status code equal to that given
+func (o *DeleteSSHPublicKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete Ssh public key o k response
+func (o *DeleteSSHPublicKeyOK) Code() int {
+	return 200
+}
+
 func (o *DeleteSSHPublicKeyOK) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteSSHPublicKeyOK) String() string {
 	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKeyOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteSSHPublicKeyDefault(code int) *DeleteSSHPublicKeyDefault {
 	}
 }
 
-/*DeleteSSHPublicKeyDefault handles this case with default header values.
+/*
+DeleteSSHPublicKeyDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteSSHPublicKeyDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete Ssh public key default response has a 2xx status code
+func (o *DeleteSSHPublicKeyDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete Ssh public key default response has a 3xx status code
+func (o *DeleteSSHPublicKeyDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete Ssh public key default response has a 4xx status code
+func (o *DeleteSSHPublicKeyDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete Ssh public key default response has a 5xx status code
+func (o *DeleteSSHPublicKeyDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete Ssh public key default response a status code equal to that given
+func (o *DeleteSSHPublicKeyDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete Ssh public key default response
 func (o *DeleteSSHPublicKeyDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteSSHPublicKeyDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKey default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteSSHPublicKeyDefault) String() string {
 	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKey default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,6 +44,9 @@ type LdapProviderInfo struct {
 
 	// The LDAP sn attribute name, will be used as the user's lastname.
 	LastNameMappingAttribute string `json:"lastNameMappingAttribute,omitempty"`
+
+	// boolean value to indicate whether a start TLS request should be initiated on connect.
+	StartTLS bool `json:"startTls,omitempty"`
 
 	// If your ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), you need to provide the trusted certificates that can be used to validate the LDAP server certificate.
 	TLSCaCertificates []string `json:"tlsCaCertificates"`
@@ -137,6 +142,11 @@ func (m *LdapProviderInfo) validateUserSearchFilter(formats strfmt.Registry) err
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this ldap provider info based on context it is used
+func (m *LdapProviderInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

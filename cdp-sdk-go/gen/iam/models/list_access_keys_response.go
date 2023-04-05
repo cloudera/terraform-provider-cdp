@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -56,6 +57,42 @@ func (m *ListAccessKeysResponse) validateAccessKeys(formats strfmt.Registry) err
 			if err := m.AccessKeys[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("accessKeys" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("accessKeys" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this list access keys response based on the context it is used
+func (m *ListAccessKeysResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAccessKeys(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ListAccessKeysResponse) contextValidateAccessKeys(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AccessKeys); i++ {
+
+		if m.AccessKeys[i] != nil {
+			if err := m.AccessKeys[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("accessKeys" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("accessKeys" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

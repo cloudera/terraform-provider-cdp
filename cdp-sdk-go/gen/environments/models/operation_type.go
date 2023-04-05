@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model OperationType
 type OperationType string
+
+func NewOperationType(value OperationType) *OperationType {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated OperationType.
+func (m OperationType) Pointer() *OperationType {
+	return &m
+}
 
 const (
 
@@ -41,7 +51,7 @@ func init() {
 }
 
 func (m OperationType) validateOperationTypeEnum(path, location string, value OperationType) error {
-	if err := validate.Enum(path, location, value, operationTypeEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, operationTypeEnum, true); err != nil {
 		return err
 	}
 	return nil
@@ -59,5 +69,10 @@ func (m OperationType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this operation type based on context it is used
+func (m OperationType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

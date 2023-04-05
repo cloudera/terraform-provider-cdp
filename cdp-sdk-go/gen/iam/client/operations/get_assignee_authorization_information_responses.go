@@ -46,7 +46,8 @@ func NewGetAssigneeAuthorizationInformationOK() *GetAssigneeAuthorizationInforma
 	return &GetAssigneeAuthorizationInformationOK{}
 }
 
-/*GetAssigneeAuthorizationInformationOK handles this case with default header values.
+/*
+GetAssigneeAuthorizationInformationOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetAssigneeAuthorizationInformationOK struct {
 	Payload *models.GetAssigneeAuthorizationInformationResponse
 }
 
+// IsSuccess returns true when this get assignee authorization information o k response has a 2xx status code
+func (o *GetAssigneeAuthorizationInformationOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get assignee authorization information o k response has a 3xx status code
+func (o *GetAssigneeAuthorizationInformationOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get assignee authorization information o k response has a 4xx status code
+func (o *GetAssigneeAuthorizationInformationOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get assignee authorization information o k response has a 5xx status code
+func (o *GetAssigneeAuthorizationInformationOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get assignee authorization information o k response a status code equal to that given
+func (o *GetAssigneeAuthorizationInformationOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get assignee authorization information o k response
+func (o *GetAssigneeAuthorizationInformationOK) Code() int {
+	return 200
+}
+
 func (o *GetAssigneeAuthorizationInformationOK) Error() string {
+	return fmt.Sprintf("[POST /iam/getAssigneeAuthorizationInformation][%d] getAssigneeAuthorizationInformationOK  %+v", 200, o.Payload)
+}
+
+func (o *GetAssigneeAuthorizationInformationOK) String() string {
 	return fmt.Sprintf("[POST /iam/getAssigneeAuthorizationInformation][%d] getAssigneeAuthorizationInformationOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetAssigneeAuthorizationInformationDefault(code int) *GetAssigneeAuthori
 	}
 }
 
-/*GetAssigneeAuthorizationInformationDefault handles this case with default header values.
+/*
+GetAssigneeAuthorizationInformationDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetAssigneeAuthorizationInformationDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get assignee authorization information default response has a 2xx status code
+func (o *GetAssigneeAuthorizationInformationDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get assignee authorization information default response has a 3xx status code
+func (o *GetAssigneeAuthorizationInformationDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get assignee authorization information default response has a 4xx status code
+func (o *GetAssigneeAuthorizationInformationDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get assignee authorization information default response has a 5xx status code
+func (o *GetAssigneeAuthorizationInformationDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get assignee authorization information default response a status code equal to that given
+func (o *GetAssigneeAuthorizationInformationDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get assignee authorization information default response
 func (o *GetAssigneeAuthorizationInformationDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetAssigneeAuthorizationInformationDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/getAssigneeAuthorizationInformation][%d] getAssigneeAuthorizationInformation default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetAssigneeAuthorizationInformationDefault) String() string {
 	return fmt.Sprintf("[POST /iam/getAssigneeAuthorizationInformation][%d] getAssigneeAuthorizationInformation default  %+v", o._statusCode, o.Payload)
 }
 

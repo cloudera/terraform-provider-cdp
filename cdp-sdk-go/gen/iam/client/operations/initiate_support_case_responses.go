@@ -46,7 +46,8 @@ func NewInitiateSupportCaseOK() *InitiateSupportCaseOK {
 	return &InitiateSupportCaseOK{}
 }
 
-/*InitiateSupportCaseOK handles this case with default header values.
+/*
+InitiateSupportCaseOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type InitiateSupportCaseOK struct {
 	Payload *models.InitiateSupportCaseResponse
 }
 
+// IsSuccess returns true when this initiate support case o k response has a 2xx status code
+func (o *InitiateSupportCaseOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this initiate support case o k response has a 3xx status code
+func (o *InitiateSupportCaseOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this initiate support case o k response has a 4xx status code
+func (o *InitiateSupportCaseOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this initiate support case o k response has a 5xx status code
+func (o *InitiateSupportCaseOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this initiate support case o k response a status code equal to that given
+func (o *InitiateSupportCaseOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the initiate support case o k response
+func (o *InitiateSupportCaseOK) Code() int {
+	return 200
+}
+
 func (o *InitiateSupportCaseOK) Error() string {
+	return fmt.Sprintf("[POST /iam/initiateSupportCase][%d] initiateSupportCaseOK  %+v", 200, o.Payload)
+}
+
+func (o *InitiateSupportCaseOK) String() string {
 	return fmt.Sprintf("[POST /iam/initiateSupportCase][%d] initiateSupportCaseOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewInitiateSupportCaseDefault(code int) *InitiateSupportCaseDefault {
 	}
 }
 
-/*InitiateSupportCaseDefault handles this case with default header values.
+/*
+InitiateSupportCaseDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type InitiateSupportCaseDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this initiate support case default response has a 2xx status code
+func (o *InitiateSupportCaseDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this initiate support case default response has a 3xx status code
+func (o *InitiateSupportCaseDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this initiate support case default response has a 4xx status code
+func (o *InitiateSupportCaseDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this initiate support case default response has a 5xx status code
+func (o *InitiateSupportCaseDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this initiate support case default response a status code equal to that given
+func (o *InitiateSupportCaseDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the initiate support case default response
 func (o *InitiateSupportCaseDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *InitiateSupportCaseDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/initiateSupportCase][%d] initiateSupportCase default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *InitiateSupportCaseDefault) String() string {
 	return fmt.Sprintf("[POST /iam/initiateSupportCase][%d] initiateSupportCase default  %+v", o._statusCode, o.Payload)
 }
 

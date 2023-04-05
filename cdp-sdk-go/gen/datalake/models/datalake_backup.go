@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -21,7 +23,7 @@ type DatalakeBackup struct {
 	// Required: true
 	AccountID *string `json:"accountId"`
 
-	// Request to perform a from a specif status for a specific backup. Else, status of the last backup performed will be returned.
+	// Request to perform a from a specific status for a specific backup. Else, status of the last backup performed will be returned.
 	// Required: true
 	BackupID *string `json:"backupId"`
 
@@ -41,9 +43,12 @@ type DatalakeBackup struct {
 	// Required: true
 	FailureReason *string `json:"failureReason"`
 
-	// Provides the details of internal state where is backup operation stands.
+	// Provides the details of the internal state where the backup operation stands.
 	// Required: true
 	InternalState *string `json:"internalState"`
+
+	// The runtime version of the datalake when the backup was taken.
+	RuntimeVersion string `json:"runtimeVersion,omitempty"`
 
 	// Time when the backup operation started.
 	// Required: true
@@ -53,7 +58,7 @@ type DatalakeBackup struct {
 	// Required: true
 	Status *string `json:"status"`
 
-	// Crn of the user triggered this operation.
+	// Crn of the user who triggered this operation.
 	// Required: true
 	UserCrn *string `json:"userCrn"`
 }
@@ -195,6 +200,11 @@ func (m *DatalakeBackup) validateUserCrn(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this datalake backup based on context it is used
+func (m *DatalakeBackup) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

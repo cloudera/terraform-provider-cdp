@@ -6,6 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"encoding/json"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +19,10 @@ import (
 //
 // swagger:model Datalake
 type Datalake struct {
+
+	// Indicates the certificate status on the cluster.
+	// Enum: [VALID HOST_CERT_EXPIRING]
+	CertificateExpirationState string `json:"certificateExpirationState,omitempty"`
 
 	// The date when the datalake was created.
 	// Format: date-time
@@ -29,8 +36,14 @@ type Datalake struct {
 	// Required: true
 	DatalakeName *string `json:"datalakeName"`
 
+	// Whether Ranger RAZ is enabled for the datalake.
+	EnableRangerRaz bool `json:"enableRangerRaz,omitempty"`
+
 	// The CRN of the environment.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
+
+	// Flag which marks that the datalake is deployed in a multi-availability zone way or not.
+	MultiAz bool `json:"multiAz,omitempty"`
 
 	// The status of the datalake.
 	Status string `json:"status,omitempty"`
@@ -42,6 +55,10 @@ type Datalake struct {
 // Validate validates this datalake
 func (m *Datalake) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateCertificateExpirationState(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateCreationDate(formats); err != nil {
 		res = append(res, err)
@@ -61,8 +78,49 @@ func (m *Datalake) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Datalake) validateCreationDate(formats strfmt.Registry) error {
+var datalakeTypeCertificateExpirationStatePropEnum []interface{}
 
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["VALID","HOST_CERT_EXPIRING"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		datalakeTypeCertificateExpirationStatePropEnum = append(datalakeTypeCertificateExpirationStatePropEnum, v)
+	}
+}
+
+const (
+
+	// DatalakeCertificateExpirationStateVALID captures enum value "VALID"
+	DatalakeCertificateExpirationStateVALID string = "VALID"
+
+	// DatalakeCertificateExpirationStateHOSTCERTEXPIRING captures enum value "HOST_CERT_EXPIRING"
+	DatalakeCertificateExpirationStateHOSTCERTEXPIRING string = "HOST_CERT_EXPIRING"
+)
+
+// prop value enum
+func (m *Datalake) validateCertificateExpirationStateEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, datalakeTypeCertificateExpirationStatePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *Datalake) validateCertificateExpirationState(formats strfmt.Registry) error {
+	if swag.IsZero(m.CertificateExpirationState) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateCertificateExpirationStateEnum("certificateExpirationState", "body", m.CertificateExpirationState); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Datalake) validateCreationDate(formats strfmt.Registry) error {
 	if swag.IsZero(m.CreationDate) { // not required
 		return nil
 	}
@@ -89,6 +147,11 @@ func (m *Datalake) validateDatalakeName(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this datalake based on context it is used
+func (m *Datalake) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

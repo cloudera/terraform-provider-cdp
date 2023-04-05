@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -24,8 +26,11 @@ type CreateUserRequest struct {
 	// The user first name.
 	FirstName string `json:"firstName,omitempty"`
 
-	// The list of groups the user belongs to. The groups will be created if they do not exist.
+	// The list of groups the user belongs to. The groups will be created if they do not exist. There are certain restrictions on the group name. Refer to the How To > User Management section in the Management Console documentation for the details.
 	Groups []string `json:"groups"`
+
+	// The CRN of the identity provider the user will use for login. Either samlProviderName or identityProviderCrn must be specified.
+	IdentityProviderCrn string `json:"identityProviderCrn,omitempty"`
 
 	// The identity provider user id for the user. This ID must match the NameId attribute value that will be passed for the user in the SAML response using the associated SAML provider.
 	// Required: true
@@ -35,8 +40,7 @@ type CreateUserRequest struct {
 	LastName string `json:"lastName,omitempty"`
 
 	// The name or CRN of the SAML provider the user will use for login.
-	// Required: true
-	SamlProviderName *string `json:"samlProviderName"`
+	SamlProviderName string `json:"samlProviderName,omitempty"`
 }
 
 // Validate validates this create user request
@@ -48,10 +52,6 @@ func (m *CreateUserRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateIdentityProviderUserID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSamlProviderName(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -79,12 +79,8 @@ func (m *CreateUserRequest) validateIdentityProviderUserID(formats strfmt.Regist
 	return nil
 }
 
-func (m *CreateUserRequest) validateSamlProviderName(formats strfmt.Registry) error {
-
-	if err := validate.Required("samlProviderName", "body", m.SamlProviderName); err != nil {
-		return err
-	}
-
+// ContextValidate validates this create user request based on context it is used
+func (m *CreateUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

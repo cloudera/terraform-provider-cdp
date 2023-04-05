@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
-// NewUpgradeDatalakeParams creates a new UpgradeDatalakeParams object
-// with the default values initialized.
+// NewUpgradeDatalakeParams creates a new UpgradeDatalakeParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpgradeDatalakeParams() *UpgradeDatalakeParams {
-	var ()
 	return &UpgradeDatalakeParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUpgradeDatalakeParamsWithTimeout creates a new UpgradeDatalakeParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUpgradeDatalakeParamsWithTimeout(timeout time.Duration) *UpgradeDatalakeParams {
-	var ()
 	return &UpgradeDatalakeParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUpgradeDatalakeParamsWithContext creates a new UpgradeDatalakeParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUpgradeDatalakeParamsWithContext(ctx context.Context) *UpgradeDatalakeParams {
-	var ()
 	return &UpgradeDatalakeParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUpgradeDatalakeParamsWithHTTPClient creates a new UpgradeDatalakeParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUpgradeDatalakeParamsWithHTTPClient(client *http.Client) *UpgradeDatalakeParams {
-	var ()
 	return &UpgradeDatalakeParams{
 		HTTPClient: client,
 	}
 }
 
-/*UpgradeDatalakeParams contains all the parameters to send to the API endpoint
-for the upgrade datalake operation typically these are written to a http.Request
+/*
+UpgradeDatalakeParams contains all the parameters to send to the API endpoint
+
+	for the upgrade datalake operation.
+
+	Typically these are written to a http.Request.
 */
 type UpgradeDatalakeParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.UpgradeDatalakeRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the upgrade datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UpgradeDatalakeParams) WithDefaults() *UpgradeDatalakeParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the upgrade datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UpgradeDatalakeParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the upgrade datalake params
@@ -121,7 +137,6 @@ func (o *UpgradeDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

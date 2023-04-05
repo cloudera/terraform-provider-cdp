@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -19,8 +20,11 @@ import (
 // swagger:model GetConfigFilesRequest
 type GetConfigFilesRequest struct {
 
+	// A list of service types and role types to get their process configs. The input format must be "serviceType1,roleType1;serviceType2,roleType2". Each service type and its role type maps to a process. Different service type and role type groups are separated by ";" and each service type and its associated role type is separated by ",". The input is case sensitive. If the format is wrong or service is not found, exceptions will be thrown. If no roles are found for the service, no config files for that role and service will be returned. e.g. "HIVE,HIVESERVER2;HUE,HUE_SERVER".
+	AdditionalServices string `json:"additionalServices,omitempty"`
+
 	// config file set to retrieve.
-	// Enum: [CLIENT KRB TRUSTSTORE_PEM TRUSTSTORE_JKS]
+	// Enum: [CLIENT KRB TRUSTSTORE_PEM TRUSTSTORE_JKS VAULT_TRUSTSTORE_PEM VAULT_TRUSTSTORE_JKS DATABASE_TRUSTSTORE_PEM DOCKER_TRUSTSTORE_PEM DWX_DB_HOST DWX_DB_PORT DWX_DB_NAME DWX_DB_USERNAME DWX_DB_PASSWORD]
 	ConfigSet string `json:"configSet,omitempty"`
 
 	// The CRN of the Datalake
@@ -53,7 +57,7 @@ var getConfigFilesRequestTypeConfigSetPropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["CLIENT","KRB","TRUSTSTORE_PEM","TRUSTSTORE_JKS"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["CLIENT","KRB","TRUSTSTORE_PEM","TRUSTSTORE_JKS","VAULT_TRUSTSTORE_PEM","VAULT_TRUSTSTORE_JKS","DATABASE_TRUSTSTORE_PEM","DOCKER_TRUSTSTORE_PEM","DWX_DB_HOST","DWX_DB_PORT","DWX_DB_NAME","DWX_DB_USERNAME","DWX_DB_PASSWORD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -74,18 +78,44 @@ const (
 
 	// GetConfigFilesRequestConfigSetTRUSTSTOREJKS captures enum value "TRUSTSTORE_JKS"
 	GetConfigFilesRequestConfigSetTRUSTSTOREJKS string = "TRUSTSTORE_JKS"
+
+	// GetConfigFilesRequestConfigSetVAULTTRUSTSTOREPEM captures enum value "VAULT_TRUSTSTORE_PEM"
+	GetConfigFilesRequestConfigSetVAULTTRUSTSTOREPEM string = "VAULT_TRUSTSTORE_PEM"
+
+	// GetConfigFilesRequestConfigSetVAULTTRUSTSTOREJKS captures enum value "VAULT_TRUSTSTORE_JKS"
+	GetConfigFilesRequestConfigSetVAULTTRUSTSTOREJKS string = "VAULT_TRUSTSTORE_JKS"
+
+	// GetConfigFilesRequestConfigSetDATABASETRUSTSTOREPEM captures enum value "DATABASE_TRUSTSTORE_PEM"
+	GetConfigFilesRequestConfigSetDATABASETRUSTSTOREPEM string = "DATABASE_TRUSTSTORE_PEM"
+
+	// GetConfigFilesRequestConfigSetDOCKERTRUSTSTOREPEM captures enum value "DOCKER_TRUSTSTORE_PEM"
+	GetConfigFilesRequestConfigSetDOCKERTRUSTSTOREPEM string = "DOCKER_TRUSTSTORE_PEM"
+
+	// GetConfigFilesRequestConfigSetDWXDBHOST captures enum value "DWX_DB_HOST"
+	GetConfigFilesRequestConfigSetDWXDBHOST string = "DWX_DB_HOST"
+
+	// GetConfigFilesRequestConfigSetDWXDBPORT captures enum value "DWX_DB_PORT"
+	GetConfigFilesRequestConfigSetDWXDBPORT string = "DWX_DB_PORT"
+
+	// GetConfigFilesRequestConfigSetDWXDBNAME captures enum value "DWX_DB_NAME"
+	GetConfigFilesRequestConfigSetDWXDBNAME string = "DWX_DB_NAME"
+
+	// GetConfigFilesRequestConfigSetDWXDBUSERNAME captures enum value "DWX_DB_USERNAME"
+	GetConfigFilesRequestConfigSetDWXDBUSERNAME string = "DWX_DB_USERNAME"
+
+	// GetConfigFilesRequestConfigSetDWXDBPASSWORD captures enum value "DWX_DB_PASSWORD"
+	GetConfigFilesRequestConfigSetDWXDBPASSWORD string = "DWX_DB_PASSWORD"
 )
 
 // prop value enum
 func (m *GetConfigFilesRequest) validateConfigSetEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getConfigFilesRequestTypeConfigSetPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, getConfigFilesRequestTypeConfigSetPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *GetConfigFilesRequest) validateConfigSet(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ConfigSet) { // not required
 		return nil
 	}
@@ -104,6 +134,11 @@ func (m *GetConfigFilesRequest) validateDatalakeCrn(formats strfmt.Registry) err
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this get config files request based on context it is used
+func (m *GetConfigFilesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

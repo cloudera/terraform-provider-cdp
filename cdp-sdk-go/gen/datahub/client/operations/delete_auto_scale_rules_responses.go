@@ -46,7 +46,8 @@ func NewDeleteAutoScaleRulesOK() *DeleteAutoScaleRulesOK {
 	return &DeleteAutoScaleRulesOK{}
 }
 
-/*DeleteAutoScaleRulesOK handles this case with default header values.
+/*
+DeleteAutoScaleRulesOK describes a response with status code 200, with default header values.
 
 The AutoScale policy before deletion.
 */
@@ -54,7 +55,41 @@ type DeleteAutoScaleRulesOK struct {
 	Payload models.DeleteAutoScaleRulesResponse
 }
 
+// IsSuccess returns true when this delete auto scale rules o k response has a 2xx status code
+func (o *DeleteAutoScaleRulesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete auto scale rules o k response has a 3xx status code
+func (o *DeleteAutoScaleRulesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete auto scale rules o k response has a 4xx status code
+func (o *DeleteAutoScaleRulesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete auto scale rules o k response has a 5xx status code
+func (o *DeleteAutoScaleRulesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete auto scale rules o k response a status code equal to that given
+func (o *DeleteAutoScaleRulesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete auto scale rules o k response
+func (o *DeleteAutoScaleRulesOK) Code() int {
+	return 200
+}
+
 func (o *DeleteAutoScaleRulesOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRulesOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteAutoScaleRulesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRulesOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteAutoScaleRulesDefault(code int) *DeleteAutoScaleRulesDefault {
 	}
 }
 
-/*DeleteAutoScaleRulesDefault handles this case with default header values.
+/*
+DeleteAutoScaleRulesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteAutoScaleRulesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete auto scale rules default response has a 2xx status code
+func (o *DeleteAutoScaleRulesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete auto scale rules default response has a 3xx status code
+func (o *DeleteAutoScaleRulesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete auto scale rules default response has a 4xx status code
+func (o *DeleteAutoScaleRulesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete auto scale rules default response has a 5xx status code
+func (o *DeleteAutoScaleRulesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete auto scale rules default response a status code equal to that given
+func (o *DeleteAutoScaleRulesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete auto scale rules default response
 func (o *DeleteAutoScaleRulesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteAutoScaleRulesDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRules default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteAutoScaleRulesDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRules default  %+v", o._statusCode, o.Payload)
 }
 

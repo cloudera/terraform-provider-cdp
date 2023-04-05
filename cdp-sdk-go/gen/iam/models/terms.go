@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -23,7 +25,7 @@ type Terms struct {
 
 	// The acceptance state.
 	// Required: true
-	AcceptanceState TermsAcceptanceState `json:"acceptanceState"`
+	AcceptanceState *TermsAcceptanceState `json:"acceptanceState"`
 
 	// The CRN of the last user who accepted the terms. May be empty if the terms have not been accepted.
 	Acceptor string `json:"acceptor,omitempty"`
@@ -72,7 +74,6 @@ func (m *Terms) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Terms) validateAcceptanceDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AcceptanceDate) { // not required
 		return nil
 	}
@@ -86,18 +87,29 @@ func (m *Terms) validateAcceptanceDate(formats strfmt.Registry) error {
 
 func (m *Terms) validateAcceptanceState(formats strfmt.Registry) error {
 
-	if err := m.AcceptanceState.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("acceptanceState")
-		}
+	if err := validate.Required("acceptanceState", "body", m.AcceptanceState); err != nil {
 		return err
+	}
+
+	if err := validate.Required("acceptanceState", "body", m.AcceptanceState); err != nil {
+		return err
+	}
+
+	if m.AcceptanceState != nil {
+		if err := m.AcceptanceState.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("acceptanceState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("acceptanceState")
+			}
+			return err
+		}
 	}
 
 	return nil
 }
 
 func (m *Terms) validateExpiryDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ExpiryDate) { // not required
 		return nil
 	}
@@ -122,6 +134,36 @@ func (m *Terms) validateTermsText(formats strfmt.Registry) error {
 
 	if err := validate.Required("termsText", "body", m.TermsText); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this terms based on the context it is used
+func (m *Terms) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAcceptanceState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Terms) contextValidateAcceptanceState(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AcceptanceState != nil {
+		if err := m.AcceptanceState.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("acceptanceState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("acceptanceState")
+			}
+			return err
+		}
 	}
 
 	return nil

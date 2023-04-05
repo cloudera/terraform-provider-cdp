@@ -46,7 +46,8 @@ func NewAddSSHPublicKeyOK() *AddSSHPublicKeyOK {
 	return &AddSSHPublicKeyOK{}
 }
 
-/*AddSSHPublicKeyOK handles this case with default header values.
+/*
+AddSSHPublicKeyOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type AddSSHPublicKeyOK struct {
 	Payload *models.AddSSHPublicKeyResponse
 }
 
+// IsSuccess returns true when this add Ssh public key o k response has a 2xx status code
+func (o *AddSSHPublicKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add Ssh public key o k response has a 3xx status code
+func (o *AddSSHPublicKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add Ssh public key o k response has a 4xx status code
+func (o *AddSSHPublicKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add Ssh public key o k response has a 5xx status code
+func (o *AddSSHPublicKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add Ssh public key o k response a status code equal to that given
+func (o *AddSSHPublicKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the add Ssh public key o k response
+func (o *AddSSHPublicKeyOK) Code() int {
+	return 200
+}
+
 func (o *AddSSHPublicKeyOK) Error() string {
+	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *AddSSHPublicKeyOK) String() string {
 	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKeyOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewAddSSHPublicKeyDefault(code int) *AddSSHPublicKeyDefault {
 	}
 }
 
-/*AddSSHPublicKeyDefault handles this case with default header values.
+/*
+AddSSHPublicKeyDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type AddSSHPublicKeyDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this add Ssh public key default response has a 2xx status code
+func (o *AddSSHPublicKeyDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this add Ssh public key default response has a 3xx status code
+func (o *AddSSHPublicKeyDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this add Ssh public key default response has a 4xx status code
+func (o *AddSSHPublicKeyDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this add Ssh public key default response has a 5xx status code
+func (o *AddSSHPublicKeyDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this add Ssh public key default response a status code equal to that given
+func (o *AddSSHPublicKeyDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the add Ssh public key default response
 func (o *AddSSHPublicKeyDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *AddSSHPublicKeyDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKey default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *AddSSHPublicKeyDefault) String() string {
 	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKey default  %+v", o._statusCode, o.Payload)
 }
 

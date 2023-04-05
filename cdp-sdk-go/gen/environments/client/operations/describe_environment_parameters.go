@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewDescribeEnvironmentParams creates a new DescribeEnvironmentParams object
-// with the default values initialized.
+// NewDescribeEnvironmentParams creates a new DescribeEnvironmentParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeEnvironmentParams() *DescribeEnvironmentParams {
-	var ()
 	return &DescribeEnvironmentParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDescribeEnvironmentParamsWithTimeout creates a new DescribeEnvironmentParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDescribeEnvironmentParamsWithTimeout(timeout time.Duration) *DescribeEnvironmentParams {
-	var ()
 	return &DescribeEnvironmentParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDescribeEnvironmentParamsWithContext creates a new DescribeEnvironmentParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDescribeEnvironmentParamsWithContext(ctx context.Context) *DescribeEnvironmentParams {
-	var ()
 	return &DescribeEnvironmentParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDescribeEnvironmentParamsWithHTTPClient creates a new DescribeEnvironmentParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDescribeEnvironmentParamsWithHTTPClient(client *http.Client) *DescribeEnvironmentParams {
-	var ()
 	return &DescribeEnvironmentParams{
 		HTTPClient: client,
 	}
 }
 
-/*DescribeEnvironmentParams contains all the parameters to send to the API endpoint
-for the describe environment operation typically these are written to a http.Request
+/*
+DescribeEnvironmentParams contains all the parameters to send to the API endpoint
+
+	for the describe environment operation.
+
+	Typically these are written to a http.Request.
 */
 type DescribeEnvironmentParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DescribeEnvironmentRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the describe environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeEnvironmentParams) WithDefaults() *DescribeEnvironmentParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the describe environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeEnvironmentParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the describe environment params
@@ -121,7 +137,6 @@ func (o *DescribeEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

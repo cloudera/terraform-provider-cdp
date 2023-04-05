@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,9 +19,21 @@ import (
 // swagger:model NetworkAzureParams
 type NetworkAzureParams struct {
 
+	// The ID of an existing private DNS zone used for the AKS.
+	AksPrivateDNSZoneID string `json:"aksPrivateDnsZoneId,omitempty"`
+
+	// The ID of an existing private DNS zone used for the database.
+	DatabasePrivateDNSZoneID string `json:"databasePrivateDnsZoneId,omitempty"`
+
+	// Whether the outbound load balancer was created for this environment.
+	EnableOutboundLoadBalancer bool `json:"enableOutboundLoadBalancer,omitempty"`
+
 	// The id of the Azure VNet.
 	// Required: true
 	NetworkID *string `json:"networkId"`
+
+	// The name of the Azure VNet.
+	NetworkName string `json:"networkName,omitempty"`
 
 	// The name of the resource group associated with the VNet.
 	// Required: true
@@ -76,6 +90,11 @@ func (m *NetworkAzureParams) validateUsePublicIP(formats strfmt.Registry) error 
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this network azure params based on context it is used
+func (m *NetworkAzureParams) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

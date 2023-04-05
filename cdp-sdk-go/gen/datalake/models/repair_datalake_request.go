@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -22,8 +24,13 @@ type RepairDatalakeRequest struct {
 	DatalakeName *string `json:"datalakeName"`
 
 	// The instance group where the failed instances will be repaired.
-	// Required: true
-	InstanceGroupName *string `json:"instanceGroupName"`
+	InstanceGroupName string `json:"instanceGroupName,omitempty"`
+
+	// List of instance groups where the failed instances will be repaired.
+	InstanceGroupNames []string `json:"instanceGroupNames"`
+
+	// List of instances.
+	Instances *RepairInstancesRequest `json:"instances,omitempty"`
 }
 
 // Validate validates this repair datalake request
@@ -34,7 +41,7 @@ func (m *RepairDatalakeRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateInstanceGroupName(formats); err != nil {
+	if err := m.validateInstances(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -53,10 +60,50 @@ func (m *RepairDatalakeRequest) validateDatalakeName(formats strfmt.Registry) er
 	return nil
 }
 
-func (m *RepairDatalakeRequest) validateInstanceGroupName(formats strfmt.Registry) error {
+func (m *RepairDatalakeRequest) validateInstances(formats strfmt.Registry) error {
+	if swag.IsZero(m.Instances) { // not required
+		return nil
+	}
 
-	if err := validate.Required("instanceGroupName", "body", m.InstanceGroupName); err != nil {
-		return err
+	if m.Instances != nil {
+		if err := m.Instances.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instances")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instances")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this repair datalake request based on the context it is used
+func (m *RepairDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstances(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *RepairDatalakeRequest) contextValidateInstances(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Instances != nil {
+		if err := m.Instances.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instances")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instances")
+			}
+			return err
+		}
 	}
 
 	return nil

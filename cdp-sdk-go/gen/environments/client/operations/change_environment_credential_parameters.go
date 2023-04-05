@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewChangeEnvironmentCredentialParams creates a new ChangeEnvironmentCredentialParams object
-// with the default values initialized.
+// NewChangeEnvironmentCredentialParams creates a new ChangeEnvironmentCredentialParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewChangeEnvironmentCredentialParams() *ChangeEnvironmentCredentialParams {
-	var ()
 	return &ChangeEnvironmentCredentialParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewChangeEnvironmentCredentialParamsWithTimeout creates a new ChangeEnvironmentCredentialParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewChangeEnvironmentCredentialParamsWithTimeout(timeout time.Duration) *ChangeEnvironmentCredentialParams {
-	var ()
 	return &ChangeEnvironmentCredentialParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewChangeEnvironmentCredentialParamsWithContext creates a new ChangeEnvironmentCredentialParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewChangeEnvironmentCredentialParamsWithContext(ctx context.Context) *ChangeEnvironmentCredentialParams {
-	var ()
 	return &ChangeEnvironmentCredentialParams{
-
 		Context: ctx,
 	}
 }
 
 // NewChangeEnvironmentCredentialParamsWithHTTPClient creates a new ChangeEnvironmentCredentialParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewChangeEnvironmentCredentialParamsWithHTTPClient(client *http.Client) *ChangeEnvironmentCredentialParams {
-	var ()
 	return &ChangeEnvironmentCredentialParams{
 		HTTPClient: client,
 	}
 }
 
-/*ChangeEnvironmentCredentialParams contains all the parameters to send to the API endpoint
-for the change environment credential operation typically these are written to a http.Request
+/*
+ChangeEnvironmentCredentialParams contains all the parameters to send to the API endpoint
+
+	for the change environment credential operation.
+
+	Typically these are written to a http.Request.
 */
 type ChangeEnvironmentCredentialParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ChangeEnvironmentCredentialRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the change environment credential params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ChangeEnvironmentCredentialParams) WithDefaults() *ChangeEnvironmentCredentialParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the change environment credential params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ChangeEnvironmentCredentialParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the change environment credential params
@@ -121,7 +137,6 @@ func (o *ChangeEnvironmentCredentialParams) WriteToRequest(r runtime.ClientReque
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

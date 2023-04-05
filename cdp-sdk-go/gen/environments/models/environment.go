@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -23,9 +25,28 @@ type Environment struct {
 	// aws details
 	AwsDetails *EnvironmentAwsDetails `json:"awsDetails,omitempty"`
 
+	// azure details
+	AzureDetails *EnvironmentAzureDetails `json:"azureDetails,omitempty"`
+
+	// Storage configuration for backup.
+	BackupStorage *BackupStorage `json:"backupStorage,omitempty"`
+
 	// Cloud platform of the environment.
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
+
+	// When this is enabled, logs from the VMs will end up on the pre-defined cloud storage (enabled by default).
+	CloudStorageLogging bool `json:"cloudStorageLogging,omitempty"`
+
+	// The Cloudbreak version used to create the environment.
+	CloudbreakVersion string `json:"cloudbreakVersion,omitempty"`
+
+	// Creation date
+	// Format: date-time
+	Created strfmt.DateTime `json:"created,omitempty"`
+
+	// The CRN of the user who has created the given environment.
+	Creator string `json:"creator,omitempty"`
 
 	// Name of the credential of the environment.
 	// Required: true
@@ -48,6 +69,9 @@ type Environment struct {
 	// Details of FreeIPA instance associated with this environment.
 	Freeipa *FreeipaDetails `json:"freeipa,omitempty"`
 
+	// gcp details
+	GcpDetails *EnvironmentGcpDetails `json:"gcpDetails,omitempty"`
+
 	// Storage configuration for cluster and audit logs.
 	// Required: true
 	LogStorage *LogStorage `json:"logStorage"`
@@ -55,6 +79,9 @@ type Environment struct {
 	// Network related specifics of the environment.
 	// Required: true
 	Network *Network `json:"network"`
+
+	// If the environment is a hybrid environment (on YCloud), this contains the name of the parent environment (on a cloud provider) tied to it.
+	ParentEnvironmentName string `json:"parentEnvironmentName,omitempty"`
 
 	// The proxy config.
 	ProxyConfig *ProxyConfig `json:"proxyConfig,omitempty"`
@@ -66,7 +93,7 @@ type Environment struct {
 	// When true, this will report additional diagnostic information back to Cloudera.
 	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
 
-	// Security control for FreeIPA and Datalake deployment.
+	// Security control for FreeIPA and Data Lake deployment.
 	SecurityAccess *SecurityAccess `json:"securityAccess,omitempty"`
 
 	// Status of the environment.
@@ -76,8 +103,17 @@ type Environment struct {
 	// The status reason.
 	StatusReason string `json:"statusReason,omitempty"`
 
-	// Whether SSH tunnelling is enabled for the environment.
+	// Environment tags object containing the tag values defined for the environment.
+	Tags *EnvironmentTags `json:"tags,omitempty"`
+
+	// Whether tunneling is enabled for the environment.
 	TunnelEnabled bool `json:"tunnelEnabled,omitempty"`
+
+	// CCM version
+	TunnelType TunnelType `json:"tunnelType,omitempty"`
+
+	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
+	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`
 }
 
 // Validate validates this environment
@@ -92,7 +128,19 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateAzureDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateBackupStorage(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCloudPlatform(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCreated(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -109,6 +157,10 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateFreeipa(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateGcpDetails(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -136,6 +188,14 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateTags(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTunnelType(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -143,7 +203,6 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateAuthentication(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Authentication) { // not required
 		return nil
 	}
@@ -152,6 +211,8 @@ func (m *Environment) validateAuthentication(formats strfmt.Registry) error {
 		if err := m.Authentication.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("authentication")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("authentication")
 			}
 			return err
 		}
@@ -161,7 +222,6 @@ func (m *Environment) validateAuthentication(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AwsDetails) { // not required
 		return nil
 	}
@@ -170,6 +230,46 @@ func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
 		if err := m.AwsDetails.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) validateAzureDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.AzureDetails) { // not required
+		return nil
+	}
+
+	if m.AzureDetails != nil {
+		if err := m.AzureDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) validateBackupStorage(formats strfmt.Registry) error {
+	if swag.IsZero(m.BackupStorage) { // not required
+		return nil
+	}
+
+	if m.BackupStorage != nil {
+		if err := m.BackupStorage.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupStorage")
 			}
 			return err
 		}
@@ -181,6 +281,18 @@ func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
 func (m *Environment) validateCloudPlatform(formats strfmt.Registry) error {
 
 	if err := validate.Required("cloudPlatform", "body", m.CloudPlatform); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Environment) validateCreated(formats strfmt.Registry) error {
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date-time", m.Created.String(), formats); err != nil {
 		return err
 	}
 
@@ -215,7 +327,6 @@ func (m *Environment) validateEnvironmentName(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateFreeipa(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Freeipa) { // not required
 		return nil
 	}
@@ -224,6 +335,27 @@ func (m *Environment) validateFreeipa(formats strfmt.Registry) error {
 		if err := m.Freeipa.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("freeipa")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("freeipa")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) validateGcpDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.GcpDetails) { // not required
+		return nil
+	}
+
+	if m.GcpDetails != nil {
+		if err := m.GcpDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcpDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcpDetails")
 			}
 			return err
 		}
@@ -242,6 +374,8 @@ func (m *Environment) validateLogStorage(formats strfmt.Registry) error {
 		if err := m.LogStorage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("logStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("logStorage")
 			}
 			return err
 		}
@@ -260,6 +394,8 @@ func (m *Environment) validateNetwork(formats strfmt.Registry) error {
 		if err := m.Network.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
 			}
 			return err
 		}
@@ -269,7 +405,6 @@ func (m *Environment) validateNetwork(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateProxyConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProxyConfig) { // not required
 		return nil
 	}
@@ -278,6 +413,8 @@ func (m *Environment) validateProxyConfig(formats strfmt.Registry) error {
 		if err := m.ProxyConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("proxyConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("proxyConfig")
 			}
 			return err
 		}
@@ -296,7 +433,6 @@ func (m *Environment) validateRegion(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateSecurityAccess(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SecurityAccess) { // not required
 		return nil
 	}
@@ -305,6 +441,8 @@ func (m *Environment) validateSecurityAccess(formats strfmt.Registry) error {
 		if err := m.SecurityAccess.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("securityAccess")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityAccess")
 			}
 			return err
 		}
@@ -316,6 +454,290 @@ func (m *Environment) validateSecurityAccess(formats strfmt.Registry) error {
 func (m *Environment) validateStatus(formats strfmt.Registry) error {
 
 	if err := validate.Required("status", "body", m.Status); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Environment) validateTags(formats strfmt.Registry) error {
+	if swag.IsZero(m.Tags) { // not required
+		return nil
+	}
+
+	if m.Tags != nil {
+		if err := m.Tags.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tags")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tags")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) validateTunnelType(formats strfmt.Registry) error {
+	if swag.IsZero(m.TunnelType) { // not required
+		return nil
+	}
+
+	if err := m.TunnelType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("tunnelType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("tunnelType")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this environment based on the context it is used
+func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuthentication(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAwsDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAzureDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateBackupStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFreeipa(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateGcpDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLogStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNetwork(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProxyConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurityAccess(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTags(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTunnelType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Environment) contextValidateAuthentication(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Authentication != nil {
+		if err := m.Authentication.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("authentication")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("authentication")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateAwsDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AwsDetails != nil {
+		if err := m.AwsDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateAzureDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AzureDetails != nil {
+		if err := m.AzureDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateBackupStorage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.BackupStorage != nil {
+		if err := m.BackupStorage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateFreeipa(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Freeipa != nil {
+		if err := m.Freeipa.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("freeipa")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("freeipa")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateGcpDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.GcpDetails != nil {
+		if err := m.GcpDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcpDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcpDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateLogStorage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LogStorage != nil {
+		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("logStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("logStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateNetwork(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Network != nil {
+		if err := m.Network.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateProxyConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ProxyConfig != nil {
+		if err := m.ProxyConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("proxyConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("proxyConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateSecurityAccess(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SecurityAccess != nil {
+		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("securityAccess")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityAccess")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Tags != nil {
+		if err := m.Tags.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tags")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tags")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateTunnelType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.TunnelType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("tunnelType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("tunnelType")
+		}
 		return err
 	}
 
@@ -354,6 +776,11 @@ func (m *EnvironmentAwsDetails) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+// ContextValidate validates this environment aws details based on context it is used
+func (m *EnvironmentAwsDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (m *EnvironmentAwsDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
@@ -365,6 +792,80 @@ func (m *EnvironmentAwsDetails) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *EnvironmentAwsDetails) UnmarshalBinary(b []byte) error {
 	var res EnvironmentAwsDetails
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// EnvironmentAzureDetails Azure specific environment configuration information.
+//
+// swagger:model EnvironmentAzureDetails
+type EnvironmentAzureDetails struct {
+
+	// Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.
+	ResourceGroupName string `json:"resourceGroupName,omitempty"`
+}
+
+// Validate validates this environment azure details
+func (m *EnvironmentAzureDetails) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this environment azure details based on context it is used
+func (m *EnvironmentAzureDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *EnvironmentAzureDetails) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *EnvironmentAzureDetails) UnmarshalBinary(b []byte) error {
+	var res EnvironmentAzureDetails
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// EnvironmentGcpDetails GCP specific environment configuration information.
+//
+// swagger:model EnvironmentGcpDetails
+type EnvironmentGcpDetails struct {
+
+	// ID of the Google project where the resources are created.
+	SharedProjectID string `json:"sharedProjectId,omitempty"`
+}
+
+// Validate validates this environment gcp details
+func (m *EnvironmentGcpDetails) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this environment gcp details based on context it is used
+func (m *EnvironmentGcpDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *EnvironmentGcpDetails) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *EnvironmentGcpDetails) UnmarshalBinary(b []byte) error {
+	var res EnvironmentGcpDetails
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

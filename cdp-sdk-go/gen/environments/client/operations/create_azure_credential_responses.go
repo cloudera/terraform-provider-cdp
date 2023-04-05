@@ -46,7 +46,8 @@ func NewCreateAzureCredentialOK() *CreateAzureCredentialOK {
 	return &CreateAzureCredentialOK{}
 }
 
-/*CreateAzureCredentialOK handles this case with default header values.
+/*
+CreateAzureCredentialOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateAzureCredentialOK struct {
 	Payload *models.CreateAzureCredentialResponse
 }
 
+// IsSuccess returns true when this create azure credential o k response has a 2xx status code
+func (o *CreateAzureCredentialOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create azure credential o k response has a 3xx status code
+func (o *CreateAzureCredentialOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create azure credential o k response has a 4xx status code
+func (o *CreateAzureCredentialOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create azure credential o k response has a 5xx status code
+func (o *CreateAzureCredentialOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create azure credential o k response a status code equal to that given
+func (o *CreateAzureCredentialOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create azure credential o k response
+func (o *CreateAzureCredentialOK) Code() int {
+	return 200
+}
+
 func (o *CreateAzureCredentialOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureCredential][%d] createAzureCredentialOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateAzureCredentialOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createAzureCredential][%d] createAzureCredentialOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateAzureCredentialDefault(code int) *CreateAzureCredentialDefault {
 	}
 }
 
-/*CreateAzureCredentialDefault handles this case with default header values.
+/*
+CreateAzureCredentialDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateAzureCredentialDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create azure credential default response has a 2xx status code
+func (o *CreateAzureCredentialDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create azure credential default response has a 3xx status code
+func (o *CreateAzureCredentialDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create azure credential default response has a 4xx status code
+func (o *CreateAzureCredentialDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create azure credential default response has a 5xx status code
+func (o *CreateAzureCredentialDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create azure credential default response a status code equal to that given
+func (o *CreateAzureCredentialDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create azure credential default response
 func (o *CreateAzureCredentialDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateAzureCredentialDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureCredential][%d] createAzureCredential default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateAzureCredentialDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createAzureCredential][%d] createAzureCredential default  %+v", o._statusCode, o.Payload)
 }
 

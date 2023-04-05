@@ -46,7 +46,8 @@ func NewListRecipesOK() *ListRecipesOK {
 	return &ListRecipesOK{}
 }
 
-/*ListRecipesOK handles this case with default header values.
+/*
+ListRecipesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListRecipesOK struct {
 	Payload *models.ListRecipesResponse
 }
 
+// IsSuccess returns true when this list recipes o k response has a 2xx status code
+func (o *ListRecipesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list recipes o k response has a 3xx status code
+func (o *ListRecipesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list recipes o k response has a 4xx status code
+func (o *ListRecipesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list recipes o k response has a 5xx status code
+func (o *ListRecipesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list recipes o k response a status code equal to that given
+func (o *ListRecipesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list recipes o k response
+func (o *ListRecipesOK) Code() int {
+	return 200
+}
+
 func (o *ListRecipesOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/listRecipes][%d] listRecipesOK  %+v", 200, o.Payload)
+}
+
+func (o *ListRecipesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/listRecipes][%d] listRecipesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListRecipesDefault(code int) *ListRecipesDefault {
 	}
 }
 
-/*ListRecipesDefault handles this case with default header values.
+/*
+ListRecipesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListRecipesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list recipes default response has a 2xx status code
+func (o *ListRecipesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list recipes default response has a 3xx status code
+func (o *ListRecipesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list recipes default response has a 4xx status code
+func (o *ListRecipesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list recipes default response has a 5xx status code
+func (o *ListRecipesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list recipes default response a status code equal to that given
+func (o *ListRecipesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list recipes default response
 func (o *ListRecipesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListRecipesDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/listRecipes][%d] listRecipes default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListRecipesDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/listRecipes][%d] listRecipes default  %+v", o._statusCode, o.Payload)
 }
 

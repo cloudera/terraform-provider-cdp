@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -23,6 +25,9 @@ type ClouderaManagerDetails struct {
 
 	// Cloudera Manager server URL.
 	ClouderaManagerServerURL string `json:"clouderaManagerServerURL,omitempty"`
+
+	// CDP Platform version.
+	PlatformVersion string `json:"platformVersion,omitempty"`
 
 	// Cloudera Manager version.
 	// Required: true
@@ -62,6 +67,11 @@ func (m *ClouderaManagerDetails) validateVersion(formats strfmt.Registry) error 
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this cloudera manager details based on context it is used
+func (m *ClouderaManagerDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

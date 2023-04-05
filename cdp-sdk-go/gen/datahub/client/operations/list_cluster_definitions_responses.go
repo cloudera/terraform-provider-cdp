@@ -46,7 +46,8 @@ func NewListClusterDefinitionsOK() *ListClusterDefinitionsOK {
 	return &ListClusterDefinitionsOK{}
 }
 
-/*ListClusterDefinitionsOK handles this case with default header values.
+/*
+ListClusterDefinitionsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListClusterDefinitionsOK struct {
 	Payload *models.ListClusterDefinitionsResponse
 }
 
+// IsSuccess returns true when this list cluster definitions o k response has a 2xx status code
+func (o *ListClusterDefinitionsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list cluster definitions o k response has a 3xx status code
+func (o *ListClusterDefinitionsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list cluster definitions o k response has a 4xx status code
+func (o *ListClusterDefinitionsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list cluster definitions o k response has a 5xx status code
+func (o *ListClusterDefinitionsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list cluster definitions o k response a status code equal to that given
+func (o *ListClusterDefinitionsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list cluster definitions o k response
+func (o *ListClusterDefinitionsOK) Code() int {
+	return 200
+}
+
 func (o *ListClusterDefinitionsOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitionsOK  %+v", 200, o.Payload)
+}
+
+func (o *ListClusterDefinitionsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitionsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListClusterDefinitionsDefault(code int) *ListClusterDefinitionsDefault {
 	}
 }
 
-/*ListClusterDefinitionsDefault handles this case with default header values.
+/*
+ListClusterDefinitionsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListClusterDefinitionsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list cluster definitions default response has a 2xx status code
+func (o *ListClusterDefinitionsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list cluster definitions default response has a 3xx status code
+func (o *ListClusterDefinitionsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list cluster definitions default response has a 4xx status code
+func (o *ListClusterDefinitionsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list cluster definitions default response has a 5xx status code
+func (o *ListClusterDefinitionsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list cluster definitions default response a status code equal to that given
+func (o *ListClusterDefinitionsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list cluster definitions default response
 func (o *ListClusterDefinitionsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListClusterDefinitionsDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitions default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListClusterDefinitionsDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitions default  %+v", o._statusCode, o.Payload)
 }
 

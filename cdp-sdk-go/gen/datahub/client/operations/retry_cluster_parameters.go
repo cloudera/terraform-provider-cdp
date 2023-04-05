@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewRetryClusterParams creates a new RetryClusterParams object
-// with the default values initialized.
+// NewRetryClusterParams creates a new RetryClusterParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRetryClusterParams() *RetryClusterParams {
-	var ()
 	return &RetryClusterParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRetryClusterParamsWithTimeout creates a new RetryClusterParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRetryClusterParamsWithTimeout(timeout time.Duration) *RetryClusterParams {
-	var ()
 	return &RetryClusterParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRetryClusterParamsWithContext creates a new RetryClusterParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRetryClusterParamsWithContext(ctx context.Context) *RetryClusterParams {
-	var ()
 	return &RetryClusterParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRetryClusterParamsWithHTTPClient creates a new RetryClusterParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRetryClusterParamsWithHTTPClient(client *http.Client) *RetryClusterParams {
-	var ()
 	return &RetryClusterParams{
 		HTTPClient: client,
 	}
 }
 
-/*RetryClusterParams contains all the parameters to send to the API endpoint
-for the retry cluster operation typically these are written to a http.Request
+/*
+RetryClusterParams contains all the parameters to send to the API endpoint
+
+	for the retry cluster operation.
+
+	Typically these are written to a http.Request.
 */
 type RetryClusterParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.RetryClusterRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the retry cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RetryClusterParams) WithDefaults() *RetryClusterParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the retry cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RetryClusterParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the retry cluster params
@@ -121,7 +137,6 @@ func (o *RetryClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

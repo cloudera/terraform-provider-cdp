@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -62,7 +63,7 @@ const (
 
 // prop value enum
 func (m *GetCredentialPrerequisitesRequest) validateCloudPlatformEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, getCredentialPrerequisitesRequestTypeCloudPlatformPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, getCredentialPrerequisitesRequestTypeCloudPlatformPropEnum, true); err != nil {
 		return err
 	}
 	return nil
@@ -79,6 +80,11 @@ func (m *GetCredentialPrerequisitesRequest) validateCloudPlatform(formats strfmt
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this get credential prerequisites request based on context it is used
+func (m *GetCredentialPrerequisitesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

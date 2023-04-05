@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListGroupsParams creates a new ListGroupsParams object
-// with the default values initialized.
+// NewListGroupsParams creates a new ListGroupsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListGroupsParams() *ListGroupsParams {
-	var ()
 	return &ListGroupsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListGroupsParamsWithTimeout creates a new ListGroupsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListGroupsParamsWithTimeout(timeout time.Duration) *ListGroupsParams {
-	var ()
 	return &ListGroupsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListGroupsParamsWithContext creates a new ListGroupsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListGroupsParamsWithContext(ctx context.Context) *ListGroupsParams {
-	var ()
 	return &ListGroupsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListGroupsParamsWithHTTPClient creates a new ListGroupsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListGroupsParamsWithHTTPClient(client *http.Client) *ListGroupsParams {
-	var ()
 	return &ListGroupsParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListGroupsParams contains all the parameters to send to the API endpoint
-for the list groups operation typically these are written to a http.Request
+/*
+ListGroupsParams contains all the parameters to send to the API endpoint
+
+	for the list groups operation.
+
+	Typically these are written to a http.Request.
 */
 type ListGroupsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListGroupsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list groups params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListGroupsParams) WithDefaults() *ListGroupsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list groups params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListGroupsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list groups params
@@ -121,7 +137,6 @@ func (o *ListGroupsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

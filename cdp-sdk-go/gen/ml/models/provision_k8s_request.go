@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -19,7 +20,7 @@ import (
 // swagger:model ProvisionK8sRequest
 type ProvisionK8sRequest struct {
 
-	// The environment for the workspace to create.
+	// The name of the environment for the workspace to create.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
@@ -28,10 +29,16 @@ type ProvisionK8sRequest struct {
 	InstanceGroups []*InstanceGroup `json:"instanceGroups"`
 
 	// The overlay network for an AWS Kubernetes cluster's CNI.
-	OverlayNetwork *OverlayNetwork `json:"overlayNetwork,omitempty"`
+	Network *OverlayNetwork `json:"network,omitempty"`
 
 	// Tags to add to the cloud provider resources created. This is in addition to any tags added by Cloudera.
 	Tags []*ProvisionTag `json:"tags"`
+
+	// The boolean flag to add legacy node label for testing. Previously we used "node-role.kubernetes.io" instead of "role.node.kubernetes.io", which isn't supported after Kubernetes 1.16.
+	UseLegacyNodeLabel bool `json:"useLegacyNodeLabel,omitempty"`
+
+	// The experimental entitlements to pass to liftie for testing purpose https://github.infra.cloudera.com/liftie/liftie/blob/master/README.md#entitlements.
+	XEntitlements []string `json:"xEntitlements"`
 }
 
 // Validate validates this provision k8s request
@@ -46,7 +53,7 @@ func (m *ProvisionK8sRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateOverlayNetwork(formats); err != nil {
+	if err := m.validateNetwork(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -84,6 +91,8 @@ func (m *ProvisionK8sRequest) validateInstanceGroups(formats strfmt.Registry) er
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -94,16 +103,17 @@ func (m *ProvisionK8sRequest) validateInstanceGroups(formats strfmt.Registry) er
 	return nil
 }
 
-func (m *ProvisionK8sRequest) validateOverlayNetwork(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.OverlayNetwork) { // not required
+func (m *ProvisionK8sRequest) validateNetwork(formats strfmt.Registry) error {
+	if swag.IsZero(m.Network) { // not required
 		return nil
 	}
 
-	if m.OverlayNetwork != nil {
-		if err := m.OverlayNetwork.Validate(formats); err != nil {
+	if m.Network != nil {
+		if err := m.Network.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("overlayNetwork")
+				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
 			}
 			return err
 		}
@@ -113,7 +123,6 @@ func (m *ProvisionK8sRequest) validateOverlayNetwork(formats strfmt.Registry) er
 }
 
 func (m *ProvisionK8sRequest) validateTags(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Tags) { // not required
 		return nil
 	}
@@ -127,6 +136,86 @@ func (m *ProvisionK8sRequest) validateTags(formats strfmt.Registry) error {
 			if err := m.Tags[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this provision k8s request based on the context it is used
+func (m *ProvisionK8sRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstanceGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNetwork(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTags(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ProvisionK8sRequest) contextValidateInstanceGroups(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.InstanceGroups); i++ {
+
+		if m.InstanceGroups[i] != nil {
+			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *ProvisionK8sRequest) contextValidateNetwork(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Network != nil {
+		if err := m.Network.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *ProvisionK8sRequest) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Tags); i++ {
+
+		if m.Tags[i] != nil {
+			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

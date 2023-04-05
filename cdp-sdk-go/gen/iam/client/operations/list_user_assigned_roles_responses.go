@@ -46,7 +46,8 @@ func NewListUserAssignedRolesOK() *ListUserAssignedRolesOK {
 	return &ListUserAssignedRolesOK{}
 }
 
-/*ListUserAssignedRolesOK handles this case with default header values.
+/*
+ListUserAssignedRolesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListUserAssignedRolesOK struct {
 	Payload *models.ListUserAssignedRolesResponse
 }
 
+// IsSuccess returns true when this list user assigned roles o k response has a 2xx status code
+func (o *ListUserAssignedRolesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list user assigned roles o k response has a 3xx status code
+func (o *ListUserAssignedRolesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list user assigned roles o k response has a 4xx status code
+func (o *ListUserAssignedRolesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list user assigned roles o k response has a 5xx status code
+func (o *ListUserAssignedRolesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list user assigned roles o k response a status code equal to that given
+func (o *ListUserAssignedRolesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list user assigned roles o k response
+func (o *ListUserAssignedRolesOK) Code() int {
+	return 200
+}
+
 func (o *ListUserAssignedRolesOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listUserAssignedRoles][%d] listUserAssignedRolesOK  %+v", 200, o.Payload)
+}
+
+func (o *ListUserAssignedRolesOK) String() string {
 	return fmt.Sprintf("[POST /iam/listUserAssignedRoles][%d] listUserAssignedRolesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListUserAssignedRolesDefault(code int) *ListUserAssignedRolesDefault {
 	}
 }
 
-/*ListUserAssignedRolesDefault handles this case with default header values.
+/*
+ListUserAssignedRolesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListUserAssignedRolesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list user assigned roles default response has a 2xx status code
+func (o *ListUserAssignedRolesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list user assigned roles default response has a 3xx status code
+func (o *ListUserAssignedRolesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list user assigned roles default response has a 4xx status code
+func (o *ListUserAssignedRolesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list user assigned roles default response has a 5xx status code
+func (o *ListUserAssignedRolesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list user assigned roles default response a status code equal to that given
+func (o *ListUserAssignedRolesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list user assigned roles default response
 func (o *ListUserAssignedRolesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListUserAssignedRolesDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listUserAssignedRoles][%d] listUserAssignedRoles default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListUserAssignedRolesDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listUserAssignedRoles][%d] listUserAssignedRoles default  %+v", o._statusCode, o.Payload)
 }
 

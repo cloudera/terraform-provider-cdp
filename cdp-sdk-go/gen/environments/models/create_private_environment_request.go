@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -52,14 +53,16 @@ type CreatePrivateEnvironmentRequest struct {
 	EnvironmentName *string `json:"environmentName"`
 
 	// Name of credentials holding kubeconfig for access to the kubernetes cluster paired with this Environment.
-	// Required: true
-	KubeConfig *string `json:"kubeConfig"`
+	KubeConfig string `json:"kubeConfig,omitempty"`
 
 	// Prefix for all namespaces created by Cloudera Data Platform within this cluster.
 	NamespacePrefix *string `json:"namespacePrefix,omitempty"`
 
 	// the K8s cluster type used for the environment.
 	Platform *string `json:"platform,omitempty"`
+
+	// An existing storage class on this kubernetes cluster. If not specified, the default storage class will be used.
+	StorageClass string `json:"storageClass,omitempty"`
 
 	// User name for accessing the Cloudera Manager.
 	// Required: true
@@ -91,10 +94,6 @@ func (m *CreatePrivateEnvironmentRequest) Validate(formats strfmt.Registry) erro
 	}
 
 	if err := m.validateEnvironmentName(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateKubeConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -146,14 +145,13 @@ const (
 
 // prop value enum
 func (m *CreatePrivateEnvironmentRequest) validateAuthenticationTokenTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, createPrivateEnvironmentRequestTypeAuthenticationTokenTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, createPrivateEnvironmentRequestTypeAuthenticationTokenTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *CreatePrivateEnvironmentRequest) validateAuthenticationTokenType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuthenticationTokenType) { // not required
 		return nil
 	}
@@ -176,7 +174,6 @@ func (m *CreatePrivateEnvironmentRequest) validateClusterNames(formats strfmt.Re
 }
 
 func (m *CreatePrivateEnvironmentRequest) validateDockerUserPass(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DockerUserPass) { // not required
 		return nil
 	}
@@ -185,6 +182,8 @@ func (m *CreatePrivateEnvironmentRequest) validateDockerUserPass(formats strfmt.
 		if err := m.DockerUserPass.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dockerUserPass")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dockerUserPass")
 			}
 			return err
 		}
@@ -202,19 +201,40 @@ func (m *CreatePrivateEnvironmentRequest) validateEnvironmentName(formats strfmt
 	return nil
 }
 
-func (m *CreatePrivateEnvironmentRequest) validateKubeConfig(formats strfmt.Registry) error {
+func (m *CreatePrivateEnvironmentRequest) validateUser(formats strfmt.Registry) error {
 
-	if err := validate.Required("kubeConfig", "body", m.KubeConfig); err != nil {
+	if err := validate.Required("user", "body", m.User); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (m *CreatePrivateEnvironmentRequest) validateUser(formats strfmt.Registry) error {
+// ContextValidate validate this create private environment request based on the context it is used
+func (m *CreatePrivateEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
 
-	if err := validate.Required("user", "body", m.User); err != nil {
-		return err
+	if err := m.contextValidateDockerUserPass(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreatePrivateEnvironmentRequest) contextValidateDockerUserPass(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DockerUserPass != nil {
+		if err := m.DockerUserPass.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dockerUserPass")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dockerUserPass")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -305,6 +325,11 @@ func (m *CreatePrivateEnvironmentRequestDockerUserPass) validateUsername(formats
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create private environment request docker user pass based on context it is used
+func (m *CreatePrivateEnvironmentRequestDockerUserPass) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

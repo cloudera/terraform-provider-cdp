@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewDescribeLdapProviderParams creates a new DescribeLdapProviderParams object
-// with the default values initialized.
+// NewDescribeLdapProviderParams creates a new DescribeLdapProviderParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeLdapProviderParams() *DescribeLdapProviderParams {
-	var ()
 	return &DescribeLdapProviderParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDescribeLdapProviderParamsWithTimeout creates a new DescribeLdapProviderParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDescribeLdapProviderParamsWithTimeout(timeout time.Duration) *DescribeLdapProviderParams {
-	var ()
 	return &DescribeLdapProviderParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDescribeLdapProviderParamsWithContext creates a new DescribeLdapProviderParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDescribeLdapProviderParamsWithContext(ctx context.Context) *DescribeLdapProviderParams {
-	var ()
 	return &DescribeLdapProviderParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDescribeLdapProviderParamsWithHTTPClient creates a new DescribeLdapProviderParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDescribeLdapProviderParamsWithHTTPClient(client *http.Client) *DescribeLdapProviderParams {
-	var ()
 	return &DescribeLdapProviderParams{
 		HTTPClient: client,
 	}
 }
 
-/*DescribeLdapProviderParams contains all the parameters to send to the API endpoint
-for the describe ldap provider operation typically these are written to a http.Request
+/*
+DescribeLdapProviderParams contains all the parameters to send to the API endpoint
+
+	for the describe ldap provider operation.
+
+	Typically these are written to a http.Request.
 */
 type DescribeLdapProviderParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DescribeLdapProviderRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the describe ldap provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeLdapProviderParams) WithDefaults() *DescribeLdapProviderParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the describe ldap provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeLdapProviderParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the describe ldap provider params
@@ -121,7 +137,6 @@ func (o *DescribeLdapProviderParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

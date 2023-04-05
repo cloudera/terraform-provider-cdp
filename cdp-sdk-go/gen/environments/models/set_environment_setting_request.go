@@ -6,9 +6,12 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // SetEnvironmentSettingRequest Request object to set environment configuration settings.
@@ -40,6 +43,15 @@ func (m *SetEnvironmentSettingRequest) Validate(formats strfmt.Registry) error {
 
 func (m *SetEnvironmentSettingRequest) validateSettings(formats strfmt.Registry) error {
 
+	if err := validate.Required("settings", "body", m.Settings); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validates this set environment setting request based on context it is used
+func (m *SetEnvironmentSettingRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

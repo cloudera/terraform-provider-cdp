@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -20,6 +22,9 @@ type ResumeWorkspaceRequest struct {
 	// The CRN of the workspace to resume.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
+
+	// The experimental entitlements to pass to CML for testing purpose. This is not meant for external customers in any case
+	XEntitlements []string `json:"xEntitlements"`
 }
 
 // Validate validates this resume workspace request
@@ -42,6 +47,11 @@ func (m *ResumeWorkspaceRequest) validateWorkspaceCrn(formats strfmt.Registry) e
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this resume workspace request based on context it is used
+func (m *ResumeWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

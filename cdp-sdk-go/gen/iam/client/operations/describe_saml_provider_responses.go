@@ -46,7 +46,8 @@ func NewDescribeSamlProviderOK() *DescribeSamlProviderOK {
 	return &DescribeSamlProviderOK{}
 }
 
-/*DescribeSamlProviderOK handles this case with default header values.
+/*
+DescribeSamlProviderOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DescribeSamlProviderOK struct {
 	Payload *models.DescribeSamlProviderResponse
 }
 
+// IsSuccess returns true when this describe saml provider o k response has a 2xx status code
+func (o *DescribeSamlProviderOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this describe saml provider o k response has a 3xx status code
+func (o *DescribeSamlProviderOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this describe saml provider o k response has a 4xx status code
+func (o *DescribeSamlProviderOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this describe saml provider o k response has a 5xx status code
+func (o *DescribeSamlProviderOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this describe saml provider o k response a status code equal to that given
+func (o *DescribeSamlProviderOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the describe saml provider o k response
+func (o *DescribeSamlProviderOK) Code() int {
+	return 200
+}
+
 func (o *DescribeSamlProviderOK) Error() string {
+	return fmt.Sprintf("[POST /iam/describeSamlProvider][%d] describeSamlProviderOK  %+v", 200, o.Payload)
+}
+
+func (o *DescribeSamlProviderOK) String() string {
 	return fmt.Sprintf("[POST /iam/describeSamlProvider][%d] describeSamlProviderOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDescribeSamlProviderDefault(code int) *DescribeSamlProviderDefault {
 	}
 }
 
-/*DescribeSamlProviderDefault handles this case with default header values.
+/*
+DescribeSamlProviderDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DescribeSamlProviderDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this describe saml provider default response has a 2xx status code
+func (o *DescribeSamlProviderDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this describe saml provider default response has a 3xx status code
+func (o *DescribeSamlProviderDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this describe saml provider default response has a 4xx status code
+func (o *DescribeSamlProviderDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this describe saml provider default response has a 5xx status code
+func (o *DescribeSamlProviderDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this describe saml provider default response a status code equal to that given
+func (o *DescribeSamlProviderDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the describe saml provider default response
 func (o *DescribeSamlProviderDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DescribeSamlProviderDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/describeSamlProvider][%d] describeSamlProvider default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DescribeSamlProviderDefault) String() string {
 	return fmt.Sprintf("[POST /iam/describeSamlProvider][%d] describeSamlProvider default  %+v", o._statusCode, o.Payload)
 }
 

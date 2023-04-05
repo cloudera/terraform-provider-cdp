@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *CreateMachineUserResponse) validateMachineUser(formats strfmt.Registry)
 		if err := m.MachineUser.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineUser")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineUser")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create machine user response based on the context it is used
+func (m *CreateMachineUserResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMachineUser(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateMachineUserResponse) contextValidateMachineUser(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MachineUser != nil {
+		if err := m.MachineUser.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineUser")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineUser")
 			}
 			return err
 		}

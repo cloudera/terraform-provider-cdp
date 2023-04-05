@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewSetAccountMessagesParams creates a new SetAccountMessagesParams object
-// with the default values initialized.
+// NewSetAccountMessagesParams creates a new SetAccountMessagesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetAccountMessagesParams() *SetAccountMessagesParams {
-	var ()
 	return &SetAccountMessagesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSetAccountMessagesParamsWithTimeout creates a new SetAccountMessagesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSetAccountMessagesParamsWithTimeout(timeout time.Duration) *SetAccountMessagesParams {
-	var ()
 	return &SetAccountMessagesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSetAccountMessagesParamsWithContext creates a new SetAccountMessagesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSetAccountMessagesParamsWithContext(ctx context.Context) *SetAccountMessagesParams {
-	var ()
 	return &SetAccountMessagesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSetAccountMessagesParamsWithHTTPClient creates a new SetAccountMessagesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSetAccountMessagesParamsWithHTTPClient(client *http.Client) *SetAccountMessagesParams {
-	var ()
 	return &SetAccountMessagesParams{
 		HTTPClient: client,
 	}
 }
 
-/*SetAccountMessagesParams contains all the parameters to send to the API endpoint
-for the set account messages operation typically these are written to a http.Request
+/*
+SetAccountMessagesParams contains all the parameters to send to the API endpoint
+
+	for the set account messages operation.
+
+	Typically these are written to a http.Request.
 */
 type SetAccountMessagesParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.SetAccountMessagesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the set account messages params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetAccountMessagesParams) WithDefaults() *SetAccountMessagesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the set account messages params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetAccountMessagesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the set account messages params
@@ -121,7 +137,6 @@ func (o *SetAccountMessagesParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

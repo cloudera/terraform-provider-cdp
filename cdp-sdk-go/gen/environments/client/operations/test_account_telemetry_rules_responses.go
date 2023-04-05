@@ -46,7 +46,8 @@ func NewTestAccountTelemetryRulesOK() *TestAccountTelemetryRulesOK {
 	return &TestAccountTelemetryRulesOK{}
 }
 
-/*TestAccountTelemetryRulesOK handles this case with default header values.
+/*
+TestAccountTelemetryRulesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type TestAccountTelemetryRulesOK struct {
 	Payload *models.TestAccountTelemetryRulesResponse
 }
 
+// IsSuccess returns true when this test account telemetry rules o k response has a 2xx status code
+func (o *TestAccountTelemetryRulesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this test account telemetry rules o k response has a 3xx status code
+func (o *TestAccountTelemetryRulesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this test account telemetry rules o k response has a 4xx status code
+func (o *TestAccountTelemetryRulesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this test account telemetry rules o k response has a 5xx status code
+func (o *TestAccountTelemetryRulesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this test account telemetry rules o k response a status code equal to that given
+func (o *TestAccountTelemetryRulesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the test account telemetry rules o k response
+func (o *TestAccountTelemetryRulesOK) Code() int {
+	return 200
+}
+
 func (o *TestAccountTelemetryRulesOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRulesOK  %+v", 200, o.Payload)
+}
+
+func (o *TestAccountTelemetryRulesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRulesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewTestAccountTelemetryRulesDefault(code int) *TestAccountTelemetryRulesDef
 	}
 }
 
-/*TestAccountTelemetryRulesDefault handles this case with default header values.
+/*
+TestAccountTelemetryRulesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type TestAccountTelemetryRulesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this test account telemetry rules default response has a 2xx status code
+func (o *TestAccountTelemetryRulesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this test account telemetry rules default response has a 3xx status code
+func (o *TestAccountTelemetryRulesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this test account telemetry rules default response has a 4xx status code
+func (o *TestAccountTelemetryRulesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this test account telemetry rules default response has a 5xx status code
+func (o *TestAccountTelemetryRulesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this test account telemetry rules default response a status code equal to that given
+func (o *TestAccountTelemetryRulesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the test account telemetry rules default response
 func (o *TestAccountTelemetryRulesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *TestAccountTelemetryRulesDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRules default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *TestAccountTelemetryRulesDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRules default  %+v", o._statusCode, o.Payload)
 }
 

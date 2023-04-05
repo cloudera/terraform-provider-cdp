@@ -46,7 +46,8 @@ func NewDeleteWorkspaceOK() *DeleteWorkspaceOK {
 	return &DeleteWorkspaceOK{}
 }
 
-/*DeleteWorkspaceOK handles this case with default header values.
+/*
+DeleteWorkspaceOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteWorkspaceOK struct {
 	Payload models.DeleteWorkspaceResponse
 }
 
+// IsSuccess returns true when this delete workspace o k response has a 2xx status code
+func (o *DeleteWorkspaceOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete workspace o k response has a 3xx status code
+func (o *DeleteWorkspaceOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete workspace o k response has a 4xx status code
+func (o *DeleteWorkspaceOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete workspace o k response has a 5xx status code
+func (o *DeleteWorkspaceOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete workspace o k response a status code equal to that given
+func (o *DeleteWorkspaceOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete workspace o k response
+func (o *DeleteWorkspaceOK) Code() int {
+	return 200
+}
+
 func (o *DeleteWorkspaceOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspaceOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteWorkspaceOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspaceOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteWorkspaceDefault(code int) *DeleteWorkspaceDefault {
 	}
 }
 
-/*DeleteWorkspaceDefault handles this case with default header values.
+/*
+DeleteWorkspaceDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteWorkspaceDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete workspace default response has a 2xx status code
+func (o *DeleteWorkspaceDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete workspace default response has a 3xx status code
+func (o *DeleteWorkspaceDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete workspace default response has a 4xx status code
+func (o *DeleteWorkspaceDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete workspace default response has a 5xx status code
+func (o *DeleteWorkspaceDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete workspace default response a status code equal to that given
+func (o *DeleteWorkspaceDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete workspace default response
 func (o *DeleteWorkspaceDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteWorkspaceDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspace default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteWorkspaceDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspace default  %+v", o._statusCode, o.Payload)
 }
 

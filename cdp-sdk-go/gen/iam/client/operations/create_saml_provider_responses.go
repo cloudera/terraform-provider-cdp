@@ -46,7 +46,8 @@ func NewCreateSamlProviderOK() *CreateSamlProviderOK {
 	return &CreateSamlProviderOK{}
 }
 
-/*CreateSamlProviderOK handles this case with default header values.
+/*
+CreateSamlProviderOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateSamlProviderOK struct {
 	Payload *models.CreateSamlProviderResponse
 }
 
+// IsSuccess returns true when this create saml provider o k response has a 2xx status code
+func (o *CreateSamlProviderOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create saml provider o k response has a 3xx status code
+func (o *CreateSamlProviderOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create saml provider o k response has a 4xx status code
+func (o *CreateSamlProviderOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create saml provider o k response has a 5xx status code
+func (o *CreateSamlProviderOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create saml provider o k response a status code equal to that given
+func (o *CreateSamlProviderOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create saml provider o k response
+func (o *CreateSamlProviderOK) Code() int {
+	return 200
+}
+
 func (o *CreateSamlProviderOK) Error() string {
+	return fmt.Sprintf("[POST /iam/createSamlProvider][%d] createSamlProviderOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateSamlProviderOK) String() string {
 	return fmt.Sprintf("[POST /iam/createSamlProvider][%d] createSamlProviderOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateSamlProviderDefault(code int) *CreateSamlProviderDefault {
 	}
 }
 
-/*CreateSamlProviderDefault handles this case with default header values.
+/*
+CreateSamlProviderDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateSamlProviderDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create saml provider default response has a 2xx status code
+func (o *CreateSamlProviderDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create saml provider default response has a 3xx status code
+func (o *CreateSamlProviderDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create saml provider default response has a 4xx status code
+func (o *CreateSamlProviderDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create saml provider default response has a 5xx status code
+func (o *CreateSamlProviderDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create saml provider default response a status code equal to that given
+func (o *CreateSamlProviderDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create saml provider default response
 func (o *CreateSamlProviderDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateSamlProviderDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/createSamlProvider][%d] createSamlProvider default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateSamlProviderDefault) String() string {
 	return fmt.Sprintf("[POST /iam/createSamlProvider][%d] createSamlProvider default  %+v", o._statusCode, o.Payload)
 }
 

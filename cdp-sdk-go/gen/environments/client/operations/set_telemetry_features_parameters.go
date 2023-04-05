@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewSetTelemetryFeaturesParams creates a new SetTelemetryFeaturesParams object
-// with the default values initialized.
+// NewSetTelemetryFeaturesParams creates a new SetTelemetryFeaturesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetTelemetryFeaturesParams() *SetTelemetryFeaturesParams {
-	var ()
 	return &SetTelemetryFeaturesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSetTelemetryFeaturesParamsWithTimeout creates a new SetTelemetryFeaturesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSetTelemetryFeaturesParamsWithTimeout(timeout time.Duration) *SetTelemetryFeaturesParams {
-	var ()
 	return &SetTelemetryFeaturesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSetTelemetryFeaturesParamsWithContext creates a new SetTelemetryFeaturesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSetTelemetryFeaturesParamsWithContext(ctx context.Context) *SetTelemetryFeaturesParams {
-	var ()
 	return &SetTelemetryFeaturesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSetTelemetryFeaturesParamsWithHTTPClient creates a new SetTelemetryFeaturesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSetTelemetryFeaturesParamsWithHTTPClient(client *http.Client) *SetTelemetryFeaturesParams {
-	var ()
 	return &SetTelemetryFeaturesParams{
 		HTTPClient: client,
 	}
 }
 
-/*SetTelemetryFeaturesParams contains all the parameters to send to the API endpoint
-for the set telemetry features operation typically these are written to a http.Request
+/*
+SetTelemetryFeaturesParams contains all the parameters to send to the API endpoint
+
+	for the set telemetry features operation.
+
+	Typically these are written to a http.Request.
 */
 type SetTelemetryFeaturesParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.SetTelemetryFeaturesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the set telemetry features params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetTelemetryFeaturesParams) WithDefaults() *SetTelemetryFeaturesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the set telemetry features params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetTelemetryFeaturesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the set telemetry features params
@@ -121,7 +137,6 @@ func (o *SetTelemetryFeaturesParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

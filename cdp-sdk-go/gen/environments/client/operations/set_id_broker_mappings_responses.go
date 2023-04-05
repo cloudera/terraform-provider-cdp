@@ -46,7 +46,8 @@ func NewSetIDBrokerMappingsOK() *SetIDBrokerMappingsOK {
 	return &SetIDBrokerMappingsOK{}
 }
 
-/*SetIDBrokerMappingsOK handles this case with default header values.
+/*
+SetIDBrokerMappingsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type SetIDBrokerMappingsOK struct {
 	Payload *models.SetIDBrokerMappingsResponse
 }
 
+// IsSuccess returns true when this set Id broker mappings o k response has a 2xx status code
+func (o *SetIDBrokerMappingsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this set Id broker mappings o k response has a 3xx status code
+func (o *SetIDBrokerMappingsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this set Id broker mappings o k response has a 4xx status code
+func (o *SetIDBrokerMappingsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this set Id broker mappings o k response has a 5xx status code
+func (o *SetIDBrokerMappingsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this set Id broker mappings o k response a status code equal to that given
+func (o *SetIDBrokerMappingsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the set Id broker mappings o k response
+func (o *SetIDBrokerMappingsOK) Code() int {
+	return 200
+}
+
 func (o *SetIDBrokerMappingsOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/setIdBrokerMappings][%d] setIdBrokerMappingsOK  %+v", 200, o.Payload)
+}
+
+func (o *SetIDBrokerMappingsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/setIdBrokerMappings][%d] setIdBrokerMappingsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewSetIDBrokerMappingsDefault(code int) *SetIDBrokerMappingsDefault {
 	}
 }
 
-/*SetIDBrokerMappingsDefault handles this case with default header values.
+/*
+SetIDBrokerMappingsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type SetIDBrokerMappingsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this set Id broker mappings default response has a 2xx status code
+func (o *SetIDBrokerMappingsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this set Id broker mappings default response has a 3xx status code
+func (o *SetIDBrokerMappingsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this set Id broker mappings default response has a 4xx status code
+func (o *SetIDBrokerMappingsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this set Id broker mappings default response has a 5xx status code
+func (o *SetIDBrokerMappingsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this set Id broker mappings default response a status code equal to that given
+func (o *SetIDBrokerMappingsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the set Id broker mappings default response
 func (o *SetIDBrokerMappingsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *SetIDBrokerMappingsDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/setIdBrokerMappings][%d] setIdBrokerMappings default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *SetIDBrokerMappingsDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/setIdBrokerMappings][%d] setIdBrokerMappings default  %+v", o._statusCode, o.Payload)
 }
 

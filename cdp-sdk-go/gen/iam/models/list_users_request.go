@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -18,7 +20,7 @@ import (
 type ListUsersRequest struct {
 
 	// The size of each page.
-	// Maximum: 100
+	// Maximum: 500
 	// Minimum: 1
 	PageSize int32 `json:"pageSize,omitempty"`
 
@@ -44,7 +46,6 @@ func (m *ListUsersRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListUsersRequest) validatePageSize(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PageSize) { // not required
 		return nil
 	}
@@ -53,10 +54,15 @@ func (m *ListUsersRequest) validatePageSize(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MaximumInt("pageSize", "body", int64(m.PageSize), 100, false); err != nil {
+	if err := validate.MaximumInt("pageSize", "body", int64(m.PageSize), 500, false); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this list users request based on context it is used
+func (m *ListUsersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

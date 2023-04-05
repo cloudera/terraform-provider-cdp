@@ -46,7 +46,8 @@ func NewGetKeytabOK() *GetKeytabOK {
 	return &GetKeytabOK{}
 }
 
-/*GetKeytabOK handles this case with default header values.
+/*
+GetKeytabOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetKeytabOK struct {
 	Payload *models.GetKeytabResponse
 }
 
+// IsSuccess returns true when this get keytab o k response has a 2xx status code
+func (o *GetKeytabOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get keytab o k response has a 3xx status code
+func (o *GetKeytabOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get keytab o k response has a 4xx status code
+func (o *GetKeytabOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get keytab o k response has a 5xx status code
+func (o *GetKeytabOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get keytab o k response a status code equal to that given
+func (o *GetKeytabOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get keytab o k response
+func (o *GetKeytabOK) Code() int {
+	return 200
+}
+
 func (o *GetKeytabOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytabOK  %+v", 200, o.Payload)
+}
+
+func (o *GetKeytabOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytabOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetKeytabDefault(code int) *GetKeytabDefault {
 	}
 }
 
-/*GetKeytabDefault handles this case with default header values.
+/*
+GetKeytabDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetKeytabDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get keytab default response has a 2xx status code
+func (o *GetKeytabDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get keytab default response has a 3xx status code
+func (o *GetKeytabDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get keytab default response has a 4xx status code
+func (o *GetKeytabDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get keytab default response has a 5xx status code
+func (o *GetKeytabDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get keytab default response a status code equal to that given
+func (o *GetKeytabDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get keytab default response
 func (o *GetKeytabDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetKeytabDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytab default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetKeytabDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytab default  %+v", o._statusCode, o.Payload)
 }
 

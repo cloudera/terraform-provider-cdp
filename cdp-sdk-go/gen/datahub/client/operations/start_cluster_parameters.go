@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewStartClusterParams creates a new StartClusterParams object
-// with the default values initialized.
+// NewStartClusterParams creates a new StartClusterParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStartClusterParams() *StartClusterParams {
-	var ()
 	return &StartClusterParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewStartClusterParamsWithTimeout creates a new StartClusterParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewStartClusterParamsWithTimeout(timeout time.Duration) *StartClusterParams {
-	var ()
 	return &StartClusterParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewStartClusterParamsWithContext creates a new StartClusterParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewStartClusterParamsWithContext(ctx context.Context) *StartClusterParams {
-	var ()
 	return &StartClusterParams{
-
 		Context: ctx,
 	}
 }
 
 // NewStartClusterParamsWithHTTPClient creates a new StartClusterParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewStartClusterParamsWithHTTPClient(client *http.Client) *StartClusterParams {
-	var ()
 	return &StartClusterParams{
 		HTTPClient: client,
 	}
 }
 
-/*StartClusterParams contains all the parameters to send to the API endpoint
-for the start cluster operation typically these are written to a http.Request
+/*
+StartClusterParams contains all the parameters to send to the API endpoint
+
+	for the start cluster operation.
+
+	Typically these are written to a http.Request.
 */
 type StartClusterParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.StartClusterRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the start cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *StartClusterParams) WithDefaults() *StartClusterParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the start cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *StartClusterParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the start cluster params
@@ -121,7 +137,6 @@ func (o *StartClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

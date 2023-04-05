@@ -46,7 +46,8 @@ func NewDeleteAccessKeyOK() *DeleteAccessKeyOK {
 	return &DeleteAccessKeyOK{}
 }
 
-/*DeleteAccessKeyOK handles this case with default header values.
+/*
+DeleteAccessKeyOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteAccessKeyOK struct {
 	Payload models.DeleteAccessKeyResponse
 }
 
+// IsSuccess returns true when this delete access key o k response has a 2xx status code
+func (o *DeleteAccessKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete access key o k response has a 3xx status code
+func (o *DeleteAccessKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete access key o k response has a 4xx status code
+func (o *DeleteAccessKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete access key o k response has a 5xx status code
+func (o *DeleteAccessKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete access key o k response a status code equal to that given
+func (o *DeleteAccessKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete access key o k response
+func (o *DeleteAccessKeyOK) Code() int {
+	return 200
+}
+
 func (o *DeleteAccessKeyOK) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteAccessKeyOK) String() string {
 	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKeyOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteAccessKeyDefault(code int) *DeleteAccessKeyDefault {
 	}
 }
 
-/*DeleteAccessKeyDefault handles this case with default header values.
+/*
+DeleteAccessKeyDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteAccessKeyDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete access key default response has a 2xx status code
+func (o *DeleteAccessKeyDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete access key default response has a 3xx status code
+func (o *DeleteAccessKeyDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete access key default response has a 4xx status code
+func (o *DeleteAccessKeyDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete access key default response has a 5xx status code
+func (o *DeleteAccessKeyDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete access key default response a status code equal to that given
+func (o *DeleteAccessKeyDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete access key default response
 func (o *DeleteAccessKeyDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteAccessKeyDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKey default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteAccessKeyDefault) String() string {
 	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKey default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,6 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"strconv"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +19,9 @@ import (
 //
 // swagger:model SyncOperationDetails
 type SyncOperationDetails struct {
+
+	// List of additional details for a sync operation.
+	AdditionalDetails []*SyncOperationAdditionalDetail `json:"additionalDetails"`
 
 	// environment crn.
 	// Required: true
@@ -29,6 +35,10 @@ type SyncOperationDetails struct {
 func (m *SyncOperationDetails) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAdditionalDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateEnvironmentCrn(formats); err != nil {
 		res = append(res, err)
 	}
@@ -39,10 +49,70 @@ func (m *SyncOperationDetails) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *SyncOperationDetails) validateAdditionalDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.AdditionalDetails) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.AdditionalDetails); i++ {
+		if swag.IsZero(m.AdditionalDetails[i]) { // not required
+			continue
+		}
+
+		if m.AdditionalDetails[i] != nil {
+			if err := m.AdditionalDetails[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("additionalDetails" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("additionalDetails" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *SyncOperationDetails) validateEnvironmentCrn(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this sync operation details based on the context it is used
+func (m *SyncOperationDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAdditionalDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *SyncOperationDetails) contextValidateAdditionalDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AdditionalDetails); i++ {
+
+		if m.AdditionalDetails[i] != nil {
+			if err := m.AdditionalDetails[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("additionalDetails" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("additionalDetails" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

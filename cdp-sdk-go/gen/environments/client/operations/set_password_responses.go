@@ -46,7 +46,8 @@ func NewSetPasswordOK() *SetPasswordOK {
 	return &SetPasswordOK{}
 }
 
-/*SetPasswordOK handles this case with default header values.
+/*
+SetPasswordOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type SetPasswordOK struct {
 	Payload *models.SetPasswordResponse
 }
 
+// IsSuccess returns true when this set password o k response has a 2xx status code
+func (o *SetPasswordOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this set password o k response has a 3xx status code
+func (o *SetPasswordOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this set password o k response has a 4xx status code
+func (o *SetPasswordOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this set password o k response has a 5xx status code
+func (o *SetPasswordOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this set password o k response a status code equal to that given
+func (o *SetPasswordOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the set password o k response
+func (o *SetPasswordOK) Code() int {
+	return 200
+}
+
 func (o *SetPasswordOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPasswordOK  %+v", 200, o.Payload)
+}
+
+func (o *SetPasswordOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPasswordOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewSetPasswordDefault(code int) *SetPasswordDefault {
 	}
 }
 
-/*SetPasswordDefault handles this case with default header values.
+/*
+SetPasswordDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type SetPasswordDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this set password default response has a 2xx status code
+func (o *SetPasswordDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this set password default response has a 3xx status code
+func (o *SetPasswordDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this set password default response has a 4xx status code
+func (o *SetPasswordDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this set password default response has a 5xx status code
+func (o *SetPasswordDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this set password default response a status code equal to that given
+func (o *SetPasswordDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the set password default response
 func (o *SetPasswordDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *SetPasswordDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPassword default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *SetPasswordDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPassword default  %+v", o._statusCode, o.Payload)
 }
 

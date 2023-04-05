@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewCreatePrivateEnvironmentParams creates a new CreatePrivateEnvironmentParams object
-// with the default values initialized.
+// NewCreatePrivateEnvironmentParams creates a new CreatePrivateEnvironmentParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreatePrivateEnvironmentParams() *CreatePrivateEnvironmentParams {
-	var ()
 	return &CreatePrivateEnvironmentParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreatePrivateEnvironmentParamsWithTimeout creates a new CreatePrivateEnvironmentParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreatePrivateEnvironmentParamsWithTimeout(timeout time.Duration) *CreatePrivateEnvironmentParams {
-	var ()
 	return &CreatePrivateEnvironmentParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreatePrivateEnvironmentParamsWithContext creates a new CreatePrivateEnvironmentParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreatePrivateEnvironmentParamsWithContext(ctx context.Context) *CreatePrivateEnvironmentParams {
-	var ()
 	return &CreatePrivateEnvironmentParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreatePrivateEnvironmentParamsWithHTTPClient creates a new CreatePrivateEnvironmentParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreatePrivateEnvironmentParamsWithHTTPClient(client *http.Client) *CreatePrivateEnvironmentParams {
-	var ()
 	return &CreatePrivateEnvironmentParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreatePrivateEnvironmentParams contains all the parameters to send to the API endpoint
-for the create private environment operation typically these are written to a http.Request
+/*
+CreatePrivateEnvironmentParams contains all the parameters to send to the API endpoint
+
+	for the create private environment operation.
+
+	Typically these are written to a http.Request.
 */
 type CreatePrivateEnvironmentParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreatePrivateEnvironmentRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create private environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreatePrivateEnvironmentParams) WithDefaults() *CreatePrivateEnvironmentParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create private environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreatePrivateEnvironmentParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create private environment params
@@ -121,7 +137,6 @@ func (o *CreatePrivateEnvironmentParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -15,12 +17,17 @@ import (
 // swagger:model GetAccountMessagesResponse
 type GetAccountMessagesResponse struct {
 
-	// Contact your admin message.
+	// Message shown to user when user does not have sufficient rights.
 	ContactYourAdministratorMessage string `json:"contactYourAdministratorMessage,omitempty"`
 }
 
 // Validate validates this get account messages response
 func (m *GetAccountMessagesResponse) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this get account messages response based on context it is used
+func (m *GetAccountMessagesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

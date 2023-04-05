@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -21,7 +23,7 @@ type UpgradeDatalakeRequest struct {
 	// Required: true
 	DatalakeName *string `json:"datalakeName"`
 
-	// Report available images, change nothing
+	// Checks the eligibility of an image to upgrade
 	DryRun bool `json:"dryRun,omitempty"`
 
 	// The id of an image to upgrade to
@@ -30,8 +32,32 @@ type UpgradeDatalakeRequest struct {
 	// Perform an os upgrade only
 	LockComponents bool `json:"lockComponents,omitempty"`
 
+	// Enables the ability to perform rolling runtime upgrade.
+	RollingUpgradeEnabled bool `json:"rollingUpgradeEnabled,omitempty"`
+
 	// The runtime version to upgrade to
 	Runtime string `json:"runtime,omitempty"`
+
+	// Returns the list of images that are eligible for the upgrade
+	ShowAvailableImages bool `json:"showAvailableImages,omitempty"`
+
+	// Returns the latest image that is eligible for the upgrade for each runtime version with at least one available upgrade candidate
+	ShowLatestAvailableImagePerRuntime bool `json:"showLatestAvailableImagePerRuntime,omitempty"`
+
+	// Skips the backup of the Atlas metadata. Redundant if --skip-backup is included. If this option is not provided, the Atlas metadata is backed up by default.
+	SkipAtlasMetadata bool `json:"skipAtlasMetadata,omitempty"`
+
+	// If provided, will skip the backup flow for the upgrade process.
+	SkipBackup bool `json:"skipBackup,omitempty"`
+
+	// With this option, the Data Lake upgrade can be performed with running Data Hub clusters. This option may cause problems on the running Data Hub clusters during the Data Lake upgrade.
+	SkipDatahubValidation bool `json:"skipDatahubValidation,omitempty"`
+
+	// Skips the backup of the Ranger audits. Redundant if --skip-backup is included. If this option is not provided, Ranger audits are backed up by default.
+	SkipRangerAudits bool `json:"skipRangerAudits,omitempty"`
+
+	// Skips the backup of the databases backing HMS/Ranger services. Redundant if --skip-backup is included. If this option is not provided, the HMS/Ranger services are backed up by default.
+	SkipRangerHmsMetadata bool `json:"skipRangerHmsMetadata,omitempty"`
 }
 
 // Validate validates this upgrade datalake request
@@ -54,6 +80,11 @@ func (m *UpgradeDatalakeRequest) validateDatalakeName(formats strfmt.Registry) e
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this upgrade datalake request based on context it is used
+func (m *UpgradeDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

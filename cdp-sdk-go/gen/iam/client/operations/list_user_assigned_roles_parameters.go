@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListUserAssignedRolesParams creates a new ListUserAssignedRolesParams object
-// with the default values initialized.
+// NewListUserAssignedRolesParams creates a new ListUserAssignedRolesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListUserAssignedRolesParams() *ListUserAssignedRolesParams {
-	var ()
 	return &ListUserAssignedRolesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListUserAssignedRolesParamsWithTimeout creates a new ListUserAssignedRolesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListUserAssignedRolesParamsWithTimeout(timeout time.Duration) *ListUserAssignedRolesParams {
-	var ()
 	return &ListUserAssignedRolesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListUserAssignedRolesParamsWithContext creates a new ListUserAssignedRolesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListUserAssignedRolesParamsWithContext(ctx context.Context) *ListUserAssignedRolesParams {
-	var ()
 	return &ListUserAssignedRolesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListUserAssignedRolesParamsWithHTTPClient creates a new ListUserAssignedRolesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListUserAssignedRolesParamsWithHTTPClient(client *http.Client) *ListUserAssignedRolesParams {
-	var ()
 	return &ListUserAssignedRolesParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListUserAssignedRolesParams contains all the parameters to send to the API endpoint
-for the list user assigned roles operation typically these are written to a http.Request
+/*
+ListUserAssignedRolesParams contains all the parameters to send to the API endpoint
+
+	for the list user assigned roles operation.
+
+	Typically these are written to a http.Request.
 */
 type ListUserAssignedRolesParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListUserAssignedRolesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list user assigned roles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListUserAssignedRolesParams) WithDefaults() *ListUserAssignedRolesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list user assigned roles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListUserAssignedRolesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list user assigned roles params
@@ -121,7 +137,6 @@ func (o *ListUserAssignedRolesParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

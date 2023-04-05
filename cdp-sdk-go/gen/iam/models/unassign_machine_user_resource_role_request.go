@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,7 +19,7 @@ import (
 // swagger:model UnassignMachineUserResourceRoleRequest
 type UnassignMachineUserResourceRoleRequest struct {
 
-	// The machine user to unassign the resource role from.
+	// The machine user to unassign the resource role from. Can be the machine user's name or CRN.
 	// Required: true
 	MachineUserName *string `json:"machineUserName"`
 
@@ -76,6 +78,11 @@ func (m *UnassignMachineUserResourceRoleRequest) validateResourceRoleCrn(formats
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this unassign machine user resource role request based on context it is used
+func (m *UnassignMachineUserResourceRoleRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

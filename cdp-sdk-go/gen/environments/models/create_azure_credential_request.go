@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -28,13 +30,11 @@ type CreateAzureCredentialRequest struct {
 	// A description for the credential.
 	Description string `json:"description,omitempty"`
 
-	// The Azure subscription ID.
-	// Required: true
-	SubscriptionID *string `json:"subscriptionId"`
+	// The Azure subscription ID. Required for secret based credentials and optional for certificate based ones.
+	SubscriptionID string `json:"subscriptionId,omitempty"`
 
-	// The Azure AD tenant ID for the Azure subscription.
-	// Required: true
-	TenantID *string `json:"tenantId"`
+	// The Azure AD tenant ID for the Azure subscription. Required for secret based credentials and optional for certificate based ones.
+	TenantID string `json:"tenantId,omitempty"`
 }
 
 // Validate validates this create azure credential request
@@ -46,14 +46,6 @@ func (m *CreateAzureCredentialRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCredentialName(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSubscriptionID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateTenantID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -73,6 +65,8 @@ func (m *CreateAzureCredentialRequest) validateAppBased(formats strfmt.Registry)
 		if err := m.AppBased.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("appBased")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("appBased")
 			}
 			return err
 		}
@@ -90,19 +84,31 @@ func (m *CreateAzureCredentialRequest) validateCredentialName(formats strfmt.Reg
 	return nil
 }
 
-func (m *CreateAzureCredentialRequest) validateSubscriptionID(formats strfmt.Registry) error {
+// ContextValidate validate this create azure credential request based on the context it is used
+func (m *CreateAzureCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
 
-	if err := validate.Required("subscriptionId", "body", m.SubscriptionID); err != nil {
-		return err
+	if err := m.contextValidateAppBased(ctx, formats); err != nil {
+		res = append(res, err)
 	}
 
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-func (m *CreateAzureCredentialRequest) validateTenantID(formats strfmt.Registry) error {
+func (m *CreateAzureCredentialRequest) contextValidateAppBased(ctx context.Context, formats strfmt.Registry) error {
 
-	if err := validate.Required("tenantId", "body", m.TenantID); err != nil {
-		return err
+	if m.AppBased != nil {
+		if err := m.AppBased.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("appBased")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("appBased")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -132,23 +138,20 @@ func (m *CreateAzureCredentialRequest) UnmarshalBinary(b []byte) error {
 type CreateAzureCredentialRequestAppBased struct {
 
 	// The id of the application registered in Azure.
-	// Required: true
-	ApplicationID *string `json:"applicationId"`
+	ApplicationID string `json:"applicationId,omitempty"`
+
+	// Authentication type of the credential
+	AuthenticationType AzureAuthenticationTypeProperties `json:"authenticationType,omitempty"`
 
 	// The client secret key (also referred to as application password) for the registered application.
-	// Required: true
-	SecretKey *string `json:"secretKey"`
+	SecretKey string `json:"secretKey,omitempty"`
 }
 
 // Validate validates this create azure credential request app based
 func (m *CreateAzureCredentialRequestAppBased) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateApplicationID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSecretKey(formats); err != nil {
+	if err := m.validateAuthenticationType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -158,18 +161,45 @@ func (m *CreateAzureCredentialRequestAppBased) Validate(formats strfmt.Registry)
 	return nil
 }
 
-func (m *CreateAzureCredentialRequestAppBased) validateApplicationID(formats strfmt.Registry) error {
+func (m *CreateAzureCredentialRequestAppBased) validateAuthenticationType(formats strfmt.Registry) error {
+	if swag.IsZero(m.AuthenticationType) { // not required
+		return nil
+	}
 
-	if err := validate.Required("appBased"+"."+"applicationId", "body", m.ApplicationID); err != nil {
+	if err := m.AuthenticationType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("appBased" + "." + "authenticationType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("appBased" + "." + "authenticationType")
+		}
 		return err
 	}
 
 	return nil
 }
 
-func (m *CreateAzureCredentialRequestAppBased) validateSecretKey(formats strfmt.Registry) error {
+// ContextValidate validate this create azure credential request app based based on the context it is used
+func (m *CreateAzureCredentialRequestAppBased) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
 
-	if err := validate.Required("appBased"+"."+"secretKey", "body", m.SecretKey); err != nil {
+	if err := m.contextValidateAuthenticationType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateAzureCredentialRequestAppBased) contextValidateAuthenticationType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.AuthenticationType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("appBased" + "." + "authenticationType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("appBased" + "." + "authenticationType")
+		}
 		return err
 	}
 

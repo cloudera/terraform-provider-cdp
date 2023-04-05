@@ -46,7 +46,8 @@ func NewListGroupAssignedResourceRolesOK() *ListGroupAssignedResourceRolesOK {
 	return &ListGroupAssignedResourceRolesOK{}
 }
 
-/*ListGroupAssignedResourceRolesOK handles this case with default header values.
+/*
+ListGroupAssignedResourceRolesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListGroupAssignedResourceRolesOK struct {
 	Payload *models.ListGroupAssignedResourceRolesResponse
 }
 
+// IsSuccess returns true when this list group assigned resource roles o k response has a 2xx status code
+func (o *ListGroupAssignedResourceRolesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list group assigned resource roles o k response has a 3xx status code
+func (o *ListGroupAssignedResourceRolesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list group assigned resource roles o k response has a 4xx status code
+func (o *ListGroupAssignedResourceRolesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list group assigned resource roles o k response has a 5xx status code
+func (o *ListGroupAssignedResourceRolesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list group assigned resource roles o k response a status code equal to that given
+func (o *ListGroupAssignedResourceRolesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list group assigned resource roles o k response
+func (o *ListGroupAssignedResourceRolesOK) Code() int {
+	return 200
+}
+
 func (o *ListGroupAssignedResourceRolesOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listGroupAssignedResourceRoles][%d] listGroupAssignedResourceRolesOK  %+v", 200, o.Payload)
+}
+
+func (o *ListGroupAssignedResourceRolesOK) String() string {
 	return fmt.Sprintf("[POST /iam/listGroupAssignedResourceRoles][%d] listGroupAssignedResourceRolesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListGroupAssignedResourceRolesDefault(code int) *ListGroupAssignedResour
 	}
 }
 
-/*ListGroupAssignedResourceRolesDefault handles this case with default header values.
+/*
+ListGroupAssignedResourceRolesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListGroupAssignedResourceRolesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list group assigned resource roles default response has a 2xx status code
+func (o *ListGroupAssignedResourceRolesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list group assigned resource roles default response has a 3xx status code
+func (o *ListGroupAssignedResourceRolesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list group assigned resource roles default response has a 4xx status code
+func (o *ListGroupAssignedResourceRolesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list group assigned resource roles default response has a 5xx status code
+func (o *ListGroupAssignedResourceRolesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list group assigned resource roles default response a status code equal to that given
+func (o *ListGroupAssignedResourceRolesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list group assigned resource roles default response
 func (o *ListGroupAssignedResourceRolesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListGroupAssignedResourceRolesDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listGroupAssignedResourceRoles][%d] listGroupAssignedResourceRoles default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListGroupAssignedResourceRolesDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listGroupAssignedResourceRoles][%d] listGroupAssignedResourceRoles default  %+v", o._statusCode, o.Payload)
 }
 

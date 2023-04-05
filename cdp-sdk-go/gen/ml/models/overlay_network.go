@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,11 +18,23 @@ import (
 // swagger:model OverlayNetwork
 type OverlayNetwork struct {
 
+	// The CIDRs allowed for inbound communication.
+	InboundProxyCidrs []string `json:"inboundProxyCidrs"`
+
 	// The options for overlay network.
 	Options *NetworkOptions `json:"options,omitempty"`
 
 	// The plugin specifies specific cni vendor, ex: calico, weave etc.
 	Plugin string `json:"plugin,omitempty"`
+
+	// The pod CIDR to be used.
+	PodCidr string `json:"podCidr,omitempty"`
+
+	// The Kubernetes network configuration for the cluster.
+	ServiceCidr string `json:"serviceCidr,omitempty"`
+
+	// The options for overlay topology.
+	Topology *Topology `json:"topology,omitempty"`
 }
 
 // Validate validates this overlay network
@@ -31,6 +45,10 @@ func (m *OverlayNetwork) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateTopology(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -38,7 +56,6 @@ func (m *OverlayNetwork) Validate(formats strfmt.Registry) error {
 }
 
 func (m *OverlayNetwork) validateOptions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Options) { // not required
 		return nil
 	}
@@ -47,6 +64,77 @@ func (m *OverlayNetwork) validateOptions(formats strfmt.Registry) error {
 		if err := m.Options.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("options")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("options")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *OverlayNetwork) validateTopology(formats strfmt.Registry) error {
+	if swag.IsZero(m.Topology) { // not required
+		return nil
+	}
+
+	if m.Topology != nil {
+		if err := m.Topology.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("topology")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("topology")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this overlay network based on the context it is used
+func (m *OverlayNetwork) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTopology(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *OverlayNetwork) contextValidateOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Options != nil {
+		if err := m.Options.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("options")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("options")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *OverlayNetwork) contextValidateTopology(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Topology != nil {
+		if err := m.Topology.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("topology")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("topology")
 			}
 			return err
 		}

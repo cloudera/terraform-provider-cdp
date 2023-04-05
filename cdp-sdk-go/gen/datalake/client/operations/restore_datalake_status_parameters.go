@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
-// NewRestoreDatalakeStatusParams creates a new RestoreDatalakeStatusParams object
-// with the default values initialized.
+// NewRestoreDatalakeStatusParams creates a new RestoreDatalakeStatusParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRestoreDatalakeStatusParams() *RestoreDatalakeStatusParams {
-	var ()
 	return &RestoreDatalakeStatusParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRestoreDatalakeStatusParamsWithTimeout creates a new RestoreDatalakeStatusParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRestoreDatalakeStatusParamsWithTimeout(timeout time.Duration) *RestoreDatalakeStatusParams {
-	var ()
 	return &RestoreDatalakeStatusParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRestoreDatalakeStatusParamsWithContext creates a new RestoreDatalakeStatusParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRestoreDatalakeStatusParamsWithContext(ctx context.Context) *RestoreDatalakeStatusParams {
-	var ()
 	return &RestoreDatalakeStatusParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRestoreDatalakeStatusParamsWithHTTPClient creates a new RestoreDatalakeStatusParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRestoreDatalakeStatusParamsWithHTTPClient(client *http.Client) *RestoreDatalakeStatusParams {
-	var ()
 	return &RestoreDatalakeStatusParams{
 		HTTPClient: client,
 	}
 }
 
-/*RestoreDatalakeStatusParams contains all the parameters to send to the API endpoint
-for the restore datalake status operation typically these are written to a http.Request
+/*
+RestoreDatalakeStatusParams contains all the parameters to send to the API endpoint
+
+	for the restore datalake status operation.
+
+	Typically these are written to a http.Request.
 */
 type RestoreDatalakeStatusParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.RestoreDatalakeStatusRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the restore datalake status params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RestoreDatalakeStatusParams) WithDefaults() *RestoreDatalakeStatusParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the restore datalake status params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RestoreDatalakeStatusParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the restore datalake status params
@@ -121,7 +137,6 @@ func (o *RestoreDatalakeStatusParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

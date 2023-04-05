@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewDeleteSSHPublicKeyParams creates a new DeleteSSHPublicKeyParams object
-// with the default values initialized.
+// NewDeleteSSHPublicKeyParams creates a new DeleteSSHPublicKeyParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteSSHPublicKeyParams() *DeleteSSHPublicKeyParams {
-	var ()
 	return &DeleteSSHPublicKeyParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteSSHPublicKeyParamsWithTimeout creates a new DeleteSSHPublicKeyParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteSSHPublicKeyParamsWithTimeout(timeout time.Duration) *DeleteSSHPublicKeyParams {
-	var ()
 	return &DeleteSSHPublicKeyParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteSSHPublicKeyParamsWithContext creates a new DeleteSSHPublicKeyParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteSSHPublicKeyParamsWithContext(ctx context.Context) *DeleteSSHPublicKeyParams {
-	var ()
 	return &DeleteSSHPublicKeyParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteSSHPublicKeyParamsWithHTTPClient creates a new DeleteSSHPublicKeyParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteSSHPublicKeyParamsWithHTTPClient(client *http.Client) *DeleteSSHPublicKeyParams {
-	var ()
 	return &DeleteSSHPublicKeyParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteSSHPublicKeyParams contains all the parameters to send to the API endpoint
-for the delete Ssh public key operation typically these are written to a http.Request
+/*
+DeleteSSHPublicKeyParams contains all the parameters to send to the API endpoint
+
+	for the delete Ssh public key operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteSSHPublicKeyParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DeleteSSHPublicKeyRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete Ssh public key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteSSHPublicKeyParams) WithDefaults() *DeleteSSHPublicKeyParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete Ssh public key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteSSHPublicKeyParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete Ssh public key params
@@ -121,7 +137,6 @@ func (o *DeleteSSHPublicKeyParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

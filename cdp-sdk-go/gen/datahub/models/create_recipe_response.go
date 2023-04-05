@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *CreateRecipeResponse) validateRecipe(formats strfmt.Registry) error {
 		if err := m.Recipe.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("recipe")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("recipe")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create recipe response based on the context it is used
+func (m *CreateRecipeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateRecipe(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateRecipeResponse) contextValidateRecipe(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Recipe != nil {
+		if err := m.Recipe.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("recipe")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("recipe")
 			}
 			return err
 		}

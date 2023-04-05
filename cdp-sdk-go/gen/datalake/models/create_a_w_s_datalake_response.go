@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *CreateAWSDatalakeResponse) validateDatalake(formats strfmt.Registry) er
 		if err := m.Datalake.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("datalake")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("datalake")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create a w s datalake response based on the context it is used
+func (m *CreateAWSDatalakeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDatalake(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateAWSDatalakeResponse) contextValidateDatalake(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Datalake != nil {
+		if err := m.Datalake.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("datalake")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("datalake")
 			}
 			return err
 		}

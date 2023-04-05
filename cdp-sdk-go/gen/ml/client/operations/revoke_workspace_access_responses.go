@@ -46,7 +46,8 @@ func NewRevokeWorkspaceAccessOK() *RevokeWorkspaceAccessOK {
 	return &RevokeWorkspaceAccessOK{}
 }
 
-/*RevokeWorkspaceAccessOK handles this case with default header values.
+/*
+RevokeWorkspaceAccessOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type RevokeWorkspaceAccessOK struct {
 	Payload models.RevokeWorkspaceAccessResponse
 }
 
+// IsSuccess returns true when this revoke workspace access o k response has a 2xx status code
+func (o *RevokeWorkspaceAccessOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this revoke workspace access o k response has a 3xx status code
+func (o *RevokeWorkspaceAccessOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this revoke workspace access o k response has a 4xx status code
+func (o *RevokeWorkspaceAccessOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this revoke workspace access o k response has a 5xx status code
+func (o *RevokeWorkspaceAccessOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this revoke workspace access o k response a status code equal to that given
+func (o *RevokeWorkspaceAccessOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the revoke workspace access o k response
+func (o *RevokeWorkspaceAccessOK) Code() int {
+	return 200
+}
+
 func (o *RevokeWorkspaceAccessOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccessOK  %+v", 200, o.Payload)
+}
+
+func (o *RevokeWorkspaceAccessOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccessOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewRevokeWorkspaceAccessDefault(code int) *RevokeWorkspaceAccessDefault {
 	}
 }
 
-/*RevokeWorkspaceAccessDefault handles this case with default header values.
+/*
+RevokeWorkspaceAccessDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type RevokeWorkspaceAccessDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this revoke workspace access default response has a 2xx status code
+func (o *RevokeWorkspaceAccessDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this revoke workspace access default response has a 3xx status code
+func (o *RevokeWorkspaceAccessDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this revoke workspace access default response has a 4xx status code
+func (o *RevokeWorkspaceAccessDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this revoke workspace access default response has a 5xx status code
+func (o *RevokeWorkspaceAccessDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this revoke workspace access default response a status code equal to that given
+func (o *RevokeWorkspaceAccessDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the revoke workspace access default response
 func (o *RevokeWorkspaceAccessDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *RevokeWorkspaceAccessDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *RevokeWorkspaceAccessDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccess default  %+v", o._statusCode, o.Payload)
 }
 

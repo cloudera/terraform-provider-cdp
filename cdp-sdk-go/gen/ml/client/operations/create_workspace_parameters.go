@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewCreateWorkspaceParams creates a new CreateWorkspaceParams object
-// with the default values initialized.
+// NewCreateWorkspaceParams creates a new CreateWorkspaceParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateWorkspaceParams() *CreateWorkspaceParams {
-	var ()
 	return &CreateWorkspaceParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateWorkspaceParamsWithTimeout creates a new CreateWorkspaceParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateWorkspaceParamsWithTimeout(timeout time.Duration) *CreateWorkspaceParams {
-	var ()
 	return &CreateWorkspaceParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateWorkspaceParamsWithContext creates a new CreateWorkspaceParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateWorkspaceParamsWithContext(ctx context.Context) *CreateWorkspaceParams {
-	var ()
 	return &CreateWorkspaceParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateWorkspaceParamsWithHTTPClient creates a new CreateWorkspaceParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateWorkspaceParamsWithHTTPClient(client *http.Client) *CreateWorkspaceParams {
-	var ()
 	return &CreateWorkspaceParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateWorkspaceParams contains all the parameters to send to the API endpoint
-for the create workspace operation typically these are written to a http.Request
+/*
+CreateWorkspaceParams contains all the parameters to send to the API endpoint
+
+	for the create workspace operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateWorkspaceParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateWorkspaceRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateWorkspaceParams) WithDefaults() *CreateWorkspaceParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateWorkspaceParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create workspace params
@@ -121,7 +137,6 @@ func (o *CreateWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

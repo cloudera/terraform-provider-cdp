@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,9 +19,37 @@ import (
 // swagger:model WorkloadPasswordPolicy
 type WorkloadPasswordPolicy struct {
 
-	// The max lifetime, in days, of the password. If '0' passwords never expire.
+	// The maximum lifetime, in days, of the password. If '0' passwords never expire.
 	// Required: true
 	MaxPasswordLifetimeDays *int32 `json:"maxPasswordLifetimeDays"`
+
+	// The minimum length of a password.
+	// Required: true
+	MinPasswordLength *int32 `json:"minPasswordLength"`
+
+	// The minimum lifetime of passwords, in days. The password must be used for this duration before it can be changed. If set to '0' the password may be changed any time. The default is 0.
+	// Required: true
+	MinPasswordLifetimeDays *int32 `json:"minPasswordLifetimeDays"`
+
+	// Whether passwords must include lower case characters.
+	// Required: true
+	MustIncludeLowerCaseCharacters *bool `json:"mustIncludeLowerCaseCharacters"`
+
+	// Whether passwords must include numbers.
+	// Required: true
+	MustIncludeNumbers *bool `json:"mustIncludeNumbers"`
+
+	// Whether passwords must include symbols. The symbols are '#', '&', '*', '$', '%', '@', '^', '.', '_', and '!'.
+	// Required: true
+	MustIncludeSymbols *bool `json:"mustIncludeSymbols"`
+
+	// Whether passwords must include upper case characters.
+	// Required: true
+	MustIncludeUpperCaseCharacters *bool `json:"mustIncludeUpperCaseCharacters"`
+
+	// The number of previous passwords that should be remembered. The user or machine user is prevented from reusing these passwords. Can be any number between 0 and 20. The default is 0, this value means all previous passwords may be reused.
+	// Required: true
+	PasswordHistorySize *int32 `json:"passwordHistorySize"`
 }
 
 // Validate validates this workload password policy
@@ -27,6 +57,34 @@ func (m *WorkloadPasswordPolicy) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateMaxPasswordLifetimeDays(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMinPasswordLength(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMinPasswordLifetimeDays(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMustIncludeLowerCaseCharacters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMustIncludeNumbers(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMustIncludeSymbols(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMustIncludeUpperCaseCharacters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePasswordHistorySize(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -42,6 +100,74 @@ func (m *WorkloadPasswordPolicy) validateMaxPasswordLifetimeDays(formats strfmt.
 		return err
 	}
 
+	return nil
+}
+
+func (m *WorkloadPasswordPolicy) validateMinPasswordLength(formats strfmt.Registry) error {
+
+	if err := validate.Required("minPasswordLength", "body", m.MinPasswordLength); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WorkloadPasswordPolicy) validateMinPasswordLifetimeDays(formats strfmt.Registry) error {
+
+	if err := validate.Required("minPasswordLifetimeDays", "body", m.MinPasswordLifetimeDays); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WorkloadPasswordPolicy) validateMustIncludeLowerCaseCharacters(formats strfmt.Registry) error {
+
+	if err := validate.Required("mustIncludeLowerCaseCharacters", "body", m.MustIncludeLowerCaseCharacters); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WorkloadPasswordPolicy) validateMustIncludeNumbers(formats strfmt.Registry) error {
+
+	if err := validate.Required("mustIncludeNumbers", "body", m.MustIncludeNumbers); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WorkloadPasswordPolicy) validateMustIncludeSymbols(formats strfmt.Registry) error {
+
+	if err := validate.Required("mustIncludeSymbols", "body", m.MustIncludeSymbols); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WorkloadPasswordPolicy) validateMustIncludeUpperCaseCharacters(formats strfmt.Registry) error {
+
+	if err := validate.Required("mustIncludeUpperCaseCharacters", "body", m.MustIncludeUpperCaseCharacters); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *WorkloadPasswordPolicy) validatePasswordHistorySize(formats strfmt.Registry) error {
+
+	if err := validate.Required("passwordHistorySize", "body", m.PasswordHistorySize); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validates this workload password policy based on context it is used
+func (m *WorkloadPasswordPolicy) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

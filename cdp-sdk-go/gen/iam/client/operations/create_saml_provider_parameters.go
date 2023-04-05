@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewCreateSamlProviderParams creates a new CreateSamlProviderParams object
-// with the default values initialized.
+// NewCreateSamlProviderParams creates a new CreateSamlProviderParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateSamlProviderParams() *CreateSamlProviderParams {
-	var ()
 	return &CreateSamlProviderParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateSamlProviderParamsWithTimeout creates a new CreateSamlProviderParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateSamlProviderParamsWithTimeout(timeout time.Duration) *CreateSamlProviderParams {
-	var ()
 	return &CreateSamlProviderParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateSamlProviderParamsWithContext creates a new CreateSamlProviderParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateSamlProviderParamsWithContext(ctx context.Context) *CreateSamlProviderParams {
-	var ()
 	return &CreateSamlProviderParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateSamlProviderParamsWithHTTPClient creates a new CreateSamlProviderParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateSamlProviderParamsWithHTTPClient(client *http.Client) *CreateSamlProviderParams {
-	var ()
 	return &CreateSamlProviderParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateSamlProviderParams contains all the parameters to send to the API endpoint
-for the create saml provider operation typically these are written to a http.Request
+/*
+CreateSamlProviderParams contains all the parameters to send to the API endpoint
+
+	for the create saml provider operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateSamlProviderParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateSamlProviderRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create saml provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateSamlProviderParams) WithDefaults() *CreateSamlProviderParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create saml provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateSamlProviderParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create saml provider params
@@ -121,7 +137,6 @@ func (o *CreateSamlProviderParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

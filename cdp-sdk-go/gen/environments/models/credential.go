@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +18,12 @@ import (
 //
 // swagger:model Credential
 type Credential struct {
+
+	// The credential properties that closely related to those that have been created on AWS.
+	AwsCredentialProperties *AwsCredentialProperties `json:"awsCredentialProperties,omitempty"`
+
+	// The credential properties that closely related to those that have been created on Azure.
+	AzureCredentialProperties *AzureCredentialProperties `json:"azureCredentialProperties,omitempty"`
 
 	// The cloud provider.
 	// Required: true
@@ -31,11 +39,22 @@ type Credential struct {
 
 	// A description for the credential.
 	Description string `json:"description,omitempty"`
+
+	// The credential properties that closely related to those that have been created on GCP.
+	GcpCredentialProperties *GCPCredentialProperties `json:"gcpCredentialProperties,omitempty"`
 }
 
 // Validate validates this credential
 func (m *Credential) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateAwsCredentialProperties(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAzureCredentialProperties(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateCloudPlatform(formats); err != nil {
 		res = append(res, err)
@@ -49,9 +68,51 @@ func (m *Credential) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateGcpCredentialProperties(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Credential) validateAwsCredentialProperties(formats strfmt.Registry) error {
+	if swag.IsZero(m.AwsCredentialProperties) { // not required
+		return nil
+	}
+
+	if m.AwsCredentialProperties != nil {
+		if err := m.AwsCredentialProperties.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsCredentialProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsCredentialProperties")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Credential) validateAzureCredentialProperties(formats strfmt.Registry) error {
+	if swag.IsZero(m.AzureCredentialProperties) { // not required
+		return nil
+	}
+
+	if m.AzureCredentialProperties != nil {
+		if err := m.AzureCredentialProperties.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureCredentialProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureCredentialProperties")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -77,6 +138,95 @@ func (m *Credential) validateCrn(formats strfmt.Registry) error {
 
 	if err := validate.Required("crn", "body", m.Crn); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *Credential) validateGcpCredentialProperties(formats strfmt.Registry) error {
+	if swag.IsZero(m.GcpCredentialProperties) { // not required
+		return nil
+	}
+
+	if m.GcpCredentialProperties != nil {
+		if err := m.GcpCredentialProperties.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcpCredentialProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcpCredentialProperties")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this credential based on the context it is used
+func (m *Credential) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAwsCredentialProperties(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAzureCredentialProperties(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateGcpCredentialProperties(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Credential) contextValidateAwsCredentialProperties(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AwsCredentialProperties != nil {
+		if err := m.AwsCredentialProperties.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsCredentialProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsCredentialProperties")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Credential) contextValidateAzureCredentialProperties(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AzureCredentialProperties != nil {
+		if err := m.AzureCredentialProperties.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureCredentialProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureCredentialProperties")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Credential) contextValidateGcpCredentialProperties(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.GcpCredentialProperties != nil {
+		if err := m.GcpCredentialProperties.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcpCredentialProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcpCredentialProperties")
+			}
+			return err
+		}
 	}
 
 	return nil

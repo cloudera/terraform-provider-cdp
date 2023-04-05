@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -52,6 +54,9 @@ type UpdateLdapProviderRequest struct {
 
 	// boolean value to control group sync. Can be omitted if no update is required.
 	SkipGroupSyncOnLogin bool `json:"skipGroupSyncOnLogin,omitempty"`
+
+	// boolean value to indicate whether a start TLS request should be initiated on connect.
+	StartTLS bool `json:"startTls,omitempty"`
 
 	// If your ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), you need to provide the trusted certificates that can be used to validate the LDAP server certificate.
 	TLSCaCertificates []string `json:"tlsCaCertificates"`
@@ -160,6 +165,11 @@ func (m *UpdateLdapProviderRequest) validateUserSearchFilter(formats strfmt.Regi
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this update ldap provider request based on context it is used
+func (m *UpdateLdapProviderRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

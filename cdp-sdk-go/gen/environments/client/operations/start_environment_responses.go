@@ -46,7 +46,8 @@ func NewStartEnvironmentOK() *StartEnvironmentOK {
 	return &StartEnvironmentOK{}
 }
 
-/*StartEnvironmentOK handles this case with default header values.
+/*
+StartEnvironmentOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type StartEnvironmentOK struct {
 	Payload models.StartEnvironmentResponse
 }
 
+// IsSuccess returns true when this start environment o k response has a 2xx status code
+func (o *StartEnvironmentOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this start environment o k response has a 3xx status code
+func (o *StartEnvironmentOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this start environment o k response has a 4xx status code
+func (o *StartEnvironmentOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this start environment o k response has a 5xx status code
+func (o *StartEnvironmentOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this start environment o k response a status code equal to that given
+func (o *StartEnvironmentOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the start environment o k response
+func (o *StartEnvironmentOK) Code() int {
+	return 200
+}
+
 func (o *StartEnvironmentOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/startEnvironment][%d] startEnvironmentOK  %+v", 200, o.Payload)
+}
+
+func (o *StartEnvironmentOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/startEnvironment][%d] startEnvironmentOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewStartEnvironmentDefault(code int) *StartEnvironmentDefault {
 	}
 }
 
-/*StartEnvironmentDefault handles this case with default header values.
+/*
+StartEnvironmentDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type StartEnvironmentDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this start environment default response has a 2xx status code
+func (o *StartEnvironmentDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this start environment default response has a 3xx status code
+func (o *StartEnvironmentDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this start environment default response has a 4xx status code
+func (o *StartEnvironmentDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this start environment default response has a 5xx status code
+func (o *StartEnvironmentDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this start environment default response a status code equal to that given
+func (o *StartEnvironmentDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the start environment default response
 func (o *StartEnvironmentDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *StartEnvironmentDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/startEnvironment][%d] startEnvironment default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *StartEnvironmentDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/startEnvironment][%d] startEnvironment default  %+v", o._statusCode, o.Payload)
 }
 

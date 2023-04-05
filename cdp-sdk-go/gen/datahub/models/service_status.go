@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -46,7 +47,6 @@ func (m *ServiceStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ServiceStatus) validateHealthChecks(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HealthChecks) { // not required
 		return nil
 	}
@@ -60,6 +60,42 @@ func (m *ServiceStatus) validateHealthChecks(formats strfmt.Registry) error {
 			if err := m.HealthChecks[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("healthChecks" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("healthChecks" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this service status based on the context it is used
+func (m *ServiceStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateHealthChecks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ServiceStatus) contextValidateHealthChecks(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.HealthChecks); i++ {
+
+		if m.HealthChecks[i] != nil {
+			if err := m.HealthChecks[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("healthChecks" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("healthChecks" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

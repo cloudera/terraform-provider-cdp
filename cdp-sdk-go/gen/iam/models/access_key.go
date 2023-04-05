@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -14,7 +15,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// AccessKey Information about a Cloudera Altus access key.
+// AccessKey Information about a Cloudera CDP access key.
 //
 // swagger:model AccessKey
 type AccessKey struct {
@@ -44,8 +45,7 @@ type AccessKey struct {
 	Status string `json:"status,omitempty"`
 
 	// The type of an access key.
-	// Enum: [V1 V2]
-	Type string `json:"type,omitempty"`
+	Type AccessKeyType `json:"type,omitempty"`
 }
 
 // Validate validates this access key
@@ -127,7 +127,6 @@ func (m *AccessKey) validateCrn(formats strfmt.Registry) error {
 }
 
 func (m *AccessKey) validateLastUsage(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastUsage) { // not required
 		return nil
 	}
@@ -136,6 +135,8 @@ func (m *AccessKey) validateLastUsage(formats strfmt.Registry) error {
 		if err := m.LastUsage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("lastUsage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("lastUsage")
 			}
 			return err
 		}
@@ -167,14 +168,13 @@ const (
 
 // prop value enum
 func (m *AccessKey) validateStatusEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, accessKeyTypeStatusPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, accessKeyTypeStatusPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *AccessKey) validateStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -187,43 +187,65 @@ func (m *AccessKey) validateStatus(formats strfmt.Registry) error {
 	return nil
 }
 
-var accessKeyTypeTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["V1","V2"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		accessKeyTypeTypePropEnum = append(accessKeyTypeTypePropEnum, v)
-	}
-}
-
-const (
-
-	// AccessKeyTypeV1 captures enum value "V1"
-	AccessKeyTypeV1 string = "V1"
-
-	// AccessKeyTypeV2 captures enum value "V2"
-	AccessKeyTypeV2 string = "V2"
-)
-
-// prop value enum
-func (m *AccessKey) validateTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, accessKeyTypeTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (m *AccessKey) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
+	if err := m.Type.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("type")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("type")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this access key based on the context it is used
+func (m *AccessKey) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLastUsage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AccessKey) contextValidateLastUsage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LastUsage != nil {
+		if err := m.LastUsage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("lastUsage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("lastUsage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *AccessKey) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.Type.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("type")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("type")
+		}
 		return err
 	}
 

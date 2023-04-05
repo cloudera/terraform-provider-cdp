@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -53,6 +54,42 @@ func (m *DeleteClusterDefinitionsResponse) validateClusterDefinitions(formats st
 			if err := m.ClusterDefinitions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterDefinitions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterDefinitions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this delete cluster definitions response based on the context it is used
+func (m *DeleteClusterDefinitionsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterDefinitions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DeleteClusterDefinitionsResponse) contextValidateClusterDefinitions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterDefinitions); i++ {
+
+		if m.ClusterDefinitions[i] != nil {
+			if err := m.ClusterDefinitions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterDefinitions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterDefinitions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

@@ -46,7 +46,8 @@ func NewDeleteMachineUserOK() *DeleteMachineUserOK {
 	return &DeleteMachineUserOK{}
 }
 
-/*DeleteMachineUserOK handles this case with default header values.
+/*
+DeleteMachineUserOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteMachineUserOK struct {
 	Payload *models.DeleteMachineUserResponse
 }
 
+// IsSuccess returns true when this delete machine user o k response has a 2xx status code
+func (o *DeleteMachineUserOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete machine user o k response has a 3xx status code
+func (o *DeleteMachineUserOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete machine user o k response has a 4xx status code
+func (o *DeleteMachineUserOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete machine user o k response has a 5xx status code
+func (o *DeleteMachineUserOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete machine user o k response a status code equal to that given
+func (o *DeleteMachineUserOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete machine user o k response
+func (o *DeleteMachineUserOK) Code() int {
+	return 200
+}
+
 func (o *DeleteMachineUserOK) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUserOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteMachineUserOK) String() string {
 	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUserOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDeleteMachineUserDefault(code int) *DeleteMachineUserDefault {
 	}
 }
 
-/*DeleteMachineUserDefault handles this case with default header values.
+/*
+DeleteMachineUserDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DeleteMachineUserDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete machine user default response has a 2xx status code
+func (o *DeleteMachineUserDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete machine user default response has a 3xx status code
+func (o *DeleteMachineUserDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete machine user default response has a 4xx status code
+func (o *DeleteMachineUserDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete machine user default response has a 5xx status code
+func (o *DeleteMachineUserDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete machine user default response a status code equal to that given
+func (o *DeleteMachineUserDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete machine user default response
 func (o *DeleteMachineUserDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteMachineUserDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUser default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteMachineUserDefault) String() string {
 	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUser default  %+v", o._statusCode, o.Payload)
 }
 

@@ -215,17 +215,18 @@ func (config *Config) loadConfigFile() (map[string]map[string]string, error) {
 // This function mimics how CDP CLI client behaves with respect to the profiles set in the cdp config file. The config
 // is an INI formatted file, where every profile is put under a section named "[profile <name>]". The default profile
 // can omit the profile prefix, and can just be put under section "[default]". An example file is:
-//   [profile dev]
-//   key1 = value1
-//   key2 = value2
 //
-//   [profile test]
-//   key1 = value1
-//   key2 = value2
+//	[profile dev]
+//	key1 = value1
+//	key2 = value2
 //
-//   [default]
-//   key1 = value1
-//   key2 = value2
+//	[profile test]
+//	key1 = value1
+//	key2 = value2
+//
+//	[default]
+//	key1 = value1
+//	key2 = value2
 //
 // We ignore the keys not under any profile, and just return a map of maps, where the first maps keys are the names of
 // the profiles (without the "profile" prefix) and the values is a map of key value pairs with the mappings under the

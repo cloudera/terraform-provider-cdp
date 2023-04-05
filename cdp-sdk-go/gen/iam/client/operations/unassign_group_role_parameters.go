@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewUnassignGroupRoleParams creates a new UnassignGroupRoleParams object
-// with the default values initialized.
+// NewUnassignGroupRoleParams creates a new UnassignGroupRoleParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnassignGroupRoleParams() *UnassignGroupRoleParams {
-	var ()
 	return &UnassignGroupRoleParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUnassignGroupRoleParamsWithTimeout creates a new UnassignGroupRoleParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUnassignGroupRoleParamsWithTimeout(timeout time.Duration) *UnassignGroupRoleParams {
-	var ()
 	return &UnassignGroupRoleParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUnassignGroupRoleParamsWithContext creates a new UnassignGroupRoleParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUnassignGroupRoleParamsWithContext(ctx context.Context) *UnassignGroupRoleParams {
-	var ()
 	return &UnassignGroupRoleParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUnassignGroupRoleParamsWithHTTPClient creates a new UnassignGroupRoleParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUnassignGroupRoleParamsWithHTTPClient(client *http.Client) *UnassignGroupRoleParams {
-	var ()
 	return &UnassignGroupRoleParams{
 		HTTPClient: client,
 	}
 }
 
-/*UnassignGroupRoleParams contains all the parameters to send to the API endpoint
-for the unassign group role operation typically these are written to a http.Request
+/*
+UnassignGroupRoleParams contains all the parameters to send to the API endpoint
+
+	for the unassign group role operation.
+
+	Typically these are written to a http.Request.
 */
 type UnassignGroupRoleParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.UnassignGroupRoleRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the unassign group role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UnassignGroupRoleParams) WithDefaults() *UnassignGroupRoleParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the unassign group role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UnassignGroupRoleParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the unassign group role params
@@ -121,7 +137,6 @@ func (o *UnassignGroupRoleParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

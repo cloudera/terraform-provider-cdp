@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListSSHPublicKeysParams creates a new ListSSHPublicKeysParams object
-// with the default values initialized.
+// NewListSSHPublicKeysParams creates a new ListSSHPublicKeysParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListSSHPublicKeysParams() *ListSSHPublicKeysParams {
-	var ()
 	return &ListSSHPublicKeysParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListSSHPublicKeysParamsWithTimeout creates a new ListSSHPublicKeysParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListSSHPublicKeysParamsWithTimeout(timeout time.Duration) *ListSSHPublicKeysParams {
-	var ()
 	return &ListSSHPublicKeysParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListSSHPublicKeysParamsWithContext creates a new ListSSHPublicKeysParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListSSHPublicKeysParamsWithContext(ctx context.Context) *ListSSHPublicKeysParams {
-	var ()
 	return &ListSSHPublicKeysParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListSSHPublicKeysParamsWithHTTPClient creates a new ListSSHPublicKeysParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListSSHPublicKeysParamsWithHTTPClient(client *http.Client) *ListSSHPublicKeysParams {
-	var ()
 	return &ListSSHPublicKeysParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListSSHPublicKeysParams contains all the parameters to send to the API endpoint
-for the list Ssh public keys operation typically these are written to a http.Request
+/*
+ListSSHPublicKeysParams contains all the parameters to send to the API endpoint
+
+	for the list Ssh public keys operation.
+
+	Typically these are written to a http.Request.
 */
 type ListSSHPublicKeysParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListSSHPublicKeysRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list Ssh public keys params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListSSHPublicKeysParams) WithDefaults() *ListSSHPublicKeysParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list Ssh public keys params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListSSHPublicKeysParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list Ssh public keys params
@@ -121,7 +137,6 @@ func (o *ListSSHPublicKeysParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

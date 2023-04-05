@@ -46,7 +46,8 @@ func NewDeleteSamlProviderOK() *DeleteSamlProviderOK {
 	return &DeleteSamlProviderOK{}
 }
 
-/*DeleteSamlProviderOK handles this case with default header values.
+/*
+DeleteSamlProviderOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteSamlProviderOK struct {
 	Payload models.DeleteSamlProviderResponse
 }
 
+// IsSuccess returns true when this delete saml provider o k response has a 2xx status code
+func (o *DeleteSamlProviderOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete saml provider o k response has a 3xx status code
+func (o *DeleteSamlProviderOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete saml provider o k response has a 4xx status code
+func (o *DeleteSamlProviderOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete saml provider o k response has a 5xx status code
+func (o *DeleteSamlProviderOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete saml provider o k response a status code equal to that given
+func (o *DeleteSamlProviderOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete saml provider o k response
+func (o *DeleteSamlProviderOK) Code() int {
+	return 200
+}
+
 func (o *DeleteSamlProviderOK) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProviderOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteSamlProviderOK) String() string {
 	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProviderOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteSamlProviderDefault(code int) *DeleteSamlProviderDefault {
 	}
 }
 
-/*DeleteSamlProviderDefault handles this case with default header values.
+/*
+DeleteSamlProviderDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteSamlProviderDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete saml provider default response has a 2xx status code
+func (o *DeleteSamlProviderDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete saml provider default response has a 3xx status code
+func (o *DeleteSamlProviderDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete saml provider default response has a 4xx status code
+func (o *DeleteSamlProviderDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete saml provider default response has a 5xx status code
+func (o *DeleteSamlProviderDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete saml provider default response a status code equal to that given
+func (o *DeleteSamlProviderDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete saml provider default response
 func (o *DeleteSamlProviderDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteSamlProviderDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProvider default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteSamlProviderDefault) String() string {
 	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProvider default  %+v", o._statusCode, o.Payload)
 }
 

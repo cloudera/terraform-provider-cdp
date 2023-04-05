@@ -46,7 +46,8 @@ func NewDescribeTermsOK() *DescribeTermsOK {
 	return &DescribeTermsOK{}
 }
 
-/*DescribeTermsOK handles this case with default header values.
+/*
+DescribeTermsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DescribeTermsOK struct {
 	Payload *models.DescribeTermsResponse
 }
 
+// IsSuccess returns true when this describe terms o k response has a 2xx status code
+func (o *DescribeTermsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this describe terms o k response has a 3xx status code
+func (o *DescribeTermsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this describe terms o k response has a 4xx status code
+func (o *DescribeTermsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this describe terms o k response has a 5xx status code
+func (o *DescribeTermsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this describe terms o k response a status code equal to that given
+func (o *DescribeTermsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the describe terms o k response
+func (o *DescribeTermsOK) Code() int {
+	return 200
+}
+
 func (o *DescribeTermsOK) Error() string {
+	return fmt.Sprintf("[POST /iam/describeTerms][%d] describeTermsOK  %+v", 200, o.Payload)
+}
+
+func (o *DescribeTermsOK) String() string {
 	return fmt.Sprintf("[POST /iam/describeTerms][%d] describeTermsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDescribeTermsDefault(code int) *DescribeTermsDefault {
 	}
 }
 
-/*DescribeTermsDefault handles this case with default header values.
+/*
+DescribeTermsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DescribeTermsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this describe terms default response has a 2xx status code
+func (o *DescribeTermsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this describe terms default response has a 3xx status code
+func (o *DescribeTermsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this describe terms default response has a 4xx status code
+func (o *DescribeTermsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this describe terms default response has a 5xx status code
+func (o *DescribeTermsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this describe terms default response a status code equal to that given
+func (o *DescribeTermsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the describe terms default response
 func (o *DescribeTermsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DescribeTermsDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/describeTerms][%d] describeTerms default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DescribeTermsDefault) String() string {
 	return fmt.Sprintf("[POST /iam/describeTerms][%d] describeTerms default  %+v", o._statusCode, o.Payload)
 }
 

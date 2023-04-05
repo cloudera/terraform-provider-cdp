@@ -46,7 +46,8 @@ func NewGetTruststorePasswordOK() *GetTruststorePasswordOK {
 	return &GetTruststorePasswordOK{}
 }
 
-/*GetTruststorePasswordOK handles this case with default header values.
+/*
+GetTruststorePasswordOK describes a response with status code 200, with default header values.
 
 search results matching criteria
 */
@@ -54,7 +55,41 @@ type GetTruststorePasswordOK struct {
 	Payload *models.GetTruststorePasswordResponse
 }
 
+// IsSuccess returns true when this get truststore password o k response has a 2xx status code
+func (o *GetTruststorePasswordOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get truststore password o k response has a 3xx status code
+func (o *GetTruststorePasswordOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get truststore password o k response has a 4xx status code
+func (o *GetTruststorePasswordOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get truststore password o k response has a 5xx status code
+func (o *GetTruststorePasswordOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get truststore password o k response a status code equal to that given
+func (o *GetTruststorePasswordOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get truststore password o k response
+func (o *GetTruststorePasswordOK) Code() int {
+	return 200
+}
+
 func (o *GetTruststorePasswordOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getTruststorePassword][%d] getTruststorePasswordOK  %+v", 200, o.Payload)
+}
+
+func (o *GetTruststorePasswordOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getTruststorePassword][%d] getTruststorePasswordOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetTruststorePasswordDefault(code int) *GetTruststorePasswordDefault {
 	}
 }
 
-/*GetTruststorePasswordDefault handles this case with default header values.
+/*
+GetTruststorePasswordDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetTruststorePasswordDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get truststore password default response has a 2xx status code
+func (o *GetTruststorePasswordDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get truststore password default response has a 3xx status code
+func (o *GetTruststorePasswordDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get truststore password default response has a 4xx status code
+func (o *GetTruststorePasswordDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get truststore password default response has a 5xx status code
+func (o *GetTruststorePasswordDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get truststore password default response a status code equal to that given
+func (o *GetTruststorePasswordDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get truststore password default response
 func (o *GetTruststorePasswordDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetTruststorePasswordDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getTruststorePassword][%d] getTruststorePassword default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetTruststorePasswordDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getTruststorePassword][%d] getTruststorePassword default  %+v", o._statusCode, o.Payload)
 }
 

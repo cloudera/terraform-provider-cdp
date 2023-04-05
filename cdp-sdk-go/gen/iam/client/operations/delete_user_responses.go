@@ -46,7 +46,8 @@ func NewDeleteUserOK() *DeleteUserOK {
 	return &DeleteUserOK{}
 }
 
-/*DeleteUserOK handles this case with default header values.
+/*
+DeleteUserOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteUserOK struct {
 	Payload *models.DeleteUserResponse
 }
 
+// IsSuccess returns true when this delete user o k response has a 2xx status code
+func (o *DeleteUserOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete user o k response has a 3xx status code
+func (o *DeleteUserOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete user o k response has a 4xx status code
+func (o *DeleteUserOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete user o k response has a 5xx status code
+func (o *DeleteUserOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete user o k response a status code equal to that given
+func (o *DeleteUserOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete user o k response
+func (o *DeleteUserOK) Code() int {
+	return 200
+}
+
 func (o *DeleteUserOK) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUserOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteUserOK) String() string {
 	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUserOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDeleteUserDefault(code int) *DeleteUserDefault {
 	}
 }
 
-/*DeleteUserDefault handles this case with default header values.
+/*
+DeleteUserDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DeleteUserDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete user default response has a 2xx status code
+func (o *DeleteUserDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete user default response has a 3xx status code
+func (o *DeleteUserDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete user default response has a 4xx status code
+func (o *DeleteUserDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete user default response has a 5xx status code
+func (o *DeleteUserDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete user default response a status code equal to that given
+func (o *DeleteUserDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete user default response
 func (o *DeleteUserDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteUserDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUser default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteUserDefault) String() string {
 	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUser default  %+v", o._statusCode, o.Payload)
 }
 

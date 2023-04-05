@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewAcceptTermsParams creates a new AcceptTermsParams object
-// with the default values initialized.
+// NewAcceptTermsParams creates a new AcceptTermsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAcceptTermsParams() *AcceptTermsParams {
-	var ()
 	return &AcceptTermsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAcceptTermsParamsWithTimeout creates a new AcceptTermsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAcceptTermsParamsWithTimeout(timeout time.Duration) *AcceptTermsParams {
-	var ()
 	return &AcceptTermsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAcceptTermsParamsWithContext creates a new AcceptTermsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAcceptTermsParamsWithContext(ctx context.Context) *AcceptTermsParams {
-	var ()
 	return &AcceptTermsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAcceptTermsParamsWithHTTPClient creates a new AcceptTermsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAcceptTermsParamsWithHTTPClient(client *http.Client) *AcceptTermsParams {
-	var ()
 	return &AcceptTermsParams{
 		HTTPClient: client,
 	}
 }
 
-/*AcceptTermsParams contains all the parameters to send to the API endpoint
-for the accept terms operation typically these are written to a http.Request
+/*
+AcceptTermsParams contains all the parameters to send to the API endpoint
+
+	for the accept terms operation.
+
+	Typically these are written to a http.Request.
 */
 type AcceptTermsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.AcceptTermsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the accept terms params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AcceptTermsParams) WithDefaults() *AcceptTermsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the accept terms params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AcceptTermsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the accept terms params
@@ -121,7 +137,6 @@ func (o *AcceptTermsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

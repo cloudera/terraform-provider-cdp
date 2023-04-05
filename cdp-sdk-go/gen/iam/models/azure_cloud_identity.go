@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +18,9 @@ import (
 //
 // swagger:model AzureCloudIdentity
 type AzureCloudIdentity struct {
+
+	// The CRN of the environment this Azure cloud identity is associated with. If omitted, this cloud identity is associated with all Azure environments.
+	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 
 	// The Azure object ID (OID).
 	// Required: true
@@ -42,6 +47,11 @@ func (m *AzureCloudIdentity) validateObjectID(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this azure cloud identity based on context it is used
+func (m *AzureCloudIdentity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,9 +19,18 @@ import (
 // swagger:model ExistingAzureNetworkRequest
 type ExistingAzureNetworkRequest struct {
 
+	// The ID of an existing private DNS zone used for the AKS.
+	AksPrivateDNSZoneID string `json:"aksPrivateDnsZoneId,omitempty"`
+
+	// The ID of an existing private DNS zone used for the database.
+	DatabasePrivateDNSZoneID string `json:"databasePrivateDnsZoneId,omitempty"`
+
 	// The id of the Azure VNet.
 	// Required: true
 	NetworkID *string `json:"networkId"`
+
+	// The name of the Azure VNet.
+	NetworkName string `json:"networkName,omitempty"`
 
 	// The name of the resource group associated with the VNet.
 	// Required: true
@@ -29,6 +40,10 @@ type ExistingAzureNetworkRequest struct {
 	// Required: true
 	// Unique: true
 	SubnetIds []string `json:"subnetIds"`
+
+	// One or more subnet names within the VNet.
+	// Unique: true
+	SubnetNames []string `json:"subnetNames"`
 }
 
 // Validate validates this existing azure network request
@@ -44,6 +59,10 @@ func (m *ExistingAzureNetworkRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateSubnetIds(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSubnetNames(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -81,6 +100,23 @@ func (m *ExistingAzureNetworkRequest) validateSubnetIds(formats strfmt.Registry)
 		return err
 	}
 
+	return nil
+}
+
+func (m *ExistingAzureNetworkRequest) validateSubnetNames(formats strfmt.Registry) error {
+	if swag.IsZero(m.SubnetNames) { // not required
+		return nil
+	}
+
+	if err := validate.UniqueItems("subnetNames", "body", m.SubnetNames); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validates this existing azure network request based on context it is used
+func (m *ExistingAzureNetworkRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

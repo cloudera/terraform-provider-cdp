@@ -46,7 +46,8 @@ func NewAssignGroupRoleOK() *AssignGroupRoleOK {
 	return &AssignGroupRoleOK{}
 }
 
-/*AssignGroupRoleOK handles this case with default header values.
+/*
+AssignGroupRoleOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type AssignGroupRoleOK struct {
 	Payload models.AssignGroupRoleResponse
 }
 
+// IsSuccess returns true when this assign group role o k response has a 2xx status code
+func (o *AssignGroupRoleOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this assign group role o k response has a 3xx status code
+func (o *AssignGroupRoleOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this assign group role o k response has a 4xx status code
+func (o *AssignGroupRoleOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this assign group role o k response has a 5xx status code
+func (o *AssignGroupRoleOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this assign group role o k response a status code equal to that given
+func (o *AssignGroupRoleOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the assign group role o k response
+func (o *AssignGroupRoleOK) Code() int {
+	return 200
+}
+
 func (o *AssignGroupRoleOK) Error() string {
+	return fmt.Sprintf("[POST /iam/assignGroupRole][%d] assignGroupRoleOK  %+v", 200, o.Payload)
+}
+
+func (o *AssignGroupRoleOK) String() string {
 	return fmt.Sprintf("[POST /iam/assignGroupRole][%d] assignGroupRoleOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewAssignGroupRoleDefault(code int) *AssignGroupRoleDefault {
 	}
 }
 
-/*AssignGroupRoleDefault handles this case with default header values.
+/*
+AssignGroupRoleDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type AssignGroupRoleDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this assign group role default response has a 2xx status code
+func (o *AssignGroupRoleDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this assign group role default response has a 3xx status code
+func (o *AssignGroupRoleDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this assign group role default response has a 4xx status code
+func (o *AssignGroupRoleDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this assign group role default response has a 5xx status code
+func (o *AssignGroupRoleDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this assign group role default response a status code equal to that given
+func (o *AssignGroupRoleDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the assign group role default response
 func (o *AssignGroupRoleDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *AssignGroupRoleDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/assignGroupRole][%d] assignGroupRole default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *AssignGroupRoleDefault) String() string {
 	return fmt.Sprintf("[POST /iam/assignGroupRole][%d] assignGroupRole default  %+v", o._statusCode, o.Payload)
 }
 

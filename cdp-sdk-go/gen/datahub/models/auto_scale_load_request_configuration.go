@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -25,10 +27,22 @@ type AutoScaleLoadRequestConfiguration struct {
 	// Minimum: 0
 	MaxResourceValue *int32 `json:"maxResourceValue"`
 
+	// The maximum scale down step size.
+	MaxScaleDownStepSize int32 `json:"maxScaleDownStepSize,omitempty"`
+
+	// The maximum scale up step size.
+	MaxScaleUpStepSize int32 `json:"maxScaleUpStepSize,omitempty"`
+
 	// The lower bound for the resource
 	// Required: true
 	// Minimum: 0
 	MinResourceValue *int32 `json:"minResourceValue"`
+
+	// Minimum time (in minutes) for scale down, after last autoscaling action. Use this to override coolDownMinutes.
+	ScaleDownCoolDownMinutes int32 `json:"scaleDownCoolDownMinutes,omitempty"`
+
+	// Minimum time (in minutes) for scale up, after last autoscaling action. Use this to override coolDownMinutes.
+	ScaleUpCoolDownMinutes int32 `json:"scaleUpCoolDownMinutes,omitempty"`
 }
 
 // Validate validates this auto scale load request configuration
@@ -72,6 +86,11 @@ func (m *AutoScaleLoadRequestConfiguration) validateMinResourceValue(formats str
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this auto scale load request configuration based on context it is used
+func (m *AutoScaleLoadRequestConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

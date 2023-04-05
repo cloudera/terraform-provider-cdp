@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -23,7 +24,7 @@ type CheckKubernetesConnectivityRequest struct {
 	// Enum: [YAML]
 	Format string `json:"format,omitempty"`
 
-	// Content of Kubernetes configuration file as a text blob in YAML format
+	// Content of Kubernetes configuration file as a text blob in YAML format.
 	// Required: true
 	KubeConfig *string `json:"kubeConfig"`
 }
@@ -66,14 +67,13 @@ const (
 
 // prop value enum
 func (m *CheckKubernetesConnectivityRequest) validateFormatEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, checkKubernetesConnectivityRequestTypeFormatPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, checkKubernetesConnectivityRequestTypeFormatPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *CheckKubernetesConnectivityRequest) validateFormat(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Format) { // not required
 		return nil
 	}
@@ -92,6 +92,11 @@ func (m *CheckKubernetesConnectivityRequest) validateKubeConfig(formats strfmt.R
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this check kubernetes connectivity request based on context it is used
+func (m *CheckKubernetesConnectivityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

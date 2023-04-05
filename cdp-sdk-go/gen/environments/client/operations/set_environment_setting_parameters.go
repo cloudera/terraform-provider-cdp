@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewSetEnvironmentSettingParams creates a new SetEnvironmentSettingParams object
-// with the default values initialized.
+// NewSetEnvironmentSettingParams creates a new SetEnvironmentSettingParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetEnvironmentSettingParams() *SetEnvironmentSettingParams {
-	var ()
 	return &SetEnvironmentSettingParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSetEnvironmentSettingParamsWithTimeout creates a new SetEnvironmentSettingParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSetEnvironmentSettingParamsWithTimeout(timeout time.Duration) *SetEnvironmentSettingParams {
-	var ()
 	return &SetEnvironmentSettingParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSetEnvironmentSettingParamsWithContext creates a new SetEnvironmentSettingParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSetEnvironmentSettingParamsWithContext(ctx context.Context) *SetEnvironmentSettingParams {
-	var ()
 	return &SetEnvironmentSettingParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSetEnvironmentSettingParamsWithHTTPClient creates a new SetEnvironmentSettingParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSetEnvironmentSettingParamsWithHTTPClient(client *http.Client) *SetEnvironmentSettingParams {
-	var ()
 	return &SetEnvironmentSettingParams{
 		HTTPClient: client,
 	}
 }
 
-/*SetEnvironmentSettingParams contains all the parameters to send to the API endpoint
-for the set environment setting operation typically these are written to a http.Request
+/*
+SetEnvironmentSettingParams contains all the parameters to send to the API endpoint
+
+	for the set environment setting operation.
+
+	Typically these are written to a http.Request.
 */
 type SetEnvironmentSettingParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.SetEnvironmentSettingRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the set environment setting params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetEnvironmentSettingParams) WithDefaults() *SetEnvironmentSettingParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the set environment setting params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetEnvironmentSettingParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the set environment setting params
@@ -121,7 +137,6 @@ func (o *SetEnvironmentSettingParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

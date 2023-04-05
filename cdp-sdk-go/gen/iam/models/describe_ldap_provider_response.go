@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *DescribeLdapProviderResponse) validateLdapProvider(formats strfmt.Regis
 		if err := m.LdapProvider.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ldapProvider")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ldapProvider")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this describe ldap provider response based on the context it is used
+func (m *DescribeLdapProviderResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLdapProvider(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DescribeLdapProviderResponse) contextValidateLdapProvider(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LdapProvider != nil {
+		if err := m.LdapProvider.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ldapProvider")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ldapProvider")
 			}
 			return err
 		}

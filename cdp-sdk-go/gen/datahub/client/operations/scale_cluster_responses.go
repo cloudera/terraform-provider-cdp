@@ -46,7 +46,8 @@ func NewScaleClusterOK() *ScaleClusterOK {
 	return &ScaleClusterOK{}
 }
 
-/*ScaleClusterOK handles this case with default header values.
+/*
+ScaleClusterOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ScaleClusterOK struct {
 	Payload models.ScaleClusterResponse
 }
 
+// IsSuccess returns true when this scale cluster o k response has a 2xx status code
+func (o *ScaleClusterOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this scale cluster o k response has a 3xx status code
+func (o *ScaleClusterOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this scale cluster o k response has a 4xx status code
+func (o *ScaleClusterOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this scale cluster o k response has a 5xx status code
+func (o *ScaleClusterOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this scale cluster o k response a status code equal to that given
+func (o *ScaleClusterOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the scale cluster o k response
+func (o *ScaleClusterOK) Code() int {
+	return 200
+}
+
 func (o *ScaleClusterOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleClusterOK  %+v", 200, o.Payload)
+}
+
+func (o *ScaleClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleClusterOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewScaleClusterDefault(code int) *ScaleClusterDefault {
 	}
 }
 
-/*ScaleClusterDefault handles this case with default header values.
+/*
+ScaleClusterDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type ScaleClusterDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this scale cluster default response has a 2xx status code
+func (o *ScaleClusterDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this scale cluster default response has a 3xx status code
+func (o *ScaleClusterDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this scale cluster default response has a 4xx status code
+func (o *ScaleClusterDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this scale cluster default response has a 5xx status code
+func (o *ScaleClusterDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this scale cluster default response a status code equal to that given
+func (o *ScaleClusterDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the scale cluster default response
 func (o *ScaleClusterDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ScaleClusterDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleCluster default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ScaleClusterDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleCluster default  %+v", o._statusCode, o.Payload)
 }
 

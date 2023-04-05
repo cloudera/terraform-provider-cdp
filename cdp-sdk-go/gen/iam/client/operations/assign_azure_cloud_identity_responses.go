@@ -46,7 +46,8 @@ func NewAssignAzureCloudIdentityOK() *AssignAzureCloudIdentityOK {
 	return &AssignAzureCloudIdentityOK{}
 }
 
-/*AssignAzureCloudIdentityOK handles this case with default header values.
+/*
+AssignAzureCloudIdentityOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type AssignAzureCloudIdentityOK struct {
 	Payload models.AssignAzureCloudIdentityResponse
 }
 
+// IsSuccess returns true when this assign azure cloud identity o k response has a 2xx status code
+func (o *AssignAzureCloudIdentityOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this assign azure cloud identity o k response has a 3xx status code
+func (o *AssignAzureCloudIdentityOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this assign azure cloud identity o k response has a 4xx status code
+func (o *AssignAzureCloudIdentityOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this assign azure cloud identity o k response has a 5xx status code
+func (o *AssignAzureCloudIdentityOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this assign azure cloud identity o k response a status code equal to that given
+func (o *AssignAzureCloudIdentityOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the assign azure cloud identity o k response
+func (o *AssignAzureCloudIdentityOK) Code() int {
+	return 200
+}
+
 func (o *AssignAzureCloudIdentityOK) Error() string {
+	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentityOK  %+v", 200, o.Payload)
+}
+
+func (o *AssignAzureCloudIdentityOK) String() string {
 	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentityOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewAssignAzureCloudIdentityDefault(code int) *AssignAzureCloudIdentityDefau
 	}
 }
 
-/*AssignAzureCloudIdentityDefault handles this case with default header values.
+/*
+AssignAzureCloudIdentityDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type AssignAzureCloudIdentityDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this assign azure cloud identity default response has a 2xx status code
+func (o *AssignAzureCloudIdentityDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this assign azure cloud identity default response has a 3xx status code
+func (o *AssignAzureCloudIdentityDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this assign azure cloud identity default response has a 4xx status code
+func (o *AssignAzureCloudIdentityDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this assign azure cloud identity default response has a 5xx status code
+func (o *AssignAzureCloudIdentityDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this assign azure cloud identity default response a status code equal to that given
+func (o *AssignAzureCloudIdentityDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the assign azure cloud identity default response
 func (o *AssignAzureCloudIdentityDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *AssignAzureCloudIdentityDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *AssignAzureCloudIdentityDefault) String() string {
 	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
 }
 

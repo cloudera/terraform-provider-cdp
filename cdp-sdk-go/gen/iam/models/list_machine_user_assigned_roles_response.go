@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,6 +47,11 @@ func (m *ListMachineUserAssignedRolesResponse) validateRoleCrns(formats strfmt.R
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this list machine user assigned roles response based on context it is used
+func (m *ListMachineUserAssignedRolesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

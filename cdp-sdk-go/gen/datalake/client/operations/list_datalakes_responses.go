@@ -46,7 +46,8 @@ func NewListDatalakesOK() *ListDatalakesOK {
 	return &ListDatalakesOK{}
 }
 
-/*ListDatalakesOK handles this case with default header values.
+/*
+ListDatalakesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListDatalakesOK struct {
 	Payload *models.ListDatalakesResponse
 }
 
+// IsSuccess returns true when this list datalakes o k response has a 2xx status code
+func (o *ListDatalakesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list datalakes o k response has a 3xx status code
+func (o *ListDatalakesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list datalakes o k response has a 4xx status code
+func (o *ListDatalakesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list datalakes o k response has a 5xx status code
+func (o *ListDatalakesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list datalakes o k response a status code equal to that given
+func (o *ListDatalakesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list datalakes o k response
+func (o *ListDatalakesOK) Code() int {
+	return 200
+}
+
 func (o *ListDatalakesOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/listDatalakes][%d] listDatalakesOK  %+v", 200, o.Payload)
+}
+
+func (o *ListDatalakesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/listDatalakes][%d] listDatalakesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListDatalakesDefault(code int) *ListDatalakesDefault {
 	}
 }
 
-/*ListDatalakesDefault handles this case with default header values.
+/*
+ListDatalakesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListDatalakesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list datalakes default response has a 2xx status code
+func (o *ListDatalakesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list datalakes default response has a 3xx status code
+func (o *ListDatalakesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list datalakes default response has a 4xx status code
+func (o *ListDatalakesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list datalakes default response has a 5xx status code
+func (o *ListDatalakesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list datalakes default response a status code equal to that given
+func (o *ListDatalakesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list datalakes default response
 func (o *ListDatalakesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListDatalakesDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/listDatalakes][%d] listDatalakes default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListDatalakesDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/listDatalakes][%d] listDatalakes default  %+v", o._statusCode, o.Payload)
 }
 

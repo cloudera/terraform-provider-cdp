@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -23,6 +25,9 @@ type CreateProxyConfigRequest struct {
 	// The proxy host.
 	// Required: true
 	Host *string `json:"host"`
+
+	// Comma-separated list of 'CIDR', '[.]host[:port]' (can be a subdomain as well) and 'IP[:port]' entries that should not be proxied. Wildcards are not accepted. For example .cloudera.com,192.168.1.1
+	NoProxyHosts string `json:"noProxyHosts,omitempty"`
 
 	// The proxy password.
 	Password string `json:"password,omitempty"`
@@ -102,6 +107,11 @@ func (m *CreateProxyConfigRequest) validateProxyConfigName(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create proxy config request based on context it is used
+func (m *CreateProxyConfigRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

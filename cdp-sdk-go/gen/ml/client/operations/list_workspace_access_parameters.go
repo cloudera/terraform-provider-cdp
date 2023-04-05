@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewListWorkspaceAccessParams creates a new ListWorkspaceAccessParams object
-// with the default values initialized.
+// NewListWorkspaceAccessParams creates a new ListWorkspaceAccessParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListWorkspaceAccessParams() *ListWorkspaceAccessParams {
-	var ()
 	return &ListWorkspaceAccessParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListWorkspaceAccessParamsWithTimeout creates a new ListWorkspaceAccessParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListWorkspaceAccessParamsWithTimeout(timeout time.Duration) *ListWorkspaceAccessParams {
-	var ()
 	return &ListWorkspaceAccessParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListWorkspaceAccessParamsWithContext creates a new ListWorkspaceAccessParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListWorkspaceAccessParamsWithContext(ctx context.Context) *ListWorkspaceAccessParams {
-	var ()
 	return &ListWorkspaceAccessParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListWorkspaceAccessParamsWithHTTPClient creates a new ListWorkspaceAccessParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListWorkspaceAccessParamsWithHTTPClient(client *http.Client) *ListWorkspaceAccessParams {
-	var ()
 	return &ListWorkspaceAccessParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListWorkspaceAccessParams contains all the parameters to send to the API endpoint
-for the list workspace access operation typically these are written to a http.Request
+/*
+ListWorkspaceAccessParams contains all the parameters to send to the API endpoint
+
+	for the list workspace access operation.
+
+	Typically these are written to a http.Request.
 */
 type ListWorkspaceAccessParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListWorkspaceAccessRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list workspace access params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListWorkspaceAccessParams) WithDefaults() *ListWorkspaceAccessParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list workspace access params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListWorkspaceAccessParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list workspace access params
@@ -121,7 +137,6 @@ func (o *ListWorkspaceAccessParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

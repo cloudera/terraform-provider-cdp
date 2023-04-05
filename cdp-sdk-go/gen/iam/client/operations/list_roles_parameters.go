@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListRolesParams creates a new ListRolesParams object
-// with the default values initialized.
+// NewListRolesParams creates a new ListRolesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListRolesParams() *ListRolesParams {
-	var ()
 	return &ListRolesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListRolesParamsWithTimeout creates a new ListRolesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListRolesParamsWithTimeout(timeout time.Duration) *ListRolesParams {
-	var ()
 	return &ListRolesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListRolesParamsWithContext creates a new ListRolesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListRolesParamsWithContext(ctx context.Context) *ListRolesParams {
-	var ()
 	return &ListRolesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListRolesParamsWithHTTPClient creates a new ListRolesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListRolesParamsWithHTTPClient(client *http.Client) *ListRolesParams {
-	var ()
 	return &ListRolesParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListRolesParams contains all the parameters to send to the API endpoint
-for the list roles operation typically these are written to a http.Request
+/*
+ListRolesParams contains all the parameters to send to the API endpoint
+
+	for the list roles operation.
+
+	Typically these are written to a http.Request.
 */
 type ListRolesParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListRolesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list roles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListRolesParams) WithDefaults() *ListRolesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list roles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListRolesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list roles params
@@ -121,7 +137,6 @@ func (o *ListRolesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

@@ -46,7 +46,8 @@ func NewCreateRecipeOK() *CreateRecipeOK {
 	return &CreateRecipeOK{}
 }
 
-/*CreateRecipeOK handles this case with default header values.
+/*
+CreateRecipeOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateRecipeOK struct {
 	Payload *models.CreateRecipeResponse
 }
 
+// IsSuccess returns true when this create recipe o k response has a 2xx status code
+func (o *CreateRecipeOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create recipe o k response has a 3xx status code
+func (o *CreateRecipeOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create recipe o k response has a 4xx status code
+func (o *CreateRecipeOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create recipe o k response has a 5xx status code
+func (o *CreateRecipeOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create recipe o k response a status code equal to that given
+func (o *CreateRecipeOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create recipe o k response
+func (o *CreateRecipeOK) Code() int {
+	return 200
+}
+
 func (o *CreateRecipeOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/createRecipe][%d] createRecipeOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateRecipeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/createRecipe][%d] createRecipeOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateRecipeDefault(code int) *CreateRecipeDefault {
 	}
 }
 
-/*CreateRecipeDefault handles this case with default header values.
+/*
+CreateRecipeDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateRecipeDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create recipe default response has a 2xx status code
+func (o *CreateRecipeDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create recipe default response has a 3xx status code
+func (o *CreateRecipeDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create recipe default response has a 4xx status code
+func (o *CreateRecipeDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create recipe default response has a 5xx status code
+func (o *CreateRecipeDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create recipe default response a status code equal to that given
+func (o *CreateRecipeDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create recipe default response
 func (o *CreateRecipeDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateRecipeDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/createRecipe][%d] createRecipe default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateRecipeDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/createRecipe][%d] createRecipe default  %+v", o._statusCode, o.Payload)
 }
 

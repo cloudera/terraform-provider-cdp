@@ -6,13 +6,15 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
-// SetPasswordRequest Request object for set password request.
+// SetPasswordRequest Request object for set password request. (deprecated)
 //
 // swagger:model SetPasswordRequest
 type SetPasswordRequest struct {
@@ -45,6 +47,11 @@ func (m *SetPasswordRequest) validatePassword(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this set password request based on context it is used
+func (m *SetPasswordRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

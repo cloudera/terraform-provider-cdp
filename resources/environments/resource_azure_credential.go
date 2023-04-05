@@ -80,16 +80,16 @@ func resourceAzureCredentialCreate(d *schema.ResourceData, m interface{}) error 
 	secretKey := appBasedMap["secret_key"].(string)
 
 	appBased := &environmentsmodels.CreateAzureCredentialRequestAppBased{
-		ApplicationID: &applicationId,
-		SecretKey:     &secretKey,
+		ApplicationID: applicationId,
+		SecretKey:     secretKey,
 	}
 
 	params := operations.NewCreateAzureCredentialParams()
 	params.WithInput(&environmentsmodels.CreateAzureCredentialRequest{
 		CredentialName: &credentialName,
 		Description:    description,
-		SubscriptionID: &subscriptionId,
-		TenantID:       &tenantId,
+		SubscriptionID: subscriptionId,
+		TenantID:       tenantId,
 		AppBased:       appBased,
 	})
 	_, err = client.Operations.CreateAzureCredential(params)

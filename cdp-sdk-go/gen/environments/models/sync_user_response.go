@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -18,6 +19,10 @@ import (
 //
 // swagger:model SyncUserResponse
 type SyncUserResponse struct {
+
+	// Date when the sync operation ended. Omitted if operation has not ended.
+	// Format: date-time
+	EndDate strfmt.DateTime `json:"endDate,omitempty"`
 
 	// Sync operation end timestamp.
 	EndTime string `json:"endTime,omitempty"`
@@ -35,6 +40,10 @@ type SyncUserResponse struct {
 	// Operation type, set password or user sync
 	OperationType OperationType `json:"operationType,omitempty"`
 
+	// Date when the sync operation started.
+	// Format: date-time
+	StartDate strfmt.DateTime `json:"startDate,omitempty"`
+
 	// Sync operation start timestamp.
 	StartTime string `json:"startTime,omitempty"`
 
@@ -49,6 +58,10 @@ type SyncUserResponse struct {
 func (m *SyncUserResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateEndDate(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateFailure(formats); err != nil {
 		res = append(res, err)
 	}
@@ -58,6 +71,10 @@ func (m *SyncUserResponse) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateOperationType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateStartDate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -75,8 +92,19 @@ func (m *SyncUserResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *SyncUserResponse) validateFailure(formats strfmt.Registry) error {
+func (m *SyncUserResponse) validateEndDate(formats strfmt.Registry) error {
+	if swag.IsZero(m.EndDate) { // not required
+		return nil
+	}
 
+	if err := validate.FormatOf("endDate", "body", "date-time", m.EndDate.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *SyncUserResponse) validateFailure(formats strfmt.Registry) error {
 	if swag.IsZero(m.Failure) { // not required
 		return nil
 	}
@@ -90,6 +118,8 @@ func (m *SyncUserResponse) validateFailure(formats strfmt.Registry) error {
 			if err := m.Failure[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("failure" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("failure" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -110,7 +140,6 @@ func (m *SyncUserResponse) validateOperationID(formats strfmt.Registry) error {
 }
 
 func (m *SyncUserResponse) validateOperationType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.OperationType) { // not required
 		return nil
 	}
@@ -118,6 +147,8 @@ func (m *SyncUserResponse) validateOperationType(formats strfmt.Registry) error 
 	if err := m.OperationType.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("operationType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("operationType")
 		}
 		return err
 	}
@@ -125,8 +156,19 @@ func (m *SyncUserResponse) validateOperationType(formats strfmt.Registry) error 
 	return nil
 }
 
-func (m *SyncUserResponse) validateStatus(formats strfmt.Registry) error {
+func (m *SyncUserResponse) validateStartDate(formats strfmt.Registry) error {
+	if swag.IsZero(m.StartDate) { // not required
+		return nil
+	}
 
+	if err := validate.FormatOf("startDate", "body", "date-time", m.StartDate.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *SyncUserResponse) validateStatus(formats strfmt.Registry) error {
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -134,6 +176,8 @@ func (m *SyncUserResponse) validateStatus(formats strfmt.Registry) error {
 	if err := m.Status.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("status")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("status")
 		}
 		return err
 	}
@@ -142,7 +186,6 @@ func (m *SyncUserResponse) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *SyncUserResponse) validateSuccess(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Success) { // not required
 		return nil
 	}
@@ -156,6 +199,102 @@ func (m *SyncUserResponse) validateSuccess(formats strfmt.Registry) error {
 			if err := m.Success[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("success" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("success" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this sync user response based on the context it is used
+func (m *SyncUserResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFailure(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOperationType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSuccess(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *SyncUserResponse) contextValidateFailure(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Failure); i++ {
+
+		if m.Failure[i] != nil {
+			if err := m.Failure[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("failure" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("failure" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *SyncUserResponse) contextValidateOperationType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.OperationType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("operationType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("operationType")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *SyncUserResponse) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.Status.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("status")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("status")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *SyncUserResponse) contextValidateSuccess(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Success); i++ {
+
+		if m.Success[i] != nil {
+			if err := m.Success[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("success" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("success" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

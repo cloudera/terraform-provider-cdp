@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewRepairClusterParams creates a new RepairClusterParams object
-// with the default values initialized.
+// NewRepairClusterParams creates a new RepairClusterParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRepairClusterParams() *RepairClusterParams {
-	var ()
 	return &RepairClusterParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRepairClusterParamsWithTimeout creates a new RepairClusterParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRepairClusterParamsWithTimeout(timeout time.Duration) *RepairClusterParams {
-	var ()
 	return &RepairClusterParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRepairClusterParamsWithContext creates a new RepairClusterParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRepairClusterParamsWithContext(ctx context.Context) *RepairClusterParams {
-	var ()
 	return &RepairClusterParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRepairClusterParamsWithHTTPClient creates a new RepairClusterParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRepairClusterParamsWithHTTPClient(client *http.Client) *RepairClusterParams {
-	var ()
 	return &RepairClusterParams{
 		HTTPClient: client,
 	}
 }
 
-/*RepairClusterParams contains all the parameters to send to the API endpoint
-for the repair cluster operation typically these are written to a http.Request
+/*
+RepairClusterParams contains all the parameters to send to the API endpoint
+
+	for the repair cluster operation.
+
+	Typically these are written to a http.Request.
 */
 type RepairClusterParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.RepairClusterRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the repair cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RepairClusterParams) WithDefaults() *RepairClusterParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the repair cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RepairClusterParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the repair cluster params
@@ -121,7 +137,6 @@ func (o *RepairClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

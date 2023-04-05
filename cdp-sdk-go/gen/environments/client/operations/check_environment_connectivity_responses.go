@@ -46,7 +46,8 @@ func NewCheckEnvironmentConnectivityOK() *CheckEnvironmentConnectivityOK {
 	return &CheckEnvironmentConnectivityOK{}
 }
 
-/*CheckEnvironmentConnectivityOK handles this case with default header values.
+/*
+CheckEnvironmentConnectivityOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CheckEnvironmentConnectivityOK struct {
 	Payload *models.CheckEnvironmentConnectivityResponse
 }
 
+// IsSuccess returns true when this check environment connectivity o k response has a 2xx status code
+func (o *CheckEnvironmentConnectivityOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this check environment connectivity o k response has a 3xx status code
+func (o *CheckEnvironmentConnectivityOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this check environment connectivity o k response has a 4xx status code
+func (o *CheckEnvironmentConnectivityOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this check environment connectivity o k response has a 5xx status code
+func (o *CheckEnvironmentConnectivityOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this check environment connectivity o k response a status code equal to that given
+func (o *CheckEnvironmentConnectivityOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the check environment connectivity o k response
+func (o *CheckEnvironmentConnectivityOK) Code() int {
+	return 200
+}
+
 func (o *CheckEnvironmentConnectivityOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivityOK  %+v", 200, o.Payload)
+}
+
+func (o *CheckEnvironmentConnectivityOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivityOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCheckEnvironmentConnectivityDefault(code int) *CheckEnvironmentConnectiv
 	}
 }
 
-/*CheckEnvironmentConnectivityDefault handles this case with default header values.
+/*
+CheckEnvironmentConnectivityDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CheckEnvironmentConnectivityDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this check environment connectivity default response has a 2xx status code
+func (o *CheckEnvironmentConnectivityDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this check environment connectivity default response has a 3xx status code
+func (o *CheckEnvironmentConnectivityDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this check environment connectivity default response has a 4xx status code
+func (o *CheckEnvironmentConnectivityDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this check environment connectivity default response has a 5xx status code
+func (o *CheckEnvironmentConnectivityDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this check environment connectivity default response a status code equal to that given
+func (o *CheckEnvironmentConnectivityDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the check environment connectivity default response
 func (o *CheckEnvironmentConnectivityDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CheckEnvironmentConnectivityDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivity default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CheckEnvironmentConnectivityDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivity default  %+v", o._statusCode, o.Payload)
 }
 

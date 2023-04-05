@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -64,6 +66,8 @@ func (m *AutoScaleLoadRequest) validateConfiguration(formats strfmt.Registry) er
 		if err := m.Configuration.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration")
 			}
 			return err
 		}
@@ -73,16 +77,15 @@ func (m *AutoScaleLoadRequest) validateConfiguration(formats strfmt.Registry) er
 }
 
 func (m *AutoScaleLoadRequest) validateDescription(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Description) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("description", "body", string(*m.Description), 0); err != nil {
+	if err := validate.MinLength("description", "body", *m.Description, 0); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("description", "body", string(*m.Description), 1000); err != nil {
+	if err := validate.MaxLength("description", "body", *m.Description, 1000); err != nil {
 		return err
 	}
 
@@ -90,17 +93,46 @@ func (m *AutoScaleLoadRequest) validateDescription(formats strfmt.Registry) erro
 }
 
 func (m *AutoScaleLoadRequest) validateIdentifier(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Identifier) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("identifier", "body", string(m.Identifier), 5); err != nil {
+	if err := validate.MinLength("identifier", "body", m.Identifier, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("identifier", "body", string(m.Identifier), 200); err != nil {
+	if err := validate.MaxLength("identifier", "body", m.Identifier, 200); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this auto scale load request based on the context it is used
+func (m *AutoScaleLoadRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AutoScaleLoadRequest) contextValidateConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Configuration != nil {
+		if err := m.Configuration.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configuration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration")
+			}
+			return err
+		}
 	}
 
 	return nil

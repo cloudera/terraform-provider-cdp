@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewCreateAWSEnvironmentParams creates a new CreateAWSEnvironmentParams object
-// with the default values initialized.
+// NewCreateAWSEnvironmentParams creates a new CreateAWSEnvironmentParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAWSEnvironmentParams() *CreateAWSEnvironmentParams {
-	var ()
 	return &CreateAWSEnvironmentParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateAWSEnvironmentParamsWithTimeout creates a new CreateAWSEnvironmentParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateAWSEnvironmentParamsWithTimeout(timeout time.Duration) *CreateAWSEnvironmentParams {
-	var ()
 	return &CreateAWSEnvironmentParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateAWSEnvironmentParamsWithContext creates a new CreateAWSEnvironmentParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateAWSEnvironmentParamsWithContext(ctx context.Context) *CreateAWSEnvironmentParams {
-	var ()
 	return &CreateAWSEnvironmentParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateAWSEnvironmentParamsWithHTTPClient creates a new CreateAWSEnvironmentParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateAWSEnvironmentParamsWithHTTPClient(client *http.Client) *CreateAWSEnvironmentParams {
-	var ()
 	return &CreateAWSEnvironmentParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateAWSEnvironmentParams contains all the parameters to send to the API endpoint
-for the create a w s environment operation typically these are written to a http.Request
+/*
+CreateAWSEnvironmentParams contains all the parameters to send to the API endpoint
+
+	for the create a w s environment operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateAWSEnvironmentParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateAWSEnvironmentRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create a w s environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAWSEnvironmentParams) WithDefaults() *CreateAWSEnvironmentParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create a w s environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAWSEnvironmentParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create a w s environment params
@@ -121,7 +137,6 @@ func (o *CreateAWSEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

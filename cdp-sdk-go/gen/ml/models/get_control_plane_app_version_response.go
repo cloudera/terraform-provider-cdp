@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -20,6 +22,10 @@ type GetControlPlaneAppVersionResponse struct {
 	// The version of the Cloudera Machine Learning control plane app.
 	// Required: true
 	ControlPlaneAppVersion *string `json:"controlPlaneAppVersion"`
+
+	// The CRN partition which determines it is a commercial or gov cloud.
+	// Required: true
+	CrnPartition *string `json:"crnPartition"`
 }
 
 // Validate validates this get control plane app version response
@@ -27,6 +33,10 @@ func (m *GetControlPlaneAppVersionResponse) Validate(formats strfmt.Registry) er
 	var res []error
 
 	if err := m.validateControlPlaneAppVersion(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCrnPartition(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -42,6 +52,20 @@ func (m *GetControlPlaneAppVersionResponse) validateControlPlaneAppVersion(forma
 		return err
 	}
 
+	return nil
+}
+
+func (m *GetControlPlaneAppVersionResponse) validateCrnPartition(formats strfmt.Registry) error {
+
+	if err := validate.Required("crnPartition", "body", m.CrnPartition); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validates this get control plane app version response based on context it is used
+func (m *GetControlPlaneAppVersionResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

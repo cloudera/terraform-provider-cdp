@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -15,12 +17,20 @@ import (
 // swagger:model SyncAllUsersRequest
 type SyncAllUsersRequest struct {
 
+	// List of actor crns to be synced. If not present, all actors with environment access will be synced.
+	ActorCrns []string `json:"actorCrns"`
+
 	// List of environments to be synced. If not present, all environments will be synced.
 	EnvironmentNames []string `json:"environmentNames"`
 }
 
 // Validate validates this sync all users request
 func (m *SyncAllUsersRequest) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this sync all users request based on context it is used
+func (m *SyncAllUsersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

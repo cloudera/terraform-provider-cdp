@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
-// NewDescribeDatalakeParams creates a new DescribeDatalakeParams object
-// with the default values initialized.
+// NewDescribeDatalakeParams creates a new DescribeDatalakeParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeDatalakeParams() *DescribeDatalakeParams {
-	var ()
 	return &DescribeDatalakeParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDescribeDatalakeParamsWithTimeout creates a new DescribeDatalakeParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDescribeDatalakeParamsWithTimeout(timeout time.Duration) *DescribeDatalakeParams {
-	var ()
 	return &DescribeDatalakeParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDescribeDatalakeParamsWithContext creates a new DescribeDatalakeParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDescribeDatalakeParamsWithContext(ctx context.Context) *DescribeDatalakeParams {
-	var ()
 	return &DescribeDatalakeParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDescribeDatalakeParamsWithHTTPClient creates a new DescribeDatalakeParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDescribeDatalakeParamsWithHTTPClient(client *http.Client) *DescribeDatalakeParams {
-	var ()
 	return &DescribeDatalakeParams{
 		HTTPClient: client,
 	}
 }
 
-/*DescribeDatalakeParams contains all the parameters to send to the API endpoint
-for the describe datalake operation typically these are written to a http.Request
+/*
+DescribeDatalakeParams contains all the parameters to send to the API endpoint
+
+	for the describe datalake operation.
+
+	Typically these are written to a http.Request.
 */
 type DescribeDatalakeParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DescribeDatalakeRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the describe datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeDatalakeParams) WithDefaults() *DescribeDatalakeParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the describe datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeDatalakeParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the describe datalake params
@@ -121,7 +137,6 @@ func (o *DescribeDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

@@ -23,53 +23,300 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	CreateWorkspace(params *CreateWorkspaceParams) (*CreateWorkspaceOK, error)
+	AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error)
 
-	DeleteWorkspace(params *DeleteWorkspaceParams) (*DeleteWorkspaceOK, error)
+	BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error)
 
-	DescribeWorkspace(params *DescribeWorkspaceParams) (*DescribeWorkspaceOK, error)
+	CDSWMigrationReadiness(params *CDSWMigrationReadinessParams, opts ...ClientOption) (*CDSWMigrationReadinessOK, error)
 
-	GetAuditEvents(params *GetAuditEventsParams) (*GetAuditEventsOK, error)
+	CdswMigrationProgress(params *CdswMigrationProgressParams, opts ...ClientOption) (*CdswMigrationProgressOK, error)
 
-	GetControlPlaneAppVersion(params *GetControlPlaneAppVersionParams) (*GetControlPlaneAppVersionOK, error)
+	CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error)
 
-	GetKubeconfig(params *GetKubeconfigParams) (*GetKubeconfigOK, error)
+	CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error)
 
-	GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams) (*GetLatestWorkspaceVersionOK, error)
+	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
 
-	GetLogs(params *GetLogsParams) (*GetLogsOK, error)
+	DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error)
 
-	GrantWorkspaceAccess(params *GrantWorkspaceAccessParams) (*GrantWorkspaceAccessOK, error)
+	DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error)
 
-	ListWorkspaceAccess(params *ListWorkspaceAccessParams) (*ListWorkspaceAccessOK, error)
+	DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error)
 
-	ListWorkspaces(params *ListWorkspacesParams) (*ListWorkspacesOK, error)
+	DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error)
 
-	ResumeWorkspace(params *ResumeWorkspaceParams) (*ResumeWorkspaceOK, error)
+	EchoWorkflow(params *EchoWorkflowParams, opts ...ClientOption) (*EchoWorkflowOK, error)
 
-	RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams) (*RevokeWorkspaceAccessOK, error)
+	GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error)
 
-	SuspendWorkspace(params *SuspendWorkspaceParams) (*SuspendWorkspaceOK, error)
+	GetCloudPlatformPrerequisites(params *GetCloudPlatformPrerequisitesParams, opts ...ClientOption) (*GetCloudPlatformPrerequisitesOK, error)
 
-	UpgradeWorkspace(params *UpgradeWorkspaceParams) (*UpgradeWorkspaceOK, error)
+	GetControlPlaneAppVersion(params *GetControlPlaneAppVersionParams, opts ...ClientOption) (*GetControlPlaneAppVersionOK, error)
+
+	GetEventsPayloadData(params *GetEventsPayloadDataParams, opts ...ClientOption) (*GetEventsPayloadDataOK, error)
+
+	GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error)
+
+	GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error)
+
+	GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
+
+	GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error)
+
+	InstallWorkspace(params *InstallWorkspaceParams, opts ...ClientOption) (*InstallWorkspaceOK, error)
+
+	ListCdswServices(params *ListCdswServicesParams, opts ...ClientOption) (*ListCdswServicesOK, error)
+
+	ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error)
+
+	ListWorkflowMetadata(params *ListWorkflowMetadataParams, opts ...ClientOption) (*ListWorkflowMetadataOK, error)
+
+	ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error)
+
+	ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error)
+
+	ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error)
+
+	MigrateCDSWWorkspace(params *MigrateCDSWWorkspaceParams, opts ...ClientOption) (*MigrateCDSWWorkspaceOK, error)
+
+	ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error)
+
+	ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error)
+
+	ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error)
+
+	RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error)
+
+	RequestWorkflowCancellation(params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error)
+
+	RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error)
+
+	ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error)
+
+	RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error)
+
+	SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error)
+
+	UpdateModelRegistry(params *UpdateModelRegistryParams, opts ...ClientOption) (*UpdateModelRegistryOK, error)
+
+	UpdateNodeImage(params *UpdateNodeImageParams, opts ...ClientOption) (*UpdateNodeImageOK, error)
+
+	UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-  CreateWorkspace creates a cloudera machine learning workspace
+AddInstanceGroups adds new cloudera machine learning workspace cluster instance groups
 
-  Provision a Kubernetes cluster and install the Cloudera Machine Learning application in it.
+Add new Cloudera Machine Learning workspace cluster instance groups.
 */
-func (a *Client) CreateWorkspace(params *CreateWorkspaceParams) (*CreateWorkspaceOK, error) {
+func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAddInstanceGroupsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "addInstanceGroups",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/addInstanceGroups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AddInstanceGroupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AddInstanceGroupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AddInstanceGroupsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+BackupWorkspace backups a workspace
+
+Backup a workspace.
+*/
+func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewBackupWorkspaceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "backupWorkspace",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/backupWorkspace",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &BackupWorkspaceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*BackupWorkspaceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*BackupWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CDSWMigrationReadiness checks c m l for c d s w migration readiness
+
+Check CML for CDSW migration readiness.
+*/
+func (a *Client) CDSWMigrationReadiness(params *CDSWMigrationReadinessParams, opts ...ClientOption) (*CDSWMigrationReadinessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCDSWMigrationReadinessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cDSWMigrationReadiness",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/cDSWMigrationReadiness",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CDSWMigrationReadinessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CDSWMigrationReadinessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CDSWMigrationReadinessDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CdswMigrationProgress tracks the progress of c d s w to c m l migration
+
+Track the progress of CDSW to CML migration.
+*/
+func (a *Client) CdswMigrationProgress(params *CdswMigrationProgressParams, opts ...ClientOption) (*CdswMigrationProgressOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCdswMigrationProgressParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cdswMigrationProgress",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/cdswMigrationProgress",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CdswMigrationProgressReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CdswMigrationProgressOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CdswMigrationProgressDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateModelRegistry creates a new model registry
+
+Create a new model registry by creating a new workspace and install model registry on it.
+*/
+func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateModelRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createModelRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/createModelRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateModelRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateModelRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateModelRegistryDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateWorkspace creates a cloudera machine learning workspace
+
+Provision a Kubernetes cluster and install the Cloudera Machine Learning application in it.
+*/
+func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateWorkspaceParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createWorkspace",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/createWorkspace",
@@ -80,7 +327,12 @@ func (a *Client) CreateWorkspace(params *CreateWorkspaceParams) (*CreateWorkspac
 		Reader:             &CreateWorkspaceReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -94,17 +346,133 @@ func (a *Client) CreateWorkspace(params *CreateWorkspaceParams) (*CreateWorkspac
 }
 
 /*
-  DeleteWorkspace deletes cloudera machine learning workspace
+DeleteBackup deletes a backup snapshot
 
-  Deletes a Cloudera Machine Learning workspace.
+Deletes a Cloudera Machine Learning workspace backup.
 */
-func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams) (*DeleteWorkspaceOK, error) {
+func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteBackupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteBackup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/deleteBackup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteBackupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteInstanceGroup deletes an instance group from the cluster
+
+Deletes an instance group from a Cloudera Machine Learning workspace.
+*/
+func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteInstanceGroupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteInstanceGroup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/deleteInstanceGroup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteInstanceGroupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteInstanceGroupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteInstanceGroupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteModelRegistry deletes a model registry
+
+Delete a model registry.
+*/
+func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteModelRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteModelRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/deleteModelRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteModelRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteModelRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteModelRegistryDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteWorkspace deletes cloudera machine learning workspace
+
+Deletes a Cloudera Machine Learning workspace.
+*/
+func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteWorkspaceParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteWorkspace",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/deleteWorkspace",
@@ -115,7 +483,12 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams) (*DeleteWorkspac
 		Reader:             &DeleteWorkspaceReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -129,17 +502,16 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams) (*DeleteWorkspac
 }
 
 /*
-  DescribeWorkspace describes cloudera machine learning workspace
+DescribeWorkspace describes cloudera machine learning workspace
 
-  Describes a Cloudera Machine Learning workspace.
+Describes a Cloudera Machine Learning workspace.
 */
-func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams) (*DescribeWorkspaceOK, error) {
+func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeWorkspaceParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeWorkspace",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/describeWorkspace",
@@ -150,7 +522,12 @@ func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams) (*DescribeWo
 		Reader:             &DescribeWorkspaceReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -164,17 +541,55 @@ func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams) (*DescribeWo
 }
 
 /*
-  GetAuditEvents gets all the events belong to a workspace crn
+EchoWorkflow creates an echo workflow
 
-  Gets all the events belong to a workspace crn.
+This is used as an example workflow for Cadence integration.
 */
-func (a *Client) GetAuditEvents(params *GetAuditEventsParams) (*GetAuditEventsOK, error) {
+func (a *Client) EchoWorkflow(params *EchoWorkflowParams, opts ...ClientOption) (*EchoWorkflowOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewEchoWorkflowParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "echoWorkflow",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/echoWorkflow",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &EchoWorkflowReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*EchoWorkflowOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*EchoWorkflowDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetAuditEvents gets all the events belong to a workspace crn
+
+Gets all the events belong to a workspace crn.
+*/
+func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAuditEventsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAuditEvents",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/getAuditEvents",
@@ -185,7 +600,12 @@ func (a *Client) GetAuditEvents(params *GetAuditEventsParams) (*GetAuditEventsOK
 		Reader:             &GetAuditEventsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -199,17 +619,55 @@ func (a *Client) GetAuditEvents(params *GetAuditEventsParams) (*GetAuditEventsOK
 }
 
 /*
-  GetControlPlaneAppVersion shows cloudera machine learning control plane app version
+GetCloudPlatformPrerequisites gets the prerequisites details of c m l workspace
 
-  Shows the version of Cloudera Machine Learning control plane app.
+Get the prerequisites details of CML workspace for different cloud platforms.
 */
-func (a *Client) GetControlPlaneAppVersion(params *GetControlPlaneAppVersionParams) (*GetControlPlaneAppVersionOK, error) {
+func (a *Client) GetCloudPlatformPrerequisites(params *GetCloudPlatformPrerequisitesParams, opts ...ClientOption) (*GetCloudPlatformPrerequisitesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCloudPlatformPrerequisitesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getCloudPlatformPrerequisites",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/getCloudPlatformPrerequisites",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCloudPlatformPrerequisitesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCloudPlatformPrerequisitesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCloudPlatformPrerequisitesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetControlPlaneAppVersion shows cloudera machine learning control plane app version
+
+Shows the version of Cloudera Machine Learning control plane app.
+*/
+func (a *Client) GetControlPlaneAppVersion(params *GetControlPlaneAppVersionParams, opts ...ClientOption) (*GetControlPlaneAppVersionOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetControlPlaneAppVersionParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getControlPlaneAppVersion",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/getControlPlaneAppVersion",
@@ -220,7 +678,12 @@ func (a *Client) GetControlPlaneAppVersion(params *GetControlPlaneAppVersionPara
 		Reader:             &GetControlPlaneAppVersionReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -234,17 +697,55 @@ func (a *Client) GetControlPlaneAppVersion(params *GetControlPlaneAppVersionPara
 }
 
 /*
-  GetKubeconfig lists workspace access cloudera machine learning workspace
+GetEventsPayloadData retrieves all the event payload data associated with a workspace c r n
 
-  Lists users that can perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+Retrieves all the event payload data associated with a workspace CRN.
 */
-func (a *Client) GetKubeconfig(params *GetKubeconfigParams) (*GetKubeconfigOK, error) {
+func (a *Client) GetEventsPayloadData(params *GetEventsPayloadDataParams, opts ...ClientOption) (*GetEventsPayloadDataOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetEventsPayloadDataParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getEventsPayloadData",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/getEventsPayloadData",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetEventsPayloadDataReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetEventsPayloadDataOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetEventsPayloadDataDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetKubeconfig lists workspace access cloudera machine learning workspace
+
+Lists users that can perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+*/
+func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetKubeconfigParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getKubeconfig",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/getKubeconfig",
@@ -255,7 +756,12 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams) (*GetKubeconfigOK, e
 		Reader:             &GetKubeconfigReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -269,17 +775,16 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams) (*GetKubeconfigOK, e
 }
 
 /*
-  GetLatestWorkspaceVersion gets latest workspace version cloudera machine learning workspace
+GetLatestWorkspaceVersion gets latest workspace version cloudera machine learning workspace
 
-  Retrieves the latest version that Cloudera Machine Learning deploys to workspaces.
+Retrieves the latest version that Cloudera Machine Learning deploys to workspaces.
 */
-func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams) (*GetLatestWorkspaceVersionOK, error) {
+func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetLatestWorkspaceVersionParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getLatestWorkspaceVersion",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/getLatestWorkspaceVersion",
@@ -290,7 +795,12 @@ func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionPara
 		Reader:             &GetLatestWorkspaceVersionReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -304,17 +814,16 @@ func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionPara
 }
 
 /*
-  GetLogs gets all the logs belong to a request id
+GetLogs gets all the logs belong to a request id
 
-  Gets all the logs belong to a request id.
+Gets all the logs belong to a request id.
 */
-func (a *Client) GetLogs(params *GetLogsParams) (*GetLogsOK, error) {
+func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetLogsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getLogs",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/getLogs",
@@ -325,7 +834,12 @@ func (a *Client) GetLogs(params *GetLogsParams) (*GetLogsOK, error) {
 		Reader:             &GetLogsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -339,17 +853,16 @@ func (a *Client) GetLogs(params *GetLogsParams) (*GetLogsOK, error) {
 }
 
 /*
-  GrantWorkspaceAccess grants workspace access cloudera machine learning workspace
+GrantWorkspaceAccess grants workspace access cloudera machine learning workspace
 
-  Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
 */
-func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams) (*GrantWorkspaceAccessOK, error) {
+func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGrantWorkspaceAccessParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "grantWorkspaceAccess",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/grantWorkspaceAccess",
@@ -360,7 +873,12 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams) (*Gran
 		Reader:             &GrantWorkspaceAccessReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -374,17 +892,172 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams) (*Gran
 }
 
 /*
-  ListWorkspaceAccess lists workspace access cloudera machine learning workspace
+InstallWorkspace installs a cloudera machine learning workspace
 
-  Lists users that can perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+Installs a Cloudera Machine Learning application in an existing Kubernetes cluster.
 */
-func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams) (*ListWorkspaceAccessOK, error) {
+func (a *Client) InstallWorkspace(params *InstallWorkspaceParams, opts ...ClientOption) (*InstallWorkspaceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewInstallWorkspaceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "installWorkspace",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/installWorkspace",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &InstallWorkspaceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*InstallWorkspaceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*InstallWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListCdswServices lists legacy cloudera data science workbench services
+
+Lists legacy Cloudera Data Science Workbench services.
+*/
+func (a *Client) ListCdswServices(params *ListCdswServicesParams, opts ...ClientOption) (*ListCdswServicesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListCdswServicesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listCdswServices",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listCdswServices",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListCdswServicesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListCdswServicesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListCdswServicesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListModelRegistries lists all model registries
+
+List all model registries.
+*/
+func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListModelRegistriesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listModelRegistries",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listModelRegistries",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListModelRegistriesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListModelRegistriesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListModelRegistriesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListWorkflowMetadata lists all workflow metadata or a resource Id
+
+Lists all related workflow metadata for a resource in CML.
+*/
+func (a *Client) ListWorkflowMetadata(params *ListWorkflowMetadataParams, opts ...ClientOption) (*ListWorkflowMetadataOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListWorkflowMetadataParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listWorkflowMetadata",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listWorkflowMetadata",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListWorkflowMetadataReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListWorkflowMetadataOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListWorkflowMetadataDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListWorkspaceAccess lists workspace access cloudera machine learning workspace
+
+Lists users that can perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+*/
+func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListWorkspaceAccessParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listWorkspaceAccess",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/listWorkspaceAccess",
@@ -395,7 +1068,12 @@ func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams) (*ListWo
 		Reader:             &ListWorkspaceAccessReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -409,17 +1087,55 @@ func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams) (*ListWo
 }
 
 /*
-  ListWorkspaces lists cloudera machine learning workspaces
+ListWorkspaceBackups lists backup snapshots of a workspace
 
-  List Cloudera Machine Learning workspaces.
+List backup snapshots of a workspace.
 */
-func (a *Client) ListWorkspaces(params *ListWorkspacesParams) (*ListWorkspacesOK, error) {
+func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListWorkspaceBackupsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listWorkspaceBackups",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listWorkspaceBackups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListWorkspaceBackupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListWorkspaceBackupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListWorkspaceBackupsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListWorkspaces lists cloudera machine learning workspaces
+
+List Cloudera Machine Learning workspaces.
+*/
+func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListWorkspacesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listWorkspaces",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/listWorkspaces",
@@ -430,7 +1146,12 @@ func (a *Client) ListWorkspaces(params *ListWorkspacesParams) (*ListWorkspacesOK
 		Reader:             &ListWorkspacesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -444,17 +1165,289 @@ func (a *Client) ListWorkspaces(params *ListWorkspacesParams) (*ListWorkspacesOK
 }
 
 /*
-  ResumeWorkspace resumes cloudera machine learning workspace
+MigrateCDSWWorkspace migrates c d s w workspace
 
-  Resume a Cloudera Machine Learnings workspace.
+Migrates CDSW workspace.
 */
-func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams) (*ResumeWorkspaceOK, error) {
+func (a *Client) MigrateCDSWWorkspace(params *MigrateCDSWWorkspaceParams, opts ...ClientOption) (*MigrateCDSWWorkspaceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMigrateCDSWWorkspaceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "migrateCDSWWorkspace",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/migrateCDSWWorkspace",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MigrateCDSWWorkspaceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MigrateCDSWWorkspaceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*MigrateCDSWWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ModifyClusterInstanceGroup modifies cloudera machine learning workspace cluster instance group
+
+Modify a Cloudera Machine Learning workspace cluster instance group.
+*/
+func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewModifyClusterInstanceGroupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "modifyClusterInstanceGroup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/modifyClusterInstanceGroup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ModifyClusterInstanceGroupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ModifyClusterInstanceGroupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ModifyClusterInstanceGroupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ModifyClusterSecurity modifies cloudera machine learning workspace cluster security
+
+Modify a Cloudera Machine Learning workspace cluster security.
+*/
+func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewModifyClusterSecurityParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "modifyClusterSecurity",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/modifyClusterSecurity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ModifyClusterSecurityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ModifyClusterSecurityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ModifyClusterSecurityDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ModifyWorkspaceLoadBalancer modifies cloudera machine learning workspace loadbalancer
+
+Modify a Cloudera Machine Learning workspace loadbalancer.
+*/
+func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewModifyWorkspaceLoadBalancerParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "modifyWorkspaceLoadBalancer",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/modifyWorkspaceLoadBalancer",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ModifyWorkspaceLoadBalancerReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ModifyWorkspaceLoadBalancerOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ModifyWorkspaceLoadBalancerDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RefreshModelRegistryConfigmap refreshes the model registry configmap of the workspace
+
+Refreshes the model registry configmap of the workspace from the control plane.
+*/
+func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRefreshModelRegistryConfigmapParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "refreshModelRegistryConfigmap",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/refreshModelRegistryConfigmap",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RefreshModelRegistryConfigmapReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RefreshModelRegistryConfigmapOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RefreshModelRegistryConfigmapDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RequestWorkflowCancellation requests a workflow cancellation
+
+Request a long running workflow cancellation by resource ID and workflow type.
+*/
+func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRequestWorkflowCancellationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "requestWorkflowCancellation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/requestWorkflowCancellation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RequestWorkflowCancellationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RequestWorkflowCancellationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RequestWorkflowCancellationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RestoreWorkspace restores a cloudera machine learning workspace
+
+Create a new workspace based on an existing workspace backup snapshot.
+*/
+func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRestoreWorkspaceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "restoreWorkspace",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/restoreWorkspace",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RestoreWorkspaceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RestoreWorkspaceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RestoreWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ResumeWorkspace resumes cloudera machine learning workspace
+
+Resume a Cloudera Machine Learnings workspace.
+*/
+func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewResumeWorkspaceParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "resumeWorkspace",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/resumeWorkspace",
@@ -465,7 +1458,12 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams) (*ResumeWorkspac
 		Reader:             &ResumeWorkspaceReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -479,17 +1477,16 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams) (*ResumeWorkspac
 }
 
 /*
-  RevokeWorkspaceAccess revokes workspace access cloudera machine learning workspace
+RevokeWorkspaceAccess revokes workspace access cloudera machine learning workspace
 
-  Revokes an AWS user to perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+Revokes an AWS user to perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
 */
-func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams) (*RevokeWorkspaceAccessOK, error) {
+func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRevokeWorkspaceAccessParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "revokeWorkspaceAccess",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/revokeWorkspaceAccess",
@@ -500,7 +1497,12 @@ func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams) (*Re
 		Reader:             &RevokeWorkspaceAccessReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -514,17 +1516,16 @@ func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams) (*Re
 }
 
 /*
-  SuspendWorkspace suspends cloudera machine learning workspace
+SuspendWorkspace suspends cloudera machine learning workspace
 
-  Suspend a Cloudera Machine Learning workspace.
+Suspend a Cloudera Machine Learning workspace.
 */
-func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams) (*SuspendWorkspaceOK, error) {
+func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSuspendWorkspaceParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "suspendWorkspace",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/suspendWorkspace",
@@ -535,7 +1536,12 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams) (*SuspendWorks
 		Reader:             &SuspendWorkspaceReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -549,17 +1555,94 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams) (*SuspendWorks
 }
 
 /*
-  UpgradeWorkspace upgrades cloudera machine learning workspace
+UpdateModelRegistry updates a model registry
 
-  Upgrades a Cloudera Machine Learning workspace to the latest available version.
+Update a model registry.
 */
-func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams) (*UpgradeWorkspaceOK, error) {
+func (a *Client) UpdateModelRegistry(params *UpdateModelRegistryParams, opts ...ClientOption) (*UpdateModelRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateModelRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateModelRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/updateModelRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateModelRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateModelRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateModelRegistryDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateNodeImage updates o s image on kubernetes nodes
+
+Updates OS Image on Kubernetes nodes of Cloudera Machine Learning.
+*/
+func (a *Client) UpdateNodeImage(params *UpdateNodeImageParams, opts ...ClientOption) (*UpdateNodeImageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateNodeImageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateNodeImage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/updateNodeImage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateNodeImageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateNodeImageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateNodeImageDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeWorkspace upgrades cloudera machine learning workspace
+
+Upgrades a Cloudera Machine Learning workspace to the latest available version.
+*/
+func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpgradeWorkspaceParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "upgradeWorkspace",
 		Method:             "POST",
 		PathPattern:        "/api/v1/ml/upgradeWorkspace",
@@ -570,7 +1653,12 @@ func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams) (*UpgradeWorks
 		Reader:             &UpgradeWorkspaceReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

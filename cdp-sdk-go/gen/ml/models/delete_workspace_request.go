@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -25,8 +27,7 @@ type DeleteWorkspaceRequest struct {
 	Force *bool `json:"force"`
 
 	// The remove storage flag indicates weather to keep the backing workspace filesystem storage or remove it during delete.
-	// Required: true
-	RemoveStorage *bool `json:"removeStorage"`
+	RemoveStorage bool `json:"removeStorage,omitempty"`
 
 	// The CRN of the workspace to delete. If CRN is specified only the CRN is used for identifying the workspace, environment and name arguments are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
@@ -40,10 +41,6 @@ func (m *DeleteWorkspaceRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateForce(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateRemoveStorage(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -62,12 +59,8 @@ func (m *DeleteWorkspaceRequest) validateForce(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *DeleteWorkspaceRequest) validateRemoveStorage(formats strfmt.Registry) error {
-
-	if err := validate.Required("removeStorage", "body", m.RemoveStorage); err != nil {
-		return err
-	}
-
+// ContextValidate validates this delete workspace request based on context it is used
+func (m *DeleteWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

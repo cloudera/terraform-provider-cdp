@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -29,8 +30,11 @@ type CreateAutoScaleRulesRequest struct {
 	// Min Length: 5
 	ClusterName *string `json:"clusterName"`
 
-	// true to enable Autoscaling, false to disable AutoScaling
+	// true (default) to enable Autoscaling, false to disable AutoScaling.
 	Enabled bool `json:"enabled,omitempty"`
+
+	// true to enable StopStart scaling mechanism, false to use regular AutoScaling (if enabled).
+	UseStopStartMechanism bool `json:"useStopStartMechanism,omitempty"`
 }
 
 // Validate validates this create auto scale rules request
@@ -66,6 +70,8 @@ func (m *CreateAutoScaleRulesRequest) validateAutoScalePolicies(formats strfmt.R
 			if err := m.AutoScalePolicies[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("autoScalePolicies" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("autoScalePolicies" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -82,12 +88,46 @@ func (m *CreateAutoScaleRulesRequest) validateClusterName(formats strfmt.Registr
 		return err
 	}
 
-	if err := validate.MinLength("clusterName", "body", string(*m.ClusterName), 5); err != nil {
+	if err := validate.MinLength("clusterName", "body", *m.ClusterName, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("clusterName", "body", string(*m.ClusterName), 500); err != nil {
+	if err := validate.MaxLength("clusterName", "body", *m.ClusterName, 500); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create auto scale rules request based on the context it is used
+func (m *CreateAutoScaleRulesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAutoScalePolicies(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateAutoScaleRulesRequest) contextValidateAutoScalePolicies(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AutoScalePolicies); i++ {
+
+		if m.AutoScalePolicies[i] != nil {
+			if err := m.AutoScalePolicies[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("autoScalePolicies" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("autoScalePolicies" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

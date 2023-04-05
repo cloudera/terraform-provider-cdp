@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -20,6 +22,9 @@ type DeleteMachineUserRequest struct {
 	// The name or CRN of the machine user to delete.
 	// Required: true
 	MachineUserName *string `json:"machineUserName"`
+
+	// Whether to delete the machine user immediately (and in rare cases risk orphaning associated resources) or spend more time to fully clean up.
+	UnsafeDelete bool `json:"unsafeDelete,omitempty"`
 }
 
 // Validate validates this delete machine user request
@@ -42,6 +47,11 @@ func (m *DeleteMachineUserRequest) validateMachineUserName(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this delete machine user request based on context it is used
+func (m *DeleteMachineUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -47,7 +48,6 @@ func (m *UpgradeDatalakeResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpgradeDatalakeResponse) validateCurrent(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Current) { // not required
 		return nil
 	}
@@ -56,6 +56,8 @@ func (m *UpgradeDatalakeResponse) validateCurrent(formats strfmt.Registry) error
 		if err := m.Current.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("current")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("current")
 			}
 			return err
 		}
@@ -65,7 +67,6 @@ func (m *UpgradeDatalakeResponse) validateCurrent(formats strfmt.Registry) error
 }
 
 func (m *UpgradeDatalakeResponse) validateUpgradeCandidates(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UpgradeCandidates) { // not required
 		return nil
 	}
@@ -79,6 +80,62 @@ func (m *UpgradeDatalakeResponse) validateUpgradeCandidates(formats strfmt.Regis
 			if err := m.UpgradeCandidates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("upgradeCandidates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("upgradeCandidates" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this upgrade datalake response based on the context it is used
+func (m *UpgradeDatalakeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCurrent(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUpgradeCandidates(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *UpgradeDatalakeResponse) contextValidateCurrent(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Current != nil {
+		if err := m.Current.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("current")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("current")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *UpgradeDatalakeResponse) contextValidateUpgradeCandidates(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.UpgradeCandidates); i++ {
+
+		if m.UpgradeCandidates[i] != nil {
+			if err := m.UpgradeCandidates[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("upgradeCandidates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("upgradeCandidates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,7 +19,11 @@ import (
 // swagger:model UnassignServicePrincipalAzureCloudIdentityRequest
 type UnassignServicePrincipalAzureCloudIdentityRequest struct {
 
-	// The name of the service principal or service principal category from which the cloud identity will be unassigned. Use the ListServicePrincipals API to obtain a list of available service principals, and the ListServicePrincipalCategories API to obtain a list of available service principal categories, along with the service principals in each category.
+	// The CRN of the environment for which the cloud identity to unassign is in effect.
+	// Required: true
+	EnvironmentCrn *string `json:"environmentCrn"`
+
+	// The name of the service principal from which the cloud identity will be unassigned.
 	// Required: true
 	ServicePrincipal *string `json:"servicePrincipal"`
 }
@@ -25,6 +31,10 @@ type UnassignServicePrincipalAzureCloudIdentityRequest struct {
 // Validate validates this unassign service principal azure cloud identity request
 func (m *UnassignServicePrincipalAzureCloudIdentityRequest) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateEnvironmentCrn(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateServicePrincipal(formats); err != nil {
 		res = append(res, err)
@@ -36,12 +46,26 @@ func (m *UnassignServicePrincipalAzureCloudIdentityRequest) Validate(formats str
 	return nil
 }
 
+func (m *UnassignServicePrincipalAzureCloudIdentityRequest) validateEnvironmentCrn(formats strfmt.Registry) error {
+
+	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *UnassignServicePrincipalAzureCloudIdentityRequest) validateServicePrincipal(formats strfmt.Registry) error {
 
 	if err := validate.Required("servicePrincipal", "body", m.ServicePrincipal); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this unassign service principal azure cloud identity request based on context it is used
+func (m *UnassignServicePrincipalAzureCloudIdentityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

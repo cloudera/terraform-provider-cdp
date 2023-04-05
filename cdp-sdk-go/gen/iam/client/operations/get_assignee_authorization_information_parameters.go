@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewGetAssigneeAuthorizationInformationParams creates a new GetAssigneeAuthorizationInformationParams object
-// with the default values initialized.
+// NewGetAssigneeAuthorizationInformationParams creates a new GetAssigneeAuthorizationInformationParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAssigneeAuthorizationInformationParams() *GetAssigneeAuthorizationInformationParams {
-	var ()
 	return &GetAssigneeAuthorizationInformationParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAssigneeAuthorizationInformationParamsWithTimeout creates a new GetAssigneeAuthorizationInformationParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAssigneeAuthorizationInformationParamsWithTimeout(timeout time.Duration) *GetAssigneeAuthorizationInformationParams {
-	var ()
 	return &GetAssigneeAuthorizationInformationParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAssigneeAuthorizationInformationParamsWithContext creates a new GetAssigneeAuthorizationInformationParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAssigneeAuthorizationInformationParamsWithContext(ctx context.Context) *GetAssigneeAuthorizationInformationParams {
-	var ()
 	return &GetAssigneeAuthorizationInformationParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetAssigneeAuthorizationInformationParamsWithHTTPClient creates a new GetAssigneeAuthorizationInformationParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAssigneeAuthorizationInformationParamsWithHTTPClient(client *http.Client) *GetAssigneeAuthorizationInformationParams {
-	var ()
 	return &GetAssigneeAuthorizationInformationParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetAssigneeAuthorizationInformationParams contains all the parameters to send to the API endpoint
-for the get assignee authorization information operation typically these are written to a http.Request
+/*
+GetAssigneeAuthorizationInformationParams contains all the parameters to send to the API endpoint
+
+	for the get assignee authorization information operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAssigneeAuthorizationInformationParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.GetAssigneeAuthorizationInformationRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get assignee authorization information params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAssigneeAuthorizationInformationParams) WithDefaults() *GetAssigneeAuthorizationInformationParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get assignee authorization information params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAssigneeAuthorizationInformationParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get assignee authorization information params
@@ -121,7 +137,6 @@ func (o *GetAssigneeAuthorizationInformationParams) WriteToRequest(r runtime.Cli
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

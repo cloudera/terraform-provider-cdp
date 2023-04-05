@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
-// NewListClustersParams creates a new ListClustersParams object
-// with the default values initialized.
+// NewListClustersParams creates a new ListClustersParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListClustersParams() *ListClustersParams {
-	var ()
 	return &ListClustersParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListClustersParamsWithTimeout creates a new ListClustersParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListClustersParamsWithTimeout(timeout time.Duration) *ListClustersParams {
-	var ()
 	return &ListClustersParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListClustersParamsWithContext creates a new ListClustersParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListClustersParamsWithContext(ctx context.Context) *ListClustersParams {
-	var ()
 	return &ListClustersParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListClustersParamsWithHTTPClient creates a new ListClustersParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListClustersParamsWithHTTPClient(client *http.Client) *ListClustersParams {
-	var ()
 	return &ListClustersParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListClustersParams contains all the parameters to send to the API endpoint
-for the list clusters operation typically these are written to a http.Request
+/*
+ListClustersParams contains all the parameters to send to the API endpoint
+
+	for the list clusters operation.
+
+	Typically these are written to a http.Request.
 */
 type ListClustersParams struct {
 
-	/*Input*/
-	Input models.ListClustersRequest
+	// Input.
+	Input *models.ListClustersRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list clusters params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListClustersParams) WithDefaults() *ListClustersParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list clusters params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListClustersParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list clusters params
@@ -104,13 +120,13 @@ func (o *ListClustersParams) SetHTTPClient(client *http.Client) {
 }
 
 // WithInput adds the input to the list clusters params
-func (o *ListClustersParams) WithInput(input models.ListClustersRequest) *ListClustersParams {
+func (o *ListClustersParams) WithInput(input *models.ListClustersRequest) *ListClustersParams {
 	o.SetInput(input)
 	return o
 }
 
 // SetInput adds the input to the list clusters params
-func (o *ListClustersParams) SetInput(input models.ListClustersRequest) {
+func (o *ListClustersParams) SetInput(input *models.ListClustersRequest) {
 	o.Input = input
 }
 
@@ -121,7 +137,6 @@ func (o *ListClustersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

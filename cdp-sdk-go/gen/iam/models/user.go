@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -14,12 +15,12 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// User Information about a Cloudera Altus user.
+// User Information about a Cloudera CDP user.
 //
 // swagger:model User
 type User struct {
 
-	// Whether the user is an administrator of their Altus account.
+	// Whether the user is an administrator of their CDP account.
 	// Required: true
 	AccountAdmin *bool `json:"accountAdmin"`
 
@@ -55,9 +56,15 @@ type User struct {
 	// Required: true
 	LastName *string `json:"lastName"`
 
+	// The current status of the user. The possible status values are ACTIVE, CONTROL_PLANE_LOCKED_OUT, and DEACTIVATED. ACTIVE indicates that the user is active in CDP. An active user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the user is locked out of the CDP control plane. The locked-out user can no longer authenticate to the control plane but can authenticate to the workload clusters. DEACTIVATED indicates that the user is deactivated in CDP. A deactivated user can neither authenticate to the control plane nor to the workload clusters. Note that more statuses could be added in the future.
+	Status string `json:"status,omitempty"`
+
 	// The stable, unique identifier of the user.
 	// Required: true
 	UserID *string `json:"userId"`
+
+	// Information about the workload password for the user.
+	WorkloadPasswordDetails *WorkloadPasswordDetails `json:"workloadPasswordDetails,omitempty"`
 
 	// The username used in all the workload clusters of the user.
 	WorkloadUsername string `json:"workloadUsername,omitempty"`
@@ -107,6 +114,10 @@ func (m *User) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateWorkloadPasswordDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -123,7 +134,6 @@ func (m *User) validateAccountAdmin(formats strfmt.Registry) error {
 }
 
 func (m *User) validateAzureCloudIdentities(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AzureCloudIdentities) { // not required
 		return nil
 	}
@@ -137,6 +147,8 @@ func (m *User) validateAzureCloudIdentities(formats strfmt.Registry) error {
 			if err := m.AzureCloudIdentities[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -197,7 +209,6 @@ func (m *User) validateIdentityProviderCrn(formats strfmt.Registry) error {
 }
 
 func (m *User) validateLastInteractiveLogin(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastInteractiveLogin) { // not required
 		return nil
 	}
@@ -222,6 +233,79 @@ func (m *User) validateUserID(formats strfmt.Registry) error {
 
 	if err := validate.Required("userId", "body", m.UserID); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *User) validateWorkloadPasswordDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.WorkloadPasswordDetails) { // not required
+		return nil
+	}
+
+	if m.WorkloadPasswordDetails != nil {
+		if err := m.WorkloadPasswordDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("workloadPasswordDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workloadPasswordDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this user based on the context it is used
+func (m *User) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAzureCloudIdentities(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateWorkloadPasswordDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *User) contextValidateAzureCloudIdentities(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AzureCloudIdentities); i++ {
+
+		if m.AzureCloudIdentities[i] != nil {
+			if err := m.AzureCloudIdentities[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *User) contextValidateWorkloadPasswordDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.WorkloadPasswordDetails != nil {
+		if err := m.WorkloadPasswordDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("workloadPasswordDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workloadPasswordDetails")
+			}
+			return err
+		}
 	}
 
 	return nil

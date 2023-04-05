@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewGetIDBrokerMappingsParams creates a new GetIDBrokerMappingsParams object
-// with the default values initialized.
+// NewGetIDBrokerMappingsParams creates a new GetIDBrokerMappingsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetIDBrokerMappingsParams() *GetIDBrokerMappingsParams {
-	var ()
 	return &GetIDBrokerMappingsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetIDBrokerMappingsParamsWithTimeout creates a new GetIDBrokerMappingsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetIDBrokerMappingsParamsWithTimeout(timeout time.Duration) *GetIDBrokerMappingsParams {
-	var ()
 	return &GetIDBrokerMappingsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetIDBrokerMappingsParamsWithContext creates a new GetIDBrokerMappingsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetIDBrokerMappingsParamsWithContext(ctx context.Context) *GetIDBrokerMappingsParams {
-	var ()
 	return &GetIDBrokerMappingsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetIDBrokerMappingsParamsWithHTTPClient creates a new GetIDBrokerMappingsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetIDBrokerMappingsParamsWithHTTPClient(client *http.Client) *GetIDBrokerMappingsParams {
-	var ()
 	return &GetIDBrokerMappingsParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetIDBrokerMappingsParams contains all the parameters to send to the API endpoint
-for the get Id broker mappings operation typically these are written to a http.Request
+/*
+GetIDBrokerMappingsParams contains all the parameters to send to the API endpoint
+
+	for the get Id broker mappings operation.
+
+	Typically these are written to a http.Request.
 */
 type GetIDBrokerMappingsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.GetIDBrokerMappingsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get Id broker mappings params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetIDBrokerMappingsParams) WithDefaults() *GetIDBrokerMappingsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get Id broker mappings params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetIDBrokerMappingsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get Id broker mappings params
@@ -121,7 +137,6 @@ func (o *GetIDBrokerMappingsParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

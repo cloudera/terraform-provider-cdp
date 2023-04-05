@@ -46,7 +46,8 @@ func NewGetEnvironmentSettingOK() *GetEnvironmentSettingOK {
 	return &GetEnvironmentSettingOK{}
 }
 
-/*GetEnvironmentSettingOK handles this case with default header values.
+/*
+GetEnvironmentSettingOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetEnvironmentSettingOK struct {
 	Payload *models.GetEnvironmentSettingResponse
 }
 
+// IsSuccess returns true when this get environment setting o k response has a 2xx status code
+func (o *GetEnvironmentSettingOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get environment setting o k response has a 3xx status code
+func (o *GetEnvironmentSettingOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get environment setting o k response has a 4xx status code
+func (o *GetEnvironmentSettingOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get environment setting o k response has a 5xx status code
+func (o *GetEnvironmentSettingOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get environment setting o k response a status code equal to that given
+func (o *GetEnvironmentSettingOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get environment setting o k response
+func (o *GetEnvironmentSettingOK) Code() int {
+	return 200
+}
+
 func (o *GetEnvironmentSettingOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentSetting][%d] getEnvironmentSettingOK  %+v", 200, o.Payload)
+}
+
+func (o *GetEnvironmentSettingOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentSetting][%d] getEnvironmentSettingOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetEnvironmentSettingDefault(code int) *GetEnvironmentSettingDefault {
 	}
 }
 
-/*GetEnvironmentSettingDefault handles this case with default header values.
+/*
+GetEnvironmentSettingDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetEnvironmentSettingDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get environment setting default response has a 2xx status code
+func (o *GetEnvironmentSettingDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get environment setting default response has a 3xx status code
+func (o *GetEnvironmentSettingDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get environment setting default response has a 4xx status code
+func (o *GetEnvironmentSettingDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get environment setting default response has a 5xx status code
+func (o *GetEnvironmentSettingDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get environment setting default response a status code equal to that given
+func (o *GetEnvironmentSettingDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get environment setting default response
 func (o *GetEnvironmentSettingDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetEnvironmentSettingDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentSetting][%d] getEnvironmentSetting default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetEnvironmentSettingDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentSetting][%d] getEnvironmentSetting default  %+v", o._statusCode, o.Payload)
 }
 

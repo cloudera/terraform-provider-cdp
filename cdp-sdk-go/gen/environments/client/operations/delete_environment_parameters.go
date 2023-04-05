@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewDeleteEnvironmentParams creates a new DeleteEnvironmentParams object
-// with the default values initialized.
+// NewDeleteEnvironmentParams creates a new DeleteEnvironmentParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteEnvironmentParams() *DeleteEnvironmentParams {
-	var ()
 	return &DeleteEnvironmentParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteEnvironmentParamsWithTimeout creates a new DeleteEnvironmentParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteEnvironmentParamsWithTimeout(timeout time.Duration) *DeleteEnvironmentParams {
-	var ()
 	return &DeleteEnvironmentParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteEnvironmentParamsWithContext creates a new DeleteEnvironmentParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteEnvironmentParamsWithContext(ctx context.Context) *DeleteEnvironmentParams {
-	var ()
 	return &DeleteEnvironmentParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteEnvironmentParamsWithHTTPClient creates a new DeleteEnvironmentParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteEnvironmentParamsWithHTTPClient(client *http.Client) *DeleteEnvironmentParams {
-	var ()
 	return &DeleteEnvironmentParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteEnvironmentParams contains all the parameters to send to the API endpoint
-for the delete environment operation typically these are written to a http.Request
+/*
+DeleteEnvironmentParams contains all the parameters to send to the API endpoint
+
+	for the delete environment operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteEnvironmentParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DeleteEnvironmentRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteEnvironmentParams) WithDefaults() *DeleteEnvironmentParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteEnvironmentParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete environment params
@@ -121,7 +137,6 @@ func (o *DeleteEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

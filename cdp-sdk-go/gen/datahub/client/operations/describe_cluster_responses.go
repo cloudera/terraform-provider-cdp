@@ -46,7 +46,8 @@ func NewDescribeClusterOK() *DescribeClusterOK {
 	return &DescribeClusterOK{}
 }
 
-/*DescribeClusterOK handles this case with default header values.
+/*
+DescribeClusterOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DescribeClusterOK struct {
 	Payload *models.DescribeClusterResponse
 }
 
+// IsSuccess returns true when this describe cluster o k response has a 2xx status code
+func (o *DescribeClusterOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this describe cluster o k response has a 3xx status code
+func (o *DescribeClusterOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this describe cluster o k response has a 4xx status code
+func (o *DescribeClusterOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this describe cluster o k response has a 5xx status code
+func (o *DescribeClusterOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this describe cluster o k response a status code equal to that given
+func (o *DescribeClusterOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the describe cluster o k response
+func (o *DescribeClusterOK) Code() int {
+	return 200
+}
+
 func (o *DescribeClusterOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/describeCluster][%d] describeClusterOK  %+v", 200, o.Payload)
+}
+
+func (o *DescribeClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/describeCluster][%d] describeClusterOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDescribeClusterDefault(code int) *DescribeClusterDefault {
 	}
 }
 
-/*DescribeClusterDefault handles this case with default header values.
+/*
+DescribeClusterDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DescribeClusterDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this describe cluster default response has a 2xx status code
+func (o *DescribeClusterDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this describe cluster default response has a 3xx status code
+func (o *DescribeClusterDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this describe cluster default response has a 4xx status code
+func (o *DescribeClusterDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this describe cluster default response has a 5xx status code
+func (o *DescribeClusterDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this describe cluster default response a status code equal to that given
+func (o *DescribeClusterDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the describe cluster default response
 func (o *DescribeClusterDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DescribeClusterDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/describeCluster][%d] describeCluster default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DescribeClusterDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/describeCluster][%d] describeCluster default  %+v", o._statusCode, o.Payload)
 }
 

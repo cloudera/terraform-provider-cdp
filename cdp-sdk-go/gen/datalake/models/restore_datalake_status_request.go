@@ -6,25 +6,24 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
-// RestoreDatalakeStatusRequest Request object to get the status of last restore operation on a datalake.
+// RestoreDatalakeStatusRequest Request object to get the status of a restore operation.
 //
 // swagger:model RestoreDatalakeStatusRequest
 type RestoreDatalakeStatusRequest struct {
 
-	// The name of the backup.
-	BackupName string `json:"backupName,omitempty"`
-
-	// The name of the datalake.
+	// The name of the Data Lake for which the most recent restore status will be retrieved.
 	// Required: true
 	DatalakeName *string `json:"datalakeName"`
 
-	// Request the status for a specific restore. Else, status of the last restore performed will be returned.
+	// Unique identifier of the restore operation performed.
 	RestoreID string `json:"restoreId,omitempty"`
 }
 
@@ -48,6 +47,11 @@ func (m *RestoreDatalakeStatusRequest) validateDatalakeName(formats strfmt.Regis
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this restore datalake status request based on context it is used
+func (m *RestoreDatalakeStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

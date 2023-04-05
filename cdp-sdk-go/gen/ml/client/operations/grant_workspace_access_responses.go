@@ -46,7 +46,8 @@ func NewGrantWorkspaceAccessOK() *GrantWorkspaceAccessOK {
 	return &GrantWorkspaceAccessOK{}
 }
 
-/*GrantWorkspaceAccessOK handles this case with default header values.
+/*
+GrantWorkspaceAccessOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GrantWorkspaceAccessOK struct {
 	Payload *models.GrantWorkspaceAccessResponse
 }
 
+// IsSuccess returns true when this grant workspace access o k response has a 2xx status code
+func (o *GrantWorkspaceAccessOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this grant workspace access o k response has a 3xx status code
+func (o *GrantWorkspaceAccessOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this grant workspace access o k response has a 4xx status code
+func (o *GrantWorkspaceAccessOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this grant workspace access o k response has a 5xx status code
+func (o *GrantWorkspaceAccessOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this grant workspace access o k response a status code equal to that given
+func (o *GrantWorkspaceAccessOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the grant workspace access o k response
+func (o *GrantWorkspaceAccessOK) Code() int {
+	return 200
+}
+
 func (o *GrantWorkspaceAccessOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccessOK  %+v", 200, o.Payload)
+}
+
+func (o *GrantWorkspaceAccessOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccessOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGrantWorkspaceAccessDefault(code int) *GrantWorkspaceAccessDefault {
 	}
 }
 
-/*GrantWorkspaceAccessDefault handles this case with default header values.
+/*
+GrantWorkspaceAccessDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GrantWorkspaceAccessDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this grant workspace access default response has a 2xx status code
+func (o *GrantWorkspaceAccessDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this grant workspace access default response has a 3xx status code
+func (o *GrantWorkspaceAccessDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this grant workspace access default response has a 4xx status code
+func (o *GrantWorkspaceAccessDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this grant workspace access default response has a 5xx status code
+func (o *GrantWorkspaceAccessDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this grant workspace access default response a status code equal to that given
+func (o *GrantWorkspaceAccessDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the grant workspace access default response
 func (o *GrantWorkspaceAccessDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GrantWorkspaceAccessDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GrantWorkspaceAccessDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccess default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -64,6 +66,11 @@ func (m *AuditLog) validateLog(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this audit log based on context it is used
+func (m *AuditLog) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewUnassignServicePrincipalAzureCloudIdentityParams creates a new UnassignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized.
+// NewUnassignServicePrincipalAzureCloudIdentityParams creates a new UnassignServicePrincipalAzureCloudIdentityParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnassignServicePrincipalAzureCloudIdentityParams() *UnassignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &UnassignServicePrincipalAzureCloudIdentityParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUnassignServicePrincipalAzureCloudIdentityParamsWithTimeout creates a new UnassignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUnassignServicePrincipalAzureCloudIdentityParamsWithTimeout(timeout time.Duration) *UnassignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &UnassignServicePrincipalAzureCloudIdentityParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUnassignServicePrincipalAzureCloudIdentityParamsWithContext creates a new UnassignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUnassignServicePrincipalAzureCloudIdentityParamsWithContext(ctx context.Context) *UnassignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &UnassignServicePrincipalAzureCloudIdentityParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUnassignServicePrincipalAzureCloudIdentityParamsWithHTTPClient creates a new UnassignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUnassignServicePrincipalAzureCloudIdentityParamsWithHTTPClient(client *http.Client) *UnassignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &UnassignServicePrincipalAzureCloudIdentityParams{
 		HTTPClient: client,
 	}
 }
 
-/*UnassignServicePrincipalAzureCloudIdentityParams contains all the parameters to send to the API endpoint
-for the unassign service principal azure cloud identity operation typically these are written to a http.Request
+/*
+UnassignServicePrincipalAzureCloudIdentityParams contains all the parameters to send to the API endpoint
+
+	for the unassign service principal azure cloud identity operation.
+
+	Typically these are written to a http.Request.
 */
 type UnassignServicePrincipalAzureCloudIdentityParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.UnassignServicePrincipalAzureCloudIdentityRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the unassign service principal azure cloud identity params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UnassignServicePrincipalAzureCloudIdentityParams) WithDefaults() *UnassignServicePrincipalAzureCloudIdentityParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the unassign service principal azure cloud identity params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UnassignServicePrincipalAzureCloudIdentityParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the unassign service principal azure cloud identity params
@@ -121,7 +137,6 @@ func (o *UnassignServicePrincipalAzureCloudIdentityParams) WriteToRequest(r runt
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

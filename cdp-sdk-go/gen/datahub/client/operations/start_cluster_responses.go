@@ -46,7 +46,8 @@ func NewStartClusterOK() *StartClusterOK {
 	return &StartClusterOK{}
 }
 
-/*StartClusterOK handles this case with default header values.
+/*
+StartClusterOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type StartClusterOK struct {
 	Payload models.StartClusterResponse
 }
 
+// IsSuccess returns true when this start cluster o k response has a 2xx status code
+func (o *StartClusterOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this start cluster o k response has a 3xx status code
+func (o *StartClusterOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this start cluster o k response has a 4xx status code
+func (o *StartClusterOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this start cluster o k response has a 5xx status code
+func (o *StartClusterOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this start cluster o k response a status code equal to that given
+func (o *StartClusterOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the start cluster o k response
+func (o *StartClusterOK) Code() int {
+	return 200
+}
+
 func (o *StartClusterOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/startCluster][%d] startClusterOK  %+v", 200, o.Payload)
+}
+
+func (o *StartClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/startCluster][%d] startClusterOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewStartClusterDefault(code int) *StartClusterDefault {
 	}
 }
 
-/*StartClusterDefault handles this case with default header values.
+/*
+StartClusterDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type StartClusterDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this start cluster default response has a 2xx status code
+func (o *StartClusterDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this start cluster default response has a 3xx status code
+func (o *StartClusterDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this start cluster default response has a 4xx status code
+func (o *StartClusterDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this start cluster default response has a 5xx status code
+func (o *StartClusterDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this start cluster default response a status code equal to that given
+func (o *StartClusterDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the start cluster default response
 func (o *StartClusterDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *StartClusterDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/startCluster][%d] startCluster default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *StartClusterDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/startCluster][%d] startCluster default  %+v", o._statusCode, o.Payload)
 }
 

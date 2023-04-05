@@ -46,7 +46,8 @@ func NewSetWorkloadPasswordOK() *SetWorkloadPasswordOK {
 	return &SetWorkloadPasswordOK{}
 }
 
-/*SetWorkloadPasswordOK handles this case with default header values.
+/*
+SetWorkloadPasswordOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type SetWorkloadPasswordOK struct {
 	Payload models.SetWorkloadPasswordResponse
 }
 
+// IsSuccess returns true when this set workload password o k response has a 2xx status code
+func (o *SetWorkloadPasswordOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this set workload password o k response has a 3xx status code
+func (o *SetWorkloadPasswordOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this set workload password o k response has a 4xx status code
+func (o *SetWorkloadPasswordOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this set workload password o k response has a 5xx status code
+func (o *SetWorkloadPasswordOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this set workload password o k response a status code equal to that given
+func (o *SetWorkloadPasswordOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the set workload password o k response
+func (o *SetWorkloadPasswordOK) Code() int {
+	return 200
+}
+
 func (o *SetWorkloadPasswordOK) Error() string {
+	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPasswordOK  %+v", 200, o.Payload)
+}
+
+func (o *SetWorkloadPasswordOK) String() string {
 	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPasswordOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewSetWorkloadPasswordDefault(code int) *SetWorkloadPasswordDefault {
 	}
 }
 
-/*SetWorkloadPasswordDefault handles this case with default header values.
+/*
+SetWorkloadPasswordDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type SetWorkloadPasswordDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this set workload password default response has a 2xx status code
+func (o *SetWorkloadPasswordDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this set workload password default response has a 3xx status code
+func (o *SetWorkloadPasswordDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this set workload password default response has a 4xx status code
+func (o *SetWorkloadPasswordDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this set workload password default response has a 5xx status code
+func (o *SetWorkloadPasswordDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this set workload password default response a status code equal to that given
+func (o *SetWorkloadPasswordDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the set workload password default response
 func (o *SetWorkloadPasswordDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *SetWorkloadPasswordDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPassword default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *SetWorkloadPasswordDefault) String() string {
 	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPassword default  %+v", o._statusCode, o.Payload)
 }
 

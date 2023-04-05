@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewSyncUserParams creates a new SyncUserParams object
-// with the default values initialized.
+// NewSyncUserParams creates a new SyncUserParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSyncUserParams() *SyncUserParams {
-	var ()
 	return &SyncUserParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSyncUserParamsWithTimeout creates a new SyncUserParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSyncUserParamsWithTimeout(timeout time.Duration) *SyncUserParams {
-	var ()
 	return &SyncUserParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSyncUserParamsWithContext creates a new SyncUserParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSyncUserParamsWithContext(ctx context.Context) *SyncUserParams {
-	var ()
 	return &SyncUserParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSyncUserParamsWithHTTPClient creates a new SyncUserParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSyncUserParamsWithHTTPClient(client *http.Client) *SyncUserParams {
-	var ()
 	return &SyncUserParams{
 		HTTPClient: client,
 	}
 }
 
-/*SyncUserParams contains all the parameters to send to the API endpoint
-for the sync user operation typically these are written to a http.Request
+/*
+SyncUserParams contains all the parameters to send to the API endpoint
+
+	for the sync user operation.
+
+	Typically these are written to a http.Request.
 */
 type SyncUserParams struct {
 
-	/*Input*/
+	// Input.
 	Input models.SyncUserRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the sync user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SyncUserParams) WithDefaults() *SyncUserParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the sync user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SyncUserParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the sync user params
@@ -121,7 +137,6 @@ func (o *SyncUserParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regi
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

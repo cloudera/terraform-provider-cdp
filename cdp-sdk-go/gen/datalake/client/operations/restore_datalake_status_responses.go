@@ -46,7 +46,8 @@ func NewRestoreDatalakeStatusOK() *RestoreDatalakeStatusOK {
 	return &RestoreDatalakeStatusOK{}
 }
 
-/*RestoreDatalakeStatusOK handles this case with default header values.
+/*
+RestoreDatalakeStatusOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type RestoreDatalakeStatusOK struct {
 	Payload *models.RestoreDatalakeStatusResponse
 }
 
+// IsSuccess returns true when this restore datalake status o k response has a 2xx status code
+func (o *RestoreDatalakeStatusOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this restore datalake status o k response has a 3xx status code
+func (o *RestoreDatalakeStatusOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this restore datalake status o k response has a 4xx status code
+func (o *RestoreDatalakeStatusOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this restore datalake status o k response has a 5xx status code
+func (o *RestoreDatalakeStatusOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this restore datalake status o k response a status code equal to that given
+func (o *RestoreDatalakeStatusOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the restore datalake status o k response
+func (o *RestoreDatalakeStatusOK) Code() int {
+	return 200
+}
+
 func (o *RestoreDatalakeStatusOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/restoreDatalakeStatus][%d] restoreDatalakeStatusOK  %+v", 200, o.Payload)
+}
+
+func (o *RestoreDatalakeStatusOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/restoreDatalakeStatus][%d] restoreDatalakeStatusOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewRestoreDatalakeStatusDefault(code int) *RestoreDatalakeStatusDefault {
 	}
 }
 
-/*RestoreDatalakeStatusDefault handles this case with default header values.
+/*
+RestoreDatalakeStatusDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type RestoreDatalakeStatusDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this restore datalake status default response has a 2xx status code
+func (o *RestoreDatalakeStatusDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this restore datalake status default response has a 3xx status code
+func (o *RestoreDatalakeStatusDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this restore datalake status default response has a 4xx status code
+func (o *RestoreDatalakeStatusDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this restore datalake status default response has a 5xx status code
+func (o *RestoreDatalakeStatusDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this restore datalake status default response a status code equal to that given
+func (o *RestoreDatalakeStatusDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the restore datalake status default response
 func (o *RestoreDatalakeStatusDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *RestoreDatalakeStatusDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/restoreDatalakeStatus][%d] restoreDatalakeStatus default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *RestoreDatalakeStatusDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/restoreDatalakeStatus][%d] restoreDatalakeStatus default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,13 +6,15 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
-// RootVolume Configuration for instance root device volume
+// RootVolume Configuration for instance root device volume.
 //
 // swagger:model RootVolume
 type RootVolume struct {
@@ -42,6 +44,11 @@ func (m *RootVolume) validateSize(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this root volume based on context it is used
+func (m *RootVolume) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

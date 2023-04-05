@@ -46,7 +46,8 @@ func NewListEntitlementsOK() *ListEntitlementsOK {
 	return &ListEntitlementsOK{}
 }
 
-/*ListEntitlementsOK handles this case with default header values.
+/*
+ListEntitlementsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListEntitlementsOK struct {
 	Payload *models.ListEntitlementsResponse
 }
 
+// IsSuccess returns true when this list entitlements o k response has a 2xx status code
+func (o *ListEntitlementsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list entitlements o k response has a 3xx status code
+func (o *ListEntitlementsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list entitlements o k response has a 4xx status code
+func (o *ListEntitlementsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list entitlements o k response has a 5xx status code
+func (o *ListEntitlementsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list entitlements o k response a status code equal to that given
+func (o *ListEntitlementsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list entitlements o k response
+func (o *ListEntitlementsOK) Code() int {
+	return 200
+}
+
 func (o *ListEntitlementsOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listEntitlements][%d] listEntitlementsOK  %+v", 200, o.Payload)
+}
+
+func (o *ListEntitlementsOK) String() string {
 	return fmt.Sprintf("[POST /iam/listEntitlements][%d] listEntitlementsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListEntitlementsDefault(code int) *ListEntitlementsDefault {
 	}
 }
 
-/*ListEntitlementsDefault handles this case with default header values.
+/*
+ListEntitlementsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListEntitlementsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list entitlements default response has a 2xx status code
+func (o *ListEntitlementsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list entitlements default response has a 3xx status code
+func (o *ListEntitlementsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list entitlements default response has a 4xx status code
+func (o *ListEntitlementsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list entitlements default response has a 5xx status code
+func (o *ListEntitlementsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list entitlements default response a status code equal to that given
+func (o *ListEntitlementsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list entitlements default response
 func (o *ListEntitlementsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListEntitlementsDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listEntitlements][%d] listEntitlements default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListEntitlementsDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listEntitlements][%d] listEntitlements default  %+v", o._statusCode, o.Payload)
 }
 

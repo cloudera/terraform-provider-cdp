@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewAssignGroupRoleParams creates a new AssignGroupRoleParams object
-// with the default values initialized.
+// NewAssignGroupRoleParams creates a new AssignGroupRoleParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAssignGroupRoleParams() *AssignGroupRoleParams {
-	var ()
 	return &AssignGroupRoleParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAssignGroupRoleParamsWithTimeout creates a new AssignGroupRoleParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAssignGroupRoleParamsWithTimeout(timeout time.Duration) *AssignGroupRoleParams {
-	var ()
 	return &AssignGroupRoleParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAssignGroupRoleParamsWithContext creates a new AssignGroupRoleParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAssignGroupRoleParamsWithContext(ctx context.Context) *AssignGroupRoleParams {
-	var ()
 	return &AssignGroupRoleParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAssignGroupRoleParamsWithHTTPClient creates a new AssignGroupRoleParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAssignGroupRoleParamsWithHTTPClient(client *http.Client) *AssignGroupRoleParams {
-	var ()
 	return &AssignGroupRoleParams{
 		HTTPClient: client,
 	}
 }
 
-/*AssignGroupRoleParams contains all the parameters to send to the API endpoint
-for the assign group role operation typically these are written to a http.Request
+/*
+AssignGroupRoleParams contains all the parameters to send to the API endpoint
+
+	for the assign group role operation.
+
+	Typically these are written to a http.Request.
 */
 type AssignGroupRoleParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.AssignGroupRoleRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the assign group role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AssignGroupRoleParams) WithDefaults() *AssignGroupRoleParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the assign group role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AssignGroupRoleParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the assign group role params
@@ -121,7 +137,6 @@ func (o *AssignGroupRoleParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -79,7 +80,7 @@ const (
 
 // prop value enum
 func (m *UpdateAccessKeyRequest) validateStatusEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, updateAccessKeyRequestTypeStatusPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, updateAccessKeyRequestTypeStatusPropEnum, true); err != nil {
 		return err
 	}
 	return nil
@@ -96,6 +97,11 @@ func (m *UpdateAccessKeyRequest) validateStatus(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this update access key request based on context it is used
+func (m *UpdateAccessKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,39 +6,60 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
-// RestoreDatalakeRequest Request to restore datalake from backup.
+// RestoreDatalakeRequest Request to restore datalake from backup. Restore does not restore the database by default.
 //
 // swagger:model RestoreDatalakeRequest
 type RestoreDatalakeRequest struct {
 
-	// Request to perform a from a specif status for a specific backup. Else, status of the last backup performed will be returned.
+	// The ID of the backup to be used to perform a restore. The ID could refer to backup of any datalake in the same account. This is the only way to restore from a backup that was taken on a datalake with a different name. This field is required if the --backup-location-override field is used.
 	BackupID string `json:"backupId,omitempty"`
 
-	// Location where the back-up has to be stored.
-	// Required: true
-	BackupLocation *string `json:"backupLocation"`
+	// Backup location. When provided, will be used to lookup the backup. If provided, the --backup-id parameter is required.
+	BackupLocationOverride string `json:"backupLocationOverride,omitempty"`
 
-	// The name of the backup.
+	// The name of the backup. When provided, the restore will be performed using the latest successful backup whose name matches the parameter, and that was taken from the datalake that is being restored.
 	BackupName string `json:"backupName,omitempty"`
 
-	// The name of the datalake.
+	// The name of the datalake to be restored. When backupId is not provided, the most recent successful backup on datalake with the provided name would be used.
 	// Required: true
 	DatalakeName *string `json:"datalakeName"`
+
+	// Will initiate the restore even if the selected backup is in a FAILED state. Default value is false. WARNING If restoring from a failed backup the datalake will be left in an inconsistent state.
+	Force *bool `json:"force,omitempty"`
+
+	// DEPRECATED - The database is included in the restore by default. To skip it, use the --skip-ranger-hms-metadata flag.
+	IncludeDatabase bool `json:"includeDatabase,omitempty"`
+
+	// Skips the restore of the Atlas indexes. If this option or --skipAtlasMetadata is not provided, then by default the Atlas indexes will be restored if the backup used includes the Atlas indexes. Redundant if --skipAtlasMetadata is included.
+	SkipAtlasIndexes bool `json:"skipAtlasIndexes,omitempty"`
+
+	// Skips the restore of the Atlas metadata. If this option is not provided, then by default the Atlas metadata will be restored if the backup used includes the Atlas metadata.
+	SkipAtlasMetadata bool `json:"skipAtlasMetadata,omitempty"`
+
+	// Skips the restore of the Ranger audits. If this option is not provided, then by default the Ranger audits will be restored if the backup used includes the Ranger audits.
+	SkipRangerAudits bool `json:"skipRangerAudits,omitempty"`
+
+	// Skips the restore of the databases backing HMS/Ranger services. If this option is not provided, then by default the Atlas lineage will be restored if the backup used includes the Atlas lineage information.
+	SkipRangerHmsMetadata bool `json:"skipRangerHmsMetadata,omitempty"`
+
+	// Skips the validation step that runs prior to the restore. If this option is not provided, the validations are performed by default.
+	SkipValidation bool `json:"skipValidation,omitempty"`
+
+	// Runs only the validation steps and then returns. If this option is not provided, the restore is performed as normal by default.
+	ValidationOnly bool `json:"validationOnly,omitempty"`
 }
 
 // Validate validates this restore datalake request
 func (m *RestoreDatalakeRequest) Validate(formats strfmt.Registry) error {
 	var res []error
-
-	if err := m.validateBackupLocation(formats); err != nil {
-		res = append(res, err)
-	}
 
 	if err := m.validateDatalakeName(formats); err != nil {
 		res = append(res, err)
@@ -50,21 +71,17 @@ func (m *RestoreDatalakeRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *RestoreDatalakeRequest) validateBackupLocation(formats strfmt.Registry) error {
-
-	if err := validate.Required("backupLocation", "body", m.BackupLocation); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (m *RestoreDatalakeRequest) validateDatalakeName(formats strfmt.Registry) error {
 
 	if err := validate.Required("datalakeName", "body", m.DatalakeName); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this restore datalake request based on context it is used
+func (m *RestoreDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

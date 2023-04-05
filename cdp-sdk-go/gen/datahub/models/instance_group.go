@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -26,6 +27,9 @@ type InstanceGroup struct {
 	// The name of the instance group where the given instance is located.
 	// Required: true
 	Name *string `json:"name"`
+
+	// The list of subnet IDs in case of multi-availability zone setup
+	SubnetIds []string `json:"subnetIds"`
 }
 
 // Validate validates this instance group
@@ -61,6 +65,8 @@ func (m *InstanceGroup) validateInstances(formats strfmt.Registry) error {
 			if err := m.Instances[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instances" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instances" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -75,6 +81,40 @@ func (m *InstanceGroup) validateName(formats strfmt.Registry) error {
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this instance group based on the context it is used
+func (m *InstanceGroup) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstances(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *InstanceGroup) contextValidateInstances(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Instances); i++ {
+
+		if m.Instances[i] != nil {
+			if err := m.Instances[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("instances" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instances" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

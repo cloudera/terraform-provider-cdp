@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -103,14 +104,13 @@ const (
 
 // prop value enum
 func (m *CheckEnvironmentConnectivityRequest) validateAuthenticationTokenTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, checkEnvironmentConnectivityRequestTypeAuthenticationTokenTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, checkEnvironmentConnectivityRequestTypeAuthenticationTokenTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *CheckEnvironmentConnectivityRequest) validateAuthenticationTokenType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuthenticationTokenType) { // not required
 		return nil
 	}
@@ -129,6 +129,11 @@ func (m *CheckEnvironmentConnectivityRequest) validateUser(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this check environment connectivity request based on context it is used
+func (m *CheckEnvironmentConnectivityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

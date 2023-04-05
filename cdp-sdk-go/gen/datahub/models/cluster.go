@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -61,6 +62,9 @@ type Cluster struct {
 	// The instance details.
 	InstanceGroups []*InstanceGroup `json:"instanceGroups"`
 
+	// The list of load balancers.
+	LoadBalancers []*LoadBalancer `json:"loadBalancers"`
+
 	// The cluster node count.
 	NodeCount int32 `json:"nodeCount,omitempty"`
 
@@ -106,6 +110,10 @@ func (m *Cluster) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateLoadBalancers(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -113,7 +121,6 @@ func (m *Cluster) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateClouderaManager(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClouderaManager) { // not required
 		return nil
 	}
@@ -122,6 +129,8 @@ func (m *Cluster) validateClouderaManager(formats strfmt.Registry) error {
 		if err := m.ClouderaManager.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clouderaManager")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clouderaManager")
 			}
 			return err
 		}
@@ -140,7 +149,6 @@ func (m *Cluster) validateClusterName(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateCreationDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreationDate) { // not required
 		return nil
 	}
@@ -162,7 +170,6 @@ func (m *Cluster) validateCrn(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateEndpoints(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Endpoints) { // not required
 		return nil
 	}
@@ -171,6 +178,8 @@ func (m *Cluster) validateEndpoints(formats strfmt.Registry) error {
 		if err := m.Endpoints.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("endpoints")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("endpoints")
 			}
 			return err
 		}
@@ -180,7 +189,6 @@ func (m *Cluster) validateEndpoints(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateImageDetails(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ImageDetails) { // not required
 		return nil
 	}
@@ -189,6 +197,8 @@ func (m *Cluster) validateImageDetails(formats strfmt.Registry) error {
 		if err := m.ImageDetails.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("imageDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageDetails")
 			}
 			return err
 		}
@@ -198,7 +208,6 @@ func (m *Cluster) validateImageDetails(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateInstanceGroups(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
@@ -212,6 +221,152 @@ func (m *Cluster) validateInstanceGroups(formats strfmt.Registry) error {
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Cluster) validateLoadBalancers(formats strfmt.Registry) error {
+	if swag.IsZero(m.LoadBalancers) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.LoadBalancers); i++ {
+		if swag.IsZero(m.LoadBalancers[i]) { // not required
+			continue
+		}
+
+		if m.LoadBalancers[i] != nil {
+			if err := m.LoadBalancers[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("loadBalancers" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("loadBalancers" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this cluster based on the context it is used
+func (m *Cluster) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClouderaManager(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEndpoints(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImageDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateInstanceGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLoadBalancers(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Cluster) contextValidateClouderaManager(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClouderaManager != nil {
+		if err := m.ClouderaManager.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clouderaManager")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clouderaManager")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Cluster) contextValidateEndpoints(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Endpoints != nil {
+		if err := m.Endpoints.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("endpoints")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("endpoints")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Cluster) contextValidateImageDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImageDetails != nil {
+		if err := m.ImageDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Cluster) contextValidateInstanceGroups(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.InstanceGroups); i++ {
+
+		if m.InstanceGroups[i] != nil {
+			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Cluster) contextValidateLoadBalancers(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.LoadBalancers); i++ {
+
+		if m.LoadBalancers[i] != nil {
+			if err := m.LoadBalancers[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("loadBalancers" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("loadBalancers" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

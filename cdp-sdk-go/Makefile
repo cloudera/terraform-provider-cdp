@@ -4,7 +4,7 @@
 
 GO_FLAGS:=""
 
-API_DEFINITION_COMMIT ?= ededac6308912cb252fd95437a81295569c2204c
+API_DEFINITION_COMMIT ?= f38bd7b548dafe0a1e19629ff057699814077513
 
 IAM_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/iam.yaml
 ENVIRONMENTS_SWAGGER_YAML=https://github.infra.cloudera.com/raw/thunderhead/thunderhead/$(API_DEFINITION_COMMIT)/services/libs/protocols-yaml/src/main/yaml/environments2.yaml
@@ -48,8 +48,12 @@ generate:
 mkdirs:
 	mkdir -p gen/iam gen/environments gen/datalake gen/datahub gen/ml gen/dw
 
+# TODO: Manage this via go mod
+install-go-swagger:
+	go get github.com/go-swagger/go-swagger/cmd/swagger
+
 # TODO: should run this as a part of main build
-swagger-gen: mkdirs swagger-gen-iam swagger-gen-environments swagger-gen-datalake swagger-gen-datahub swagger-gen-ml swagger-gen-dw
+swagger-gen: mkdirs install-go-swagger swagger-gen-iam swagger-gen-environments swagger-gen-datalake swagger-gen-datahub swagger-gen-ml swagger-gen-dw
 
 swagger-gen-iam: mkdirs
 	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(IAM_SWAGGER_YAML) -A iam -t gen/iam/

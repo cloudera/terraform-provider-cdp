@@ -46,7 +46,8 @@ func NewUnassignUserResourceRoleOK() *UnassignUserResourceRoleOK {
 	return &UnassignUserResourceRoleOK{}
 }
 
-/*UnassignUserResourceRoleOK handles this case with default header values.
+/*
+UnassignUserResourceRoleOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UnassignUserResourceRoleOK struct {
 	Payload models.UnassignUserResourceRoleResponse
 }
 
+// IsSuccess returns true when this unassign user resource role o k response has a 2xx status code
+func (o *UnassignUserResourceRoleOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this unassign user resource role o k response has a 3xx status code
+func (o *UnassignUserResourceRoleOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this unassign user resource role o k response has a 4xx status code
+func (o *UnassignUserResourceRoleOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this unassign user resource role o k response has a 5xx status code
+func (o *UnassignUserResourceRoleOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this unassign user resource role o k response a status code equal to that given
+func (o *UnassignUserResourceRoleOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the unassign user resource role o k response
+func (o *UnassignUserResourceRoleOK) Code() int {
+	return 200
+}
+
 func (o *UnassignUserResourceRoleOK) Error() string {
+	return fmt.Sprintf("[POST /iam/unassignUserResourceRole][%d] unassignUserResourceRoleOK  %+v", 200, o.Payload)
+}
+
+func (o *UnassignUserResourceRoleOK) String() string {
 	return fmt.Sprintf("[POST /iam/unassignUserResourceRole][%d] unassignUserResourceRoleOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewUnassignUserResourceRoleDefault(code int) *UnassignUserResourceRoleDefau
 	}
 }
 
-/*UnassignUserResourceRoleDefault handles this case with default header values.
+/*
+UnassignUserResourceRoleDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type UnassignUserResourceRoleDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this unassign user resource role default response has a 2xx status code
+func (o *UnassignUserResourceRoleDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this unassign user resource role default response has a 3xx status code
+func (o *UnassignUserResourceRoleDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this unassign user resource role default response has a 4xx status code
+func (o *UnassignUserResourceRoleDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this unassign user resource role default response has a 5xx status code
+func (o *UnassignUserResourceRoleDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this unassign user resource role default response a status code equal to that given
+func (o *UnassignUserResourceRoleDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the unassign user resource role default response
 func (o *UnassignUserResourceRoleDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UnassignUserResourceRoleDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/unassignUserResourceRole][%d] unassignUserResourceRole default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UnassignUserResourceRoleDefault) String() string {
 	return fmt.Sprintf("[POST /iam/unassignUserResourceRole][%d] unassignUserResourceRole default  %+v", o._statusCode, o.Payload)
 }
 

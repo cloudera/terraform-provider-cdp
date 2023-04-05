@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -18,7 +19,10 @@ import (
 // swagger:model CdpCluster
 type CdpCluster struct {
 
-	// Url to Cloudera Manager.
+	// List of cluster validation message.
+	ClusterValidationMessages []*EnvValidation `json:"clusterValidationMessages"`
+
+	// The Url to Cloudera Manager.
 	CmURL string `json:"cmUrl,omitempty"`
 
 	// Display name of cluster.
@@ -38,6 +42,10 @@ type CdpCluster struct {
 func (m *CdpCluster) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateClusterValidationMessages(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateExposedServices(formats); err != nil {
 		res = append(res, err)
 	}
@@ -48,8 +56,33 @@ func (m *CdpCluster) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *CdpCluster) validateExposedServices(formats strfmt.Registry) error {
+func (m *CdpCluster) validateClusterValidationMessages(formats strfmt.Registry) error {
+	if swag.IsZero(m.ClusterValidationMessages) { // not required
+		return nil
+	}
 
+	for i := 0; i < len(m.ClusterValidationMessages); i++ {
+		if swag.IsZero(m.ClusterValidationMessages[i]) { // not required
+			continue
+		}
+
+		if m.ClusterValidationMessages[i] != nil {
+			if err := m.ClusterValidationMessages[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *CdpCluster) validateExposedServices(formats strfmt.Registry) error {
 	if swag.IsZero(m.ExposedServices) { // not required
 		return nil
 	}
@@ -63,6 +96,66 @@ func (m *CdpCluster) validateExposedServices(formats strfmt.Registry) error {
 			if err := m.ExposedServices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("exposedServices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("exposedServices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this cdp cluster based on the context it is used
+func (m *CdpCluster) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterValidationMessages(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateExposedServices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CdpCluster) contextValidateClusterValidationMessages(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterValidationMessages); i++ {
+
+		if m.ClusterValidationMessages[i] != nil {
+			if err := m.ClusterValidationMessages[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *CdpCluster) contextValidateExposedServices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ExposedServices); i++ {
+
+		if m.ExposedServices[i] != nil {
+			if err := m.ExposedServices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("exposedServices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("exposedServices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

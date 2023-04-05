@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListTermsParams creates a new ListTermsParams object
-// with the default values initialized.
+// NewListTermsParams creates a new ListTermsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListTermsParams() *ListTermsParams {
-	var ()
 	return &ListTermsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListTermsParamsWithTimeout creates a new ListTermsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListTermsParamsWithTimeout(timeout time.Duration) *ListTermsParams {
-	var ()
 	return &ListTermsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListTermsParamsWithContext creates a new ListTermsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListTermsParamsWithContext(ctx context.Context) *ListTermsParams {
-	var ()
 	return &ListTermsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListTermsParamsWithHTTPClient creates a new ListTermsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListTermsParamsWithHTTPClient(client *http.Client) *ListTermsParams {
-	var ()
 	return &ListTermsParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListTermsParams contains all the parameters to send to the API endpoint
-for the list terms operation typically these are written to a http.Request
+/*
+ListTermsParams contains all the parameters to send to the API endpoint
+
+	for the list terms operation.
+
+	Typically these are written to a http.Request.
 */
 type ListTermsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListTermsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list terms params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListTermsParams) WithDefaults() *ListTermsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list terms params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListTermsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list terms params
@@ -121,7 +137,6 @@ func (o *ListTermsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

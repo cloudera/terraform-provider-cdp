@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewUnassignMachineUserRoleParams creates a new UnassignMachineUserRoleParams object
-// with the default values initialized.
+// NewUnassignMachineUserRoleParams creates a new UnassignMachineUserRoleParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnassignMachineUserRoleParams() *UnassignMachineUserRoleParams {
-	var ()
 	return &UnassignMachineUserRoleParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUnassignMachineUserRoleParamsWithTimeout creates a new UnassignMachineUserRoleParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUnassignMachineUserRoleParamsWithTimeout(timeout time.Duration) *UnassignMachineUserRoleParams {
-	var ()
 	return &UnassignMachineUserRoleParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUnassignMachineUserRoleParamsWithContext creates a new UnassignMachineUserRoleParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUnassignMachineUserRoleParamsWithContext(ctx context.Context) *UnassignMachineUserRoleParams {
-	var ()
 	return &UnassignMachineUserRoleParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUnassignMachineUserRoleParamsWithHTTPClient creates a new UnassignMachineUserRoleParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUnassignMachineUserRoleParamsWithHTTPClient(client *http.Client) *UnassignMachineUserRoleParams {
-	var ()
 	return &UnassignMachineUserRoleParams{
 		HTTPClient: client,
 	}
 }
 
-/*UnassignMachineUserRoleParams contains all the parameters to send to the API endpoint
-for the unassign machine user role operation typically these are written to a http.Request
+/*
+UnassignMachineUserRoleParams contains all the parameters to send to the API endpoint
+
+	for the unassign machine user role operation.
+
+	Typically these are written to a http.Request.
 */
 type UnassignMachineUserRoleParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.UnassignMachineUserRoleRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the unassign machine user role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UnassignMachineUserRoleParams) WithDefaults() *UnassignMachineUserRoleParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the unassign machine user role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UnassignMachineUserRoleParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the unassign machine user role params
@@ -121,7 +137,6 @@ func (o *UnassignMachineUserRoleParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

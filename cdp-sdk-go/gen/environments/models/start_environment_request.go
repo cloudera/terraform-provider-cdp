@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -20,6 +22,9 @@ type StartEnvironmentRequest struct {
 	// The name or CRN of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
+
+	// Whether the Data Hub clusters should start or not at the environment (re-)start
+	WithDatahubStart bool `json:"withDatahubStart,omitempty"`
 }
 
 // Validate validates this start environment request
@@ -42,6 +47,11 @@ func (m *StartEnvironmentRequest) validateEnvironmentName(formats strfmt.Registr
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this start environment request based on context it is used
+func (m *StartEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

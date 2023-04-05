@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -18,12 +20,10 @@ import (
 type CreateLdapProviderRequest struct {
 
 	// bind DN e.g. uid=myapp,ou=users,dc=example,dc=org.Optional. Required if bind is not anonymous.
-	// Required: true
-	BindDn *string `json:"bindDn"`
+	BindDn string `json:"bindDn,omitempty"`
 
 	// The password of the bind user.
-	// Required: true
-	BindPassword *string `json:"bindPassword"`
+	BindPassword string `json:"bindPassword,omitempty"`
 
 	// The LDAP email attribute name, will be used as the user's email. e.g. mail.
 	EmailMappingAttribute string `json:"emailMappingAttribute,omitempty"`
@@ -55,6 +55,9 @@ type CreateLdapProviderRequest struct {
 	// boolean value to control group sync. Can be omitted if no update is required.
 	SkipGroupSyncOnLogin bool `json:"skipGroupSyncOnLogin,omitempty"`
 
+	// boolean value to indicate whether a start TLS request should be initiated on connecting to ldap.
+	StartTLS bool `json:"startTls,omitempty"`
+
 	// If your ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), you need to provide the trusted certificates that can be used to validate the LDAP server certificate.
 	TLSCaCertificates []string `json:"tlsCaCertificates"`
 
@@ -80,14 +83,6 @@ type CreateLdapProviderRequest struct {
 // Validate validates this create ldap provider request
 func (m *CreateLdapProviderRequest) Validate(formats strfmt.Registry) error {
 	var res []error
-
-	if err := m.validateBindDn(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateBindPassword(formats); err != nil {
-		res = append(res, err)
-	}
 
 	if err := m.validateGroupSearchBase(formats); err != nil {
 		res = append(res, err)
@@ -116,24 +111,6 @@ func (m *CreateLdapProviderRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *CreateLdapProviderRequest) validateBindDn(formats strfmt.Registry) error {
-
-	if err := validate.Required("bindDn", "body", m.BindDn); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *CreateLdapProviderRequest) validateBindPassword(formats strfmt.Registry) error {
-
-	if err := validate.Required("bindPassword", "body", m.BindPassword); err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -188,6 +165,11 @@ func (m *CreateLdapProviderRequest) validateUserSearchFilter(formats strfmt.Regi
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create ldap provider request based on context it is used
+func (m *CreateLdapProviderRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

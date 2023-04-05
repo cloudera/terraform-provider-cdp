@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,11 +19,15 @@ import (
 // swagger:model AssignServicePrincipalAzureCloudIdentityRequest
 type AssignServicePrincipalAzureCloudIdentityRequest struct {
 
-	// The Azure object ID (OID) to assign to the service principal or service principal category.
+	// The CRN of the environment for which the cloud identity assignment will be in effect.
+	// Required: true
+	EnvironmentCrn *string `json:"environmentCrn"`
+
+	// The Azure object ID (OID) to assign to the service principal.
 	// Required: true
 	ObjectID *string `json:"objectId"`
 
-	// The name of the service principal or service principal category that the cloud identity will be assigned to. Use the ListServicePrincipals API to obtain a list of available service principals, and the ListServicePrincipalCategories API to obtain a list of available service principal categories, along with the service principals in each category.
+	// The name of the service principal that the cloud identity will be assigned to.
 	// Required: true
 	ServicePrincipal *string `json:"servicePrincipal"`
 }
@@ -29,6 +35,10 @@ type AssignServicePrincipalAzureCloudIdentityRequest struct {
 // Validate validates this assign service principal azure cloud identity request
 func (m *AssignServicePrincipalAzureCloudIdentityRequest) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateEnvironmentCrn(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateObjectID(formats); err != nil {
 		res = append(res, err)
@@ -41,6 +51,15 @@ func (m *AssignServicePrincipalAzureCloudIdentityRequest) Validate(formats strfm
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *AssignServicePrincipalAzureCloudIdentityRequest) validateEnvironmentCrn(formats strfmt.Registry) error {
+
+	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -59,6 +78,11 @@ func (m *AssignServicePrincipalAzureCloudIdentityRequest) validateServicePrincip
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this assign service principal azure cloud identity request based on context it is used
+func (m *AssignServicePrincipalAzureCloudIdentityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

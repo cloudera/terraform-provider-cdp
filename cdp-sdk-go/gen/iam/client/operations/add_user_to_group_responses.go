@@ -46,7 +46,8 @@ func NewAddUserToGroupOK() *AddUserToGroupOK {
 	return &AddUserToGroupOK{}
 }
 
-/*AddUserToGroupOK handles this case with default header values.
+/*
+AddUserToGroupOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type AddUserToGroupOK struct {
 	Payload models.AddUserToGroupResponse
 }
 
+// IsSuccess returns true when this add user to group o k response has a 2xx status code
+func (o *AddUserToGroupOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add user to group o k response has a 3xx status code
+func (o *AddUserToGroupOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add user to group o k response has a 4xx status code
+func (o *AddUserToGroupOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add user to group o k response has a 5xx status code
+func (o *AddUserToGroupOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add user to group o k response a status code equal to that given
+func (o *AddUserToGroupOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the add user to group o k response
+func (o *AddUserToGroupOK) Code() int {
+	return 200
+}
+
 func (o *AddUserToGroupOK) Error() string {
+	return fmt.Sprintf("[POST /iam/addUserToGroup][%d] addUserToGroupOK  %+v", 200, o.Payload)
+}
+
+func (o *AddUserToGroupOK) String() string {
 	return fmt.Sprintf("[POST /iam/addUserToGroup][%d] addUserToGroupOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewAddUserToGroupDefault(code int) *AddUserToGroupDefault {
 	}
 }
 
-/*AddUserToGroupDefault handles this case with default header values.
+/*
+AddUserToGroupDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type AddUserToGroupDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this add user to group default response has a 2xx status code
+func (o *AddUserToGroupDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this add user to group default response has a 3xx status code
+func (o *AddUserToGroupDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this add user to group default response has a 4xx status code
+func (o *AddUserToGroupDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this add user to group default response has a 5xx status code
+func (o *AddUserToGroupDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this add user to group default response a status code equal to that given
+func (o *AddUserToGroupDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the add user to group default response
 func (o *AddUserToGroupDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *AddUserToGroupDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/addUserToGroup][%d] addUserToGroup default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *AddUserToGroupDefault) String() string {
 	return fmt.Sprintf("[POST /iam/addUserToGroup][%d] addUserToGroup default  %+v", o._statusCode, o.Payload)
 }
 

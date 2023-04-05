@@ -46,7 +46,8 @@ func NewCreatePrivateEnvironmentOK() *CreatePrivateEnvironmentOK {
 	return &CreatePrivateEnvironmentOK{}
 }
 
-/*CreatePrivateEnvironmentOK handles this case with default header values.
+/*
+CreatePrivateEnvironmentOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreatePrivateEnvironmentOK struct {
 	Payload *models.CreatePrivateEnvironmentResponse
 }
 
+// IsSuccess returns true when this create private environment o k response has a 2xx status code
+func (o *CreatePrivateEnvironmentOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create private environment o k response has a 3xx status code
+func (o *CreatePrivateEnvironmentOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create private environment o k response has a 4xx status code
+func (o *CreatePrivateEnvironmentOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create private environment o k response has a 5xx status code
+func (o *CreatePrivateEnvironmentOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create private environment o k response a status code equal to that given
+func (o *CreatePrivateEnvironmentOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create private environment o k response
+func (o *CreatePrivateEnvironmentOK) Code() int {
+	return 200
+}
+
 func (o *CreatePrivateEnvironmentOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironmentOK  %+v", 200, o.Payload)
+}
+
+func (o *CreatePrivateEnvironmentOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironmentOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreatePrivateEnvironmentDefault(code int) *CreatePrivateEnvironmentDefau
 	}
 }
 
-/*CreatePrivateEnvironmentDefault handles this case with default header values.
+/*
+CreatePrivateEnvironmentDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreatePrivateEnvironmentDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create private environment default response has a 2xx status code
+func (o *CreatePrivateEnvironmentDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create private environment default response has a 3xx status code
+func (o *CreatePrivateEnvironmentDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create private environment default response has a 4xx status code
+func (o *CreatePrivateEnvironmentDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create private environment default response has a 5xx status code
+func (o *CreatePrivateEnvironmentDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create private environment default response a status code equal to that given
+func (o *CreatePrivateEnvironmentDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create private environment default response
 func (o *CreatePrivateEnvironmentDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreatePrivateEnvironmentDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironment default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreatePrivateEnvironmentDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironment default  %+v", o._statusCode, o.Payload)
 }
 

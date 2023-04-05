@@ -23,83 +23,270 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	CreateAWSCluster(params *CreateAWSClusterParams) (*CreateAWSClusterOK, error)
+	CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams, opts ...ClientOption) (*CancelDatahubDiagnosticsOK, error)
 
-	CreateAutoScaleRules(params *CreateAutoScaleRulesParams) (*CreateAutoScaleRulesOK, error)
+	CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
 
-	CreateAzureCluster(params *CreateAzureClusterParams) (*CreateAzureClusterOK, error)
+	CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsParams, opts ...ClientOption) (*CollectDatahubDiagnosticsOK, error)
 
-	CreateClusterDefinition(params *CreateClusterDefinitionParams) (*CreateClusterDefinitionOK, error)
+	CreateAWSCluster(params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error)
 
-	CreateClusterTemplate(params *CreateClusterTemplateParams) (*CreateClusterTemplateOK, error)
+	CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error)
 
-	CreateRecipe(params *CreateRecipeParams) (*CreateRecipeOK, error)
+	CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error)
 
-	DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams) (*DeleteAutoScaleRulesOK, error)
+	CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error)
 
-	DeleteCluster(params *DeleteClusterParams) (*DeleteClusterOK, error)
+	CreateClusterDefinition(params *CreateClusterDefinitionParams, opts ...ClientOption) (*CreateClusterDefinitionOK, error)
 
-	DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams) (*DeleteClusterDefinitionsOK, error)
+	CreateClusterTemplate(params *CreateClusterTemplateParams, opts ...ClientOption) (*CreateClusterTemplateOK, error)
 
-	DeleteClusterTemplates(params *DeleteClusterTemplatesParams) (*DeleteClusterTemplatesOK, error)
+	CreateCustomConfigurations(params *CreateCustomConfigurationsParams, opts ...ClientOption) (*CreateCustomConfigurationsOK, error)
 
-	DeleteInstances(params *DeleteInstancesParams) (*DeleteInstancesOK, error)
+	CreateGCPCluster(params *CreateGCPClusterParams, opts ...ClientOption) (*CreateGCPClusterOK, error)
 
-	DeleteRecipes(params *DeleteRecipesParams) (*DeleteRecipesOK, error)
+	CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) (*CreateRecipeOK, error)
 
-	DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams) (*DescribeAutoScaleRulesOK, error)
+	DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts ...ClientOption) (*DeleteAutoScaleRulesOK, error)
 
-	DescribeCluster(params *DescribeClusterParams) (*DescribeClusterOK, error)
+	DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error)
 
-	DescribeClusterDefinition(params *DescribeClusterDefinitionParams) (*DescribeClusterDefinitionOK, error)
+	DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams, opts ...ClientOption) (*DeleteClusterDefinitionsOK, error)
 
-	DescribeClusterTemplate(params *DescribeClusterTemplateParams) (*DescribeClusterTemplateOK, error)
+	DeleteClusterTemplates(params *DeleteClusterTemplatesParams, opts ...ClientOption) (*DeleteClusterTemplatesOK, error)
 
-	DescribeRecipe(params *DescribeRecipeParams) (*DescribeRecipeOK, error)
+	DeleteCustomConfigurations(params *DeleteCustomConfigurationsParams, opts ...ClientOption) (*DeleteCustomConfigurationsOK, error)
 
-	GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetClusterHostStatusOK, error)
+	DeleteInstances(params *DeleteInstancesParams, opts ...ClientOption) (*DeleteInstancesOK, error)
 
-	GetClusterServiceStatus(params *GetClusterServiceStatusParams) (*GetClusterServiceStatusOK, error)
+	DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption) (*DeleteRecipesOK, error)
 
-	ListClusterDefinitions(params *ListClusterDefinitionsParams) (*ListClusterDefinitionsOK, error)
+	DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, opts ...ClientOption) (*DescribeAutoScaleRulesOK, error)
 
-	ListClusterTemplates(params *ListClusterTemplatesParams) (*ListClusterTemplatesOK, error)
+	DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error)
 
-	ListClusters(params *ListClustersParams) (*ListClustersOK, error)
+	DescribeClusterDefinition(params *DescribeClusterDefinitionParams, opts ...ClientOption) (*DescribeClusterDefinitionOK, error)
 
-	ListRecipes(params *ListRecipesParams) (*ListRecipesOK, error)
+	DescribeClusterTemplate(params *DescribeClusterTemplateParams, opts ...ClientOption) (*DescribeClusterTemplateOK, error)
 
-	RepairCluster(params *RepairClusterParams) (*RepairClusterOK, error)
+	DescribeCustomConfigurations(params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error)
 
-	RetryCluster(params *RetryClusterParams) (*RetryClusterOK, error)
+	DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
 
-	ScaleCluster(params *ScaleClusterParams) (*ScaleClusterOK, error)
+	DescribeImageCatalog(params *DescribeImageCatalogParams, opts ...ClientOption) (*DescribeImageCatalogOK, error)
 
-	StartCluster(params *StartClusterParams) (*StartClusterOK, error)
+	DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error)
 
-	StopCluster(params *StopClusterParams) (*StopClusterOK, error)
+	GetCliForDatahub(params *GetCliForDatahubParams, opts ...ClientOption) (*GetCliForDatahubOK, error)
 
-	SyncCluster(params *SyncClusterParams) (*SyncClusterOK, error)
+	GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
 
-	UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams) (*UpdateAutoScaleRulesOK, error)
+	GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
+
+	GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error)
+
+	GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error)
+
+	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
+	GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error)
+
+	ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error)
+
+	ListClusterDefinitions(params *ListClusterDefinitionsParams, opts ...ClientOption) (*ListClusterDefinitionsOK, error)
+
+	ListClusterLifecycleEvents(params *ListClusterLifecycleEventsParams, opts ...ClientOption) (*ListClusterLifecycleEventsOK, error)
+
+	ListClusterTemplates(params *ListClusterTemplatesParams, opts ...ClientOption) (*ListClusterTemplatesOK, error)
+
+	ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error)
+
+	ListCustomConfigurations(params *ListCustomConfigurationsParams, opts ...ClientOption) (*ListCustomConfigurationsOK, error)
+
+	ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error)
+
+	ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error)
+
+	PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error)
+
+	RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
+
+	RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error)
+
+	RepairCluster(params *RepairClusterParams, opts ...ClientOption) (*RepairClusterOK, error)
+
+	ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error)
+
+	RetryCluster(params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error)
+
+	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
+
+	RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
+
+	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error)
+
+	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
+
+	StartCluster(params *StartClusterParams, opts ...ClientOption) (*StartClusterOK, error)
+
+	StartClusterVerticalScaling(params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error)
+
+	StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
+
+	StartInstances(params *StartInstancesParams, opts ...ClientOption) (*StartInstancesOK, error)
+
+	StopCluster(params *StopClusterParams, opts ...ClientOption) (*StopClusterOK, error)
+
+	StopInstances(params *StopInstancesParams, opts ...ClientOption) (*StopInstancesOK, error)
+
+	SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*SyncClusterOK, error)
+
+	SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error)
+
+	UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts ...ClientOption) (*UpdateAutoScaleRulesOK, error)
+
+	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
+
+	UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-  CreateAWSCluster creates an a w s workload cluster
+CancelDatahubDiagnostics cancels running datahub diagnostics collections
 
-  Creates an AWS workload cluster.
+Cancel running Datahub diagnostics collection
 */
-func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams) (*CreateAWSClusterOK, error) {
+func (a *Client) CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams, opts ...ClientOption) (*CancelDatahubDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCancelDatahubDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cancelDatahubDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/cancelDatahubDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CancelDatahubDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CancelDatahubDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CancelDatahubDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CollectCmDiagnostics starts datahub cloudera manager based diagnostics collection
+
+Start Datahub Cloudera Manager based diagnostics collection
+*/
+func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCollectCmDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "collectCmDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/collectCmDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CollectCmDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CollectCmDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CollectCmDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CollectDatahubDiagnostics starts data hub diagnostics collection
+
+Start DataHub diagnostics collection
+*/
+func (a *Client) CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsParams, opts ...ClientOption) (*CollectDatahubDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCollectDatahubDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "collectDatahubDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/collectDatahubDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CollectDatahubDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CollectDatahubDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CollectDatahubDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAWSCluster creates an a w s workload cluster
+
+Creates an AWS workload cluster.
+*/
+func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAWSClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAWSCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/createAWSCluster",
@@ -110,7 +297,12 @@ func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams) (*CreateAWSClu
 		Reader:             &CreateAWSClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -124,17 +316,55 @@ func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams) (*CreateAWSClu
 }
 
 /*
-  CreateAutoScaleRules creates auto scaling rules for a data hub cluster
+CreateAWSGovCloudCluster creates an a w s data hub cluster for gov cloud
 
-  Create Auto Scaling rules for a DataHub cluster.
+Creates an AWS Data Hub cluster for GovCloud.
 */
-func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams) (*CreateAutoScaleRulesOK, error) {
+func (a *Client) CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/createAWSGovCloudCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAutoScaleRules creates auto scaling rules for a data hub cluster
+
+Create Auto Scaling rules for a DataHub cluster.
+*/
+func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAutoScaleRulesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAutoScaleRules",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/createAutoScaleRules",
@@ -145,7 +375,12 @@ func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams) (*Crea
 		Reader:             &CreateAutoScaleRulesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -159,17 +394,16 @@ func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams) (*Crea
 }
 
 /*
-  CreateAzureCluster creates an azure workload cluster
+CreateAzureCluster creates an azure workload cluster
 
-  Creates an Azure workload cluster.
+Creates an Azure workload cluster.
 */
-func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams) (*CreateAzureClusterOK, error) {
+func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAzureClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAzureCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/createAzureCluster",
@@ -180,7 +414,12 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams) (*CreateAz
 		Reader:             &CreateAzureClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -194,17 +433,16 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams) (*CreateAz
 }
 
 /*
-  CreateClusterDefinition creates a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+CreateClusterDefinition creates a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
 
-  Creates a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Creates a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
 */
-func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams) (*CreateClusterDefinitionOK, error) {
+func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams, opts ...ClientOption) (*CreateClusterDefinitionOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateClusterDefinitionParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createClusterDefinition",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/createClusterDefinition",
@@ -215,7 +453,12 @@ func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams) 
 		Reader:             &CreateClusterDefinitionReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -229,17 +472,16 @@ func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams) 
 }
 
 /*
-  CreateClusterTemplate creates a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+CreateClusterTemplate creates a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
 
-  Creates a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Creates a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
 */
-func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams) (*CreateClusterTemplateOK, error) {
+func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams, opts ...ClientOption) (*CreateClusterTemplateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateClusterTemplateParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createClusterTemplate",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/createClusterTemplate",
@@ -250,7 +492,12 @@ func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams) (*Cr
 		Reader:             &CreateClusterTemplateReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -264,17 +511,94 @@ func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams) (*Cr
 }
 
 /*
-  CreateRecipe creates recipe a recipe is a script that runs on all nodes of a specified instance group
+CreateCustomConfigurations creates custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
 
-  Creates recipe. A recipe is a script that runs on all nodes of a specified instance group.
+Creates custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
-func (a *Client) CreateRecipe(params *CreateRecipeParams) (*CreateRecipeOK, error) {
+func (a *Client) CreateCustomConfigurations(params *CreateCustomConfigurationsParams, opts ...ClientOption) (*CreateCustomConfigurationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateCustomConfigurationsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createCustomConfigurations",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/createCustomConfigurations",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateCustomConfigurationsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateCustomConfigurationsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateCustomConfigurationsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateGCPCluster creates a g c p workload cluster
+
+Creates a GCP workload cluster.
+*/
+func (a *Client) CreateGCPCluster(params *CreateGCPClusterParams, opts ...ClientOption) (*CreateGCPClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateGCPClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createGCPCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/createGCPCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateGCPClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateGCPClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateGCPClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateRecipe creates recipe a recipe is a script that runs on all nodes of a specified instance group
+
+Creates recipe. A recipe is a script that runs on all nodes of a specified instance group.
+*/
+func (a *Client) CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) (*CreateRecipeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateRecipeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createRecipe",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/createRecipe",
@@ -285,7 +609,12 @@ func (a *Client) CreateRecipe(params *CreateRecipeParams) (*CreateRecipeOK, erro
 		Reader:             &CreateRecipeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -299,17 +628,16 @@ func (a *Client) CreateRecipe(params *CreateRecipeParams) (*CreateRecipeOK, erro
 }
 
 /*
-  DeleteAutoScaleRules deletes auto scaling policies for a data hub cluster
+DeleteAutoScaleRules deletes auto scaling policies for a data hub cluster
 
-  Delete AutoScaling policies for a DataHub cluster
+Delete AutoScaling policies for a DataHub cluster
 */
-func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams) (*DeleteAutoScaleRulesOK, error) {
+func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts ...ClientOption) (*DeleteAutoScaleRulesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteAutoScaleRulesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteAutoScaleRules",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/deleteAutoScaleRules",
@@ -320,7 +648,12 @@ func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams) (*Dele
 		Reader:             &DeleteAutoScaleRulesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -334,17 +667,16 @@ func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams) (*Dele
 }
 
 /*
-  DeleteCluster deletes a workload cluster
+DeleteCluster deletes a workload cluster
 
-  Deletes a workload cluster.
+Deletes a workload cluster.
 */
-func (a *Client) DeleteCluster(params *DeleteClusterParams) (*DeleteClusterOK, error) {
+func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/deleteCluster",
@@ -355,7 +687,12 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams) (*DeleteClusterOK, e
 		Reader:             &DeleteClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -369,17 +706,16 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams) (*DeleteClusterOK, e
 }
 
 /*
-  DeleteClusterDefinitions deletes cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+DeleteClusterDefinitions deletes cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
 
-  Deletes cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Deletes cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
 */
-func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams) (*DeleteClusterDefinitionsOK, error) {
+func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams, opts ...ClientOption) (*DeleteClusterDefinitionsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteClusterDefinitionsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteClusterDefinitions",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/deleteClusterDefinitions",
@@ -390,7 +726,12 @@ func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams
 		Reader:             &DeleteClusterDefinitionsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -404,17 +745,16 @@ func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams
 }
 
 /*
-  DeleteClusterTemplates deletes cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+DeleteClusterTemplates deletes cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
 
-  Deletes cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Deletes cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
 */
-func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams) (*DeleteClusterTemplatesOK, error) {
+func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams, opts ...ClientOption) (*DeleteClusterTemplatesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteClusterTemplatesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteClusterTemplates",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/deleteClusterTemplates",
@@ -425,7 +765,12 @@ func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams) (*
 		Reader:             &DeleteClusterTemplatesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -439,17 +784,55 @@ func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams) (*
 }
 
 /*
-  DeleteInstances deletes instances for the specified cluster
+DeleteCustomConfigurations deletes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
 
-  Deletes instances for the specified cluster.
+Deletes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
-func (a *Client) DeleteInstances(params *DeleteInstancesParams) (*DeleteInstancesOK, error) {
+func (a *Client) DeleteCustomConfigurations(params *DeleteCustomConfigurationsParams, opts ...ClientOption) (*DeleteCustomConfigurationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteCustomConfigurationsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteCustomConfigurations",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/deleteCustomConfigurations",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteCustomConfigurationsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteCustomConfigurationsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteCustomConfigurationsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteInstances deletes instances for the specified cluster
+
+Deletes instances for the specified cluster.
+*/
+func (a *Client) DeleteInstances(params *DeleteInstancesParams, opts ...ClientOption) (*DeleteInstancesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteInstancesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteInstances",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/deleteInstances",
@@ -460,7 +843,12 @@ func (a *Client) DeleteInstances(params *DeleteInstancesParams) (*DeleteInstance
 		Reader:             &DeleteInstancesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -474,17 +862,16 @@ func (a *Client) DeleteInstances(params *DeleteInstancesParams) (*DeleteInstance
 }
 
 /*
-  DeleteRecipes deletes recipes a recipe is a script that runs on all nodes of a specified instance group
+DeleteRecipes deletes recipes a recipe is a script that runs on all nodes of a specified instance group
 
-  Deletes recipes. A recipe is a script that runs on all nodes of a specified instance group.
+Deletes recipes. A recipe is a script that runs on all nodes of a specified instance group.
 */
-func (a *Client) DeleteRecipes(params *DeleteRecipesParams) (*DeleteRecipesOK, error) {
+func (a *Client) DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption) (*DeleteRecipesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteRecipesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteRecipes",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/deleteRecipes",
@@ -495,7 +882,12 @@ func (a *Client) DeleteRecipes(params *DeleteRecipesParams) (*DeleteRecipesOK, e
 		Reader:             &DeleteRecipesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -509,17 +901,16 @@ func (a *Client) DeleteRecipes(params *DeleteRecipesParams) (*DeleteRecipesOK, e
 }
 
 /*
-  DescribeAutoScaleRules describes the auto scaling policies for a data hub cluster
+DescribeAutoScaleRules describes the auto scaling policies for a data hub cluster
 
-  Describe the AutoScaling policies for a DataHub cluster
+Describe the AutoScaling policies for a DataHub cluster
 */
-func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams) (*DescribeAutoScaleRulesOK, error) {
+func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, opts ...ClientOption) (*DescribeAutoScaleRulesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeAutoScaleRulesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeAutoScaleRules",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/describeAutoScaleRules",
@@ -530,7 +921,12 @@ func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams) (*
 		Reader:             &DescribeAutoScaleRulesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -544,17 +940,16 @@ func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams) (*
 }
 
 /*
-  DescribeCluster describes a workload cluster
+DescribeCluster describes a workload cluster
 
-  Describes a workload cluster.
+Describes a workload cluster.
 */
-func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeClusterOK, error) {
+func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/describeCluster",
@@ -565,7 +960,12 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeCluste
 		Reader:             &DescribeClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -579,17 +979,16 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeCluste
 }
 
 /*
-  DescribeClusterDefinition describes a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+DescribeClusterDefinition describes a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
 
-  Describes a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Describes a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
 */
-func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionParams) (*DescribeClusterDefinitionOK, error) {
+func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionParams, opts ...ClientOption) (*DescribeClusterDefinitionOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterDefinitionParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeClusterDefinition",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/describeClusterDefinition",
@@ -600,7 +999,12 @@ func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionPara
 		Reader:             &DescribeClusterDefinitionReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -614,17 +1018,16 @@ func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionPara
 }
 
 /*
-  DescribeClusterTemplate describes a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+DescribeClusterTemplate describes a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
 
-  Describes a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Describes a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
 */
-func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams) (*DescribeClusterTemplateOK, error) {
+func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams, opts ...ClientOption) (*DescribeClusterTemplateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterTemplateParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeClusterTemplate",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/describeClusterTemplate",
@@ -635,7 +1038,12 @@ func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams) 
 		Reader:             &DescribeClusterTemplateReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -649,17 +1057,133 @@ func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams) 
 }
 
 /*
-  DescribeRecipe describes recipe a recipe is a script that runs on all nodes of a specified instance group
+DescribeCustomConfigurations describes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
 
-  Describes recipe. A recipe is a script that runs on all nodes of a specified instance group.
+Describes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
-func (a *Client) DescribeRecipe(params *DescribeRecipeParams) (*DescribeRecipeOK, error) {
+func (a *Client) DescribeCustomConfigurations(params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeCustomConfigurationsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeCustomConfigurations",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/describeCustomConfigurations",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeCustomConfigurationsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeCustomConfigurationsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeCustomConfigurationsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeDatabaseServer gets external database server details
+
+Gets external database server details for Data Hub cluster by cluster CRN
+*/
+func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDatabaseServerParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDatabaseServer",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/describeDatabaseServer",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDatabaseServerReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDatabaseServerOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDatabaseServerDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeImageCatalog gets image catalog by name in workspace
+
+Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
+*/
+func (a *Client) DescribeImageCatalog(params *DescribeImageCatalogParams, opts ...ClientOption) (*DescribeImageCatalogOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeImageCatalogParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeImageCatalog",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/describeImageCatalog",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeImageCatalogReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeImageCatalogOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeImageCatalogDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeRecipe describes recipe a recipe is a script that runs on all nodes of a specified instance group
+
+Describes recipe. A recipe is a script that runs on all nodes of a specified instance group.
+*/
+func (a *Client) DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeRecipeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeRecipe",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/describeRecipe",
@@ -670,7 +1194,12 @@ func (a *Client) DescribeRecipe(params *DescribeRecipeParams) (*DescribeRecipeOK
 		Reader:             &DescribeRecipeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -684,17 +1213,55 @@ func (a *Client) DescribeRecipe(params *DescribeRecipeParams) (*DescribeRecipeOK
 }
 
 /*
-  GetClusterHostStatus gets cluster host status
+GetCliForDatahub gets create datahub c l i command based on private API request or response object
 
-  Gets the status of the hosts in a cluster.
+Get create datahub CLI command based on private API request or response object
 */
-func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetClusterHostStatusOK, error) {
+func (a *Client) GetCliForDatahub(params *GetCliForDatahubParams, opts ...ClientOption) (*GetCliForDatahubOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCliForDatahubParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getCliForDatahub",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/getCliForDatahub",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCliForDatahubReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCliForDatahubOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCliForDatahubDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetClusterHostStatus gets cluster host status
+
+Gets the status of the hosts in a cluster.
+*/
+func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetClusterHostStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getClusterHostStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/getClusterHostStatus",
@@ -705,7 +1272,12 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetC
 		Reader:             &GetClusterHostStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -719,17 +1291,16 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetC
 }
 
 /*
-  GetClusterServiceStatus gets cluster service status
+GetClusterServiceStatus gets cluster service status
 
-  Gets the status of the services in a cluster.
+Gets the status of the services in a cluster.
 */
-func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams) (*GetClusterServiceStatusOK, error) {
+func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetClusterServiceStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getClusterServiceStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/getClusterServiceStatus",
@@ -740,7 +1311,12 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams) 
 		Reader:             &GetClusterServiceStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -754,17 +1330,211 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams) 
 }
 
 /*
-  ListClusterDefinitions lists cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+GetCmRoles gathers cloudera manager roles that can be used for filtering in c m based diagnostics collection
 
-  Lists cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection.
 */
-func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams) (*ListClusterDefinitionsOK, error) {
+func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCmRolesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getCmRoles",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/getCmRoles",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCmRolesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCmRolesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCmRolesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetDatahubLogDescriptors gathers log descriptors that are used for diagnostics collection
+
+Gather log descriptors that are used for diagnostics collection.
+*/
+func (a *Client) GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetDatahubLogDescriptorsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getDatahubLogDescriptors",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/getDatahubLogDescriptors",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetDatahubLogDescriptorsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetDatahubLogDescriptorsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetDatahubLogDescriptorsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetOperation gets the latest in progress or finished operation for the datahub cluster
+
+Get the latest (in progress or finished) operation for the datahub cluster.
+*/
+func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetOperationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getOperation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/getOperation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetOperationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetOperationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetOperationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetVMTypes creates a recommendation that advises virtual machine types for the given cluster template based on the given properties
+
+Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
+*/
+func (a *Client) GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetVMTypesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getVmTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/getVmTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetVMTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetVMTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetVMTypesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListAutoScaleHistory lists auto scale history activity for a data hub cluster
+
+List AutoScale history activity for a DataHub cluster.
+*/
+func (a *Client) ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListAutoScaleHistoryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listAutoScaleHistory",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/listAutoScaleHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListAutoScaleHistoryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListAutoScaleHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListAutoScaleHistoryDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListClusterDefinitions lists cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+
+Lists cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+*/
+func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams, opts ...ClientOption) (*ListClusterDefinitionsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClusterDefinitionsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listClusterDefinitions",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/listClusterDefinitions",
@@ -775,7 +1545,12 @@ func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams) (*
 		Reader:             &ListClusterDefinitionsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -789,17 +1564,55 @@ func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams) (*
 }
 
 /*
-  ListClusterTemplates lists cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+ListClusterLifecycleEvents lists workload cluster lifecycle events
 
-  Lists cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Lists Workload cluster lifecycle events.
 */
-func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams) (*ListClusterTemplatesOK, error) {
+func (a *Client) ListClusterLifecycleEvents(params *ListClusterLifecycleEventsParams, opts ...ClientOption) (*ListClusterLifecycleEventsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListClusterLifecycleEventsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listClusterLifecycleEvents",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/listClusterLifecycleEvents",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListClusterLifecycleEventsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListClusterLifecycleEventsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListClusterLifecycleEventsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListClusterTemplates lists cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+
+Lists cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+*/
+func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams, opts ...ClientOption) (*ListClusterTemplatesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClusterTemplatesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listClusterTemplates",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/listClusterTemplates",
@@ -810,7 +1623,12 @@ func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams) (*List
 		Reader:             &ListClusterTemplatesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -824,17 +1642,16 @@ func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams) (*List
 }
 
 /*
-  ListClusters lists workload clusters
+ListClusters lists workload clusters
 
-  Lists workload clusters.
+Lists workload clusters.
 */
-func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, error) {
+func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClustersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listClusters",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/listClusters",
@@ -845,7 +1662,12 @@ func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, erro
 		Reader:             &ListClustersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -859,17 +1681,94 @@ func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, erro
 }
 
 /*
-  ListRecipes lists recipes a recipe is a script that runs on all nodes of a specified instance group
+ListCustomConfigurations lists custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
 
-  Lists recipes. A recipe is a script that runs on all nodes of a specified instance group.
+Lists custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
-func (a *Client) ListRecipes(params *ListRecipesParams) (*ListRecipesOK, error) {
+func (a *Client) ListCustomConfigurations(params *ListCustomConfigurationsParams, opts ...ClientOption) (*ListCustomConfigurationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListCustomConfigurationsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listCustomConfigurations",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/listCustomConfigurations",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListCustomConfigurationsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListCustomConfigurationsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListCustomConfigurationsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDatahubDiagnostics lists recent datahub diagnostics collections
+
+List recent Datahub diagnostics collection
+*/
+func (a *Client) ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDatahubDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDatahubDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/listDatahubDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDatahubDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDatahubDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDatahubDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListRecipes lists recipes a recipe is a script that runs on all nodes of a specified instance group
+
+Lists recipes. A recipe is a script that runs on all nodes of a specified instance group.
+*/
+func (a *Client) ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListRecipesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listRecipes",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/listRecipes",
@@ -880,7 +1779,12 @@ func (a *Client) ListRecipes(params *ListRecipesParams) (*ListRecipesOK, error) 
 		Reader:             &ListRecipesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -894,17 +1798,133 @@ func (a *Client) ListRecipes(params *ListRecipesParams) (*ListRecipesOK, error) 
 }
 
 /*
-  RepairCluster repairs a cluster
+PrepareClusterUpgrade runnings upgrade related validations and prepares the required parcels for the upgrade
 
-  Repairs a cluster.
+In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well.
 */
-func (a *Client) RepairCluster(params *RepairClusterParams) (*RepairClusterOK, error) {
+func (a *Client) PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPrepareClusterUpgradeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "prepareClusterUpgrade",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/prepareClusterUpgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PrepareClusterUpgradeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*PrepareClusterUpgradeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*PrepareClusterUpgradeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RenewCertificate renews certificate on datahub cluster by name or c r n
+
+Deprecated, please use renew-public-certificate command instead. Renew certificate on datahub cluster by name or CRN
+*/
+func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRenewCertificateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "renewCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/renewCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RenewCertificateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RenewCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RenewCertificateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RenewPublicCertificate renews public certificate on a datahub cluster by name or c r n
+
+Renews public certificate on a Datahub cluster by name or CRN.
+*/
+func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRenewPublicCertificateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "renewPublicCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/renewPublicCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RenewPublicCertificateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RenewPublicCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RenewPublicCertificateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RepairCluster repairs a cluster
+
+Repairs a cluster.
+*/
+func (a *Client) RepairCluster(params *RepairClusterParams, opts ...ClientOption) (*RepairClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRepairClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "repairCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/repairCluster",
@@ -915,7 +1935,12 @@ func (a *Client) RepairCluster(params *RepairClusterParams) (*RepairClusterOK, e
 		Reader:             &RepairClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -929,17 +1954,55 @@ func (a *Client) RepairCluster(params *RepairClusterParams) (*RepairClusterOK, e
 }
 
 /*
-  RetryCluster retries creation of a failed workload cluster
+ReplaceRecipes replaces recipes for the given instance groups
 
-  When stack provisioning or cluster creation fails, retryCluster allows you to resume the process from the last failed step.
+Replaces recipes for the given instance groups.
 */
-func (a *Client) RetryCluster(params *RetryClusterParams) (*RetryClusterOK, error) {
+func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewReplaceRecipesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "replaceRecipes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/replaceRecipes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ReplaceRecipesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ReplaceRecipesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ReplaceRecipesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RetryCluster retries creation of a failed workload cluster
+
+When stack provisioning or cluster creation fails, retryCluster allows you to resume the process from the last failed step.
+*/
+func (a *Client) RetryCluster(params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRetryClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "retryCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/retryCluster",
@@ -950,7 +2013,12 @@ func (a *Client) RetryCluster(params *RetryClusterParams) (*RetryClusterOK, erro
 		Reader:             &RetryClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -964,17 +2032,133 @@ func (a *Client) RetryCluster(params *RetryClusterParams) (*RetryClusterOK, erro
 }
 
 /*
-  ScaleCluster scales a cluster by adding or removing cluster nodes
+RotateAutoTLSCertificates rotates autotls certificates on the datahub s hosts
 
-  Scales a cluster by adding or removing cluster nodes.
+Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datahub's hosts
 */
-func (a *Client) ScaleCluster(params *ScaleClusterParams) (*ScaleClusterOK, error) {
+func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateAutoTLSCertificatesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateAutoTlsCertificates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/rotateAutoTlsCertificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateAutoTLSCertificatesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateAutoTLSCertificatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateAutoTLSCertificatesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotatePrivateCertificates rotates private certificates on the hosts of datahub
+
+Rotates private certificates on the hosts of Datahub.
+*/
+func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotatePrivateCertificatesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotatePrivateCertificates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/rotatePrivateCertificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotatePrivateCertificatesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotatePrivateCertificatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotatePrivateCertificatesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotateSaltPassword rotates salt stack user password on data hub instances
+
+Rotate SaltStack user password on Data Hub instances.
+*/
+func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateSaltPasswordParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateSaltPassword",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/rotateSaltPassword",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateSaltPasswordReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateSaltPasswordOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ScaleCluster scales a cluster by adding or removing cluster nodes
+
+Scales a cluster by adding or removing cluster nodes.
+*/
+func (a *Client) ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewScaleClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "scaleCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/scaleCluster",
@@ -985,7 +2169,12 @@ func (a *Client) ScaleCluster(params *ScaleClusterParams) (*ScaleClusterOK, erro
 		Reader:             &ScaleClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -999,17 +2188,55 @@ func (a *Client) ScaleCluster(params *ScaleClusterParams) (*ScaleClusterOK, erro
 }
 
 /*
-  StartCluster starts a stopped workload cluster
+SetCatalog sets a catalog for a data hub
 
-  Starts a stopped workload cluster.
+Sets a catalog for a DataHub.
 */
-func (a *Client) StartCluster(params *StartClusterParams) (*StartClusterOK, error) {
+func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetCatalogParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setCatalog",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/setCatalog",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetCatalogReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetCatalogOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetCatalogDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StartCluster starts a stopped workload cluster
+
+Starts a stopped workload cluster.
+*/
+func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) (*StartClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewStartClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "startCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/startCluster",
@@ -1020,7 +2247,12 @@ func (a *Client) StartCluster(params *StartClusterParams) (*StartClusterOK, erro
 		Reader:             &StartClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1034,17 +2266,133 @@ func (a *Client) StartCluster(params *StartClusterParams) (*StartClusterOK, erro
 }
 
 /*
-  StopCluster stops a workload cluster
+StartClusterVerticalScaling initiates the vertical scaling on data hub cluster
 
-  Stops a workload cluster. When a cluster is put in the stopped state, cluster VMs are given back to the cloud provider. To provision new VMs, start the cluster.
+Initiates the vertical scaling on Data Hub cluster.
 */
-func (a *Client) StopCluster(params *StopClusterParams) (*StopClusterOK, error) {
+func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartClusterVerticalScalingParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startClusterVerticalScaling",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/startClusterVerticalScaling",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartClusterVerticalScalingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartClusterVerticalScalingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartClusterVerticalScalingDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StartDatabaseUpgrade upgrades the database of the data hub cluster
+
+This command initiates the upgrade of the database of the Data Hub cluster.
+*/
+func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartDatabaseUpgradeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startDatabaseUpgrade",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/startDatabaseUpgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartDatabaseUpgradeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartDatabaseUpgradeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartDatabaseUpgradeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StartInstances starts instances of a particular host group in the data hub cluster
+
+Starts instances of a particular host group in the Data Hub cluster.
+*/
+func (a *Client) StartInstances(params *StartInstancesParams, opts ...ClientOption) (*StartInstancesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartInstancesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startInstances",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/startInstances",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartInstancesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartInstancesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartInstancesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StopCluster stops a workload cluster
+
+Stops a workload cluster. When a cluster is put in the stopped state, cluster VMs are given back to the cloud provider. To provision new VMs, start the cluster.
+*/
+func (a *Client) StopCluster(params *StopClusterParams, opts ...ClientOption) (*StopClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewStopClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "stopCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/stopCluster",
@@ -1055,7 +2403,12 @@ func (a *Client) StopCluster(params *StopClusterParams) (*StopClusterOK, error) 
 		Reader:             &StopClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1069,17 +2422,55 @@ func (a *Client) StopCluster(params *StopClusterParams) (*StopClusterOK, error) 
 }
 
 /*
-  SyncCluster synchronizes the state of a cluster with the cloud provider and cloudera manager
+StopInstances stops instances of particular host group in the data hub cluster
 
-  Synchronizes the state of a cluster with the cloud provider and Cloudera Manager.
+Stops instances of a particular host group in the Data Hub cluster.
 */
-func (a *Client) SyncCluster(params *SyncClusterParams) (*SyncClusterOK, error) {
+func (a *Client) StopInstances(params *StopInstancesParams, opts ...ClientOption) (*StopInstancesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStopInstancesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "stopInstances",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/stopInstances",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StopInstancesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StopInstancesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StopInstancesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SyncCluster synchronizes the state of a cluster with the cloud provider and cloudera manager
+
+Synchronizes the state of a cluster with the cloud provider and Cloudera Manager.
+*/
+func (a *Client) SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*SyncClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSyncClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "syncCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/syncCluster",
@@ -1090,7 +2481,12 @@ func (a *Client) SyncCluster(params *SyncClusterParams) (*SyncClusterOK, error) 
 		Reader:             &SyncClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1104,17 +2500,55 @@ func (a *Client) SyncCluster(params *SyncClusterParams) (*SyncClusterOK, error) 
 }
 
 /*
-  UpdateAutoScaleRules modifies auto scaling for a data hub cluster
+SyncComponentVersionsFromCm syncs component versions from c m after a failed upgrade
 
-  Modify AutoScaling for a DataHub cluster
+Syncs component versions from CM after a failed upgrade.
 */
-func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams) (*UpdateAutoScaleRulesOK, error) {
+func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSyncComponentVersionsFromCmParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "syncComponentVersionsFromCm",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/syncComponentVersionsFromCm",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SyncComponentVersionsFromCmReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SyncComponentVersionsFromCmOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SyncComponentVersionsFromCmDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAutoScaleRules modifies auto scaling for a data hub cluster
+
+Modify AutoScaling for a DataHub cluster
+*/
+func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts ...ClientOption) (*UpdateAutoScaleRulesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateAutoScaleRulesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateAutoScaleRules",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datahub/updateAutoScaleRules",
@@ -1125,7 +2559,12 @@ func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams) (*Upda
 		Reader:             &UpdateAutoScaleRulesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1135,6 +2574,84 @@ func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams) (*Upda
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateAutoScaleRulesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateOrchestratorState runs orchestrator engine state update on the data hub cluster
+
+Run orchestrator engine state update on the Data Hub cluster.
+*/
+func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateOrchestratorStateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateOrchestratorState",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/updateOrchestratorState",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateOrchestratorStateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateOrchestratorStateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeCluster upgrades the o s or data platform on a datahub cluster
+
+Upgrades the OS or data platform on a datahub cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters.
+*/
+func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/upgradeCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

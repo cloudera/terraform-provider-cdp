@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -30,6 +32,11 @@ type CloudSubnet struct {
 
 // Validate validates this cloud subnet
 func (m *CloudSubnet) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this cloud subnet based on context it is used
+func (m *CloudSubnet) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

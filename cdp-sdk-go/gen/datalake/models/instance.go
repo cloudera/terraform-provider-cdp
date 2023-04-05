@@ -6,6 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"strconv"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,17 +20,47 @@ import (
 // swagger:model Instance
 type Instance struct {
 
+	// Whether the instance uses an Ambari server or not.
+	AmbariServer bool `json:"ambariServer,omitempty"`
+
+	// The FQDN of the instance.
+	DiscoveryFQDN string `json:"discoveryFQDN,omitempty"`
+
 	// The ID of the given instance.
 	// Required: true
 	ID *string `json:"id"`
+
+	// The name of the instance group this instance belongs to.
+	InstanceGroup string `json:"instanceGroup,omitempty"`
+
+	// The status of the instance.
+	InstanceStatus DatalakeInstanceStatus `json:"instanceStatus,omitempty"`
+
+	// The instance type.
+	InstanceTypeVal DatalakeInstanceType `json:"instanceTypeVal,omitempty"`
 
 	// The lifecycle of the instance, either normal or spot.
 	// Required: true
 	LifeCycle *string `json:"lifeCycle"`
 
+	// List of the volumes mounted on this instance.
+	MountedVolumes []*MountedVolume `json:"mountedVolumes"`
+
+	// The private ip of the given instance.
+	PrivateIP string `json:"privateIp,omitempty"`
+
+	// The public ip of the given instance.
+	PublicIP string `json:"publicIp,omitempty"`
+
+	// The SSH port for the instance.
+	SSHPort int32 `json:"sshPort,omitempty"`
+
 	// The actual state of the instance.
 	// Required: true
 	State *string `json:"state"`
+
+	// The reason for the current status of this instance.
+	StatusReason string `json:"statusReason,omitempty"`
 }
 
 // Validate validates this instance
@@ -38,7 +71,19 @@ func (m *Instance) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateInstanceStatus(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateInstanceTypeVal(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateLifeCycle(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMountedVolumes(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -61,6 +106,40 @@ func (m *Instance) validateID(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Instance) validateInstanceStatus(formats strfmt.Registry) error {
+	if swag.IsZero(m.InstanceStatus) { // not required
+		return nil
+	}
+
+	if err := m.InstanceStatus.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("instanceStatus")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("instanceStatus")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *Instance) validateInstanceTypeVal(formats strfmt.Registry) error {
+	if swag.IsZero(m.InstanceTypeVal) { // not required
+		return nil
+	}
+
+	if err := m.InstanceTypeVal.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("instanceTypeVal")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("instanceTypeVal")
+		}
+		return err
+	}
+
+	return nil
+}
+
 func (m *Instance) validateLifeCycle(formats strfmt.Registry) error {
 
 	if err := validate.Required("lifeCycle", "body", m.LifeCycle); err != nil {
@@ -70,10 +149,106 @@ func (m *Instance) validateLifeCycle(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Instance) validateMountedVolumes(formats strfmt.Registry) error {
+	if swag.IsZero(m.MountedVolumes) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.MountedVolumes); i++ {
+		if swag.IsZero(m.MountedVolumes[i]) { // not required
+			continue
+		}
+
+		if m.MountedVolumes[i] != nil {
+			if err := m.MountedVolumes[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("mountedVolumes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("mountedVolumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *Instance) validateState(formats strfmt.Registry) error {
 
 	if err := validate.Required("state", "body", m.State); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this instance based on the context it is used
+func (m *Instance) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstanceStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateInstanceTypeVal(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMountedVolumes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Instance) contextValidateInstanceStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.InstanceStatus.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("instanceStatus")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("instanceStatus")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *Instance) contextValidateInstanceTypeVal(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.InstanceTypeVal.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("instanceTypeVal")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("instanceTypeVal")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *Instance) contextValidateMountedVolumes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.MountedVolumes); i++ {
+
+		if m.MountedVolumes[i] != nil {
+			if err := m.MountedVolumes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("mountedVolumes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("mountedVolumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

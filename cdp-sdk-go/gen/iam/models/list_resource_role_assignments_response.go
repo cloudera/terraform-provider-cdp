@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -56,6 +57,42 @@ func (m *ListResourceRoleAssignmentsResponse) validateResourceRoleAssignments(fo
 			if err := m.ResourceRoleAssignments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("resourceRoleAssignments" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceRoleAssignments" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this list resource role assignments response based on the context it is used
+func (m *ListResourceRoleAssignmentsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateResourceRoleAssignments(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ListResourceRoleAssignmentsResponse) contextValidateResourceRoleAssignments(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ResourceRoleAssignments); i++ {
+
+		if m.ResourceRoleAssignments[i] != nil {
+			if err := m.ResourceRoleAssignments[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resourceRoleAssignments" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceRoleAssignments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

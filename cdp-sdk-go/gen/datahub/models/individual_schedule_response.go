@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -59,6 +60,8 @@ func (m *IndividualScheduleResponse) validateConfiguration(formats strfmt.Regist
 		if err := m.Configuration.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration")
 			}
 			return err
 		}
@@ -71,6 +74,36 @@ func (m *IndividualScheduleResponse) validateIdentifier(formats strfmt.Registry)
 
 	if err := validate.Required("identifier", "body", m.Identifier); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this individual schedule response based on the context it is used
+func (m *IndividualScheduleResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *IndividualScheduleResponse) contextValidateConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Configuration != nil {
+		if err := m.Configuration.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configuration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -136,6 +169,8 @@ func (m *IndividualScheduleResponseConfiguration) validateAction(formats strfmt.
 		if err := m.Action.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration" + "." + "action")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration" + "." + "action")
 			}
 			return err
 		}
@@ -154,6 +189,58 @@ func (m *IndividualScheduleResponseConfiguration) validateTrigger(formats strfmt
 		if err := m.Trigger.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration" + "." + "trigger")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration" + "." + "trigger")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this individual schedule response configuration based on the context it is used
+func (m *IndividualScheduleResponseConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAction(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTrigger(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *IndividualScheduleResponseConfiguration) contextValidateAction(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Action != nil {
+		if err := m.Action.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configuration" + "." + "action")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration" + "." + "action")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *IndividualScheduleResponseConfiguration) contextValidateTrigger(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Trigger != nil {
+		if err := m.Trigger.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configuration" + "." + "trigger")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuration" + "." + "trigger")
 			}
 			return err
 		}
@@ -232,14 +319,13 @@ const (
 
 // prop value enum
 func (m *IndividualScheduleResponseConfigurationAction) validateResourceAdjustmentTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, individualScheduleResponseConfigurationActionTypeResourceAdjustmentTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, individualScheduleResponseConfigurationActionTypeResourceAdjustmentTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *IndividualScheduleResponseConfigurationAction) validateResourceAdjustmentType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ResourceAdjustmentType) { // not required
 		return nil
 	}
@@ -258,6 +344,11 @@ func (m *IndividualScheduleResponseConfigurationAction) validateResourceAdjustme
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this individual schedule response configuration action based on context it is used
+func (m *IndividualScheduleResponseConfigurationAction) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -321,11 +412,11 @@ func (m *IndividualScheduleResponseConfigurationTrigger) validateCronExpression(
 		return err
 	}
 
-	if err := validate.MinLength("configuration"+"."+"trigger"+"."+"cronExpression", "body", string(*m.CronExpression), 1); err != nil {
+	if err := validate.MinLength("configuration"+"."+"trigger"+"."+"cronExpression", "body", *m.CronExpression, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("configuration"+"."+"trigger"+"."+"cronExpression", "body", string(*m.CronExpression), 100); err != nil {
+	if err := validate.MaxLength("configuration"+"."+"trigger"+"."+"cronExpression", "body", *m.CronExpression, 100); err != nil {
 		return err
 	}
 
@@ -338,14 +429,19 @@ func (m *IndividualScheduleResponseConfigurationTrigger) validateTimeZone(format
 		return err
 	}
 
-	if err := validate.MinLength("configuration"+"."+"trigger"+"."+"timeZone", "body", string(*m.TimeZone), 1); err != nil {
+	if err := validate.MinLength("configuration"+"."+"trigger"+"."+"timeZone", "body", *m.TimeZone, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("configuration"+"."+"trigger"+"."+"timeZone", "body", string(*m.TimeZone), 50); err != nil {
+	if err := validate.MaxLength("configuration"+"."+"trigger"+"."+"timeZone", "body", *m.TimeZone, 50); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this individual schedule response configuration trigger based on context it is used
+func (m *IndividualScheduleResponseConfigurationTrigger) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

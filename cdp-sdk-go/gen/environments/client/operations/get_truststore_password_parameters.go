@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewGetTruststorePasswordParams creates a new GetTruststorePasswordParams object
-// with the default values initialized.
+// NewGetTruststorePasswordParams creates a new GetTruststorePasswordParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetTruststorePasswordParams() *GetTruststorePasswordParams {
-	var ()
 	return &GetTruststorePasswordParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetTruststorePasswordParamsWithTimeout creates a new GetTruststorePasswordParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetTruststorePasswordParamsWithTimeout(timeout time.Duration) *GetTruststorePasswordParams {
-	var ()
 	return &GetTruststorePasswordParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetTruststorePasswordParamsWithContext creates a new GetTruststorePasswordParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetTruststorePasswordParamsWithContext(ctx context.Context) *GetTruststorePasswordParams {
-	var ()
 	return &GetTruststorePasswordParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetTruststorePasswordParamsWithHTTPClient creates a new GetTruststorePasswordParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetTruststorePasswordParamsWithHTTPClient(client *http.Client) *GetTruststorePasswordParams {
-	var ()
 	return &GetTruststorePasswordParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetTruststorePasswordParams contains all the parameters to send to the API endpoint
-for the get truststore password operation typically these are written to a http.Request
+/*
+GetTruststorePasswordParams contains all the parameters to send to the API endpoint
+
+	for the get truststore password operation.
+
+	Typically these are written to a http.Request.
 */
 type GetTruststorePasswordParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.GetTruststorePasswordRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get truststore password params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTruststorePasswordParams) WithDefaults() *GetTruststorePasswordParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get truststore password params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTruststorePasswordParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get truststore password params
@@ -121,7 +137,6 @@ func (o *GetTruststorePasswordParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

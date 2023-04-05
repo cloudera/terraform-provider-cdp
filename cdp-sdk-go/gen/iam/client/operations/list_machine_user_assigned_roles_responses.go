@@ -46,7 +46,8 @@ func NewListMachineUserAssignedRolesOK() *ListMachineUserAssignedRolesOK {
 	return &ListMachineUserAssignedRolesOK{}
 }
 
-/*ListMachineUserAssignedRolesOK handles this case with default header values.
+/*
+ListMachineUserAssignedRolesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListMachineUserAssignedRolesOK struct {
 	Payload *models.ListMachineUserAssignedRolesResponse
 }
 
+// IsSuccess returns true when this list machine user assigned roles o k response has a 2xx status code
+func (o *ListMachineUserAssignedRolesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list machine user assigned roles o k response has a 3xx status code
+func (o *ListMachineUserAssignedRolesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list machine user assigned roles o k response has a 4xx status code
+func (o *ListMachineUserAssignedRolesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list machine user assigned roles o k response has a 5xx status code
+func (o *ListMachineUserAssignedRolesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list machine user assigned roles o k response a status code equal to that given
+func (o *ListMachineUserAssignedRolesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list machine user assigned roles o k response
+func (o *ListMachineUserAssignedRolesOK) Code() int {
+	return 200
+}
+
 func (o *ListMachineUserAssignedRolesOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listMachineUserAssignedRoles][%d] listMachineUserAssignedRolesOK  %+v", 200, o.Payload)
+}
+
+func (o *ListMachineUserAssignedRolesOK) String() string {
 	return fmt.Sprintf("[POST /iam/listMachineUserAssignedRoles][%d] listMachineUserAssignedRolesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListMachineUserAssignedRolesDefault(code int) *ListMachineUserAssignedRo
 	}
 }
 
-/*ListMachineUserAssignedRolesDefault handles this case with default header values.
+/*
+ListMachineUserAssignedRolesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListMachineUserAssignedRolesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list machine user assigned roles default response has a 2xx status code
+func (o *ListMachineUserAssignedRolesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list machine user assigned roles default response has a 3xx status code
+func (o *ListMachineUserAssignedRolesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list machine user assigned roles default response has a 4xx status code
+func (o *ListMachineUserAssignedRolesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list machine user assigned roles default response has a 5xx status code
+func (o *ListMachineUserAssignedRolesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list machine user assigned roles default response a status code equal to that given
+func (o *ListMachineUserAssignedRolesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list machine user assigned roles default response
 func (o *ListMachineUserAssignedRolesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListMachineUserAssignedRolesDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listMachineUserAssignedRoles][%d] listMachineUserAssignedRoles default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListMachineUserAssignedRolesDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listMachineUserAssignedRoles][%d] listMachineUserAssignedRoles default  %+v", o._statusCode, o.Payload)
 }
 

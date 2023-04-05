@@ -46,7 +46,8 @@ func NewListLdapProvidersOK() *ListLdapProvidersOK {
 	return &ListLdapProvidersOK{}
 }
 
-/*ListLdapProvidersOK handles this case with default header values.
+/*
+ListLdapProvidersOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListLdapProvidersOK struct {
 	Payload *models.ListLdapProvidersResponse
 }
 
+// IsSuccess returns true when this list ldap providers o k response has a 2xx status code
+func (o *ListLdapProvidersOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list ldap providers o k response has a 3xx status code
+func (o *ListLdapProvidersOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list ldap providers o k response has a 4xx status code
+func (o *ListLdapProvidersOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list ldap providers o k response has a 5xx status code
+func (o *ListLdapProvidersOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list ldap providers o k response a status code equal to that given
+func (o *ListLdapProvidersOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list ldap providers o k response
+func (o *ListLdapProvidersOK) Code() int {
+	return 200
+}
+
 func (o *ListLdapProvidersOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listLdapProviders][%d] listLdapProvidersOK  %+v", 200, o.Payload)
+}
+
+func (o *ListLdapProvidersOK) String() string {
 	return fmt.Sprintf("[POST /iam/listLdapProviders][%d] listLdapProvidersOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListLdapProvidersDefault(code int) *ListLdapProvidersDefault {
 	}
 }
 
-/*ListLdapProvidersDefault handles this case with default header values.
+/*
+ListLdapProvidersDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListLdapProvidersDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list ldap providers default response has a 2xx status code
+func (o *ListLdapProvidersDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list ldap providers default response has a 3xx status code
+func (o *ListLdapProvidersDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list ldap providers default response has a 4xx status code
+func (o *ListLdapProvidersDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list ldap providers default response has a 5xx status code
+func (o *ListLdapProvidersDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list ldap providers default response a status code equal to that given
+func (o *ListLdapProvidersDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list ldap providers default response
 func (o *ListLdapProvidersDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListLdapProvidersDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listLdapProviders][%d] listLdapProviders default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListLdapProvidersDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listLdapProviders][%d] listLdapProviders default  %+v", o._statusCode, o.Payload)
 }
 

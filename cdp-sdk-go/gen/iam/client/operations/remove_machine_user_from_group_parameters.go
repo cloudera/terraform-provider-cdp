@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewRemoveMachineUserFromGroupParams creates a new RemoveMachineUserFromGroupParams object
-// with the default values initialized.
+// NewRemoveMachineUserFromGroupParams creates a new RemoveMachineUserFromGroupParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRemoveMachineUserFromGroupParams() *RemoveMachineUserFromGroupParams {
-	var ()
 	return &RemoveMachineUserFromGroupParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRemoveMachineUserFromGroupParamsWithTimeout creates a new RemoveMachineUserFromGroupParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRemoveMachineUserFromGroupParamsWithTimeout(timeout time.Duration) *RemoveMachineUserFromGroupParams {
-	var ()
 	return &RemoveMachineUserFromGroupParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRemoveMachineUserFromGroupParamsWithContext creates a new RemoveMachineUserFromGroupParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRemoveMachineUserFromGroupParamsWithContext(ctx context.Context) *RemoveMachineUserFromGroupParams {
-	var ()
 	return &RemoveMachineUserFromGroupParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRemoveMachineUserFromGroupParamsWithHTTPClient creates a new RemoveMachineUserFromGroupParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRemoveMachineUserFromGroupParamsWithHTTPClient(client *http.Client) *RemoveMachineUserFromGroupParams {
-	var ()
 	return &RemoveMachineUserFromGroupParams{
 		HTTPClient: client,
 	}
 }
 
-/*RemoveMachineUserFromGroupParams contains all the parameters to send to the API endpoint
-for the remove machine user from group operation typically these are written to a http.Request
+/*
+RemoveMachineUserFromGroupParams contains all the parameters to send to the API endpoint
+
+	for the remove machine user from group operation.
+
+	Typically these are written to a http.Request.
 */
 type RemoveMachineUserFromGroupParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.RemoveMachineUserFromGroupRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the remove machine user from group params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RemoveMachineUserFromGroupParams) WithDefaults() *RemoveMachineUserFromGroupParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the remove machine user from group params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RemoveMachineUserFromGroupParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the remove machine user from group params
@@ -121,7 +137,6 @@ func (o *RemoveMachineUserFromGroupParams) WriteToRequest(r runtime.ClientReques
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

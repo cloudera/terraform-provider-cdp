@@ -46,7 +46,8 @@ func NewDeleteIDBrokerMappingsOK() *DeleteIDBrokerMappingsOK {
 	return &DeleteIDBrokerMappingsOK{}
 }
 
-/*DeleteIDBrokerMappingsOK handles this case with default header values.
+/*
+DeleteIDBrokerMappingsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteIDBrokerMappingsOK struct {
 	Payload models.DeleteIDBrokerMappingsResponse
 }
 
+// IsSuccess returns true when this delete Id broker mappings o k response has a 2xx status code
+func (o *DeleteIDBrokerMappingsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete Id broker mappings o k response has a 3xx status code
+func (o *DeleteIDBrokerMappingsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete Id broker mappings o k response has a 4xx status code
+func (o *DeleteIDBrokerMappingsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete Id broker mappings o k response has a 5xx status code
+func (o *DeleteIDBrokerMappingsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete Id broker mappings o k response a status code equal to that given
+func (o *DeleteIDBrokerMappingsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete Id broker mappings o k response
+func (o *DeleteIDBrokerMappingsOK) Code() int {
+	return 200
+}
+
 func (o *DeleteIDBrokerMappingsOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteIdBrokerMappings][%d] deleteIdBrokerMappingsOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteIDBrokerMappingsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/deleteIdBrokerMappings][%d] deleteIdBrokerMappingsOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteIDBrokerMappingsDefault(code int) *DeleteIDBrokerMappingsDefault {
 	}
 }
 
-/*DeleteIDBrokerMappingsDefault handles this case with default header values.
+/*
+DeleteIDBrokerMappingsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteIDBrokerMappingsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete Id broker mappings default response has a 2xx status code
+func (o *DeleteIDBrokerMappingsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete Id broker mappings default response has a 3xx status code
+func (o *DeleteIDBrokerMappingsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete Id broker mappings default response has a 4xx status code
+func (o *DeleteIDBrokerMappingsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete Id broker mappings default response has a 5xx status code
+func (o *DeleteIDBrokerMappingsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete Id broker mappings default response a status code equal to that given
+func (o *DeleteIDBrokerMappingsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete Id broker mappings default response
 func (o *DeleteIDBrokerMappingsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteIDBrokerMappingsDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteIdBrokerMappings][%d] deleteIdBrokerMappings default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteIDBrokerMappingsDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/deleteIdBrokerMappings][%d] deleteIdBrokerMappings default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *UpdateAccessKeyResponse) validateAccessKey(formats strfmt.Registry) err
 		if err := m.AccessKey.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("accessKey")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("accessKey")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this update access key response based on the context it is used
+func (m *UpdateAccessKeyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAccessKey(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *UpdateAccessKeyResponse) contextValidateAccessKey(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AccessKey != nil {
+		if err := m.AccessKey.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("accessKey")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("accessKey")
 			}
 			return err
 		}

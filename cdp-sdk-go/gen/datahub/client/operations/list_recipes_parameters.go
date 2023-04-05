@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewListRecipesParams creates a new ListRecipesParams object
-// with the default values initialized.
+// NewListRecipesParams creates a new ListRecipesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListRecipesParams() *ListRecipesParams {
-	var ()
 	return &ListRecipesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListRecipesParamsWithTimeout creates a new ListRecipesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListRecipesParamsWithTimeout(timeout time.Duration) *ListRecipesParams {
-	var ()
 	return &ListRecipesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListRecipesParamsWithContext creates a new ListRecipesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListRecipesParamsWithContext(ctx context.Context) *ListRecipesParams {
-	var ()
 	return &ListRecipesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListRecipesParamsWithHTTPClient creates a new ListRecipesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListRecipesParamsWithHTTPClient(client *http.Client) *ListRecipesParams {
-	var ()
 	return &ListRecipesParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListRecipesParams contains all the parameters to send to the API endpoint
-for the list recipes operation typically these are written to a http.Request
+/*
+ListRecipesParams contains all the parameters to send to the API endpoint
+
+	for the list recipes operation.
+
+	Typically these are written to a http.Request.
 */
 type ListRecipesParams struct {
 
-	/*Input*/
+	// Input.
 	Input models.ListRecipesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list recipes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListRecipesParams) WithDefaults() *ListRecipesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list recipes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListRecipesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list recipes params
@@ -121,7 +137,6 @@ func (o *ListRecipesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

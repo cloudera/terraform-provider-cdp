@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
-// NewRepairDatalakeParams creates a new RepairDatalakeParams object
-// with the default values initialized.
+// NewRepairDatalakeParams creates a new RepairDatalakeParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRepairDatalakeParams() *RepairDatalakeParams {
-	var ()
 	return &RepairDatalakeParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRepairDatalakeParamsWithTimeout creates a new RepairDatalakeParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRepairDatalakeParamsWithTimeout(timeout time.Duration) *RepairDatalakeParams {
-	var ()
 	return &RepairDatalakeParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRepairDatalakeParamsWithContext creates a new RepairDatalakeParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRepairDatalakeParamsWithContext(ctx context.Context) *RepairDatalakeParams {
-	var ()
 	return &RepairDatalakeParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRepairDatalakeParamsWithHTTPClient creates a new RepairDatalakeParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRepairDatalakeParamsWithHTTPClient(client *http.Client) *RepairDatalakeParams {
-	var ()
 	return &RepairDatalakeParams{
 		HTTPClient: client,
 	}
 }
 
-/*RepairDatalakeParams contains all the parameters to send to the API endpoint
-for the repair datalake operation typically these are written to a http.Request
+/*
+RepairDatalakeParams contains all the parameters to send to the API endpoint
+
+	for the repair datalake operation.
+
+	Typically these are written to a http.Request.
 */
 type RepairDatalakeParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.RepairDatalakeRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the repair datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RepairDatalakeParams) WithDefaults() *RepairDatalakeParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the repair datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RepairDatalakeParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the repair datalake params
@@ -121,7 +137,6 @@ func (o *RepairDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

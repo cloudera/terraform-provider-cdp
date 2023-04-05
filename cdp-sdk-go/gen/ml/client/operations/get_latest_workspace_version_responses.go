@@ -46,7 +46,8 @@ func NewGetLatestWorkspaceVersionOK() *GetLatestWorkspaceVersionOK {
 	return &GetLatestWorkspaceVersionOK{}
 }
 
-/*GetLatestWorkspaceVersionOK handles this case with default header values.
+/*
+GetLatestWorkspaceVersionOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetLatestWorkspaceVersionOK struct {
 	Payload *models.GetLatestWorkspaceVersionResponse
 }
 
+// IsSuccess returns true when this get latest workspace version o k response has a 2xx status code
+func (o *GetLatestWorkspaceVersionOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get latest workspace version o k response has a 3xx status code
+func (o *GetLatestWorkspaceVersionOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get latest workspace version o k response has a 4xx status code
+func (o *GetLatestWorkspaceVersionOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get latest workspace version o k response has a 5xx status code
+func (o *GetLatestWorkspaceVersionOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get latest workspace version o k response a status code equal to that given
+func (o *GetLatestWorkspaceVersionOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get latest workspace version o k response
+func (o *GetLatestWorkspaceVersionOK) Code() int {
+	return 200
+}
+
 func (o *GetLatestWorkspaceVersionOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersionOK  %+v", 200, o.Payload)
+}
+
+func (o *GetLatestWorkspaceVersionOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersionOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetLatestWorkspaceVersionDefault(code int) *GetLatestWorkspaceVersionDef
 	}
 }
 
-/*GetLatestWorkspaceVersionDefault handles this case with default header values.
+/*
+GetLatestWorkspaceVersionDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetLatestWorkspaceVersionDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get latest workspace version default response has a 2xx status code
+func (o *GetLatestWorkspaceVersionDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get latest workspace version default response has a 3xx status code
+func (o *GetLatestWorkspaceVersionDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get latest workspace version default response has a 4xx status code
+func (o *GetLatestWorkspaceVersionDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get latest workspace version default response has a 5xx status code
+func (o *GetLatestWorkspaceVersionDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get latest workspace version default response a status code equal to that given
+func (o *GetLatestWorkspaceVersionDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get latest workspace version default response
 func (o *GetLatestWorkspaceVersionDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetLatestWorkspaceVersionDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersion default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetLatestWorkspaceVersionDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersion default  %+v", o._statusCode, o.Payload)
 }
 

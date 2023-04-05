@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewCreateAutoScaleRulesParams creates a new CreateAutoScaleRulesParams object
-// with the default values initialized.
+// NewCreateAutoScaleRulesParams creates a new CreateAutoScaleRulesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAutoScaleRulesParams() *CreateAutoScaleRulesParams {
-	var ()
 	return &CreateAutoScaleRulesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateAutoScaleRulesParamsWithTimeout creates a new CreateAutoScaleRulesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateAutoScaleRulesParamsWithTimeout(timeout time.Duration) *CreateAutoScaleRulesParams {
-	var ()
 	return &CreateAutoScaleRulesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateAutoScaleRulesParamsWithContext creates a new CreateAutoScaleRulesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateAutoScaleRulesParamsWithContext(ctx context.Context) *CreateAutoScaleRulesParams {
-	var ()
 	return &CreateAutoScaleRulesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateAutoScaleRulesParamsWithHTTPClient creates a new CreateAutoScaleRulesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateAutoScaleRulesParamsWithHTTPClient(client *http.Client) *CreateAutoScaleRulesParams {
-	var ()
 	return &CreateAutoScaleRulesParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateAutoScaleRulesParams contains all the parameters to send to the API endpoint
-for the create auto scale rules operation typically these are written to a http.Request
+/*
+CreateAutoScaleRulesParams contains all the parameters to send to the API endpoint
+
+	for the create auto scale rules operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateAutoScaleRulesParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateAutoScaleRulesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create auto scale rules params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAutoScaleRulesParams) WithDefaults() *CreateAutoScaleRulesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create auto scale rules params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAutoScaleRulesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create auto scale rules params
@@ -121,7 +137,6 @@ func (o *CreateAutoScaleRulesParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

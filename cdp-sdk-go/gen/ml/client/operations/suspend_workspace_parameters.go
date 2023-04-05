@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewSuspendWorkspaceParams creates a new SuspendWorkspaceParams object
-// with the default values initialized.
+// NewSuspendWorkspaceParams creates a new SuspendWorkspaceParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSuspendWorkspaceParams() *SuspendWorkspaceParams {
-	var ()
 	return &SuspendWorkspaceParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSuspendWorkspaceParamsWithTimeout creates a new SuspendWorkspaceParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSuspendWorkspaceParamsWithTimeout(timeout time.Duration) *SuspendWorkspaceParams {
-	var ()
 	return &SuspendWorkspaceParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSuspendWorkspaceParamsWithContext creates a new SuspendWorkspaceParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSuspendWorkspaceParamsWithContext(ctx context.Context) *SuspendWorkspaceParams {
-	var ()
 	return &SuspendWorkspaceParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSuspendWorkspaceParamsWithHTTPClient creates a new SuspendWorkspaceParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSuspendWorkspaceParamsWithHTTPClient(client *http.Client) *SuspendWorkspaceParams {
-	var ()
 	return &SuspendWorkspaceParams{
 		HTTPClient: client,
 	}
 }
 
-/*SuspendWorkspaceParams contains all the parameters to send to the API endpoint
-for the suspend workspace operation typically these are written to a http.Request
+/*
+SuspendWorkspaceParams contains all the parameters to send to the API endpoint
+
+	for the suspend workspace operation.
+
+	Typically these are written to a http.Request.
 */
 type SuspendWorkspaceParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.SuspendWorkspaceRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the suspend workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SuspendWorkspaceParams) WithDefaults() *SuspendWorkspaceParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the suspend workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SuspendWorkspaceParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the suspend workspace params
@@ -121,7 +137,6 @@ func (o *SuspendWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

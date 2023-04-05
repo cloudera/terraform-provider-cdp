@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -17,10 +19,21 @@ type AzureFreeIpaCreationRequest struct {
 
 	// The number of FreeIPA instances to create per group when creating FreeIPA in the environment
 	InstanceCountByGroup int32 `json:"instanceCountByGroup,omitempty"`
+
+	// Custom instance type of FreeIPA instances.
+	InstanceType string `json:"instanceType,omitempty"`
+
+	// Recipes for FreeIPA
+	Recipes []string `json:"recipes"`
 }
 
 // Validate validates this azure free ipa creation request
 func (m *AzureFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this azure free ipa creation request based on context it is used
+func (m *AzureFreeIpaCreationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

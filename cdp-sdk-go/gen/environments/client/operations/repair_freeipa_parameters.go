@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewRepairFreeipaParams creates a new RepairFreeipaParams object
-// with the default values initialized.
+// NewRepairFreeipaParams creates a new RepairFreeipaParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRepairFreeipaParams() *RepairFreeipaParams {
-	var ()
 	return &RepairFreeipaParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRepairFreeipaParamsWithTimeout creates a new RepairFreeipaParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRepairFreeipaParamsWithTimeout(timeout time.Duration) *RepairFreeipaParams {
-	var ()
 	return &RepairFreeipaParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRepairFreeipaParamsWithContext creates a new RepairFreeipaParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRepairFreeipaParamsWithContext(ctx context.Context) *RepairFreeipaParams {
-	var ()
 	return &RepairFreeipaParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRepairFreeipaParamsWithHTTPClient creates a new RepairFreeipaParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRepairFreeipaParamsWithHTTPClient(client *http.Client) *RepairFreeipaParams {
-	var ()
 	return &RepairFreeipaParams{
 		HTTPClient: client,
 	}
 }
 
-/*RepairFreeipaParams contains all the parameters to send to the API endpoint
-for the repair freeipa operation typically these are written to a http.Request
+/*
+RepairFreeipaParams contains all the parameters to send to the API endpoint
+
+	for the repair freeipa operation.
+
+	Typically these are written to a http.Request.
 */
 type RepairFreeipaParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.RepairFreeipaRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the repair freeipa params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RepairFreeipaParams) WithDefaults() *RepairFreeipaParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the repair freeipa params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RepairFreeipaParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the repair freeipa params
@@ -121,7 +137,6 @@ func (o *RepairFreeipaParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

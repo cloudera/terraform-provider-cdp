@@ -46,7 +46,8 @@ func NewGetFreeipaStatusOK() *GetFreeipaStatusOK {
 	return &GetFreeipaStatusOK{}
 }
 
-/*GetFreeipaStatusOK handles this case with default header values.
+/*
+GetFreeipaStatusOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetFreeipaStatusOK struct {
 	Payload *models.GetFreeipaStatusResponse
 }
 
+// IsSuccess returns true when this get freeipa status o k response has a 2xx status code
+func (o *GetFreeipaStatusOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get freeipa status o k response has a 3xx status code
+func (o *GetFreeipaStatusOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get freeipa status o k response has a 4xx status code
+func (o *GetFreeipaStatusOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get freeipa status o k response has a 5xx status code
+func (o *GetFreeipaStatusOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get freeipa status o k response a status code equal to that given
+func (o *GetFreeipaStatusOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get freeipa status o k response
+func (o *GetFreeipaStatusOK) Code() int {
+	return 200
+}
+
 func (o *GetFreeipaStatusOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatusOK  %+v", 200, o.Payload)
+}
+
+func (o *GetFreeipaStatusOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatusOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetFreeipaStatusDefault(code int) *GetFreeipaStatusDefault {
 	}
 }
 
-/*GetFreeipaStatusDefault handles this case with default header values.
+/*
+GetFreeipaStatusDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetFreeipaStatusDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get freeipa status default response has a 2xx status code
+func (o *GetFreeipaStatusDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get freeipa status default response has a 3xx status code
+func (o *GetFreeipaStatusDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get freeipa status default response has a 4xx status code
+func (o *GetFreeipaStatusDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get freeipa status default response has a 5xx status code
+func (o *GetFreeipaStatusDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get freeipa status default response a status code equal to that given
+func (o *GetFreeipaStatusDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get freeipa status default response
 func (o *GetFreeipaStatusDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetFreeipaStatusDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatus default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetFreeipaStatusDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatus default  %+v", o._statusCode, o.Payload)
 }
 

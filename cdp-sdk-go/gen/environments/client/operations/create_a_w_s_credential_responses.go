@@ -46,7 +46,8 @@ func NewCreateAWSCredentialOK() *CreateAWSCredentialOK {
 	return &CreateAWSCredentialOK{}
 }
 
-/*CreateAWSCredentialOK handles this case with default header values.
+/*
+CreateAWSCredentialOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateAWSCredentialOK struct {
 	Payload *models.CreateAWSCredentialResponse
 }
 
+// IsSuccess returns true when this create a w s credential o k response has a 2xx status code
+func (o *CreateAWSCredentialOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create a w s credential o k response has a 3xx status code
+func (o *CreateAWSCredentialOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create a w s credential o k response has a 4xx status code
+func (o *CreateAWSCredentialOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create a w s credential o k response has a 5xx status code
+func (o *CreateAWSCredentialOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create a w s credential o k response a status code equal to that given
+func (o *CreateAWSCredentialOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create a w s credential o k response
+func (o *CreateAWSCredentialOK) Code() int {
+	return 200
+}
+
 func (o *CreateAWSCredentialOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredentialOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateAWSCredentialOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredentialOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateAWSCredentialDefault(code int) *CreateAWSCredentialDefault {
 	}
 }
 
-/*CreateAWSCredentialDefault handles this case with default header values.
+/*
+CreateAWSCredentialDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateAWSCredentialDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create a w s credential default response has a 2xx status code
+func (o *CreateAWSCredentialDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create a w s credential default response has a 3xx status code
+func (o *CreateAWSCredentialDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create a w s credential default response has a 4xx status code
+func (o *CreateAWSCredentialDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create a w s credential default response has a 5xx status code
+func (o *CreateAWSCredentialDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create a w s credential default response a status code equal to that given
+func (o *CreateAWSCredentialDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create a w s credential default response
 func (o *CreateAWSCredentialDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateAWSCredentialDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredential default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateAWSCredentialDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredential default  %+v", o._statusCode, o.Payload)
 }
 

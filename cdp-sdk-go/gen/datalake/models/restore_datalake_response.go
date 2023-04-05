@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -21,6 +23,10 @@ type RestoreDatalakeResponse struct {
 	// Required: true
 	AccountID *string `json:"accountId"`
 
+	// Unique identifier of the backup used to perform restore.
+	// Required: true
+	BackupID *string `json:"backupId"`
+
 	// Location of the backup to be used to perform restore.
 	// Required: true
 	BackupLocation *string `json:"backupLocation"`
@@ -35,9 +41,20 @@ type RestoreDatalakeResponse struct {
 	// Reason for the failure.
 	FailureReason string `json:"failureReason,omitempty"`
 
-	// Provides the details of internal state where is backup operation stands.
+	// Provides the details of the internal state where the restore operation stands.
 	// Required: true
 	InternalState *string `json:"internalState"`
+
+	// Provides the details of the internal state of each operation.
+	// Required: true
+	OperationStates *InternalBackupRestoreState `json:"operationStates"`
+
+	// Unique identifier of the restore operation performed.
+	// Required: true
+	RestoreID *string `json:"restoreId"`
+
+	// The runtime version of the datalake when the restore was initiated.
+	RuntimeVersion string `json:"runtimeVersion,omitempty"`
 
 	// Time when the backup operation started.
 	// Required: true
@@ -46,6 +63,10 @@ type RestoreDatalakeResponse struct {
 	// Provide the current status.
 	// Required: true
 	Status *string `json:"status"`
+
+	// Crn of the user who triggered this operation.
+	// Required: true
+	UserCrn *string `json:"userCrn"`
 }
 
 // Validate validates this restore datalake response
@@ -53,6 +74,10 @@ func (m *RestoreDatalakeResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccountID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateBackupID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -68,11 +93,23 @@ func (m *RestoreDatalakeResponse) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateOperationStates(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRestoreID(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateStartTime(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateStatus(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUserCrn(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -85,6 +122,15 @@ func (m *RestoreDatalakeResponse) Validate(formats strfmt.Registry) error {
 func (m *RestoreDatalakeResponse) validateAccountID(formats strfmt.Registry) error {
 
 	if err := validate.Required("accountId", "body", m.AccountID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *RestoreDatalakeResponse) validateBackupID(formats strfmt.Registry) error {
+
+	if err := validate.Required("backupId", "body", m.BackupID); err != nil {
 		return err
 	}
 
@@ -118,6 +164,35 @@ func (m *RestoreDatalakeResponse) validateInternalState(formats strfmt.Registry)
 	return nil
 }
 
+func (m *RestoreDatalakeResponse) validateOperationStates(formats strfmt.Registry) error {
+
+	if err := validate.Required("operationStates", "body", m.OperationStates); err != nil {
+		return err
+	}
+
+	if m.OperationStates != nil {
+		if err := m.OperationStates.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("operationStates")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("operationStates")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *RestoreDatalakeResponse) validateRestoreID(formats strfmt.Registry) error {
+
+	if err := validate.Required("restoreId", "body", m.RestoreID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *RestoreDatalakeResponse) validateStartTime(formats strfmt.Registry) error {
 
 	if err := validate.Required("startTime", "body", m.StartTime); err != nil {
@@ -131,6 +206,45 @@ func (m *RestoreDatalakeResponse) validateStatus(formats strfmt.Registry) error 
 
 	if err := validate.Required("status", "body", m.Status); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *RestoreDatalakeResponse) validateUserCrn(formats strfmt.Registry) error {
+
+	if err := validate.Required("userCrn", "body", m.UserCrn); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this restore datalake response based on the context it is used
+func (m *RestoreDatalakeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateOperationStates(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *RestoreDatalakeResponse) contextValidateOperationStates(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.OperationStates != nil {
+		if err := m.OperationStates.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("operationStates")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("operationStates")
+			}
+			return err
+		}
 	}
 
 	return nil

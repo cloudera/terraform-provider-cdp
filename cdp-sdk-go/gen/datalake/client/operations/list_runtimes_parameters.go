@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
-// NewListRuntimesParams creates a new ListRuntimesParams object
-// with the default values initialized.
+// NewListRuntimesParams creates a new ListRuntimesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListRuntimesParams() *ListRuntimesParams {
-	var ()
 	return &ListRuntimesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListRuntimesParamsWithTimeout creates a new ListRuntimesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListRuntimesParamsWithTimeout(timeout time.Duration) *ListRuntimesParams {
-	var ()
 	return &ListRuntimesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListRuntimesParamsWithContext creates a new ListRuntimesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListRuntimesParamsWithContext(ctx context.Context) *ListRuntimesParams {
-	var ()
 	return &ListRuntimesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListRuntimesParamsWithHTTPClient creates a new ListRuntimesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListRuntimesParamsWithHTTPClient(client *http.Client) *ListRuntimesParams {
-	var ()
 	return &ListRuntimesParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListRuntimesParams contains all the parameters to send to the API endpoint
-for the list runtimes operation typically these are written to a http.Request
+/*
+ListRuntimesParams contains all the parameters to send to the API endpoint
+
+	for the list runtimes operation.
+
+	Typically these are written to a http.Request.
 */
 type ListRuntimesParams struct {
 
-	/*Input*/
+	// Input.
 	Input models.ListRuntimesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list runtimes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListRuntimesParams) WithDefaults() *ListRuntimesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list runtimes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListRuntimesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list runtimes params
@@ -121,7 +137,6 @@ func (o *ListRuntimesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

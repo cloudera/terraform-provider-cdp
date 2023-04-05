@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,16 +19,74 @@ import (
 // swagger:model CreateClusterRequest
 type CreateClusterRequest struct {
 
-	// The environment for the cluster to create.
+	// Options for activating an AWS environment.
+	AwsOptions *AwsActivationOptions `json:"awsOptions,omitempty"`
+
+	// Options for activating an Azure environment.
+	AzureOptions *AzureActivationOptions `json:"azureOptions,omitempty"`
+
+	// Custom environment ID provided to the cluster
+	CustomID string `json:"customId,omitempty"`
+
+	// Options for custom ACR/ECR/Docker registries.
+	CustomRegistryOptions *CustomRegistryOptions `json:"customRegistryOptions,omitempty"`
+
+	// Custom environment subdomain. Overrides the environment subdomain using a customized domain either in the old subdomain format like ENV_ID.dw or the new format like dw-ENV_NAME.
+	CustomSubdomain string `json:"customSubdomain,omitempty"`
+
+	// PostgreSQL server backup retention days.
+	DatabaseBackupRetentionPeriod *int32 `json:"databaseBackupRetentionPeriod,omitempty"`
+
+	// Enable Storage Roles
+	EnableStorageRoles *bool `json:"enableStorageRoles,omitempty"`
+
+	// The CRN of the environment for the cluster to create.
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
+
+	// Options for activating a Private Cloud environment.
+	PrivateCloudOptions *PrivateCloudActivationOptions `json:"privateCloudOptions,omitempty"`
+
+	// The Resource Pool of the cluster.
+	ResourcePool string `json:"resourcePool,omitempty"`
+
+	// Using an overlay network will save IP addresses in the VPC by using a private IP address range for Pods in the cluster.
+	UseOverlayNetwork bool `json:"useOverlayNetwork,omitempty"`
+
+	// Set up load balancer with private IP address. In AWS it is created in private subnets. In Azure an internal load balancer gets created. Make sure there is connectivity between your client network and the network (VPC/VNet) where CDW environment is deployed.
+	UsePrivateLoadBalancer bool `json:"usePrivateLoadBalancer,omitempty"`
+
+	// Comma separated list of IP address CIDRs to whitelist.
+	WhitelistIPCIDRs string `json:"whitelistIpCIDRs,omitempty"`
+
+	// List of IP address CIDRs to whitelist for kubernetes cluster access.
+	WhitelistK8sClusterAccessIPCIDRs []string `json:"whitelistK8sClusterAccessIpCIDRs"`
+
+	// List of IP address CIDRs to whitelist for workload access.
+	WhitelistWorkloadAccessIPCIDRs []string `json:"whitelistWorkloadAccessIpCIDRs"`
 }
 
 // Validate validates this create cluster request
 func (m *CreateClusterRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAwsOptions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAzureOptions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCustomRegistryOptions(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateEnvironmentCrn(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePrivateCloudOptions(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -36,10 +96,176 @@ func (m *CreateClusterRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *CreateClusterRequest) validateAwsOptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.AwsOptions) { // not required
+		return nil
+	}
+
+	if m.AwsOptions != nil {
+		if err := m.AwsOptions.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateClusterRequest) validateAzureOptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.AzureOptions) { // not required
+		return nil
+	}
+
+	if m.AzureOptions != nil {
+		if err := m.AzureOptions.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateClusterRequest) validateCustomRegistryOptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomRegistryOptions) { // not required
+		return nil
+	}
+
+	if m.CustomRegistryOptions != nil {
+		if err := m.CustomRegistryOptions.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customRegistryOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customRegistryOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateClusterRequest) validateEnvironmentCrn(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateClusterRequest) validatePrivateCloudOptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.PrivateCloudOptions) { // not required
+		return nil
+	}
+
+	if m.PrivateCloudOptions != nil {
+		if err := m.PrivateCloudOptions.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("privateCloudOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("privateCloudOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create cluster request based on the context it is used
+func (m *CreateClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAwsOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAzureOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCustomRegistryOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePrivateCloudOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateClusterRequest) contextValidateAwsOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AwsOptions != nil {
+		if err := m.AwsOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateClusterRequest) contextValidateAzureOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AzureOptions != nil {
+		if err := m.AzureOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateClusterRequest) contextValidateCustomRegistryOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CustomRegistryOptions != nil {
+		if err := m.CustomRegistryOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customRegistryOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customRegistryOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateClusterRequest) contextValidatePrivateCloudOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PrivateCloudOptions != nil {
+		if err := m.PrivateCloudOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("privateCloudOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("privateCloudOptions")
+			}
+			return err
+		}
 	}
 
 	return nil

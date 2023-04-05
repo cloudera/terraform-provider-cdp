@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewDeleteWorkspaceParams creates a new DeleteWorkspaceParams object
-// with the default values initialized.
+// NewDeleteWorkspaceParams creates a new DeleteWorkspaceParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteWorkspaceParams() *DeleteWorkspaceParams {
-	var ()
 	return &DeleteWorkspaceParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteWorkspaceParamsWithTimeout creates a new DeleteWorkspaceParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteWorkspaceParamsWithTimeout(timeout time.Duration) *DeleteWorkspaceParams {
-	var ()
 	return &DeleteWorkspaceParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteWorkspaceParamsWithContext creates a new DeleteWorkspaceParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteWorkspaceParamsWithContext(ctx context.Context) *DeleteWorkspaceParams {
-	var ()
 	return &DeleteWorkspaceParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteWorkspaceParamsWithHTTPClient creates a new DeleteWorkspaceParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteWorkspaceParamsWithHTTPClient(client *http.Client) *DeleteWorkspaceParams {
-	var ()
 	return &DeleteWorkspaceParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteWorkspaceParams contains all the parameters to send to the API endpoint
-for the delete workspace operation typically these are written to a http.Request
+/*
+DeleteWorkspaceParams contains all the parameters to send to the API endpoint
+
+	for the delete workspace operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteWorkspaceParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DeleteWorkspaceRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteWorkspaceParams) WithDefaults() *DeleteWorkspaceParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteWorkspaceParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete workspace params
@@ -121,7 +137,6 @@ func (o *DeleteWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

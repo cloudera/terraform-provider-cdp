@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListMachineUserAssignedRolesParams creates a new ListMachineUserAssignedRolesParams object
-// with the default values initialized.
+// NewListMachineUserAssignedRolesParams creates a new ListMachineUserAssignedRolesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListMachineUserAssignedRolesParams() *ListMachineUserAssignedRolesParams {
-	var ()
 	return &ListMachineUserAssignedRolesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListMachineUserAssignedRolesParamsWithTimeout creates a new ListMachineUserAssignedRolesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListMachineUserAssignedRolesParamsWithTimeout(timeout time.Duration) *ListMachineUserAssignedRolesParams {
-	var ()
 	return &ListMachineUserAssignedRolesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListMachineUserAssignedRolesParamsWithContext creates a new ListMachineUserAssignedRolesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListMachineUserAssignedRolesParamsWithContext(ctx context.Context) *ListMachineUserAssignedRolesParams {
-	var ()
 	return &ListMachineUserAssignedRolesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListMachineUserAssignedRolesParamsWithHTTPClient creates a new ListMachineUserAssignedRolesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListMachineUserAssignedRolesParamsWithHTTPClient(client *http.Client) *ListMachineUserAssignedRolesParams {
-	var ()
 	return &ListMachineUserAssignedRolesParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListMachineUserAssignedRolesParams contains all the parameters to send to the API endpoint
-for the list machine user assigned roles operation typically these are written to a http.Request
+/*
+ListMachineUserAssignedRolesParams contains all the parameters to send to the API endpoint
+
+	for the list machine user assigned roles operation.
+
+	Typically these are written to a http.Request.
 */
 type ListMachineUserAssignedRolesParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListMachineUserAssignedRolesRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list machine user assigned roles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListMachineUserAssignedRolesParams) WithDefaults() *ListMachineUserAssignedRolesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list machine user assigned roles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListMachineUserAssignedRolesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list machine user assigned roles params
@@ -121,7 +137,6 @@ func (o *ListMachineUserAssignedRolesParams) WriteToRequest(r runtime.ClientRequ
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

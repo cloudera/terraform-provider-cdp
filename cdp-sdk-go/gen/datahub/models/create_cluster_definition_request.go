@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -60,11 +62,11 @@ func (m *CreateClusterDefinitionRequest) validateClusterDefinitionName(formats s
 		return err
 	}
 
-	if err := validate.MinLength("clusterDefinitionName", "body", string(*m.ClusterDefinitionName), 5); err != nil {
+	if err := validate.MinLength("clusterDefinitionName", "body", *m.ClusterDefinitionName, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("clusterDefinitionName", "body", string(*m.ClusterDefinitionName), 1000); err != nil {
+	if err := validate.MaxLength("clusterDefinitionName", "body", *m.ClusterDefinitionName, 1000); err != nil {
 		return err
 	}
 
@@ -72,12 +74,11 @@ func (m *CreateClusterDefinitionRequest) validateClusterDefinitionName(formats s
 }
 
 func (m *CreateClusterDefinitionRequest) validateDescription(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Description) { // not required
 		return nil
 	}
 
-	if err := validate.MaxLength("description", "body", string(m.Description), 1000); err != nil {
+	if err := validate.MaxLength("description", "body", m.Description, 1000); err != nil {
 		return err
 	}
 
@@ -90,6 +91,11 @@ func (m *CreateClusterDefinitionRequest) validateWorkloadTemplate(formats strfmt
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create cluster definition request based on context it is used
+func (m *CreateClusterDefinitionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

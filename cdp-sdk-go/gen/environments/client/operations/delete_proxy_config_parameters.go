@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewDeleteProxyConfigParams creates a new DeleteProxyConfigParams object
-// with the default values initialized.
+// NewDeleteProxyConfigParams creates a new DeleteProxyConfigParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteProxyConfigParams() *DeleteProxyConfigParams {
-	var ()
 	return &DeleteProxyConfigParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteProxyConfigParamsWithTimeout creates a new DeleteProxyConfigParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteProxyConfigParamsWithTimeout(timeout time.Duration) *DeleteProxyConfigParams {
-	var ()
 	return &DeleteProxyConfigParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteProxyConfigParamsWithContext creates a new DeleteProxyConfigParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteProxyConfigParamsWithContext(ctx context.Context) *DeleteProxyConfigParams {
-	var ()
 	return &DeleteProxyConfigParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteProxyConfigParamsWithHTTPClient creates a new DeleteProxyConfigParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteProxyConfigParamsWithHTTPClient(client *http.Client) *DeleteProxyConfigParams {
-	var ()
 	return &DeleteProxyConfigParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteProxyConfigParams contains all the parameters to send to the API endpoint
-for the delete proxy config operation typically these are written to a http.Request
+/*
+DeleteProxyConfigParams contains all the parameters to send to the API endpoint
+
+	for the delete proxy config operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteProxyConfigParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DeleteProxyConfigRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete proxy config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteProxyConfigParams) WithDefaults() *DeleteProxyConfigParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete proxy config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteProxyConfigParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete proxy config params
@@ -121,7 +137,6 @@ func (o *DeleteProxyConfigParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

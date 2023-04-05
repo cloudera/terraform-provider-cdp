@@ -46,7 +46,8 @@ func NewListProxyConfigsOK() *ListProxyConfigsOK {
 	return &ListProxyConfigsOK{}
 }
 
-/*ListProxyConfigsOK handles this case with default header values.
+/*
+ListProxyConfigsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListProxyConfigsOK struct {
 	Payload *models.ListProxyConfigsResponse
 }
 
+// IsSuccess returns true when this list proxy configs o k response has a 2xx status code
+func (o *ListProxyConfigsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list proxy configs o k response has a 3xx status code
+func (o *ListProxyConfigsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list proxy configs o k response has a 4xx status code
+func (o *ListProxyConfigsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list proxy configs o k response has a 5xx status code
+func (o *ListProxyConfigsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list proxy configs o k response a status code equal to that given
+func (o *ListProxyConfigsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list proxy configs o k response
+func (o *ListProxyConfigsOK) Code() int {
+	return 200
+}
+
 func (o *ListProxyConfigsOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigsOK  %+v", 200, o.Payload)
+}
+
+func (o *ListProxyConfigsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListProxyConfigsDefault(code int) *ListProxyConfigsDefault {
 	}
 }
 
-/*ListProxyConfigsDefault handles this case with default header values.
+/*
+ListProxyConfigsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListProxyConfigsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list proxy configs default response has a 2xx status code
+func (o *ListProxyConfigsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list proxy configs default response has a 3xx status code
+func (o *ListProxyConfigsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list proxy configs default response has a 4xx status code
+func (o *ListProxyConfigsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list proxy configs default response has a 5xx status code
+func (o *ListProxyConfigsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list proxy configs default response a status code equal to that given
+func (o *ListProxyConfigsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list proxy configs default response
 func (o *ListProxyConfigsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListProxyConfigsDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigs default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListProxyConfigsDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigs default  %+v", o._statusCode, o.Payload)
 }
 

@@ -46,7 +46,8 @@ func NewCreateMachineUserOK() *CreateMachineUserOK {
 	return &CreateMachineUserOK{}
 }
 
-/*CreateMachineUserOK handles this case with default header values.
+/*
+CreateMachineUserOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateMachineUserOK struct {
 	Payload *models.CreateMachineUserResponse
 }
 
+// IsSuccess returns true when this create machine user o k response has a 2xx status code
+func (o *CreateMachineUserOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create machine user o k response has a 3xx status code
+func (o *CreateMachineUserOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create machine user o k response has a 4xx status code
+func (o *CreateMachineUserOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create machine user o k response has a 5xx status code
+func (o *CreateMachineUserOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create machine user o k response a status code equal to that given
+func (o *CreateMachineUserOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create machine user o k response
+func (o *CreateMachineUserOK) Code() int {
+	return 200
+}
+
 func (o *CreateMachineUserOK) Error() string {
+	return fmt.Sprintf("[POST /iam/createMachineUser][%d] createMachineUserOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateMachineUserOK) String() string {
 	return fmt.Sprintf("[POST /iam/createMachineUser][%d] createMachineUserOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateMachineUserDefault(code int) *CreateMachineUserDefault {
 	}
 }
 
-/*CreateMachineUserDefault handles this case with default header values.
+/*
+CreateMachineUserDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateMachineUserDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create machine user default response has a 2xx status code
+func (o *CreateMachineUserDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create machine user default response has a 3xx status code
+func (o *CreateMachineUserDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create machine user default response has a 4xx status code
+func (o *CreateMachineUserDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create machine user default response has a 5xx status code
+func (o *CreateMachineUserDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create machine user default response a status code equal to that given
+func (o *CreateMachineUserDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create machine user default response
 func (o *CreateMachineUserDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateMachineUserDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/createMachineUser][%d] createMachineUser default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateMachineUserDefault) String() string {
 	return fmt.Sprintf("[POST /iam/createMachineUser][%d] createMachineUser default  %+v", o._statusCode, o.Payload)
 }
 

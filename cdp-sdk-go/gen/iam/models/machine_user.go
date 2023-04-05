@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -14,7 +15,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// MachineUser Information about a Cloudera Altus machine user.
+// MachineUser Information about a Cloudera CDP machine user.
 //
 // swagger:model MachineUser
 type MachineUser struct {
@@ -34,6 +35,12 @@ type MachineUser struct {
 	// The machine user name.
 	// Required: true
 	MachineUserName *string `json:"machineUserName"`
+
+	// The current status of the machine user. The possible status values are ACTIVE and CONTROL_PLANE_LOCKED_OUT. ACTIVE indicates that the machine user is active in CDP. An active machine user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the machine user is locked out of the CDP control plane. The locked-out machine user can no longer authenticate to the control plane but can authenticate to the workload clusters. Note that more statuses could be added in the future.
+	Status string `json:"status,omitempty"`
+
+	// Information about the workload password for the machine user.
+	WorkloadPasswordDetails *WorkloadPasswordDetails `json:"workloadPasswordDetails,omitempty"`
 
 	// The username used in all the workload clusters of the machine user.
 	WorkloadUsername string `json:"workloadUsername,omitempty"`
@@ -59,6 +66,10 @@ func (m *MachineUser) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateWorkloadPasswordDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -66,7 +77,6 @@ func (m *MachineUser) Validate(formats strfmt.Registry) error {
 }
 
 func (m *MachineUser) validateAzureCloudIdentities(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AzureCloudIdentities) { // not required
 		return nil
 	}
@@ -80,6 +90,8 @@ func (m *MachineUser) validateAzureCloudIdentities(formats strfmt.Registry) erro
 			if err := m.AzureCloudIdentities[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -116,6 +128,79 @@ func (m *MachineUser) validateMachineUserName(formats strfmt.Registry) error {
 
 	if err := validate.Required("machineUserName", "body", m.MachineUserName); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *MachineUser) validateWorkloadPasswordDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.WorkloadPasswordDetails) { // not required
+		return nil
+	}
+
+	if m.WorkloadPasswordDetails != nil {
+		if err := m.WorkloadPasswordDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("workloadPasswordDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workloadPasswordDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this machine user based on the context it is used
+func (m *MachineUser) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAzureCloudIdentities(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateWorkloadPasswordDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *MachineUser) contextValidateAzureCloudIdentities(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AzureCloudIdentities); i++ {
+
+		if m.AzureCloudIdentities[i] != nil {
+			if err := m.AzureCloudIdentities[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *MachineUser) contextValidateWorkloadPasswordDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.WorkloadPasswordDetails != nil {
+		if err := m.WorkloadPasswordDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("workloadPasswordDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workloadPasswordDetails")
+			}
+			return err
+		}
 	}
 
 	return nil

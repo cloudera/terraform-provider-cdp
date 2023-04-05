@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListEntitlementsParams creates a new ListEntitlementsParams object
-// with the default values initialized.
+// NewListEntitlementsParams creates a new ListEntitlementsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListEntitlementsParams() *ListEntitlementsParams {
-	var ()
 	return &ListEntitlementsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListEntitlementsParamsWithTimeout creates a new ListEntitlementsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListEntitlementsParamsWithTimeout(timeout time.Duration) *ListEntitlementsParams {
-	var ()
 	return &ListEntitlementsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListEntitlementsParamsWithContext creates a new ListEntitlementsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListEntitlementsParamsWithContext(ctx context.Context) *ListEntitlementsParams {
-	var ()
 	return &ListEntitlementsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListEntitlementsParamsWithHTTPClient creates a new ListEntitlementsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListEntitlementsParamsWithHTTPClient(client *http.Client) *ListEntitlementsParams {
-	var ()
 	return &ListEntitlementsParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListEntitlementsParams contains all the parameters to send to the API endpoint
-for the list entitlements operation typically these are written to a http.Request
+/*
+ListEntitlementsParams contains all the parameters to send to the API endpoint
+
+	for the list entitlements operation.
+
+	Typically these are written to a http.Request.
 */
 type ListEntitlementsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListEntitlementsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list entitlements params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListEntitlementsParams) WithDefaults() *ListEntitlementsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list entitlements params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListEntitlementsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list entitlements params
@@ -121,7 +137,6 @@ func (o *ListEntitlementsParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

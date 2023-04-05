@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListGroupsForUserParams creates a new ListGroupsForUserParams object
-// with the default values initialized.
+// NewListGroupsForUserParams creates a new ListGroupsForUserParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListGroupsForUserParams() *ListGroupsForUserParams {
-	var ()
 	return &ListGroupsForUserParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListGroupsForUserParamsWithTimeout creates a new ListGroupsForUserParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListGroupsForUserParamsWithTimeout(timeout time.Duration) *ListGroupsForUserParams {
-	var ()
 	return &ListGroupsForUserParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListGroupsForUserParamsWithContext creates a new ListGroupsForUserParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListGroupsForUserParamsWithContext(ctx context.Context) *ListGroupsForUserParams {
-	var ()
 	return &ListGroupsForUserParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListGroupsForUserParamsWithHTTPClient creates a new ListGroupsForUserParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListGroupsForUserParamsWithHTTPClient(client *http.Client) *ListGroupsForUserParams {
-	var ()
 	return &ListGroupsForUserParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListGroupsForUserParams contains all the parameters to send to the API endpoint
-for the list groups for user operation typically these are written to a http.Request
+/*
+ListGroupsForUserParams contains all the parameters to send to the API endpoint
+
+	for the list groups for user operation.
+
+	Typically these are written to a http.Request.
 */
 type ListGroupsForUserParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListGroupsForUserRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list groups for user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListGroupsForUserParams) WithDefaults() *ListGroupsForUserParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list groups for user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListGroupsForUserParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list groups for user params
@@ -121,7 +137,6 @@ func (o *ListGroupsForUserParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

@@ -46,7 +46,8 @@ func NewCreateAzureEnvironmentOK() *CreateAzureEnvironmentOK {
 	return &CreateAzureEnvironmentOK{}
 }
 
-/*CreateAzureEnvironmentOK handles this case with default header values.
+/*
+CreateAzureEnvironmentOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateAzureEnvironmentOK struct {
 	Payload *models.CreateAzureEnvironmentResponse
 }
 
+// IsSuccess returns true when this create azure environment o k response has a 2xx status code
+func (o *CreateAzureEnvironmentOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create azure environment o k response has a 3xx status code
+func (o *CreateAzureEnvironmentOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create azure environment o k response has a 4xx status code
+func (o *CreateAzureEnvironmentOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create azure environment o k response has a 5xx status code
+func (o *CreateAzureEnvironmentOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create azure environment o k response a status code equal to that given
+func (o *CreateAzureEnvironmentOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create azure environment o k response
+func (o *CreateAzureEnvironmentOK) Code() int {
+	return 200
+}
+
 func (o *CreateAzureEnvironmentOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironmentOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateAzureEnvironmentOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironmentOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateAzureEnvironmentDefault(code int) *CreateAzureEnvironmentDefault {
 	}
 }
 
-/*CreateAzureEnvironmentDefault handles this case with default header values.
+/*
+CreateAzureEnvironmentDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateAzureEnvironmentDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create azure environment default response has a 2xx status code
+func (o *CreateAzureEnvironmentDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create azure environment default response has a 3xx status code
+func (o *CreateAzureEnvironmentDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create azure environment default response has a 4xx status code
+func (o *CreateAzureEnvironmentDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create azure environment default response has a 5xx status code
+func (o *CreateAzureEnvironmentDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create azure environment default response a status code equal to that given
+func (o *CreateAzureEnvironmentDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create azure environment default response
 func (o *CreateAzureEnvironmentDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateAzureEnvironmentDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironment default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateAzureEnvironmentDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironment default  %+v", o._statusCode, o.Payload)
 }
 

@@ -46,7 +46,8 @@ func NewListWorkspaceAccessOK() *ListWorkspaceAccessOK {
 	return &ListWorkspaceAccessOK{}
 }
 
-/*ListWorkspaceAccessOK handles this case with default header values.
+/*
+ListWorkspaceAccessOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListWorkspaceAccessOK struct {
 	Payload *models.ListWorkspaceAccessResponse
 }
 
+// IsSuccess returns true when this list workspace access o k response has a 2xx status code
+func (o *ListWorkspaceAccessOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list workspace access o k response has a 3xx status code
+func (o *ListWorkspaceAccessOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list workspace access o k response has a 4xx status code
+func (o *ListWorkspaceAccessOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list workspace access o k response has a 5xx status code
+func (o *ListWorkspaceAccessOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list workspace access o k response a status code equal to that given
+func (o *ListWorkspaceAccessOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list workspace access o k response
+func (o *ListWorkspaceAccessOK) Code() int {
+	return 200
+}
+
 func (o *ListWorkspaceAccessOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccessOK  %+v", 200, o.Payload)
+}
+
+func (o *ListWorkspaceAccessOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccessOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListWorkspaceAccessDefault(code int) *ListWorkspaceAccessDefault {
 	}
 }
 
-/*ListWorkspaceAccessDefault handles this case with default header values.
+/*
+ListWorkspaceAccessDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListWorkspaceAccessDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list workspace access default response has a 2xx status code
+func (o *ListWorkspaceAccessDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list workspace access default response has a 3xx status code
+func (o *ListWorkspaceAccessDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list workspace access default response has a 4xx status code
+func (o *ListWorkspaceAccessDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list workspace access default response has a 5xx status code
+func (o *ListWorkspaceAccessDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list workspace access default response a status code equal to that given
+func (o *ListWorkspaceAccessDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list workspace access default response
 func (o *ListWorkspaceAccessDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListWorkspaceAccessDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListWorkspaceAccessDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccess default  %+v", o._statusCode, o.Payload)
 }
 

@@ -46,7 +46,8 @@ func NewDeleteProxyConfigOK() *DeleteProxyConfigOK {
 	return &DeleteProxyConfigOK{}
 }
 
-/*DeleteProxyConfigOK handles this case with default header values.
+/*
+DeleteProxyConfigOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteProxyConfigOK struct {
 	Payload models.DeleteProxyConfigResponse
 }
 
+// IsSuccess returns true when this delete proxy config o k response has a 2xx status code
+func (o *DeleteProxyConfigOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete proxy config o k response has a 3xx status code
+func (o *DeleteProxyConfigOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete proxy config o k response has a 4xx status code
+func (o *DeleteProxyConfigOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete proxy config o k response has a 5xx status code
+func (o *DeleteProxyConfigOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete proxy config o k response a status code equal to that given
+func (o *DeleteProxyConfigOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete proxy config o k response
+func (o *DeleteProxyConfigOK) Code() int {
+	return 200
+}
+
 func (o *DeleteProxyConfigOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfigOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteProxyConfigOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfigOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewDeleteProxyConfigDefault(code int) *DeleteProxyConfigDefault {
 	}
 }
 
-/*DeleteProxyConfigDefault handles this case with default header values.
+/*
+DeleteProxyConfigDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type DeleteProxyConfigDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete proxy config default response has a 2xx status code
+func (o *DeleteProxyConfigDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete proxy config default response has a 3xx status code
+func (o *DeleteProxyConfigDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete proxy config default response has a 4xx status code
+func (o *DeleteProxyConfigDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete proxy config default response has a 5xx status code
+func (o *DeleteProxyConfigDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete proxy config default response a status code equal to that given
+func (o *DeleteProxyConfigDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete proxy config default response
 func (o *DeleteProxyConfigDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteProxyConfigDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfig default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteProxyConfigDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfig default  %+v", o._statusCode, o.Payload)
 }
 

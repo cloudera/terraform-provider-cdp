@@ -46,7 +46,8 @@ func NewStopDatalakeOK() *StopDatalakeOK {
 	return &StopDatalakeOK{}
 }
 
-/*StopDatalakeOK handles this case with default header values.
+/*
+StopDatalakeOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type StopDatalakeOK struct {
 	Payload models.StopDatalakeResponse
 }
 
+// IsSuccess returns true when this stop datalake o k response has a 2xx status code
+func (o *StopDatalakeOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this stop datalake o k response has a 3xx status code
+func (o *StopDatalakeOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this stop datalake o k response has a 4xx status code
+func (o *StopDatalakeOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this stop datalake o k response has a 5xx status code
+func (o *StopDatalakeOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this stop datalake o k response a status code equal to that given
+func (o *StopDatalakeOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the stop datalake o k response
+func (o *StopDatalakeOK) Code() int {
+	return 200
+}
+
 func (o *StopDatalakeOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalakeOK  %+v", 200, o.Payload)
+}
+
+func (o *StopDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalakeOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewStopDatalakeDefault(code int) *StopDatalakeDefault {
 	}
 }
 
-/*StopDatalakeDefault handles this case with default header values.
+/*
+StopDatalakeDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type StopDatalakeDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this stop datalake default response has a 2xx status code
+func (o *StopDatalakeDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this stop datalake default response has a 3xx status code
+func (o *StopDatalakeDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this stop datalake default response has a 4xx status code
+func (o *StopDatalakeDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this stop datalake default response has a 5xx status code
+func (o *StopDatalakeDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this stop datalake default response a status code equal to that given
+func (o *StopDatalakeDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the stop datalake default response
 func (o *StopDatalakeDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *StopDatalakeDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalake default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *StopDatalakeDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalake default  %+v", o._statusCode, o.Payload)
 }
 

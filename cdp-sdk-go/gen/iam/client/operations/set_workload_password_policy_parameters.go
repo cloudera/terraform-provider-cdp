@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewSetWorkloadPasswordPolicyParams creates a new SetWorkloadPasswordPolicyParams object
-// with the default values initialized.
+// NewSetWorkloadPasswordPolicyParams creates a new SetWorkloadPasswordPolicyParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetWorkloadPasswordPolicyParams() *SetWorkloadPasswordPolicyParams {
-	var ()
 	return &SetWorkloadPasswordPolicyParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSetWorkloadPasswordPolicyParamsWithTimeout creates a new SetWorkloadPasswordPolicyParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSetWorkloadPasswordPolicyParamsWithTimeout(timeout time.Duration) *SetWorkloadPasswordPolicyParams {
-	var ()
 	return &SetWorkloadPasswordPolicyParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSetWorkloadPasswordPolicyParamsWithContext creates a new SetWorkloadPasswordPolicyParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSetWorkloadPasswordPolicyParamsWithContext(ctx context.Context) *SetWorkloadPasswordPolicyParams {
-	var ()
 	return &SetWorkloadPasswordPolicyParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSetWorkloadPasswordPolicyParamsWithHTTPClient creates a new SetWorkloadPasswordPolicyParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSetWorkloadPasswordPolicyParamsWithHTTPClient(client *http.Client) *SetWorkloadPasswordPolicyParams {
-	var ()
 	return &SetWorkloadPasswordPolicyParams{
 		HTTPClient: client,
 	}
 }
 
-/*SetWorkloadPasswordPolicyParams contains all the parameters to send to the API endpoint
-for the set workload password policy operation typically these are written to a http.Request
+/*
+SetWorkloadPasswordPolicyParams contains all the parameters to send to the API endpoint
+
+	for the set workload password policy operation.
+
+	Typically these are written to a http.Request.
 */
 type SetWorkloadPasswordPolicyParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.SetWorkloadPasswordPolicyRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the set workload password policy params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetWorkloadPasswordPolicyParams) WithDefaults() *SetWorkloadPasswordPolicyParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the set workload password policy params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SetWorkloadPasswordPolicyParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the set workload password policy params
@@ -121,7 +137,6 @@ func (o *SetWorkloadPasswordPolicyParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

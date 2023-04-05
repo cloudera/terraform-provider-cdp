@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewGetRootCertificateParams creates a new GetRootCertificateParams object
-// with the default values initialized.
+// NewGetRootCertificateParams creates a new GetRootCertificateParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetRootCertificateParams() *GetRootCertificateParams {
-	var ()
 	return &GetRootCertificateParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetRootCertificateParamsWithTimeout creates a new GetRootCertificateParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetRootCertificateParamsWithTimeout(timeout time.Duration) *GetRootCertificateParams {
-	var ()
 	return &GetRootCertificateParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetRootCertificateParamsWithContext creates a new GetRootCertificateParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetRootCertificateParamsWithContext(ctx context.Context) *GetRootCertificateParams {
-	var ()
 	return &GetRootCertificateParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetRootCertificateParamsWithHTTPClient creates a new GetRootCertificateParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetRootCertificateParamsWithHTTPClient(client *http.Client) *GetRootCertificateParams {
-	var ()
 	return &GetRootCertificateParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetRootCertificateParams contains all the parameters to send to the API endpoint
-for the get root certificate operation typically these are written to a http.Request
+/*
+GetRootCertificateParams contains all the parameters to send to the API endpoint
+
+	for the get root certificate operation.
+
+	Typically these are written to a http.Request.
 */
 type GetRootCertificateParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.GetRootCertificateRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get root certificate params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetRootCertificateParams) WithDefaults() *GetRootCertificateParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get root certificate params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetRootCertificateParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get root certificate params
@@ -121,7 +137,6 @@ func (o *GetRootCertificateParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

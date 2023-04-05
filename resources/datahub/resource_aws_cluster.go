@@ -211,7 +211,7 @@ func resourceAWSClusterCreate(d *schema.ResourceData, m interface{}) error {
 			InstanceGroupType:           &instanceGroupType,
 			InstanceType:                &instanceType,
 			NodeCount:                   &nodeCount,
-			RootVolumeSize:              &rootVolumeSize,
+			RootVolumeSize:              rootVolumeSize,
 			RecoveryMode:                recoveryMode,
 			RecipeNames:                 recipeNames,
 			AttachedVolumeConfiguration: attachedVolumes,

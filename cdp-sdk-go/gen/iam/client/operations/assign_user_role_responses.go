@@ -46,7 +46,8 @@ func NewAssignUserRoleOK() *AssignUserRoleOK {
 	return &AssignUserRoleOK{}
 }
 
-/*AssignUserRoleOK handles this case with default header values.
+/*
+AssignUserRoleOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type AssignUserRoleOK struct {
 	Payload models.AssignUserRoleResponse
 }
 
+// IsSuccess returns true when this assign user role o k response has a 2xx status code
+func (o *AssignUserRoleOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this assign user role o k response has a 3xx status code
+func (o *AssignUserRoleOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this assign user role o k response has a 4xx status code
+func (o *AssignUserRoleOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this assign user role o k response has a 5xx status code
+func (o *AssignUserRoleOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this assign user role o k response a status code equal to that given
+func (o *AssignUserRoleOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the assign user role o k response
+func (o *AssignUserRoleOK) Code() int {
+	return 200
+}
+
 func (o *AssignUserRoleOK) Error() string {
+	return fmt.Sprintf("[POST /iam/assignUserRole][%d] assignUserRoleOK  %+v", 200, o.Payload)
+}
+
+func (o *AssignUserRoleOK) String() string {
 	return fmt.Sprintf("[POST /iam/assignUserRole][%d] assignUserRoleOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewAssignUserRoleDefault(code int) *AssignUserRoleDefault {
 	}
 }
 
-/*AssignUserRoleDefault handles this case with default header values.
+/*
+AssignUserRoleDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type AssignUserRoleDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this assign user role default response has a 2xx status code
+func (o *AssignUserRoleDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this assign user role default response has a 3xx status code
+func (o *AssignUserRoleDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this assign user role default response has a 4xx status code
+func (o *AssignUserRoleDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this assign user role default response has a 5xx status code
+func (o *AssignUserRoleDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this assign user role default response a status code equal to that given
+func (o *AssignUserRoleDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the assign user role default response
 func (o *AssignUserRoleDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *AssignUserRoleDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/assignUserRole][%d] assignUserRole default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *AssignUserRoleDefault) String() string {
 	return fmt.Sprintf("[POST /iam/assignUserRole][%d] assignUserRole default  %+v", o._statusCode, o.Payload)
 }
 

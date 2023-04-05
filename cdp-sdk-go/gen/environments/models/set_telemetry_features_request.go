@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +18,9 @@ import (
 //
 // swagger:model SetTelemetryFeaturesRequest
 type SetTelemetryFeaturesRequest struct {
+
+	// Flag to enable environment level cloud storage logging (enabled by default).
+	CloudStorageLogging bool `json:"cloudStorageLogging,omitempty"`
 
 	// The name or CRN of the environment.
 	// Required: true
@@ -48,6 +53,11 @@ func (m *SetTelemetryFeaturesRequest) validateEnvironmentName(formats strfmt.Reg
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this set telemetry features request based on context it is used
+func (m *SetTelemetryFeaturesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

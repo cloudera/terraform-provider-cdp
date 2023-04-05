@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewCreateAzureEnvironmentParams creates a new CreateAzureEnvironmentParams object
-// with the default values initialized.
+// NewCreateAzureEnvironmentParams creates a new CreateAzureEnvironmentParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAzureEnvironmentParams() *CreateAzureEnvironmentParams {
-	var ()
 	return &CreateAzureEnvironmentParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateAzureEnvironmentParamsWithTimeout creates a new CreateAzureEnvironmentParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateAzureEnvironmentParamsWithTimeout(timeout time.Duration) *CreateAzureEnvironmentParams {
-	var ()
 	return &CreateAzureEnvironmentParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateAzureEnvironmentParamsWithContext creates a new CreateAzureEnvironmentParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateAzureEnvironmentParamsWithContext(ctx context.Context) *CreateAzureEnvironmentParams {
-	var ()
 	return &CreateAzureEnvironmentParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateAzureEnvironmentParamsWithHTTPClient creates a new CreateAzureEnvironmentParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateAzureEnvironmentParamsWithHTTPClient(client *http.Client) *CreateAzureEnvironmentParams {
-	var ()
 	return &CreateAzureEnvironmentParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateAzureEnvironmentParams contains all the parameters to send to the API endpoint
-for the create azure environment operation typically these are written to a http.Request
+/*
+CreateAzureEnvironmentParams contains all the parameters to send to the API endpoint
+
+	for the create azure environment operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateAzureEnvironmentParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateAzureEnvironmentRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create azure environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAzureEnvironmentParams) WithDefaults() *CreateAzureEnvironmentParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create azure environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAzureEnvironmentParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create azure environment params
@@ -121,7 +137,6 @@ func (o *CreateAzureEnvironmentParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

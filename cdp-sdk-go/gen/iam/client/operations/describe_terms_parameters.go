@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewDescribeTermsParams creates a new DescribeTermsParams object
-// with the default values initialized.
+// NewDescribeTermsParams creates a new DescribeTermsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeTermsParams() *DescribeTermsParams {
-	var ()
 	return &DescribeTermsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDescribeTermsParamsWithTimeout creates a new DescribeTermsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDescribeTermsParamsWithTimeout(timeout time.Duration) *DescribeTermsParams {
-	var ()
 	return &DescribeTermsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDescribeTermsParamsWithContext creates a new DescribeTermsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDescribeTermsParamsWithContext(ctx context.Context) *DescribeTermsParams {
-	var ()
 	return &DescribeTermsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDescribeTermsParamsWithHTTPClient creates a new DescribeTermsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDescribeTermsParamsWithHTTPClient(client *http.Client) *DescribeTermsParams {
-	var ()
 	return &DescribeTermsParams{
 		HTTPClient: client,
 	}
 }
 
-/*DescribeTermsParams contains all the parameters to send to the API endpoint
-for the describe terms operation typically these are written to a http.Request
+/*
+DescribeTermsParams contains all the parameters to send to the API endpoint
+
+	for the describe terms operation.
+
+	Typically these are written to a http.Request.
 */
 type DescribeTermsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DescribeTermsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the describe terms params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeTermsParams) WithDefaults() *DescribeTermsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the describe terms params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeTermsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the describe terms params
@@ -121,7 +137,6 @@ func (o *DescribeTermsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

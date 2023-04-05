@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,9 +19,15 @@ import (
 // swagger:model DeleteEnvironmentRequest
 type DeleteEnvironmentRequest struct {
 
+	// Delete all connected resources too.
+	Cascading bool `json:"cascading,omitempty"`
+
 	// The name or CRN of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
+
+	// Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.
+	Forced bool `json:"forced,omitempty"`
 }
 
 // Validate validates this delete environment request
@@ -42,6 +50,11 @@ func (m *DeleteEnvironmentRequest) validateEnvironmentName(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this delete environment request based on context it is used
+func (m *DeleteEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

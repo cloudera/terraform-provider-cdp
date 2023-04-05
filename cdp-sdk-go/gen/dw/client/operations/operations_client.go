@@ -23,29 +23,304 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	CreateCluster(params *CreateClusterParams) (*CreateClusterOK, error)
+	AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserOK, error)
 
-	DescribeCluster(params *DescribeClusterParams) (*DescribeClusterOK, error)
+	BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error)
 
-	ListClusters(params *ListClustersParams) (*ListClustersOK, error)
+	CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error)
+
+	CreateCluster(params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error)
+
+	CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error)
+
+	CreateDataVisualization(params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error)
+
+	CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error)
+
+	CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error)
+
+	CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error)
+
+	CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error)
+
+	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
+
+	DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error)
+
+	DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error)
+
+	DeleteDataVisualization(params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error)
+
+	DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error)
+
+	DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error)
+
+	DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error)
+
+	DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error)
+
+	DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error)
+
+	DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error)
+
+	DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error)
+
+	DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error)
+
+	DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error)
+
+	DescribeConfig(params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error)
+
+	DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error)
+
+	DescribeDataVisualization(params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error)
+
+	DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error)
+
+	DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error)
+
+	DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error)
+
+	DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error)
+
+	DescribeRestore(params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error)
+
+	DescribeServerSetting(params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error)
+
+	DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error)
+
+	DescribeVwConfig(params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error)
+
+	DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error)
+
+	GetControlPlaneAppVersion(params *GetControlPlaneAppVersionParams, opts ...ClientOption) (*GetControlPlaneAppVersionOK, error)
+
+	GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error)
+
+	GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
+
+	GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error)
+
+	GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error)
+
+	HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error)
+
+	ListBackupEntities(params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error)
+
+	ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error)
+
+	ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error)
+
+	ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error)
+
+	ListDataVisualizations(params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error)
+
+	ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error)
+
+	ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error)
+
+	ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error)
+
+	ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error)
+
+	ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error)
+
+	ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error)
+
+	ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
+
+	ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error)
+
+	ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error)
+
+	ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error)
+
+	ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error)
+
+	PauseVw(params *PauseVwParams, opts ...ClientOption) (*PauseVwOK, error)
+
+	RebuildCluster(params *RebuildClusterParams, opts ...ClientOption) (*RebuildClusterOK, error)
+
+	RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error)
+
+	RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error)
+
+	RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error)
+
+	RestartDbc(params *RestartDbcParams, opts ...ClientOption) (*RestartDbcOK, error)
+
+	RestartVw(params *RestartVwParams, opts ...ClientOption) (*RestartVwOK, error)
+
+	RestoreBackup(params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error)
+
+	RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error)
+
+	StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error)
+
+	SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error)
+
+	SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error)
+
+	UpdateCluster(params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error)
+
+	UpdateDataVisualization(params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error)
+
+	UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error)
+
+	UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error)
+
+	UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error)
+
+	UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error)
+
+	UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error)
+
+	UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error)
+
+	UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error)
+
+	UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error)
+
+	UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error)
+
+	UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-  CreateCluster creates a cloudera data warehouse cluster
+AddUser adds the given user to the cluster
 
-  Create a Cloudera Data Warehouse cluster.
+Adds the given user to the cluster. Please note that the user must pre-exist.
 */
-func (a *Client) CreateCluster(params *CreateClusterParams) (*CreateClusterOK, error) {
+func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAddUserParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "addUser",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/addUser",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AddUserReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AddUserOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AddUserDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+BackupCluster creates a backup from the cluster configuration and settings
+
+Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command.
+*/
+func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewBackupClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "backupCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/backupCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &BackupClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*BackupClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*BackupClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateBackup creates a backup for the data warehouse
+
+Creates an on-demand backup for the data warehouse including Kubernetes objects, persistent volumes, etc. Backup requests are processed asynchronously and instantaneously.
+*/
+func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateBackupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createBackup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createBackup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateBackupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateCluster creates a cloudera data warehouse cluster
+
+Create a Cloudera Data Warehouse cluster.
+*/
+func (a *Client) CreateCluster(params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/dw/createCluster",
@@ -56,7 +331,12 @@ func (a *Client) CreateCluster(params *CreateClusterParams) (*CreateClusterOK, e
 		Reader:             &CreateClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -70,17 +350,679 @@ func (a *Client) CreateCluster(params *CreateClusterParams) (*CreateClusterOK, e
 }
 
 /*
-  DescribeCluster describes a cloudera data warehouse cluster
+CreateClusterDiagnosticDataJob creates a diagnostic job for the given cluster
 
-  Describe a Cloudera Data Warehouse cluster.
+Creates a diagnostic job for the given cluster. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
 */
-func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeClusterOK, error) {
+func (a *Client) CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateClusterDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createClusterDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createClusterDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateClusterDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateClusterDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateClusterDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateDataVisualization creates a cloudera data visualization
+
+Creates a Cloudera Data Visualization.
+*/
+func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateDataVisualizationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createDataVisualization",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createDataVisualization",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateDataVisualizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateDataVisualizationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateDataVisualizationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateDbc creates a database catalog
+
+Create a Database Catalog.
+*/
+func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateDbcDiagnosticDataJob creates a diagnostic job for the given database catalog
+
+Creates a diagnostic job for the given database catalog. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
+*/
+func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateDbcDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createDbcDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createDbcDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateDbcDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateDbcDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateDbcDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateVw creates a virtual warehouse
+
+Create a Virtual Warehouse.
+*/
+func (a *Client) CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateVwDiagnosticDataJob creates a diagnostic job for the given virtual warehouse
+
+Creates a job for the given Virtual Warehouse. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --hive-download-options, --impala-download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
+*/
+func (a *Client) CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateVwDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createVwDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createVwDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateVwDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateVwDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateVwDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteBackup deletes a data warehouse backup
+
+Deletes an existing data warehouse backup. The call returns immediately.
+*/
+func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteBackupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteBackup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteBackup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteBackupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteCluster deletes a cloudera data warehouse cluster
+
+Delete a Cloudera Data Warehouse cluster.
+*/
+func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteClusterDiagnosticDataJob deletes a diagnostic job for the given cluster
+
+Deletes a diagnostic job for the given cluster. The job can be deleted even when its status is "Running".
+*/
+func (a *Client) DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteClusterDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteClusterDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteClusterDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteClusterDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteClusterDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteClusterDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteDataVisualization asynchronous operation that deletes a cloudera data visualization when the d v is in deleting state we can still use describe data visualization to check the status once it is deleted the describe data visualization would return a not found error
+
+Asynchronous operation that deletes a Cloudera Data Visualization. When the DV is in deleting state, we can still use describe-data-visualization to check the status. Once it is deleted, the describe-data-visualization would return a not found error.
+*/
+func (a *Client) DeleteDataVisualization(params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteDataVisualizationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteDataVisualization",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteDataVisualization",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteDataVisualizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteDataVisualizationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteDataVisualizationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteDbc deletes a database catalog
+
+Delete a Database Catalog.
+*/
+func (a *Client) DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteDbcDiagnosticDataJob deletes a diagnostic job for the given database catalog
+
+Deletes a diagnostic job for the given Database Catalog. The job can be deleted even when its status is "Running".
+*/
+func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteDbcDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteDbcDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteDbcDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteDbcDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteDbcDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteDbcDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteUser deletes the given user from the cluster
+
+Deletes the given user from the cluster. Please note that the user itself won't be deleted, only removed from the cluster.
+*/
+func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteUserParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteUser",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteUser",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteUserReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteUserOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteUserDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteVw deletes a virtual warehouse
+
+Delete a Virtual Warehouse.
+*/
+func (a *Client) DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteVwDiagnosticDataJob deletes a diagnostic job for the given virtual warehouse
+
+Delete a diagnostic job for the given Virtual Warehouse. The job can be deleted even when its status is "Running".
+*/
+func (a *Client) DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteVwDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteVwDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteVwDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteVwDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteVwDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteVwDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeAllowedInstanceTypes gets allowed compute instance types for both a w s and azure cluster types and their default values
+
+Get allowed compute instance types for both AWS and Azure cluster types and their default values.
+*/
+func (a *Client) DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeAllowedInstanceTypesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeAllowedInstanceTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeAllowedInstanceTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeAllowedInstanceTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeAllowedInstanceTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeAllowedInstanceTypesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeBackup describes the backup
+
+Returns the description of an existing data warehouse backup.
+*/
+func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeBackupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeBackup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeBackup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeBackupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeCluster describes a cloudera data warehouse cluster
+
+Describe a Cloudera Data Warehouse cluster.
+*/
+func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeCluster",
 		Method:             "POST",
 		PathPattern:        "/api/v1/dw/describeCluster",
@@ -91,7 +1033,12 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeCluste
 		Reader:             &DescribeClusterReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -105,17 +1052,874 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeCluste
 }
 
 /*
-  ListClusters lists cloudera data warehouse clusters
+DescribeClusterDiagnosticDataJob describes a diagnostic job for the given cluster
 
-  List Cloudera Data Warehouse clusters.
+Describes a diagnostic job for the given Cluster. The output includes a list of jobs along with their current status and some metadata related to each job.
 */
-func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, error) {
+func (a *Client) DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeClusterDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeClusterDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeClusterDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeClusterDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeClusterDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeClusterDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeConfig describes a service configuration
+
+Describe a service configuration.
+*/
+func (a *Client) DescribeConfig(params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeConfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeConfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeConfigDiff gets differences between two service configurations
+
+Get differences between two service configurations.
+*/
+func (a *Client) DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeConfigDiffParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeConfigDiff",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeConfigDiff",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeConfigDiffReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeConfigDiffOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeConfigDiffDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeDataVisualization describes a cloudera data visualization
+
+Describes a Cloudera Data Visualization.
+*/
+func (a *Client) DescribeDataVisualization(params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDataVisualizationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDataVisualization",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeDataVisualization",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDataVisualizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDataVisualizationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDataVisualizationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeDbc describes a database catalog
+
+Describe a Database Catalog.
+*/
+func (a *Client) DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeDbcConfig describes the database catalog current configuration
+
+Describes the Database Catalog current configuration.
+*/
+func (a *Client) DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDbcConfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDbcConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeDbcConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDbcConfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDbcConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDbcConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeDbcDiagnosticDataJob describes a diagnostic job for the given database catalog
+
+Describes a diagnostic job for the given Database Catalog. The output includes a list of jobs along with their current status and some metadata related to each job.
+*/
+func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDbcDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDbcDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeDbcDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDbcDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDbcDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDbcDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeKubeconfig gets kubeconfig for a cloudera data warehouse cluster
+
+Get Kubeconfig for a Cloudera Data Warehouse cluster.
+*/
+func (a *Client) DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeKubeconfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeKubeconfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeKubeconfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeKubeconfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeKubeconfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeKubeconfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeRestore describes the restore
+
+Returns the description of a data warehouse restore operation.
+*/
+func (a *Client) DescribeRestore(params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeRestoreParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeRestore",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeRestore",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeRestoreReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeRestoreOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeRestoreDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeServerSetting gets the d w x server settings
+
+Get the DWX server settings. This method can be used from DWX Private Cloud version 1.4.1.
+*/
+func (a *Client) DescribeServerSetting(params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeServerSettingParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeServerSetting",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeServerSetting",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeServerSettingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeServerSettingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeServerSettingDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeVw describes a virtual warehouse
+
+Describe a Virtual Warehouse.
+*/
+func (a *Client) DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeVwConfig describes the current configuration of a hive or impala virtual warehouse
+
+Describes the current configuration of a Hive or Impala Virtual Warehouse.
+*/
+func (a *Client) DescribeVwConfig(params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeVwConfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeVwConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeVwConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeVwConfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeVwConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeVwConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeVwDiagnosticDataJob describes a diagnostic jobs for the given virtual warehouse
+
+Describes a diagnostic job for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job.
+*/
+func (a *Client) DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeVwDiagnosticDataJobParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeVwDiagnosticDataJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeVwDiagnosticDataJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeVwDiagnosticDataJobReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeVwDiagnosticDataJobOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeVwDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetControlPlaneAppVersion shows cloudera data warehouse control plane app version
+
+Shows the version of Cloudera Data Warehouse control plane app.
+*/
+func (a *Client) GetControlPlaneAppVersion(params *GetControlPlaneAppVersionParams, opts ...ClientOption) (*GetControlPlaneAppVersionOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetControlPlaneAppVersionParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getControlPlaneAppVersion",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getControlPlaneAppVersion",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetControlPlaneAppVersionReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetControlPlaneAppVersionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetControlPlaneAppVersionDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetDataVisualizationUpgradeVersion gets latest version and latest compatible version for cloudera data visualization
+
+Gets latest version and latest compatible version for Cloudera Data Visualization.
+*/
+func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetDataVisualizationUpgradeVersionParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getDataVisualizationUpgradeVersion",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getDataVisualizationUpgradeVersion",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetDataVisualizationUpgradeVersionReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetDataVisualizationUpgradeVersionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetDataVisualizationUpgradeVersionDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetLogs gets job logs
+
+Given the CRN, returns the corresponding job logs.
+*/
+func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetLogsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getLogs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getLogs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetLogsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetLogsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetLogsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetUpgradeDbcVersions gets the latest version and latest compatible version for database catalog
+
+Gets the latest version and latest compatible version for Database Catalog.
+*/
+func (a *Client) GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetUpgradeDbcVersionsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getUpgradeDbcVersions",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getUpgradeDbcVersions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetUpgradeDbcVersionsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetUpgradeDbcVersionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetUpgradeDbcVersionsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetUpgradeVwVersions gets the latest version and latest compatible version for virtual warehouse
+
+Gets the latest version and latest compatible version for Virtual Warehouse.
+*/
+func (a *Client) GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetUpgradeVwVersionsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getUpgradeVwVersions",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getUpgradeVwVersions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetUpgradeVwVersionsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetUpgradeVwVersionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetUpgradeVwVersionsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+HealthCheck checks the health of the API
+
+Check the health of the API.
+*/
+func (a *Client) HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewHealthCheckParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "healthCheck",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/healthCheck",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &HealthCheckReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*HealthCheckOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*HealthCheckDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListBackupEntities lists potential backup entities associated with the data warehouse
+
+Lists potential backup entities associated with the data warehouse.
+*/
+func (a *Client) ListBackupEntities(params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListBackupEntitiesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listBackupEntities",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listBackupEntities",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListBackupEntitiesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListBackupEntitiesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListBackupEntitiesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListBackups lists backups
+
+Lists backups associated with the data warehouse.
+*/
+func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListBackupsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listBackups",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listBackups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListBackupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListBackupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListBackupsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListClusterDiagnosticDataJobs gets a list of diagnostic jobs for the given cluster
+
+Lists diagnostic jobs for the given cluster. The output includes a list of jobs along with their current status and metadata related to each job.
+*/
+func (a *Client) ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListClusterDiagnosticDataJobsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listClusterDiagnosticDataJobs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listClusterDiagnosticDataJobs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListClusterDiagnosticDataJobsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListClusterDiagnosticDataJobsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListClusterDiagnosticDataJobsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListClusters lists cloudera data warehouse clusters
+
+List Cloudera Data Warehouse clusters.
+*/
+func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClustersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listClusters",
 		Method:             "POST",
 		PathPattern:        "/api/v1/dw/listClusters",
@@ -126,7 +1930,12 @@ func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, erro
 		Reader:             &ListClustersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -136,6 +1945,1410 @@ func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, erro
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListClustersDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDataVisualizations lists cloudera data visualization in the provided c d w cluster
+
+Lists Cloudera Data Visualization in the provided CDW cluster.
+*/
+func (a *Client) ListDataVisualizations(params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDataVisualizationsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDataVisualizations",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listDataVisualizations",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDataVisualizationsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDataVisualizationsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDataVisualizationsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDbcConfigs gets the configuration history of a database catalog
+
+Get the configuration history of a Database Catalog.
+*/
+func (a *Client) ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDbcConfigsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDbcConfigs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listDbcConfigs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDbcConfigsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDbcConfigsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDbcConfigsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDbcDiagnosticDataJobs gets a list of diagnostic jobs for the given database catalog
+
+Lists diagnostic jobs for the given Database Catalog. The output includes a list of jobs along with their current status and metadata related to each job.
+*/
+func (a *Client) ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDbcDiagnosticDataJobsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDbcDiagnosticDataJobs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listDbcDiagnosticDataJobs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDbcDiagnosticDataJobsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDbcDiagnosticDataJobsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDbcDiagnosticDataJobsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDbcEvents gets the list of events for the given database catalog
+
+Get the list of events for the given Database Catalog.
+*/
+func (a *Client) ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDbcEventsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDbcEvents",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listDbcEvents",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDbcEventsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDbcEventsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDbcEventsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDbcs lists database catalogs
+
+List Database Catalogs.
+*/
+func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDbcsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDbcs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listDbcs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDbcsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDbcsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDbcsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListLatestVersions lists the latest version of the product if available for all catalogs in the environment
+
+Lists the latest version of the product (if available) for all catalogs in the environment.
+*/
+func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListLatestVersionsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listLatestVersions",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listLatestVersions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListLatestVersionsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListLatestVersionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListLatestVersionsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListRestores lists restores
+
+Lists restores associated with the data warehouse.
+*/
+func (a *Client) ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListRestoresParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listRestores",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listRestores",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListRestoresReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListRestoresOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListRestoresDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListUsers lists the users who have access to the cluster
+
+Lists the users who have access to the cluster.
+*/
+func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListUsersParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listUsers",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listUsers",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListUsersReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListUsersOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListUsersDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListVwConfigs gets the configuration history of a virtual warehouse
+
+Get the configuration history of a Virtual Warehouse.
+*/
+func (a *Client) ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListVwConfigsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listVwConfigs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listVwConfigs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListVwConfigsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListVwConfigsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListVwConfigsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListVwDiagnosticDataJobs gets a list of diagnostic jobs for the given virtual warehouse
+
+Lists diagnostic jobs for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job.
+*/
+func (a *Client) ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListVwDiagnosticDataJobsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listVwDiagnosticDataJobs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listVwDiagnosticDataJobs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListVwDiagnosticDataJobsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListVwDiagnosticDataJobsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListVwDiagnosticDataJobsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListVwEvents gets the list of events for the given virtual warehouse
+
+Get the list of events for the given Virtual Warehouse.
+*/
+func (a *Client) ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListVwEventsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listVwEvents",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listVwEvents",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListVwEventsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListVwEventsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListVwEventsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListVws lists virtual warehouses
+
+List Virtual Warehouses.
+*/
+func (a *Client) ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListVwsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listVws",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listVws",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListVwsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListVwsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListVwsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+PauseVw pauses a running virtual warehouse
+
+DEPRECATED in favor of suspend-vw command. Pauses a running Virtual Warehouse. Has no effect if the VW is already paused.
+*/
+func (a *Client) PauseVw(params *PauseVwParams, opts ...ClientOption) (*PauseVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPauseVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "pauseVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/pauseVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PauseVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*PauseVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*PauseVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RebuildCluster es x p e r i m e n t a l f e a t u r e rebuild a cloudera data warehouse cluster
+
+EXPERIMENTAL FEATURE. Rebuild a Cloudera Data Warehouse cluster. This operation is still in development phase. Use your own risk, no guarantee at all.
+*/
+func (a *Client) RebuildCluster(params *RebuildClusterParams, opts ...ClientOption) (*RebuildClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRebuildClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rebuildCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/rebuildCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RebuildClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RebuildClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RebuildClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RebuildDbc rebuilds a database catalog
+
+Rebuild a Database Catalog. Please use this feature for Database Catalogs which are in inconsistent or erroneous state. Running/Stopped Database Catalogs are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
+*/
+func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRebuildDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rebuildDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/rebuildDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RebuildDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RebuildDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RebuildDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RebuildVw rebuilds a virtual warehouse
+
+Rebuild a Virtual Warehouse. Please use this feature for Virtual Warehouses which are in inconsistent or erroneous state. Running/Stopped Virtual Warehouses are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
+*/
+func (a *Client) RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRebuildVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rebuildVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/rebuildVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RebuildVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RebuildVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RebuildVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RenewCertificates renews certificates for a cloudera data warehouse azure cluster
+
+Renew certificate for a Cloudera Data Warehouse Azure cluster.
+*/
+func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRenewCertificatesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "renewCertificates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/renewCertificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RenewCertificatesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RenewCertificatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RenewCertificatesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RestartDbc restarts a database catalog
+
+Restart a Database Catalog.
+*/
+func (a *Client) RestartDbc(params *RestartDbcParams, opts ...ClientOption) (*RestartDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRestartDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "restartDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/restartDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RestartDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RestartDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RestartDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RestartVw restarts a virtual warehouse
+
+Restart a Virtual Warehouse.
+*/
+func (a *Client) RestartVw(params *RestartVwParams, opts ...ClientOption) (*RestartVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRestartVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "restartVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/restartVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RestartVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RestartVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RestartVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RestoreBackup restores backup
+
+Restores the state of the data warehouse from an existing backup.
+*/
+func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRestoreBackupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "restoreBackup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/restoreBackup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RestoreBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RestoreBackupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RestoreBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RestoreCluster restores the cluster from a backup data made by backup cluster command
+
+Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps.
+*/
+func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRestoreClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "restoreCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/restoreCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RestoreClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RestoreClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RestoreClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StartVw starts a paused virtual warehouse
+
+Starts a paused Virtual Warehouse. Has no effect if the VW is already started.
+*/
+func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/startVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SuspendDbc suspends a running database catalog
+
+Suspends a running Database Catalog. Has no effect if the DBC is already suspended.
+*/
+func (a *Client) SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSuspendDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "suspendDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/suspendDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SuspendDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SuspendDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SuspendDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SuspendVw suspends a running virtual warehouse
+
+Suspends a running Virtual Warehouse. Has no effect if the VW is already suspended.
+*/
+func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSuspendVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "suspendVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/suspendVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SuspendVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SuspendVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SuspendVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateCluster updates the cloudera data warehouse cluster
+
+Update the Cloudera Data Warehouse cluster.
+*/
+func (a *Client) UpdateCluster(params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateDataVisualization asynchronous operation that updates the configuration of a cloudera data visualization the describe data visualization can be used at any time to get the latest status of a data visualization
+
+Asynchronous operation that updates the configuration of a Cloudera Data Visualization. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization.
+*/
+func (a *Client) UpdateDataVisualization(params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateDataVisualizationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateDataVisualization",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateDataVisualization",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateDataVisualizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateDataVisualizationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateDataVisualizationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateDbc updates the configuration of a database catalog
+
+Update the configuration of a Database Catalog.
+*/
+func (a *Client) UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateDbcConfig updates a database catalog configuration
+
+Update a Database Catalog configuration.
+*/
+func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateDbcConfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateDbcConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateDbcConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateDbcConfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateDbcConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateDbcConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateServerSetting updates the d w x server settings
+
+Update the DWX server settings. The input list of server settings will be updated accordingly (turns on if enabled: true is set, turns off if enabled: false is set). Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server setting list returned by the describeServerSetting functionality. This method can be used from DWX Private Cloud version 1.4.1.
+*/
+func (a *Client) UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateServerSettingParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateServerSetting",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateServerSetting",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateServerSettingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateServerSettingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateServerSettingDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateSSHKey updates the SSH key for a cloudera data warehouse cluster
+
+Update the SSH Key for a Cloudera Data Warehouse cluster
+*/
+func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSSHKeyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateSshKey",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateSshKey",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateSSHKeyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSSHKeyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateSSHKeyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateVw updates the configuration of a virtual warehouse
+
+Update the configuration of a Virtual Warehouse.
+*/
+func (a *Client) UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateVwConfig updates a virtual warehouse configuration
+
+Update a Virtual Warehouse configuration.
+*/
+func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateVwConfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateVwConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateVwConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateVwConfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateVwConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateVwConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeCluster upgrades the cloudera data warehouse cluster
+
+Upgrade the Cloudera Data Warehouse cluster to the latest supported version. Expect downtime during the upgrade and refrain issuing queries. You can check the current status of the cluster with the describe-cluster command.
+*/
+func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/upgradeCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeDataVisualization asynchronous operation that upgrades a cloudera data visualization to a compatible version the describe data visualization can be used at any time to get the latest status of a data visualization
+
+Asynchronous operation that upgrades a Cloudera Data Visualization to a compatible version. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization.
+*/
+func (a *Client) UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeDataVisualizationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeDataVisualization",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/upgradeDataVisualization",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeDataVisualizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeDataVisualizationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeDataVisualizationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeDbc upgrades the database catalog to a compatible version
+
+Upgrades the Database Catalog to a compatible version.
+*/
+func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/upgradeDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeVw upgrades the virtual warehouse to a compatible version
+
+Upgrades the Virtual Warehouse to a compatible version.
+*/
+func (a *Client) UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeVwParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeVw",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/upgradeVw",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeVwReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeVwOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeVwDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

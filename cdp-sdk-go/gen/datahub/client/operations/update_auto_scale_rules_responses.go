@@ -46,7 +46,8 @@ func NewUpdateAutoScaleRulesOK() *UpdateAutoScaleRulesOK {
 	return &UpdateAutoScaleRulesOK{}
 }
 
-/*UpdateAutoScaleRulesOK handles this case with default header values.
+/*
+UpdateAutoScaleRulesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UpdateAutoScaleRulesOK struct {
 	Payload *models.UpdateAutoScaleRulesResponse
 }
 
+// IsSuccess returns true when this update auto scale rules o k response has a 2xx status code
+func (o *UpdateAutoScaleRulesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this update auto scale rules o k response has a 3xx status code
+func (o *UpdateAutoScaleRulesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update auto scale rules o k response has a 4xx status code
+func (o *UpdateAutoScaleRulesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this update auto scale rules o k response has a 5xx status code
+func (o *UpdateAutoScaleRulesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update auto scale rules o k response a status code equal to that given
+func (o *UpdateAutoScaleRulesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the update auto scale rules o k response
+func (o *UpdateAutoScaleRulesOK) Code() int {
+	return 200
+}
+
 func (o *UpdateAutoScaleRulesOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/updateAutoScaleRules][%d] updateAutoScaleRulesOK  %+v", 200, o.Payload)
+}
+
+func (o *UpdateAutoScaleRulesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/updateAutoScaleRules][%d] updateAutoScaleRulesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewUpdateAutoScaleRulesDefault(code int) *UpdateAutoScaleRulesDefault {
 	}
 }
 
-/*UpdateAutoScaleRulesDefault handles this case with default header values.
+/*
+UpdateAutoScaleRulesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type UpdateAutoScaleRulesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this update auto scale rules default response has a 2xx status code
+func (o *UpdateAutoScaleRulesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this update auto scale rules default response has a 3xx status code
+func (o *UpdateAutoScaleRulesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this update auto scale rules default response has a 4xx status code
+func (o *UpdateAutoScaleRulesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this update auto scale rules default response has a 5xx status code
+func (o *UpdateAutoScaleRulesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this update auto scale rules default response a status code equal to that given
+func (o *UpdateAutoScaleRulesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the update auto scale rules default response
 func (o *UpdateAutoScaleRulesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UpdateAutoScaleRulesDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/updateAutoScaleRules][%d] updateAutoScaleRules default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UpdateAutoScaleRulesDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/updateAutoScaleRules][%d] updateAutoScaleRules default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -56,6 +57,42 @@ func (m *ListResourceRolesResponse) validateResourceRoles(formats strfmt.Registr
 			if err := m.ResourceRoles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("resourceRoles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceRoles" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this list resource roles response based on the context it is used
+func (m *ListResourceRolesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateResourceRoles(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ListResourceRolesResponse) contextValidateResourceRoles(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ResourceRoles); i++ {
+
+		if m.ResourceRoles[i] != nil {
+			if err := m.ResourceRoles[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resourceRoles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceRoles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

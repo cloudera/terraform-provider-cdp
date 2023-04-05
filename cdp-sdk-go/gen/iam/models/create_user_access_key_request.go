@@ -6,12 +6,11 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
+	"context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // CreateUserAccessKeyRequest Request object for a create user access key request.
@@ -19,9 +18,8 @@ import (
 // swagger:model CreateUserAccessKeyRequest
 type CreateUserAccessKeyRequest struct {
 
-	// The version of an access key to create. Default is V2. Use V1 for compatibility with old CLI (< 1.6)  and SDK (< 1.3) releases.
-	// Enum: [V1 V2]
-	Type string `json:"type,omitempty"`
+	// The version of an access key to create.
+	Type AccessKeyType `json:"type,omitempty"`
 
 	// The ID or CRN of the user to whom this access key will be associated. If it is not included, it defaults to the user making the request.
 	User string `json:"user,omitempty"`
@@ -41,43 +39,45 @@ func (m *CreateUserAccessKeyRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var createUserAccessKeyRequestTypeTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["V1","V2"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		createUserAccessKeyRequestTypeTypePropEnum = append(createUserAccessKeyRequestTypeTypePropEnum, v)
-	}
-}
-
-const (
-
-	// CreateUserAccessKeyRequestTypeV1 captures enum value "V1"
-	CreateUserAccessKeyRequestTypeV1 string = "V1"
-
-	// CreateUserAccessKeyRequestTypeV2 captures enum value "V2"
-	CreateUserAccessKeyRequestTypeV2 string = "V2"
-)
-
-// prop value enum
-func (m *CreateUserAccessKeyRequest) validateTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, createUserAccessKeyRequestTypeTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (m *CreateUserAccessKeyRequest) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
+	if err := m.Type.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("type")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("type")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create user access key request based on the context it is used
+func (m *CreateUserAccessKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateUserAccessKeyRequest) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.Type.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("type")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("type")
+		}
 		return err
 	}
 

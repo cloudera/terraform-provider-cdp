@@ -46,7 +46,8 @@ func NewUpdateAccessKeyOK() *UpdateAccessKeyOK {
 	return &UpdateAccessKeyOK{}
 }
 
-/*UpdateAccessKeyOK handles this case with default header values.
+/*
+UpdateAccessKeyOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UpdateAccessKeyOK struct {
 	Payload *models.UpdateAccessKeyResponse
 }
 
+// IsSuccess returns true when this update access key o k response has a 2xx status code
+func (o *UpdateAccessKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this update access key o k response has a 3xx status code
+func (o *UpdateAccessKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update access key o k response has a 4xx status code
+func (o *UpdateAccessKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this update access key o k response has a 5xx status code
+func (o *UpdateAccessKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update access key o k response a status code equal to that given
+func (o *UpdateAccessKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the update access key o k response
+func (o *UpdateAccessKeyOK) Code() int {
+	return 200
+}
+
 func (o *UpdateAccessKeyOK) Error() string {
+	return fmt.Sprintf("[POST /iam/updateAccessKey][%d] updateAccessKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *UpdateAccessKeyOK) String() string {
 	return fmt.Sprintf("[POST /iam/updateAccessKey][%d] updateAccessKeyOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewUpdateAccessKeyDefault(code int) *UpdateAccessKeyDefault {
 	}
 }
 
-/*UpdateAccessKeyDefault handles this case with default header values.
+/*
+UpdateAccessKeyDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type UpdateAccessKeyDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this update access key default response has a 2xx status code
+func (o *UpdateAccessKeyDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this update access key default response has a 3xx status code
+func (o *UpdateAccessKeyDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this update access key default response has a 4xx status code
+func (o *UpdateAccessKeyDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this update access key default response has a 5xx status code
+func (o *UpdateAccessKeyDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this update access key default response a status code equal to that given
+func (o *UpdateAccessKeyDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the update access key default response
 func (o *UpdateAccessKeyDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UpdateAccessKeyDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/updateAccessKey][%d] updateAccessKey default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UpdateAccessKeyDefault) String() string {
 	return fmt.Sprintf("[POST /iam/updateAccessKey][%d] updateAccessKey default  %+v", o._statusCode, o.Payload)
 }
 

@@ -6,12 +6,14 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
-// DescribeAutoScaleRulesResponse The request object which describes the AutoScale rules for a DataHub cluster.
+// DescribeAutoScaleRulesResponse The response object which describes the AutoScale rules for a DataHub cluster.
 //
 // swagger:model DescribeAutoScaleRulesResponse
 type DescribeAutoScaleRulesResponse struct {
@@ -35,7 +37,6 @@ func (m *DescribeAutoScaleRulesResponse) Validate(formats strfmt.Registry) error
 }
 
 func (m *DescribeAutoScaleRulesResponse) validateAutoScaleRules(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AutoScaleRules) { // not required
 		return nil
 	}
@@ -44,6 +45,38 @@ func (m *DescribeAutoScaleRulesResponse) validateAutoScaleRules(formats strfmt.R
 		if err := m.AutoScaleRules.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("autoScaleRules")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("autoScaleRules")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this describe auto scale rules response based on the context it is used
+func (m *DescribeAutoScaleRulesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAutoScaleRules(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DescribeAutoScaleRulesResponse) contextValidateAutoScaleRules(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AutoScaleRules != nil {
+		if err := m.AutoScaleRules.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("autoScaleRules")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("autoScaleRules")
 			}
 			return err
 		}

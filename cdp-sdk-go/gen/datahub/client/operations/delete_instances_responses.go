@@ -46,7 +46,8 @@ func NewDeleteInstancesOK() *DeleteInstancesOK {
 	return &DeleteInstancesOK{}
 }
 
-/*DeleteInstancesOK handles this case with default header values.
+/*
+DeleteInstancesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteInstancesOK struct {
 	Payload *models.DeleteInstancesResponse
 }
 
+// IsSuccess returns true when this delete instances o k response has a 2xx status code
+func (o *DeleteInstancesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete instances o k response has a 3xx status code
+func (o *DeleteInstancesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete instances o k response has a 4xx status code
+func (o *DeleteInstancesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete instances o k response has a 5xx status code
+func (o *DeleteInstancesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete instances o k response a status code equal to that given
+func (o *DeleteInstancesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete instances o k response
+func (o *DeleteInstancesOK) Code() int {
+	return 200
+}
+
 func (o *DeleteInstancesOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstancesOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteInstancesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstancesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDeleteInstancesDefault(code int) *DeleteInstancesDefault {
 	}
 }
 
-/*DeleteInstancesDefault handles this case with default header values.
+/*
+DeleteInstancesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DeleteInstancesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete instances default response has a 2xx status code
+func (o *DeleteInstancesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete instances default response has a 3xx status code
+func (o *DeleteInstancesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete instances default response has a 4xx status code
+func (o *DeleteInstancesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete instances default response has a 5xx status code
+func (o *DeleteInstancesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete instances default response a status code equal to that given
+func (o *DeleteInstancesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete instances default response
 func (o *DeleteInstancesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteInstancesDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstances default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteInstancesDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstances default  %+v", o._statusCode, o.Payload)
 }
 

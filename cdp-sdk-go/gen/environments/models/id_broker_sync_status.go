@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -30,7 +32,7 @@ type IDBrokerSyncStatus struct {
 
 	// The mappings sync summary status.
 	// Required: true
-	Status SyncStatus `json:"status"`
+	Status *SyncStatus `json:"status"`
 }
 
 // Validate validates this Id broker sync status
@@ -56,7 +58,6 @@ func (m *IDBrokerSyncStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *IDBrokerSyncStatus) validateEndDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EndDate) { // not required
 		return nil
 	}
@@ -69,7 +70,6 @@ func (m *IDBrokerSyncStatus) validateEndDate(formats strfmt.Registry) error {
 }
 
 func (m *IDBrokerSyncStatus) validateStartDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.StartDate) { // not required
 		return nil
 	}
@@ -83,11 +83,53 @@ func (m *IDBrokerSyncStatus) validateStartDate(formats strfmt.Registry) error {
 
 func (m *IDBrokerSyncStatus) validateStatus(formats strfmt.Registry) error {
 
-	if err := m.Status.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("status")
-		}
+	if err := validate.Required("status", "body", m.Status); err != nil {
 		return err
+	}
+
+	if err := validate.Required("status", "body", m.Status); err != nil {
+		return err
+	}
+
+	if m.Status != nil {
+		if err := m.Status.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this Id broker sync status based on the context it is used
+func (m *IDBrokerSyncStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *IDBrokerSyncStatus) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Status != nil {
+		if err := m.Status.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
+			}
+			return err
+		}
 	}
 
 	return nil

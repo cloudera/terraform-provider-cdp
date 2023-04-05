@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +18,9 @@ import (
 //
 // swagger:model AzureLogStorageRequest
 type AzureLogStorageRequest struct {
+
+	// The storage location to use. The location has to be in the following format abfs://filesystem@storage-account-name.dfs.core.windows.net. The filesystem must already exist and the storage account must be StorageV2.
+	BackupStorageLocationBase string `json:"backupStorageLocationBase,omitempty"`
 
 	// The managed identity associated with the logger. This identity should have Storage Blob Data Contributor role on the given storage account.
 	// Required: true
@@ -59,6 +64,11 @@ func (m *AzureLogStorageRequest) validateStorageLocationBase(formats strfmt.Regi
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this azure log storage request based on context it is used
+func (m *AzureLogStorageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

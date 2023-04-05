@@ -46,7 +46,8 @@ func NewCreateProxyConfigOK() *CreateProxyConfigOK {
 	return &CreateProxyConfigOK{}
 }
 
-/*CreateProxyConfigOK handles this case with default header values.
+/*
+CreateProxyConfigOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateProxyConfigOK struct {
 	Payload *models.CreateProxyConfigResponse
 }
 
+// IsSuccess returns true when this create proxy config o k response has a 2xx status code
+func (o *CreateProxyConfigOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create proxy config o k response has a 3xx status code
+func (o *CreateProxyConfigOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create proxy config o k response has a 4xx status code
+func (o *CreateProxyConfigOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create proxy config o k response has a 5xx status code
+func (o *CreateProxyConfigOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create proxy config o k response a status code equal to that given
+func (o *CreateProxyConfigOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create proxy config o k response
+func (o *CreateProxyConfigOK) Code() int {
+	return 200
+}
+
 func (o *CreateProxyConfigOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfigOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateProxyConfigOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfigOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateProxyConfigDefault(code int) *CreateProxyConfigDefault {
 	}
 }
 
-/*CreateProxyConfigDefault handles this case with default header values.
+/*
+CreateProxyConfigDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateProxyConfigDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create proxy config default response has a 2xx status code
+func (o *CreateProxyConfigDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create proxy config default response has a 3xx status code
+func (o *CreateProxyConfigDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create proxy config default response has a 4xx status code
+func (o *CreateProxyConfigDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create proxy config default response has a 5xx status code
+func (o *CreateProxyConfigDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create proxy config default response a status code equal to that given
+func (o *CreateProxyConfigDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create proxy config default response
 func (o *CreateProxyConfigDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateProxyConfigDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfig default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateProxyConfigDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfig default  %+v", o._statusCode, o.Payload)
 }
 

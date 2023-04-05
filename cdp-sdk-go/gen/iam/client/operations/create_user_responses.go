@@ -46,7 +46,8 @@ func NewCreateUserOK() *CreateUserOK {
 	return &CreateUserOK{}
 }
 
-/*CreateUserOK handles this case with default header values.
+/*
+CreateUserOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type CreateUserOK struct {
 	Payload *models.CreateUserResponse
 }
 
+// IsSuccess returns true when this create user o k response has a 2xx status code
+func (o *CreateUserOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create user o k response has a 3xx status code
+func (o *CreateUserOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create user o k response has a 4xx status code
+func (o *CreateUserOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create user o k response has a 5xx status code
+func (o *CreateUserOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create user o k response a status code equal to that given
+func (o *CreateUserOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the create user o k response
+func (o *CreateUserOK) Code() int {
+	return 200
+}
+
 func (o *CreateUserOK) Error() string {
+	return fmt.Sprintf("[POST /iam/createUser][%d] createUserOK  %+v", 200, o.Payload)
+}
+
+func (o *CreateUserOK) String() string {
 	return fmt.Sprintf("[POST /iam/createUser][%d] createUserOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewCreateUserDefault(code int) *CreateUserDefault {
 	}
 }
 
-/*CreateUserDefault handles this case with default header values.
+/*
+CreateUserDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type CreateUserDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this create user default response has a 2xx status code
+func (o *CreateUserDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this create user default response has a 3xx status code
+func (o *CreateUserDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this create user default response has a 4xx status code
+func (o *CreateUserDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this create user default response has a 5xx status code
+func (o *CreateUserDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this create user default response a status code equal to that given
+func (o *CreateUserDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the create user default response
 func (o *CreateUserDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *CreateUserDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/createUser][%d] createUser default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *CreateUserDefault) String() string {
 	return fmt.Sprintf("[POST /iam/createUser][%d] createUser default  %+v", o._statusCode, o.Payload)
 }
 

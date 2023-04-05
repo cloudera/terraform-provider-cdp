@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *CreateClusterDefinitionResponse) validateClusterDefinition(formats strf
 		if err := m.ClusterDefinition.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterDefinition")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterDefinition")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create cluster definition response based on the context it is used
+func (m *CreateClusterDefinitionResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterDefinition(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateClusterDefinitionResponse) contextValidateClusterDefinition(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterDefinition != nil {
+		if err := m.ClusterDefinition.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterDefinition")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterDefinition")
 			}
 			return err
 		}

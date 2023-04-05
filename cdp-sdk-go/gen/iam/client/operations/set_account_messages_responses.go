@@ -46,7 +46,8 @@ func NewSetAccountMessagesOK() *SetAccountMessagesOK {
 	return &SetAccountMessagesOK{}
 }
 
-/*SetAccountMessagesOK handles this case with default header values.
+/*
+SetAccountMessagesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type SetAccountMessagesOK struct {
 	Payload models.SetAccountMessagesResponse
 }
 
+// IsSuccess returns true when this set account messages o k response has a 2xx status code
+func (o *SetAccountMessagesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this set account messages o k response has a 3xx status code
+func (o *SetAccountMessagesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this set account messages o k response has a 4xx status code
+func (o *SetAccountMessagesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this set account messages o k response has a 5xx status code
+func (o *SetAccountMessagesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this set account messages o k response a status code equal to that given
+func (o *SetAccountMessagesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the set account messages o k response
+func (o *SetAccountMessagesOK) Code() int {
+	return 200
+}
+
 func (o *SetAccountMessagesOK) Error() string {
+	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessagesOK  %+v", 200, o.Payload)
+}
+
+func (o *SetAccountMessagesOK) String() string {
 	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessagesOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewSetAccountMessagesDefault(code int) *SetAccountMessagesDefault {
 	}
 }
 
-/*SetAccountMessagesDefault handles this case with default header values.
+/*
+SetAccountMessagesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type SetAccountMessagesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this set account messages default response has a 2xx status code
+func (o *SetAccountMessagesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this set account messages default response has a 3xx status code
+func (o *SetAccountMessagesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this set account messages default response has a 4xx status code
+func (o *SetAccountMessagesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this set account messages default response has a 5xx status code
+func (o *SetAccountMessagesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this set account messages default response a status code equal to that given
+func (o *SetAccountMessagesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the set account messages default response
 func (o *SetAccountMessagesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *SetAccountMessagesDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessages default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *SetAccountMessagesDefault) String() string {
 	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessages default  %+v", o._statusCode, o.Payload)
 }
 

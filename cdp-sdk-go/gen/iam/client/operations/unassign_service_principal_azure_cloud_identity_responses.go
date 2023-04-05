@@ -46,7 +46,8 @@ func NewUnassignServicePrincipalAzureCloudIdentityOK() *UnassignServicePrincipal
 	return &UnassignServicePrincipalAzureCloudIdentityOK{}
 }
 
-/*UnassignServicePrincipalAzureCloudIdentityOK handles this case with default header values.
+/*
+UnassignServicePrincipalAzureCloudIdentityOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UnassignServicePrincipalAzureCloudIdentityOK struct {
 	Payload models.UnassignServicePrincipalAzureCloudIdentityResponse
 }
 
+// IsSuccess returns true when this unassign service principal azure cloud identity o k response has a 2xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this unassign service principal azure cloud identity o k response has a 3xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this unassign service principal azure cloud identity o k response has a 4xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this unassign service principal azure cloud identity o k response has a 5xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this unassign service principal azure cloud identity o k response a status code equal to that given
+func (o *UnassignServicePrincipalAzureCloudIdentityOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the unassign service principal azure cloud identity o k response
+func (o *UnassignServicePrincipalAzureCloudIdentityOK) Code() int {
+	return 200
+}
+
 func (o *UnassignServicePrincipalAzureCloudIdentityOK) Error() string {
+	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentityOK  %+v", 200, o.Payload)
+}
+
+func (o *UnassignServicePrincipalAzureCloudIdentityOK) String() string {
 	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentityOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewUnassignServicePrincipalAzureCloudIdentityDefault(code int) *UnassignSer
 	}
 }
 
-/*UnassignServicePrincipalAzureCloudIdentityDefault handles this case with default header values.
+/*
+UnassignServicePrincipalAzureCloudIdentityDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type UnassignServicePrincipalAzureCloudIdentityDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this unassign service principal azure cloud identity default response has a 2xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this unassign service principal azure cloud identity default response has a 3xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this unassign service principal azure cloud identity default response has a 4xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this unassign service principal azure cloud identity default response has a 5xx status code
+func (o *UnassignServicePrincipalAzureCloudIdentityDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this unassign service principal azure cloud identity default response a status code equal to that given
+func (o *UnassignServicePrincipalAzureCloudIdentityDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the unassign service principal azure cloud identity default response
 func (o *UnassignServicePrincipalAzureCloudIdentityDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UnassignServicePrincipalAzureCloudIdentityDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UnassignServicePrincipalAzureCloudIdentityDefault) String() string {
 	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
 }
 

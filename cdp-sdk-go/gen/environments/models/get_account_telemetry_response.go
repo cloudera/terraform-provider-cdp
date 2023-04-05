@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,9 @@ import (
 //
 // swagger:model GetAccountTelemetryResponse
 type GetAccountTelemetryResponse struct {
+
+	// Flag to enable account level cloud storage logging. (that will be used as a default for environment)
+	CloudStorageLogging bool `json:"cloudStorageLogging,omitempty"`
 
 	// Flag to enable account level deployment log collection. (that will be used as a default for environment)
 	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
@@ -43,7 +47,6 @@ func (m *GetAccountTelemetryResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *GetAccountTelemetryResponse) validateRules(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Rules) { // not required
 		return nil
 	}
@@ -57,6 +60,42 @@ func (m *GetAccountTelemetryResponse) validateRules(formats strfmt.Registry) err
 			if err := m.Rules[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("rules" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("rules" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this get account telemetry response based on the context it is used
+func (m *GetAccountTelemetryResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateRules(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *GetAccountTelemetryResponse) contextValidateRules(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Rules); i++ {
+
+		if m.Rules[i] != nil {
+			if err := m.Rules[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("rules" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("rules" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

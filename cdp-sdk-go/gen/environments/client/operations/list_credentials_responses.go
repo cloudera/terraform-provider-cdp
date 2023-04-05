@@ -46,7 +46,8 @@ func NewListCredentialsOK() *ListCredentialsOK {
 	return &ListCredentialsOK{}
 }
 
-/*ListCredentialsOK handles this case with default header values.
+/*
+ListCredentialsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListCredentialsOK struct {
 	Payload *models.ListCredentialsResponse
 }
 
+// IsSuccess returns true when this list credentials o k response has a 2xx status code
+func (o *ListCredentialsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list credentials o k response has a 3xx status code
+func (o *ListCredentialsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list credentials o k response has a 4xx status code
+func (o *ListCredentialsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list credentials o k response has a 5xx status code
+func (o *ListCredentialsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list credentials o k response a status code equal to that given
+func (o *ListCredentialsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list credentials o k response
+func (o *ListCredentialsOK) Code() int {
+	return 200
+}
+
 func (o *ListCredentialsOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentialsOK  %+v", 200, o.Payload)
+}
+
+func (o *ListCredentialsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentialsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListCredentialsDefault(code int) *ListCredentialsDefault {
 	}
 }
 
-/*ListCredentialsDefault handles this case with default header values.
+/*
+ListCredentialsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListCredentialsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list credentials default response has a 2xx status code
+func (o *ListCredentialsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list credentials default response has a 3xx status code
+func (o *ListCredentialsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list credentials default response has a 4xx status code
+func (o *ListCredentialsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list credentials default response has a 5xx status code
+func (o *ListCredentialsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list credentials default response a status code equal to that given
+func (o *ListCredentialsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list credentials default response
 func (o *ListCredentialsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListCredentialsDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentials default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListCredentialsDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentials default  %+v", o._statusCode, o.Payload)
 }
 

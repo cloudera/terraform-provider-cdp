@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListResourceRoleAssignmentsParams creates a new ListResourceRoleAssignmentsParams object
-// with the default values initialized.
+// NewListResourceRoleAssignmentsParams creates a new ListResourceRoleAssignmentsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListResourceRoleAssignmentsParams() *ListResourceRoleAssignmentsParams {
-	var ()
 	return &ListResourceRoleAssignmentsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListResourceRoleAssignmentsParamsWithTimeout creates a new ListResourceRoleAssignmentsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListResourceRoleAssignmentsParamsWithTimeout(timeout time.Duration) *ListResourceRoleAssignmentsParams {
-	var ()
 	return &ListResourceRoleAssignmentsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListResourceRoleAssignmentsParamsWithContext creates a new ListResourceRoleAssignmentsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListResourceRoleAssignmentsParamsWithContext(ctx context.Context) *ListResourceRoleAssignmentsParams {
-	var ()
 	return &ListResourceRoleAssignmentsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListResourceRoleAssignmentsParamsWithHTTPClient creates a new ListResourceRoleAssignmentsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListResourceRoleAssignmentsParamsWithHTTPClient(client *http.Client) *ListResourceRoleAssignmentsParams {
-	var ()
 	return &ListResourceRoleAssignmentsParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListResourceRoleAssignmentsParams contains all the parameters to send to the API endpoint
-for the list resource role assignments operation typically these are written to a http.Request
+/*
+ListResourceRoleAssignmentsParams contains all the parameters to send to the API endpoint
+
+	for the list resource role assignments operation.
+
+	Typically these are written to a http.Request.
 */
 type ListResourceRoleAssignmentsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListResourceRoleAssignmentsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list resource role assignments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListResourceRoleAssignmentsParams) WithDefaults() *ListResourceRoleAssignmentsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list resource role assignments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListResourceRoleAssignmentsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list resource role assignments params
@@ -121,7 +137,6 @@ func (o *ListResourceRoleAssignmentsParams) WriteToRequest(r runtime.ClientReque
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

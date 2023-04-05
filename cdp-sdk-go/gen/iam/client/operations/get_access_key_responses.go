@@ -46,7 +46,8 @@ func NewGetAccessKeyOK() *GetAccessKeyOK {
 	return &GetAccessKeyOK{}
 }
 
-/*GetAccessKeyOK handles this case with default header values.
+/*
+GetAccessKeyOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetAccessKeyOK struct {
 	Payload *models.GetAccessKeyResponse
 }
 
+// IsSuccess returns true when this get access key o k response has a 2xx status code
+func (o *GetAccessKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get access key o k response has a 3xx status code
+func (o *GetAccessKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get access key o k response has a 4xx status code
+func (o *GetAccessKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get access key o k response has a 5xx status code
+func (o *GetAccessKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get access key o k response a status code equal to that given
+func (o *GetAccessKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get access key o k response
+func (o *GetAccessKeyOK) Code() int {
+	return 200
+}
+
 func (o *GetAccessKeyOK) Error() string {
+	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *GetAccessKeyOK) String() string {
 	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKeyOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetAccessKeyDefault(code int) *GetAccessKeyDefault {
 	}
 }
 
-/*GetAccessKeyDefault handles this case with default header values.
+/*
+GetAccessKeyDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetAccessKeyDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get access key default response has a 2xx status code
+func (o *GetAccessKeyDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get access key default response has a 3xx status code
+func (o *GetAccessKeyDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get access key default response has a 4xx status code
+func (o *GetAccessKeyDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get access key default response has a 5xx status code
+func (o *GetAccessKeyDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get access key default response a status code equal to that given
+func (o *GetAccessKeyDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get access key default response
 func (o *GetAccessKeyDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetAccessKeyDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKey default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetAccessKeyDefault) String() string {
 	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKey default  %+v", o._statusCode, o.Payload)
 }
 

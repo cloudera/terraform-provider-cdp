@@ -46,7 +46,8 @@ func NewListGroupAssignedRolesOK() *ListGroupAssignedRolesOK {
 	return &ListGroupAssignedRolesOK{}
 }
 
-/*ListGroupAssignedRolesOK handles this case with default header values.
+/*
+ListGroupAssignedRolesOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListGroupAssignedRolesOK struct {
 	Payload *models.ListGroupAssignedRolesResponse
 }
 
+// IsSuccess returns true when this list group assigned roles o k response has a 2xx status code
+func (o *ListGroupAssignedRolesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list group assigned roles o k response has a 3xx status code
+func (o *ListGroupAssignedRolesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list group assigned roles o k response has a 4xx status code
+func (o *ListGroupAssignedRolesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list group assigned roles o k response has a 5xx status code
+func (o *ListGroupAssignedRolesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list group assigned roles o k response a status code equal to that given
+func (o *ListGroupAssignedRolesOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list group assigned roles o k response
+func (o *ListGroupAssignedRolesOK) Code() int {
+	return 200
+}
+
 func (o *ListGroupAssignedRolesOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRolesOK  %+v", 200, o.Payload)
+}
+
+func (o *ListGroupAssignedRolesOK) String() string {
 	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRolesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListGroupAssignedRolesDefault(code int) *ListGroupAssignedRolesDefault {
 	}
 }
 
-/*ListGroupAssignedRolesDefault handles this case with default header values.
+/*
+ListGroupAssignedRolesDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListGroupAssignedRolesDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list group assigned roles default response has a 2xx status code
+func (o *ListGroupAssignedRolesDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list group assigned roles default response has a 3xx status code
+func (o *ListGroupAssignedRolesDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list group assigned roles default response has a 4xx status code
+func (o *ListGroupAssignedRolesDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list group assigned roles default response has a 5xx status code
+func (o *ListGroupAssignedRolesDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list group assigned roles default response a status code equal to that given
+func (o *ListGroupAssignedRolesDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list group assigned roles default response
 func (o *ListGroupAssignedRolesDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListGroupAssignedRolesDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRoles default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListGroupAssignedRolesDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRoles default  %+v", o._statusCode, o.Payload)
 }
 

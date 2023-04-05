@@ -46,7 +46,8 @@ func NewGetIDBrokerMappingsSyncStatusOK() *GetIDBrokerMappingsSyncStatusOK {
 	return &GetIDBrokerMappingsSyncStatusOK{}
 }
 
-/*GetIDBrokerMappingsSyncStatusOK handles this case with default header values.
+/*
+GetIDBrokerMappingsSyncStatusOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type GetIDBrokerMappingsSyncStatusOK struct {
 	Payload *models.GetIDBrokerMappingsSyncStatusResponse
 }
 
+// IsSuccess returns true when this get Id broker mappings sync status o k response has a 2xx status code
+func (o *GetIDBrokerMappingsSyncStatusOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get Id broker mappings sync status o k response has a 3xx status code
+func (o *GetIDBrokerMappingsSyncStatusOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get Id broker mappings sync status o k response has a 4xx status code
+func (o *GetIDBrokerMappingsSyncStatusOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get Id broker mappings sync status o k response has a 5xx status code
+func (o *GetIDBrokerMappingsSyncStatusOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get Id broker mappings sync status o k response a status code equal to that given
+func (o *GetIDBrokerMappingsSyncStatusOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get Id broker mappings sync status o k response
+func (o *GetIDBrokerMappingsSyncStatusOK) Code() int {
+	return 200
+}
+
 func (o *GetIDBrokerMappingsSyncStatusOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatusOK  %+v", 200, o.Payload)
+}
+
+func (o *GetIDBrokerMappingsSyncStatusOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatusOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewGetIDBrokerMappingsSyncStatusDefault(code int) *GetIDBrokerMappingsSyncS
 	}
 }
 
-/*GetIDBrokerMappingsSyncStatusDefault handles this case with default header values.
+/*
+GetIDBrokerMappingsSyncStatusDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type GetIDBrokerMappingsSyncStatusDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this get Id broker mappings sync status default response has a 2xx status code
+func (o *GetIDBrokerMappingsSyncStatusDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this get Id broker mappings sync status default response has a 3xx status code
+func (o *GetIDBrokerMappingsSyncStatusDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this get Id broker mappings sync status default response has a 4xx status code
+func (o *GetIDBrokerMappingsSyncStatusDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this get Id broker mappings sync status default response has a 5xx status code
+func (o *GetIDBrokerMappingsSyncStatusDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this get Id broker mappings sync status default response a status code equal to that given
+func (o *GetIDBrokerMappingsSyncStatusDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the get Id broker mappings sync status default response
 func (o *GetIDBrokerMappingsSyncStatusDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *GetIDBrokerMappingsSyncStatusDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatus default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *GetIDBrokerMappingsSyncStatusDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatus default  %+v", o._statusCode, o.Payload)
 }
 

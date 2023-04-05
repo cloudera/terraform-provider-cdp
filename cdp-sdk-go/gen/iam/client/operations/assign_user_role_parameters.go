@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewAssignUserRoleParams creates a new AssignUserRoleParams object
-// with the default values initialized.
+// NewAssignUserRoleParams creates a new AssignUserRoleParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAssignUserRoleParams() *AssignUserRoleParams {
-	var ()
 	return &AssignUserRoleParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAssignUserRoleParamsWithTimeout creates a new AssignUserRoleParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAssignUserRoleParamsWithTimeout(timeout time.Duration) *AssignUserRoleParams {
-	var ()
 	return &AssignUserRoleParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAssignUserRoleParamsWithContext creates a new AssignUserRoleParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAssignUserRoleParamsWithContext(ctx context.Context) *AssignUserRoleParams {
-	var ()
 	return &AssignUserRoleParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAssignUserRoleParamsWithHTTPClient creates a new AssignUserRoleParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAssignUserRoleParamsWithHTTPClient(client *http.Client) *AssignUserRoleParams {
-	var ()
 	return &AssignUserRoleParams{
 		HTTPClient: client,
 	}
 }
 
-/*AssignUserRoleParams contains all the parameters to send to the API endpoint
-for the assign user role operation typically these are written to a http.Request
+/*
+AssignUserRoleParams contains all the parameters to send to the API endpoint
+
+	for the assign user role operation.
+
+	Typically these are written to a http.Request.
 */
 type AssignUserRoleParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.AssignUserRoleRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the assign user role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AssignUserRoleParams) WithDefaults() *AssignUserRoleParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the assign user role params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AssignUserRoleParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the assign user role params
@@ -121,7 +137,6 @@ func (o *AssignUserRoleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

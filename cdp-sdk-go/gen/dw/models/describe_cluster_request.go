@@ -6,8 +6,12 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // DescribeClusterRequest Request object for the describeCluster method. Use only one of environmentName, clusterCrn and clusterId.
@@ -15,18 +19,36 @@ import (
 // swagger:model DescribeClusterRequest
 type DescribeClusterRequest struct {
 
-	// The CRN of the cluster to describe.
-	ClusterCrn string `json:"clusterCrn,omitempty"`
-
 	// The ID of the cluster to describe.
-	ClusterID string `json:"clusterId,omitempty"`
-
-	// The environment for the cluster to describe.
-	EnvironmentName string `json:"environmentName,omitempty"`
+	// Required: true
+	ClusterID *string `json:"clusterId"`
 }
 
 // Validate validates this describe cluster request
 func (m *DescribeClusterRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateClusterID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DescribeClusterRequest) validateClusterID(formats strfmt.Registry) error {
+
+	if err := validate.Required("clusterId", "body", m.ClusterID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validates this describe cluster request based on context it is used
+func (m *DescribeClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

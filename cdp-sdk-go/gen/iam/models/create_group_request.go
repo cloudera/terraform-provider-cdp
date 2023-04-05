@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,7 +19,7 @@ import (
 // swagger:model CreateGroupRequest
 type CreateGroupRequest struct {
 
-	// The name of the group. This name must be unique, must have a maximum of 32 characters, and must contain only alphanumeric characters, "-" and "_". Also, the first character of the name must be alphabetic or an underscore. Names are are not case-sensitive. The group named administrators is reserved.
+	// The name of the group. This name must be unique. There are certain restrictions on the group name. Refer to the How To > User Management section in the Management Console documentation for the details.
 	// Required: true
 	GroupName *string `json:"groupName"`
 
@@ -45,6 +47,11 @@ func (m *CreateGroupRequest) validateGroupName(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create group request based on context it is used
+func (m *CreateGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -46,7 +46,8 @@ func NewUpdateLdapProviderOK() *UpdateLdapProviderOK {
 	return &UpdateLdapProviderOK{}
 }
 
-/*UpdateLdapProviderOK handles this case with default header values.
+/*
+UpdateLdapProviderOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UpdateLdapProviderOK struct {
 	Payload *models.UpdateLdapProviderResponse
 }
 
+// IsSuccess returns true when this update ldap provider o k response has a 2xx status code
+func (o *UpdateLdapProviderOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this update ldap provider o k response has a 3xx status code
+func (o *UpdateLdapProviderOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update ldap provider o k response has a 4xx status code
+func (o *UpdateLdapProviderOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this update ldap provider o k response has a 5xx status code
+func (o *UpdateLdapProviderOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update ldap provider o k response a status code equal to that given
+func (o *UpdateLdapProviderOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the update ldap provider o k response
+func (o *UpdateLdapProviderOK) Code() int {
+	return 200
+}
+
 func (o *UpdateLdapProviderOK) Error() string {
+	return fmt.Sprintf("[POST /iam/updateLdapProvider][%d] updateLdapProviderOK  %+v", 200, o.Payload)
+}
+
+func (o *UpdateLdapProviderOK) String() string {
 	return fmt.Sprintf("[POST /iam/updateLdapProvider][%d] updateLdapProviderOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewUpdateLdapProviderDefault(code int) *UpdateLdapProviderDefault {
 	}
 }
 
-/*UpdateLdapProviderDefault handles this case with default header values.
+/*
+UpdateLdapProviderDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type UpdateLdapProviderDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this update ldap provider default response has a 2xx status code
+func (o *UpdateLdapProviderDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this update ldap provider default response has a 3xx status code
+func (o *UpdateLdapProviderDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this update ldap provider default response has a 4xx status code
+func (o *UpdateLdapProviderDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this update ldap provider default response has a 5xx status code
+func (o *UpdateLdapProviderDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this update ldap provider default response a status code equal to that given
+func (o *UpdateLdapProviderDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the update ldap provider default response
 func (o *UpdateLdapProviderDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UpdateLdapProviderDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/updateLdapProvider][%d] updateLdapProvider default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UpdateLdapProviderDefault) String() string {
 	return fmt.Sprintf("[POST /iam/updateLdapProvider][%d] updateLdapProvider default  %+v", o._statusCode, o.Payload)
 }
 

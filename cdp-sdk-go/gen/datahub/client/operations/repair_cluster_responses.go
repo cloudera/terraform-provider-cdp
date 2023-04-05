@@ -46,7 +46,8 @@ func NewRepairClusterOK() *RepairClusterOK {
 	return &RepairClusterOK{}
 }
 
-/*RepairClusterOK handles this case with default header values.
+/*
+RepairClusterOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type RepairClusterOK struct {
 	Payload models.RepairClusterResponse
 }
 
+// IsSuccess returns true when this repair cluster o k response has a 2xx status code
+func (o *RepairClusterOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this repair cluster o k response has a 3xx status code
+func (o *RepairClusterOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this repair cluster o k response has a 4xx status code
+func (o *RepairClusterOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this repair cluster o k response has a 5xx status code
+func (o *RepairClusterOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this repair cluster o k response a status code equal to that given
+func (o *RepairClusterOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the repair cluster o k response
+func (o *RepairClusterOK) Code() int {
+	return 200
+}
+
 func (o *RepairClusterOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairClusterOK  %+v", 200, o.Payload)
+}
+
+func (o *RepairClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairClusterOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewRepairClusterDefault(code int) *RepairClusterDefault {
 	}
 }
 
-/*RepairClusterDefault handles this case with default header values.
+/*
+RepairClusterDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type RepairClusterDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this repair cluster default response has a 2xx status code
+func (o *RepairClusterDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this repair cluster default response has a 3xx status code
+func (o *RepairClusterDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this repair cluster default response has a 4xx status code
+func (o *RepairClusterDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this repair cluster default response has a 5xx status code
+func (o *RepairClusterDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this repair cluster default response a status code equal to that given
+func (o *RepairClusterDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the repair cluster default response
 func (o *RepairClusterDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *RepairClusterDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairCluster default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *RepairClusterDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairCluster default  %+v", o._statusCode, o.Payload)
 }
 

@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewAssignServicePrincipalAzureCloudIdentityParams creates a new AssignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized.
+// NewAssignServicePrincipalAzureCloudIdentityParams creates a new AssignServicePrincipalAzureCloudIdentityParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAssignServicePrincipalAzureCloudIdentityParams() *AssignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &AssignServicePrincipalAzureCloudIdentityParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAssignServicePrincipalAzureCloudIdentityParamsWithTimeout creates a new AssignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAssignServicePrincipalAzureCloudIdentityParamsWithTimeout(timeout time.Duration) *AssignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &AssignServicePrincipalAzureCloudIdentityParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAssignServicePrincipalAzureCloudIdentityParamsWithContext creates a new AssignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAssignServicePrincipalAzureCloudIdentityParamsWithContext(ctx context.Context) *AssignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &AssignServicePrincipalAzureCloudIdentityParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAssignServicePrincipalAzureCloudIdentityParamsWithHTTPClient creates a new AssignServicePrincipalAzureCloudIdentityParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAssignServicePrincipalAzureCloudIdentityParamsWithHTTPClient(client *http.Client) *AssignServicePrincipalAzureCloudIdentityParams {
-	var ()
 	return &AssignServicePrincipalAzureCloudIdentityParams{
 		HTTPClient: client,
 	}
 }
 
-/*AssignServicePrincipalAzureCloudIdentityParams contains all the parameters to send to the API endpoint
-for the assign service principal azure cloud identity operation typically these are written to a http.Request
+/*
+AssignServicePrincipalAzureCloudIdentityParams contains all the parameters to send to the API endpoint
+
+	for the assign service principal azure cloud identity operation.
+
+	Typically these are written to a http.Request.
 */
 type AssignServicePrincipalAzureCloudIdentityParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.AssignServicePrincipalAzureCloudIdentityRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the assign service principal azure cloud identity params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AssignServicePrincipalAzureCloudIdentityParams) WithDefaults() *AssignServicePrincipalAzureCloudIdentityParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the assign service principal azure cloud identity params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AssignServicePrincipalAzureCloudIdentityParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the assign service principal azure cloud identity params
@@ -121,7 +137,6 @@ func (o *AssignServicePrincipalAzureCloudIdentityParams) WriteToRequest(r runtim
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

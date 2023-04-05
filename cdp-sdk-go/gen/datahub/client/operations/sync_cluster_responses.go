@@ -46,7 +46,8 @@ func NewSyncClusterOK() *SyncClusterOK {
 	return &SyncClusterOK{}
 }
 
-/*SyncClusterOK handles this case with default header values.
+/*
+SyncClusterOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type SyncClusterOK struct {
 	Payload models.SyncClusterResponse
 }
 
+// IsSuccess returns true when this sync cluster o k response has a 2xx status code
+func (o *SyncClusterOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this sync cluster o k response has a 3xx status code
+func (o *SyncClusterOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this sync cluster o k response has a 4xx status code
+func (o *SyncClusterOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this sync cluster o k response has a 5xx status code
+func (o *SyncClusterOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this sync cluster o k response a status code equal to that given
+func (o *SyncClusterOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the sync cluster o k response
+func (o *SyncClusterOK) Code() int {
+	return 200
+}
+
 func (o *SyncClusterOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncClusterOK  %+v", 200, o.Payload)
+}
+
+func (o *SyncClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncClusterOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewSyncClusterDefault(code int) *SyncClusterDefault {
 	}
 }
 
-/*SyncClusterDefault handles this case with default header values.
+/*
+SyncClusterDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type SyncClusterDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this sync cluster default response has a 2xx status code
+func (o *SyncClusterDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this sync cluster default response has a 3xx status code
+func (o *SyncClusterDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this sync cluster default response has a 4xx status code
+func (o *SyncClusterDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this sync cluster default response has a 5xx status code
+func (o *SyncClusterDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this sync cluster default response a status code equal to that given
+func (o *SyncClusterDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the sync cluster default response
 func (o *SyncClusterDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *SyncClusterDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncCluster default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *SyncClusterDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncCluster default  %+v", o._statusCode, o.Payload)
 }
 

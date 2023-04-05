@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -16,6 +18,9 @@ import (
 //
 // swagger:model AwsLogStorageRequest
 type AwsLogStorageRequest struct {
+
+	// The base location to store backup in S3. This should be an s3a:// url.
+	BackupStorageLocationBase string `json:"backupStorageLocationBase,omitempty"`
 
 	// The AWS instance profile that which contains the necessary permissions to access the S3 storage location.
 	// Required: true
@@ -59,6 +64,11 @@ func (m *AwsLogStorageRequest) validateStorageLocationBase(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this aws log storage request based on context it is used
+func (m *AwsLogStorageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

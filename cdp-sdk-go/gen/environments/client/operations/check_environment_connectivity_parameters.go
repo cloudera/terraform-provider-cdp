@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewCheckEnvironmentConnectivityParams creates a new CheckEnvironmentConnectivityParams object
-// with the default values initialized.
+// NewCheckEnvironmentConnectivityParams creates a new CheckEnvironmentConnectivityParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCheckEnvironmentConnectivityParams() *CheckEnvironmentConnectivityParams {
-	var ()
 	return &CheckEnvironmentConnectivityParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCheckEnvironmentConnectivityParamsWithTimeout creates a new CheckEnvironmentConnectivityParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCheckEnvironmentConnectivityParamsWithTimeout(timeout time.Duration) *CheckEnvironmentConnectivityParams {
-	var ()
 	return &CheckEnvironmentConnectivityParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCheckEnvironmentConnectivityParamsWithContext creates a new CheckEnvironmentConnectivityParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCheckEnvironmentConnectivityParamsWithContext(ctx context.Context) *CheckEnvironmentConnectivityParams {
-	var ()
 	return &CheckEnvironmentConnectivityParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCheckEnvironmentConnectivityParamsWithHTTPClient creates a new CheckEnvironmentConnectivityParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCheckEnvironmentConnectivityParamsWithHTTPClient(client *http.Client) *CheckEnvironmentConnectivityParams {
-	var ()
 	return &CheckEnvironmentConnectivityParams{
 		HTTPClient: client,
 	}
 }
 
-/*CheckEnvironmentConnectivityParams contains all the parameters to send to the API endpoint
-for the check environment connectivity operation typically these are written to a http.Request
+/*
+CheckEnvironmentConnectivityParams contains all the parameters to send to the API endpoint
+
+	for the check environment connectivity operation.
+
+	Typically these are written to a http.Request.
 */
 type CheckEnvironmentConnectivityParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CheckEnvironmentConnectivityRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the check environment connectivity params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CheckEnvironmentConnectivityParams) WithDefaults() *CheckEnvironmentConnectivityParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the check environment connectivity params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CheckEnvironmentConnectivityParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the check environment connectivity params
@@ -121,7 +137,6 @@ func (o *CheckEnvironmentConnectivityParams) WriteToRequest(r runtime.ClientRequ
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

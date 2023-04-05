@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
-// NewCreateAWSDatalakeParams creates a new CreateAWSDatalakeParams object
-// with the default values initialized.
+// NewCreateAWSDatalakeParams creates a new CreateAWSDatalakeParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAWSDatalakeParams() *CreateAWSDatalakeParams {
-	var ()
 	return &CreateAWSDatalakeParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateAWSDatalakeParamsWithTimeout creates a new CreateAWSDatalakeParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateAWSDatalakeParamsWithTimeout(timeout time.Duration) *CreateAWSDatalakeParams {
-	var ()
 	return &CreateAWSDatalakeParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateAWSDatalakeParamsWithContext creates a new CreateAWSDatalakeParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateAWSDatalakeParamsWithContext(ctx context.Context) *CreateAWSDatalakeParams {
-	var ()
 	return &CreateAWSDatalakeParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateAWSDatalakeParamsWithHTTPClient creates a new CreateAWSDatalakeParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateAWSDatalakeParamsWithHTTPClient(client *http.Client) *CreateAWSDatalakeParams {
-	var ()
 	return &CreateAWSDatalakeParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateAWSDatalakeParams contains all the parameters to send to the API endpoint
-for the create a w s datalake operation typically these are written to a http.Request
+/*
+CreateAWSDatalakeParams contains all the parameters to send to the API endpoint
+
+	for the create a w s datalake operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateAWSDatalakeParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateAWSDatalakeRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create a w s datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAWSDatalakeParams) WithDefaults() *CreateAWSDatalakeParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create a w s datalake params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateAWSDatalakeParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create a w s datalake params
@@ -121,7 +137,6 @@ func (o *CreateAWSDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

@@ -46,7 +46,8 @@ func NewUnassignMachineUserResourceRoleOK() *UnassignMachineUserResourceRoleOK {
 	return &UnassignMachineUserResourceRoleOK{}
 }
 
-/*UnassignMachineUserResourceRoleOK handles this case with default header values.
+/*
+UnassignMachineUserResourceRoleOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type UnassignMachineUserResourceRoleOK struct {
 	Payload models.UnassignMachineUserResourceRoleResponse
 }
 
+// IsSuccess returns true when this unassign machine user resource role o k response has a 2xx status code
+func (o *UnassignMachineUserResourceRoleOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this unassign machine user resource role o k response has a 3xx status code
+func (o *UnassignMachineUserResourceRoleOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this unassign machine user resource role o k response has a 4xx status code
+func (o *UnassignMachineUserResourceRoleOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this unassign machine user resource role o k response has a 5xx status code
+func (o *UnassignMachineUserResourceRoleOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this unassign machine user resource role o k response a status code equal to that given
+func (o *UnassignMachineUserResourceRoleOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the unassign machine user resource role o k response
+func (o *UnassignMachineUserResourceRoleOK) Code() int {
+	return 200
+}
+
 func (o *UnassignMachineUserResourceRoleOK) Error() string {
+	return fmt.Sprintf("[POST /iam/unassignMachineUserResourceRole][%d] unassignMachineUserResourceRoleOK  %+v", 200, o.Payload)
+}
+
+func (o *UnassignMachineUserResourceRoleOK) String() string {
 	return fmt.Sprintf("[POST /iam/unassignMachineUserResourceRole][%d] unassignMachineUserResourceRoleOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewUnassignMachineUserResourceRoleDefault(code int) *UnassignMachineUserRes
 	}
 }
 
-/*UnassignMachineUserResourceRoleDefault handles this case with default header values.
+/*
+UnassignMachineUserResourceRoleDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type UnassignMachineUserResourceRoleDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this unassign machine user resource role default response has a 2xx status code
+func (o *UnassignMachineUserResourceRoleDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this unassign machine user resource role default response has a 3xx status code
+func (o *UnassignMachineUserResourceRoleDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this unassign machine user resource role default response has a 4xx status code
+func (o *UnassignMachineUserResourceRoleDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this unassign machine user resource role default response has a 5xx status code
+func (o *UnassignMachineUserResourceRoleDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this unassign machine user resource role default response a status code equal to that given
+func (o *UnassignMachineUserResourceRoleDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the unassign machine user resource role default response
 func (o *UnassignMachineUserResourceRoleDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *UnassignMachineUserResourceRoleDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/unassignMachineUserResourceRole][%d] unassignMachineUserResourceRole default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *UnassignMachineUserResourceRoleDefault) String() string {
 	return fmt.Sprintf("[POST /iam/unassignMachineUserResourceRole][%d] unassignMachineUserResourceRole default  %+v", o._statusCode, o.Payload)
 }
 

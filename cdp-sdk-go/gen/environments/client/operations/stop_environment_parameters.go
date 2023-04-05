@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewStopEnvironmentParams creates a new StopEnvironmentParams object
-// with the default values initialized.
+// NewStopEnvironmentParams creates a new StopEnvironmentParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStopEnvironmentParams() *StopEnvironmentParams {
-	var ()
 	return &StopEnvironmentParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewStopEnvironmentParamsWithTimeout creates a new StopEnvironmentParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewStopEnvironmentParamsWithTimeout(timeout time.Duration) *StopEnvironmentParams {
-	var ()
 	return &StopEnvironmentParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewStopEnvironmentParamsWithContext creates a new StopEnvironmentParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewStopEnvironmentParamsWithContext(ctx context.Context) *StopEnvironmentParams {
-	var ()
 	return &StopEnvironmentParams{
-
 		Context: ctx,
 	}
 }
 
 // NewStopEnvironmentParamsWithHTTPClient creates a new StopEnvironmentParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewStopEnvironmentParamsWithHTTPClient(client *http.Client) *StopEnvironmentParams {
-	var ()
 	return &StopEnvironmentParams{
 		HTTPClient: client,
 	}
 }
 
-/*StopEnvironmentParams contains all the parameters to send to the API endpoint
-for the stop environment operation typically these are written to a http.Request
+/*
+StopEnvironmentParams contains all the parameters to send to the API endpoint
+
+	for the stop environment operation.
+
+	Typically these are written to a http.Request.
 */
 type StopEnvironmentParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.StopEnvironmentRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the stop environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *StopEnvironmentParams) WithDefaults() *StopEnvironmentParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the stop environment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *StopEnvironmentParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the stop environment params
@@ -121,7 +137,6 @@ func (o *StopEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

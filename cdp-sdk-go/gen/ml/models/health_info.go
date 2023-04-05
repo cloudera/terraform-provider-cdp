@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -33,7 +35,7 @@ type HealthInfo struct {
 	// Required: true
 	ResourceName *string `json:"resourceName"`
 
-	// The unix timestamp for the heartbeat.
+	// The timestamp for the heartbeat.
 	// Required: true
 	// Format: date-time
 	UpdatedAt *strfmt.DateTime `json:"updatedAt"`
@@ -115,6 +117,11 @@ func (m *HealthInfo) validateUpdatedAt(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this health info based on context it is used
+func (m *HealthInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

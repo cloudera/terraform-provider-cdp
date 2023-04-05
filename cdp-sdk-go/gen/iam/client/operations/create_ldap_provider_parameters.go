@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewCreateLdapProviderParams creates a new CreateLdapProviderParams object
-// with the default values initialized.
+// NewCreateLdapProviderParams creates a new CreateLdapProviderParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateLdapProviderParams() *CreateLdapProviderParams {
-	var ()
 	return &CreateLdapProviderParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateLdapProviderParamsWithTimeout creates a new CreateLdapProviderParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateLdapProviderParamsWithTimeout(timeout time.Duration) *CreateLdapProviderParams {
-	var ()
 	return &CreateLdapProviderParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateLdapProviderParamsWithContext creates a new CreateLdapProviderParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateLdapProviderParamsWithContext(ctx context.Context) *CreateLdapProviderParams {
-	var ()
 	return &CreateLdapProviderParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateLdapProviderParamsWithHTTPClient creates a new CreateLdapProviderParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateLdapProviderParamsWithHTTPClient(client *http.Client) *CreateLdapProviderParams {
-	var ()
 	return &CreateLdapProviderParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateLdapProviderParams contains all the parameters to send to the API endpoint
-for the create ldap provider operation typically these are written to a http.Request
+/*
+CreateLdapProviderParams contains all the parameters to send to the API endpoint
+
+	for the create ldap provider operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateLdapProviderParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateLdapProviderRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create ldap provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateLdapProviderParams) WithDefaults() *CreateLdapProviderParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create ldap provider params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateLdapProviderParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create ldap provider params
@@ -121,7 +137,6 @@ func (o *CreateLdapProviderParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

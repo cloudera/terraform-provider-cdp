@@ -176,7 +176,7 @@ func getId(d *schema.ResourceData) (string, string) {
 
 func describeWorkspace(environmentName string, workspaceName string, client *mlclient.Ml) (*mlmodels.WorkspaceSummary, error) {
 	params := operations.NewListWorkspacesParams()
-	params.WithInput(struct{}{})
+	params.WithInput(&mlmodels.ListWorkspacesRequest{}) // TODO: add workspace name as query param
 	resp, err := client.Operations.ListWorkspaces(params)
 	if err != nil {
 		return nil, err
@@ -233,7 +233,7 @@ func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
 	params.WithInput(&mlmodels.DeleteWorkspaceRequest{
 		EnvironmentName: environmentName,
 		WorkspaceName:   workspaceName,
-		RemoveStorage:   &removeStorage,
+		RemoveStorage:   removeStorage,
 		Force:           &force,
 	})
 	_, err := client.Operations.DeleteWorkspace(params)

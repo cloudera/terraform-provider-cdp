@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
-// NewListProxyConfigsParams creates a new ListProxyConfigsParams object
-// with the default values initialized.
+// NewListProxyConfigsParams creates a new ListProxyConfigsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListProxyConfigsParams() *ListProxyConfigsParams {
-	var ()
 	return &ListProxyConfigsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListProxyConfigsParamsWithTimeout creates a new ListProxyConfigsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListProxyConfigsParamsWithTimeout(timeout time.Duration) *ListProxyConfigsParams {
-	var ()
 	return &ListProxyConfigsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListProxyConfigsParamsWithContext creates a new ListProxyConfigsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListProxyConfigsParamsWithContext(ctx context.Context) *ListProxyConfigsParams {
-	var ()
 	return &ListProxyConfigsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListProxyConfigsParamsWithHTTPClient creates a new ListProxyConfigsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListProxyConfigsParamsWithHTTPClient(client *http.Client) *ListProxyConfigsParams {
-	var ()
 	return &ListProxyConfigsParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListProxyConfigsParams contains all the parameters to send to the API endpoint
-for the list proxy configs operation typically these are written to a http.Request
+/*
+ListProxyConfigsParams contains all the parameters to send to the API endpoint
+
+	for the list proxy configs operation.
+
+	Typically these are written to a http.Request.
 */
 type ListProxyConfigsParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListProxyConfigsRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list proxy configs params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListProxyConfigsParams) WithDefaults() *ListProxyConfigsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list proxy configs params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListProxyConfigsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list proxy configs params
@@ -121,7 +137,6 @@ func (o *ListProxyConfigsParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

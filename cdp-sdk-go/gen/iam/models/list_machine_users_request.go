@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,7 +19,7 @@ import (
 // swagger:model ListMachineUsersRequest
 type ListMachineUsersRequest struct {
 
-	// The machine user names or CRNs of the macihne users. If not provided all machine users for the account are retrieved.
+	// The names or the CRNs of the machine users. If not provided all machine users for the account are retrieved.
 	MachineUserNames []string `json:"machineUserNames"`
 
 	// The size of each page.
@@ -44,7 +46,6 @@ func (m *ListMachineUsersRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListMachineUsersRequest) validatePageSize(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PageSize) { // not required
 		return nil
 	}
@@ -57,6 +58,11 @@ func (m *ListMachineUsersRequest) validatePageSize(formats strfmt.Registry) erro
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this list machine users request based on context it is used
+func (m *ListMachineUsersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -46,7 +46,8 @@ func NewRemoveUserFromGroupOK() *RemoveUserFromGroupOK {
 	return &RemoveUserFromGroupOK{}
 }
 
-/*RemoveUserFromGroupOK handles this case with default header values.
+/*
+RemoveUserFromGroupOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type RemoveUserFromGroupOK struct {
 	Payload models.RemoveUserFromGroupResponse
 }
 
+// IsSuccess returns true when this remove user from group o k response has a 2xx status code
+func (o *RemoveUserFromGroupOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this remove user from group o k response has a 3xx status code
+func (o *RemoveUserFromGroupOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this remove user from group o k response has a 4xx status code
+func (o *RemoveUserFromGroupOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this remove user from group o k response has a 5xx status code
+func (o *RemoveUserFromGroupOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this remove user from group o k response a status code equal to that given
+func (o *RemoveUserFromGroupOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the remove user from group o k response
+func (o *RemoveUserFromGroupOK) Code() int {
+	return 200
+}
+
 func (o *RemoveUserFromGroupOK) Error() string {
+	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroupOK  %+v", 200, o.Payload)
+}
+
+func (o *RemoveUserFromGroupOK) String() string {
 	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroupOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewRemoveUserFromGroupDefault(code int) *RemoveUserFromGroupDefault {
 	}
 }
 
-/*RemoveUserFromGroupDefault handles this case with default header values.
+/*
+RemoveUserFromGroupDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type RemoveUserFromGroupDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this remove user from group default response has a 2xx status code
+func (o *RemoveUserFromGroupDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this remove user from group default response has a 3xx status code
+func (o *RemoveUserFromGroupDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this remove user from group default response has a 4xx status code
+func (o *RemoveUserFromGroupDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this remove user from group default response has a 5xx status code
+func (o *RemoveUserFromGroupDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this remove user from group default response a status code equal to that given
+func (o *RemoveUserFromGroupDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the remove user from group default response
 func (o *RemoveUserFromGroupDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *RemoveUserFromGroupDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroup default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *RemoveUserFromGroupDefault) String() string {
 	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroup default  %+v", o._statusCode, o.Payload)
 }
 

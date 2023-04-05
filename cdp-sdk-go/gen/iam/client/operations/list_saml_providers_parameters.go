@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewListSamlProvidersParams creates a new ListSamlProvidersParams object
-// with the default values initialized.
+// NewListSamlProvidersParams creates a new ListSamlProvidersParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListSamlProvidersParams() *ListSamlProvidersParams {
-	var ()
 	return &ListSamlProvidersParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewListSamlProvidersParamsWithTimeout creates a new ListSamlProvidersParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewListSamlProvidersParamsWithTimeout(timeout time.Duration) *ListSamlProvidersParams {
-	var ()
 	return &ListSamlProvidersParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewListSamlProvidersParamsWithContext creates a new ListSamlProvidersParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewListSamlProvidersParamsWithContext(ctx context.Context) *ListSamlProvidersParams {
-	var ()
 	return &ListSamlProvidersParams{
-
 		Context: ctx,
 	}
 }
 
 // NewListSamlProvidersParamsWithHTTPClient creates a new ListSamlProvidersParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewListSamlProvidersParamsWithHTTPClient(client *http.Client) *ListSamlProvidersParams {
-	var ()
 	return &ListSamlProvidersParams{
 		HTTPClient: client,
 	}
 }
 
-/*ListSamlProvidersParams contains all the parameters to send to the API endpoint
-for the list saml providers operation typically these are written to a http.Request
+/*
+ListSamlProvidersParams contains all the parameters to send to the API endpoint
+
+	for the list saml providers operation.
+
+	Typically these are written to a http.Request.
 */
 type ListSamlProvidersParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.ListSamlProvidersRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the list saml providers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListSamlProvidersParams) WithDefaults() *ListSamlProvidersParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the list saml providers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ListSamlProvidersParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the list saml providers params
@@ -121,7 +137,6 @@ func (o *ListSamlProvidersParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

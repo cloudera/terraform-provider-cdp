@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,6 +19,12 @@ import (
 // swagger:model UpdateSamlProviderRequest
 type UpdateSamlProviderRequest struct {
 
+	// Whether to enable SCIM on this SAML provider. System for Cross-domain Identity Management (SCIM) version 2.0 is a standard for automating the provisioning of user and group identity information from identity provider to CDP. It is not supported for Cloudera for Government.
+	EnableScim bool `json:"enableScim,omitempty"`
+
+	// Whether to generate users' workload username by email. The default is to generate workload usernames by identity provider user ID (SAML NameID).
+	GenerateWorkloadUsernameByEmail bool `json:"generateWorkloadUsernameByEmail,omitempty"`
+
 	// SAML metadata document XML file. Length of meta data document cannot be more than 200 KB (200,000 bytes). Can be omitted if no update is required.
 	// Max Length: 200000
 	SamlMetadataDocument string `json:"samlMetadataDocument,omitempty"`
@@ -25,7 +33,7 @@ type UpdateSamlProviderRequest struct {
 	// Required: true
 	SamlProviderName *string `json:"samlProviderName"`
 
-	// Whether to sync group information for users federated with this SAML provider. Group membership can be passed using the https://altus.cloudera.com/SAML/Attributes/groups SAML assertion. The default is to synchronize group membership. Can be omitted if no update is required.
+	// Whether to sync group information for users federated with this SAML provider. Group membership can be passed using the https://cdp.cloudera.com/SAML/Attributes/groups SAML assertion. The default is to synchronize group membership. Can be omitted if no update is required.
 	SyncGroupsOnLogin bool `json:"syncGroupsOnLogin,omitempty"`
 }
 
@@ -48,12 +56,11 @@ func (m *UpdateSamlProviderRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpdateSamlProviderRequest) validateSamlMetadataDocument(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SamlMetadataDocument) { // not required
 		return nil
 	}
 
-	if err := validate.MaxLength("samlMetadataDocument", "body", string(m.SamlMetadataDocument), 200000); err != nil {
+	if err := validate.MaxLength("samlMetadataDocument", "body", m.SamlMetadataDocument, 200000); err != nil {
 		return err
 	}
 
@@ -66,6 +73,11 @@ func (m *UpdateSamlProviderRequest) validateSamlProviderName(formats strfmt.Regi
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this update saml provider request based on context it is used
+func (m *UpdateSamlProviderRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

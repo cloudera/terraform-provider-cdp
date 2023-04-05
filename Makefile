@@ -62,6 +62,9 @@ generate:
 tfplugindocs:
 	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate --provider-name cdp
 
+mod-tidy:
+	go mod tidy
+
 # Deploy
 deploy: all
 	cp terraform-provider-cdp ~/.terraform.d/plugins/terraform-provider-cdp

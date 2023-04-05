@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -63,12 +65,11 @@ func (m *CreateRecipeRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateRecipeRequest) validateDescription(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Description) { // not required
 		return nil
 	}
 
-	if err := validate.MaxLength("description", "body", string(m.Description), 1000); err != nil {
+	if err := validate.MaxLength("description", "body", m.Description, 1000); err != nil {
 		return err
 	}
 
@@ -90,11 +91,11 @@ func (m *CreateRecipeRequest) validateRecipeName(formats strfmt.Registry) error 
 		return err
 	}
 
-	if err := validate.MinLength("recipeName", "body", string(*m.RecipeName), 5); err != nil {
+	if err := validate.MinLength("recipeName", "body", *m.RecipeName, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("recipeName", "body", string(*m.RecipeName), 1000); err != nil {
+	if err := validate.MaxLength("recipeName", "body", *m.RecipeName, 1000); err != nil {
 		return err
 	}
 
@@ -107,6 +108,11 @@ func (m *CreateRecipeRequest) validateType(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create recipe request based on context it is used
+func (m *CreateRecipeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

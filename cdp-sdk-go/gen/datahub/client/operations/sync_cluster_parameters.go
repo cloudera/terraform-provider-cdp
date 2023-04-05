@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-// NewSyncClusterParams creates a new SyncClusterParams object
-// with the default values initialized.
+// NewSyncClusterParams creates a new SyncClusterParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSyncClusterParams() *SyncClusterParams {
-	var ()
 	return &SyncClusterParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSyncClusterParamsWithTimeout creates a new SyncClusterParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSyncClusterParamsWithTimeout(timeout time.Duration) *SyncClusterParams {
-	var ()
 	return &SyncClusterParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewSyncClusterParamsWithContext creates a new SyncClusterParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSyncClusterParamsWithContext(ctx context.Context) *SyncClusterParams {
-	var ()
 	return &SyncClusterParams{
-
 		Context: ctx,
 	}
 }
 
 // NewSyncClusterParamsWithHTTPClient creates a new SyncClusterParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSyncClusterParamsWithHTTPClient(client *http.Client) *SyncClusterParams {
-	var ()
 	return &SyncClusterParams{
 		HTTPClient: client,
 	}
 }
 
-/*SyncClusterParams contains all the parameters to send to the API endpoint
-for the sync cluster operation typically these are written to a http.Request
+/*
+SyncClusterParams contains all the parameters to send to the API endpoint
+
+	for the sync cluster operation.
+
+	Typically these are written to a http.Request.
 */
 type SyncClusterParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.SyncClusterRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the sync cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SyncClusterParams) WithDefaults() *SyncClusterParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the sync cluster params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SyncClusterParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the sync cluster params
@@ -121,7 +137,6 @@ func (o *SyncClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

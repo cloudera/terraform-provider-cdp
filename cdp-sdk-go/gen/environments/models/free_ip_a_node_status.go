@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -28,7 +29,7 @@ type FreeIPANodeStatus struct {
 
 	// The status of the individual node
 	// Required: true
-	// Enum: [REQUESTED CREATED UNREGISTERED REGISTERED DECOMMISSIONED TERMINATED DELETED_ON_PROVIDER_SIDE FAILED STOPPED REBOOTING UNREACHABLE]
+	// Enum: [REQUESTED CREATED UNREGISTERED REGISTERED DECOMMISSIONED TERMINATED DELETED_ON_PROVIDER_SIDE DELETED_BY_PROVIDER FAILED STOPPED REBOOTING UNREACHABLE UNHEALTHY DELETE_REQUESTED]
 	Status *string `json:"status"`
 }
 
@@ -63,7 +64,7 @@ var freeIpANodeStatusTypeStatusPropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["REQUESTED","CREATED","UNREGISTERED","REGISTERED","DECOMMISSIONED","TERMINATED","DELETED_ON_PROVIDER_SIDE","FAILED","STOPPED","REBOOTING","UNREACHABLE"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["REQUESTED","CREATED","UNREGISTERED","REGISTERED","DECOMMISSIONED","TERMINATED","DELETED_ON_PROVIDER_SIDE","DELETED_BY_PROVIDER","FAILED","STOPPED","REBOOTING","UNREACHABLE","UNHEALTHY","DELETE_REQUESTED"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -94,6 +95,9 @@ const (
 	// FreeIPANodeStatusStatusDELETEDONPROVIDERSIDE captures enum value "DELETED_ON_PROVIDER_SIDE"
 	FreeIPANodeStatusStatusDELETEDONPROVIDERSIDE string = "DELETED_ON_PROVIDER_SIDE"
 
+	// FreeIPANodeStatusStatusDELETEDBYPROVIDER captures enum value "DELETED_BY_PROVIDER"
+	FreeIPANodeStatusStatusDELETEDBYPROVIDER string = "DELETED_BY_PROVIDER"
+
 	// FreeIPANodeStatusStatusFAILED captures enum value "FAILED"
 	FreeIPANodeStatusStatusFAILED string = "FAILED"
 
@@ -105,11 +109,17 @@ const (
 
 	// FreeIPANodeStatusStatusUNREACHABLE captures enum value "UNREACHABLE"
 	FreeIPANodeStatusStatusUNREACHABLE string = "UNREACHABLE"
+
+	// FreeIPANodeStatusStatusUNHEALTHY captures enum value "UNHEALTHY"
+	FreeIPANodeStatusStatusUNHEALTHY string = "UNHEALTHY"
+
+	// FreeIPANodeStatusStatusDELETEREQUESTED captures enum value "DELETE_REQUESTED"
+	FreeIPANodeStatusStatusDELETEREQUESTED string = "DELETE_REQUESTED"
 )
 
 // prop value enum
 func (m *FreeIPANodeStatus) validateStatusEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, freeIpANodeStatusTypeStatusPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, freeIpANodeStatusTypeStatusPropEnum, true); err != nil {
 		return err
 	}
 	return nil
@@ -126,6 +136,11 @@ func (m *FreeIPANodeStatus) validateStatus(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this free IP a node status based on context it is used
+func (m *FreeIPANodeStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

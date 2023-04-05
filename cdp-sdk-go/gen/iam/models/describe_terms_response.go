@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +48,38 @@ func (m *DescribeTermsResponse) validateTerms(formats strfmt.Registry) error {
 		if err := m.Terms.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("terms")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("terms")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this describe terms response based on the context it is used
+func (m *DescribeTermsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTerms(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DescribeTermsResponse) contextValidateTerms(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Terms != nil {
+		if err := m.Terms.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("terms")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("terms")
 			}
 			return err
 		}

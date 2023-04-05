@@ -6,7 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"encoding/json"
+	"context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -23,9 +23,8 @@ type CreateMachineUserAccessKeyRequest struct {
 	// Required: true
 	MachineUserName *string `json:"machineUserName"`
 
-	// The version of an access key to create. Default is V2. Use V1 for compatibility with old CLI (< 1.6)  and SDK (< 1.3) releases.
-	// Enum: [V1 V2]
-	Type string `json:"type,omitempty"`
+	// The version of an access key to create.
+	Type AccessKeyType `json:"type,omitempty"`
 }
 
 // Validate validates this create machine user access key request
@@ -55,43 +54,45 @@ func (m *CreateMachineUserAccessKeyRequest) validateMachineUserName(formats strf
 	return nil
 }
 
-var createMachineUserAccessKeyRequestTypeTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["V1","V2"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		createMachineUserAccessKeyRequestTypeTypePropEnum = append(createMachineUserAccessKeyRequestTypeTypePropEnum, v)
-	}
-}
-
-const (
-
-	// CreateMachineUserAccessKeyRequestTypeV1 captures enum value "V1"
-	CreateMachineUserAccessKeyRequestTypeV1 string = "V1"
-
-	// CreateMachineUserAccessKeyRequestTypeV2 captures enum value "V2"
-	CreateMachineUserAccessKeyRequestTypeV2 string = "V2"
-)
-
-// prop value enum
-func (m *CreateMachineUserAccessKeyRequest) validateTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, createMachineUserAccessKeyRequestTypeTypePropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (m *CreateMachineUserAccessKeyRequest) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
+	if err := m.Type.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("type")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("type")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this create machine user access key request based on the context it is used
+func (m *CreateMachineUserAccessKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreateMachineUserAccessKeyRequest) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.Type.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("type")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("type")
+		}
 		return err
 	}
 

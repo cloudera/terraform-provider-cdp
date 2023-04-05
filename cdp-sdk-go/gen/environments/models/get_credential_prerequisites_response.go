@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -54,7 +56,6 @@ func (m *GetCredentialPrerequisitesResponse) Validate(formats strfmt.Registry) e
 }
 
 func (m *GetCredentialPrerequisitesResponse) validateAws(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Aws) { // not required
 		return nil
 	}
@@ -63,6 +64,8 @@ func (m *GetCredentialPrerequisitesResponse) validateAws(formats strfmt.Registry
 		if err := m.Aws.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("aws")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("aws")
 			}
 			return err
 		}
@@ -72,7 +75,6 @@ func (m *GetCredentialPrerequisitesResponse) validateAws(formats strfmt.Registry
 }
 
 func (m *GetCredentialPrerequisitesResponse) validateAzure(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Azure) { // not required
 		return nil
 	}
@@ -81,6 +83,8 @@ func (m *GetCredentialPrerequisitesResponse) validateAzure(formats strfmt.Regist
 		if err := m.Azure.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azure")
 			}
 			return err
 		}
@@ -93,6 +97,56 @@ func (m *GetCredentialPrerequisitesResponse) validateCloudPlatform(formats strfm
 
 	if err := validate.Required("cloudPlatform", "body", m.CloudPlatform); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this get credential prerequisites response based on the context it is used
+func (m *GetCredentialPrerequisitesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAws(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAzure(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *GetCredentialPrerequisitesResponse) contextValidateAws(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Aws != nil {
+		if err := m.Aws.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("aws")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("aws")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *GetCredentialPrerequisitesResponse) contextValidateAzure(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Azure != nil {
+		if err := m.Azure.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azure")
+			}
+			return err
+		}
 	}
 
 	return nil

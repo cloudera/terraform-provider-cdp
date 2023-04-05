@@ -46,7 +46,8 @@ func NewListGroupsForUserOK() *ListGroupsForUserOK {
 	return &ListGroupsForUserOK{}
 }
 
-/*ListGroupsForUserOK handles this case with default header values.
+/*
+ListGroupsForUserOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type ListGroupsForUserOK struct {
 	Payload *models.ListGroupsForUserResponse
 }
 
+// IsSuccess returns true when this list groups for user o k response has a 2xx status code
+func (o *ListGroupsForUserOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this list groups for user o k response has a 3xx status code
+func (o *ListGroupsForUserOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this list groups for user o k response has a 4xx status code
+func (o *ListGroupsForUserOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this list groups for user o k response has a 5xx status code
+func (o *ListGroupsForUserOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this list groups for user o k response a status code equal to that given
+func (o *ListGroupsForUserOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the list groups for user o k response
+func (o *ListGroupsForUserOK) Code() int {
+	return 200
+}
+
 func (o *ListGroupsForUserOK) Error() string {
+	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUserOK  %+v", 200, o.Payload)
+}
+
+func (o *ListGroupsForUserOK) String() string {
 	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUserOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewListGroupsForUserDefault(code int) *ListGroupsForUserDefault {
 	}
 }
 
-/*ListGroupsForUserDefault handles this case with default header values.
+/*
+ListGroupsForUserDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type ListGroupsForUserDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this list groups for user default response has a 2xx status code
+func (o *ListGroupsForUserDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this list groups for user default response has a 3xx status code
+func (o *ListGroupsForUserDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this list groups for user default response has a 4xx status code
+func (o *ListGroupsForUserDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this list groups for user default response has a 5xx status code
+func (o *ListGroupsForUserDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this list groups for user default response a status code equal to that given
+func (o *ListGroupsForUserDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the list groups for user default response
 func (o *ListGroupsForUserDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *ListGroupsForUserDefault) Error() string {
+	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUser default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *ListGroupsForUserDefault) String() string {
 	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUser default  %+v", o._statusCode, o.Payload)
 }
 

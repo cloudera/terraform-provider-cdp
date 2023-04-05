@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -19,12 +20,21 @@ import (
 // swagger:model Workspace
 type Workspace struct {
 
+	// The whitelist of CIDR blocks which can access the API server.
+	AuthorizedIPRanges []string `json:"authorizedIPRanges"`
+
+	// The Backup MetaData for this Workspace
+	BackupMetadata *BackupMetadata `json:"backupMetadata,omitempty"`
+
 	// The cloud platform of the environment that was used to create this workspace.
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
 
 	// The basedomain of the cluster.
 	ClusterBaseDomain string `json:"clusterBaseDomain,omitempty"`
+
+	// The Cluster ID for the workspace.
+	ClusterID string `json:"clusterID,omitempty"`
 
 	// Creation date of workspace.
 	// Format: date-time
@@ -37,6 +47,9 @@ type Workspace struct {
 	// The CRN of the workspace.
 	// Required: true
 	Crn *string `json:"crn"`
+
+	// Encryption Key ID used to create the workspace.
+	EncryptionKeyID string `json:"encryptionKeyId,omitempty"`
 
 	// To check if the cluster is publicly accessible or not.
 	// Required: true
@@ -83,6 +96,9 @@ type Workspace struct {
 	// Required: true
 	InstanceURL *string `json:"instanceUrl"`
 
+	// The value to indicate if the cluster is private or not.
+	IsPrivate bool `json:"isPrivate,omitempty"`
+
 	// The Kubernetes cluster name.
 	// Required: true
 	K8sClusterName *string `json:"k8sClusterName"`
@@ -100,18 +116,44 @@ type Workspace struct {
 	// The namespace the workspace is deployed in.
 	Namespace string `json:"namespace,omitempty"`
 
+	// NFS Version of the filesystem.
+	NfsVersion string `json:"nfsVersion,omitempty"`
+
+	// Usage of the project file system in bytes.
+	ProjectFileSystemUsage int64 `json:"projectFileSystemUsage,omitempty"`
+
+	// The subnets of the workspace.
+	Subnets []string `json:"subnets"`
+
+	// The list of subnets used for the load balancer that CML creates.
+	SubnetsForLoadBalancers []string `json:"subnetsForLoadBalancers"`
+
 	// Tags provided by the user at the time of workspace creation.
 	// Required: true
 	Tags []*Tag `json:"tags"`
 
+	// The upgrade state contains the workspace upgrade information.
+	UpgradeState *UpgradeState `json:"upgradeState,omitempty"`
+
+	// Timestamp of when the project file system usage was last checked and updated.
+	// Format: date-time
+	UsageLastUpdatedAt strfmt.DateTime `json:"usageLastUpdatedAt,omitempty"`
+
 	// The version of Cloudera Machine Learning that was installed on the workspace.
 	// Required: true
 	Version *string `json:"version"`
+
+	// Whether to whitelist only 'authorizedIPRanges' given or all public IPs.
+	WhitelistAuthorizedIPRanges bool `json:"whitelistAuthorizedIPRanges,omitempty"`
 }
 
 // Validate validates this workspace
 func (m *Workspace) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateBackupMetadata(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateCloudPlatform(formats); err != nil {
 		res = append(res, err)
@@ -181,6 +223,14 @@ func (m *Workspace) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateUpgradeState(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUsageLastUpdatedAt(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateVersion(formats); err != nil {
 		res = append(res, err)
 	}
@@ -188,6 +238,25 @@ func (m *Workspace) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Workspace) validateBackupMetadata(formats strfmt.Registry) error {
+	if swag.IsZero(m.BackupMetadata) { // not required
+		return nil
+	}
+
+	if m.BackupMetadata != nil {
+		if err := m.BackupMetadata.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupMetadata")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -201,7 +270,6 @@ func (m *Workspace) validateCloudPlatform(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateCreationDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreationDate) { // not required
 		return nil
 	}
@@ -268,7 +336,6 @@ func (m *Workspace) validateFilesystemID(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateHealthInfoLists(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HealthInfoLists) { // not required
 		return nil
 	}
@@ -282,6 +349,8 @@ func (m *Workspace) validateHealthInfoLists(formats strfmt.Registry) error {
 			if err := m.HealthInfoLists[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -316,6 +385,8 @@ func (m *Workspace) validateInstanceGroups(formats strfmt.Registry) error {
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -386,6 +457,8 @@ func (m *Workspace) validateTags(formats strfmt.Registry) error {
 			if err := m.Tags[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -396,10 +469,163 @@ func (m *Workspace) validateTags(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Workspace) validateUpgradeState(formats strfmt.Registry) error {
+	if swag.IsZero(m.UpgradeState) { // not required
+		return nil
+	}
+
+	if m.UpgradeState != nil {
+		if err := m.UpgradeState.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("upgradeState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("upgradeState")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Workspace) validateUsageLastUpdatedAt(formats strfmt.Registry) error {
+	if swag.IsZero(m.UsageLastUpdatedAt) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("usageLastUpdatedAt", "body", "date-time", m.UsageLastUpdatedAt.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *Workspace) validateVersion(formats strfmt.Registry) error {
 
 	if err := validate.Required("version", "body", m.Version); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this workspace based on the context it is used
+func (m *Workspace) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBackupMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHealthInfoLists(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateInstanceGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTags(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUpgradeState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Workspace) contextValidateBackupMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.BackupMetadata != nil {
+		if err := m.BackupMetadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupMetadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Workspace) contextValidateHealthInfoLists(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.HealthInfoLists); i++ {
+
+		if m.HealthInfoLists[i] != nil {
+			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Workspace) contextValidateInstanceGroups(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.InstanceGroups); i++ {
+
+		if m.InstanceGroups[i] != nil {
+			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Workspace) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Tags); i++ {
+
+		if m.Tags[i] != nil {
+			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Workspace) contextValidateUpgradeState(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.UpgradeState != nil {
+		if err := m.UpgradeState.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("upgradeState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("upgradeState")
+			}
+			return err
+		}
 	}
 
 	return nil

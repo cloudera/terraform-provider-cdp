@@ -46,7 +46,8 @@ func NewStartDatalakeOK() *StartDatalakeOK {
 	return &StartDatalakeOK{}
 }
 
-/*StartDatalakeOK handles this case with default header values.
+/*
+StartDatalakeOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type StartDatalakeOK struct {
 	Payload models.StartDatalakeResponse
 }
 
+// IsSuccess returns true when this start datalake o k response has a 2xx status code
+func (o *StartDatalakeOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this start datalake o k response has a 3xx status code
+func (o *StartDatalakeOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this start datalake o k response has a 4xx status code
+func (o *StartDatalakeOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this start datalake o k response has a 5xx status code
+func (o *StartDatalakeOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this start datalake o k response a status code equal to that given
+func (o *StartDatalakeOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the start datalake o k response
+func (o *StartDatalakeOK) Code() int {
+	return 200
+}
+
 func (o *StartDatalakeOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatalake][%d] startDatalakeOK  %+v", 200, o.Payload)
+}
+
+func (o *StartDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/startDatalake][%d] startDatalakeOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewStartDatalakeDefault(code int) *StartDatalakeDefault {
 	}
 }
 
-/*StartDatalakeDefault handles this case with default header values.
+/*
+StartDatalakeDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type StartDatalakeDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this start datalake default response has a 2xx status code
+func (o *StartDatalakeDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this start datalake default response has a 3xx status code
+func (o *StartDatalakeDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this start datalake default response has a 4xx status code
+func (o *StartDatalakeDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this start datalake default response has a 5xx status code
+func (o *StartDatalakeDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this start datalake default response a status code equal to that given
+func (o *StartDatalakeDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the start datalake default response
 func (o *StartDatalakeDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *StartDatalakeDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatalake][%d] startDatalake default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *StartDatalakeDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/startDatalake][%d] startDatalake default  %+v", o._statusCode, o.Payload)
 }
 

@@ -46,7 +46,8 @@ func NewSyncUserOK() *SyncUserOK {
 	return &SyncUserOK{}
 }
 
-/*SyncUserOK handles this case with default header values.
+/*
+SyncUserOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type SyncUserOK struct {
 	Payload *models.SyncUserResponse
 }
 
+// IsSuccess returns true when this sync user o k response has a 2xx status code
+func (o *SyncUserOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this sync user o k response has a 3xx status code
+func (o *SyncUserOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this sync user o k response has a 4xx status code
+func (o *SyncUserOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this sync user o k response has a 5xx status code
+func (o *SyncUserOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this sync user o k response a status code equal to that given
+func (o *SyncUserOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the sync user o k response
+func (o *SyncUserOK) Code() int {
+	return 200
+}
+
 func (o *SyncUserOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUserOK  %+v", 200, o.Payload)
+}
+
+func (o *SyncUserOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUserOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewSyncUserDefault(code int) *SyncUserDefault {
 	}
 }
 
-/*SyncUserDefault handles this case with default header values.
+/*
+SyncUserDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type SyncUserDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this sync user default response has a 2xx status code
+func (o *SyncUserDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this sync user default response has a 3xx status code
+func (o *SyncUserDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this sync user default response has a 4xx status code
+func (o *SyncUserDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this sync user default response has a 5xx status code
+func (o *SyncUserDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this sync user default response a status code equal to that given
+func (o *SyncUserDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the sync user default response
 func (o *SyncUserDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *SyncUserDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUser default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *SyncUserDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUser default  %+v", o._statusCode, o.Payload)
 }
 

@@ -46,7 +46,8 @@ func NewRepairDatalakeOK() *RepairDatalakeOK {
 	return &RepairDatalakeOK{}
 }
 
-/*RepairDatalakeOK handles this case with default header values.
+/*
+RepairDatalakeOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type RepairDatalakeOK struct {
 	Payload models.RepairDatalakeResponse
 }
 
+// IsSuccess returns true when this repair datalake o k response has a 2xx status code
+func (o *RepairDatalakeOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this repair datalake o k response has a 3xx status code
+func (o *RepairDatalakeOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this repair datalake o k response has a 4xx status code
+func (o *RepairDatalakeOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this repair datalake o k response has a 5xx status code
+func (o *RepairDatalakeOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this repair datalake o k response a status code equal to that given
+func (o *RepairDatalakeOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the repair datalake o k response
+func (o *RepairDatalakeOK) Code() int {
+	return 200
+}
+
 func (o *RepairDatalakeOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalakeOK  %+v", 200, o.Payload)
+}
+
+func (o *RepairDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalakeOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +114,8 @@ func NewRepairDatalakeDefault(code int) *RepairDatalakeDefault {
 	}
 }
 
-/*RepairDatalakeDefault handles this case with default header values.
+/*
+RepairDatalakeDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -89,12 +125,41 @@ type RepairDatalakeDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this repair datalake default response has a 2xx status code
+func (o *RepairDatalakeDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this repair datalake default response has a 3xx status code
+func (o *RepairDatalakeDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this repair datalake default response has a 4xx status code
+func (o *RepairDatalakeDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this repair datalake default response has a 5xx status code
+func (o *RepairDatalakeDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this repair datalake default response a status code equal to that given
+func (o *RepairDatalakeDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the repair datalake default response
 func (o *RepairDatalakeDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *RepairDatalakeDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalake default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *RepairDatalakeDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalake default  %+v", o._statusCode, o.Payload)
 }
 

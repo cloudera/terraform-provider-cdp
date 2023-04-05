@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
-// NewGetClusterHostStatusParams creates a new GetClusterHostStatusParams object
-// with the default values initialized.
+// NewGetClusterHostStatusParams creates a new GetClusterHostStatusParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetClusterHostStatusParams() *GetClusterHostStatusParams {
-	var ()
 	return &GetClusterHostStatusParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetClusterHostStatusParamsWithTimeout creates a new GetClusterHostStatusParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetClusterHostStatusParamsWithTimeout(timeout time.Duration) *GetClusterHostStatusParams {
-	var ()
 	return &GetClusterHostStatusParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetClusterHostStatusParamsWithContext creates a new GetClusterHostStatusParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetClusterHostStatusParamsWithContext(ctx context.Context) *GetClusterHostStatusParams {
-	var ()
 	return &GetClusterHostStatusParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetClusterHostStatusParamsWithHTTPClient creates a new GetClusterHostStatusParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetClusterHostStatusParamsWithHTTPClient(client *http.Client) *GetClusterHostStatusParams {
-	var ()
 	return &GetClusterHostStatusParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetClusterHostStatusParams contains all the parameters to send to the API endpoint
-for the get cluster host status operation typically these are written to a http.Request
+/*
+GetClusterHostStatusParams contains all the parameters to send to the API endpoint
+
+	for the get cluster host status operation.
+
+	Typically these are written to a http.Request.
 */
 type GetClusterHostStatusParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.GetClusterHostStatusRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get cluster host status params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetClusterHostStatusParams) WithDefaults() *GetClusterHostStatusParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get cluster host status params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetClusterHostStatusParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get cluster host status params
@@ -121,7 +137,6 @@ func (o *GetClusterHostStatusParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

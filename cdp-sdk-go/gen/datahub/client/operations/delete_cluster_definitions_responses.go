@@ -46,7 +46,8 @@ func NewDeleteClusterDefinitionsOK() *DeleteClusterDefinitionsOK {
 	return &DeleteClusterDefinitionsOK{}
 }
 
-/*DeleteClusterDefinitionsOK handles this case with default header values.
+/*
+DeleteClusterDefinitionsOK describes a response with status code 200, with default header values.
 
 Expected response to a valid request.
 */
@@ -54,7 +55,41 @@ type DeleteClusterDefinitionsOK struct {
 	Payload *models.DeleteClusterDefinitionsResponse
 }
 
+// IsSuccess returns true when this delete cluster definitions o k response has a 2xx status code
+func (o *DeleteClusterDefinitionsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete cluster definitions o k response has a 3xx status code
+func (o *DeleteClusterDefinitionsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete cluster definitions o k response has a 4xx status code
+func (o *DeleteClusterDefinitionsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete cluster definitions o k response has a 5xx status code
+func (o *DeleteClusterDefinitionsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete cluster definitions o k response a status code equal to that given
+func (o *DeleteClusterDefinitionsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the delete cluster definitions o k response
+func (o *DeleteClusterDefinitionsOK) Code() int {
+	return 200
+}
+
 func (o *DeleteClusterDefinitionsOK) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterDefinitions][%d] deleteClusterDefinitionsOK  %+v", 200, o.Payload)
+}
+
+func (o *DeleteClusterDefinitionsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterDefinitions][%d] deleteClusterDefinitionsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +116,8 @@ func NewDeleteClusterDefinitionsDefault(code int) *DeleteClusterDefinitionsDefau
 	}
 }
 
-/*DeleteClusterDefinitionsDefault handles this case with default header values.
+/*
+DeleteClusterDefinitionsDefault describes a response with status code -1, with default header values.
 
 The default response on an error.
 */
@@ -91,12 +127,41 @@ type DeleteClusterDefinitionsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this delete cluster definitions default response has a 2xx status code
+func (o *DeleteClusterDefinitionsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this delete cluster definitions default response has a 3xx status code
+func (o *DeleteClusterDefinitionsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this delete cluster definitions default response has a 4xx status code
+func (o *DeleteClusterDefinitionsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this delete cluster definitions default response has a 5xx status code
+func (o *DeleteClusterDefinitionsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this delete cluster definitions default response a status code equal to that given
+func (o *DeleteClusterDefinitionsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the delete cluster definitions default response
 func (o *DeleteClusterDefinitionsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DeleteClusterDefinitionsDefault) Error() string {
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterDefinitions][%d] deleteClusterDefinitions default  %+v", o._statusCode, o.Payload)
+}
+
+func (o *DeleteClusterDefinitionsDefault) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterDefinitions][%d] deleteClusterDefinitions default  %+v", o._statusCode, o.Payload)
 }
 

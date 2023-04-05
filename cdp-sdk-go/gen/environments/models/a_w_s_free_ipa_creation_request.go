@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -20,6 +22,20 @@ type AWSFreeIpaCreationRequest struct {
 	// The number of FreeIPA instances to create per group when creating FreeIPA in the environment
 	InstanceCountByGroup int32 `json:"instanceCountByGroup,omitempty"`
 
+	// Custom instance type of FreeIPA instances.
+	InstanceType string `json:"instanceType,omitempty"`
+
+	// Flag which marks that the freeIPA will be deployed in a multi-availability zone way or not.
+	MultiAz bool `json:"multiAz,omitempty"`
+
+	// Recipes for FreeIPA
+	Recipes []string `json:"recipes"`
+
+	// Max hourly price of spot instances.
+	// Maximum: 255
+	// Minimum: 0.001
+	SpotMaxPrice float64 `json:"spotMaxPrice,omitempty"`
+
 	// Percentage of spot instances.
 	// Maximum: 100
 	// Minimum: 0
@@ -29,6 +45,10 @@ type AWSFreeIpaCreationRequest struct {
 // Validate validates this a w s free ipa creation request
 func (m *AWSFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateSpotMaxPrice(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateSpotPercentage(formats); err != nil {
 		res = append(res, err)
@@ -40,8 +60,23 @@ func (m *AWSFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *AWSFreeIpaCreationRequest) validateSpotPercentage(formats strfmt.Registry) error {
+func (m *AWSFreeIpaCreationRequest) validateSpotMaxPrice(formats strfmt.Registry) error {
+	if swag.IsZero(m.SpotMaxPrice) { // not required
+		return nil
+	}
 
+	if err := validate.Minimum("spotMaxPrice", "body", m.SpotMaxPrice, 0.001, false); err != nil {
+		return err
+	}
+
+	if err := validate.Maximum("spotMaxPrice", "body", m.SpotMaxPrice, 255, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *AWSFreeIpaCreationRequest) validateSpotPercentage(formats strfmt.Registry) error {
 	if swag.IsZero(m.SpotPercentage) { // not required
 		return nil
 	}
@@ -54,6 +89,11 @@ func (m *AWSFreeIpaCreationRequest) validateSpotPercentage(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this a w s free ipa creation request based on context it is used
+func (m *AWSFreeIpaCreationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

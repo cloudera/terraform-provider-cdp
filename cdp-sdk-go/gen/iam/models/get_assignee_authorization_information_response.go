@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -69,6 +70,8 @@ func (m *GetAssigneeAuthorizationInformationResponse) validateGroupMembershipInf
 			if err := m.GroupMembershipInfo[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("groupMembershipInfo" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("groupMembershipInfo" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -94,6 +97,8 @@ func (m *GetAssigneeAuthorizationInformationResponse) validateResourceAssignment
 			if err := m.ResourceAssignments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("resourceAssignments" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceAssignments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -108,6 +113,64 @@ func (m *GetAssigneeAuthorizationInformationResponse) validateRoleAssignments(fo
 
 	if err := validate.Required("roleAssignments", "body", m.RoleAssignments); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this get assignee authorization information response based on the context it is used
+func (m *GetAssigneeAuthorizationInformationResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateGroupMembershipInfo(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResourceAssignments(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *GetAssigneeAuthorizationInformationResponse) contextValidateGroupMembershipInfo(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.GroupMembershipInfo); i++ {
+
+		if m.GroupMembershipInfo[i] != nil {
+			if err := m.GroupMembershipInfo[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("groupMembershipInfo" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("groupMembershipInfo" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *GetAssigneeAuthorizationInformationResponse) contextValidateResourceAssignments(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ResourceAssignments); i++ {
+
+		if m.ResourceAssignments[i] != nil {
+			if err := m.ResourceAssignments[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resourceAssignments" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceAssignments" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

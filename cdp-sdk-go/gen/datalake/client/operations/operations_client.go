@@ -23,57 +23,123 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	BackupDatalake(params *BackupDatalakeParams) (*BackupDatalakeOK, error)
+	BackupDatalake(params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error)
 
-	BackupDatalakeStatus(params *BackupDatalakeStatusParams) (*BackupDatalakeStatusOK, error)
+	BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error)
 
-	CreateAWSDatalake(params *CreateAWSDatalakeParams) (*CreateAWSDatalakeOK, error)
+	CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error)
 
-	CreateAzureDatalake(params *CreateAzureDatalakeParams) (*CreateAzureDatalakeOK, error)
+	CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error)
 
-	DeleteDatalake(params *DeleteDatalakeParams) (*DeleteDatalakeOK, error)
+	CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error)
 
-	DescribeDatalake(params *DescribeDatalakeParams) (*DescribeDatalakeOK, error)
+	CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
 
-	GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetClusterHostStatusOK, error)
+	CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error)
 
-	GetClusterServiceStatus(params *GetClusterServiceStatusParams) (*GetClusterServiceStatusOK, error)
+	CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error)
 
-	ListDatalakeBackups(params *ListDatalakeBackupsParams) (*ListDatalakeBackupsOK, error)
+	CreateAWSGovCloudDataLake(params *CreateAWSGovCloudDataLakeParams, opts ...ClientOption) (*CreateAWSGovCloudDataLakeOK, error)
 
-	ListDatalakes(params *ListDatalakesParams) (*ListDatalakesOK, error)
+	CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error)
 
-	ListRuntimes(params *ListRuntimesParams) (*ListRuntimesOK, error)
+	CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error)
 
-	RepairDatalake(params *RepairDatalakeParams) (*RepairDatalakeOK, error)
+	DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error)
 
-	RestoreDatalake(params *RestoreDatalakeParams) (*RestoreDatalakeOK, error)
+	DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
 
-	RestoreDatalakeStatus(params *RestoreDatalakeStatusParams) (*RestoreDatalakeStatusOK, error)
+	DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error)
 
-	StartDatalake(params *StartDatalakeParams) (*StartDatalakeOK, error)
+	EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error)
 
-	StopDatalake(params *StopDatalakeParams) (*StopDatalakeOK, error)
+	GetCliForDatalake(params *GetCliForDatalakeParams, opts ...ClientOption) (*GetCliForDatalakeOK, error)
 
-	UpgradeDatalake(params *UpgradeDatalakeParams) (*UpgradeDatalakeOK, error)
+	GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
+
+	GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
+
+	GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error)
+
+	GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error)
+
+	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
+	ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error)
+
+	ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error)
+
+	ListDatalakes(params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error)
+
+	ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error)
+
+	PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error)
+
+	RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error)
+
+	RefreshDatahub(params *RefreshDatahubParams, opts ...ClientOption) (*RefreshDatahubOK, error)
+
+	RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
+
+	RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error)
+
+	RepairDatalake(params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error)
+
+	ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error)
+
+	ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error)
+
+	RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error)
+
+	RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error)
+
+	RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error)
+
+	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
+
+	RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
+
+	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
+
+	StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
+
+	StartDatalake(params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error)
+
+	StartDatalakeVerticalScaling(params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error)
+
+	StopDatalake(params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error)
+
+	SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error)
+
+	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
+
+	UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error)
+
+	ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
+
+	ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-  BackupDatalake creates backup of datalake
+BackupDatalake creates backup of datalake
 
-  Takes a backup all the data in the datalake.
+Takes a backup of all the data in the datalake.
 */
-func (a *Client) BackupDatalake(params *BackupDatalakeParams) (*BackupDatalakeOK, error) {
+func (a *Client) BackupDatalake(params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewBackupDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "backupDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/backupDatalake",
@@ -84,7 +150,12 @@ func (a *Client) BackupDatalake(params *BackupDatalakeParams) (*BackupDatalakeOK
 		Reader:             &BackupDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -98,17 +169,16 @@ func (a *Client) BackupDatalake(params *BackupDatalakeParams) (*BackupDatalakeOK
 }
 
 /*
-  BackupDatalakeStatus checks status of the last datalake backup
+BackupDatalakeStatus checks the status of a datalake backup operation performed
 
-  Checks status of last datalake backup and gives more information.
+Identifies the backup operation based on the inputs provided and gets the status. BackupName and BackupId are mutually exclusive. Only one of them can be provided.
 */
-func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams) (*BackupDatalakeStatusOK, error) {
+func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewBackupDatalakeStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "backupDatalakeStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/backupDatalakeStatus",
@@ -119,7 +189,12 @@ func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams) (*Back
 		Reader:             &BackupDatalakeStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -133,17 +208,211 @@ func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams) (*Back
 }
 
 /*
-  CreateAWSDatalake creates an a w s datalake
+CancelBackup cancels the specified ongoing backup operation
 
-  Creates an AWS datalake.
+Cancels a currently running backup operation. The operation must be in a STARTED or IN_PROGRESS state. Pending sub-operations will be ignored and marked as cancelled. The operation does not wait for the currently running sub-operation(s) to complete.
 */
-func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams) (*CreateAWSDatalakeOK, error) {
+func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCancelBackupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cancelBackup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/cancelBackup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CancelBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CancelBackupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CancelBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CancelDatalakeDiagnostics cancels running datalake diagnostics collections
+
+Cancel running Datalake diagnostics collection
+*/
+func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCancelDatalakeDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cancelDatalakeDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/cancelDatalakeDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CancelDatalakeDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CancelDatalakeDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CancelDatalakeDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CancelRestore cancels the restore that was performed
+
+Cancels a currently running restore operation. The operation must be in a STARTED or IN_PROGRESS state.
+*/
+func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCancelRestoreParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cancelRestore",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/cancelRestore",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CancelRestoreReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CancelRestoreOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CancelRestoreDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CollectCmDiagnostics starts data lake cloudera manager based diagnostics collection
+
+Start Datalake Cloudera Manager based diagnostics collection
+*/
+func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCollectCmDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "collectCmDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/collectCmDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CollectCmDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CollectCmDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CollectCmDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CollectDatalakeDiagnostics starts data lake diagnostics collection
+
+Start Datalake diagnostics collection
+*/
+func (a *Client) CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCollectDatalakeDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "collectDatalakeDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/collectDatalakeDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CollectDatalakeDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CollectDatalakeDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CollectDatalakeDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAWSDatalake creates an a w s datalake
+
+Creates an AWS datalake.
+*/
+func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAWSDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAWSDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/createAWSDatalake",
@@ -154,7 +423,12 @@ func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams) (*CreateAWSD
 		Reader:             &CreateAWSDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -168,17 +442,55 @@ func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams) (*CreateAWSD
 }
 
 /*
-  CreateAzureDatalake creates an azure datalake
+CreateAWSGovCloudDataLake creates a data lake on a w s gov cloud
 
-  Creates an Azure datalake.
+Creates a Data Lake on AWS GovCloud.
 */
-func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams) (*CreateAzureDatalakeOK, error) {
+func (a *Client) CreateAWSGovCloudDataLake(params *CreateAWSGovCloudDataLakeParams, opts ...ClientOption) (*CreateAWSGovCloudDataLakeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudDataLakeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudDataLake",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/createAWSGovCloudDataLake",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudDataLakeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudDataLakeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudDataLakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAzureDatalake creates an azure datalake
+
+Creates an Azure datalake.
+*/
+func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAzureDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAzureDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/createAzureDatalake",
@@ -189,7 +501,12 @@ func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams) (*Create
 		Reader:             &CreateAzureDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -203,17 +520,55 @@ func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams) (*Create
 }
 
 /*
-  DeleteDatalake deletes a datalake
+CreateGCPDatalake creates an g c p data lake
 
-  Deletes a datalake.
+Creates an GCP Data Lake.
 */
-func (a *Client) DeleteDatalake(params *DeleteDatalakeParams) (*DeleteDatalakeOK, error) {
+func (a *Client) CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateGCPDatalakeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createGCPDatalake",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/createGCPDatalake",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateGCPDatalakeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateGCPDatalakeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateGCPDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteDatalake deletes a datalake
+
+Deletes a datalake.
+*/
+func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/deleteDatalake",
@@ -224,7 +579,12 @@ func (a *Client) DeleteDatalake(params *DeleteDatalakeParams) (*DeleteDatalakeOK
 		Reader:             &DeleteDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -238,17 +598,55 @@ func (a *Client) DeleteDatalake(params *DeleteDatalakeParams) (*DeleteDatalakeOK
 }
 
 /*
-  DescribeDatalake describes a datalake
+DescribeDatabaseServer gets external database server details
 
-  Describes a datalake.
+Gets external database server details for Data Lake by cluster CRN
 */
-func (a *Client) DescribeDatalake(params *DescribeDatalakeParams) (*DescribeDatalakeOK, error) {
+func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDatabaseServerParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDatabaseServer",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/describeDatabaseServer",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDatabaseServerReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDatabaseServerOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDatabaseServerDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeDatalake describes a datalake
+
+Describes a datalake.
+*/
+func (a *Client) DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/describeDatalake",
@@ -259,7 +657,12 @@ func (a *Client) DescribeDatalake(params *DescribeDatalakeParams) (*DescribeData
 		Reader:             &DescribeDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -273,17 +676,94 @@ func (a *Client) DescribeDatalake(params *DescribeDatalakeParams) (*DescribeData
 }
 
 /*
-  GetClusterHostStatus gets cluster host status
+EnableRangerRaz sets the ranger raz enabled flag to true if raz is manually installed on the datalake
 
-  Gets the status of the hosts in a cluster.
+Sets the Ranger Raz enabled flag to true if Raz is manually installed on the datalake.
 */
-func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetClusterHostStatusOK, error) {
+func (a *Client) EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewEnableRangerRazParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "enableRangerRaz",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/enableRangerRaz",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &EnableRangerRazReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*EnableRangerRazOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*EnableRangerRazDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetCliForDatalake gets create datalake c l i command based on private API request or response object
+
+Get create datalake CLI command based on private API request or response object
+*/
+func (a *Client) GetCliForDatalake(params *GetCliForDatalakeParams, opts ...ClientOption) (*GetCliForDatalakeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCliForDatalakeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getCliForDatalake",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/getCliForDatalake",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCliForDatalakeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCliForDatalakeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCliForDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetClusterHostStatus gets cluster host status
+
+Gets the status of the hosts in a cluster.
+*/
+func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetClusterHostStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getClusterHostStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/getClusterHostStatus",
@@ -294,7 +774,12 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetC
 		Reader:             &GetClusterHostStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -308,17 +793,16 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams) (*GetC
 }
 
 /*
-  GetClusterServiceStatus gets cluster service status
+GetClusterServiceStatus gets cluster service status
 
-  Gets the status of the services in a cluster.
+Gets the status of the services in a cluster.
 */
-func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams) (*GetClusterServiceStatusOK, error) {
+func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetClusterServiceStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getClusterServiceStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/getClusterServiceStatus",
@@ -329,7 +813,12 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams) 
 		Reader:             &GetClusterServiceStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -343,17 +832,133 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams) 
 }
 
 /*
-  ListDatalakeBackups lists all the backup operations that were performed on the datalake
+GetCmRoles gathers cloudera manager roles that can be used for filtering in c m based diagnostics collection
 
-  List all the backup operations that were performed on the datalake.
+Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection.
 */
-func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams) (*ListDatalakeBackupsOK, error) {
+func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCmRolesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getCmRoles",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/getCmRoles",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCmRolesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCmRolesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCmRolesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetDatalakeLogDescriptors gathers log descriptors that are used for diagnostics collection
+
+Gather log descriptors that are used for diagnostics collection.
+*/
+func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetDatalakeLogDescriptorsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getDatalakeLogDescriptors",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/getDatalakeLogDescriptors",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetDatalakeLogDescriptorsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetDatalakeLogDescriptorsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetDatalakeLogDescriptorsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetOperation gets the latest in progress or finished operation for the datalake cluster
+
+Get the latest (in progress or finished) operation for the datalake cluster.
+*/
+func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetOperationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getOperation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/getOperation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetOperationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetOperationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetOperationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDatalakeBackups lists all the backup operations that were performed on the datalake
+
+List all the backup operations that were performed on the datalake.
+*/
+func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListDatalakeBackupsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listDatalakeBackups",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/listDatalakeBackups",
@@ -364,7 +969,12 @@ func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams) (*ListDa
 		Reader:             &ListDatalakeBackupsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -378,17 +988,55 @@ func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams) (*ListDa
 }
 
 /*
-  ListDatalakes lists datalakes
+ListDatalakeDiagnostics lists recent datalake diagnostics collections
 
-  Lists datalakes.
+List recent Datalake diagnostics collection
 */
-func (a *Client) ListDatalakes(params *ListDatalakesParams) (*ListDatalakesOK, error) {
+func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDatalakeDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDatalakeDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/listDatalakeDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDatalakeDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDatalakeDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDatalakeDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListDatalakes lists datalakes
+
+Lists datalakes.
+*/
+func (a *Client) ListDatalakes(params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListDatalakesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listDatalakes",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/listDatalakes",
@@ -399,7 +1047,12 @@ func (a *Client) ListDatalakes(params *ListDatalakesParams) (*ListDatalakesOK, e
 		Reader:             &ListDatalakesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -413,17 +1066,16 @@ func (a *Client) ListDatalakes(params *ListDatalakesParams) (*ListDatalakesOK, e
 }
 
 /*
-  ListRuntimes lists the datalake versions
+ListRuntimes lists the datalake versions
 
-  Lists the available datalake runtime versions.
+Lists the available datalake runtime versions.
 */
-func (a *Client) ListRuntimes(params *ListRuntimesParams) (*ListRuntimesOK, error) {
+func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListRuntimesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listRuntimes",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/listRuntimes",
@@ -434,7 +1086,12 @@ func (a *Client) ListRuntimes(params *ListRuntimesParams) (*ListRuntimesOK, erro
 		Reader:             &ListRuntimesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -448,17 +1105,211 @@ func (a *Client) ListRuntimes(params *ListRuntimesParams) (*ListRuntimesOK, erro
 }
 
 /*
-  RepairDatalake repairs a datalake
+PrepareDatalakeUpgrade prepares the data lake cluster for upgrade
 
-  Repairs a datalake.
+In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well.
 */
-func (a *Client) RepairDatalake(params *RepairDatalakeParams) (*RepairDatalakeOK, error) {
+func (a *Client) PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPrepareDatalakeUpgradeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "prepareDatalakeUpgrade",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/prepareDatalakeUpgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PrepareDatalakeUpgradeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*PrepareDatalakeUpgradeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*PrepareDatalakeUpgradeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RecoverDatalake recovers data lake to the original version after a failed upgrade
+
+Recover data lake to the original version after a failed upgrade.
+*/
+func (a *Client) RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRecoverDatalakeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "recoverDatalake",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/recoverDatalake",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RecoverDatalakeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RecoverDatalakeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RecoverDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RefreshDatahub refreshes data hubs associated with the data lake if no data hub name is provided all of the data hubs will be refreshed
+
+Refresh Data Hubs.
+*/
+func (a *Client) RefreshDatahub(params *RefreshDatahubParams, opts ...ClientOption) (*RefreshDatahubOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRefreshDatahubParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "refreshDatahub",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/refreshDatahub",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RefreshDatahubReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RefreshDatahubOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RefreshDatahubDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RenewCertificate renews certificate on datalake cluster by name or c r n
+
+Deprecated, please use renew-public-certificate command instead. Renew certificate on Datalake cluster by name or CRN.
+*/
+func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRenewCertificateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "renewCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/renewCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RenewCertificateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RenewCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RenewCertificateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RenewPublicCertificate renews public certificate on datalake cluster by name or c r n
+
+Renews public certificate on Datalake cluster by name or CRN.
+*/
+func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRenewPublicCertificateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "renewPublicCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/renewPublicCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RenewPublicCertificateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RenewPublicCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RenewPublicCertificateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RepairDatalake repairs a datalake
+
+Repairs a datalake.
+*/
+func (a *Client) RepairDatalake(params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRepairDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "repairDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/repairDatalake",
@@ -469,7 +1320,12 @@ func (a *Client) RepairDatalake(params *RepairDatalakeParams) (*RepairDatalakeOK
 		Reader:             &RepairDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -483,17 +1339,94 @@ func (a *Client) RepairDatalake(params *RepairDatalakeParams) (*RepairDatalakeOK
 }
 
 /*
-  RestoreDatalake restores the datalake from the last backup
+ReplaceRecipes replaces recipes for the given instance groups
 
-  Restore the datalake from the data backedup in the last backup.
+Replaces recipes for the given instance groups.
 */
-func (a *Client) RestoreDatalake(params *RestoreDatalakeParams) (*RestoreDatalakeOK, error) {
+func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewReplaceRecipesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "replaceRecipes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/replaceRecipes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ReplaceRecipesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ReplaceRecipesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ReplaceRecipesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ResizeDatalake resizes the given datalake to the given target size currently the only valid use of this is for resizing a light duty datalake to a medium duty datalake
+
+Resizes the datalake to the given size.
+*/
+func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewResizeDatalakeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "resizeDatalake",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/resizeDatalake",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ResizeDatalakeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ResizeDatalakeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ResizeDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RestoreDatalake restores the datalake from backup taken
+
+Restore the datalake from a backup that was taken. Backup to be used for restore is identified based on the information provided in the restore request. BackupId and BackupName are mutually exclusive. Only one of them can be provided. If both are provided, BackupId takes precedence.
+*/
+func (a *Client) RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRestoreDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "restoreDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/restoreDatalake",
@@ -504,7 +1437,12 @@ func (a *Client) RestoreDatalake(params *RestoreDatalakeParams) (*RestoreDatalak
 		Reader:             &RestoreDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -518,17 +1456,16 @@ func (a *Client) RestoreDatalake(params *RestoreDatalakeParams) (*RestoreDatalak
 }
 
 /*
-  RestoreDatalakeStatus checks the status of aws datalake restore operation
+RestoreDatalakeStatus checks the status of datalake restore operation
 
-  Check the status of aws datalake restore operation.
+Identifies the restore operation based on the inputs provided and gets the status. RestoreId and BackupName are mutually exclusive. Only one of them can be provided.
 */
-func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams) (*RestoreDatalakeStatusOK, error) {
+func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRestoreDatalakeStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "restoreDatalakeStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/restoreDatalakeStatus",
@@ -539,7 +1476,12 @@ func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams) (*Re
 		Reader:             &RestoreDatalakeStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -553,17 +1495,250 @@ func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams) (*Re
 }
 
 /*
-  StartDatalake starts datalake
+RetryDatalake retries last failed operation on a datalake
 
-  Starts a stopped Datalake
+Retry last failed operation on a datalake.
 */
-func (a *Client) StartDatalake(params *StartDatalakeParams) (*StartDatalakeOK, error) {
+func (a *Client) RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRetryDatalakeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "retryDatalake",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/retryDatalake",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RetryDatalakeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RetryDatalakeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RetryDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotateAutoTLSCertificates rotates autotls certificates on the datalake s hosts
+
+Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datalake's hosts
+*/
+func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateAutoTLSCertificatesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateAutoTlsCertificates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/rotateAutoTlsCertificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateAutoTLSCertificatesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateAutoTLSCertificatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateAutoTLSCertificatesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotatePrivateCertificates rotates private certificates on the datalake s hosts
+
+Rotates private certificates on the datalake's hosts.
+*/
+func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotatePrivateCertificatesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotatePrivateCertificates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/rotatePrivateCertificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotatePrivateCertificatesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotatePrivateCertificatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotatePrivateCertificatesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotateSaltPassword rotates salt stack user password on data lake instances
+
+Rotate SaltStack user password on DataLake instances.
+*/
+func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateSaltPasswordParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateSaltPassword",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/rotateSaltPassword",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateSaltPasswordReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateSaltPasswordOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetCatalog sets a catalog for a data lake
+
+Sets a catalog for a DataLake.
+*/
+func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetCatalogParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setCatalog",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/setCatalog",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetCatalogReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetCatalogOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetCatalogDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StartDatabaseUpgrade upgrades the database of the data lake cluster
+
+This command initiates the upgrade of the database of the Data Lake cluster.
+*/
+func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartDatabaseUpgradeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startDatabaseUpgrade",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/startDatabaseUpgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartDatabaseUpgradeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartDatabaseUpgradeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartDatabaseUpgradeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StartDatalake starts datalake
+
+Deprecated, please use 'cdp environments start-environment' instead.
+*/
+func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewStartDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "startDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/startDatalake",
@@ -574,7 +1749,12 @@ func (a *Client) StartDatalake(params *StartDatalakeParams) (*StartDatalakeOK, e
 		Reader:             &StartDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -588,17 +1768,55 @@ func (a *Client) StartDatalake(params *StartDatalakeParams) (*StartDatalakeOK, e
 }
 
 /*
-  StopDatalake stops datalake
+StartDatalakeVerticalScaling initiates the vertical scaling on data lake
 
-  Stops a running Datalake
+Initiates the vertical scaling on Data Lake.
 */
-func (a *Client) StopDatalake(params *StopDatalakeParams) (*StopDatalakeOK, error) {
+func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartDatalakeVerticalScalingParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startDatalakeVerticalScaling",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/startDatalakeVerticalScaling",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartDatalakeVerticalScalingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartDatalakeVerticalScalingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartDatalakeVerticalScalingDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StopDatalake stops datalake
+
+Deprecated, please use 'cdp environments stop-environment' instead.
+*/
+func (a *Client) StopDatalake(params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewStopDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "stopDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/stopDatalake",
@@ -609,7 +1827,12 @@ func (a *Client) StopDatalake(params *StopDatalakeParams) (*StopDatalakeOK, erro
 		Reader:             &StopDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -623,17 +1846,94 @@ func (a *Client) StopDatalake(params *StopDatalakeParams) (*StopDatalakeOK, erro
 }
 
 /*
-  UpgradeDatalake os s or data platform upgrade for the s d x cluster
+SyncComponentVersionsFromCm syncs component versions from c m after a failed upgrade
 
-  OS or data platform upgrade for the SDX cluster. You need to specify either one of image-id, runtime or lock-components to proceed.
+Syncs component versions from CM after a failed upgrade.
 */
-func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams) (*UpgradeDatalakeOK, error) {
+func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSyncComponentVersionsFromCmParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "syncComponentVersionsFromCm",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/syncComponentVersionsFromCm",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SyncComponentVersionsFromCmReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SyncComponentVersionsFromCmOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SyncComponentVersionsFromCmDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateOrchestratorState runs orchestrator engine state update on the data lake cluster
+
+Run orchestrator engine state update on the Data Lake cluster.
+*/
+func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateOrchestratorStateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateOrchestratorState",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/updateOrchestratorState",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateOrchestratorStateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateOrchestratorStateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeDatalake os s or data platform upgrade for the s d x cluster
+
+OS or data platform upgrade for the SDX cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters.
+*/
+func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpgradeDatalakeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "upgradeDatalake",
 		Method:             "POST",
 		PathPattern:        "/api/v1/datalake/upgradeDatalake",
@@ -644,7 +1944,12 @@ func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams) (*UpgradeDatalak
 		Reader:             &UpgradeDatalakeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -654,6 +1959,84 @@ func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams) (*UpgradeDatalak
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpgradeDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAwsCloudStorage validates a w s cloud storage
+
+Validates AWS cloud storage for Data Lake.
+*/
+func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAwsCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAwsCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/validateAwsCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAwsCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAwsCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAwsCloudStorageDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAzureCloudStorage validates azure cloud storage
+
+Validates Azure cloud storage for Data Lake.
+*/
+func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAzureCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAzureCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/validateAzureCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAzureCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAzureCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAzureCloudStorageDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

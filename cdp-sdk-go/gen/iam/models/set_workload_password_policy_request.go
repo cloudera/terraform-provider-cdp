@@ -6,10 +6,11 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // SetWorkloadPasswordPolicyRequest Request object for a set workload password policy request.
@@ -17,16 +18,22 @@ import (
 // swagger:model SetWorkloadPasswordPolicyRequest
 type SetWorkloadPasswordPolicyRequest struct {
 
-	// The max lifetime of passwords, in days. If set to '0' passwords never expires.
-	// Minimum: 0
-	MaxPasswordLifetimeDays *int32 `json:"maxPasswordLifetimeDays,omitempty"`
+	// The global password policy object. If set, maxPasswordLifetimeDays is ignored, and if not set the default values for the different password policies are used. See PasswordPolicy for more details on the different default values.
+	GlobalPasswordPolicy *PasswordPolicy `json:"globalPasswordPolicy,omitempty"`
+
+	// The password policy object for machine users. If set, this will be used for enforcing password complexity for machine users instead of the global password policy.
+	MachineUsersPasswordPolicy *PasswordPolicy `json:"machineUsersPasswordPolicy,omitempty"`
 }
 
 // Validate validates this set workload password policy request
 func (m *SetWorkloadPasswordPolicyRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateMaxPasswordLifetimeDays(formats); err != nil {
+	if err := m.validateGlobalPasswordPolicy(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMachineUsersPasswordPolicy(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -36,14 +43,89 @@ func (m *SetWorkloadPasswordPolicyRequest) Validate(formats strfmt.Registry) err
 	return nil
 }
 
-func (m *SetWorkloadPasswordPolicyRequest) validateMaxPasswordLifetimeDays(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.MaxPasswordLifetimeDays) { // not required
+func (m *SetWorkloadPasswordPolicyRequest) validateGlobalPasswordPolicy(formats strfmt.Registry) error {
+	if swag.IsZero(m.GlobalPasswordPolicy) { // not required
 		return nil
 	}
 
-	if err := validate.MinimumInt("maxPasswordLifetimeDays", "body", int64(*m.MaxPasswordLifetimeDays), 0, false); err != nil {
-		return err
+	if m.GlobalPasswordPolicy != nil {
+		if err := m.GlobalPasswordPolicy.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("globalPasswordPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("globalPasswordPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *SetWorkloadPasswordPolicyRequest) validateMachineUsersPasswordPolicy(formats strfmt.Registry) error {
+	if swag.IsZero(m.MachineUsersPasswordPolicy) { // not required
+		return nil
+	}
+
+	if m.MachineUsersPasswordPolicy != nil {
+		if err := m.MachineUsersPasswordPolicy.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineUsersPasswordPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineUsersPasswordPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this set workload password policy request based on the context it is used
+func (m *SetWorkloadPasswordPolicyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateGlobalPasswordPolicy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMachineUsersPasswordPolicy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *SetWorkloadPasswordPolicyRequest) contextValidateGlobalPasswordPolicy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.GlobalPasswordPolicy != nil {
+		if err := m.GlobalPasswordPolicy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("globalPasswordPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("globalPasswordPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *SetWorkloadPasswordPolicyRequest) contextValidateMachineUsersPasswordPolicy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MachineUsersPasswordPolicy != nil {
+		if err := m.MachineUsersPasswordPolicy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineUsersPasswordPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineUsersPasswordPolicy")
+			}
+			return err
+		}
 	}
 
 	return nil

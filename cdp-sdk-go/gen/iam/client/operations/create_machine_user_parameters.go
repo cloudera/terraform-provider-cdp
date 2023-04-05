@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
-// NewCreateMachineUserParams creates a new CreateMachineUserParams object
-// with the default values initialized.
+// NewCreateMachineUserParams creates a new CreateMachineUserParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateMachineUserParams() *CreateMachineUserParams {
-	var ()
 	return &CreateMachineUserParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateMachineUserParamsWithTimeout creates a new CreateMachineUserParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateMachineUserParamsWithTimeout(timeout time.Duration) *CreateMachineUserParams {
-	var ()
 	return &CreateMachineUserParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateMachineUserParamsWithContext creates a new CreateMachineUserParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateMachineUserParamsWithContext(ctx context.Context) *CreateMachineUserParams {
-	var ()
 	return &CreateMachineUserParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateMachineUserParamsWithHTTPClient creates a new CreateMachineUserParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateMachineUserParamsWithHTTPClient(client *http.Client) *CreateMachineUserParams {
-	var ()
 	return &CreateMachineUserParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateMachineUserParams contains all the parameters to send to the API endpoint
-for the create machine user operation typically these are written to a http.Request
+/*
+CreateMachineUserParams contains all the parameters to send to the API endpoint
+
+	for the create machine user operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateMachineUserParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.CreateMachineUserRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create machine user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateMachineUserParams) WithDefaults() *CreateMachineUserParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create machine user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateMachineUserParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create machine user params
@@ -121,7 +137,6 @@ func (o *CreateMachineUserParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

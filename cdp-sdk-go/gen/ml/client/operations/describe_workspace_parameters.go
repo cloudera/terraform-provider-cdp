@@ -18,56 +18,72 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
-// NewDescribeWorkspaceParams creates a new DescribeWorkspaceParams object
-// with the default values initialized.
+// NewDescribeWorkspaceParams creates a new DescribeWorkspaceParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeWorkspaceParams() *DescribeWorkspaceParams {
-	var ()
 	return &DescribeWorkspaceParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDescribeWorkspaceParamsWithTimeout creates a new DescribeWorkspaceParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDescribeWorkspaceParamsWithTimeout(timeout time.Duration) *DescribeWorkspaceParams {
-	var ()
 	return &DescribeWorkspaceParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDescribeWorkspaceParamsWithContext creates a new DescribeWorkspaceParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDescribeWorkspaceParamsWithContext(ctx context.Context) *DescribeWorkspaceParams {
-	var ()
 	return &DescribeWorkspaceParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDescribeWorkspaceParamsWithHTTPClient creates a new DescribeWorkspaceParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDescribeWorkspaceParamsWithHTTPClient(client *http.Client) *DescribeWorkspaceParams {
-	var ()
 	return &DescribeWorkspaceParams{
 		HTTPClient: client,
 	}
 }
 
-/*DescribeWorkspaceParams contains all the parameters to send to the API endpoint
-for the describe workspace operation typically these are written to a http.Request
+/*
+DescribeWorkspaceParams contains all the parameters to send to the API endpoint
+
+	for the describe workspace operation.
+
+	Typically these are written to a http.Request.
 */
 type DescribeWorkspaceParams struct {
 
-	/*Input*/
+	// Input.
 	Input *models.DescribeWorkspaceRequest
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the describe workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeWorkspaceParams) WithDefaults() *DescribeWorkspaceParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the describe workspace params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DescribeWorkspaceParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the describe workspace params
@@ -121,7 +137,6 @@ func (o *DescribeWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
 	if o.Input != nil {
 		if err := r.SetBodyParam(o.Input); err != nil {
 			return err

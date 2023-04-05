@@ -23,105 +23,283 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams) (*ChangeEnvironmentCredentialOK, error)
+	AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error)
 
-	CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams) (*CheckEnvironmentConnectivityOK, error)
+	CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error)
 
-	CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams) (*CheckKubernetesConnectivityOK, error)
+	ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error)
 
-	CreateAWSCredential(params *CreateAWSCredentialParams) (*CreateAWSCredentialOK, error)
+	CheckDatabaseConnectivity(params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error)
 
-	CreateAWSEnvironment(params *CreateAWSEnvironmentParams) (*CreateAWSEnvironmentOK, error)
+	CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error)
 
-	CreateAzureCredential(params *CreateAzureCredentialParams) (*CreateAzureCredentialOK, error)
+	CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error)
 
-	CreateAzureEnvironment(params *CreateAzureEnvironmentParams) (*CreateAzureEnvironmentOK, error)
+	CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error)
 
-	CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams) (*CreatePrivateEnvironmentOK, error)
+	CreateAWSCredential(params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error)
 
-	CreateProxyConfig(params *CreateProxyConfigParams) (*CreateProxyConfigOK, error)
+	CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error)
 
-	DeleteCredential(params *DeleteCredentialParams) (*DeleteCredentialOK, error)
+	CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error)
 
-	DeleteEnvironment(params *DeleteEnvironmentParams) (*DeleteEnvironmentOK, error)
+	CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error)
 
-	DeleteIDBrokerMappings(params *DeleteIDBrokerMappingsParams) (*DeleteIDBrokerMappingsOK, error)
+	CreateAzureCredential(params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error)
 
-	DeleteProxyConfig(params *DeleteProxyConfigParams) (*DeleteProxyConfigOK, error)
+	CreateAzureEnvironment(params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error)
 
-	DescribeEnvironment(params *DescribeEnvironmentParams) (*DescribeEnvironmentOK, error)
+	CreateGCPCredential(params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error)
 
-	GetAccountTelemetry(params *GetAccountTelemetryParams) (*GetAccountTelemetryOK, error)
+	CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error)
 
-	GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams) (*GetAccountTelemetryDefaultOK, error)
+	CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error)
 
-	GetConfigFiles(params *GetConfigFilesParams) (*GetConfigFilesOK, error)
+	CreateProxyConfig(params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error)
 
-	GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams) (*GetCredentialPrerequisitesOK, error)
+	DeleteAuditCredential(params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error)
 
-	GetEnvironmentSetting(params *GetEnvironmentSettingParams) (*GetEnvironmentSettingOK, error)
+	DeleteCredential(params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error)
 
-	GetFreeipaStatus(params *GetFreeipaStatusParams) (*GetFreeipaStatusOK, error)
+	DeleteEnvironment(params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error)
 
-	GetIDBrokerMappings(params *GetIDBrokerMappingsParams) (*GetIDBrokerMappingsOK, error)
+	DeleteIDBrokerMappings(params *DeleteIDBrokerMappingsParams, opts ...ClientOption) (*DeleteIDBrokerMappingsOK, error)
 
-	GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams) (*GetIDBrokerMappingsSyncStatusOK, error)
+	DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error)
 
-	GetKeytab(params *GetKeytabParams) (*GetKeytabOK, error)
+	DescribeEnvironment(params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error)
 
-	GetRootCertificate(params *GetRootCertificateParams) (*GetRootCertificateOK, error)
+	DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error)
 
-	GetTruststorePassword(params *GetTruststorePasswordParams) (*GetTruststorePasswordOK, error)
+	DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error)
 
-	ListCredentials(params *ListCredentialsParams) (*ListCredentialsOK, error)
+	DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error)
 
-	ListEnvironments(params *ListEnvironmentsParams) (*ListEnvironmentsOK, error)
+	ExtractCatalog(params *ExtractCatalogParams, opts ...ClientOption) (*ExtractCatalogOK, error)
 
-	ListProxyConfigs(params *ListProxyConfigsParams) (*ListProxyConfigsOK, error)
+	GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error)
 
-	RepairFreeipa(params *RepairFreeipaParams) (*RepairFreeipaOK, error)
+	GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error)
 
-	SetAccountTelemetry(params *SetAccountTelemetryParams) (*SetAccountTelemetryOK, error)
+	GetAuditCredentialPrerequisites(params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error)
 
-	SetEnvironmentSetting(params *SetEnvironmentSettingParams) (*SetEnvironmentSettingOK, error)
+	GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error)
 
-	SetIDBrokerMappings(params *SetIDBrokerMappingsParams) (*SetIDBrokerMappingsOK, error)
+	GetCliForCredential(params *GetCliForCredentialParams, opts ...ClientOption) (*GetCliForCredentialOK, error)
 
-	SetPassword(params *SetPasswordParams) (*SetPasswordOK, error)
+	GetCliForEnvironment(params *GetCliForEnvironmentParams, opts ...ClientOption) (*GetCliForEnvironmentOK, error)
 
-	SetTelemetryFeatures(params *SetTelemetryFeaturesParams) (*SetTelemetryFeaturesOK, error)
+	GetConfigFiles(params *GetConfigFilesParams, opts ...ClientOption) (*GetConfigFilesOK, error)
 
-	StartEnvironment(params *StartEnvironmentParams) (*StartEnvironmentOK, error)
+	GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error)
 
-	StopEnvironment(params *StopEnvironmentParams) (*StopEnvironmentOK, error)
+	GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error)
 
-	SyncAllUsers(params *SyncAllUsersParams) (*SyncAllUsersOK, error)
+	GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error)
 
-	SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams) (*SyncIDBrokerMappingsOK, error)
+	GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error)
 
-	SyncStatus(params *SyncStatusParams) (*SyncStatusOK, error)
+	GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error)
 
-	SyncUser(params *SyncUserParams) (*SyncUserOK, error)
+	GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error)
 
-	TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams) (*TestAccountTelemetryRulesOK, error)
+	GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error)
+
+	GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error)
+
+	GetIDBrokerMappingsCliForEnv(params *GetIDBrokerMappingsCliForEnvParams, opts ...ClientOption) (*GetIDBrokerMappingsCliForEnvOK, error)
+
+	GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error)
+
+	GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error)
+
+	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
+	GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error)
+
+	GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error)
+
+	GetTruststorePassword(params *GetTruststorePasswordParams, opts ...ClientOption) (*GetTruststorePasswordOK, error)
+
+	LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error)
+
+	ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error)
+
+	ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error)
+
+	ListCredentials(params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error)
+
+	ListEnvironments(params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error)
+
+	ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error)
+
+	ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error)
+
+	RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error)
+
+	RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error)
+
+	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error)
+
+	SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error)
+
+	SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error)
+
+	SetAzureAuditCredential(params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error)
+
+	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
+
+	SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error)
+
+	SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error)
+
+	SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error)
+
+	SetPassword(params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error)
+
+	SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error)
+
+	StartEnvironment(params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error)
+
+	StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error)
+
+	StopEnvironment(params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error)
+
+	SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error)
+
+	SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error)
+
+	SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error)
+
+	SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error)
+
+	SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error)
+
+	TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error)
+
+	UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error)
+
+	UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error)
+
+	UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error)
+
+	UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error)
+
+	UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error)
+
+	UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error)
+
+	UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error)
+
+	UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error)
+
+	UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error)
+
+	UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error)
+
+	ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
+
+	ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-  ChangeEnvironmentCredential changes the credential for an environment
+AttachFreeIpaRecipes attaches recipes to free IP a
 
-  Changes the credential for an environment.
+Attach recipes to FreeIPA.
 */
-func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams) (*ChangeEnvironmentCredentialOK, error) {
+func (a *Client) AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAttachFreeIpaRecipesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "attachFreeIpaRecipes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/attachFreeIpaRecipes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AttachFreeIpaRecipesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AttachFreeIpaRecipesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AttachFreeIpaRecipesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CancelFreeipaDiagnostics cancels running free IP a diagnostics collections
+
+Cancel running FreeIPA diagnostics collection
+*/
+func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCancelFreeipaDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cancelFreeipaDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/cancelFreeipaDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CancelFreeipaDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CancelFreeipaDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CancelFreeipaDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ChangeEnvironmentCredential changes the credential for an environment
+
+Changes the credential for an environment.
+*/
+func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewChangeEnvironmentCredentialParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "changeEnvironmentCredential",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/changeEnvironmentCredential",
@@ -132,7 +310,12 @@ func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredential
 		Reader:             &ChangeEnvironmentCredentialReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -146,17 +329,55 @@ func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredential
 }
 
 /*
-  CheckEnvironmentConnectivity checks connectivity to a new private cloud environment by trying to access the cloudera manager address with provided credentials
+CheckDatabaseConnectivity checks database connectivity based on the input parameters
 
-  Checks connectivity to a Private Cloud environment.
+Checks Database connectivity based on the input parameters.
 */
-func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams) (*CheckEnvironmentConnectivityOK, error) {
+func (a *Client) CheckDatabaseConnectivity(params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCheckDatabaseConnectivityParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "checkDatabaseConnectivity",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/checkDatabaseConnectivity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CheckDatabaseConnectivityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CheckDatabaseConnectivityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CheckDatabaseConnectivityDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CheckEnvironmentConnectivity checks connectivity to a new private cloud environment by trying to access the cloudera manager address with provided credentials
+
+Checks connectivity to a Private Cloud environment.
+*/
+func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCheckEnvironmentConnectivityParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "checkEnvironmentConnectivity",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/checkEnvironmentConnectivity",
@@ -167,7 +388,12 @@ func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivi
 		Reader:             &CheckEnvironmentConnectivityReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -181,17 +407,16 @@ func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivi
 }
 
 /*
-  CheckKubernetesConnectivity checks connectivity to a kubernetes address with provided kubeconfig files
+CheckKubernetesConnectivity checks connectivity to a kubernetes address with provided kubeconfig files
 
-  Checks connectivity to a Kubernetes.
+Checks connectivity to a Kubernetes address with provided kubeconfig files.
 */
-func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams) (*CheckKubernetesConnectivityOK, error) {
+func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCheckKubernetesConnectivityParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "checkKubernetesConnectivity",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/checkKubernetesConnectivity",
@@ -202,7 +427,12 @@ func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivity
 		Reader:             &CheckKubernetesConnectivityReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -216,17 +446,55 @@ func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivity
 }
 
 /*
-  CreateAWSCredential creates a new a w s credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+CollectFreeipaDiagnostics starts free IP a diagnostics collection
 
-  Creates a new AWS credential.
+Start FreeIPA diagnostics collection
 */
-func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams) (*CreateAWSCredentialOK, error) {
+func (a *Client) CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCollectFreeipaDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "collectFreeipaDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/collectFreeipaDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CollectFreeipaDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CollectFreeipaDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CollectFreeipaDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAWSCredential creates a new a w s credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+
+Creates a new AWS credential.
+*/
+func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAWSCredentialParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAWSCredential",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/createAWSCredential",
@@ -237,7 +505,12 @@ func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams) (*Create
 		Reader:             &CreateAWSCredentialReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -251,17 +524,16 @@ func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams) (*Create
 }
 
 /*
-  CreateAWSEnvironment creates a new a w s environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+CreateAWSEnvironment creates a new a w s environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
 
-  Creates a new AWS environment.
+Creates a new AWS environment.
 */
-func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams) (*CreateAWSEnvironmentOK, error) {
+func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAWSEnvironmentParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAWSEnvironment",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/createAWSEnvironment",
@@ -272,7 +544,12 @@ func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams) (*Crea
 		Reader:             &CreateAWSEnvironmentReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -286,17 +563,94 @@ func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams) (*Crea
 }
 
 /*
-  CreateAzureCredential creates a new azure credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+CreateAWSGovCloudCredential creates a new a w s credential for gov cloud that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
 
-  Creates a new Azure credential.
+Creates a new AWS credential for GovCloud.
 */
-func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams) (*CreateAzureCredentialOK, error) {
+func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/createAWSGovCloudCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAWSGovCloudEnvironment creates a new a w s gov cloud environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+
+Creates a new AWS GovCloud environment.
+*/
+func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudEnvironmentParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudEnvironment",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/createAWSGovCloudEnvironment",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudEnvironmentReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudEnvironmentOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudEnvironmentDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAzureCredential creates a new azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+
+Creates a new Azure credential.
+*/
+func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAzureCredentialParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAzureCredential",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/createAzureCredential",
@@ -307,7 +661,12 @@ func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams) (*Cr
 		Reader:             &CreateAzureCredentialReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -321,17 +680,16 @@ func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams) (*Cr
 }
 
 /*
-  CreateAzureEnvironment creates a new azure environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+CreateAzureEnvironment creates a new azure environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
 
-  Creates a new Azure environment.
+Creates a new Azure environment.
 */
-func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams) (*CreateAzureEnvironmentOK, error) {
+func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAzureEnvironmentParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAzureEnvironment",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/createAzureEnvironment",
@@ -342,7 +700,12 @@ func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams) (*
 		Reader:             &CreateAzureEnvironmentReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -356,17 +719,94 @@ func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams) (*
 }
 
 /*
-  CreatePrivateEnvironment creates a new private cloud environment by providing the cloudera manager address and credentials
+CreateGCPCredential creates a new g c p credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
 
-  Creates a new Private Cloud environment.
+Creates a new GCP credential.
 */
-func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams) (*CreatePrivateEnvironmentOK, error) {
+func (a *Client) CreateGCPCredential(params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateGCPCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createGCPCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/createGCPCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateGCPCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateGCPCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateGCPCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateGCPEnvironment creates a new g c p environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+
+Creates a new GCP environment.
+*/
+func (a *Client) CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateGCPEnvironmentParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createGCPEnvironment",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/createGCPEnvironment",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateGCPEnvironmentReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateGCPEnvironmentOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateGCPEnvironmentDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreatePrivateEnvironment creates a new private cloud environment by providing the cloudera manager address and credentials
+
+Creates a new Private Cloud environment.
+*/
+func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreatePrivateEnvironmentParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createPrivateEnvironment",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/createPrivateEnvironment",
@@ -377,7 +817,12 @@ func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams
 		Reader:             &CreatePrivateEnvironmentReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -391,17 +836,16 @@ func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams
 }
 
 /*
-  CreateProxyConfig creates a new proxy config that can be attatched to an environment
+CreateProxyConfig creates a new proxy config that can be attatched to an environment
 
-  Creates a new proxy config.
+Creates a new proxy config.
 */
-func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams) (*CreateProxyConfigOK, error) {
+func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateProxyConfigParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createProxyConfig",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/createProxyConfig",
@@ -412,7 +856,12 @@ func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams) (*CreateProx
 		Reader:             &CreateProxyConfigReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -426,17 +875,55 @@ func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams) (*CreateProx
 }
 
 /*
-  DeleteCredential deletes a credential
+DeleteAuditCredential deletes an audit credential
 
-  Deletes a credential.
+Deletes an audit credential.
 */
-func (a *Client) DeleteCredential(params *DeleteCredentialParams) (*DeleteCredentialOK, error) {
+func (a *Client) DeleteAuditCredential(params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteAuditCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteAuditCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/deleteAuditCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteAuditCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteAuditCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteAuditCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteCredential deletes a credential
+
+Deletes a credential.
+*/
+func (a *Client) DeleteCredential(params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteCredentialParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteCredential",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/deleteCredential",
@@ -447,7 +934,12 @@ func (a *Client) DeleteCredential(params *DeleteCredentialParams) (*DeleteCreden
 		Reader:             &DeleteCredentialReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -461,17 +953,16 @@ func (a *Client) DeleteCredential(params *DeleteCredentialParams) (*DeleteCreden
 }
 
 /*
-  DeleteEnvironment deletes an environment
+DeleteEnvironment deletes an environment
 
-  Deletes an environment.
+Deletes an environment.
 */
-func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams) (*DeleteEnvironmentOK, error) {
+func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteEnvironmentParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteEnvironment",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/deleteEnvironment",
@@ -482,7 +973,12 @@ func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams) (*DeleteEnvi
 		Reader:             &DeleteEnvironmentReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -496,17 +992,16 @@ func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams) (*DeleteEnvi
 }
 
 /*
-  DeleteIDBrokerMappings deletes all ID broker mappings for an environment
+DeleteIDBrokerMappings deletes all ID broker mappings for an environment
 
-  Deletes all ID Broker mappings for an environment.
+Deletes all ID Broker mappings for an environment.
 */
-func (a *Client) DeleteIDBrokerMappings(params *DeleteIDBrokerMappingsParams) (*DeleteIDBrokerMappingsOK, error) {
+func (a *Client) DeleteIDBrokerMappings(params *DeleteIDBrokerMappingsParams, opts ...ClientOption) (*DeleteIDBrokerMappingsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteIDBrokerMappingsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteIdBrokerMappings",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/deleteIdBrokerMappings",
@@ -517,7 +1012,12 @@ func (a *Client) DeleteIDBrokerMappings(params *DeleteIDBrokerMappingsParams) (*
 		Reader:             &DeleteIDBrokerMappingsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -531,17 +1031,16 @@ func (a *Client) DeleteIDBrokerMappings(params *DeleteIDBrokerMappingsParams) (*
 }
 
 /*
-  DeleteProxyConfig deletes a proxy config
+DeleteProxyConfig deletes a proxy config
 
-  Deletes a proxy config.
+Deletes a proxy config.
 */
-func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams) (*DeleteProxyConfigOK, error) {
+func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteProxyConfigParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteProxyConfig",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/deleteProxyConfig",
@@ -552,7 +1051,12 @@ func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams) (*DeleteProx
 		Reader:             &DeleteProxyConfigReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -566,17 +1070,16 @@ func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams) (*DeleteProx
 }
 
 /*
-  DescribeEnvironment describes an environment
+DescribeEnvironment describes an environment
 
-  Describes an environment.
+Describes an environment.
 */
-func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams) (*DescribeEnvironmentOK, error) {
+func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeEnvironmentParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "describeEnvironment",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/describeEnvironment",
@@ -587,7 +1090,12 @@ func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams) (*Descri
 		Reader:             &DescribeEnvironmentReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -601,17 +1109,172 @@ func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams) (*Descri
 }
 
 /*
-  GetAccountTelemetry gets account level telemetry settings telemetry features and anonymization rules
+DetachFreeIpaRecipes detaches recipes from free IP a
 
-  Get account level telemetry settings. (telemetry features and anonymization rules)
+Detach recipes from FreeIPA.
 */
-func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams) (*GetAccountTelemetryOK, error) {
+func (a *Client) DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDetachFreeIpaRecipesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "detachFreeIpaRecipes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/detachFreeIpaRecipes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DetachFreeIpaRecipesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DetachFreeIpaRecipesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DetachFreeIpaRecipesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DisableS3Guard disables the s3 guard for an environment
+
+Disables the S3Guard for an environment.
+*/
+func (a *Client) DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDisableS3GuardParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "disableS3Guard",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/disableS3Guard",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DisableS3GuardReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DisableS3GuardOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DisableS3GuardDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DownscaleFreeipa downscales free IP a instances
+
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
+*/
+func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDownscaleFreeipaParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "downscaleFreeipa",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/downscaleFreeipa",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DownscaleFreeipaReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DownscaleFreeipaOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DownscaleFreeipaDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ExtractCatalog extracts a portion of the image catalog currently used by the environment containing only the free IP a image that is in use
+
+Extracts a portion of the image catalog currently used by the environment containing only the FreeIPA image that is in use.
+*/
+func (a *Client) ExtractCatalog(params *ExtractCatalogParams, opts ...ClientOption) (*ExtractCatalogOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewExtractCatalogParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "extractCatalog",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/extractCatalog",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ExtractCatalogReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ExtractCatalogOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ExtractCatalogDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetAccountTelemetry gets account level telemetry settings telemetry features and anonymization rules
+
+Get account level telemetry settings. (telemetry features and anonymization rules)
+*/
+func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountTelemetryParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountTelemetry",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getAccountTelemetry",
@@ -622,7 +1285,12 @@ func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams) (*GetAcc
 		Reader:             &GetAccountTelemetryReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -636,17 +1304,16 @@ func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams) (*GetAcc
 }
 
 /*
-  GetAccountTelemetryDefault gets default account level telemetry settings helps to set back the default values
+GetAccountTelemetryDefault gets default account level telemetry settings helps to set back the default values
 
-  Get default account level telemetry settings. Helps to set back the default values.
+Get default account level telemetry settings. Helps to set back the default values.
 */
-func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams) (*GetAccountTelemetryDefaultOK, error) {
+func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountTelemetryDefaultParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountTelemetryDefault",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getAccountTelemetryDefault",
@@ -657,7 +1324,12 @@ func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultPa
 		Reader:             &GetAccountTelemetryDefaultReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -671,17 +1343,172 @@ func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultPa
 }
 
 /*
-  GetConfigFiles gets the client configs for a datalake
+GetAuditCredentialPrerequisites this API provides the audit credential prerequisites for the given cloud provider
 
-  Get the client configs for a Datalake.
+Provides the the audit credential prerequisites for the given cloud provider.
 */
-func (a *Client) GetConfigFiles(params *GetConfigFilesParams) (*GetConfigFilesOK, error) {
+func (a *Client) GetAuditCredentialPrerequisites(params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAuditCredentialPrerequisitesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getAuditCredentialPrerequisites",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getAuditCredentialPrerequisites",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetAuditCredentialPrerequisitesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetAuditCredentialPrerequisitesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetAuditCredentialPrerequisitesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetAutomatedSyncEnvironmentStatus gets the the automated sync status for the environment
+
+Gets the the automated sync status for the environment.
+*/
+func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAutomatedSyncEnvironmentStatusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getAutomatedSyncEnvironmentStatus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getAutomatedSyncEnvironmentStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetAutomatedSyncEnvironmentStatusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetAutomatedSyncEnvironmentStatusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetAutomatedSyncEnvironmentStatusDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetCliForCredential gets create credential c l i command based on private API request or response object
+
+Get create credential CLI command based on private API request or response object
+*/
+func (a *Client) GetCliForCredential(params *GetCliForCredentialParams, opts ...ClientOption) (*GetCliForCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCliForCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getCliForCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getCliForCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCliForCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCliForCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCliForCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetCliForEnvironment gets create environment c l i command based on private API request or response object
+
+Get create environment CLI command based on private API request or response object
+*/
+func (a *Client) GetCliForEnvironment(params *GetCliForEnvironmentParams, opts ...ClientOption) (*GetCliForEnvironmentOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCliForEnvironmentParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getCliForEnvironment",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getCliForEnvironment",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetCliForEnvironmentReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCliForEnvironmentOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetCliForEnvironmentDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetConfigFiles gets the client configs for a datalake
+
+Get the client configs for a Datalake.
+*/
+func (a *Client) GetConfigFiles(params *GetConfigFilesParams, opts ...ClientOption) (*GetConfigFilesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetConfigFilesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getConfigFiles",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getConfigFiles",
@@ -692,7 +1519,12 @@ func (a *Client) GetConfigFiles(params *GetConfigFilesParams) (*GetConfigFilesOK
 		Reader:             &GetConfigFilesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -706,17 +1538,16 @@ func (a *Client) GetConfigFiles(params *GetConfigFilesParams) (*GetConfigFilesOK
 }
 
 /*
-  GetCredentialPrerequisites this API provides the credential prerequisites for the given cloud provider
+GetCredentialPrerequisites this API provides the credential prerequisites for the given cloud provider
 
-  Provides the the credential prerequisites for the given cloud provider.
+Provides the the credential prerequisites for the given cloud provider.
 */
-func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams) (*GetCredentialPrerequisitesOK, error) {
+func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetCredentialPrerequisitesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCredentialPrerequisites",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getCredentialPrerequisites",
@@ -727,7 +1558,12 @@ func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesPa
 		Reader:             &GetCredentialPrerequisitesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -741,17 +1577,16 @@ func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesPa
 }
 
 /*
-  GetEnvironmentSetting reads a configuration setting from the environment service
+GetEnvironmentSetting reads a configuration setting from the environment service
 
-  Read a configuration setting from the environment service.
+Read a configuration setting from the environment service.
 */
-func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams) (*GetEnvironmentSettingOK, error) {
+func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetEnvironmentSettingParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getEnvironmentSetting",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getEnvironmentSetting",
@@ -762,7 +1597,12 @@ func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams) (*Ge
 		Reader:             &GetEnvironmentSettingReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -776,17 +1616,94 @@ func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams) (*Ge
 }
 
 /*
-  GetFreeipaStatus gets the status of the free IP a services
+GetEnvironmentUserSyncState returns the user synchronization state for an environment
 
-  Gets the status of the FreeIPA nodes services and connectivity.
+Returns the user synchronization state for an environment.
 */
-func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams) (*GetFreeipaStatusOK, error) {
+func (a *Client) GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetEnvironmentUserSyncStateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getEnvironmentUserSyncState",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getEnvironmentUserSyncState",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetEnvironmentUserSyncStateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetEnvironmentUserSyncStateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetEnvironmentUserSyncStateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetFreeipaLogDescriptors gathers log descriptors that are used for diagnostics collection
+
+Gather log descriptors that are used for diagnostics collection.
+*/
+func (a *Client) GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetFreeipaLogDescriptorsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getFreeipaLogDescriptors",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getFreeipaLogDescriptors",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetFreeipaLogDescriptorsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetFreeipaLogDescriptorsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetFreeipaLogDescriptorsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetFreeipaStatus gets the status of the free IP a services
+
+Gets the status of the FreeIPA nodes services and connectivity.
+*/
+func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetFreeipaStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getFreeipaStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getFreeipaStatus",
@@ -797,7 +1714,12 @@ func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams) (*GetFreeipaSt
 		Reader:             &GetFreeipaStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -811,17 +1733,94 @@ func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams) (*GetFreeipaSt
 }
 
 /*
-  GetIDBrokerMappings gets all ID broker mappings for an environment
+GetGovCloudAuditCredentialPrerequisites this API provides the audit credential prerequisites for gov cloud for the enabled providers
 
-  Gets all ID Broker mappings for an environment.
+Provides the the audit credential prerequisites for GovCloud for the enabled providers.
 */
-func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams) (*GetIDBrokerMappingsOK, error) {
+func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetGovCloudAuditCredentialPrerequisitesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getGovCloudAuditCredentialPrerequisites",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getGovCloudAuditCredentialPrerequisites",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetGovCloudAuditCredentialPrerequisitesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetGovCloudAuditCredentialPrerequisitesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetGovCloudAuditCredentialPrerequisitesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetGovCloudCredentialPrerequisites this API provides the credential prerequisites for gov cloud for the enabled providers
+
+Provides the the credential prerequisites for GovCloud for the enabled providers.
+*/
+func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetGovCloudCredentialPrerequisitesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getGovCloudCredentialPrerequisites",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getGovCloudCredentialPrerequisites",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetGovCloudCredentialPrerequisitesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetGovCloudCredentialPrerequisitesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetGovCloudCredentialPrerequisitesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetIDBrokerMappings gets all ID broker mappings for an environment
+
+Gets all ID Broker mappings for an environment.
+*/
+func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetIDBrokerMappingsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getIdBrokerMappings",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getIdBrokerMappings",
@@ -832,7 +1831,12 @@ func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams) (*GetIDB
 		Reader:             &GetIDBrokerMappingsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -846,17 +1850,55 @@ func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams) (*GetIDB
 }
 
 /*
-  GetIDBrokerMappingsSyncStatus gets ID broker mappings sync status
+GetIDBrokerMappingsCliForEnv endpoints to obtain the cli command to be able to recreate the ID broker mapping of the given environment
 
-  Gets the status of the most recent ID Broker mappings sync operation, if any.
+Get cli command to be able to recreate the IDBroker mapping of the given environment.
 */
-func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams) (*GetIDBrokerMappingsSyncStatusOK, error) {
+func (a *Client) GetIDBrokerMappingsCliForEnv(params *GetIDBrokerMappingsCliForEnvParams, opts ...ClientOption) (*GetIDBrokerMappingsCliForEnvOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetIDBrokerMappingsCliForEnvParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getIdBrokerMappingsCliForEnv",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getIdBrokerMappingsCliForEnv",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetIDBrokerMappingsCliForEnvReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetIDBrokerMappingsCliForEnvOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetIDBrokerMappingsCliForEnvDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetIDBrokerMappingsSyncStatus gets ID broker mappings sync status
+
+Gets the status of the most recent ID Broker mappings sync operation, if any.
+*/
+func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetIDBrokerMappingsSyncStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getIdBrokerMappingsSyncStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getIdBrokerMappingsSyncStatus",
@@ -867,7 +1909,12 @@ func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncSt
 		Reader:             &GetIDBrokerMappingsSyncStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -881,17 +1928,16 @@ func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncSt
 }
 
 /*
-  GetKeytab retrieves a keytab for a user or machine user
+GetKeytab retrieves a keytab for a user or machine user
 
-  Retrieves a keytab for a user or machine user.
+Retrieves a keytab for a user or machine user.
 */
-func (a *Client) GetKeytab(params *GetKeytabParams) (*GetKeytabOK, error) {
+func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetKeytabParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getKeytab",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getKeytab",
@@ -902,7 +1948,12 @@ func (a *Client) GetKeytab(params *GetKeytabParams) (*GetKeytabOK, error) {
 		Reader:             &GetKeytabReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -916,17 +1967,94 @@ func (a *Client) GetKeytab(params *GetKeytabParams) (*GetKeytabOK, error) {
 }
 
 /*
-  GetRootCertificate this API provides contents of public certificate for an environment
+GetOperation gets the latest in progress or finished operation for the environment resource
 
-  This API provides the contents of the root public certificate for an environment. The contents are a base64 encoded blob between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----. This certificate can be imported by end users to establish trust with environment resources.
+Get the latest (in progress or finished) operation for the environment resource.
 */
-func (a *Client) GetRootCertificate(params *GetRootCertificateParams) (*GetRootCertificateOK, error) {
+func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetOperationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getOperation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getOperation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetOperationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetOperationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetOperationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetRepairFreeipaStatus returns status of the repair operation for the operation id
+
+Returns status of the repair operation for the operation id. Operation Id should be one of the previously requested repair operation ids.
+*/
+func (a *Client) GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetRepairFreeipaStatusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getRepairFreeipaStatus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getRepairFreeipaStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetRepairFreeipaStatusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetRepairFreeipaStatusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetRepairFreeipaStatusDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetRootCertificate this API provides contents of public certificate for an environment
+
+This API provides the contents of the root public certificate for an environment. The contents are a base64 encoded blob between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----. This certificate can be imported by end users to establish trust with environment resources.
+*/
+func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetRootCertificateParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getRootCertificate",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getRootCertificate",
@@ -937,7 +2065,12 @@ func (a *Client) GetRootCertificate(params *GetRootCertificateParams) (*GetRootC
 		Reader:             &GetRootCertificateReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -951,17 +2084,16 @@ func (a *Client) GetRootCertificate(params *GetRootCertificateParams) (*GetRootC
 }
 
 /*
-  GetTruststorePassword gets the truststore password for a datalake
+GetTruststorePassword gets the truststore password for a datalake
 
-  Get the truststore password for a Datalake.
+Get the truststore password for a Datalake.
 */
-func (a *Client) GetTruststorePassword(params *GetTruststorePasswordParams) (*GetTruststorePasswordOK, error) {
+func (a *Client) GetTruststorePassword(params *GetTruststorePasswordParams, opts ...ClientOption) (*GetTruststorePasswordOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetTruststorePasswordParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTruststorePassword",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/getTruststorePassword",
@@ -972,7 +2104,12 @@ func (a *Client) GetTruststorePassword(params *GetTruststorePasswordParams) (*Ge
 		Reader:             &GetTruststorePasswordReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -986,17 +2123,133 @@ func (a *Client) GetTruststorePassword(params *GetTruststorePasswordParams) (*Ge
 }
 
 /*
-  ListCredentials lists credentials
+LastSyncStatus returns status of the sync operation for the environment crn
 
-  Lists credentials.
+Returns status of the sync operation for the environment based on crn.
 */
-func (a *Client) ListCredentials(params *ListCredentialsParams) (*ListCredentialsOK, error) {
+func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewLastSyncStatusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "lastSyncStatus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/lastSyncStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &LastSyncStatusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*LastSyncStatusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*LastSyncStatusDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListAuditCredentials lists audit credentials
+
+Lists audit credentials.
+*/
+func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListAuditCredentialsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listAuditCredentials",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listAuditCredentials",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListAuditCredentialsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListAuditCredentialsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListAuditCredentialsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListConnectedDataServices returns the list of data services and their cluster names that are attached the given environment
+
+Returns the list of Data Services and their cluster names that are attached to the given environment.
+*/
+func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListConnectedDataServicesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listConnectedDataServices",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listConnectedDataServices",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListConnectedDataServicesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListConnectedDataServicesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListConnectedDataServicesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListCredentials lists credentials
+
+Lists credentials.
+*/
+func (a *Client) ListCredentials(params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListCredentialsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listCredentials",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/listCredentials",
@@ -1007,7 +2260,12 @@ func (a *Client) ListCredentials(params *ListCredentialsParams) (*ListCredential
 		Reader:             &ListCredentialsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1021,17 +2279,16 @@ func (a *Client) ListCredentials(params *ListCredentialsParams) (*ListCredential
 }
 
 /*
-  ListEnvironments lists environments
+ListEnvironments lists environments
 
-  Lists environments.
+Lists environments.
 */
-func (a *Client) ListEnvironments(params *ListEnvironmentsParams) (*ListEnvironmentsOK, error) {
+func (a *Client) ListEnvironments(params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListEnvironmentsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listEnvironments",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/listEnvironments",
@@ -1042,7 +2299,12 @@ func (a *Client) ListEnvironments(params *ListEnvironmentsParams) (*ListEnvironm
 		Reader:             &ListEnvironmentsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1056,17 +2318,55 @@ func (a *Client) ListEnvironments(params *ListEnvironmentsParams) (*ListEnvironm
 }
 
 /*
-  ListProxyConfigs lists proxy configs
+ListFreeipaDiagnostics lists recent free IP a diagnostics collections
 
-  Lists proxy configs.
+List recent FreeIPA diagnostics collection
 */
-func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams) (*ListProxyConfigsOK, error) {
+func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListFreeipaDiagnosticsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listFreeipaDiagnostics",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listFreeipaDiagnostics",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListFreeipaDiagnosticsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListFreeipaDiagnosticsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListFreeipaDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListProxyConfigs lists proxy configs
+
+Lists proxy configs.
+*/
+func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListProxyConfigsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "listProxyConfigs",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/listProxyConfigs",
@@ -1077,7 +2377,12 @@ func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams) (*ListProxyCon
 		Reader:             &ListProxyConfigsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1091,17 +2396,16 @@ func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams) (*ListProxyCon
 }
 
 /*
-  RepairFreeipa repairs the free IP a nodes
+RepairFreeipa repairs the free IP a nodes
 
-  Repairs the FreeIPA nodes if they are in a non working state.
+Repairs the FreeIPA nodes if they are in a non working state.
 */
-func (a *Client) RepairFreeipa(params *RepairFreeipaParams) (*RepairFreeipaOK, error) {
+func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRepairFreeipaParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "repairFreeipa",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/repairFreeipa",
@@ -1112,7 +2416,12 @@ func (a *Client) RepairFreeipa(params *RepairFreeipaParams) (*RepairFreeipaOK, e
 		Reader:             &RepairFreeipaReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1126,17 +2435,172 @@ func (a *Client) RepairFreeipa(params *RepairFreeipaParams) (*RepairFreeipaOK, e
 }
 
 /*
-  SetAccountTelemetry sets account level telemetry settings telemetry features and anonymization rules
+RetryFreeipa retries the last failed operation on a free IP a
 
-  Set account level telemetry settings. (telemetry features and anonymization rules)
+Retries the last failed operation on a FreeIPA.
 */
-func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams) (*SetAccountTelemetryOK, error) {
+func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRetryFreeipaParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "retryFreeipa",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/retryFreeipa",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RetryFreeipaReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RetryFreeipaOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RetryFreeipaDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotateSaltPassword rotates salt stack user password on free IP a instances
+
+Rotate SaltStack user password on FreeIPA instances.
+*/
+func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateSaltPasswordParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateSaltPassword",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/rotateSaltPassword",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateSaltPasswordReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateSaltPasswordOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetAWSAuditCredential creates or updates the a w s audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+
+Creates or updates the AWS audit credential for the account. The response will only contain details appropriate to AWS.
+*/
+func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetAWSAuditCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setAWSAuditCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setAWSAuditCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetAWSAuditCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetAWSAuditCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetAWSAuditCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetAWSGovCloudAuditCredential creates or updates the a w s gov cloud audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+
+Creates or updates the AWS GovCloud audit credential for the account. The response will only contain details appropriate to AWS.
+*/
+func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetAWSGovCloudAuditCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setAWSGovCloudAuditCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setAWSGovCloudAuditCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetAWSGovCloudAuditCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetAWSGovCloudAuditCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetAWSGovCloudAuditCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetAccountTelemetry sets account level telemetry settings telemetry features and anonymization rules
+
+Set account level telemetry settings. (telemetry features and anonymization rules)
+*/
+func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetAccountTelemetryParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setAccountTelemetry",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/setAccountTelemetry",
@@ -1147,7 +2611,12 @@ func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams) (*SetAcc
 		Reader:             &SetAccountTelemetryReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1161,17 +2630,133 @@ func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams) (*SetAcc
 }
 
 /*
-  SetEnvironmentSetting reads a configuration setting from the environment service
+SetAzureAuditCredential creates or updates the azure audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
 
-  Read a configuration setting from the environment service.
+Creates or updates the Azure audit credential for the account. The response will only contain details appropriate to Azure.
 */
-func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams) (*SetEnvironmentSettingOK, error) {
+func (a *Client) SetAzureAuditCredential(params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetAzureAuditCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setAzureAuditCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setAzureAuditCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetAzureAuditCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetAzureAuditCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetAzureAuditCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetCatalog sets a catalog for a free IP a installation
+
+Sets a catalog for a FreeIPA installation.
+*/
+func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetCatalogParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setCatalog",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setCatalog",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetCatalogReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetCatalogOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetCatalogDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetEndpointAccessGateway sets endpoint access gateway settings for the environment
+
+Sets endpoint access gateway settings for the environment.
+*/
+func (a *Client) SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetEndpointAccessGatewayParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setEndpointAccessGateway",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setEndpointAccessGateway",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetEndpointAccessGatewayReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetEndpointAccessGatewayOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetEndpointAccessGatewayDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetEnvironmentSetting reads a configuration setting from the environment service
+
+Read a configuration setting from the environment service.
+*/
+func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetEnvironmentSettingParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setEnvironmentSetting",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/setEnvironmentSetting",
@@ -1182,7 +2767,12 @@ func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams) (*Se
 		Reader:             &SetEnvironmentSettingReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1196,17 +2786,16 @@ func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams) (*Se
 }
 
 /*
-  SetIDBrokerMappings sets all ID broker mappings for an environment
+SetIDBrokerMappings sets all ID broker mappings for an environment
 
-  Sets all ID Broker mappings for an environment. Overwrites all existing mappings.
+Sets all ID Broker mappings for an environment. Overwrites all existing mappings.
 */
-func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams) (*SetIDBrokerMappingsOK, error) {
+func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetIDBrokerMappingsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setIdBrokerMappings",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/setIdBrokerMappings",
@@ -1217,7 +2806,12 @@ func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams) (*SetIDB
 		Reader:             &SetIDBrokerMappingsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1231,17 +2825,16 @@ func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams) (*SetIDB
 }
 
 /*
-  SetPassword sets workload user s password and updates into all environments
+SetPassword sets workload user s password and updates into all environments
 
-  Sets workload user's password and updates into all environments if there is no environment CRN passed or, if environment CRNs list is provided, then password is reset only for that environment. Password must be of min 8 characters and no more then 64 characters and should be combination of UPPER Case, lower case, digits and special characters.
+Deprecated. Use 'iam set-workload-password' command instead.
 */
-func (a *Client) SetPassword(params *SetPasswordParams) (*SetPasswordOK, error) {
+func (a *Client) SetPassword(params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetPasswordParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setPassword",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/setPassword",
@@ -1252,7 +2845,12 @@ func (a *Client) SetPassword(params *SetPasswordParams) (*SetPasswordOK, error) 
 		Reader:             &SetPasswordReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1266,17 +2864,16 @@ func (a *Client) SetPassword(params *SetPasswordParams) (*SetPasswordOK, error) 
 }
 
 /*
-  SetTelemetryFeatures configures environment level telemetry feature setting
+SetTelemetryFeatures configures environment level telemetry feature setting
 
-  Configure environment level telemetry feature setting.
+Configure environment level telemetry feature setting.
 */
-func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams) (*SetTelemetryFeaturesOK, error) {
+func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetTelemetryFeaturesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setTelemetryFeatures",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/setTelemetryFeatures",
@@ -1287,7 +2884,12 @@ func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams) (*SetT
 		Reader:             &SetTelemetryFeaturesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1301,17 +2903,16 @@ func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams) (*SetT
 }
 
 /*
-  StartEnvironment starts an environment
+StartEnvironment starts an environment
 
-  Start an environment.
+Start an environment.
 */
-func (a *Client) StartEnvironment(params *StartEnvironmentParams) (*StartEnvironmentOK, error) {
+func (a *Client) StartEnvironment(params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewStartEnvironmentParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "startEnvironment",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/startEnvironment",
@@ -1322,7 +2923,12 @@ func (a *Client) StartEnvironment(params *StartEnvironmentParams) (*StartEnviron
 		Reader:             &StartEnvironmentReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1336,17 +2942,55 @@ func (a *Client) StartEnvironment(params *StartEnvironmentParams) (*StartEnviron
 }
 
 /*
-  StopEnvironment stops an environment
+StartFreeIpaVerticalScaling initiates the vertical scaling on free IP a
 
-  Stop an environment.
+Initiates the vertical scaling on FreeIPA.
 */
-func (a *Client) StopEnvironment(params *StopEnvironmentParams) (*StopEnvironmentOK, error) {
+func (a *Client) StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartFreeIpaVerticalScalingParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startFreeIpaVerticalScaling",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/startFreeIpaVerticalScaling",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartFreeIpaVerticalScalingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartFreeIpaVerticalScalingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartFreeIpaVerticalScalingDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StopEnvironment stops an environment
+
+Stop an environment.
+*/
+func (a *Client) StopEnvironment(params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewStopEnvironmentParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "stopEnvironment",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/stopEnvironment",
@@ -1357,7 +3001,12 @@ func (a *Client) StopEnvironment(params *StopEnvironmentParams) (*StopEnvironmen
 		Reader:             &StopEnvironmentReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1371,17 +3020,16 @@ func (a *Client) StopEnvironment(params *StopEnvironmentParams) (*StopEnvironmen
 }
 
 /*
-  SyncAllUsers synchronizes environments with all users and groups state with c d p
+SyncAllUsers synchronizes environments with all users and groups state with c d p
 
-  Synchronizes environments with all users and groups state with CDP.
+Synchronizes environments with all users and groups state with CDP.
 */
-func (a *Client) SyncAllUsers(params *SyncAllUsersParams) (*SyncAllUsersOK, error) {
+func (a *Client) SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSyncAllUsersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "syncAllUsers",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/syncAllUsers",
@@ -1392,7 +3040,12 @@ func (a *Client) SyncAllUsers(params *SyncAllUsersParams) (*SyncAllUsersOK, erro
 		Reader:             &SyncAllUsersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1406,17 +3059,16 @@ func (a *Client) SyncAllUsers(params *SyncAllUsersParams) (*SyncAllUsersOK, erro
 }
 
 /*
-  SyncIDBrokerMappings syncs all ID broker mappings for an environment
+SyncIDBrokerMappings syncs all ID broker mappings for an environment
 
-  Syncs all ID Broker mappings to all datalake clusters in an environment.
+Syncs all ID Broker mappings to all datalake clusters in an environment.
 */
-func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams) (*SyncIDBrokerMappingsOK, error) {
+func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSyncIDBrokerMappingsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "syncIdBrokerMappings",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/syncIdBrokerMappings",
@@ -1427,7 +3079,12 @@ func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams) (*Sync
 		Reader:             &SyncIDBrokerMappingsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1441,17 +3098,16 @@ func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams) (*Sync
 }
 
 /*
-  SyncStatus returns status of the sync operation for the operation id
+SyncStatus returns status of the sync operation for the operation id
 
-  Returns status of the sync operation for the operation id. Operation Id should be one of the previously request sync operation.
+Returns status of the sync operation for the operation id. Operation Id should be one of the previously request sync operation.
 */
-func (a *Client) SyncStatus(params *SyncStatusParams) (*SyncStatusOK, error) {
+func (a *Client) SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSyncStatusParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "syncStatus",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/syncStatus",
@@ -1462,7 +3118,12 @@ func (a *Client) SyncStatus(params *SyncStatusParams) (*SyncStatusOK, error) {
 		Reader:             &SyncStatusReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1476,17 +3137,16 @@ func (a *Client) SyncStatus(params *SyncStatusParams) (*SyncStatusOK, error) {
 }
 
 /*
-  SyncUser synchronizes environments with single user to the free IP a servers
+SyncUser synchronizes environments with single user to the free IP a servers
 
-  Synchronizes environments with single user to the FreeIPA servers.
+Synchronizes environments with single user to the FreeIPA servers.
 */
-func (a *Client) SyncUser(params *SyncUserParams) (*SyncUserOK, error) {
+func (a *Client) SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSyncUserParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "syncUser",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/syncUser",
@@ -1497,7 +3157,12 @@ func (a *Client) SyncUser(params *SyncUserParams) (*SyncUserOK, error) {
 		Reader:             &SyncUserReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1511,17 +3176,55 @@ func (a *Client) SyncUser(params *SyncUserParams) (*SyncUserOK, error) {
 }
 
 /*
-  TestAccountTelemetryRules tests anonymization rules for account telemetry against text input
+SynchronizeAllEnvironments synchronizes all environments in the calling account
 
-  Test anonymization rules (for account telemetry) against text input.
+Invokes the automated user sync service to synchronize all environments in the calling account.
 */
-func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams) (*TestAccountTelemetryRulesOK, error) {
+func (a *Client) SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSynchronizeAllEnvironmentsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "synchronizeAllEnvironments",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/synchronizeAllEnvironments",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SynchronizeAllEnvironmentsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SynchronizeAllEnvironmentsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SynchronizeAllEnvironmentsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+TestAccountTelemetryRules tests anonymization rules for account telemetry against text input
+
+Test anonymization rules (for account telemetry) against text input.
+*/
+func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewTestAccountTelemetryRulesParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "testAccountTelemetryRules",
 		Method:             "POST",
 		PathPattern:        "/api/v1/environments2/testAccountTelemetryRules",
@@ -1532,7 +3235,12 @@ func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesPara
 		Reader:             &TestAccountTelemetryRulesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1542,6 +3250,474 @@ func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesPara
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*TestAccountTelemetryRulesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAwsDiskEncryptionParameters updates the a w s encryption key a r n for the environment
+
+Updates the AWS encryption key ARN for the environment. Enables the server side encryption with CMK for newly created AWS resources for the existing environment.
+*/
+func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAwsDiskEncryptionParametersParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAwsDiskEncryptionParameters",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateAwsDiskEncryptionParameters",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAwsDiskEncryptionParametersReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAwsDiskEncryptionParametersOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAwsDiskEncryptionParametersDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAzureCredential updates a new certificate based azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+
+Updates a certificate based Azure credential.
+*/
+func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAzureCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAzureCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateAzureCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAzureCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAzureCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAzureCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAzureEncryptionResources updates the azure encryption resources for the environment
+
+Updates the Azure encryption resources for the environment. Enables the SSE with CMK for newly created Azure resources for the existing environment.
+*/
+func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAzureEncryptionResourcesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAzureEncryptionResources",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateAzureEncryptionResources",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAzureEncryptionResourcesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAzureEncryptionResourcesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAzureEncryptionResourcesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateProxyConfig updates the proxy config of the given environment
+
+Updates the proxy config of the given environment.
+*/
+func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateProxyConfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateProxyConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateProxyConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateProxyConfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateProxyConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateProxyConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateSecurityAccess updates the security access settings of the given environment
+
+Updates the security access settings of the given environment.
+*/
+func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSecurityAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateSecurityAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateSecurityAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateSecurityAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSecurityAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateSecurityAccessDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateSSHKey updates the designated SSH key for the given environment
+
+Updates the designated SSH key for the given environment.
+*/
+func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSSHKeyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateSshKey",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateSshKey",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateSSHKeyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSSHKeyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateSSHKeyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateSubnet updates the subnet s of the given environment
+
+Updates the subnet(s) of the given environment.
+*/
+func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSubnetParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateSubnet",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateSubnet",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateSubnetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSubnetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateSubnetDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeCcm upgrades cluster connectivity manager on the environment to the latest available version
+
+Upgrades Cluster Connectivity Manager on the environment to the latest available version.
+*/
+func (a *Client) UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeCcmParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeCcm",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/upgradeCcm",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeCcmReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeCcmOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeCcmDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeFreeipa upgrades free IP a to the latest or defined image
+
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
+*/
+func (a *Client) UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeFreeipaParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeFreeipa",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/upgradeFreeipa",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeFreeipaReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeFreeipaOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeFreeipaDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpscaleFreeipa upscales free IP a instances
+
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
+*/
+func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpscaleFreeipaParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upscaleFreeipa",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/upscaleFreeipa",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpscaleFreeipaReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpscaleFreeipaOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpscaleFreeipaDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAwsCloudStorage validates a w s cloud storage settings of the given environment
+
+Validates AWS cloud storage settings of the given environment.
+*/
+func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAwsCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAwsCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/validateAwsCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAwsCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAwsCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAwsCloudStorageDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAzureCloudStorage validates azure cloud storage settings of the given environment
+
+Validates Azure cloud storage settings of the given environment.
+*/
+func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAzureCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAzureCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/validateAzureCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAzureCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAzureCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAzureCloudStorageDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

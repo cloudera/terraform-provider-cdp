@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,7 +46,6 @@ func (m *ListUserAssignedRolesRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListUserAssignedRolesRequest) validatePageSize(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PageSize) { // not required
 		return nil
 	}
@@ -57,6 +58,11 @@ func (m *ListUserAssignedRolesRequest) validatePageSize(formats strfmt.Registry)
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this list user assigned roles request based on context it is used
+func (m *ListUserAssignedRolesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
