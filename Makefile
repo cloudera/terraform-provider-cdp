@@ -49,7 +49,7 @@ clean:
 # Run go fmt against code
 fmt:
 	go fmt . ./provider/... ./resources/... ./utils/...
-	terraform fmt -recursive ./examples/
+	# terraform fmt -recursive ./examples/  TODO: Re-enable this in https://jira.cloudera.com/browse/CDPCP-9174
 
 # Run go vet against code
 vet:
