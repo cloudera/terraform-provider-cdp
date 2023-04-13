@@ -14,12 +14,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	// Skip all datasources and resources for now
-	//datahubresources "github.com/cloudera/terraform-provider-cdp/resources/datahub"
-	//datalakeresources "github.com/cloudera/terraform-provider-cdp/resources/datalake"
-	//environmentsresources "github.com/cloudera/terraform-provider-cdp/resources/environments"
-	//iamresources "github.com/cloudera/terraform-provider-cdp/resources/iam"
-	//mlresources "github.com/cloudera/terraform-provider-cdp/resources/ml"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -168,19 +162,9 @@ func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 }
 
 func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
-	// TODO: add resources one by one and remove this comment afterwards
-	return nil
-	/*	return map[string]*schema.Resource{
-			"cdp_iam_group":                       iamresources.ResourceGroup(),
-			"cdp_environments_aws_credential":     environmentsresources.ResourceAWSCredential(),
-			"cdp_environments_azure_credential":   environmentsresources.ResourceAzureCredential(),
-			"cdp_environments_aws_environment":    environmentsresources.ResourceAWSEnvironment(),
-			"cdp_environments_id_broker_mappings": environmentsresources.ResourceIDBrokerMappings(),
-			"cdp_datalake_aws_datalake":           datalakeresources.ResourceAWSDatalake(),
-			"cdp_datahub_aws_cluster":             datahubresources.ResourceAWSCluster(),
-			"cdp_ml_workspace":                    mlresources.ResourceWorkspace(),
-		}
-	*/
+	return []func() resource.Resource{
+		environments.NewAwsCredentialResource,
+	}
 }
 
 func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSource {
