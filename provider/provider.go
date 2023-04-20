@@ -2,11 +2,13 @@ package provider
 
 import (
 	"context"
+	"os"
+	"strconv"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -41,6 +43,7 @@ type CdpProviderModel struct {
 	CdpEndpointUrl           types.String `tfsdk:"cdp_endpoint_url"`
 	CdpConfigFile            types.String `tfsdk:"cdp_config_file"`
 	CdpSharedCredentialsFile types.String `tfsdk:"cdp_shared_credentials_file"`
+	LocalEnvironment         types.Bool   `tfsdk:"local_environment"`
 }
 
 // Metadata returns the provider type name.
@@ -80,6 +83,10 @@ func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 			"cdp_shared_credentials_file": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "CDP shared credentials file. Defaults to ~/.cdp/credentials",
+			},
+			"local_environment": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Defines wether CDP CP runs locally. Defaults to false",
 			},
 		},
 	}
@@ -126,6 +133,22 @@ func getOrDefaultFromEnv(val basetypes.StringValue, envVars ...string) string {
 	return ""
 }
 
+func getOrDefaultBoolFromEnv(val basetypes.BoolValue, envVars ...string) bool {
+	if !val.IsNull() {
+		return val.ValueBool()
+	}
+
+	for _, envVar := range envVars {
+		env, ok := os.LookupEnv(envVar)
+		if !ok {
+			return false
+		}
+		boolVal, _ := strconv.ParseBool(env)
+		return boolVal
+	}
+	return false
+}
+
 func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 	tflog.Info(ctx, "Setting up CDP config")
 
@@ -136,6 +159,7 @@ func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 	cdpEndpointUrl := getOrDefaultFromEnv(data.CdpEndpointUrl, "CDP_ENDPOINT_URL")
 	cdpConfigFile := getOrDefaultFromEnv(data.CdpConfigFile, "CDP_CONFIG_FILE")
 	cdpSharedCredentialsFile := getOrDefaultFromEnv(data.CdpSharedCredentialsFile, "CDP_SHARED_CREDENTIALS_FILE")
+	localEnvironment := getOrDefaultBoolFromEnv(data.LocalEnvironment, "LOCAL_ENVIRONMENT")
 
 	config := cdp.Config{}
 	config.WithProfile(cdpProfile)
@@ -147,6 +171,7 @@ func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 	})
 	config.WithConfigFile(cdpConfigFile)
 	config.WithCredentialsFile(cdpSharedCredentialsFile)
+	config.WithLocalEnvironment(localEnvironment)
 
 	ctx = tflog.MaskFieldValuesWithFieldKeys(ctx, "privateKey")
 	ctx = tflog.SetField(ctx, "accessKeyId", accessKeyId)

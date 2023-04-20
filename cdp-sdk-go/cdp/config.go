@@ -2,11 +2,13 @@ package cdp
 
 import (
 	"fmt"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
-	"github.com/mitchellh/go-homedir"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
+	"github.com/mitchellh/go-homedir"
 )
 
 const (
@@ -25,6 +27,8 @@ const (
 	// Name of the profile in the users credentials file to read.
 	cdpDefaultProfile = "default"
 
+	defaultLocalEnvironment = "false"
+
 	defaultCdpApiEndpointUrl   = "https://api.us-west-1.cdp.cloudera.com/"
 	defaultAltusApiEndpointUrl = "https://%sapi.us-west-1.altus.cloudera.com/"
 
@@ -41,6 +45,7 @@ type Config struct {
 	BaseApiPath         string
 	ConfigFile          string
 	CredentialsFile     string
+	LocalEnvironment    bool
 
 	properties map[string]map[string]string
 
@@ -101,6 +106,11 @@ func (config *Config) WithCredentialsFile(credentialsFile string) *Config {
 	return config
 }
 
+func (config *Config) WithLocalEnvironment(localEnvironment bool) *Config {
+	config.LocalEnvironment = localEnvironment
+	return config
+}
+
 func (config *Config) String() string {
 	return fmt.Sprintf("{CdpApiEndpointUrl: %s, AltusApiEndpointUrl: %s, Profile: %s, Credentials: %s}",
 		config.CdpApiEndpointUrl, config.AltusApiEndpointUrl, config.Profile, config.Credentials.String())
@@ -147,6 +157,13 @@ var propertySchemas = map[string]propertySchema{
 			return defaultAltusApiEndpointUrl, nil
 		},
 	},
+	"local_environment": {
+		envVars:   []string{"LOCAL_ENVIRONMENT"},
+		configKey: "local_environment",
+		defaultFunc: func() (string, error) {
+			return defaultLocalEnvironment, nil
+		},
+	},
 }
 
 func (config *Config) GetCdpProfile() string {
@@ -172,6 +189,12 @@ func (config *Config) GetCdpConfigFile() string {
 func (config *Config) GetCdpCredentialsFile() string {
 	val, _ := config.getVal(config.CredentialsFile, propertySchemas["cdp_credentials_file"])
 	return val
+}
+
+func (config *Config) GetLocalEnvironment() bool {
+	val, _ := config.getVal(strconv.FormatBool(config.LocalEnvironment), propertySchemas["local_environment"])
+	boolVal, _ := strconv.ParseBool(val)
+	return boolVal
 }
 
 func (config *Config) GetEndpoint(serviceName string, isAltusService bool) string {

@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strings"
 	"time"
@@ -36,9 +37,17 @@ func newMetastr(accessKeyID string) *metastr {
 	return &metastr{accessKeyID, authAlgo}
 }
 
-func GetAPIKeyAuthTransport(credentials *Credentials, endpoint string, baseApiPath string) (*Transport, error) {
+func GetAPIKeyAuthTransport(credentials *Credentials, endpoint string, baseApiPath string, insecureSkipVerify bool) (*Transport, error) {
 	address, basePath := cutAndTrimAddress(endpoint)
-	transport := &Transport{client.New(address, basePath+baseApiPath, []string{"https"})}
+	tlsClientOptions := client.TLSClientOptions{
+		InsecureSkipVerify: insecureSkipVerify,
+	}
+	cfg, err := client.TLSClientAuth(tlsClientOptions)
+	if err != nil {
+		return nil, err
+	}
+
+	transport := &Transport{client.NewWithClient(address, basePath+baseApiPath, []string{"https"}, &http.Client{Transport: &http.Transport{TLSClientConfig: cfg}})}
 	transport.Runtime.DefaultAuthentication = apiKeyAuth(baseApiPath, credentials)
 	// transport.Runtime.Transport = utils.LoggedTransportConfig
 	return transport, nil
