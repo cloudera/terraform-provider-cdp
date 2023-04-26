@@ -1,7 +1,6 @@
 package cdp
 
 import (
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
 	dwclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client"
@@ -70,7 +69,7 @@ func NewIamClient(config *Config) (*iamclient.Iam, error) {
 	if err != nil {
 		return nil, err
 	}
-	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("iam", true), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("iam", true), config.BaseApiPath, config.GetLocalEnvironment())
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +81,7 @@ func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, er
 	if err != nil {
 		return nil, err
 	}
-	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("environments", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("environments", false), config.BaseApiPath, config.GetLocalEnvironment())
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +93,7 @@ func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
 	if err != nil {
 		return nil, err
 	}
-	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("datalake", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("datalake", false), config.BaseApiPath, config.GetLocalEnvironment())
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +105,7 @@ func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
 	if err != nil {
 		return nil, err
 	}
-	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("datahub", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("datahub", false), config.BaseApiPath, config.GetLocalEnvironment())
 	if err != nil {
 		return nil, err
 	}
@@ -118,7 +117,7 @@ func NewMlClient(config *Config) (*mlclient.Ml, error) {
 	if err != nil {
 		return nil, err
 	}
-	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("ml", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("ml", false), config.BaseApiPath, config.GetLocalEnvironment())
 	if err != nil {
 		return nil, err
 	}
@@ -130,7 +129,7 @@ func NewDwClient(config *Config) (*dwclient.Dw, error) {
 	if err != nil {
 		return nil, err
 	}
-	transport, err := authn.GetAPIKeyAuthTransport(credentials, config.GetEndpoint("dw", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("dw", false), config.BaseApiPath, config.GetLocalEnvironment())
 	if err != nil {
 		return nil, err
 	}

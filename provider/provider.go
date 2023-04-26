@@ -2,19 +2,18 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strconv"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
@@ -161,17 +160,19 @@ func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 	cdpSharedCredentialsFile := getOrDefaultFromEnv(data.CdpSharedCredentialsFile, "CDP_SHARED_CREDENTIALS_FILE")
 	localEnvironment := getOrDefaultBoolFromEnv(data.LocalEnvironment, "LOCAL_ENVIRONMENT")
 
-	config := cdp.Config{}
+	config := cdp.NewConfig()
+	config.WithContext(ctx)
 	config.WithProfile(cdpProfile)
 	config.WithAltusApiEndpointUrl(altusEndpointUrl)
 	config.WithCdpApiEndpointUrl(cdpEndpointUrl)
-	config.WithCredentials(&authn.Credentials{
+	config.WithCredentials(&cdp.Credentials{
 		AccessKeyId: accessKeyId,
 		PrivateKey:  privateKey,
 	})
 	config.WithConfigFile(cdpConfigFile)
 	config.WithCredentialsFile(cdpSharedCredentialsFile)
 	config.WithLocalEnvironment(localEnvironment)
+	config.WithLogger(new(TFLoggerAdaptor))
 
 	ctx = tflog.MaskFieldValuesWithFieldKeys(ctx, "privateKey")
 	ctx = tflog.SetField(ctx, "accessKeyId", accessKeyId)
@@ -183,7 +184,7 @@ func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 	ctx = tflog.SetField(ctx, "cdpSharedCredentialsFile", cdpSharedCredentialsFile)
 
 	tflog.Info(ctx, "CDP config set up. Creating client")
-	return &config
+	return config
 }
 
 func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
@@ -202,4 +203,24 @@ func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSou
 		}
 	*/
 
+}
+
+// TFLoggerAdaptor implements cdp.Logger to send CDP SDK logs to tflog
+type TFLoggerAdaptor struct {
+}
+
+func (l *TFLoggerAdaptor) Errorf(ctx context.Context, format string, args ...any) {
+	tflog.Error(ctx, fmt.Sprintf(format, args...))
+}
+
+func (l *TFLoggerAdaptor) Warnf(ctx context.Context, format string, args ...any) {
+	tflog.Warn(ctx, fmt.Sprintf(format, args...))
+}
+
+func (l *TFLoggerAdaptor) Infof(ctx context.Context, format string, args ...any) {
+	tflog.Info(ctx, fmt.Sprintf(format, args...))
+}
+
+func (l *TFLoggerAdaptor) Debugf(ctx context.Context, format string, args ...any) {
+	tflog.Debug(ctx, fmt.Sprintf(format, args...))
 }

@@ -87,7 +87,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 
 	client := r.client.Environments
 
-	params := operations.NewCreateAWSCredentialParams()
+	params := operations.NewCreateAWSCredentialParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.CreateAWSCredentialRequest{
 		CredentialName: data.CredentialName.ValueStringPointer(),
 		Description:    data.Description.ValueString(),
@@ -127,7 +127,7 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 
 	// Get refreshed value from CDP
 	credentialName := state.ID.ValueString()
-	params := operations.NewListCredentialsParams()
+	params := operations.NewListCredentialsParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
@@ -173,7 +173,7 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	credentialName := state.ID.ValueString()
-	params := operations.NewDeleteCredentialParams()
+	params := operations.NewDeleteCredentialParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {

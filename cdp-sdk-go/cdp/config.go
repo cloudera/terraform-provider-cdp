@@ -1,13 +1,13 @@
 package cdp
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/mitchellh/go-homedir"
 )
 
@@ -41,15 +41,24 @@ type Config struct {
 	CdpApiEndpointUrl   string
 	AltusApiEndpointUrl string
 	Profile             string
-	Credentials         *authn.Credentials
+	Credentials         *Credentials
 	BaseApiPath         string
 	ConfigFile          string
 	CredentialsFile     string
 	LocalEnvironment    bool
+	Logger              Logger
+	Context             context.Context
 
 	properties map[string]map[string]string
 
-	credentialsProvider authn.CdpCredentialsProvider
+	credentialsProvider CdpCredentialsProvider
+}
+
+func NewConfig() *Config {
+	return &Config{
+		Logger:  NewDefaultLogger(),
+		Context: context.Background(),
+	}
 }
 
 func (config *Config) initConfig() error {
@@ -60,16 +69,16 @@ func (config *Config) initConfig() error {
 	if err != nil {
 		return err
 	}
-	config.properties = convertProfileMap(properties)
+	config.properties = config.convertProfileMap(properties)
 
 	// Default provider chain. By default, it first checks whether the given Config contains any, then it
 	// checks the environment variables, and lastly it checks the credentials from the shared credentials file
 	// under ~/.cdp/credentials.
-	config.credentialsProvider = &authn.ChainCdpCredentialsProvider{
-		ProviderChain: []authn.CdpCredentialsProvider{
-			&authn.ConfigCdpCredentialsProvider{Credentials: config.Credentials},
-			&authn.EnvCdpCredentialsProvider{},
-			authn.NewFileCdpCredentialsProvider(config.GetCdpCredentialsFile(), config.GetCdpProfile()),
+	config.credentialsProvider = &ChainCdpCredentialsProvider{
+		ProviderChain: []CdpCredentialsProvider{
+			&ConfigCdpCredentialsProvider{Credentials: config.Credentials},
+			&EnvCdpCredentialsProvider{},
+			NewFileCdpCredentialsProvider(config.GetCdpCredentialsFile(), config.GetCdpProfile()),
 		},
 	}
 
@@ -91,7 +100,7 @@ func (config *Config) WithProfile(profile string) *Config {
 	return config
 }
 
-func (config *Config) WithCredentials(credentials *authn.Credentials) *Config {
+func (config *Config) WithCredentials(credentials *Credentials) *Config {
 	config.Credentials = credentials
 	return config
 }
@@ -111,6 +120,16 @@ func (config *Config) WithLocalEnvironment(localEnvironment bool) *Config {
 	return config
 }
 
+func (config *Config) WithLogger(logger Logger) *Config {
+	config.Logger = logger
+	return config
+}
+
+func (config *Config) WithContext(ctx context.Context) *Config {
+	config.Context = ctx
+	return config
+}
+
 func (config *Config) String() string {
 	return fmt.Sprintf("{CdpApiEndpointUrl: %s, AltusApiEndpointUrl: %s, Profile: %s, Credentials: %s}",
 		config.CdpApiEndpointUrl, config.AltusApiEndpointUrl, config.Profile, config.Credentials.String())
@@ -125,6 +144,8 @@ type propertySchema struct {
 	defaultFunc func() (string, error)
 }
 
+// The environment variables and config file keys below are shared between the python CDP CLI, the Java SDK,
+// GoLang SDK and the Terraform provider for CDP. These should be treated as a compatibility surface.
 var propertySchemas = map[string]propertySchema{
 	"cdp_config_file": {
 		envVars:     []string{"CDP_CONFIG_FILE"},
@@ -205,7 +226,7 @@ func (config *Config) GetEndpoint(serviceName string, isAltusService bool) strin
 	}
 }
 
-func (config *Config) GetCredentials() (*authn.Credentials, error) {
+func (config *Config) GetCredentials() (*Credentials, error) {
 	return config.credentialsProvider.GetCredentials()
 }
 
@@ -228,7 +249,7 @@ func defaultCdpConfigFile() (string, error) {
 }
 
 func (config *Config) loadConfigFile() (map[string]map[string]string, error) {
-	properties, err := authn.RawParseConfigFile(config.GetCdpConfigFile())
+	properties, err := RawParseConfigFile(config.GetCdpConfigFile())
 	if err != nil {
 		return nil, err
 	}
@@ -254,7 +275,7 @@ func (config *Config) loadConfigFile() (map[string]map[string]string, error) {
 // We ignore the keys not under any profile, and just return a map of maps, where the first maps keys are the names of
 // the profiles (without the "profile" prefix) and the values is a map of key value pairs with the mappings under the
 // profile section from the file.
-func convertProfileMap(properties map[string]map[string]string) map[string]map[string]string {
+func (config *Config) convertProfileMap(properties map[string]map[string]string) map[string]map[string]string {
 	ret := make(map[string]map[string]string)
 
 	for profile, profileData := range properties {

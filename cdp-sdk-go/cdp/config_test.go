@@ -1,7 +1,6 @@
 package cdp
 
 import (
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/authn"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/common"
 	"os"
 	"testing"
@@ -41,8 +40,8 @@ func TestGetCdpProfileFromDefault(t *testing.T) {
 
 func TestGetCredentialsNotFound(t *testing.T) {
 	// empty env vars.
-	os.Setenv(authn.CdpAccessKeyIdEnvVar, "")
-	os.Setenv(authn.CdpPrivateKeyEnvVar, "")
+	os.Setenv(CdpAccessKeyIdEnvVar, "")
+	os.Setenv(CdpPrivateKeyEnvVar, "")
 	os.Setenv(cdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
 
@@ -62,8 +61,8 @@ func TestGetCredentialsNotFound(t *testing.T) {
 
 func TestGetCdpCredentials(t *testing.T) {
 	// empty env vars.
-	os.Setenv(authn.CdpAccessKeyIdEnvVar, "value-from-env")
-	os.Setenv(authn.CdpPrivateKeyEnvVar, "value-from-env")
+	os.Setenv(CdpAccessKeyIdEnvVar, "value-from-env")
+	os.Setenv(CdpPrivateKeyEnvVar, "value-from-env")
 	os.Setenv(cdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
 
@@ -73,7 +72,7 @@ func TestGetCdpCredentials(t *testing.T) {
 	config := Config{
 		Profile:         profile,
 		CredentialsFile: path,
-		Credentials: &authn.Credentials{
+		Credentials: &Credentials{
 			AccessKeyId: "value-from-config",
 			PrivateKey:  "value-from-config"},
 	}
@@ -100,8 +99,8 @@ func TestGetCdpCredentials(t *testing.T) {
 		}
 	}
 
-	os.Setenv(authn.CdpAccessKeyIdEnvVar, "")
-	os.Setenv(authn.CdpPrivateKeyEnvVar, "")
+	os.Setenv(CdpAccessKeyIdEnvVar, "")
+	os.Setenv(CdpPrivateKeyEnvVar, "")
 	credentials, err = config.GetCredentials()
 	if err != nil {
 		t.Fatal(err)

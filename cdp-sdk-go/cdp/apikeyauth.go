@@ -1,8 +1,9 @@
-package authn
+package cdp
 
 // This file is mostly lifted from https://github.com/hortonworks/dp-cli-common
 
 import (
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -14,7 +15,6 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-	log "github.com/sirupsen/logrus"
 	ed "golang.org/x/crypto/ed25519"
 )
 
@@ -37,7 +37,7 @@ func newMetastr(accessKeyID string) *metastr {
 	return &metastr{accessKeyID, authAlgo}
 }
 
-func GetAPIKeyAuthTransport(credentials *Credentials, endpoint string, baseApiPath string, insecureSkipVerify bool) (*Transport, error) {
+func GetAPIKeyAuthTransport(ctx context.Context, logger Logger, credentials *Credentials, endpoint string, baseApiPath string, insecureSkipVerify bool) (*Transport, error) {
 	address, basePath := cutAndTrimAddress(endpoint)
 	tlsClientOptions := client.TLSClientOptions{
 		InsecureSkipVerify: insecureSkipVerify,
@@ -47,9 +47,12 @@ func GetAPIKeyAuthTransport(credentials *Credentials, endpoint string, baseApiPa
 		return nil, err
 	}
 
-	transport := &Transport{client.NewWithClient(address, basePath+baseApiPath, []string{"https"}, &http.Client{Transport: &http.Transport{TLSClientConfig: cfg}})}
-	transport.Runtime.DefaultAuthentication = apiKeyAuth(baseApiPath, credentials)
-	// transport.Runtime.Transport = utils.LoggedTransportConfig
+	roundTripper := &LoggingRoundTripper{
+		delegate: &http.Transport{TLSClientConfig: cfg},
+		logger:   logger,
+	}
+	transport := &Transport{client.NewWithClient(address, basePath+baseApiPath, []string{"https"}, &http.Client{Transport: roundTripper})}
+	transport.Runtime.DefaultAuthentication = apiKeyAuth(ctx, logger, baseApiPath, credentials)
 	return transport, nil
 }
 
@@ -70,14 +73,15 @@ func cutAndTrimAddress(address string) (string, string) {
 	return address, basePath
 }
 
-func apiKeyAuth(baseAPIPath string, credentials *Credentials) runtime.ClientAuthInfoWriter {
+func apiKeyAuth(ctx context.Context, logger Logger, baseAPIPath string, credentials *Credentials) runtime.ClientAuthInfoWriter {
 	return runtime.ClientAuthInfoWriterFunc(func(r runtime.ClientRequest, _ strfmt.Registry) error {
 		date := formatDate()
-		auth, err := authHeader(credentials.AccessKeyId, credentials.PrivateKey, r.GetMethod(), resourcePath(baseAPIPath, r.GetPath(), r.GetQueryParams().Encode()), date)
+		auth, err := authHeader(ctx, logger, credentials.AccessKeyId, credentials.PrivateKey, r.GetMethod(), resourcePath(baseAPIPath, r.GetPath(), r.GetQueryParams().Encode()), date)
 		if err != nil {
 			return err
 		}
 		err = r.SetHeaderParam(altusAuthHeader, auth)
+		logger.Debugf(ctx, "Request signature: %s", auth)
 		if err != nil {
 			return err
 		}
@@ -85,7 +89,6 @@ func apiKeyAuth(baseAPIPath string, credentials *Credentials) runtime.ClientAuth
 		if err != nil {
 			return err
 		}
-		fmt.Println(auth)
 		return r.SetHeaderParam(altusDateHeader, date)
 	})
 }
@@ -107,27 +110,26 @@ func escapePath(path string) string {
 	return strings.Join(encoded, "/")
 }
 
-func authHeader(accessKeyID, privateKey, method, path, date string) (string, error) {
+func authHeader(ctx context.Context, logger Logger, accessKeyID, privateKey, method, path, date string) (string, error) {
 	meta, err := urlSafeMeta(accessKeyID)
 	if err != nil {
 		return "", err
 	}
-	sig, err := urlSafeSignature(privateKey, method, path, date)
+	sig, err := urlSafeSignature(ctx, logger, privateKey, method, path, date)
 	if err != nil {
 		return "", err
 	}
 	return fmt.Sprintf("%s.%s", meta, sig), nil
 }
 
-func urlSafeSignature(seedBase64, method, path, date string) (string, error) {
+func urlSafeSignature(ctx context.Context, logger Logger, seedBase64, method, path, date string) (string, error) {
 	seed, err := base64.StdEncoding.DecodeString(seedBase64)
 	if err != nil {
 		return "", err
 	}
 	k := ed.NewKeyFromSeed(seed)
 	message := fmt.Sprintf(signPattern, method, applicationJson, date, path, authAlgo)
-	log.Debugf("Message to sign: \n%s\n", message)
-	fmt.Printf("Message to sign: \n%s\n", message)
+	logger.Debugf(ctx, "HTTP Message to sign: \n%s\n", message)
 	signature := ed.Sign(k, []byte(message))
 	return urlSafeBase64Encode(signature), nil
 }
@@ -155,4 +157,23 @@ type Transport struct {
 func (t *Transport) Submit(operation *runtime.ClientOperation) (interface{}, error) {
 	response, err := t.Runtime.Submit(operation)
 	return response, err
+}
+
+type LoggingRoundTripper struct {
+	delegate http.RoundTripper
+	logger   Logger
+}
+
+func (t *LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	startTime := time.Now()
+	resp, err := t.delegate.RoundTrip(req)
+	duration := time.Since(startTime)
+	errMsg := ""
+	if err != nil {
+		errMsg = fmt.Sprintf("error=%s", err.Error())
+	}
+
+	t.logger.Debugf(req.Context(), "HTTP Request URL=%s method=%s status=%d %s resp=%v durationMs=%d", req.URL, req.Method, resp.StatusCode, errMsg, resp, duration)
+
+	return resp, err
 }

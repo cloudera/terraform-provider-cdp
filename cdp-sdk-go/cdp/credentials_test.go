@@ -1,4 +1,4 @@
-package authn
+package cdp
 
 import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/common"
