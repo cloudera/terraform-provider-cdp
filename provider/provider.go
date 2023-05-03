@@ -56,36 +56,36 @@ func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 		Attributes: map[string]schema.Attribute{
 			"cdp_access_key_id": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "CDP access key id",
+				MarkdownDescription: "CDP access key id to authenticate the requests. It can be provided in the provider config (not recommended!), or it can be sourced from the `CDP_ACCESS_KEY_ID` environment variable, or via a shared credentials file. If `cdp_profile` is specified credentials for the specific profile will be used.",
 			},
 			"cdp_private_key": schema.StringAttribute{
 				Optional:            true,
 				Sensitive:           true,
-				MarkdownDescription: "CDP private key associated with the given access key",
+				MarkdownDescription: "CDP private key associated with the given access key. It can be provided in the provider config(not recommended!), or it can also be sourced from the `CDP_PRIVATE_KEY` environment variable, or via a shared credentials file. If `cdp_profile` is specified credentials for the specific profile will be used.",
 			},
 			"cdp_profile": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "CDP Profile to use for the configuration in ~/.cdp/",
-			},
-			"endpoint_url": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Altus Endpoint URL Format",
-			},
-			"cdp_endpoint_url": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "CDP Endpoint URL",
+				MarkdownDescription: "CDP Profile to use for the configuration in shared credentials file (~/.cdp/credentials). It can also be sourced from the `CDP_PROFILE` environment variable.",
 			},
 			"cdp_config_file": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "CDP configuration file. Defaults to ~/.cdp/config",
+				MarkdownDescription: "CDP configuration file. Defaults to ~/.cdp/config.",
 			},
 			"cdp_shared_credentials_file": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "CDP shared credentials file. Defaults to ~/.cdp/credentials",
+				MarkdownDescription: "CDP shared credentials file. Defaults to ~/.cdp/credentials.",
+			},
+			"endpoint_url": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Endpoint URL to use. Customize the endpoint URL format for connecting to alternate endpoints for IAM and Workload Management services. See the Custom [Service Endpoints Guide](guides/custom-service-endpoints.md) for more information about connecting to alternate CDP endpoints.",
+			},
+			"cdp_endpoint_url": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "CDP Endpoint URL to use. Customize the endpoint URL format for connecting to alternate endpoints for CDP services. See the Custom [Service Endpoints Guide](guides/custom-service-endpoints.md) for more information about connecting to alternate CDP endpoints.",
 			},
 			"local_environment": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "Defines wether CDP CP runs locally. Defaults to false",
+				MarkdownDescription: "Defines wether CDP CP runs locally. Defaults to false.",
 			},
 		},
 	}

@@ -4,18 +4,13 @@
 
 GO_FLAGS:=""
 
-VERSION ?= 0.0.4
-ARCH := $(shell uname -s | tr A-Z a-z)_amd64
-TF_PLUGIN_DIR ?= ~/.terraform.d/plugins
-TF_PROVIDER_NAME ?= terraform.cloudera.com/cloudera/cdp
-
 all: check-go test main
 
 check-go:
 ifndef GOPATH
 	$(error GOPATH not defined, please define GOPATH. Run "go help gopath" to learn more about GOPATH)
 endif
-.PHONY: check-go
+.PHONY: check-go docs
 
 # Run tests
 test: generate fmt vet
@@ -37,7 +32,7 @@ install-terraformrc:
 	cp -iv .terraformrc ~/.terraformrc && sed -i -e 's/_USERNAME_/$(USER)/g' ~/.terraformrc
 
 # Build main binary
-dist: test
+dist: test docs
 	@build-tools/make-release.sh dist terraform-provider-cdp $(GO_FLAGS)
 .PHONY: dist
 
@@ -59,8 +54,11 @@ vet:
 generate:
 	go generate . ./provider/... ./resources/... ./utils/...
 
-tfplugindocs:
-	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate --provider-name cdp
+docs:
+	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate \
+		--tf-version 1.4.5 \
+		--rendered-provider-name CDP \
+		--website-source-dir templates
 
 mod-tidy:
 	go mod tidy

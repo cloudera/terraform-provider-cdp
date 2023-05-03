@@ -1,0 +1,95 @@
+---
+page_title: "Provider: CDP"
+description: |-
+  The Cloudera Data Platform (CDP) provider is used to interact with the resources supported by CDP.
+---
+
+# {{ .ProviderShortName | upper }} Provider
+
+The Cloudera Data Platform (CDP) provider is used to interact with the resources
+supported by CDP. The provider needs to be configured with the proper
+credentials before it can be used.
+
+## Example Usage
+{{ tffile "examples/provider/provider.tf" }}
+
+## Authentication
+
+The CDP provider offers a flexible means of providing credentials for
+authentication. The following methods are supported, in this order, and
+explained below:
+
+- Static credentials
+- Environment variables
+- Shared credentials file
+
+### Static credentials
+
+!> **Warning:** Hard-coding credentials into any Terraform configuration is not
+recommended, and risks secret leakage should this file ever be committed to a
+public version control system.
+
+Static credentials can be provided by adding an `cdp_access_key_id` and
+`cdp_private_key` in-line in the CDP provider block:
+
+Usage:
+{{ tffile "examples/provider/provider_with_access_key.tf" }}
+
+
+### Environment variables
+
+You can provide your credentials via the `CDP_ACCESS_KEY_ID` and
+`CDP_PRIVATE_KEY`, environment variables, representing your CDP
+access key and CDP private key, respectively.  Note that setting your
+CDP credentials using either these environment variables will override
+the use of `CDP_PROFILE`.
+
+```terraform
+provider "cdp" {}
+```
+
+Usage:
+
+```sh
+$ export CDP_ACCESS_KEY_ID="anaccesskey"
+$ export CDP_PRIVATE_KEY="aprivatekey"
+$ terraform plan
+```
+
+### Shared Credentials file
+
+You can use a CDP credentials file to specify your credentials. The
+default location is `$HOME/.cdp/credentials` on Linux and OS X, or
+`"%USERPROFILE%\.cdp\credentials"` for Windows users. If we fail to
+detect credentials inline, or in the environment, Terraform will check
+this location. You can optionally specify a different location in the
+configuration by providing the `cdp_shared_credentials_file` attribute, or
+in the environment with the `CDP_SHARED_CREDENTIALS_FILE` variable.
+This method also supports a `cdp_profile` configuration and matching
+`CDP_PROFILE` environment variable:
+
+Usage:
+
+{{ tffile "examples/provider/provider_with_profile.tf" }}
+
+## Configuration
+You can use a CDP configuration file to specify other CDP related configuration.
+The default location is `$HOME/.cdp/config` on Linux and OS X, or
+`"%USERPROFILE%\.cdp\config"` for Windows users. You can optionally specify a
+different location in the configuration by providing the `cdp_config_file`
+attribute, or in the environment with the `CDP_CONFIG_FILE` variable. This method
+also supports a `cdp_profile` configuration and matching `CDP_PROFILE` environment
+variable to read configuration under different profiles:
+
+```bash
+$ cat $HOME/.cdp/config
+[default]
+endpoint_url = https://%sapi.us-west-1.altus.cloudera.com/
+cdp_endpoint_url = https://api.us-west-1.cdp.cloudera.com/
+
+[profile dev]
+endpoint_url = ...
+cdp_endpoint_url = ...
+```
+
+{{ .SchemaMarkdown | trimspace }}

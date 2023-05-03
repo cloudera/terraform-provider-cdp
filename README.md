@@ -81,6 +81,30 @@ cd cdp-sdk-go
 make swagger-gen
 ```
 
+## Generating Documentation
+
+We follow the guidelines from https://developer.hashicorp.com/terraform/registry/providers/docs. Mainly we use the tool
+[tfplugindocs](https://github.com/hashicorp/terraform-plugin-docs) to automatically generate the documentation from the
+schemas from the provider code plus the examples under the `examples` directory.
+
+Please read the docs at https://developer.hashicorp.com/terraform/registry/providers/docs and
+https://github.com/hashicorp/terraform-plugin-docs to understand how the templating and examples
+are used to render the final content. But in short, for every resource and data-source, we put example code under
+`examples/resources/<resource-name>/resource.tf` and the template docs at `templates/resources/<resource-name>.md.tmpl`
+(similar for data-sources).
+
+Then you can generate the docs by running:
+```
+make docs
+```
+
+which will override the files under `/docs`. We check in the generated docs for every change that changes resources or
+data-sources.
+
+You can use this tool: https://registry.terraform.io/tools/doc-preview to copy-paste the markdown files to see how they
+render in the terraform registry public docs.
+
+
 ## Releases
 
 We aim to follow [official guidance](https://www.terraform.io/docs/extend/best-practices/versioning.html)
