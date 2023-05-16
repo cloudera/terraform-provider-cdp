@@ -34,13 +34,13 @@ The environment is a logical entity that represents the association of your user
 - `enable_workload_analytics` (Boolean)
 - `encryption_key_arn` (String)
 - `endpoint_access_gateway_scheme` (String)
-- `endpoint_access_gateway_subnet_ids` (List of String)
+- `endpoint_access_gateway_subnet_ids` (Set of String)
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `network_cidr` (String)
 - `proxy_config_name` (String)
 - `report_deployment_logs` (Boolean)
 - `s3_guard_table_name` (String)
-- `subnet_ids` (List of String)
+- `subnet_ids` (Set of String)
 - `tags` (Map of String)
 - `tunnel_type` (String)
 - `vpc_id` (String)
@@ -82,9 +82,9 @@ Optional:
 
 - `cidr` (String)
 - `default_security_group_id` (String)
-- `default_security_group_ids` (List of String)
+- `default_security_group_ids` (Set of String)
 - `security_group_id_for_knox` (String)
-- `security_group_ids_for_knox` (List of String)
+- `security_group_ids_for_knox` (Set of String)
 
 
 <a id="nestedatt--freeipa"></a>
@@ -97,6 +97,6 @@ Optional:
 - `instance_count_by_group` (Number)
 - `instance_type` (String)
 - `multi_az` (Boolean)
-- `recipes` (List of String)
+- `recipes` (Set of String)
 
 

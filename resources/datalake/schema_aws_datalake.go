@@ -49,7 +49,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 		"crn": schema.StringAttribute{
 			Computed: true,
 		},
-		"custom_instance_groups": schema.ListNestedAttribute{
+		"custom_instance_groups": schema.SetNestedAttribute{
 			Optional: true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
@@ -83,7 +83,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 		"environment_crn": schema.StringAttribute{
 			Computed: true,
 		},
-		"endpoints": schema.ListNestedAttribute{
+		"endpoints": schema.SetNestedAttribute{
 			Computed: true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
@@ -122,11 +122,11 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 				},
 			},
 		},
-		"instance_groups": schema.ListNestedAttribute{
+		"instance_groups": schema.SetNestedAttribute{
 			Computed: true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
-					"instances": schema.ListNestedAttribute{
+					"instances": schema.SetNestedAttribute{
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
@@ -151,7 +151,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 								"life_cycle": schema.StringAttribute{
 									Computed: true,
 								},
-								"mounted_volumes": schema.ListNestedAttribute{
+								"mounted_volumes": schema.SetNestedAttribute{
 									Computed: true,
 									NestedObject: schema.NestedAttributeObject{
 										Attributes: map[string]schema.Attribute{
@@ -197,7 +197,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 		"java_version": schema.Int64Attribute{
 			Optional: true,
 		},
-		"load_balancers": schema.ListNestedAttribute{
+		"load_balancers": schema.SetNestedAttribute{
 			Computed: true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
@@ -216,7 +216,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 					"load_balancer_type": schema.StringAttribute{
 						Computed: true,
 					},
-					"targets": schema.ListNestedAttribute{
+					"targets": schema.SetNestedAttribute{
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
@@ -229,7 +229,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 								"port": schema.Int64Attribute{
 									Computed: true,
 								},
-								"target_instances": schema.ListAttribute{
+								"target_instances": schema.SetAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
 								},
@@ -243,7 +243,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 			Optional: true,
 			Computed: true,
 		},
-		"product_versions": schema.ListNestedAttribute{
+		"product_versions": schema.SetNestedAttribute{
 			Computed: true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
@@ -256,7 +256,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 				},
 			},
 		},
-		"recipes": schema.ListNestedAttribute{
+		"recipes": schema.SetNestedAttribute{
 			Optional: true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{

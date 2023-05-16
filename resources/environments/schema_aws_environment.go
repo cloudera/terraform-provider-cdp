@@ -69,7 +69,7 @@ var AwsEnvironmentSchema = schema.Schema{
 			Optional: true,
 			Computed: true,
 		},
-		"endpoint_access_gateway_subnet_ids": schema.ListAttribute{
+		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
 			Optional:    true,
 			Computed:    true,
 			ElementType: types.StringType,
@@ -101,7 +101,7 @@ var AwsEnvironmentSchema = schema.Schema{
 					Optional: true,
 					Computed: true,
 				},
-				"recipes": schema.ListAttribute{
+				"recipes": schema.SetAttribute{
 					Optional:    true,
 					Computed:    true,
 					ElementType: types.StringType,
@@ -149,7 +149,7 @@ var AwsEnvironmentSchema = schema.Schema{
 					Optional: true,
 					Computed: true,
 				},
-				"default_security_group_ids": schema.ListAttribute{
+				"default_security_group_ids": schema.SetAttribute{
 					Optional:    true,
 					Computed:    true,
 					ElementType: types.StringType,
@@ -158,7 +158,7 @@ var AwsEnvironmentSchema = schema.Schema{
 					Optional: true,
 					Computed: true,
 				},
-				"security_group_ids_for_knox": schema.ListAttribute{
+				"security_group_ids_for_knox": schema.SetAttribute{
 					Optional:    true,
 					Computed:    true,
 					ElementType: types.StringType,
@@ -171,7 +171,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"status_reason": schema.StringAttribute{
 			Computed: true,
 		},
-		"subnet_ids": schema.ListAttribute{
+		"subnet_ids": schema.SetAttribute{
 			Optional:    true,
 			Computed:    true,
 			ElementType: types.StringType,
@@ -211,7 +211,7 @@ func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	res.EnableWorkloadAnalytics = model.EnableWorkloadAnalytics.ValueBool()
 	res.EncryptionKeyArn = model.EncryptionKeyArn.ValueString()
 	res.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
-	res.EndpointAccessGatewaySubnetIds = utils.FromListValueToStringList(model.EndpointAccessGatewaySubnetIds)
+	res.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
 	res.EnvironmentName = model.EnvironmentName.ValueStringPointer()
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
@@ -221,7 +221,7 @@ func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 			InstanceCountByGroup: int32(freeIpaDetails.InstanceCountByGroup.ValueInt64()),
 			InstanceType:         freeIpaDetails.InstanceType.ValueString(),
 			MultiAz:              freeIpaDetails.MultiAz.ValueBool(),
-			Recipes:              utils.FromListValueToStringList(freeIpaDetails.Recipes),
+			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
 		}
 		res.Image = &environmentsmodels.FreeIpaImageRequest{
 			Catalog: freeIpaDetails.Catalog.ValueStringPointer(),
@@ -245,13 +245,13 @@ func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	res.S3GuardTableName = model.S3GuardTableName.ValueString()
 	res.SecurityAccess = &environmentsmodels.SecurityAccessRequest{
 		Cidr:                    model.SecurityAccess.Cidr.ValueString(),
-		DefaultSecurityGroupIDs: utils.FromListValueToStringList(model.SecurityAccess.DefaultSecurityGroupIDs),
+		DefaultSecurityGroupIDs: utils.FromSetValueToStringList(model.SecurityAccess.DefaultSecurityGroupIDs),
 		DefaultSecurityGroupID:  model.SecurityAccess.DefaultSecurityGroupID.ValueString(),
-		SecurityGroupIDsForKnox: utils.FromListValueToStringList(model.SecurityAccess.SecurityGroupIDsForKnox),
+		SecurityGroupIDsForKnox: utils.FromSetValueToStringList(model.SecurityAccess.SecurityGroupIDsForKnox),
 		SecurityGroupIDForKnox:  model.SecurityAccess.SecurityGroupIDForKnox.ValueString(),
 	}
 	if !model.SubnetIds.IsNull() && !model.SubnetIds.IsUnknown() {
-		res.SubnetIds = utils.FromListValueToStringList(model.SubnetIds)
+		res.SubnetIds = utils.FromSetValueToStringList(model.SubnetIds)
 	}
 	if !model.Tags.IsNull() {
 		res.Tags = make([]*environmentsmodels.TagRequest, len(model.Tags.Elements()))

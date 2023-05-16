@@ -84,6 +84,14 @@ func FromListValueToStringList(tl types.List) []string {
 	return res
 }
 
+func FromSetValueToStringList(tl types.Set) []string {
+	res := make([]string, len(tl.Elements()))
+	for i, elem := range tl.Elements() {
+		res[i] = elem.(types.String).ValueString()
+	}
+	return res
+}
+
 func ToListToBaseTypesStringList(in []string) []types.String {
 	if in == nil {
 		return nil

@@ -73,7 +73,7 @@ func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) 
 	for i, v := range model.Recipes {
 		req.Recipes[i] = &datalakemodels.InstanceGroupRecipeRequest{
 			InstanceGroupName: v.InstanceGroupName.ValueStringPointer(),
-			RecipeNames:       utils.FromListValueToStringList(v.RecipeNames),
+			RecipeNames:       utils.FromSetValueToStringList(v.RecipeNames),
 		}
 	}
 	req.Runtime = model.Runtime.ValueString()
@@ -252,7 +252,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 			ServiceURL:  types.StringPointerValue(v.ServiceURL),
 		}
 	}
-	model.Endpoints, _ = types.ListValueFrom(ctx, types.ObjectType{
+	model.Endpoints, _ = types.SetValueFrom(ctx, types.ObjectType{
 		AttrTypes: map[string]attr.Type{
 			"display_name": types.StringType,
 			"knox_service": types.StringType,
@@ -294,7 +294,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 					VolumeType: types.StringValue(mv.VolumeType),
 				}
 			}
-			instances[j].MountedVolumes, _ = types.ListValueFrom(ctx, types.ObjectType{
+			instances[j].MountedVolumes, _ = types.SetValueFrom(ctx, types.ObjectType{
 				AttrTypes: map[string]attr.Type{
 					"device":      types.StringType,
 					"volume_id":   types.StringType,
@@ -303,7 +303,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 				},
 			}, mountedVolumes)
 		}
-		instanceGroups[i].Instances, _ = types.ListValueFrom(ctx, types.ObjectType{
+		instanceGroups[i].Instances, _ = types.SetValueFrom(ctx, types.ObjectType{
 			AttrTypes: map[string]attr.Type{
 				"ambari_server":     types.BoolType,
 				"discovery_fqdn":    types.StringType,
@@ -312,7 +312,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 				"instance_status":   types.StringType,
 				"instance_type_val": types.StringType,
 				"life_cycle":        types.StringType,
-				"mounted_volumes": types.ListType{
+				"mounted_volumes": types.SetType{
 					ElemType: types.ObjectType{
 						AttrTypes: map[string]attr.Type{
 							"device":      types.StringType,
@@ -330,9 +330,9 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 			},
 		}, instances)
 	}
-	model.InstanceGroups, _ = types.ListValueFrom(ctx, types.ObjectType{
+	model.InstanceGroups, _ = types.SetValueFrom(ctx, types.ObjectType{
 		AttrTypes: map[string]attr.Type{
-			"instances": types.ListType{
+			"instances": types.SetType{
 				ElemType: types.ObjectType{
 					AttrTypes: map[string]attr.Type{
 						"ambari_server":     types.BoolType,
@@ -342,7 +342,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 						"instance_status":   types.StringType,
 						"instance_type_val": types.StringType,
 						"life_cycle":        types.StringType,
-						"mounted_volumes": types.ListType{
+						"mounted_volumes": types.SetType{
 							ElemType: types.ObjectType{
 								AttrTypes: map[string]attr.Type{
 									"device":      types.StringType,
@@ -375,7 +375,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 
 		targets := make([]*targetGroup, len(v.Targets))
 		for j, t := range v.Targets {
-			targetInstances, _ := types.ListValueFrom(ctx, types.StringType, t.TargetInstances)
+			targetInstances, _ := types.SetValueFrom(ctx, types.StringType, t.TargetInstances)
 			targets[j] = &targetGroup{
 				ListenerID:      types.StringValue(t.AwsTargetGroupConfiguration.ListenerID),
 				TargetGroupID:   types.StringValue(t.AwsTargetGroupConfiguration.TargetGroupID),
@@ -383,31 +383,31 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 				TargetInstances: targetInstances,
 			}
 		}
-		loadBalancers[i].Targets, _ = types.ListValueFrom(ctx, types.ObjectType{
+		loadBalancers[i].Targets, _ = types.SetValueFrom(ctx, types.ObjectType{
 			AttrTypes: map[string]attr.Type{
 				"listener_id":     types.StringType,
 				"target_group_id": types.StringType,
 				"port":            types.Int64Type,
-				"target_instances": types.ListType{
+				"target_instances": types.SetType{
 					ElemType: types.StringType,
 				},
 			},
 		}, targets)
 	}
-	model.LoadBalancers, _ = types.ListValueFrom(ctx, types.ObjectType{
+	model.LoadBalancers, _ = types.SetValueFrom(ctx, types.ObjectType{
 		AttrTypes: map[string]attr.Type{
 			"resource_id":        types.StringType,
 			"cloud_dns":          types.StringType,
 			"fqdn":               types.StringType,
 			"ip":                 types.StringType,
 			"load_balancer_type": types.StringType,
-			"targets": types.ListType{
+			"targets": types.SetType{
 				ElemType: types.ObjectType{
 					AttrTypes: map[string]attr.Type{
 						"listener_id":     types.StringType,
 						"target_group_id": types.StringType,
 						"port":            types.Int64Type,
-						"target_instances": types.ListType{
+						"target_instances": types.SetType{
 							ElemType: types.StringType,
 						},
 					},
@@ -422,7 +422,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 			Version: types.StringPointerValue(v.Version),
 		}
 	}
-	model.ProductVersions, _ = types.ListValueFrom(ctx, types.ObjectType{
+	model.ProductVersions, _ = types.SetValueFrom(ctx, types.ObjectType{
 		AttrTypes: map[string]attr.Type{
 			"name":    types.StringType,
 			"version": types.StringType,

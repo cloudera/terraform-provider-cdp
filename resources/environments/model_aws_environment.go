@@ -29,7 +29,7 @@ type awsEnvironmentResourceModel struct {
 
 	EndpointAccessGatewayScheme types.String `tfsdk:"endpoint_access_gateway_scheme"`
 
-	EndpointAccessGatewaySubnetIds types.List `tfsdk:"endpoint_access_gateway_subnet_ids"`
+	EndpointAccessGatewaySubnetIds types.Set `tfsdk:"endpoint_access_gateway_subnet_ids"`
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
@@ -53,7 +53,7 @@ type awsEnvironmentResourceModel struct {
 
 	StatusReason types.String `tfsdk:"status_reason"`
 
-	SubnetIds types.List `tfsdk:"subnet_ids"`
+	SubnetIds types.Set `tfsdk:"subnet_ids"`
 
 	Tags types.Map `tfsdk:"tags"`
 
@@ -81,7 +81,7 @@ type AWSFreeIpaDetails struct {
 
 	MultiAz types.Bool `tfsdk:"multi_az"`
 
-	Recipes types.List `tfsdk:"recipes"`
+	Recipes types.Set `tfsdk:"recipes"`
 }
 
 type AWSLogStorage struct {
@@ -97,9 +97,9 @@ type SecurityAccess struct {
 
 	DefaultSecurityGroupID types.String `tfsdk:"default_security_group_id"`
 
-	DefaultSecurityGroupIDs types.List `tfsdk:"default_security_group_ids"`
+	DefaultSecurityGroupIDs types.Set `tfsdk:"default_security_group_ids"`
 
 	SecurityGroupIDForKnox types.String `tfsdk:"security_group_id_for_knox"`
 
-	SecurityGroupIDsForKnox types.List `tfsdk:"security_group_ids_for_knox"`
+	SecurityGroupIDsForKnox types.Set `tfsdk:"security_group_ids_for_knox"`
 }

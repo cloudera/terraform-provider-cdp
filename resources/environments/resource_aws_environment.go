@@ -3,7 +3,6 @@ package environments
 import (
 	"context"
 	"log"
-	"sort"
 	"strings"
 	"time"
 
@@ -20,7 +19,7 @@ import (
 )
 
 var (
-	_ resource.ResourceWithValidateConfig = &awsEnvironmentResource{}
+	_ resource.Resource = &awsEnvironmentResource{}
 )
 
 type awsEnvironmentResource struct {
@@ -41,43 +40,6 @@ func (r *awsEnvironmentResource) Schema(ctx context.Context, req resource.Schema
 
 func (r *awsEnvironmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
-}
-
-func (r *awsEnvironmentResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data awsEnvironmentResourceModel
-
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	if data.VpcID.IsNull() || data.VpcID.IsUnknown() {
-		if data.NetworkCidr.IsNull() || data.NetworkCidr.IsUnknown() {
-			resp.Diagnostics.AddError("Missing Network CIDR", "Network CIDR is required for new networks")
-			if data.SecurityAccess == nil || data.SecurityAccess.Cidr.IsNull() || data.SecurityAccess.Cidr.IsUnknown() {
-				resp.Diagnostics.AddError("Missing Security Access CIDR", "Security Access CIDR is required for new networks")
-			}
-		}
-	} else {
-		if data.SubnetIds.IsNull() || data.SubnetIds.IsUnknown() {
-			resp.Diagnostics.AddError("Missing Subnet IDs", "Subnet IDs are required when a VPC ID is specified")
-		}
-		if data.SecurityAccess != nil {
-			defaultSecurityGroupProvided := !data.SecurityAccess.DefaultSecurityGroupID.IsNull() && !data.SecurityAccess.DefaultSecurityGroupID.IsUnknown()
-			securityGroupForGatewayNodesProvided := !data.SecurityAccess.SecurityGroupIDForKnox.IsNull() && !data.SecurityAccess.SecurityGroupIDForKnox.IsUnknown()
-			if defaultSecurityGroupProvided && !securityGroupForGatewayNodesProvided {
-				resp.Diagnostics.AddError("Missing Security Group IDs for Knox", "Security Group IDs for Knox are required when Security Group IDs are provided")
-			} else if !defaultSecurityGroupProvided && securityGroupForGatewayNodesProvided {
-				resp.Diagnostics.AddError("Missing Security Group IDs", "Security Group IDs for Knox are required when Security Group IDs for Knox are provided")
-			} else if !defaultSecurityGroupProvided && !securityGroupForGatewayNodesProvided {
-				if data.SecurityAccess.Cidr.IsNull() || data.SecurityAccess.Cidr.IsUnknown() {
-					resp.Diagnostics.AddError("Missing Access CIDR", "Access CIDR is required to create new security groups")
-				}
-			}
-		} else {
-			resp.Diagnostics.AddError("Missing Security Access Fields", "Either provide an access CIDR of security group ids")
-		}
-	}
 }
 
 func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -285,9 +247,11 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.Description = types.StringValue(env.Description)
 	model.EnableWorkloadAnalytics = types.BoolValue(env.EnableWorkloadAnalytics)
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
-	var freeIpaRecipes []string
+	var freeIpaRecipes types.Set
 	if env.Freeipa != nil {
-		freeIpaRecipes = env.Freeipa.Recipes
+		freeIpaRecipes, _ = types.SetValueFrom(ctx, types.StringType, env.Freeipa.Recipes)
+	} else {
+		freeIpaRecipes = types.SetNull(types.StringType)
 	}
 	model.FreeIpa, _ = types.ObjectValueFrom(ctx, map[string]attr.Type{
 		"catalog":                 types.StringType,
@@ -295,9 +259,9 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 		"instance_count_by_group": types.Int64Type,
 		"instance_type":           types.StringType,
 		"multi_az":                types.BoolType,
-		"recipes":                 types.ListType{ElemType: types.StringType},
+		"recipes":                 types.SetType{ElemType: types.StringType},
 	}, &AWSFreeIpaDetails{
-		Recipes: utils.ToListToBaseType(freeIpaRecipes),
+		Recipes: freeIpaRecipes,
 	})
 	if env.LogStorage != nil {
 		if env.LogStorage.AwsDetails != nil {
@@ -316,21 +280,25 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 	if env.Network != nil {
 		model.NetworkCidr = types.StringValue(env.Network.NetworkCidr)
 		if env.Network.EndpointAccessGatewaySubnetIds != nil {
-			sort.Strings(env.Network.EndpointAccessGatewaySubnetIds)
-			subnetid, _ := types.ListValueFrom(ctx, types.StringType, env.Network.EndpointAccessGatewaySubnetIds)
-			model.EndpointAccessGatewaySubnetIds = subnetid
+			var eagSubnetids types.Set
+			if len(env.Network.EndpointAccessGatewaySubnetIds) > 0 {
+				eagSubnetids, _ = types.SetValueFrom(ctx, types.StringType, env.Network.EndpointAccessGatewaySubnetIds)
+			} else {
+				eagSubnetids = types.SetNull(types.StringType)
+			}
+			model.EndpointAccessGatewaySubnetIds = eagSubnetids
 		}
 		if env.Network.Aws != nil {
 			model.VpcID = types.StringPointerValue(env.Network.Aws.VpcID)
 		}
-		if model.SubnetIds.IsNull() {
-			sort.Strings(env.Network.SubnetIds)
-			for i, v := range env.Network.SubnetIds {
-				env.Network.SubnetIds[i] = strings.ReplaceAll(v, "\"", "")
-			}
-			subnetid, _ := types.ListValueFrom(ctx, types.StringType, env.Network.SubnetIds)
-			model.SubnetIds = subnetid
+		var subnetids types.Set
+		if len(env.Network.SubnetIds) > 0 {
+			subnetids, _ = types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
+		} else {
+			subnetids = types.SetNull(types.StringType)
 		}
+		model.SubnetIds = subnetids
+
 	}
 	if env.ProxyConfig != nil {
 		model.ProxyConfigName = types.StringPointerValue(env.ProxyConfig.ProxyConfigName)
@@ -338,12 +306,24 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.Region = types.StringPointerValue(env.Region)
 	model.ReportDeploymentLogs = types.BoolValue(env.ReportDeploymentLogs)
 	if env.SecurityAccess != nil {
+		var dsgIDs types.Set
+		if model.SecurityAccess == nil || model.SecurityAccess.DefaultSecurityGroupIDs.IsUnknown() {
+			dsgIDs = types.SetNull(types.StringType)
+		} else {
+			dsgIDs = model.SecurityAccess.DefaultSecurityGroupIDs
+		}
+		var sgIDsknox types.Set
+		if model.SecurityAccess == nil || model.SecurityAccess.SecurityGroupIDsForKnox.IsUnknown() {
+			sgIDsknox = types.SetNull(types.StringType)
+		} else {
+			sgIDsknox = model.SecurityAccess.DefaultSecurityGroupIDs
+		}
 		model.SecurityAccess = &SecurityAccess{
 			Cidr:                    types.StringValue(env.SecurityAccess.Cidr),
 			DefaultSecurityGroupID:  types.StringValue(env.SecurityAccess.DefaultSecurityGroupID),
-			DefaultSecurityGroupIDs: types.ListNull(types.StringType),
+			DefaultSecurityGroupIDs: dsgIDs,
 			SecurityGroupIDForKnox:  types.StringValue(env.SecurityAccess.SecurityGroupIDForKnox),
-			SecurityGroupIDsForKnox: types.ListNull(types.StringType),
+			SecurityGroupIDsForKnox: sgIDsknox,
 		}
 	}
 	model.Status = types.StringPointerValue(env.Status)

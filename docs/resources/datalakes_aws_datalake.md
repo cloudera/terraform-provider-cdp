@@ -24,7 +24,7 @@ A Data Lake is a service which provides a protective ring around the data stored
 
 ### Optional
 
-- `custom_instance_groups` (Attributes List) (see [below for nested schema](#nestedatt--custom_instance_groups))
+- `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `database_availability_type` (String)
 - `database_engine_version` (String)
 - `datalake_template` (String)
@@ -32,7 +32,7 @@ A Data Lake is a service which provides a protective ring around the data stored
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)
 - `multi_az` (Boolean)
-- `recipes` (Attributes List) (see [below for nested schema](#nestedatt--recipes))
+- `recipes` (Attributes Set) (see [below for nested schema](#nestedatt--recipes))
 - `runtime` (String)
 - `scale` (String)
 - `spot_max_price` (Number)
@@ -48,12 +48,12 @@ A Data Lake is a service which provides a protective ring around the data stored
 - `creation_date` (String)
 - `credential_crn` (String)
 - `crn` (String)
-- `endpoints` (Attributes List) (see [below for nested schema](#nestedatt--endpoints))
+- `endpoints` (Attributes Set) (see [below for nested schema](#nestedatt--endpoints))
 - `environment_crn` (String)
 - `id` (String) The ID of this resource.
-- `instance_groups` (Attributes List) (see [below for nested schema](#nestedatt--instance_groups))
-- `load_balancers` (Attributes List) (see [below for nested schema](#nestedatt--load_balancers))
-- `product_versions` (Attributes List) (see [below for nested schema](#nestedatt--product_versions))
+- `instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--instance_groups))
+- `load_balancers` (Attributes Set) (see [below for nested schema](#nestedatt--load_balancers))
+- `product_versions` (Attributes Set) (see [below for nested schema](#nestedatt--product_versions))
 - `region` (String)
 - `status` (String)
 - `status_reason` (String)
@@ -119,7 +119,7 @@ Read-Only:
 
 Read-Only:
 
-- `instances` (Attributes List) (see [below for nested schema](#nestedatt--instance_groups--instances))
+- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--instance_groups--instances))
 - `name` (String)
 
 <a id="nestedatt--instance_groups--instances"></a>
@@ -134,7 +134,7 @@ Read-Only:
 - `instance_status` (String)
 - `instance_type_val` (String)
 - `life_cycle` (String)
-- `mounted_volumes` (Attributes List) (see [below for nested schema](#nestedatt--instance_groups--instances--mounted_volumes))
+- `mounted_volumes` (Attributes Set) (see [below for nested schema](#nestedatt--instance_groups--instances--mounted_volumes))
 - `private_ip` (String)
 - `public_ip` (String)
 - `ssh_port` (Number)
@@ -164,7 +164,7 @@ Read-Only:
 - `ip` (String)
 - `load_balancer_type` (String)
 - `resource_id` (String)
-- `targets` (Attributes List) (see [below for nested schema](#nestedatt--load_balancers--targets))
+- `targets` (Attributes Set) (see [below for nested schema](#nestedatt--load_balancers--targets))
 
 <a id="nestedatt--load_balancers--targets"></a>
 ### Nested Schema for `load_balancers.targets`
@@ -174,7 +174,7 @@ Read-Only:
 - `listener_id` (String)
 - `port` (Number)
 - `target_group_id` (String)
-- `target_instances` (List of String)
+- `target_instances` (Set of String)
 
 
 

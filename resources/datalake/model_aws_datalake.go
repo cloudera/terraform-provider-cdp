@@ -35,7 +35,7 @@ type awsDatalakeResourceModel struct {
 
 	EnableRangerRaz types.Bool `tfsdk:"enable_ranger_raz"`
 
-	Endpoints types.List `tfsdk:"endpoints"`
+	Endpoints types.Set `tfsdk:"endpoints"`
 
 	EnvironmentCrn types.String `tfsdk:"environment_crn"`
 
@@ -43,11 +43,11 @@ type awsDatalakeResourceModel struct {
 
 	Image *awsDatalakeImage `tfsdk:"image"`
 
-	InstanceGroups types.List `tfsdk:"instance_groups"`
+	InstanceGroups types.Set `tfsdk:"instance_groups"`
 
-	LoadBalancers types.List `tfsdk:"load_balancers"`
+	LoadBalancers types.Set `tfsdk:"load_balancers"`
 
-	ProductVersions types.List `tfsdk:"product_versions"`
+	ProductVersions types.Set `tfsdk:"product_versions"`
 
 	Region types.String `tfsdk:"region"`
 
@@ -86,11 +86,11 @@ type awsDatalakeImage struct {
 type instanceGroupRecipe struct {
 	InstanceGroupName types.String `tfsdk:"instance_group_name"`
 
-	RecipeNames types.List `tfsdk:"recipe_names"`
+	RecipeNames types.Set `tfsdk:"recipe_names"`
 }
 
 type instanceGroup struct {
-	Instances types.List `tfsdk:"instances"`
+	Instances types.Set `tfsdk:"instances"`
 
 	Name types.String `tfsdk:"name"`
 }
@@ -110,7 +110,7 @@ type instance struct {
 
 	LifeCycle types.String `tfsdk:"life_cycle"`
 
-	MountedVolumes types.List `tfsdk:"mounted_volumes"`
+	MountedVolumes types.Set `tfsdk:"mounted_volumes"`
 
 	PrivateIP types.String `tfsdk:"private_ip"`
 
@@ -166,7 +166,7 @@ type loadBalancer struct {
 
 	LoadBalancerType types.String `tfsdk:"load_balancer_type"`
 
-	Targets types.List `tfsdk:"targets"`
+	Targets types.Set `tfsdk:"targets"`
 }
 
 type targetGroup struct {
@@ -176,7 +176,7 @@ type targetGroup struct {
 
 	Port types.Int64 `tfsdk:"port"`
 
-	TargetInstances types.List `tfsdk:"target_instances"`
+	TargetInstances types.Set `tfsdk:"target_instances"`
 }
 
 type productVersion struct {
