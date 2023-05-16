@@ -108,23 +108,45 @@ render in the terraform registry public docs.
 ## Releases
 
 We aim to follow [official guidance](https://www.terraform.io/docs/extend/best-practices/versioning.html)
-on versioning our provider. See the [change log](./CHANGELOG.md) for the release
-history.
+on versioning our provider. See the [change log](./CHANGELOG.md) for the release history.
 
-To make a new release:
+We use the [goreleaser](https://goreleaser.com/) tool to build and publish official releases. Please follow the 
+[Quick Start Guide](https://goreleaser.com/quick-start/) to familiarize yourself with the tool. 
 
-* Review the change log and update it as necessary. Ideally the content is
+We publish new releases following the [Terraform Publishing Guide](https://developer.hashicorp.com/terraform/registry/providers/publishing)
+to the Terraform Registry.
+
+#### One time setup
+1. If you have not done so, create a personal github token here: https://github.infra.cloudera.com/settings/tokens
+2. `export GITHUB_TOKEN=<PLACE_THE_TOKEN>`
+3. https://developer.hashicorp.com/terraform/registry/providers/publishing#preparing-and-adding-a-signing-key
+4. https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key
+
+#### Publishing new releases
+1. Make sure that the build is fine, and unit tests and Terraform acceptance tests are running fine.
+2. Review the change log and update it as necessary. Ideally the content is
   up-to-date as it has been maintained along the way. Note the data of the
   release and create a new, empty unreleased entry at the top.
-* Tag the commit with an appropriate semantic version, e.g. `git tag v0.0.1`.
-* Push the tag: `git push --tags`.
-* Create a github release off the tag.
- * The title of the release should be `tag (Month Day, Year)`.
- * The change log entry for the release should be copied as the description.
- * Build distributable artifacts by running `make clean dist`. Attach the binaries and
-   checksum artifacts to the release for each supported platform.
- * Until otherwise noted, select the pre-release checkbox to indicate that we
-   are not yet production ready.
- * Once the release is done, send a PR to update the `CHANGELOG.md` with the new
-   release section, and update the release date.
+3. Set the GPG fingerprint to use to sign the release `export GPG_FINGERPRINT=<YOUR_CODE_SIGNING_GPG_KEY_ID>`. Use (`gpg --list-secret-keys --keyid-format=long` to find out).
+4. Cache the password for your GPG private key with `echo "foo" | gpg --armor --detach-sign --default-key $GPG_FINGERPRINT` (GoReleaser does not support signing binaries with a GPG key that requires a passphrase. Some systems may cache your GPG passphrase for a few minutes).
+5. Tag the commit with an appropriate semantic version, e.g. `git tag v0.0.1`.
+   1. We use [Semantic Versioning](https://semver.org/) to mark the releases and `v` prefix is mandatory for terraform providers
+   2. A release-candidate can be pushed by adding `-rc1` suffix like `v0.0.1-rc1`.
+   3. You can find the next version to use by looking at the existing releases / tags.
+6. Push the tag: `git push origin v0.0.1`.
+7. Run `goreleaser`: `make release`
+8. If goreleaser runs successfully, it will automatically:
+   1. Cross-compile against all platforms and create binaries under `dist/`
+   2. Create zip archives for all binaries.
+   3. Checksums all of the binaries using sha256 and saves the checksums under `dist/terraform-provider-cdp_<VERSION>_SHA256SUMS`.
+   4. Signs the checksums file with the gpg keys of the user.
+   5. Creates other metadata files for the build and release.
+   6. Creates a release **as a draft** in Github (we are intentionally doing this. Once we get the other mechanics working we can do non-draft releases).
+   7. Uploads artifacts and release notes to the Github release.
+9. Until otherwise noted, select the pre-release checkbox to indicate that we
+  are not yet production ready.
+10. The release that is pushed by goreleaser is a draft release. Go to the release page in Github, and double check the release notes, artifacts and the version. If everything is fine, click on "Edit" and then "Publish Release" button.
+11. Once the release is done, send a PR to update the `CHANGELOG.md` with the new release section, and update the release date.
 
+#### Publishing new releases to Terraform Registry
+Above staps only publish the artifacts to github. We need to futher publish the artifacts to Terraform Registry. The steps will be documented here.

@@ -31,10 +31,15 @@ install: main
 install-terraformrc:
 	cp -iv .terraformrc ~/.terraformrc && sed -i -e 's/_USERNAME_/$(USER)/g' ~/.terraformrc
 
-# Build main binary
-dist: test docs
-	@build-tools/make-release.sh dist terraform-provider-cdp $(GO_FLAGS)
-.PHONY: dist
+# Make a release
+release: test testacc docs
+	@goreleaser release --clean
+.PHONY: release
+
+# Make a local snapshot release
+release-snapshot: test
+	@goreleaser release --snapshot --clean
+.PHONY: release-snapshot
 
 clean:
 	rm -f terraform-provider-cdp
