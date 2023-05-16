@@ -42,7 +42,7 @@ func (r *awsCredentialResource) Metadata(_ context.Context, req resource.Metadat
 
 func (r *awsCredentialResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "The AWS credential is used for authorization  to provision resources such as compute instances within your cloud provider account.",
+		MarkdownDescription: "The AWS credential is used for authorization to provision resources such as compute instances within your cloud provider account.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

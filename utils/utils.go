@@ -4,8 +4,10 @@ import (
 	"fmt"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -64,4 +66,45 @@ func ToStringList(configured []interface{}) []string {
 		}
 	}
 	return vs
+}
+
+func ToBaseTypesStringMap(in map[string]string) map[string]types.String {
+	res := map[string]types.String{}
+	for k, v := range in {
+		res[k] = types.StringValue(v)
+	}
+	return res
+}
+
+func FromTerraformStringListToStringList(tl []types.String) []string {
+	res := make([]string, 0, len(tl))
+	for _, v := range tl {
+		res = append(res, v.String())
+	}
+	return res
+}
+
+func FromListValueToStringList(tl types.List) []string {
+	res := make([]string, len(tl.Elements()))
+	for i, elem := range tl.Elements() {
+		res[i] = elem.(types.String).ValueString()
+	}
+	return res
+}
+
+func ToListToBaseTypesStringList(in []string) []types.String {
+	res := make([]types.String, 0, len(in))
+	for _, v := range in {
+		res = append(res, types.StringValue(v))
+	}
+	return res
+}
+
+func ToListToBaseType(in []string) types.List {
+	vals := make([]attr.Value, 0, len(in))
+	for _, v := range in {
+		vals = append(vals, types.StringValue(v))
+	}
+	res, _ := types.ListValue(types.StringType, vals)
+	return res
 }
