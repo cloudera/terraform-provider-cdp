@@ -76,14 +76,6 @@ func ToBaseTypesStringMap(in map[string]string) map[string]types.String {
 	return res
 }
 
-func FromTerraformStringListToStringList(tl []types.String) []string {
-	res := make([]string, 0, len(tl))
-	for _, v := range tl {
-		res = append(res, v.String())
-	}
-	return res
-}
-
 func FromListValueToStringList(tl types.List) []string {
 	res := make([]string, len(tl.Elements()))
 	for i, elem := range tl.Elements() {
@@ -93,6 +85,9 @@ func FromListValueToStringList(tl types.List) []string {
 }
 
 func ToListToBaseTypesStringList(in []string) []types.String {
+	if in == nil {
+		return nil
+	}
 	res := make([]types.String, 0, len(in))
 	for _, v := range in {
 		res = append(res, types.StringValue(v))

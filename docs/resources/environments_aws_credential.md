@@ -3,12 +3,12 @@
 page_title: "cdp_environments_aws_credential Resource - terraform-provider-cdp"
 subcategory: ""
 description: |-
-  The AWS credential is used for authorization  to provision resources such as compute instances within your cloud provider account.
+  The AWS credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 ---
 
 # cdp_environments_aws_credential (Resource)
 
-The AWS credential is used for authorization  to provision resources such as compute instances within your cloud provider account.
+The AWS credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 
 
 

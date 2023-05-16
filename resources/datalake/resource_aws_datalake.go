@@ -1,115 +1,166 @@
 package datalake
 
 import (
-	"fmt"
+	"context"
+	"log"
+	"time"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client/operations"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"log"
-	"time"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 )
 
-func ResourceAWSDatalake() *schema.Resource {
-	return &schema.Resource{
-		Create: resourceAWSDatalakeCreate,
-		Read:   resourceAWSDatalakeRead,
-		Delete: resourceAWSDatalakeDelete,
+var (
+	_ resource.Resource = &awsDatalakeResource{}
+)
 
-		Timeouts: &schema.ResourceTimeout{
-			Create: schema.DefaultTimeout(60 * time.Minute),
-			Delete: schema.DefaultTimeout(60 * time.Minute),
-		},
-
-		Schema: map[string]*schema.Schema{
-			"datalake_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"environment_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"cloud_provider_configuration": {
-				Type:     schema.TypeList,
-				Required: true,
-				ForceNew: true,
-				MaxItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"storage_bucket_location": &schema.Schema{
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"instance_profile": &schema.Schema{
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-					},
-				},
-			},
-			"crn": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
-	}
+type awsDatalakeResource struct {
+	client *cdp.Client
 }
 
-func resourceAWSDatalakeCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Datalake
+func NewAwsDatalakResource() resource.Resource {
+	return &awsDatalakeResource{}
+}
 
-	datalakeName := d.Get("datalake_name").(string)
-	environmentName := d.Get("environment_name").(string)
+func (r *awsDatalakeResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_datalakes_aws_datalake"
+}
 
-	storageBucketLocation, instanceProfile, getCloudProviderConfigurationErr := getCloudProviderConfiguration(d)
-	if getCloudProviderConfigurationErr != nil {
-		return getCloudProviderConfigurationErr
+func (r *awsDatalakeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = awsDatalakeResourceSchema
+}
+
+func (r *awsDatalakeResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) *datalakemodels.CreateAWSDatalakeRequest {
+	req := &datalakemodels.CreateAWSDatalakeRequest{}
+	req.CloudProviderConfiguration = &datalakemodels.AWSConfigurationRequest{
+		InstanceProfile:       model.InstanceProfile.ValueStringPointer(),
+		StorageBucketLocation: model.StorageBucketLocation.ValueStringPointer(),
+	}
+	req.CustomInstanceGroups = make([]*datalakemodels.SdxInstanceGroupRequest, len(model.CustomInstanceGroups))
+	for i, v := range model.CustomInstanceGroups {
+		req.CustomInstanceGroups[i] = &datalakemodels.SdxInstanceGroupRequest{
+			InstanceType: v.InstanceType.ValueString(),
+			Name:         v.Name.ValueStringPointer(),
+		}
+	}
+	req.DatabaseAvailabilityType = datalakemodels.DatabaseAvailabilityType(model.DatabaseAvailabilityType.ValueString())
+	req.DatabaseEngineVersion = model.DatabaseEngineVersion.ValueString()
+	req.DatalakeName = model.DatalakeName.ValueStringPointer()
+	req.DatalakeTemplate = model.DatalakeTemplate.ValueString()
+	req.EnableRangerRaz = model.EnableRangerRaz.ValueBool()
+	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	if model.Image != nil {
+		req.Image = &datalakemodels.ImageRequest{
+			CatalogName: model.Image.CatalogName.ValueStringPointer(),
+			ID:          model.Image.ID.ValueStringPointer(),
+		}
+	}
+	req.JavaVersion = int32(model.JavaVersion.ValueInt64())
+	req.MultiAz = model.MultiAz.ValueBool()
+	req.Recipes = make([]*datalakemodels.InstanceGroupRecipeRequest, len(model.Recipes))
+	for i, v := range model.Recipes {
+		req.Recipes[i] = &datalakemodels.InstanceGroupRecipeRequest{
+			InstanceGroupName: v.InstanceGroupName.ValueStringPointer(),
+			RecipeNames:       utils.FromListValueToStringList(v.RecipeNames),
+		}
+	}
+	req.Runtime = model.Runtime.ValueString()
+	req.Scale = datalakemodels.DatalakeScaleType(model.Scale.ValueString())
+	req.SpotMaxPrice = model.SpotMaxPrice.ValueFloat64()
+	sp := int32(model.SpotPercentage.ValueInt64())
+	req.SpotPercentage = &sp
+	req.Tags = make([]*datalakemodels.DatalakeResourceTagRequest, len(model.Tags.Elements()))
+	i := 0
+	for k, v := range model.Tags.Elements() {
+		val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
+		if !diag.HasError() {
+			req.Tags[i] = &datalakemodels.DatalakeResourceTagRequest{
+				Key:   &k,
+				Value: val.ValueStringPointer(),
+			}
+		}
+	}
+	return req
+}
+
+func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var state awsDatalakeResourceModel
+	diags := req.Plan.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		tflog.Error(ctx, "Got error while trying to set plan")
+		return
 	}
 
-	params := operations.NewCreateAWSDatalakeParams()
-	params.WithInput(&datalakemodels.CreateAWSDatalakeRequest{
-		DatalakeName:    &datalakeName,
-		EnvironmentName: &environmentName,
-		CloudProviderConfiguration: &datalakemodels.AWSConfigurationRequest{
-			InstanceProfile:       &instanceProfile,
-			StorageBucketLocation: &storageBucketLocation,
-		},
-	})
-	resp, err := client.Operations.CreateAWSDatalake(params)
+	client := r.client.Datalake
+
+	params := operations.NewCreateAWSDatalakeParamsWithContext(ctx)
+	params.WithInput(toAwsDatalakeRequest(ctx, &state))
+	responseOk, err := client.Operations.CreateAWSDatalake(params)
 	if err != nil {
-		return err
+		resp.Diagnostics.AddError(
+			"Error creating AWS Datalake",
+			"Got the following error creating AWS Datalake: "+err.Error(),
+		)
+		return
 	}
 
-	d.SetId(*resp.GetPayload().Datalake.DatalakeName)
+	datalakeResp := responseOk.Payload
+	toAwsDatalakeResourceModel(datalakeResp, &state)
 
-	if err := waitForDatalakeToBeRunning(d.Id(), d.Timeout(schema.TimeoutCreate), client); err != nil {
-		return err
+	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
+		resp.Diagnostics.AddError(
+			"Error creating AWS Data Lake",
+			"Failed to poll creating AWS Data Lake: "+err.Error(),
+		)
+		return
 	}
 
-	return nil
+	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
+	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting AWS Datalake",
+			"Got the following error getting AWS Datalake: "+err.Error(),
+		)
+		return
+	}
+
+	descDlResp := descResponseOk.Payload
+	datalakeDetailsToAwsDatalakeResourceModel(ctx, descDlResp.Datalake, &state)
+
+	diags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
-func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, client *datalakeclient.Datalake) error {
-	stateConf := &resource.StateChangeConf{
-		// cloudbreak/datalake/src/main/java/com/sequenceiq/datalake/entity/DatalakeStatusEnum.java
-		Pending: []string{"REQUESTED", "START_IN_PROGRESS", "STOP_IN_PROGRESS", "WAIT_FOR_ENVIRONMENT",
-			"ENVIRONMENT_CREATED", "EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED",
-			"STACK_CREATION_IN_PROGRESS"},
+func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, timeout time.Duration, client *client.Datalake) error {
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{"REQUESTED", "WAIT_FOR_ENVIRONMENT", "ENVIRONMENT_CREATED", "STACK_CREATION_IN_PROGRESS",
+			"STACK_CREATION_FINISHED", "EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED",
+		},
 		Target:       []string{"RUNNING"},
 		Delay:        5 * time.Second,
 		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("About to describe datalake")
-			params := operations.NewDescribeDatalakeParams()
+			params := operations.NewDescribeDatalakeParamsWithContext(ctx)
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 			resp, err := client.Operations.DescribeDatalake(params)
 			if err != nil {
@@ -120,89 +171,323 @@ func waitForDatalakeToBeRunning(datalakeName string, timeout time.Duration, clie
 			return resp, resp.GetPayload().Datalake.Status, nil
 		},
 	}
-	_, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
 }
 
-func resourceAWSDatalakeRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Datalake
+func toAwsDatalakeResourceModel(resp *datalakemodels.CreateAWSDatalakeResponse, model *awsDatalakeResourceModel) {
+	model.ID = types.StringPointerValue(resp.Datalake.DatalakeName)
+	model.CertificateExpirationState = types.StringValue(resp.Datalake.CertificateExpirationState)
+	model.CreationDate = types.StringValue(resp.Datalake.CreationDate.String())
+	model.Crn = types.StringPointerValue(resp.Datalake.Crn)
+	model.DatalakeName = types.StringPointerValue(resp.Datalake.DatalakeName)
+	model.EnableRangerRaz = types.BoolValue(resp.Datalake.EnableRangerRaz)
+	model.EnvironmentCrn = types.StringValue(resp.Datalake.EnvironmentCrn)
+	model.MultiAz = types.BoolValue(resp.Datalake.MultiAz)
+	model.Status = types.StringValue(resp.Datalake.Status)
+	model.StatusReason = types.StringValue(resp.Datalake.StatusReason)
+}
 
-	datalakeName := d.Id()
-	params := operations.NewDescribeDatalakeParams()
-	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
-	resp, err := client.Operations.DescribeDatalake(params)
+func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state awsDatalakeResourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client := r.client.Datalake
+
+	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
+	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
-		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
-			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
-				d.SetId("") // deleted
-				return nil
+		resp.Diagnostics.AddError(
+			"Error getting AWS Datalake",
+			"Got the following error getting AWS Datalake: "+err.Error(),
+		)
+		return
+	}
+
+	datalakeResp := responseOk.Payload
+	datalakeDetailsToAwsDatalakeResourceModel(ctx, datalakeResp.Datalake, &state)
+
+	diags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+}
+
+func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *awsDatalakeResourceModel) {
+	model.ID = types.StringPointerValue(resp.Crn)
+	model.InstanceProfile = types.StringValue(resp.AwsConfiguration.InstanceProfile)
+	model.CloudStorageBaseLocation = types.StringValue(resp.CloudStorageBaseLocation)
+	model.CloudbreakVersion = types.StringValue(resp.CloudbreakVersion)
+	if resp.ClouderaManager != nil {
+		model.ClouderaManager, _ = types.ObjectValueFrom(ctx, map[string]attr.Type{
+			"cloudera_manager_repository_url": types.StringType,
+			"cloudera_manager_server_url":     types.StringType,
+			"version":                         types.StringType,
+		}, &clouderaManagerDetails{
+			ClouderaManagerRepositoryURL: types.StringPointerValue(resp.ClouderaManager.ClouderaManagerRepositoryURL),
+			ClouderaManagerServerURL:     types.StringValue(resp.ClouderaManager.ClouderaManagerServerURL),
+			Version:                      types.StringPointerValue(resp.ClouderaManager.Version),
+		})
+	}
+	model.CreationDate = types.StringValue(resp.CreationDate.String())
+	model.CredentialCrn = types.StringValue(resp.CredentialCrn)
+	model.Crn = types.StringPointerValue(resp.Crn)
+	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
+	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
+	endpoints := make([]*endpoint, len(resp.Endpoints.Endpoints))
+	for i, v := range resp.Endpoints.Endpoints {
+		endpoints[i] = &endpoint{
+			DisplayName: types.StringPointerValue(v.DisplayName),
+			KnoxService: types.StringPointerValue(v.KnoxService),
+			Mode:        types.StringPointerValue(v.Mode),
+			Open:        types.BoolPointerValue(v.Open),
+			ServiceName: types.StringPointerValue(v.ServiceName),
+			ServiceURL:  types.StringPointerValue(v.ServiceURL),
+		}
+	}
+	model.Endpoints, _ = types.ListValueFrom(ctx, types.ObjectType{
+		AttrTypes: map[string]attr.Type{
+			"display_name": types.StringType,
+			"knox_service": types.StringType,
+			"mode":         types.StringType,
+			"open":         types.BoolType,
+			"service_name": types.StringType,
+			"service_url":  types.StringType,
+		},
+	}, endpoints)
+	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
+	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
+	for i, v := range resp.InstanceGroups {
+		instanceGroups[i] = &instanceGroup{
+			Name: types.StringPointerValue(v.Name),
+		}
+
+		instances := make([]*instance, len(v.Instances))
+		for j, ins := range v.Instances {
+			instances[j] = &instance{
+				AmbariServer:    types.BoolValue(ins.AmbariServer),
+				DiscoveryFQDN:   types.StringValue(ins.DiscoveryFQDN),
+				ID:              types.StringPointerValue(ins.ID),
+				InstanceGroup:   types.StringValue(ins.InstanceGroup),
+				InstanceStatus:  types.StringValue(string(ins.InstanceStatus)),
+				InstanceTypeVal: types.StringValue(string(ins.InstanceTypeVal)),
+				LifeCycle:       types.StringPointerValue(ins.LifeCycle),
+				PrivateIP:       types.StringValue(ins.PrivateIP),
+				PublicIP:        types.StringValue(ins.PublicIP),
+				SSHPort:         types.Int64Value(int64(ins.SSHPort)),
+				State:           types.StringPointerValue(ins.State),
+				StatusReason:    types.StringValue(ins.StatusReason),
+			}
+			mountedVolumes := make([]*mountedVolume, len(ins.MountedVolumes))
+			for k, mv := range ins.MountedVolumes {
+				mountedVolumes[k] = &mountedVolume{
+					Device:     types.StringValue(mv.Device),
+					VolumeID:   types.StringValue(mv.VolumeID),
+					VolumeSize: types.StringValue(mv.VolumeSize),
+					VolumeType: types.StringValue(mv.VolumeType),
+				}
+			}
+			instances[j].MountedVolumes, _ = types.ListValueFrom(ctx, types.ObjectType{
+				AttrTypes: map[string]attr.Type{
+					"device":      types.StringType,
+					"volume_id":   types.StringType,
+					"volume_size": types.StringType,
+					"volume_type": types.StringType,
+				},
+			}, mountedVolumes)
+		}
+		instanceGroups[i].Instances, _ = types.ListValueFrom(ctx, types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"ambari_server":     types.BoolType,
+				"discovery_fqdn":    types.StringType,
+				"id":                types.StringType,
+				"instance_group":    types.StringType,
+				"instance_status":   types.StringType,
+				"instance_type_val": types.StringType,
+				"life_cycle":        types.StringType,
+				"mounted_volumes": types.ListType{
+					ElemType: types.ObjectType{
+						AttrTypes: map[string]attr.Type{
+							"device":      types.StringType,
+							"volume_id":   types.StringType,
+							"volume_size": types.StringType,
+							"volume_type": types.StringType,
+						},
+					},
+				},
+				"private_ip":    types.StringType,
+				"public_ip":     types.StringType,
+				"ssh_port":      types.Int64Type,
+				"state":         types.StringType,
+				"status_reason": types.StringType,
+			},
+		}, instances)
+	}
+	model.InstanceGroups, _ = types.ListValueFrom(ctx, types.ObjectType{
+		AttrTypes: map[string]attr.Type{
+			"instances": types.ListType{
+				ElemType: types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"ambari_server":     types.BoolType,
+						"discovery_fqdn":    types.StringType,
+						"id":                types.StringType,
+						"instance_group":    types.StringType,
+						"instance_status":   types.StringType,
+						"instance_type_val": types.StringType,
+						"life_cycle":        types.StringType,
+						"mounted_volumes": types.ListType{
+							ElemType: types.ObjectType{
+								AttrTypes: map[string]attr.Type{
+									"device":      types.StringType,
+									"volume_id":   types.StringType,
+									"volume_size": types.StringType,
+									"volume_type": types.StringType,
+								},
+							},
+						},
+						"private_ip":    types.StringType,
+						"public_ip":     types.StringType,
+						"ssh_port":      types.Int64Type,
+						"state":         types.StringType,
+						"status_reason": types.StringType,
+					},
+				},
+			},
+			"name": types.StringType,
+		},
+	}, instanceGroups)
+	loadBalancers := make([]*loadBalancer, len(resp.LoadBalancers))
+	for i, v := range resp.LoadBalancers {
+		loadBalancers[i] = &loadBalancer{
+			ResourceID:       types.StringValue(v.AwsResourceID),
+			CloudDNS:         types.StringValue(v.CloudDNS),
+			Fqdn:             types.StringValue(v.Fqdn),
+			IP:               types.StringValue(v.IP),
+			LoadBalancerType: types.StringValue(string(v.LoadBalancerType)),
+		}
+
+		targets := make([]*targetGroup, len(v.Targets))
+		for j, t := range v.Targets {
+			targetInstances, _ := types.ListValueFrom(ctx, types.StringType, t.TargetInstances)
+			targets[j] = &targetGroup{
+				ListenerID:      types.StringValue(t.AwsTargetGroupConfiguration.ListenerID),
+				TargetGroupID:   types.StringValue(t.AwsTargetGroupConfiguration.TargetGroupID),
+				Port:            types.Int64Value(int64(t.Port)),
+				TargetInstances: targetInstances,
 			}
 		}
-		return err
+		loadBalancers[i].Targets, _ = types.ListValueFrom(ctx, types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"listener_id":     types.StringType,
+				"target_group_id": types.StringType,
+				"port":            types.Int64Type,
+				"target_instances": types.ListType{
+					ElemType: types.StringType,
+				},
+			},
+		}, targets)
 	}
-	datalake := resp.GetPayload().Datalake
-	if datalake == nil {
-		d.SetId("") // deleted
-		return nil
-	}
-
-	d.SetId(*datalake.DatalakeName)
-	d.Set("datalake_name", datalake.DatalakeName)
-	d.Set("crn", datalake.Crn)
-	// TODO: file a JIRA, we can't get the environment name from the describe datalake call, and creating via an environment CRN does not seem to work.
-
-	// TODO: file a JIRA, we can't get the storage location from the describe datalake call.
-	storageBucketLocation, _, getCloudProviderConfigurationErr := getCloudProviderConfiguration(d)
-	if getCloudProviderConfigurationErr != nil {
-		return getCloudProviderConfigurationErr
-	}
-
-	cloudProviderConfiguration := []interface{}{
-		map[string]interface{}{
-			"storage_bucket_location": storageBucketLocation,
-			"instance_profile":        datalake.AwsConfiguration.InstanceProfile,
+	model.LoadBalancers, _ = types.ListValueFrom(ctx, types.ObjectType{
+		AttrTypes: map[string]attr.Type{
+			"resource_id":        types.StringType,
+			"cloud_dns":          types.StringType,
+			"fqdn":               types.StringType,
+			"ip":                 types.StringType,
+			"load_balancer_type": types.StringType,
+			"targets": types.ListType{
+				ElemType: types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"listener_id":     types.StringType,
+						"target_group_id": types.StringType,
+						"port":            types.Int64Type,
+						"target_instances": types.ListType{
+							ElemType: types.StringType,
+						},
+					},
+				},
+			},
 		},
+	}, loadBalancers)
+	productVersions := make([]*productVersion, len(resp.ProductVersions))
+	for i, v := range resp.ProductVersions {
+		productVersions[i] = &productVersion{
+			Name:    types.StringPointerValue(v.Name),
+			Version: types.StringPointerValue(v.Version),
+		}
 	}
-	if err := d.Set("cloud_provider_configuration", cloudProviderConfiguration); err != nil {
-		return fmt.Errorf("error setting authentication: %s", err)
+	model.ProductVersions, _ = types.ListValueFrom(ctx, types.ObjectType{
+		AttrTypes: map[string]attr.Type{
+			"name":    types.StringType,
+			"version": types.StringType,
+		},
+	}, productVersions)
+	model.Region = types.StringValue(resp.Region)
+	model.Scale = types.StringValue(string(resp.Shape))
+	model.Status = types.StringValue(resp.Status)
+	model.StatusReason = types.StringValue(resp.StatusReason)
+	if model.CertificateExpirationState.IsUnknown() {
+		model.CertificateExpirationState = types.StringNull()
 	}
-
-	return nil
+	if model.DatabaseEngineVersion.IsUnknown() {
+		model.DatabaseEngineVersion = types.StringNull()
+	}
+	if model.Tags.IsUnknown() {
+		model.Tags = types.MapNull(types.StringType)
+	}
 }
 
-func resourceAWSDatalakeDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Datalake
+func (r *awsDatalakeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+}
 
-	datalakeName := d.Id()
-	params := operations.NewDeleteDatalakeParams()
-	params.WithInput(&datalakemodels.DeleteDatalakeRequest{DatalakeName: &datalakeName})
+func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state awsDatalakeResourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client := r.client.Datalake
+	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
+		DatalakeName: state.DatalakeName.ValueStringPointer(),
+		Force:        false,
+	})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {
-		return err
+		resp.Diagnostics.AddError(
+			"Error Deleting AWS Datalake",
+			"Could not delete AWS Datalake unexpected error: "+err.Error(),
+		)
+		return
 	}
 
-	if err := waitForDatalakeToBeDeleted(d.Id(), d.Timeout(schema.TimeoutDelete), client); err != nil {
-		return err
+	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
+		resp.Diagnostics.AddError(
+			"Error Deleting AWS Data Lake",
+			"Failed to poll delete AWS Data Lake, unexpected error: "+err.Error(),
+		)
+		return
 	}
-
-	return nil
 }
 
-func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, client *datalakeclient.Datalake) error {
-	stateConf := &resource.StateChangeConf{
-		Pending:      []string{"EXTERNAL_DATABASE_DELETION_IN_PROGRESS", "STACK_DELETION_IN_PROGRESS", "STACK_DELETED"},
-		Target:       []string{},
-		Delay:        5 * time.Second,
-		Timeout:      timeout,
-		PollInterval: 10 * time.Second,
+func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, timeout time.Duration, datalake *client.Datalake) error {
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{"DELETE_REQUESTED", "STACK_DELETION_IN_PROGRESS", "STACK_DELETED", "EXTERNAL_DATABASE_DELETION_IN_PROGRESS", "DELETED"},
+		Target:  []string{},
+		Timeout: timeout,
 		Refresh: func() (interface{}, string, error) {
-			log.Printf("About to describe datalake")
-			params := operations.NewDescribeDatalakeParams()
+			params := operations.NewDescribeDatalakeParamsWithContext(ctx)
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
-			resp, err := client.Operations.DescribeDatalake(params)
+			resp, err := datalake.Operations.DescribeDatalake(params)
 			if err != nil {
-				log.Printf("Error describing datalake: %s", err)
 				if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 					if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
@@ -211,22 +496,12 @@ func waitForDatalakeToBeDeleted(datalakeName string, timeout time.Duration, clie
 				return nil, "", err
 			}
 			if resp.GetPayload().Datalake == nil {
-				log.Printf("Described datalake. No datalake.")
 				return nil, "", nil
 			}
-			log.Printf("Described datalake: %s", resp.GetPayload().Datalake.Status)
 			return resp, resp.GetPayload().Datalake.Status, nil
 		},
 	}
-	_, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
-}
-
-func getCloudProviderConfiguration(d *schema.ResourceData) (string, string, error) {
-	cloudProviderConfiguration, cloudProviderConfigurationErr := utils.GetMapFromSingleItemList(d, "cloud_provider_configuration")
-	if cloudProviderConfigurationErr != nil {
-		return "", "", cloudProviderConfigurationErr
-	}
-	return cloudProviderConfiguration["storage_bucket_location"].(string), cloudProviderConfiguration["instance_profile"].(string), nil
 }
