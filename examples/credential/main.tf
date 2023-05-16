@@ -7,16 +7,16 @@ terraform {
 }
 
 provider "cdp" {
-  # cdp_access_key_id = ""
-  # cdp_private_key = ""
-  # cdp_profile = "dev"
-  # cdp_config_file = "/Users/spongebob/.cdp/config"
-  # cdp_shared_credentials_file = "/Users/spongebob/.cdp/credentials"
+  cdp_access_key_id           = "<value>"
+  cdp_private_key             = "<value>"
+  cdp_profile                 = "mowdev"
+  cdp_config_file             = "<value>"
+  cdp_shared_credentials_file = "<value>"
 }
 
 resource "cdp_environments_aws_credential" "my-credentials" {
-  credential_name = "my-cdp-credentials"
-  role_arn        = "arn:aws:iam::111111111111:role/my-cdp-cross-account-role"
+  credential_name = "<value>"
+  role_arn        = "<value>"
   description     = "testing the terrafrom-provider-cdp"
 }
 

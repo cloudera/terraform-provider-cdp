@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
+
 	"github.com/cloudera/terraform-provider-cdp/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"log"
 )
 
 var (
