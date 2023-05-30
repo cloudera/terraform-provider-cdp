@@ -15,33 +15,33 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSourceWithConfigure = &AWSCredentialPrerequisitesDataSource{}
+	_ datasource.DataSourceWithConfigure = &awsCredentialPrerequisitesDataSource{}
 )
 
 func NewAWSCredentialPrerequisitesDataSource() datasource.DataSource {
-	return &AWSCredentialPrerequisitesDataSource{}
+	return &awsCredentialPrerequisitesDataSource{}
 }
 
-type AWSCredentialPrerequisitesDataSource struct {
+type awsCredentialPrerequisitesDataSource struct {
 	client *cdp.Client
 }
 
-// AWSCredentialPrerequisitesDataSourceModel maps the data source schema data.
-type AWSCredentialPrerequisitesDataSourceModel struct {
+// awsCredentialPrerequisitesDataSourceModel maps the data source schema data.
+type awsCredentialPrerequisitesDataSourceModel struct {
 	AccountID  types.String `tfsdk:"account_id"`
 	ExternalID types.String `tfsdk:"external_id"`
 }
 
 // Configure adds the provider configured client to the data source.
-func (d *AWSCredentialPrerequisitesDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *awsCredentialPrerequisitesDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	d.client = utils.GetCdpClientForDataSource(req, resp)
 }
 
-func (d *AWSCredentialPrerequisitesDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *awsCredentialPrerequisitesDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_aws_credential_prerequisites"
 }
 
-func (d *AWSCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *awsCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"account_id": schema.StringAttribute{
@@ -57,8 +57,8 @@ func (d *AWSCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datas
 }
 
 // Read refreshes the Terraform state with the latest data.
-func (d *AWSCredentialPrerequisitesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data AWSCredentialPrerequisitesDataSourceModel
+func (d *awsCredentialPrerequisitesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data awsCredentialPrerequisitesDataSourceModel
 
 	// Read Terraform configuration data into the model
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)

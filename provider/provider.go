@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"os"
 	"strconv"
 
@@ -195,19 +196,15 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		environments.NewIDBrokerMappingsResource,
 		environments.NewAzureCredentialResource,
 		datalake.NewAwsDatalakResource,
+		iam.NewGroupResource,
 	}
 }
 
 func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		environments.NewAWSCredentialPrerequisitesDataSource,
+		iam.NewGroupDataSource,
 	}
-	/*	return map[string]*schema.Resource{
-			"cdp_iam_group": iamresources.DataSourceGroup(),
-			"cdp_environments_aws_credential_prerequisites": environmentsresources.DataSourceAWSCredentialPrerequisites(),
-		}
-	*/
-
 }
 
 // TFLoggerAdaptor implements cdp.Logger to send CDP SDK logs to tflog

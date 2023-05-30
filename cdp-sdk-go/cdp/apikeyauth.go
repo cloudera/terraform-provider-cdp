@@ -168,12 +168,12 @@ func (t *LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, erro
 	startTime := time.Now()
 	resp, err := t.delegate.RoundTrip(req)
 	duration := time.Since(startTime)
-	errMsg := ""
-	if err != nil {
-		errMsg = fmt.Sprintf("error=%s", err.Error())
-	}
 
-	t.logger.Debugf(req.Context(), "HTTP Request URL=%s method=%s status=%d %s resp=%v durationMs=%d", req.URL, req.Method, resp.StatusCode, errMsg, resp, duration)
+	if err != nil {
+		t.logger.Debugf(req.Context(), "HTTP Request URL=%s method=%s error=%s resp=%v durationMs=%d", req.URL, req.Method, resp, err.Error(), duration)
+	} else {
+		t.logger.Debugf(req.Context(), "HTTP Request URL=%s method=%s status=%d resp=%v durationMs=%d", req.URL, req.Method, resp.StatusCode, resp, duration)
+	}
 
 	return resp, err
 }

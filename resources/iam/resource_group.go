@@ -1,119 +1,212 @@
 package iam
 
 import (
+	"context"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func ResourceGroup() *schema.Resource {
-	return &schema.Resource{
-		Create: resourceGroupCreate,
-		Read:   resourceGroupRead,
-		Update: resourceGroupUpdate,
-		Delete: resourceGroupDelete,
+var (
+	_ resource.Resource = &groupResource{}
+)
 
-		Schema: map[string]*schema.Schema{
-			"group_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"sync_membership_on_user_login": &schema.Schema{
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
-			"crn": &schema.Schema{
-				Type:     schema.TypeString,
+type groupResource struct {
+	client *cdp.Client
+}
+
+type groupModel struct {
+	ID                        types.String `tfsdk:"id"`
+	GroupName                 types.String `tfsdk:"group_name"`
+	SyncMembershipOnUserLogin types.Bool   `tfsdk:"sync_membership_on_user_login"`
+	Crn                       types.String `tfsdk:"crn"`
+}
+
+func NewGroupResource() resource.Resource {
+	return &groupResource{}
+}
+
+func (r *groupResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_iam_group"
+}
+
+func (r *groupResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		MarkdownDescription: "A group is a named collection of users and machine users. Roles and resource roles can be assigned to a group impacting all members of the group.",
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
 				Computed: true,
+			},
+			"group_name": schema.StringAttribute{
+				MarkdownDescription: "The name of the group. This name must be unique. There are certain restrictions on the group name. Refer to the How To > User Management section in the Management Console documentation for the details.",
+				Required:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"sync_membership_on_user_login": schema.BoolAttribute{
+				MarkdownDescription: "Whether group membership is synced when a user logs in. The default is to sync group membership.",
+				Optional:            true,
+				Computed:            true,
+				Default:             booldefault.StaticBool(true),
+			},
+			"crn": schema.StringAttribute{
+				MarkdownDescription: "The CRN of the resource.",
+				Computed:            true,
 			},
 		},
 	}
 }
 
-func resourceGroupCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Iam
+func (r *groupResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	r.client = utils.GetCdpClientForResource(req, resp)
+}
 
-	groupName := d.Get("group_name").(string)
-	syncMembershipOnUserLogin := d.Get("sync_membership_on_user_login").(bool)
+func (r *groupResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	// Retrieve values from data
+	var data groupModel
+	diags := req.Plan.Get(ctx, &data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	params := operations.NewCreateGroupParams()
+	client := r.client.Iam
+
+	params := operations.NewCreateGroupParamsWithContext(ctx)
 	params.WithInput(&iammodels.CreateGroupRequest{
-		GroupName:                 &groupName,
-		SyncMembershipOnUserLogin: &syncMembershipOnUserLogin,
+		GroupName:                 data.GroupName.ValueStringPointer(),
+		SyncMembershipOnUserLogin: data.SyncMembershipOnUserLogin.ValueBoolPointer(),
 	})
-	_, err := client.Operations.CreateGroup(params)
+
+	responseOk, err := client.Operations.CreateGroup(params)
 	if err != nil {
-		return err
+		resp.Diagnostics.AddError(
+			"Error creating Group",
+			"Got error while creating Group: "+err.Error(),
+		)
+		return
 	}
 
-	d.SetId(groupName)
+	data.Crn = types.StringPointerValue(responseOk.Payload.Group.Crn)
+	data.ID = data.GroupName
 
-	return resourceGroupRead(d, m)
+	// Save data into Terraform state
+	diags = resp.State.Set(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
-func resourceGroupRead(d *schema.ResourceData, m interface{}) error {
-	return sharedGroupRead(d, m, d.Id())
+func (r *groupResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	// Get current state
+	var state groupModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	sharedGroupRead(ctx, r.client.Iam, &state, &resp.State, &resp.Diagnostics)
 }
 
-func sharedGroupRead(d *schema.ResourceData, m interface{}, groupName string) error {
-	client := m.(*cdp.Client).Iam
+func sharedGroupRead(ctx context.Context, client *client.Iam, state *groupModel, respState *tfsdk.State, respDiagnostics *diag.Diagnostics) {
+	if respDiagnostics.HasError() {
+		return
+	}
 
-	params := operations.NewListGroupsParams()
+	groupName := state.GroupName.ValueString()
+	params := operations.NewListGroupsParamsWithContext(ctx)
 	params.WithInput(&iammodels.ListGroupsRequest{GroupNames: []string{groupName}})
-	resp, err := client.Operations.ListGroups(params)
+	listGroupsOk, err := client.Operations.ListGroups(params)
 	if err != nil {
-		return err
+		respDiagnostics.AddError(
+			"Error Reading Group",
+			"Could not read Group: "+state.ID.ValueString()+": "+err.Error(),
+		)
+		return
 	}
-	groups := resp.GetPayload().Groups
+
+	// Overwrite items with refreshed state
+	groups := listGroupsOk.GetPayload().Groups
 	if len(groups) == 0 || *groups[0].GroupName != groupName {
-		d.SetId("") // deleted
-		return nil
+		respState.RemoveResource(ctx) // deleted
+		return
 	}
 	g := groups[0]
 
-	d.SetId(*g.GroupName)
-	d.Set("group_name", *g.GroupName)
-	d.Set("sync_membership_on_user_login", g.SyncMembershipOnUserLogin)
-	d.Set("crn", g.Crn)
+	state.ID = types.StringPointerValue(g.GroupName)
+	state.GroupName = types.StringPointerValue(g.GroupName)
+	state.Crn = types.StringPointerValue(g.Crn)
 
-	return nil
+	// Set refreshed state
+	respDiagnostics.Append(respState.Set(ctx, &state)...)
+	if respDiagnostics.HasError() {
+		return
+	}
 }
 
-func resourceGroupUpdate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Iam
-
-	groupName := d.Id()
-
-	if d.HasChange("sync_membership_on_user_login") {
-		syncMembershipOnUserLogin := d.Get("sync_membership_on_user_login").(bool)
-
-		params := operations.NewUpdateGroupParams()
-		params.WithInput(&iammodels.UpdateGroupRequest{
-			GroupName:                 &groupName,
-			SyncMembershipOnUserLogin: syncMembershipOnUserLogin,
-		})
-		_, err := client.Operations.UpdateGroup(params)
-		if err != nil {
-			return err
-		}
+func (r *groupResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Get current state
+	var plan, state groupModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
-	return resourceGroupRead(d, m)
+	client := r.client.Iam
+
+	if !plan.SyncMembershipOnUserLogin.Equal(state.SyncMembershipOnUserLogin) {
+		params := operations.NewUpdateGroupParamsWithContext(ctx)
+		// TODO: Below works for false -> true, but does not work for true -> false since swagger generates the
+		// the UpdateGroupRequest.SyncMembershipOnUserLogin with `omitempty` which then gets omitted in the request
+		// resulting in the server side not seeing the intended change to this field at all. We need to take a look
+		// at x-omitempty and maybe change the swagger generation behavior.
+		params.WithInput(&iammodels.UpdateGroupRequest{
+			GroupName:                 plan.GroupName.ValueStringPointer(),
+			SyncMembershipOnUserLogin: plan.SyncMembershipOnUserLogin.ValueBool(),
+		})
+
+		_, err := client.Operations.UpdateGroup(params)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Error Updating Group",
+				"Could not update Group: "+state.ID.ValueString()+": "+err.Error(),
+			)
+			return
+		}
+		// Save updated data into Terraform state
+		resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
+	}
 }
 
-func resourceGroupDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Iam
+func (r *groupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	// Retrieve values from state
+	var state groupModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	groupName := d.Id()
-	params := operations.NewDeleteGroupParams()
+	client := r.client.Iam
+
+	groupName := state.ID.ValueString()
+	params := operations.NewDeleteGroupParamsWithContext(ctx)
 	params.WithInput(&iammodels.DeleteGroupRequest{GroupName: &groupName})
 	_, err := client.Operations.DeleteGroup(params)
 	if err != nil {
-		return err
+		resp.Diagnostics.AddError(
+			"Error deleting Group",
+			"Could not delete Group, unexpected error: "+err.Error(),
+		)
+		return
 	}
-
-	return nil
 }
