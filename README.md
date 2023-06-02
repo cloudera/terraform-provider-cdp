@@ -124,18 +124,19 @@ to the Terraform Registry.
 
 #### Publishing new releases
 1. Make sure that the build is fine, and unit tests and Terraform acceptance tests are running fine.
-2. Review the change log and update it as necessary. Ideally the content is
+2. Make sure that the NOTICE file is up to date and re-export and re-commit the NOTICE using the tool.
+3. Review the change log and update it as necessary. Ideally the content is
   up-to-date as it has been maintained along the way. Note the data of the
   release and create a new, empty unreleased entry at the top.
-3. Set the GPG fingerprint to use to sign the release `export GPG_FINGERPRINT=<YOUR_CODE_SIGNING_GPG_KEY_ID>`. Use (`gpg --list-secret-keys --keyid-format=long` to find out).
-4. Cache the password for your GPG private key with `echo "foo" | gpg --armor --detach-sign --default-key $GPG_FINGERPRINT` (GoReleaser does not support signing binaries with a GPG key that requires a passphrase. Some systems may cache your GPG passphrase for a few minutes).
-5. Tag the commit with an appropriate semantic version, e.g. `git tag v0.0.1`.
+4. Set the GPG fingerprint to use to sign the release `export GPG_FINGERPRINT=<YOUR_CODE_SIGNING_GPG_KEY_ID>`. Use (`gpg --list-secret-keys --keyid-format=long` to find out).
+5. Cache the password for your GPG private key with `echo "foo" | gpg --armor --detach-sign --default-key $GPG_FINGERPRINT` (GoReleaser does not support signing binaries with a GPG key that requires a passphrase. Some systems may cache your GPG passphrase for a few minutes).
+6. Tag the commit with an appropriate semantic version, e.g. `git tag v0.0.1`.
    1. We use [Semantic Versioning](https://semver.org/) to mark the releases and `v` prefix is mandatory for terraform providers
    2. A release-candidate can be pushed by adding `-rc1` suffix like `v0.0.1-rc1`.
    3. You can find the next version to use by looking at the existing releases / tags.
-6. Push the tag: `git push origin v0.0.1`.
-7. Run `goreleaser`: `make release`
-8. If goreleaser runs successfully, it will automatically:
+7. Push the tag: `git push origin v0.0.1`.
+8. Run `goreleaser`: `make release`
+9. If goreleaser runs successfully, it will automatically:
    1. Cross-compile against all platforms and create binaries under `dist/`
    2. Create zip archives for all binaries.
    3. Checksums all of the binaries using sha256 and saves the checksums under `dist/terraform-provider-cdp_<VERSION>_SHA256SUMS`.
@@ -143,10 +144,10 @@ to the Terraform Registry.
    5. Creates other metadata files for the build and release.
    6. Creates a release **as a draft** in Github (we are intentionally doing this. Once we get the other mechanics working we can do non-draft releases).
    7. Uploads artifacts and release notes to the Github release.
-9. Until otherwise noted, select the pre-release checkbox to indicate that we
+10. Until otherwise noted, select the pre-release checkbox to indicate that we
   are not yet production ready.
-10. The release that is pushed by goreleaser is a draft release. Go to the release page in Github, and double check the release notes, artifacts and the version. If everything is fine, click on "Edit" and then "Publish Release" button.
-11. Once the release is done, send a PR to update the `CHANGELOG.md` with the new release section, and update the release date.
+11. The release that is pushed by goreleaser is a draft release. Go to the release page in Github, and double check the release notes, artifacts and the version. If everything is fine, click on "Edit" and then "Publish Release" button.
+12. Once the release is done, send a PR to update the `CHANGELOG.md` with the new release section, and update the release date.
 
 #### Publishing new releases to Terraform Registry
 Above staps only publish the artifacts to github. We need to futher publish the artifacts to Terraform Registry. The steps will be documented here.
