@@ -15,6 +15,14 @@
 # recommended, and risks secret leakage should this file ever be committed to a
 # public version control system.
 
+terraform {
+  required_providers {
+    cdp = {
+      source = "registry.terraform.io/cloudera/cdp"
+    }
+  }
+}
+
 provider "cdp" {
   cdp_access_key_id = "my-access-key"
   cdp_private_key = "my-private-key"

@@ -35,9 +35,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		// TODO: To be changed to Terraform Registry address
-		// Address: "registry.terraform.io/cloudera/cdp",
-		Address: "terraform.cloudera.com/cloudera/cdp",
+		Address: "registry.terraform.io/cloudera/cdp",
 		Debug:   debug,
 	}
 	err := providerserver.Serve(context.Background(), provider.New(version), opts)

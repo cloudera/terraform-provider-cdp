@@ -9,6 +9,13 @@
 # permissions and limitations governing your use of the file.
 
 # This example is mimimum configuration for CDP provider and creates an aws credential in CDP
+terraform {
+  required_providers {
+    cdp = {
+      source = "registry.terraform.io/cloudera/cdp"
+    }
+  }
+}
 
 provider "cdp" {
 }

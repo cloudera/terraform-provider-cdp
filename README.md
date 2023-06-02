@@ -19,12 +19,17 @@ The easiest way to install the CDP provider from source code is by
   make install
 ```
 
-which copies the binary to the directory: `~/.terraform.d/plugins/terraform.cloudera.com/cloudera/cdp/$VERSION/$ARCH/terraform-provider-cdp_v$VERSION`.
+which copies the binary to `$GOPATH/bin`. After that you need to run:
+```
+install-terraformrc
+```
+which installs a `.terraformrc` file under your home directory to point to the locally
+installed version of the provider binary.
 
 If you have downloaded a binary release, you can execute these steps to install:
 ```
-mkdir -p ~/.terraform.d/plugins/terraform.cloudera.com/cloudera/cdp/$VERSION/$ARCH
-cp terraform-provider-cdp ~/.terraform.d/plugins/terraform.cloudera.com/cloudera/cdp/$VERSION/$ARCH/terraform-provider-cdp_v$VERSION
+mkdir -p ~/.terraform.d/plugins/registry.terraform.io/cloudera/cdp/$VERSION/$ARCH
+cp terraform-provider-cdp ~/.terraform.d/plugins/registry.terraform.io/cloudera/cdp/$VERSION/$ARCH/terraform-provider-cdp_v$VERSION
 ```
 
 where VERSION should be replaced with something like `0.0.3`

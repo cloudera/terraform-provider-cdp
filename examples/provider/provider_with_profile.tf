@@ -12,6 +12,14 @@
 # The profile must be defined in the CDP configuration file (default: ~/.cdp/config) and credentials should be available
 # under ~/.cdp/credentials.
 
+terraform {
+  required_providers {
+    cdp = {
+      source = "registry.terraform.io/cloudera/cdp"
+    }
+  }
+}
+
 provider "cdp" {
   cdp_profile                 = "customprofile"
 }
