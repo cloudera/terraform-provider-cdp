@@ -459,6 +459,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 			Optional: true,
 		},
 		"scale": schema.StringAttribute{
+			Computed: true,
 			Optional: true,
 		},
 		"spot_max_price": schema.Float64Attribute{
