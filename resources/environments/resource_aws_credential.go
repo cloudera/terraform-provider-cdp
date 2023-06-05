@@ -116,7 +116,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	data.Crn = types.StringPointerValue(responseOk.Payload.Credential.Crn)
-	data.ID = data.CredentialName
+	data.ID = data.Crn
 
 	// Save data into Terraform state
 	diags = resp.State.Set(ctx, data)
@@ -136,14 +136,14 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	// Get refreshed value from CDP
-	credentialName := state.ID.ValueString()
+	credentialName := state.CredentialName.ValueString()
 	params := operations.NewListCredentialsParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Reading AWS Credentials",
-			"Could not read AWS Credentials: "+state.ID.ValueString()+": "+err.Error(),
+			"Could not read AWS Credentials: "+credentialName+": "+err.Error(),
 		)
 		return
 	}
@@ -156,7 +156,7 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	}
 	c := credentials[0]
 
-	state.ID = types.StringPointerValue(c.CredentialName)
+	state.ID = types.StringPointerValue(c.Crn)
 	state.CredentialName = types.StringPointerValue(c.CredentialName)
 	state.Crn = types.StringPointerValue(c.Crn)
 	state.Description = types.StringValue(c.Description)
@@ -182,7 +182,7 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	credentialName := state.ID.ValueString()
+	credentialName := state.CredentialName.ValueString()
 	params := operations.NewDeleteCredentialParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)

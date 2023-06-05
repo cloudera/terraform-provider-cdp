@@ -12,14 +12,17 @@ package environments
 
 import (
 	"context"
-	"strings"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -43,15 +46,13 @@ func (r *idBrokerMappingsResource) Metadata(ctx context.Context, req resource.Me
 type idBrokerMappingsResourceModel struct {
 	ID types.String `tfsdk:"id"`
 
-	BaselineRole types.String `tfsdk:"baseline_role"`
-
 	DataAccessRole types.String `tfsdk:"data_access_role"`
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
 	EnvironmentCrn types.String `tfsdk:"environment_crn"`
 
-	Mappings []*idBrokerMapping `tfsdk:"mappings"`
+	Mappings types.Set `tfsdk:"mappings"`
 
 	RangerAuditRole types.String `tfsdk:"ranger_audit_role"`
 
@@ -68,21 +69,15 @@ type idBrokerMapping struct {
 	Role types.String `tfsdk:"role"`
 }
 
-func toSetIDBrokerMappingsRequest(model *idBrokerMappingsResourceModel) *environmentsmodels.SetIDBrokerMappingsRequest {
+func toSetIDBrokerMappingsRequest(ctx context.Context, model *idBrokerMappingsResourceModel) *environmentsmodels.SetIDBrokerMappingsRequest {
 	resp := &environmentsmodels.SetIDBrokerMappingsRequest{}
-	resp.BaselineRole = model.BaselineRole.ValueString()
 	resp.DataAccessRole = model.DataAccessRole.ValueStringPointer()
 	resp.EnvironmentName = model.EnvironmentName.ValueStringPointer()
 	resp.RangerAuditRole = model.RangerAuditRole.ValueString()
 	resp.RangerCloudAccessAuthorizerRole = model.RangerCloudAccessAuthorizerRole.ValueString()
 	resp.SetEmptyMappings = model.SetEmptyMappings.ValueBoolPointer()
-	resp.Mappings = make([]*environmentsmodels.IDBrokerMappingRequest, len(model.Mappings))
-	for i, v := range model.Mappings {
-		resp.Mappings[i] = &environmentsmodels.IDBrokerMappingRequest{
-			AccessorCrn: v.AccessorCrn.ValueStringPointer(),
-			Role:        v.Role.ValueStringPointer(),
-		}
-	}
+	resp.Mappings = make([]*environmentsmodels.IDBrokerMappingRequest, len(model.Mappings.Elements()))
+	model.Mappings.ElementsAs(ctx, resp.Mappings, true)
 	return resp
 }
 
@@ -92,20 +87,24 @@ func (r *idBrokerMappingsResource) Schema(ctx context.Context, req resource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
-			},
-			"baseline_role": schema.StringAttribute{
-				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"data_access_role": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"environment_name": schema.StringAttribute{
 				Required: true,
 			},
 			"environment_crn": schema.StringAttribute{
-				Computed: true,
+				Required: true,
 			},
-			"mappings": schema.ListNestedAttribute{
+			"mappings": schema.SetNestedAttribute{
 				Optional: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -123,12 +122,19 @@ func (r *idBrokerMappingsResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"ranger_cloud_access_authorizer_role": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"set_empty_mappings": schema.BoolAttribute{
 				Optional: true,
 			},
 			"mappings_version": schema.Int64Attribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 			},
 		},
 	}
@@ -149,34 +155,27 @@ func (r *idBrokerMappingsResource) Create(ctx context.Context, req resource.Crea
 
 	client := r.client.Environments
 
-	descParams := operations.NewDescribeEnvironmentParams()
-	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: state.EnvironmentName.ValueStringPointer(),
-	})
-	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(descParams)
-	if err != nil {
-		if strings.Contains(err.Error(), "Code:NOT_FOUND") {
-			resp.Diagnostics.AddWarning("Environment resource not found on provider", "Environment not found.")
-			tflog.Warn(ctx, "Environment not found")
-			return
-		}
-	}
-
-	params := operations.NewSetIDBrokerMappingsParams()
-	params.WithInput(toSetIDBrokerMappingsRequest(&state))
+	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params.WithInput(toSetIDBrokerMappingsRequest(ctx, &state))
 	responseOk, err := client.Operations.SetIDBrokerMappings(params)
 	if err != nil {
+		if isSetIDBEnvNotFoundError(err) {
+			resp.Diagnostics.AddError(
+				"Error applying ID Broker mappings",
+				"Environment not found: "+state.EnvironmentCrn.ValueString(),
+			)
+			return
+		}
 		resp.Diagnostics.AddError(
-			"Error setting ID Broker mappings",
-			"Got the following error setting ID Broker mappings: "+err.Error(),
+			"Error applying ID Broker mappings",
+			"Got the following error applying ID Broker mappings: "+err.Error(),
 		)
 		return
 	}
 
 	idBrokerResp := responseOk.Payload
-	state.ID = types.StringPointerValue(descEnvResp.Payload.Environment.Crn)
-	state.EnvironmentCrn = types.StringPointerValue(descEnvResp.Payload.Environment.Crn)
-	state.EnvironmentName = types.StringPointerValue(descEnvResp.Payload.Environment.EnvironmentName)
+	state.ID = state.EnvironmentCrn
+	state.RangerCloudAccessAuthorizerRole = types.StringValue(idBrokerResp.RangerCloudAccessAuthorizerRole)
 	state.MappingsVersion = types.Int64PointerValue(idBrokerResp.MappingsVersion)
 
 	diags = resp.State.Set(ctx, state)
@@ -184,6 +183,15 @@ func (r *idBrokerMappingsResource) Create(ctx context.Context, req resource.Crea
 	if resp.Diagnostics.HasError() {
 		return
 	}
+}
+
+func isSetIDBEnvNotFoundError(err error) bool {
+	if envErr, ok := err.(*operations.SetIDBrokerMappingsDefault); ok {
+		if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
+			return true
+		}
+	}
+	return false
 }
 
 func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -195,13 +203,21 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 	}
 
 	client := r.client.Environments
-
-	params := operations.NewGetIDBrokerMappingsParams()
+	params := operations.NewGetIDBrokerMappingsParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.GetIDBrokerMappingsRequest{
 		EnvironmentName: state.EnvironmentName.ValueStringPointer(),
 	})
 	responseOk, err := client.Operations.GetIDBrokerMappings(params)
 	if err != nil {
+		if envErr, ok := err.(*operations.GetIDBrokerMappingsDefault); ok {
+			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
+				resp.Diagnostics.AddError(
+					"Error applying ID Broker mappings",
+					"Environment not found: "+state.EnvironmentCrn.ValueString(),
+				)
+				return
+			}
+		}
 		resp.Diagnostics.AddError(
 			"Error getting ID Broker mappings",
 			"Got the following error getting ID Broker mappings: "+err.Error(),
@@ -210,7 +226,7 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 	}
 
 	idBrokerResp := responseOk.Payload
-	toIdBrokerMappingsResourceModel(idBrokerResp, &state)
+	toIdBrokerMappingsResourceModel(ctx, idBrokerResp, &state)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -219,18 +235,32 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 	}
 }
 
-func toIdBrokerMappingsResourceModel(mapping *environmentsmodels.GetIDBrokerMappingsResponse, out *idBrokerMappingsResourceModel) {
-	out.BaselineRole = types.StringValue(mapping.BaselineRole)
+func toIdBrokerMappingsResourceModel(ctx context.Context, mapping *environmentsmodels.GetIDBrokerMappingsResponse, out *idBrokerMappingsResourceModel) {
 	out.DataAccessRole = types.StringPointerValue(mapping.DataAccessRole)
 	out.MappingsVersion = types.Int64PointerValue(mapping.MappingsVersion)
 	out.RangerAuditRole = types.StringPointerValue(mapping.RangerAuditRole)
 	out.RangerCloudAccessAuthorizerRole = types.StringValue(mapping.RangerCloudAccessAuthorizerRole)
-	out.Mappings = make([]*idBrokerMapping, len(mapping.Mappings))
-	for i, v := range mapping.Mappings {
-		out.Mappings[i] = &idBrokerMapping{
-			AccessorCrn: types.StringPointerValue(v.AccessorCrn),
-			Role:        types.StringPointerValue(v.Role),
+	if len(mapping.Mappings) == 0 {
+		out.Mappings = types.SetNull(types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"accessor_crn": types.StringType,
+				"role":         types.StringType,
+			},
+		})
+	} else {
+		mappings := make([]*idBrokerMapping, len(mapping.Mappings))
+		for i, v := range mapping.Mappings {
+			mappings[i] = &idBrokerMapping{
+				AccessorCrn: types.StringPointerValue(v.AccessorCrn),
+				Role:        types.StringPointerValue(v.Role),
+			}
 		}
+		out.Mappings, _ = types.SetValueFrom(ctx, types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"accessor_crn": types.StringType,
+				"role":         types.StringType,
+			},
+		}, mappings)
 	}
 }
 
@@ -245,10 +275,17 @@ func (r *idBrokerMappingsResource) Update(ctx context.Context, req resource.Upda
 
 	client := r.client.Environments
 
-	params := operations.NewSetIDBrokerMappingsParams()
-	params.WithInput(toSetIDBrokerMappingsRequest(&state))
+	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params.WithInput(toSetIDBrokerMappingsRequest(ctx, &state))
 	responseOk, err := client.Operations.SetIDBrokerMappings(params)
 	if err != nil {
+		if isSetIDBEnvNotFoundError(err) {
+			resp.Diagnostics.AddError(
+				"Error applying ID Broker mappings",
+				"Environment not found: "+state.EnvironmentCrn.ValueString(),
+			)
+			return
+		}
 		resp.Diagnostics.AddError(
 			"Error setting ID Broker mappings",
 			"Got the following error setting ID Broker mappings: "+err.Error(),
@@ -257,7 +294,6 @@ func (r *idBrokerMappingsResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	idBrokerResp := responseOk.Payload
-	state.ID = state.EnvironmentCrn
 	state.MappingsVersion = types.Int64PointerValue(idBrokerResp.MappingsVersion)
 
 	diags = resp.State.Set(ctx, state)
@@ -277,10 +313,15 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 
 	client := r.client.Environments
 
-	params := operations.NewDeleteIDBrokerMappingsParams()
+	params := operations.NewDeleteIDBrokerMappingsParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DeleteIDBrokerMappingsRequest{EnvironmentCrn: state.EnvironmentCrn.ValueStringPointer()})
 	_, err := client.Operations.DeleteIDBrokerMappings(params)
 	if err != nil {
+		if envErr, ok := err.(*operations.DeleteIDBrokerMappingsDefault); ok {
+			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
+				return
+			}
+		}
 		resp.Diagnostics.AddError(
 			"Error Deleting ID Broker mapping",
 			"Could not delete ID Broker mapping unexpected error: "+err.Error(),

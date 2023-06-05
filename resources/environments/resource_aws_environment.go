@@ -13,7 +13,6 @@ package environments
 import (
 	"context"
 	"log"
-	"strings"
 	"time"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
@@ -63,29 +62,6 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	client := r.client.Environments
 
-	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: data.EnvironmentName.ValueStringPointer()})
-	_, err := client.Operations.DescribeEnvironment(descParams)
-	if err != nil {
-		if strings.Contains(err.Error(), "Code:NOT_FOUND") {
-			tflog.Debug(ctx, "Environment not found with this name. Proceeding with environment creation.", map[string]interface{}{
-				"id": data.EnvironmentName.ValueString(),
-			})
-		} else {
-			resp.Diagnostics.AddError(
-				"Error Reading AWS Environment",
-				"Could not read AWS Environment: "+data.EnvironmentName.ValueString()+": "+err.Error(),
-			)
-			return
-		}
-	} else {
-		resp.Diagnostics.AddError(
-			"AWS Environment already exists",
-			"An environment with the name: "+data.EnvironmentName.ValueString()+" already exists. ",
-		)
-		return
-	}
-
 	params := operations.NewCreateAWSEnvironmentParamsWithContext(ctx)
 	params.WithInput(ToAwsEnvrionmentRequest(ctx, &data))
 
@@ -117,13 +93,13 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	}
 
 	environmentName := data.EnvironmentName.ValueString()
-	descParams = operations.NewDescribeEnvironmentParams()
+	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
 	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &environmentName,
 	})
 	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(descParams)
 	if err != nil {
-		if strings.Contains(err.Error(), "Code:NOT_FOUND") {
+		if isEnvNotFoundError(err) {
 			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
 			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
 				"id": data.ID.ValueString(),
@@ -146,9 +122,11 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	}
 }
 
-func isNotFoundError(err error) bool {
-	if d, ok := err.(*operations.DescribeEnvironmentDefault); ok && d.GetPayload() != nil {
-		return d.GetPayload().Code == "NOT_FOUND"
+func isEnvNotFoundError(err error) bool {
+	if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
+		if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
+			return true
+		}
 	}
 	return false
 }
@@ -168,14 +146,14 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("[DEBUG] About to describe environment %s", environmentName)
-			params := operations.NewDescribeEnvironmentParams()
+			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
 				// Envs that have just been created may not be returned from Describe Environment request because of eventual
 				// consistency. We return an empty state to retry.
 
-				if isNotFoundError(err) {
+				if isEnvNotFoundError(err) {
 					log.Printf("[DEBUG] Recoverable error describing environment: %s", err)
 					return nil, "", nil
 				}
@@ -199,14 +177,14 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	environmentName := state.ID.ValueString()
-	params := operations.NewDescribeEnvironmentParams()
+	environmentName := state.EnvironmentName.ValueString()
+	params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &environmentName,
 	})
 	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(params)
 	if err != nil {
-		if strings.Contains(err.Error(), "Code:NOT_FOUND") {
+		if isEnvNotFoundError(err) {
 			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
 			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
 				"id": state.ID.ValueString(),
@@ -241,7 +219,7 @@ func nilForEmptyString(in string) types.String {
 func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Environment) *awsEnvironmentResourceModel {
 	var model awsEnvironmentResourceModel
 
-	model.ID = types.StringPointerValue(env.EnvironmentName)
+	model.ID = types.StringPointerValue(env.Crn)
 	if env.Authentication != nil {
 		model.Authentication = &Authentication{
 			PublicKey:   nilForEmptyString(env.Authentication.PublicKey),
@@ -365,8 +343,8 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 		return
 	}
 
-	environmentName := state.ID.ValueString()
-	params := operations.NewDeleteEnvironmentParams()
+	environmentName := state.EnvironmentName.ValueString()
+	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
@@ -397,6 +375,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 			"IDBROKER_MAPPINGS_DELETE_IN_PROGRESS",
 			"S3GUARD_TABLE_DELETE_IN_PROGRESS",
 			"CLUSTER_DEFINITION_DELETE_PROGRESS",
+			"CLUSTER_DEFINITION_CLEANUP_PROGRESS",
 			"UMS_RESOURCE_DELETE_IN_PROGRESS",
 			"DELETE_INITIATED",
 			"DATAHUB_CLUSTERS_DELETE_IN_PROGRESS",
@@ -412,13 +391,13 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("About to describe environment")
-			params := operations.NewDescribeEnvironmentParams()
+			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
 				log.Printf("Error describing environment: %s", err)
 				if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
-					if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
+					if isEnvNotFoundError(envErr) {
 						return nil, "", nil
 					}
 				}

@@ -130,6 +130,12 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	datalakeResp := responseOk.Payload
 	toAwsDatalakeResourceModel(datalakeResp, &state)
 
+	diags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating AWS Data Lake",
@@ -213,6 +219,16 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
+		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
+				resp.Diagnostics.AddWarning("Resource not found on provider", "Data lake not found, removing from state.")
+				tflog.Warn(ctx, "Data lake not found, removing from state", map[string]interface{}{
+					"id": state.ID.ValueString(),
+				})
+				resp.State.RemoveResource(ctx)
+				return
+			}
+		}
 		resp.Diagnostics.AddError(
 			"Error getting AWS Datalake",
 			"Got the following error getting AWS Datalake: "+err.Error(),
@@ -472,6 +488,14 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {
+		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
+				tflog.Info(ctx, "Data lake already deleted", map[string]interface{}{
+					"id": state.ID.ValueString(),
+				})
+				return
+			}
+		}
 		resp.Diagnostics.AddError(
 			"Error Deleting AWS Datalake",
 			"Could not delete AWS Datalake unexpected error: "+err.Error(),

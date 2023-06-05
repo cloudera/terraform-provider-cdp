@@ -171,7 +171,7 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	}
 
 	// Get refreshed value from CDP
-	credentialName := state.ID.ValueString()
+	credentialName := state.CredentialName.ValueString()
 	params := operations.NewListCredentialsParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
@@ -194,7 +194,7 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	}
 	c := credentials[0]
 
-	state.ID = types.StringPointerValue(c.CredentialName)
+	state.ID = types.StringPointerValue(c.Crn)
 	state.CredentialName = types.StringPointerValue(c.CredentialName)
 	state.Crn = types.StringPointerValue(c.Crn)
 	state.AppBased.ApplicationID = types.StringValue(c.AzureCredentialProperties.AppID)
@@ -219,7 +219,7 @@ func (r *azureCredentialResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
-	params := operations.NewDeleteCredentialParams().WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: state.ID.ValueStringPointer()})
+	params := operations.NewDeleteCredentialParamsWithContext(ctx).WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: state.CredentialName.ValueStringPointer()})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {
 		resp.Diagnostics.AddError(

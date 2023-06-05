@@ -16,6 +16,11 @@ import (
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
@@ -25,9 +30,15 @@ var AwsEnvironmentSchema = schema.Schema{
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"crn": schema.StringAttribute{
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"authentication": schema.SingleNestedAttribute{
 			Required: true,
@@ -43,18 +54,30 @@ var AwsEnvironmentSchema = schema.Schema{
 		"cloud_storage_logging": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"create_private_subnets": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"create_service_endpoints": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"s3_guard_table_name": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"credential_name": schema.StringAttribute{
 			Required: true,
@@ -62,22 +85,37 @@ var AwsEnvironmentSchema = schema.Schema{
 		"description": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"enable_workload_analytics": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"enable_tunnel": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"encryption_key_arn": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"endpoint_access_gateway_scheme": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
 			Optional:    true,
@@ -90,26 +128,44 @@ var AwsEnvironmentSchema = schema.Schema{
 		"freeipa": schema.SingleNestedAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Object{
+				objectplanmodifier.UseStateForUnknown(),
+			},
 			Attributes: map[string]schema.Attribute{
 				"catalog": schema.StringAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 				"image_id": schema.StringAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 				"instance_count_by_group": schema.Int64Attribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.Int64{
+						int64planmodifier.UseStateForUnknown(),
+					},
 				},
 				"instance_type": schema.StringAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 				"multi_az": schema.BoolAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.Bool{
+						boolplanmodifier.UseStateForUnknown(),
+					},
 				},
 				"recipes": schema.SetAttribute{
 					Optional:    true,
@@ -130,6 +186,9 @@ var AwsEnvironmentSchema = schema.Schema{
 				"backup_storage_location_base": schema.StringAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 			},
 		},
@@ -139,14 +198,23 @@ var AwsEnvironmentSchema = schema.Schema{
 		"report_deployment_logs": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"network_cidr": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"proxy_config_name": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"security_access": schema.SingleNestedAttribute{
 			Required: true,
@@ -154,10 +222,16 @@ var AwsEnvironmentSchema = schema.Schema{
 				"cidr": schema.StringAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 				"default_security_group_id": schema.StringAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 				"default_security_group_ids": schema.SetAttribute{
 					Optional:    true,
@@ -167,6 +241,9 @@ var AwsEnvironmentSchema = schema.Schema{
 				"security_group_id_for_knox": schema.StringAttribute{
 					Optional: true,
 					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 				"security_group_ids_for_knox": schema.SetAttribute{
 					Optional:    true,
@@ -177,9 +254,15 @@ var AwsEnvironmentSchema = schema.Schema{
 		},
 		"status": schema.StringAttribute{
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"status_reason": schema.StringAttribute{
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"subnet_ids": schema.SetAttribute{
 			Optional:    true,
@@ -194,14 +277,23 @@ var AwsEnvironmentSchema = schema.Schema{
 		"tunnel_type": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"workload_analytics": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"vpc_id": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 	},
 }
