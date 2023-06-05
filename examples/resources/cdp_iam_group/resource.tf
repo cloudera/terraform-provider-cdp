@@ -16,12 +16,11 @@ terraform {
   }
 }
 
-provider "cdp" {
-  cdp_profile = "default"
+resource "cdp_iam_group" "example" {
+  group_name = "example"
+  sync_membership_on_user_login = true
 }
 
-data "cdp_environments_aws_credential_prerequisites" "example" {}
-
-output "cdp_environments_aws_credential_prerequisites" {
-  value = data.cdp_environments_aws_credential_prerequisites.example
+output "crn" {
+  value = cdp_iam_group.example.crn
 }

@@ -16,14 +16,12 @@ terraform {
   }
 }
 
-provider "cdp" {
-  cdp_profile = "prod-us"
+data "cdp_environments_aws_credential_prerequisites" "example" {}
+
+output "account_id" {
+  value = data.cdp_environments_aws_credential_prerequisites.example.account_id
 }
 
-data "cdp_iam_group" "example" {
-  group_name = "example"
-}
-
-output "cdp_iam_group_crn" {
-  value = data.cdp_iam_group.example.crn
+output "external_id" {
+  value = data.cdp_environments_aws_credential_prerequisites.example.external_id
 }

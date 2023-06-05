@@ -97,7 +97,6 @@ func (p *FileCdpCredentialsProvider) GetCredentials() (*Credentials, error) {
 	}
 
 	profile := p.profile
-	// fmt.Printf("CDP Profile to use: %s\n", profile) // TODO: switch to proper logging
 
 	profileData, ok := profileMap[profile]
 	if !ok || strings.TrimSpace(profile) == "" {

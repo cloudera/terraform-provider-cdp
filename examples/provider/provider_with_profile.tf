@@ -21,5 +21,5 @@ terraform {
 }
 
 provider "cdp" {
-  cdp_profile                 = "customprofile"
+  cdp_profile = "customprofile"
 }

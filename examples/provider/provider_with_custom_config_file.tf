@@ -8,20 +8,9 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-# This example is mimimum configuration for CDP provider and creates an aws credential in CDP
-terraform {
-  required_providers {
-    cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
-    }
-  }
-}
+# This example shows how to use cdp with custom config and credentials files.
 
 provider "cdp" {
-}
-
-resource "cdp_environments_aws_credential" "example" {
-  name = "example-cdp-aws-credential"
-  role_arn = "arn:aws:iam::11111111111:role/example-cross-account-role"
-  description = "Example AWS Credential"
+  cdp_config_file             = "/Users/myuser/.cdp/config"
+  cdp_shared_credentials_file = "/Users/myuser/.cdp/credentials"
 }

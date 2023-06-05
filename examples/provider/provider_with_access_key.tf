@@ -11,9 +11,15 @@
 # This example shows how to use cdp access key id and secret key to manually configure the credentials in the provider
 # configuration block.
 #
+# You can follow the guide at
+# https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html
+# to generate your API access credentials.
+#
 # WARNING:  Hard-coding credentials into any Terraform configuration is NOT
 # recommended, and risks secret leakage should this file ever be committed to a
 # public version control system.
+#
+# You can also specify the credentials as environment variables.
 
 terraform {
   required_providers {
@@ -24,6 +30,14 @@ terraform {
 }
 
 provider "cdp" {
-  cdp_access_key_id = "my-access-key"
-  cdp_private_key = "my-private-key"
+  cdp_access_key_id = var.cdp_access_key_id
+  cdp_private_key = var.cdp_private_key
+}
+
+variable "cdp_access_key_id" {
+  description = "The access key id for the CDP credentials."
+}
+
+variable "cdp_private_key" {
+  description = "The private key for the CDP credentials."
 }
