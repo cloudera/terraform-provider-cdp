@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 
@@ -48,16 +49,19 @@ const (
 )
 
 type Config struct {
-	CdpApiEndpointUrl   string
-	AltusApiEndpointUrl string
-	Profile             string
-	Credentials         *Credentials
-	BaseApiPath         string
-	ConfigFile          string
-	CredentialsFile     string
-	LocalEnvironment    bool
-	Logger              Logger
-	Context             context.Context
+	CdpApiEndpointUrl     string
+	AltusApiEndpointUrl   string
+	Profile               string
+	Credentials           *Credentials
+	BaseApiPath           string
+	ConfigFile            string
+	CredentialsFile       string
+	LocalEnvironment      bool
+	Logger                Logger
+	Context               context.Context
+	UserAgent             string
+	ClientApplicationName string
+	Version               string
 
 	properties map[string]map[string]string
 
@@ -140,6 +144,23 @@ func (config *Config) WithLogger(logger Logger) *Config {
 
 func (config *Config) WithContext(ctx context.Context) *Config {
 	config.Context = ctx
+	return config
+}
+
+func (config *Config) WithUserAgent(userAgent string) *Config {
+	config.UserAgent = userAgent
+	return config
+}
+
+func (config *Config) WithClientApplicationName(clientApplicationName string) *Config {
+	config.ClientApplicationName = clientApplicationName
+	return config
+}
+
+func (config *Config) WithVersion(version string) *Config {
+	// TODO: this function should not be exposed to SDK end-users. When the golang SDK is taken out of
+	// the terraform provider to be its own project, set this from the goreleaser config and do not let users override it.
+	config.Version = version
 	return config
 }
 
@@ -241,6 +262,20 @@ func (config *Config) GetEndpoint(serviceName string, isAltusService bool) strin
 
 func (config *Config) GetCredentials() (*Credentials, error) {
 	return config.credentialsProvider.GetCredentials()
+}
+
+func (config *Config) GetUserAgentOrDefault() string {
+	if config.UserAgent == "" {
+		return getDefaultUserAgent(config.Version)
+	}
+	return config.UserAgent
+}
+
+// getDefaultUserAgent returns a string to be set for the User-Agent header in HTTP requests. We follow the same format
+// with the python based CDP CLI and Java based CDP SDK. However, there is no easy way to detect the OS version without
+// running uname, so we don't do that. Can be added later if needed.
+func getDefaultUserAgent(version string) string {
+	return fmt.Sprintf("CDPSDK_GO/%s Go/%s %s_%s", version, runtime.Version(), runtime.GOOS, runtime.GOARCH)
 }
 
 func defaultCdpCredentialsFile() (string, error) {
