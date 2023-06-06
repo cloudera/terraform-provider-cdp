@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"runtime"
 	"strconv"
 
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
@@ -112,7 +113,7 @@ func (p *CdpProvider) Configure(ctx context.Context, req provider.ConfigureReque
 	resp.Diagnostics.Append(diags...)
 
 	// Create a new CDP client using the configuration values
-	client, err := cdp.NewClient(getCdpConfig(ctx, data))
+	client, err := cdp.NewClient(getCdpConfig(ctx, data, p.version, req.TerraformVersion))
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -162,7 +163,7 @@ func getOrDefaultBoolFromEnv(val basetypes.BoolValue, envVars ...string) bool {
 	return false
 }
 
-func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
+func getCdpConfig(ctx context.Context, data CdpProviderModel, version string, terraformVersion string) *cdp.Config {
 	tflog.Info(ctx, "Setting up CDP config")
 
 	accessKeyId := getOrDefaultFromEnv(data.CdpAccessKeyId, "CDP_ACCESS_KEY_ID")
@@ -187,6 +188,9 @@ func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 	config.WithCredentialsFile(cdpSharedCredentialsFile)
 	config.WithLocalEnvironment(localEnvironment)
 	config.WithLogger(new(TFLoggerAdaptor))
+	config.WithUserAgent(getUserAgent(version, terraformVersion))
+	config.WithClientApplicationName("terraform-provider-cdp")
+	config.WithVersion(version)
 
 	ctx = tflog.MaskFieldValuesWithFieldKeys(ctx, "privateKey")
 	ctx = tflog.SetField(ctx, "accessKeyId", accessKeyId)
@@ -220,6 +224,13 @@ func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSou
 		environments.NewAWSCredentialPrerequisitesDataSource,
 		iam.NewGroupDataSource,
 	}
+}
+
+// getUserAgent returns a string to be set for the User-Agent header in HTTP requests. We follow the same format
+// with the python based CDP CLI and Java based CDP SDK. However, there is no easy way to detect the OS version without
+// running uname, so we don't do that. Can be added later if needed.
+func getUserAgent(version string, terraformVersion string) string {
+	return fmt.Sprintf("CDPTFPROVIDER/%s Terraform/%s Go/%s %s_%s", version, terraformVersion, runtime.Version(), runtime.GOOS, runtime.GOARCH)
 }
 
 // TFLoggerAdaptor implements cdp.Logger to send CDP SDK logs to tflog

@@ -75,11 +75,7 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 func NewIamClient(config *Config) (*iamclient.Iam, error) {
-	credentials, err := config.GetCredentials()
-	if err != nil {
-		return nil, err
-	}
-	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("iam", true), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("iam", true))
 	if err != nil {
 		return nil, err
 	}
@@ -87,11 +83,7 @@ func NewIamClient(config *Config) (*iamclient.Iam, error) {
 }
 
 func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, error) {
-	credentials, err := config.GetCredentials()
-	if err != nil {
-		return nil, err
-	}
-	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("environments", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("environments", false))
 	if err != nil {
 		return nil, err
 	}
@@ -99,11 +91,7 @@ func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, er
 }
 
 func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
-	credentials, err := config.GetCredentials()
-	if err != nil {
-		return nil, err
-	}
-	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("datalake", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("datalake", false))
 	if err != nil {
 		return nil, err
 	}
@@ -111,11 +99,7 @@ func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
 }
 
 func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
-	credentials, err := config.GetCredentials()
-	if err != nil {
-		return nil, err
-	}
-	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("datahub", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("datahub", false))
 	if err != nil {
 		return nil, err
 	}
@@ -123,11 +107,7 @@ func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
 }
 
 func NewMlClient(config *Config) (*mlclient.Ml, error) {
-	credentials, err := config.GetCredentials()
-	if err != nil {
-		return nil, err
-	}
-	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("ml", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("ml", false))
 	if err != nil {
 		return nil, err
 	}
@@ -135,11 +115,7 @@ func NewMlClient(config *Config) (*mlclient.Ml, error) {
 }
 
 func NewDwClient(config *Config) (*dwclient.Dw, error) {
-	credentials, err := config.GetCredentials()
-	if err != nil {
-		return nil, err
-	}
-	transport, err := GetAPIKeyAuthTransport(config.Context, config.Logger, credentials, config.GetEndpoint("dw", false), config.BaseApiPath, config.GetLocalEnvironment())
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("dw", false))
 	if err != nil {
 		return nil, err
 	}
