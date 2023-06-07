@@ -33,8 +33,8 @@ func testAccPreCheck(t *testing.T) {
 	// function.
 }
 
-func TestProviderOverridesUserAgent(t *testing.T) {
-	model := CdpProviderModel{
+func createCdpProviderModel() *CdpProviderModel {
+	return &CdpProviderModel{
 		CdpAccessKeyId:           types.StringValue("cdp-access-key"),
 		CdpPrivateKey:            types.StringValue("cdp-private-key"),
 		Profile:                  types.StringValue("profile"),
@@ -44,6 +44,10 @@ func TestProviderOverridesUserAgent(t *testing.T) {
 		CdpSharedCredentialsFile: types.StringValue("cdp-shared-credentials-file"),
 		LocalEnvironment:         types.BoolValue(false),
 	}
+}
+
+func TestProviderOverridesUserAgent(t *testing.T) {
+	model := createCdpProviderModel()
 
 	config := getCdpConfig(context.Background(), model, "0.1.0", "v1.4.2")
 	userAgent := config.GetUserAgentOrDefault()
@@ -51,5 +55,16 @@ func TestProviderOverridesUserAgent(t *testing.T) {
 	r, _ := regexp.Compile(`^CDPTFPROVIDER/.+ Terraform/.+ Go/.+ .+_.+$`)
 	if !r.MatchString(userAgent) {
 		t.Fatalf("Failed to match the User-Agent regex: %v", userAgent)
+	}
+}
+
+func TestProviderClientApplicationName(t *testing.T) {
+	model := createCdpProviderModel()
+
+	config := getCdpConfig(context.Background(), model, "0.1.0", "v1.4.2")
+	clientApplicationName := config.ClientApplicationName
+
+	if clientApplicationName != "terraform-provider-cdp" {
+		t.Fatalf("Terraform provider should have set client application name. Got: %v", clientApplicationName)
 	}
 }

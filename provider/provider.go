@@ -113,7 +113,7 @@ func (p *CdpProvider) Configure(ctx context.Context, req provider.ConfigureReque
 	resp.Diagnostics.Append(diags...)
 
 	// Create a new CDP client using the configuration values
-	client, err := cdp.NewClient(getCdpConfig(ctx, data, p.version, req.TerraformVersion))
+	client, err := cdp.NewClient(getCdpConfig(ctx, &data, p.version, req.TerraformVersion))
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -163,7 +163,7 @@ func getOrDefaultBoolFromEnv(val basetypes.BoolValue, envVars ...string) bool {
 	return false
 }
 
-func getCdpConfig(ctx context.Context, data CdpProviderModel, version string, terraformVersion string) *cdp.Config {
+func getCdpConfig(ctx context.Context, data *CdpProviderModel, version string, terraformVersion string) *cdp.Config {
 	tflog.Info(ctx, "Setting up CDP config")
 
 	accessKeyId := getOrDefaultFromEnv(data.CdpAccessKeyId, "CDP_ACCESS_KEY_ID")
