@@ -29,13 +29,15 @@ import (
 )
 
 const (
-	altusAuthHeader   = "x-altus-auth"
-	altusDateHeader   = "x-altus-date"
-	contentTypeHeader = "content-type"
-	applicationJson   = "application/json"
-	signPattern       = "%s\n%s\n%s\n%s\n%s"
-	layout            = "Mon, 02 Jan 2006 15:04:05 GMT"
-	authAlgo          = "ed25519v1"
+	altusAuthHeader      = "x-altus-auth"
+	altusDateHeader      = "x-altus-date"
+	contentTypeHeader    = "content-type"
+	applicationJson      = "application/json"
+	userAgentHeaderKey   = "User-agent"
+	userAgentHeaderValue = "cdp-terraform"
+	signPattern          = "%s\n%s\n%s\n%s\n%s"
+	layout               = "Mon, 02 Jan 2006 15:04:05 GMT"
+	authAlgo             = "ed25519v1"
 )
 
 type metastr struct {
@@ -96,6 +98,10 @@ func apiKeyAuth(ctx context.Context, logger Logger, baseAPIPath string, credenti
 			return err
 		}
 		err = r.SetHeaderParam(contentTypeHeader, applicationJson)
+		if err != nil {
+			return err
+		}
+		err = r.SetHeaderParam(userAgentHeaderKey, userAgentHeaderValue)
 		if err != nil {
 			return err
 		}

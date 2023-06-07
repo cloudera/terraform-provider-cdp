@@ -139,7 +139,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating AWS Data Lake",
-			"Failed to poll creating AWS Data Lake: "+err.Error(),
+			"Failure to poll creating AWS Data Lake: "+err.Error(),
 		)
 		return
 	}
@@ -506,7 +506,7 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
 		resp.Diagnostics.AddError(
 			"Error Deleting AWS Data Lake",
-			"Failed to poll delete AWS Data Lake, unexpected error: "+err.Error(),
+			"Failure to poll delete AWS Data Lake, unexpected error: "+err.Error(),
 		)
 		return
 	}

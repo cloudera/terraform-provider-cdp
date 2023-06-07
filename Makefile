@@ -20,7 +20,12 @@ endif
 
 # Run tests
 test: generate fmt vet
-	go test $(GO_FLAGS) . ./provider/... ./resources/... ./utils/...
+	go test $(GO_FLAGS) -cover . ./provider/... ./resources/... ./utils/...
+
+# Run tests with coverage
+test-with-coverage: generate fmt vet
+	go test -v -coverprofile coverage.out . ./provider/... ./resources/... ./utils/...
+	go tool cover -html coverage.out -o coverage.html
 
 # Run terraform provider acceptance tests
 testacc:

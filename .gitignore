@@ -6,11 +6,15 @@
 .idea
 workspace.xml
 *.iml
+**/*.log
 
 # Ignore terraform state
 **/.terraform
 **/terraform.tfstate
 **/terraform.tfstate.backup
+
+# Coverage related report file(s)
+coverage.*
 
 # Ignore the binary
 terraform-provider-cdp

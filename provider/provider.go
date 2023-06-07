@@ -18,6 +18,7 @@ import (
 	"strconv"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -207,6 +208,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		environments.NewAzureCredentialResource,
 		datalake.NewAwsDatalakResource,
 		iam.NewGroupResource,
+		datahub.NewAwsDatahubResource,
 	}
 }
 
