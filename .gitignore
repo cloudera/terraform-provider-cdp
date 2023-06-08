@@ -1,0 +1,23 @@
+# Ignore Editor, IDE and OS stuff
+.DS_Store
+*~
+*.bak
+*.lock
+.idea
+workspace.xml
+*.iml
+**/*.log
+
+# Ignore terraform state
+**/.terraform
+**/terraform.tfstate
+**/terraform.tfstate.backup
+
+# Coverage related report file(s)
+coverage.*
+
+# Ignore the binary
+terraform-provider-cdp
+
+# Ignore the dist directory
+dist/

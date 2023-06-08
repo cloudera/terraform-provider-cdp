@@ -1,0 +1,7 @@
+# See https://help.github.com/en/articles/about-code-owners
+# These people are automatically added as reviewers for PRs.
+# At some point in the future they might be "required"
+
+# By default, unless overridden later,
+# terraform-provider-cdp-dev team members should review every PR:
+* @cloudera/terraform-provider-cdp-dev

@@ -1,0 +1,8 @@
+[default]
+cdp_endpoint_url=value1
+endpoint_url=value2
+
+[profile foo]
+cdp_endpoint_url=value3
+endpoint_url=value4
+
