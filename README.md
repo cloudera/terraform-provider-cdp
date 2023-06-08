@@ -1,10 +1,46 @@
 # Terraform-provider-cdp
 
-Implements a terraform provider for Cloudera Data Platform(CDP) resources. Terraform is the de facto tool for Infrastructure as code. This repo
-implements a provider for CDP that provides CDP resources (credentials, environments, datalakes, datahubs, etc). Example terraform code can be
+`Terraform-provider-cdp` repository implements a terraform provider for Cloudera Data Platform(CDP) resources. Core CDP
+resources such as credentials, environments, datalakes, datahubs, etc are supported. Example terraform code can be
 found under [examples directory](./examples).
 
-Target terraform version is 1.1+.
+Using the CDP terraform provider, one can create an environment with simple terraform modules:
+```terraform
+terraform {
+  required_providers {
+    cdp = {
+      source = "registry.terraform.io/cloudera/cdp"
+    }
+  }
+}
+
+provider "cdp" {
+  # cdp provider configuration goes here
+}
+
+resource "cdp_environments_aws_credential" "example" {
+  name = "example-cdp-aws-credential"
+  role_arn = "arn:aws:iam::11111111111:role/example-cross-account-role"
+  description = "Example AWS Credentials"
+}
+
+resource "cdp_environments_aws_environment" "example" {
+  environment_name = "example-environment"
+  credential_name  = cdp_environments_aws_credential.example.credential_name
+  region           = "us-west"
+  security_access = {
+    cidr = "0.0.0.0/0"
+  }
+  network_cidr = "10.10.0.0/16"
+  authentication = {
+    public_key_id = "my-key"
+  }
+  log_storage = {
+    storage_location_base = "s3a://storage-bucket/location"
+    instance_profile      = "arn:aws:iam::11111111111:instance-profile/storage-instance-profile"
+  }
+}
+```
 
 ## Provider Documentation
 
@@ -12,9 +48,37 @@ Find detailed documentation for the provider in the [docs](./docs) folder.
 
 Provider documentation is maintained according to [terraform guidance](https://www.terraform.io/docs/registry/providers/docs.html).
 
+## Terraform Version
+
+Target terraform version is 1.1+.
+
 ## Installation
 
-The easiest way to install the CDP provider from source code is by
+CDP Terraform provider is uploaded to the [Terraform Registry](https://registry.terraform.io/). To use the latest
+version, simply add a required provider to your terraform configuration:
+```terraform
+terraform {
+  required_providers {
+    cdp = {
+      source = "registry.terraform.io/cloudera/cdp"
+    }
+  }
+}
+```
+and Terraform will download the cdp provider binary for you.
+
+### Install a release manually
+If you have downloaded a [binary release](https://github.com/cloudera/terraform-provider-cdp/releases), you can execute these steps to install:
+```
+mkdir -p ~/.terraform.d/plugins/registry.terraform.io/cloudera/cdp/$VERSION/$ARCH
+cp terraform-provider-cdp ~/.terraform.d/plugins/registry.terraform.io/cloudera/cdp/$VERSION/$ARCH/terraform-provider-cdp_v$VERSION
+```
+
+where `$VERSION` should be replaced with the actual version (for example `0.1.0`)
+and `$ARCH` should be replaced with your platform, for example `darwin_amd64` or `linux_amd64`.
+
+### Install from source code
+You can also download the source code and build and install a local version by
 ```
 make install
 ```
@@ -26,20 +90,16 @@ make install-terraformrc
 which installs a `.terraformrc` file under your home directory to point to the locally
 installed version of the provider binary.
 
-If you have downloaded a binary release, you can execute these steps to install:
-```
-mkdir -p ~/.terraform.d/plugins/registry.terraform.io/cloudera/cdp/$VERSION/$ARCH
-cp terraform-provider-cdp ~/.terraform.d/plugins/registry.terraform.io/cloudera/cdp/$VERSION/$ARCH/terraform-provider-cdp_v$VERSION
-```
-
-where VERSION should be replaced with something like `0.0.3`
-and ARCH should be replaced with something like `darwin_amd64` or `linux_amd64`
-
 ## Filing Bugs
 
-Create a Github Issue, or (for Cloudera-only) file a JIRA using the CDPCP project using the cdp terraform provider component.
+Create a Github Issue, or file a JIRA (for Cloudera-only) using the `CDPCP` project using the cdp terraform provider component.
 
-Generate logs by setting the TF_LOG environment variable to any value and capturing the output, for example by running `TF_LOG=true terraform apply plan.txt > tf.log 2>&1`. Please attach the output file to the filed bug. Please also attach the crash.log file from any terraform crash. See the [terraform docs](https://www.terraform.io/docs/internals/debugging.html) for more debugging information.
+Generate logs by setting the `TF_LOG` environment variable to any value and capturing the output, for example by running
+```
+TF_LOG=true terraform apply plan.txt > tf.log 2>&1
+```
+
+Please attach the output file to the filed bug. Please also attach the crash.log file from any terraform crash. See the [terraform docs](https://www.terraform.io/docs/internals/debugging.html) for more debugging information.
 
 ## Development
 
@@ -62,7 +122,7 @@ make
 ### Execute example terraform
 
 ```
-cd examples/credential
+cd examples/resources/cdp_environments_aws_credential
 make terraform-apply
 ```
 
