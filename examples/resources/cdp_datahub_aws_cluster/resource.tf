@@ -16,15 +16,7 @@ terraform {
   }
 }
 
-provider "cdp" {
-  cdp_profile                 = "<value>"
-  cdp_endpoint_url            = "<value>"
-  cdp_config_file             = "<value>"
-  cdp_shared_credentials_file = "<value>"
-  //local_environment           = false
-}
-
-resource "cdp_aws_datahub" "aws-cluster" {
+resource "cdp_datahub_aws_cluster" "aws-cluster" {
   name = "<value>"
   environment = "<value>"
   cluster_template = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
@@ -112,74 +104,74 @@ resource "cdp_aws_datahub" "aws-cluster" {
 }
 
 output "cluster" {
-  value = cdp_aws_datahub.aws-cluster.name
+  value = cdp_datahub_aws_cluster.aws-cluster.name
 }
 
 output "environment" {
-  value = cdp_aws_datahub.aws-cluster.environment
+  value = cdp_datahub_aws_cluster.aws-cluster.environment
 }
 
 output "cluster_template" {
-  value = cdp_aws_datahub.aws-cluster.cluster_template
+  value = cdp_datahub_aws_cluster.aws-cluster.cluster_template
 }
 
 output "cluster_definition" {
-  value = cdp_aws_datahub.aws-cluster.cluster_definition
+  value = cdp_datahub_aws_cluster.aws-cluster.cluster_definition
 }
 
 /*
 output "recipes" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].recipes
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].recipes
 }
 
 output "instance_group" {
-  value = cdp_aws_datahub.aws-cluster.instance_group
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group
 }
 
 output "node_count" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].node_count
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].node_count
 }
 
 output "instance_group_name" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].instance_group_name
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].instance_group_name
 }
 
 output "instance_group_type" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].instance_group_type
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].instance_group_type
 }
 
 output "instance_type" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].instance_type
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].instance_type
 }
 
 output "root_volume_size" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].root_volume_size
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].root_volume_size
 }
 
 output "attached_volume_configuration" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].attached_volume_configuration
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].attached_volume_configuration
 }
 
 output "volume_size" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].attached_volume_configuration[*].volume_size
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].attached_volume_configuration[*].volume_size
 }
 
 output "volume_count" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].attached_volume_configuration[*].volume_count
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].attached_volume_configuration[*].volume_count
 }
 
 output "volume_type" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].attached_volume_configuration[*].volume_type
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].attached_volume_configuration[*].volume_type
 }
 
 output "recovery_mode" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].recovery_mode
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].recovery_mode
 }
 
 output "volume_encryption" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].volume_encryption
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].volume_encryption
 }
 
 output "encryption" {
-  value = cdp_aws_datahub.aws-cluster.instance_group[*].volume_encryption.encryption
+  value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].volume_encryption.encryption
 }*/
