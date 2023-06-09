@@ -41,7 +41,7 @@ func NewAwsDatalakResource() resource.Resource {
 }
 
 func (r *awsDatalakeResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_datalakes_aws_datalake"
+	resp.TypeName = req.ProviderTypeName + "_datalake_aws_datalake"
 }
 
 func (r *awsDatalakeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {

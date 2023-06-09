@@ -44,7 +44,7 @@ func NewAwsDatahubResource() resource.Resource {
 }
 
 func (r *awsDatahubResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_aws_datahub"
+	resp.TypeName = req.ProviderTypeName + "_datahub_aws_cluster"
 }
 
 func (r *awsDatahubResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
