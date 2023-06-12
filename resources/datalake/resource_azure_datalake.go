@@ -33,7 +33,7 @@ type azureDatalakeResource struct {
 	client *cdp.Client
 }
 
-func NewAzureDatalakResource() resource.Resource {
+func NewAzureDatalakeResource() resource.Resource {
 	return &azureDatalakeResource{}
 }
 
@@ -207,7 +207,6 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 		model.ManagedIdentity = types.StringValue(resp.AzureConfiguration.ManagedIdentity)
 	}
 	model.CloudStorageBaseLocation = types.StringValue(resp.CloudStorageBaseLocation)
-	model.CloudbreakVersion = types.StringValue(resp.CloudbreakVersion)
 	if resp.ClouderaManager != nil {
 		model.ClouderaManager, _ = types.ObjectValueFrom(ctx, map[string]attr.Type{
 			"cloudera_manager_repository_url": types.StringType,
@@ -255,36 +254,17 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 		instances := make([]*instance, len(v.Instances))
 		for j, ins := range v.Instances {
 			instances[j] = &instance{
-				AmbariServer:    types.BoolValue(ins.AmbariServer),
 				DiscoveryFQDN:   types.StringValue(ins.DiscoveryFQDN),
 				ID:              types.StringPointerValue(ins.ID),
 				InstanceGroup:   types.StringValue(ins.InstanceGroup),
 				InstanceStatus:  types.StringValue(string(ins.InstanceStatus)),
 				InstanceTypeVal: types.StringValue(string(ins.InstanceTypeVal)),
-				LifeCycle:       types.StringPointerValue(ins.LifeCycle),
 				PrivateIP:       types.StringValue(ins.PrivateIP),
 				PublicIP:        types.StringValue(ins.PublicIP),
 				SSHPort:         types.Int64Value(int64(ins.SSHPort)),
 				State:           types.StringPointerValue(ins.State),
 				StatusReason:    types.StringValue(ins.StatusReason),
 			}
-			mountedVolumes := make([]*mountedVolume, len(ins.MountedVolumes))
-			for k, mv := range ins.MountedVolumes {
-				mountedVolumes[k] = &mountedVolume{
-					Device:     types.StringValue(mv.Device),
-					VolumeID:   types.StringValue(mv.VolumeID),
-					VolumeSize: types.StringValue(mv.VolumeSize),
-					VolumeType: types.StringValue(mv.VolumeType),
-				}
-			}
-			instances[j].MountedVolumes, _ = types.SetValueFrom(ctx, types.ObjectType{
-				AttrTypes: map[string]attr.Type{
-					"device":      types.StringType,
-					"volume_id":   types.StringType,
-					"volume_size": types.StringType,
-					"volume_type": types.StringType,
-				},
-			}, mountedVolumes)
 		}
 		instanceGroups[i].Instances, _ = types.SetValueFrom(ctx, types.ObjectType{
 			AttrTypes: map[string]attr.Type{
