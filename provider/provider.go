@@ -13,9 +13,10 @@ package provider
 import (
 	"context"
 	"fmt"
-	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"os"
 	"strconv"
+
+	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
@@ -206,6 +207,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		environments.NewAwsEnvironmentResource,
 		environments.NewIDBrokerMappingsResource,
 		environments.NewAzureCredentialResource,
+		environments.NewAzureEnvironmentResource,
 		datalake.NewAwsDatalakResource,
 		iam.NewGroupResource,
 		datahub.NewAwsDatahubResource,

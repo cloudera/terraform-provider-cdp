@@ -18,14 +18,16 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-var AwsEnvironmentSchema = schema.Schema{
+var AzureEnvironmentSchema = schema.Schema{
 	MarkdownDescription: "The environment is a logical entity that represents the association of your user account with multiple compute resources using which you can provision and manage workloads.",
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
@@ -40,37 +42,8 @@ var AwsEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"authentication": schema.SingleNestedAttribute{
-			Required: true,
-			Attributes: map[string]schema.Attribute{
-				"public_key": schema.StringAttribute{
-					Optional: true,
-				},
-				"public_key_id": schema.StringAttribute{
-					Optional: true,
-				},
-			},
-		},
-		"create_private_subnets": schema.BoolAttribute{
+		"create_private_endpoints": schema.BoolAttribute{
 			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.Bool{
-				boolplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"create_service_endpoints": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.Bool{
-				boolplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"s3_guard_table_name": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
 		},
 		"credential_name": schema.StringAttribute{
 			Required: true,
@@ -82,6 +55,9 @@ var AwsEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
+		"enable_outbound_load_balancer": schema.BoolAttribute{
+			Optional: true,
+		},
 		"enable_tunnel": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
@@ -89,27 +65,47 @@ var AwsEnvironmentSchema = schema.Schema{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"encryption_key_arn": schema.StringAttribute{
+		"encryption_key_resource_group_name": schema.StringAttribute{
 			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
 		},
-		"endpoint_access_gateway_scheme": schema.StringAttribute{
+		"encryption_key_url": schema.StringAttribute{
 			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
-			Optional:    true,
-			Computed:    true,
-			ElementType: types.StringType,
 		},
 		"environment_name": schema.StringAttribute{
 			Required: true,
+		},
+		"existing_network_params": schema.SingleNestedAttribute{
+			Optional: true,
+			Computed: true,
+			PlanModifiers: []planmodifier.Object{
+				objectplanmodifier.UseStateForUnknown(),
+			},
+			Attributes: map[string]schema.Attribute{
+				"aks_private_dns_zone_id": schema.StringAttribute{
+					Optional: true,
+					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+				"database_private_dns_zone_id": schema.StringAttribute{
+					Optional: true,
+					Computed: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+				"network_id": schema.StringAttribute{
+					Required: true,
+				},
+				"resource_group_name": schema.StringAttribute{
+					Required: true,
+				},
+				"subnet_ids": schema.SetAttribute{
+					Required:    true,
+					ElementType: types.StringType,
+				},
+			},
 		},
 		"freeipa": schema.SingleNestedAttribute{
 			Optional: true,
@@ -146,13 +142,6 @@ var AwsEnvironmentSchema = schema.Schema{
 						stringplanmodifier.UseStateForUnknown(),
 					},
 				},
-				"multi_az": schema.BoolAttribute{
-					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.Bool{
-						boolplanmodifier.UseStateForUnknown(),
-					},
-				},
 				"recipes": schema.SetAttribute{
 					Optional:    true,
 					Computed:    true,
@@ -163,7 +152,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"log_storage": schema.SingleNestedAttribute{
 			Required: true,
 			Attributes: map[string]schema.Attribute{
-				"instance_profile": schema.StringAttribute{
+				"managed_identity": schema.StringAttribute{
 					Required: true,
 				},
 				"storage_location_base": schema.StringAttribute{
@@ -178,6 +167,24 @@ var AwsEnvironmentSchema = schema.Schema{
 				},
 			},
 		},
+		"new_network_params": schema.SingleNestedAttribute{
+			Optional: true,
+			Computed: true,
+			PlanModifiers: []planmodifier.Object{
+				objectplanmodifier.UseStateForUnknown(),
+			},
+			Attributes: map[string]schema.Attribute{
+				"network_cidr": schema.StringAttribute{
+					Required: true,
+				},
+			},
+		},
+		"proxy_config_name": schema.StringAttribute{
+			Optional: true,
+		},
+		"public_key": schema.StringAttribute{
+			Required: true,
+		},
 		"region": schema.StringAttribute{
 			Required: true,
 		},
@@ -188,14 +195,7 @@ var AwsEnvironmentSchema = schema.Schema{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"network_cidr": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"proxy_config_name": schema.StringAttribute{
+		"resource_group_name": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
 			PlanModifiers: []planmodifier.String{
@@ -221,7 +221,6 @@ var AwsEnvironmentSchema = schema.Schema{
 				},
 				"default_security_group_ids": schema.SetAttribute{
 					Optional:    true,
-					Computed:    true,
 					ElementType: types.StringType,
 				},
 				"security_group_id_for_knox": schema.StringAttribute{
@@ -233,7 +232,6 @@ var AwsEnvironmentSchema = schema.Schema{
 				},
 				"security_group_ids_for_knox": schema.SetAttribute{
 					Optional:    true,
-					Computed:    true,
 					ElementType: types.StringType,
 				},
 			},
@@ -250,22 +248,16 @@ var AwsEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"subnet_ids": schema.SetAttribute{
-			Optional:    true,
-			Computed:    true,
-			ElementType: types.StringType,
-		},
 		"tags": schema.MapAttribute{
 			Optional:    true,
 			Computed:    true,
 			ElementType: types.StringType,
-		},
-		"tunnel_type": schema.StringAttribute{
-			// tunnel_type is read only.
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
+			PlanModifiers: []planmodifier.Map{
+				mapplanmodifier.UseStateForUnknown(),
 			},
+		},
+		"use_public_ip": schema.BoolAttribute{
+			Required: true,
 		},
 		"workload_analytics": schema.BoolAttribute{
 			Optional: true,
@@ -274,85 +266,93 @@ var AwsEnvironmentSchema = schema.Schema{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"vpc_id": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
 	},
 }
 
-func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceModel) *environmentsmodels.CreateAWSEnvironmentRequest {
-	res := &environmentsmodels.CreateAWSEnvironmentRequest{}
-	res.Authentication = &environmentsmodels.AuthenticationRequest{
-		PublicKey:   model.Authentication.PublicKey.ValueString(),
-		PublicKeyID: model.Authentication.PublicKeyID.ValueString(),
+func ToAzureEnvrionmentRequest(ctx context.Context, model *azureEnvironmentResourceModel) *environmentsmodels.CreateAzureEnvironmentRequest {
+	req := &environmentsmodels.CreateAzureEnvironmentRequest{}
+	req.CreatePrivateEndpoints = model.CreatePrivateEndpoints.ValueBool()
+	req.CredentialName = model.CredentialName.ValueStringPointer()
+	req.Description = model.Description.ValueString()
+	req.EnableOutboundLoadBalancer = model.EnableOutboundLoadBalancer.ValueBool()
+	req.EnableTunnel = model.EnableTunnel.ValueBool()
+	req.EncryptionKeyResourceGroupName = model.EncryptionKeyResourceGroupName.ValueString()
+	req.EncryptionKeyURL = model.EncryptionKeyURL.ValueString()
+	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	if !model.ExistingNetworkParams.IsNull() && !model.ExistingNetworkParams.IsUnknown() {
+		tflog.Debug(ctx, "existing network params")
+		var existingNetworkParams existingAzureNetwork
+		diag := model.ExistingNetworkParams.As(ctx, &existingNetworkParams, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+		if diag.HasError() {
+			for _, v := range diag.Errors() {
+				tflog.Debug(ctx, "ERROR: "+v.Detail())
+			}
+		}
+		tflog.Debug(ctx, "network id: "+existingNetworkParams.NetworkID.ValueString())
+		tflog.Debug(ctx, "network id cast: "+model.ExistingNetworkParams.Attributes()["network_id"].(types.String).ValueString())
+		req.ExistingNetworkParams = &environmentsmodels.ExistingAzureNetworkRequest{
+			AksPrivateDNSZoneID:      existingNetworkParams.AksPrivateDNSZoneID.ValueString(),
+			DatabasePrivateDNSZoneID: existingNetworkParams.DatabasePrivateDNSZoneID.ValueString(),
+			NetworkID:                existingNetworkParams.NetworkID.ValueStringPointer(),
+			ResourceGroupName:        existingNetworkParams.ResourceGroupName.ValueStringPointer(),
+			SubnetIds:                utils.FromSetValueToStringList(existingNetworkParams.SubnetIds),
+		}
 	}
-	res.CreatePrivateSubnets = model.CreatePrivateSubnets.ValueBool()
-	res.CreateServiceEndpoints = model.CreateServiceEndpoints.ValueBool()
-	res.CredentialName = model.CredentialName.ValueStringPointer()
-	res.Description = model.Description.ValueString()
-	res.EnableTunnel = model.EnableTunnel.ValueBool()
-	res.EncryptionKeyArn = model.EncryptionKeyArn.ValueString()
-	res.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
-	res.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
-	res.EnvironmentName = model.EnvironmentName.ValueStringPointer()
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
-		var freeIpaDetails AWSFreeIpaDetails
+		var freeIpaDetails azureFreeIpaDetails
 		model.FreeIpa.As(ctx, &freeIpaDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
-		res.FreeIpa = &environmentsmodels.AWSFreeIpaCreationRequest{
+		req.FreeIpa = &environmentsmodels.AzureFreeIpaCreationRequest{
 			InstanceCountByGroup: int32(freeIpaDetails.InstanceCountByGroup.ValueInt64()),
 			InstanceType:         freeIpaDetails.InstanceType.ValueString(),
-			MultiAz:              freeIpaDetails.MultiAz.ValueBool(),
 			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
 		}
-		res.Image = &environmentsmodels.FreeIpaImageRequest{
+		req.Image = &environmentsmodels.FreeIpaImageRequest{
 			Catalog: freeIpaDetails.Catalog.ValueStringPointer(),
 			ID:      freeIpaDetails.ImageID.ValueStringPointer(),
 		}
 	}
 
 	if model.LogStorage != nil {
-		res.LogStorage = &environmentsmodels.AwsLogStorageRequest{
-			InstanceProfile:           model.LogStorage.InstanceProfile.ValueStringPointer(),
+		req.LogStorage = &environmentsmodels.AzureLogStorageRequest{
+			ManagedIdentity:           model.LogStorage.ManagedIdentity.ValueStringPointer(),
 			StorageLocationBase:       model.LogStorage.StorageLocationBase.ValueStringPointer(),
 			BackupStorageLocationBase: model.LogStorage.BackupStorageLocationBase.ValueString(),
 		}
 	}
-	if !model.NetworkCidr.IsNull() && !model.NetworkCidr.IsUnknown() {
-		res.NetworkCidr = model.NetworkCidr.ValueString()
+	if !model.NewNetworkParams.IsNull() && !model.NewNetworkParams.IsUnknown() {
+		var newNetworkParams newNetworkParams
+		model.NewNetworkParams.As(ctx, &newNetworkParams, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+		req.NewNetworkParams = &environmentsmodels.CreateAzureEnvironmentRequestNewNetworkParams{
+			NetworkCidr: newNetworkParams.NetworkCidr.ValueStringPointer(),
+		}
 	}
-	res.ProxyConfigName = model.ProxyConfigName.ValueString()
-	res.Region = model.Region.ValueStringPointer()
-	res.ReportDeploymentLogs = model.ReportDeploymentLogs.ValueBool()
-	res.S3GuardTableName = model.S3GuardTableName.ValueString()
-	res.SecurityAccess = &environmentsmodels.SecurityAccessRequest{
+	req.ProxyConfigName = model.ProxyConfigName.ValueString()
+	req.PublicKey = model.PublicKey.ValueStringPointer()
+	req.Region = model.Region.ValueStringPointer()
+	req.ReportDeploymentLogs = model.ReportDeploymentLogs.ValueBool()
+	req.ResourceGroupName = model.ResourceGroupName.ValueString()
+	req.SecurityAccess = &environmentsmodels.SecurityAccessRequest{
 		Cidr:                    model.SecurityAccess.Cidr.ValueString(),
 		DefaultSecurityGroupIDs: utils.FromSetValueToStringList(model.SecurityAccess.DefaultSecurityGroupIDs),
 		DefaultSecurityGroupID:  model.SecurityAccess.DefaultSecurityGroupID.ValueString(),
 		SecurityGroupIDsForKnox: utils.FromSetValueToStringList(model.SecurityAccess.SecurityGroupIDsForKnox),
 		SecurityGroupIDForKnox:  model.SecurityAccess.SecurityGroupIDForKnox.ValueString(),
 	}
-	if !model.SubnetIds.IsNull() && !model.SubnetIds.IsUnknown() {
-		res.SubnetIds = utils.FromSetValueToStringList(model.SubnetIds)
-	}
 	if !model.Tags.IsNull() {
-		res.Tags = make([]*environmentsmodels.TagRequest, len(model.Tags.Elements()))
+		req.Tags = make([]*environmentsmodels.TagRequest, len(model.Tags.Elements()))
 		i := 0
 		for k, v := range model.Tags.Elements() {
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
-				res.Tags[i] = &environmentsmodels.TagRequest{
+				req.Tags[i] = &environmentsmodels.TagRequest{
 					Key:   &k,
 					Value: val.ValueStringPointer(),
 				}
 			}
 		}
 	}
-	res.VpcID = model.VpcID.ValueString()
-	res.WorkloadAnalytics = model.WorkloadAnalytics.ValueBool()
-	return res
+	req.UsePublicIP = model.UsePublicIP.ValueBoolPointer()
+	req.WorkloadAnalytics = model.WorkloadAnalytics.ValueBool()
+	return req
 }
