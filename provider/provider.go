@@ -209,6 +209,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		environments.NewAzureCredentialResource,
 		environments.NewAzureEnvironmentResource,
 		datalake.NewAwsDatalakResource,
+		datalake.NewAzureDatalakResource,
 		iam.NewGroupResource,
 		datahub.NewAwsDatahubResource,
 	}
