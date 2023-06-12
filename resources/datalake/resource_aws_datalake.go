@@ -36,7 +36,7 @@ type awsDatalakeResource struct {
 	client *cdp.Client
 }
 
-func NewAwsDatalakResource() resource.Resource {
+func NewAwsDatalakeResource() resource.Resource {
 	return &awsDatalakeResource{}
 }
 
