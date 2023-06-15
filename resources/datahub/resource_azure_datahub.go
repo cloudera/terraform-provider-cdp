@@ -24,27 +24,27 @@ import (
 )
 
 var (
-	_ resource.Resource = &awsDatahubResource{}
+	_ resource.Resource = &azureDatahubResource{}
 )
 
-type awsDatahubResource struct {
+type azureDatahubResource struct {
 	client *cdp.Client
 }
 
-func NewAwsDatahubResource() resource.Resource {
-	return &awsDatahubResource{}
+func NewAzureDatahubResource() resource.Resource {
+	return &azureDatahubResource{}
 }
 
-func (r *awsDatahubResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_datahub_aws_cluster"
+func (r *azureDatahubResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_datahub_azure_cluster"
 }
 
-func (r *awsDatahubResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *azureDatahubResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
 }
 
-func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	tflog.Info(ctx, "AWS cluster creation process requested.")
+func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	tflog.Info(ctx, "Azure cluster creation process requested.")
 	var data datahubResourceModel
 	diags := req.Plan.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
@@ -52,14 +52,14 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	params := operations.NewCreateAWSClusterParamsWithContext(ctx)
-	params.WithInput(fromModelToAwsRequest(data, ctx))
+	params := operations.NewCreateAzureClusterParamsWithContext(ctx)
+	params.WithInput(fromModelToAzureRequest(data, ctx))
 
-	res, err := r.client.Datahub.Operations.CreateAWSCluster(params)
+	res, err := r.client.Datahub.Operations.CreateAzureCluster(params)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error creating AWS Data hub cluster.",
-			"Got error while creating AWS Data hub cluster: "+err.Error(),
+			"Error creating Azure Data hub cluster.",
+			"Got error while creating Azure Data hub cluster: "+err.Error(),
 		)
 		return
 	}
@@ -86,14 +86,14 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 	if err != nil {
 		tflog.Debug(ctx, fmt.Sprintf("Cluster creation has ended up in error: %s", err.Error()))
 		resp.Diagnostics.AddError(
-			"Error creating AWS Data hub cluster",
-			"Failure to poll of AWS Data hub cluster creation: "+err.Error(),
+			"Error creating Azure Data hub cluster",
+			"Failure to poll of Azure Data hub cluster creation: "+err.Error(),
 		)
 		return
 	}
 }
 
-func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *azureDatahubResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state datahubResourceModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -109,14 +109,14 @@ func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 	result, err := r.client.Datahub.Operations.DescribeCluster(params)
 	if err != nil {
 		if isNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "AWS Data hub cluster not found, removing from state.")
-			tflog.Warn(ctx, "AWS Data hub cluster not found, removing from state", map[string]interface{}{"id": state.ID.ValueString()})
+			resp.Diagnostics.AddWarning("Resource not found on provider", "Azure Data hub cluster not found, removing from state.")
+			tflog.Warn(ctx, "Azure Data hub cluster not found, removing from state", map[string]interface{}{"id": state.ID.ValueString()})
 			resp.State.RemoveResource(ctx)
 			return
 		}
 		resp.Diagnostics.AddError(
-			"Error Reading AWS Data hub cluster",
-			"Could not read AWS Data hub cluster: "+state.ID.ValueString()+": "+err.Error(),
+			"Error Reading Azure Data hub cluster",
+			"Could not read Azure Data hub cluster: "+state.ID.ValueString()+": "+err.Error(),
 		)
 		return
 	}
@@ -134,11 +134,11 @@ func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 	}
 }
 
-func (r *awsDatahubResource) Update(ctx context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
+func (r *azureDatahubResource) Update(ctx context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
 	tflog.Warn(ctx, "Update operation is not implemented yet.")
 }
 
-func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *azureDatahubResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state datahubResourceModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -153,8 +153,8 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 	if err != nil {
 		if !isNotFoundError(err) {
 			resp.Diagnostics.AddError(
-				"Error Deleting AWS Data hub cluster",
-				"Could not delete AWS Data hub cluster due to: "+err.Error(),
+				"Error Deleting Azure Data hub cluster",
+				"Could not delete Azure Data hub cluster due to: "+err.Error(),
 			)
 		}
 		return
@@ -163,8 +163,8 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error deleting AWS Data hub cluster",
-			"Failure to poll AWS Data hub deletion, unexpected error: "+err.Error(),
+			"Error deleting Azure Data hub cluster",
+			"Failure to poll Azure Data hub deletion, unexpected error: "+err.Error(),
 		)
 		return
 	}
