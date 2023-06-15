@@ -37,8 +37,8 @@ const (
 )
 
 type metastr struct {
-	accessKey  string `json:"access_key_id"`
-	authMethod string `json:"auth_method"`
+	AccessKey  string `json:"access_key_id"`
+	AuthMethod string `json:"auth_method"`
 }
 
 func newMetastr(accessKeyID string) *metastr {
