@@ -13,6 +13,7 @@ package datahub
 import (
 	"context"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -57,9 +58,13 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 
 	res, err := r.client.Datahub.Operations.CreateAWSCluster(params)
 	if err != nil {
+		msg := err.Error()
+		if d, ok := err.(*operations.CreateAWSClusterDefault); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
 		resp.Diagnostics.AddError(
 			"Error creating AWS Data hub cluster.",
-			"Got error while creating AWS Data hub cluster: "+err.Error(),
+			"Got error while creating AWS Data hub cluster: "+msg,
 		)
 		return
 	}
@@ -114,9 +119,13 @@ func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 			resp.State.RemoveResource(ctx)
 			return
 		}
+		msg := err.Error()
+		if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
 		resp.Diagnostics.AddError(
 			"Error Reading AWS Data hub cluster",
-			"Could not read AWS Data hub cluster: "+state.ID.ValueString()+": "+err.Error(),
+			"Could not read AWS Data hub cluster: "+state.ID.ValueString()+": "+msg,
 		)
 		return
 	}
@@ -152,9 +161,13 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 	_, err := r.client.Datahub.Operations.DeleteCluster(params)
 	if err != nil {
 		if !isNotFoundError(err) {
+			msg := err.Error()
+			if d, ok := err.(*operations.DeleteClusterDefault); ok && d.GetPayload() != nil {
+				msg = d.GetPayload().Message
+			}
 			resp.Diagnostics.AddError(
 				"Error Deleting AWS Data hub cluster",
-				"Could not delete AWS Data hub cluster due to: "+err.Error(),
+				"Could not delete AWS Data hub cluster due to: "+msg,
 			)
 		}
 		return
@@ -162,9 +175,13 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 
 	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx)
 	if err != nil {
+		msg := err.Error()
+		if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
 		resp.Diagnostics.AddError(
 			"Error deleting AWS Data hub cluster",
-			"Failure to poll AWS Data hub deletion, unexpected error: "+err.Error(),
+			"Failure to poll AWS Data hub deletion, unexpected error: "+msg,
 		)
 		return
 	}

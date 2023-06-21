@@ -144,9 +144,13 @@ func (r *azureCredentialResource) Create(ctx context.Context, req resource.Creat
 
 	result, err := client.Operations.CreateAzureCredential(params)
 	if err != nil {
+		msg := err.Error()
+		if d, ok := err.(*operations.CreateAzureCredentialDefault); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
 		resp.Diagnostics.AddError(
 			"Error creating Azure credential",
-			"Got error while creating Azure credential: "+err.Error(),
+			"Got error while creating Azure credential: "+msg,
 		)
 		return
 	}
@@ -176,9 +180,13 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
+		msg := err.Error()
+		if d, ok := err.(*operations.ListCredentialsDefault); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
 		resp.Diagnostics.AddError(
 			"Error Reading Azure Credentials",
-			"Could not read Azure Credentials: "+state.ID.ValueString()+": "+err.Error(),
+			"Could not read Azure Credentials: "+state.ID.ValueString()+": "+msg,
 		)
 		return
 	}
@@ -222,9 +230,13 @@ func (r *azureCredentialResource) Delete(ctx context.Context, req resource.Delet
 	params := operations.NewDeleteCredentialParamsWithContext(ctx).WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: state.CredentialName.ValueStringPointer()})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {
+		msg := err.Error()
+		if d, ok := err.(*operations.DeleteCredentialDefault); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
 		resp.Diagnostics.AddError(
 			"Error Deleting Azure credential",
-			"Could not delete Azure credential due to: "+err.Error(),
+			"Could not delete Azure credential due to: "+msg,
 		)
 		return
 	}
