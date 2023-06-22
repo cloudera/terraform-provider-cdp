@@ -11,13 +11,14 @@
 package ml
 
 import (
+	"context"
 	"fmt"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	mlclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client/operations"
 	mlmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
 	"strings"
@@ -200,7 +201,7 @@ func describeWorkspace(environmentName string, workspaceName string, client *mlc
 }
 
 func waitForWorkspaceToBeAvailable(environmentName string, workspaceName string, timeout time.Duration, client *mlclient.Ml) error {
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending:      []string{"provision:started"},
 		Target:       []string{"installation:finished"},
 		Delay:        5 * time.Second,
@@ -208,7 +209,7 @@ func waitForWorkspaceToBeAvailable(environmentName string, workspaceName string,
 		PollInterval: 10 * time.Second,
 		Refresh:      makePollWorkspaceStatus(environmentName, workspaceName, client),
 	}
-	_, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForStateContext(context.Background())
 
 	return err
 }
@@ -227,9 +228,7 @@ func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
 		return nil
 	}
 
-	d.Set("crn", workspace.Crn)
-
-	return nil
+	return d.Set("crn", workspace.Crn)
 }
 
 func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
@@ -259,7 +258,7 @@ func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func waitForWorkspaceToBeDeleted(environmentName string, workspaceName string, timeout time.Duration, client *mlclient.Ml) error {
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending:      []string{"deprovision:started"},
 		Target:       []string{},
 		Delay:        5 * time.Second,
@@ -267,12 +266,12 @@ func waitForWorkspaceToBeDeleted(environmentName string, workspaceName string, t
 		PollInterval: 10 * time.Second,
 		Refresh:      makePollWorkspaceStatus(environmentName, workspaceName, client),
 	}
-	_, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForStateContext(context.Background())
 
 	return err
 }
 
-func makePollWorkspaceStatus(environmentName string, workspaceName string, client *mlclient.Ml) resource.StateRefreshFunc {
+func makePollWorkspaceStatus(environmentName string, workspaceName string, client *mlclient.Ml) retry.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		log.Printf("About to describe workspace")
 		workspace, err := describeWorkspace(environmentName, workspaceName, client)
