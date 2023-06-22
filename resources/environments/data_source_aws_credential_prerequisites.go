@@ -53,13 +53,14 @@ func (d *awsCredentialPrerequisitesDataSource) Metadata(_ context.Context, req d
 
 func (d *awsCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "This data source is used to get information required to set up a delegated access role in AWS that can be used to create a CDP credential.",
 		Attributes: map[string]schema.Attribute{
 			"account_id": schema.StringAttribute{
-				MarkdownDescription: "AWS Account Id",
+				MarkdownDescription: "The AWS account ID of the identity used by CDP when assuming a delegated access role associated with a CDP credential.",
 				Computed:            true,
 			},
 			"external_id": schema.StringAttribute{
-				MarkdownDescription: "External Id used for the cross account role",
+				MarkdownDescription: "The external ID that will be used when assuming a delegated access role associated with a CDP credential.",
 				Computed:            true,
 			},
 		},

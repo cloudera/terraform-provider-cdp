@@ -98,7 +98,7 @@ output "crn" {
 - `new_network_params` (Attributes) (see [below for nested schema](#nestedatt--new_network_params))
 - `proxy_config_name` (String)
 - `report_deployment_logs` (Boolean)
-- `resource_group_name` (Boolean)
+- `resource_group_name` (String)
 - `tags` (Map of String)
 - `workload_analytics` (Boolean)
 

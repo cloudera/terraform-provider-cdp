@@ -16,12 +16,38 @@ terraform {
   }
 }
 
-data "cdp_environments_aws_credential_prerequisites" "example" {}
+data "cdp_environments_aws_credential_prerequisites" "credential_prerequisites" {}
+
+resource "aws_iam_role" "cdp-cross-account-role" {
+  name = "cdp-cross-account-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${data.cdp_environments_aws_credential_prerequisites.credential_prerequisites.account_id}:root"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "sts:ExternalId": "${data.cdp_environments_aws_credential_prerequisites.credential_prerequisites.external_id}"
+        }
+      }
+    }
+  ]
+}
+
+EOF
+
+}
 
 output "account_id" {
-  value = data.cdp_environments_aws_credential_prerequisites.example.account_id
+  value = data.cdp_environments_aws_credential_prerequisites.credential_prerequisites.account_id
 }
 
 output "external_id" {
-  value = data.cdp_environments_aws_credential_prerequisites.example.external_id
+  value = data.cdp_environments_aws_credential_prerequisites.credential_prerequisites.external_id
 }
