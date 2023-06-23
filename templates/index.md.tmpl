@@ -1,14 +1,15 @@
 ---
-page_title: "Provider: CDP"
+page_title: "Cloudera Data Platform (CDP) Provider"
+subcategory: ""
 description: |-
-  The Cloudera Data Platform (CDP) provider is used to interact with the resources supported by CDP.
+{{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
 ---
 
 # {{ .ProviderShortName | upper }} Provider
 
-The Cloudera Data Platform (CDP) provider is used to interact with the resources
-supported by CDP. The provider needs to be configured with the proper
-credentials before it can be used.
+{{ .Description | trimspace }}
+
+The provider needs to be configured with the proper credentials before it can be used (see Authentication section below).
 
 ## Example Usage
 {{ tffile "examples/provider/provider.tf" }}

@@ -1,14 +1,15 @@
 ---
-page_title: "Provider: CDP"
+page_title: "Cloudera Data Platform (CDP) Provider"
+subcategory: ""
 description: |-
-  The Cloudera Data Platform (CDP) provider is used to interact with the resources supported by CDP.
+  The Cloudera Data Platform (CDP) provider manages the lifecycle of resources supported by CDP like Credentials, Environment, Datalake, Datahub and other data services.
 ---
 
 # CDP Provider
 
-The Cloudera Data Platform (CDP) provider is used to interact with the resources
-supported by CDP. The provider needs to be configured with the proper
-credentials before it can be used.
+The Cloudera Data Platform (CDP) provider manages the lifecycle of resources supported by CDP like Credentials, Environment, Datalake, Datahub and other data services.
+
+The provider needs to be configured with the proper credentials before it can be used (see Authentication section below).
 
 ## Example Usage
 ```terraform

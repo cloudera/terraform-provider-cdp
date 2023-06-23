@@ -2,14 +2,12 @@
 page_title: "cdp_environments_aws_credential_prerequisites Data Source - terraform-provider-cdp"
 subcategory: "environments"
 description: |-
-  cdpenvironmentsawscredentialprerequisites data source is used to get information required to set up a delegated access
-  role in AWS that can be used to create a CDP credential.
+  This data source is used to get information required to set up a delegated access role in AWS that can be used to create a CDP credential.
 ---
 
 # cdp_environments_aws_credential_prerequisites (Data Source)
 
-cdp_environments_aws_credential_prerequisites data source is used to get information required to set up a delegated access
-role in AWS that can be used to create a CDP credential.
+This data source is used to get information required to set up a delegated access role in AWS that can be used to create a CDP credential.
 
 ## Example Usage
 
