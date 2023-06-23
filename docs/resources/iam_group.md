@@ -31,7 +31,7 @@ terraform {
 }
 
 resource "cdp_iam_group" "example" {
-  group_name = "example"
+  group_name                    = "example"
   sync_membership_on_user_login = true
 }
 

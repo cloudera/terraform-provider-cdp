@@ -21,10 +21,10 @@ resource "cdp_environments_azure_credential" "example-cred" {
   subscription_id = "<value>"
   tenant_id       = "<value>"
   app_based = {
-    application_id  = "<value>"
-    secret_key      = "<value>"
+    application_id = "<value>"
+    secret_key     = "<value>"
   }
-  description     = "Example Azure Credential"
+  description = "Example Azure Credential"
 }
 
 resource "cdp_environments_azure_environment" "example-env" {
@@ -35,9 +35,9 @@ resource "cdp_environments_azure_environment" "example-env" {
     cidr = "0.0.0.0/0"
   }
   existing_network_params = {
-    network_id = "network-name"
+    network_id          = "network-name"
     resource_group_name = "rg-name"
-    subnet_ids = ["subnet.id"]
+    subnet_ids          = ["subnet.id"]
   }
   public_key = "my-key"
   log_storage = {
@@ -45,7 +45,7 @@ resource "cdp_environments_azure_environment" "example-env" {
     managed_identity      = "/subscriptions/123e4567-e89b-12d3-a456-426614174000/resourcegroups/my-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/logger"
   }
   resource_group_name = "rg-name"
-  use_public_ip = true
+  use_public_ip       = true
 }
 
 output "environment_name" {

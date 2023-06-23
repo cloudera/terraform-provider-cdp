@@ -36,8 +36,8 @@ provider "cdp" {
 }
 
 resource "cdp_environments_aws_credential" "example" {
-  name = "example-cdp-aws-credential"
-  role_arn = "arn:aws:iam::11111111111:role/example-cross-account-role"
+  name        = "example-cdp-aws-credential"
+  role_arn    = "arn:aws:iam::11111111111:role/example-cross-account-role"
   description = "Example AWS Credential"
 }
 ```
@@ -96,7 +96,7 @@ terraform {
 
 provider "cdp" {
   cdp_access_key_id = var.cdp_access_key_id
-  cdp_private_key = var.cdp_private_key
+  cdp_private_key   = var.cdp_private_key
 }
 
 variable "cdp_access_key_id" {
