@@ -64,6 +64,8 @@ type azureEnvironmentResourceModel struct {
 	UsePublicIP types.Bool `tfsdk:"use_public_ip"`
 
 	WorkloadAnalytics types.Bool `tfsdk:"workload_analytics"`
+
+	EndpointAccessGatewayScheme types.String `tfsdk:"endpoint_access_gateway_scheme"`
 }
 
 type existingAzureNetwork struct {
