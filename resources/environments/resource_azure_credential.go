@@ -144,14 +144,7 @@ func (r *azureCredentialResource) Create(ctx context.Context, req resource.Creat
 
 	result, err := client.Operations.CreateAzureCredential(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.CreateAzureCredentialDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating Azure credential",
-			"Got error while creating Azure credential: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating Azure Credential")
 		return
 	}
 
@@ -180,14 +173,7 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.ListCredentialsDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Reading Azure Credentials",
-			"Could not read Azure Credentials: "+state.ID.ValueString()+": "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading Azure Credential")
 		return
 	}
 
@@ -195,8 +181,8 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	credentials := listCredentialsResp.GetPayload().Credentials
 	if len(credentials) == 0 || *credentials[0].CredentialName != credentialName {
 		resp.Diagnostics.AddError(
-			"Summary: Credential could not found.",
-			"Detailed: Credential not found, removing from state.")
+			"Error reading Azure Credential.",
+			"Azure Credential not found, removing from state.")
 		resp.State.RemoveResource(ctx) // deleted
 		return
 	}
@@ -230,14 +216,7 @@ func (r *azureCredentialResource) Delete(ctx context.Context, req resource.Delet
 	params := operations.NewDeleteCredentialParamsWithContext(ctx).WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: state.CredentialName.ValueStringPointer()})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DeleteCredentialDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Deleting Azure credential",
-			"Could not delete Azure credential due to: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting Azure Credential")
 		return
 	}
 

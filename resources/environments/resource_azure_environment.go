@@ -65,14 +65,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 
 	responseOk, err := client.Operations.CreateAzureEnvironment(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeEnvironmentDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating Azure Environment",
-			"Got error while creating Azure Environment: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating Azure Environment")
 		return
 	}
 
@@ -87,14 +80,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 
 	timeout := time.Hour * 1
 	if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeout, client, ctx); err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeEnvironmentDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating Azure Environment",
-			"Failed to poll creating Azure Environment: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating Azure Environment")
 		return
 	}
 
@@ -113,14 +99,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeEnvironmentDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating Azure Environment",
-			"Could not read Azure Environment: "+data.ID.ValueString()+": "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating Azure Environment")
 		return
 	}
 
@@ -155,14 +134,7 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeEnvironmentDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Reading Azure Environment",
-			"Could not read Azure Environment: "+state.ID.ValueString()+": "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading Azure Environment")
 		return
 	}
 
@@ -294,28 +266,14 @@ func (r *azureEnvironmentResource) Delete(ctx context.Context, req resource.Dele
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DeleteEnvironmentDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Deleting Azure Environment",
-			"Could not delete Azure Environment, unexpected error: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting Azure Environment")
 		return
 	}
 
 	timeout := time.Hour * 1
 	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeEnvironmentDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Deleting Azure Environment",
-			"Failed to poll delete Azure Environment, unexpected error: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting Azure Environment")
 		return
 	}
 }

@@ -116,14 +116,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	params.WithInput(toAwsDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAWSDatalake(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.CreateAWSDatalakeDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating AWS Datalake",
-			"Got the following error creating AWS Datalake: "+msg,
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -137,14 +130,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeDatalakeDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating AWS Data Lake",
-			"Failure to poll creating AWS Data Lake: "+msg,
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -152,14 +138,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeDatalakeDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error getting AWS Datalake",
-			"Got the following error getting AWS Datalake: "+msg,
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -234,7 +213,6 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
-		msg := err.Error()
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				resp.Diagnostics.AddWarning("Resource not found on provider", "Data lake not found, removing from state.")
@@ -244,12 +222,8 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 				resp.State.RemoveResource(ctx)
 				return
 			}
-			msg = dlErr.GetPayload().Message
 		}
-		resp.Diagnostics.AddError(
-			"Error getting AWS Datalake",
-			"Got the following error getting AWS Datalake: "+msg,
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "reading AWS Datalake")
 		return
 	}
 
@@ -406,7 +380,6 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {
-		msg := err.Error()
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				tflog.Info(ctx, "Data lake already deleted", map[string]interface{}{
@@ -414,24 +387,13 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 				})
 				return
 			}
-			msg = dlErr.GetPayload().Message
 		}
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Datalake",
-			"Could not delete AWS Datalake unexpected error: "+msg,
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datalake")
 		return
 	}
 
 	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeDatalakeDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Data Lake",
-			"Failure to poll delete AWS Data Lake, unexpected error: "+msg,
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datalake")
 		return
 	}
 }

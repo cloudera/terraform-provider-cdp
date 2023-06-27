@@ -58,14 +58,7 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 
 	res, err := r.client.Datahub.Operations.CreateAWSCluster(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.CreateAWSClusterDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating AWS Data hub cluster.",
-			"Got error while creating AWS Data hub cluster: "+msg,
-		)
+		utils.AddDatahubDiagnosticsError(err, resp.Diagnostics, "creating AWS Datahub")
 		return
 	}
 
@@ -90,10 +83,7 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 	if err != nil {
 		tflog.Debug(ctx, fmt.Sprintf("Cluster creation has ended up in error: %s", err.Error()))
-		resp.Diagnostics.AddError(
-			"Error creating AWS Data hub cluster",
-			"Failure to poll of AWS Data hub cluster creation: "+err.Error(),
-		)
+		utils.AddDatahubDiagnosticsError(err, resp.Diagnostics, "creating AWS Datahub")
 		return
 	}
 }
@@ -119,14 +109,7 @@ func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Reading AWS Data hub cluster",
-			"Could not read AWS Data hub cluster: "+state.ID.ValueString()+": "+msg,
-		)
+		utils.AddDatahubDiagnosticsError(err, resp.Diagnostics, "reading AWS Datahub")
 		return
 	}
 
@@ -161,28 +144,14 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 	_, err := r.client.Datahub.Operations.DeleteCluster(params)
 	if err != nil {
 		if !isNotFoundError(err) {
-			msg := err.Error()
-			if d, ok := err.(*operations.DeleteClusterDefault); ok && d.GetPayload() != nil {
-				msg = d.GetPayload().Message
-			}
-			resp.Diagnostics.AddError(
-				"Error Deleting AWS Data hub cluster",
-				"Could not delete AWS Data hub cluster due to: "+msg,
-			)
+			utils.AddDatahubDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datahub")
 		}
 		return
 	}
 
 	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error deleting AWS Data hub cluster",
-			"Failure to poll AWS Data hub deletion, unexpected error: "+msg,
-		)
+		utils.AddDatahubDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datahub")
 		return
 	}
 }

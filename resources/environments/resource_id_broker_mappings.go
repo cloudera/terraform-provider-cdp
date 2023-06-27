@@ -167,10 +167,7 @@ func (r *idBrokerMappingsResource) Create(ctx context.Context, req resource.Crea
 			)
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error applying ID Broker mappings",
-			"Got the following error applying ID Broker mappings: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating ID Broker mapping")
 		return
 	}
 
@@ -219,10 +216,7 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 				return
 			}
 		}
-		resp.Diagnostics.AddError(
-			"Error getting ID Broker mappings",
-			"Got the following error getting ID Broker mappings: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading ID Broker mapping")
 		return
 	}
 
@@ -327,10 +321,7 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 			)
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error Deleting ID Broker mappings",
-			"Got the following error deleting ID Broker mappings: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting ID Broker mapping")
 		return
 	}
 }

@@ -107,14 +107,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 	// is just created but is not "synced up" in AWS. We should retry for a short time if it is the case.
 	responseOk, err := client.Operations.CreateAWSCredential(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.CreateAWSCredentialDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error creating AWS Credentials",
-			"Got error while creating AWS Credentials: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating AWS Credential")
 		return
 	}
 
@@ -144,14 +137,7 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.ListCredentialsDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Reading AWS Credentials",
-			"Could not read AWS Credentials: "+credentialName+": "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading AWS Credential")
 		return
 	}
 
@@ -194,14 +180,7 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {
-		msg := err.Error()
-		if d, ok := err.(*operations.DeleteCredentialDefault); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Credential",
-			"Could not delete AWS Credential, unexpected error: "+msg,
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting AWS Credential")
 		return
 	}
 }
