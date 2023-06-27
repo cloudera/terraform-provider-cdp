@@ -12,8 +12,6 @@ package environments
 
 import (
 	"context"
-	"strings"
-
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
@@ -193,12 +191,4 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 		)
 		return
 	}
-}
-
-func isNotAuthorizedError(err error) bool {
-	if d, ok := err.(*operations.CreateAWSEnvironmentDefault); ok && d.GetPayload() != nil {
-		return d.GetPayload().Code == "INVALID_ARGUMENT" &&
-			strings.Contains(d.GetPayload().Message, "You are not authorized")
-	}
-	return false
 }

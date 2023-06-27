@@ -16,7 +16,6 @@ check-go:
 ifndef GOPATH
 	$(error GOPATH not defined, please define GOPATH. Run "go help gopath" to learn more about GOPATH)
 endif
-.PHONY: check-go docs
 
 # Run tests
 test: generate fmt vet
@@ -32,8 +31,14 @@ testacc:
 	TF_ACC=1 go test -count=1 -parallel=4 -timeout 10m -v ./...
 
 # Build main binary
-main: generate fmt vet
+main: build
+
+build: generate fmt vet
 	go build $(GO_FLAGS) ./
+
+# See https://golangci-lint.run/
+lint:
+	golangci-lint run
 
 install: main
 	go install .
@@ -45,17 +50,14 @@ install-terraformrc:
 # Make a release
 release: test testacc docs
 	@goreleaser release --clean
-.PHONY: release
 
 # Make a local snapshot release
 release-snapshot: test
 	@goreleaser release --snapshot --clean
-.PHONY: release-snapshot
 
 clean:
 	rm -f terraform-provider-cdp
 	rm -rf dist
-.PHONY: clean
 
 # Run go fmt against code
 fmt:
@@ -82,4 +84,5 @@ mod-tidy:
 # Deploy
 deploy: all
 	cp terraform-provider-cdp ~/.terraform.d/plugins/terraform-provider-cdp
-.PHONY: deploy
+
+.PHONY: all check-go docs deploy test mod-tidy generate vet fmt clean release release-snapshot install-terraformrc install main build

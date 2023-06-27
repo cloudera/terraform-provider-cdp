@@ -147,18 +147,21 @@ func getOrDefaultFromEnv(val basetypes.StringValue, envVars ...string) string {
 	return ""
 }
 
-func getOrDefaultBoolFromEnv(val basetypes.BoolValue, envVars ...string) bool {
+func getOrDefaultBoolFromEnv(ctx context.Context, val basetypes.BoolValue, envVars ...string) bool {
 	if !val.IsNull() {
 		return val.ValueBool()
 	}
 
 	for _, envVar := range envVars {
 		env, ok := os.LookupEnv(envVar)
-		if !ok {
-			return false
+		if ok {
+			boolVal, err := strconv.ParseBool(env)
+			if err != nil {
+				tflog.Warn(ctx, fmt.Sprintf("Error parsing boolean: %v", env))
+				return false
+			}
+			return boolVal
 		}
-		boolVal, _ := strconv.ParseBool(env)
-		return boolVal
 	}
 	return false
 }
@@ -173,7 +176,7 @@ func getCdpConfig(ctx context.Context, data CdpProviderModel) *cdp.Config {
 	cdpEndpointUrl := getOrDefaultFromEnv(data.CdpEndpointUrl, "CDP_ENDPOINT_URL")
 	cdpConfigFile := getOrDefaultFromEnv(data.CdpConfigFile, "CDP_CONFIG_FILE")
 	cdpSharedCredentialsFile := getOrDefaultFromEnv(data.CdpSharedCredentialsFile, "CDP_SHARED_CREDENTIALS_FILE")
-	localEnvironment := getOrDefaultBoolFromEnv(data.LocalEnvironment, "LOCAL_ENVIRONMENT")
+	localEnvironment := getOrDefaultBoolFromEnv(ctx, data.LocalEnvironment, "LOCAL_ENVIRONMENT")
 
 	config := cdp.NewConfig()
 	config.WithContext(ctx)

@@ -24,8 +24,8 @@ var (
 	// to appropriate values for the compiled binary.
 	// https://goreleaser.com/cookbooks/using-main.version/
 	version = "dev"
-	commit  = "none"
-	date    = "unknown"
+	commit  = "none"    //nolint:all
+	date    = "unknown" //nolint:all
 )
 
 func main() {

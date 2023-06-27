@@ -297,9 +297,8 @@ func (config *Config) convertProfileMap(properties map[string]map[string]string)
 		} else if profile == "default" {
 			// Default is special, and considered a profile without having to write [profile default] as a section.
 			ret[profile] = profileData
-		} else {
-			// silently ignore. We do not yet support config keys that are not profiles. Can be added later.
 		}
+		// else silently ignore. We do not yet support config keys that are not profiles. Can be added later.
 	}
 
 	return ret
