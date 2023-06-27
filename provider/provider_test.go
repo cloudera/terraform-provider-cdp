@@ -11,8 +11,11 @@
 package provider
 
 import (
+	"context"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
+	"regexp"
 	"testing"
 )
 
@@ -31,4 +34,40 @@ func testAccPreCheck(t *testing.T) {
 	// You can add code here to run prior to any test case execution, for example assertions
 	// about the appropriate environment variables being set are common to see in a pre-check
 	// function.
+}
+
+func createCdpProviderModel() *CdpProviderModel {
+	return &CdpProviderModel{
+		CdpAccessKeyId:           types.StringValue("cdp-access-key"),
+		CdpPrivateKey:            types.StringValue("cdp-private-key"),
+		Profile:                  types.StringValue("profile"),
+		AltusEndpointUrl:         types.StringValue("altus-endpoint-url"),
+		CdpEndpointUrl:           types.StringValue("cdp-endpoint-url"),
+		CdpConfigFile:            types.StringValue("cdp-config-file"),
+		CdpSharedCredentialsFile: types.StringValue("cdp-shared-credentials-file"),
+		LocalEnvironment:         types.BoolValue(false),
+	}
+}
+
+func TestProviderOverridesUserAgent(t *testing.T) {
+	model := createCdpProviderModel()
+
+	config := getCdpConfig(context.Background(), model, "0.1.0", "v1.4.2")
+	userAgent := config.GetUserAgentOrDefault()
+
+	r, _ := regexp.Compile(`^CDPTFPROVIDER/.+ Terraform/.+ Go/.+ .+_.+$`)
+	if !r.MatchString(userAgent) {
+		t.Fatalf("Failed to match the User-Agent regex: %v", userAgent)
+	}
+}
+
+func TestProviderClientApplicationName(t *testing.T) {
+	model := createCdpProviderModel()
+
+	config := getCdpConfig(context.Background(), model, "0.1.0", "v1.4.2")
+	clientApplicationName := config.ClientApplicationName
+
+	if clientApplicationName != "terraform-provider-cdp" {
+		t.Fatalf("Terraform provider should have set client application name. Got: %v", clientApplicationName)
+	}
 }
