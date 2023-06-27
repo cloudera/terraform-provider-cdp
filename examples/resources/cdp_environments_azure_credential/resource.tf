@@ -21,10 +21,10 @@ resource "cdp_environments_azure_credential" "example" {
   subscription_id = "<value>"
   tenant_id       = "<value>"
   app_based = {
-    application_id  = "<value>"
-    secret_key      = "<value>"
+    application_id = "<value>"
+    secret_key     = "<value>"
   }
-  description     = "Example Azure Credential"
+  description = "Example Azure Credential"
 }
 
 output "credential_name" {

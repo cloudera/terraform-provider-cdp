@@ -31,7 +31,7 @@ terraform {
 
 provider "cdp" {
   cdp_access_key_id = var.cdp_access_key_id
-  cdp_private_key = var.cdp_private_key
+  cdp_private_key   = var.cdp_private_key
 }
 
 variable "cdp_access_key_id" {

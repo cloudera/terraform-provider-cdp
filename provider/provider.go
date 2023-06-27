@@ -67,6 +67,7 @@ func (p *CdpProvider) Metadata(_ context.Context, _ provider.MetadataRequest, re
 
 func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "The Cloudera Data Platform (CDP) provider manages the lifecycle of resources supported by CDP like Credentials, Environment, Datalake, Datahub and other data services.",
 		Attributes: map[string]schema.Attribute{
 			"cdp_access_key_id": schema.StringAttribute{
 				Optional:            true,

@@ -17,8 +17,8 @@ terraform {
 }
 
 resource "cdp_environments_aws_credential" "example" {
-  name = "example-cdp-aws-credential"
-  role_arn = "arn:aws:iam::11111111111:role/example-cross-account-role"
+  name        = "example-cdp-aws-credential"
+  role_arn    = "arn:aws:iam::11111111111:role/example-cross-account-role"
   description = "Example AWS Credentials"
 }
 
