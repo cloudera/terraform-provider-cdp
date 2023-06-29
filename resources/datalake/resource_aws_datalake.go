@@ -116,7 +116,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	params.WithInput(toAwsDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAWSDatalake(params)
 	if err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -130,7 +130,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -138,7 +138,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -181,7 +181,7 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, timeou
 
 func checkResponseStatusForError(resp *operations.DescribeDatalakeOK) (interface{}, string, error) {
 	if utils.ContainsAsSubstring([]string{"FAILED", "ERROR"}, resp.GetPayload().Datalake.Status) {
-		return nil, "", fmt.Errorf("unexpected Data Lake status: %s", resp.GetPayload().Datalake.Status)
+		return nil, "", fmt.Errorf("unexpected Data Lake status: %s. Reason: %s", resp.GetPayload().Datalake.Status, resp.GetPayload().Datalake.StatusReason)
 	}
 	return resp, resp.GetPayload().Datalake.Status, nil
 }
@@ -223,7 +223,7 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 				return
 			}
 		}
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "reading AWS Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "reading AWS Datalake")
 		return
 	}
 
@@ -388,12 +388,12 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 				return
 			}
 		}
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "deleting AWS Datalake")
 		return
 	}
 
 	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "deleting AWS Datalake")
 		return
 	}
 }

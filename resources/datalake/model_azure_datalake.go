@@ -23,8 +23,6 @@ type azureDatalakeResourceModel struct {
 
 	CloudStorageBaseLocation types.String `tfsdk:"cloud_storage_base_location"`
 
-	CloudbreakVersion types.String `tfsdk:"cloudbreak_version"`
-
 	ClouderaManager types.Object `tfsdk:"cloudera_manager"`
 
 	CreationDate types.String `tfsdk:"creation_date"`

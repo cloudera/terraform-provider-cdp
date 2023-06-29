@@ -21,7 +21,7 @@ type EnvironmentErrorPayload interface {
 	GetPayload() *environmentsmodels.Error
 }
 
-func AddEnvironmentDiagnosticsError(err error, diagnostics diag.Diagnostics, errMsg string) {
+func AddEnvironmentDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(EnvironmentErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
@@ -36,7 +36,7 @@ type DatalakeErrorPayload interface {
 	GetPayload() *datalakemodels.Error
 }
 
-func AddDatalakeDiagnosticsError(err error, diagnostics diag.Diagnostics, errMsg string) {
+func AddDatalakeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DatalakeErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
@@ -51,7 +51,7 @@ type DatahubErrorPayload interface {
 	GetPayload() *datahubmodels.Error
 }
 
-func AddDatahubDiagnosticsError(err error, diagnostics diag.Diagnostics, errMsg string) {
+func AddDatahubDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
