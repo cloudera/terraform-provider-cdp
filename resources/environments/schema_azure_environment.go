@@ -13,8 +13,6 @@ package environments
 import (
 	"context"
 
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
@@ -25,6 +23,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var AzureEnvironmentSchema = schema.Schema{
@@ -64,6 +65,11 @@ var AzureEnvironmentSchema = schema.Schema{
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
+		},
+		"endpoint_access_gateway_scheme": schema.StringAttribute{
+			Description:         "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
+			MarkdownDescription: "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
+			Optional:            true,
 		},
 		"encryption_key_resource_group_name": schema.StringAttribute{
 			Optional: true,
@@ -269,7 +275,7 @@ var AzureEnvironmentSchema = schema.Schema{
 	},
 }
 
-func ToAzureEnvrionmentRequest(ctx context.Context, model *azureEnvironmentResourceModel) *environmentsmodels.CreateAzureEnvironmentRequest {
+func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResourceModel) *environmentsmodels.CreateAzureEnvironmentRequest {
 	req := &environmentsmodels.CreateAzureEnvironmentRequest{}
 	req.CreatePrivateEndpoints = model.CreatePrivateEndpoints.ValueBool()
 	req.CredentialName = model.CredentialName.ValueStringPointer()
@@ -279,6 +285,7 @@ func ToAzureEnvrionmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.EncryptionKeyResourceGroupName = model.EncryptionKeyResourceGroupName.ValueString()
 	req.EncryptionKeyURL = model.EncryptionKeyURL.ValueString()
 	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	req.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
 	if !model.ExistingNetworkParams.IsNull() && !model.ExistingNetworkParams.IsUnknown() {
 		tflog.Debug(ctx, "existing network params")
 		var existingNetworkParams existingAzureNetwork

@@ -14,14 +14,15 @@ import (
 	"context"
 	"time"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var (
@@ -60,7 +61,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 	client := r.client.Environments
 
 	params := operations.NewCreateAzureEnvironmentParamsWithContext(ctx)
-	params.WithInput(ToAzureEnvrionmentRequest(ctx, &data))
+	params.WithInput(ToAzureEnvironmentRequest(ctx, &data))
 
 	responseOk, err := client.Operations.CreateAzureEnvironment(params)
 	if err != nil {
