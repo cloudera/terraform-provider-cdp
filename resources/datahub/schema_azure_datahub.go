@@ -20,10 +20,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func (r *awsDatahubResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	tflog.Info(ctx, "Creating awsDatahubResource.")
+func (r *azureDatahubResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	tflog.Info(ctx, "Creating azureDatahubResource.")
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Creates an AWS Data hub cluster.",
+		MarkdownDescription: "Creates an Azure Data hub cluster.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

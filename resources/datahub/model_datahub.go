@@ -14,10 +14,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-type awsDatahubResourceModel struct {
+type datahubResourceModel struct {
 	ID                types.String    `tfsdk:"id"`
 	Crn               types.String    `tfsdk:"crn"`
 	Name              types.String    `tfsdk:"name"`
+	Status            types.String    `tfsdk:"status"`
 	Environment       types.String    `tfsdk:"environment"`
 	ClusterTemplate   types.String    `tfsdk:"cluster_template"`
 	ClusterDefinition types.String    `tfsdk:"cluster_definition"`

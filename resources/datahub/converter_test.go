@@ -16,12 +16,12 @@ import (
 )
 
 func TestFromModelToRequestBasicFields(t *testing.T) {
-	input := awsDatahubResourceModel{
+	input := datahubResourceModel{
 		Name:            types.StringValue("someClusterName"),
 		Environment:     types.StringValue("someEnvironment"),
 		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
 	}
-	got := fromModelToRequest(input, nil)
+	got := fromModelToAwsRequest(input, nil)
 
 	compareStrings(got.ClusterName, input.Name.ValueString(), t)
 	compareStrings(got.Environment, input.Environment.ValueString(), t)
@@ -31,12 +31,12 @@ func TestFromModelToRequestBasicFields(t *testing.T) {
 func TestFromModelToRequestRecipe(t *testing.T) {
 	recipes := []types.String{types.StringValue("recipe1"), types.StringValue("recipe2")}
 	igs := []InstanceGroup{{Recipes: recipes}}
-	input := awsDatahubResourceModel{InstanceGroup: igs}
+	input := datahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToRequest(input, nil)
+	got := fromModelToAwsRequest(input, nil)
 
-	compareBasicInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareBasicInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
+	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
 
 	for _, convertedRecipe := range got.InstanceGroups[0].RecipeNames {
 		var contains bool
@@ -58,16 +58,16 @@ func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
 	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
-	input := awsDatahubResourceModel{InstanceGroup: igs}
+	input := datahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToRequest(input, nil)
+	got := fromModelToAwsRequest(input, nil)
 
-	compareBasicInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareBasicInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
+	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
 
 	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
-	compareInts(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
-	compareInts(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	compareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	compareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
 	compareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
 }
 
@@ -81,16 +81,16 @@ func TestFromModelToRequestInstanceGroups(t *testing.T) {
 		RecoveryMode:      types.StringValue("MANUAL"),
 	}}
 
-	input := awsDatahubResourceModel{InstanceGroup: igs}
+	input := datahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToRequest(input, nil)
+	got := fromModelToAwsRequest(input, nil)
 
-	compareBasicInts(len(got.InstanceGroups), len(igs), t)
+	compareInts(len(got.InstanceGroups), len(igs), t)
 	resultIg := got.InstanceGroups[0]
 	compareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
 	compareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
 	compareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
-	compareInts(&resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	compareInt32PointerToTypesInt64(&resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
 	compareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
 }
 
@@ -99,11 +99,11 @@ func TestFromModelToRequestVolumeEncryption(t *testing.T) {
 		VolumeEncryption: VolumeEncryption{Encryption: types.BoolValue(true)},
 	}}
 
-	input := awsDatahubResourceModel{InstanceGroup: igs}
+	input := datahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToRequest(input, nil)
+	got := fromModelToAwsRequest(input, nil)
 
-	compareBasicInts(len(got.InstanceGroups), len(igs), t)
+	compareInts(len(got.InstanceGroups), len(igs), t)
 	resultVolumeEncryption := got.InstanceGroups[0].VolumeEncryption
 	if resultVolumeEncryption == nil {
 		t.Errorf("Volume encryption is not filled though it should've been!")
@@ -113,8 +113,8 @@ func TestFromModelToRequestVolumeEncryption(t *testing.T) {
 }
 
 func TestFromModelToRequestClusterDefinition(t *testing.T) {
-	input := awsDatahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
-	got := fromModelToRequest(input, nil)
+	input := datahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
+	got := fromModelToAwsRequest(input, nil)
 
 	compareStrings(got.ClusterDefinition, input.ClusterDefinition.ValueString(), t)
 }
@@ -125,13 +125,13 @@ func compareStrings(got string, expected string, t *testing.T) {
 	}
 }
 
-func compareInts(got *int32, expected types.Int64, t *testing.T) {
+func compareInt32PointerToTypesInt64(got *int32, expected types.Int64, t *testing.T) {
 	if *got != *int64To32Pointer(expected) {
 		t.Errorf("Assertion error! Expected: %d, got: %d", expected.ValueInt64(), *got)
 	}
 }
 
-func compareBasicInts(got int, expected int, t *testing.T) {
+func compareInts(got int, expected int, t *testing.T) {
 	if got != expected {
 		t.Errorf("Assertion error! Expected: %d, got: %d", expected, got)
 	}

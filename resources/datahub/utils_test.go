@@ -11,9 +11,10 @@
 package datahub
 
 import (
+	"testing"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
-	"testing"
 )
 
 func TestCheckIfClusterCreationFailed(t *testing.T) {
@@ -25,17 +26,17 @@ func TestCheckIfClusterCreationFailed(t *testing.T) {
 	for _, scenario := range []testCase{
 		{
 			description:        "Test with status: CREATION_FAILED",
-			input:              createInputWithStatus("CREATION_FAILED"),
+			input:              createOkInputWithStatus("CREATION_FAILED"),
 			shouldContainError: true,
 		},
 		{
 			description:        "Test with status: DELETED_ON_PROVIDER",
-			input:              createInputWithStatus("DELETED_ON_PROVIDER"),
+			input:              createOkInputWithStatus("DELETED_ON_PROVIDER"),
 			shouldContainError: true,
 		},
 		{
 			description:        "Test with status: UPDATE_IN_PROGRESS",
-			input:              createInputWithStatus("UPDATE_IN_PROGRESS"),
+			input:              createOkInputWithStatus("UPDATE_IN_PROGRESS"),
 			shouldContainError: false,
 		},
 	} {
@@ -48,8 +49,49 @@ func TestCheckIfClusterCreationFailed(t *testing.T) {
 	}
 }
 
-func createInputWithStatus(status string) operations.DescribeClusterOK {
+func TestIsNotFoundError(t *testing.T) {
+	type testCase struct {
+		description    string
+		input          operations.DescribeClusterDefault
+		expectedResult bool
+	}
+	for _, scenario := range []testCase{
+		{
+			description:    "Test with status: NOT_FOUND",
+			input:          createDefaultInputWithStatus("NOT_FOUND", "Clustar cannot be found."),
+			expectedResult: true,
+		},
+		{
+			description:    "Test with status: DELETED_ON_PROVIDER",
+			input:          createDefaultInputWithStatus("DELETED_ON_PROVIDER", "Cluster got deleted."),
+			expectedResult: false,
+		},
+		{
+			description:    "Test with status: BAD_REQUEST",
+			input:          createDefaultInputWithStatus("BAD_REQUEST", "Not a valid request."),
+			expectedResult: false,
+		},
+	} {
+		t.Run(scenario.description, func(t *testing.T) {
+			result := isNotFoundError(&scenario.input)
+			if scenario.expectedResult != result {
+				t.Errorf("Test result ('%t') does not match with the expectation ('%t')", result, scenario.expectedResult)
+			}
+		})
+	}
+}
+
+func createOkInputWithStatus(status string) operations.DescribeClusterOK {
 	sum := &models.Cluster{Status: status}
 	pl := &models.DescribeClusterResponse{Cluster: sum}
 	return operations.DescribeClusterOK{Payload: pl}
+}
+
+func createDefaultInputWithStatus(code string, msg string) operations.DescribeClusterDefault {
+	return operations.DescribeClusterDefault{
+		Payload: &models.Error{
+			Code:    code,
+			Message: msg,
+		},
+	}
 }
