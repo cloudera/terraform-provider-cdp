@@ -211,15 +211,18 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
-	endpoints := make([]*endpoint, len(resp.Endpoints.Endpoints))
-	for i, v := range resp.Endpoints.Endpoints {
-		endpoints[i] = &endpoint{
-			DisplayName: types.StringPointerValue(v.DisplayName),
-			KnoxService: types.StringPointerValue(v.KnoxService),
-			Mode:        types.StringPointerValue(v.Mode),
-			Open:        types.BoolPointerValue(v.Open),
-			ServiceName: types.StringPointerValue(v.ServiceName),
-			ServiceURL:  types.StringPointerValue(v.ServiceURL),
+	endpoints := []*endpoint{}
+	if resp.Endpoints != nil {
+		endpoints = make([]*endpoint, len(resp.Endpoints.Endpoints))
+		for i, v := range resp.Endpoints.Endpoints {
+			endpoints[i] = &endpoint{
+				DisplayName: types.StringPointerValue(v.DisplayName),
+				KnoxService: types.StringPointerValue(v.KnoxService),
+				Mode:        types.StringPointerValue(v.Mode),
+				Open:        types.BoolPointerValue(v.Open),
+				ServiceName: types.StringPointerValue(v.ServiceName),
+				ServiceURL:  types.StringPointerValue(v.ServiceURL),
+			}
 		}
 	}
 	model.Endpoints, _ = types.SetValueFrom(ctx, types.ObjectType{
