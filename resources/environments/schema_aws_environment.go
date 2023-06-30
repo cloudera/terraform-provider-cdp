@@ -350,6 +350,7 @@ func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 					Value: val.ValueStringPointer(),
 				}
 			}
+			i++
 		}
 	}
 	res.VpcID = model.VpcID.ValueString()

@@ -167,7 +167,7 @@ func (r *idBrokerMappingsResource) Create(ctx context.Context, req resource.Crea
 			)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating ID Broker mapping")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating ID Broker mapping")
 		return
 	}
 
@@ -209,14 +209,15 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 	if err != nil {
 		if envErr, ok := err.(*operations.GetIDBrokerMappingsDefault); ok {
 			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
-				resp.Diagnostics.AddError(
-					"Error applying ID Broker mappings",
-					"Environment not found: "+state.EnvironmentCrn.ValueString(),
-				)
+				resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
+				tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
+					"id": state.ID.ValueString(),
+				})
+				resp.State.RemoveResource(ctx)
 				return
 			}
 		}
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading ID Broker mapping")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "reading ID Broker mapping")
 		return
 	}
 
@@ -321,7 +322,7 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 			)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting ID Broker mapping")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting ID Broker mapping")
 		return
 	}
 }

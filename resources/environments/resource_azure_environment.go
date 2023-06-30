@@ -65,12 +65,12 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 
 	responseOk, err := client.Operations.CreateAzureEnvironment(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating Azure Environment")
 		return
 	}
 
 	envResp := responseOk.Payload.Environment
-	toAzureEnvrionmentResource(ctx, envResp, &data)
+	toAzureEnvironmentResource(ctx, envResp, &data)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -80,7 +80,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 
 	timeout := time.Hour * 1
 	if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeout, client, ctx); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating Azure Environment")
 		return
 	}
 
@@ -99,11 +99,11 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating Azure Environment")
 		return
 	}
 
-	toAzureEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &data)
+	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &data)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -134,11 +134,11 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "reading Azure Environment")
 		return
 	}
 
-	toAzureEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &state)
+	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &state)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -147,28 +147,13 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 	}
 }
 
-func toAzureEnvrionmentResource(ctx context.Context, env *environmentsmodels.Environment, model *azureEnvironmentResourceModel) {
+func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *azureEnvironmentResourceModel) {
 	model.ID = types.StringPointerValue(env.Crn)
 	model.Crn = types.StringPointerValue(env.Crn)
 	model.CredentialName = types.StringPointerValue(env.CredentialName)
 	model.Description = types.StringValue(env.Description)
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
-	var freeIpaRecipes types.Set
-	if env.Freeipa != nil {
-		freeIpaRecipes, _ = types.SetValueFrom(ctx, types.StringType, env.Freeipa.Recipes)
-	} else {
-		freeIpaRecipes = types.SetNull(types.StringType)
-	}
-	model.FreeIpa, _ = types.ObjectValueFrom(ctx, map[string]attr.Type{
-		"catalog":                 types.StringType,
-		"image_id":                types.StringType,
-		"instance_count_by_group": types.Int64Type,
-		"instance_type":           types.StringType,
-		"recipes":                 types.SetType{ElemType: types.StringType},
-	}, &azureFreeIpaDetails{
-		Recipes: freeIpaRecipes,
-	})
 	if env.LogStorage != nil {
 		if env.LogStorage.AzureDetails != nil {
 			model.LogStorage = &azureLogStorage{
@@ -212,8 +197,6 @@ func toAzureEnvrionmentResource(ctx context.Context, env *environmentsmodels.Env
 	if env.ProxyConfig != nil {
 		model.ProxyConfigName = types.StringPointerValue(env.ProxyConfig.ProxyConfigName)
 	}
-	model.PublicKey = types.StringValue(env.Authentication.PublicKey)
-	model.Region = types.StringPointerValue(env.Region)
 	model.ReportDeploymentLogs = types.BoolValue(env.ReportDeploymentLogs)
 	if env.SecurityAccess != nil {
 		var dsgIDs types.Set
@@ -266,14 +249,14 @@ func (r *azureEnvironmentResource) Delete(ctx context.Context, req resource.Dele
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Environment")
 		return
 	}
 
 	timeout := time.Hour * 1
 	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Environment")
 		return
 	}
 }

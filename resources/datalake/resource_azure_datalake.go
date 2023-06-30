@@ -103,7 +103,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	params.WithInput(toAzureDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAzureDatalake(params)
 	if err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating Azure Datalake")
 		return
 	}
 
@@ -117,7 +117,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating Azure Datalake")
 		return
 	}
 
@@ -125,7 +125,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating Azure Datalake")
 		return
 	}
 
@@ -175,7 +175,7 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 				return
 			}
 		}
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "reading Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "reading Azure Datalake")
 		return
 	}
 
@@ -259,28 +259,16 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 		}
 		instanceGroups[i].Instances, _ = types.SetValueFrom(ctx, types.ObjectType{
 			AttrTypes: map[string]attr.Type{
-				"ambari_server":     types.BoolType,
 				"discovery_fqdn":    types.StringType,
 				"id":                types.StringType,
 				"instance_group":    types.StringType,
 				"instance_status":   types.StringType,
 				"instance_type_val": types.StringType,
-				"life_cycle":        types.StringType,
-				"mounted_volumes": types.SetType{
-					ElemType: types.ObjectType{
-						AttrTypes: map[string]attr.Type{
-							"device":      types.StringType,
-							"volume_id":   types.StringType,
-							"volume_size": types.StringType,
-							"volume_type": types.StringType,
-						},
-					},
-				},
-				"private_ip":    types.StringType,
-				"public_ip":     types.StringType,
-				"ssh_port":      types.Int64Type,
-				"state":         types.StringType,
-				"status_reason": types.StringType,
+				"private_ip":        types.StringType,
+				"public_ip":         types.StringType,
+				"ssh_port":          types.Int64Type,
+				"state":             types.StringType,
+				"status_reason":     types.StringType,
 			},
 		}, instances)
 	}
@@ -289,28 +277,16 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 			"instances": types.SetType{
 				ElemType: types.ObjectType{
 					AttrTypes: map[string]attr.Type{
-						"ambari_server":     types.BoolType,
 						"discovery_fqdn":    types.StringType,
 						"id":                types.StringType,
 						"instance_group":    types.StringType,
 						"instance_status":   types.StringType,
 						"instance_type_val": types.StringType,
-						"life_cycle":        types.StringType,
-						"mounted_volumes": types.SetType{
-							ElemType: types.ObjectType{
-								AttrTypes: map[string]attr.Type{
-									"device":      types.StringType,
-									"volume_id":   types.StringType,
-									"volume_size": types.StringType,
-									"volume_type": types.StringType,
-								},
-							},
-						},
-						"private_ip":    types.StringType,
-						"public_ip":     types.StringType,
-						"ssh_port":      types.Int64Type,
-						"state":         types.StringType,
-						"status_reason": types.StringType,
+						"private_ip":        types.StringType,
+						"public_ip":         types.StringType,
+						"ssh_port":          types.Int64Type,
+						"state":             types.StringType,
+						"status_reason":     types.StringType,
 					},
 				},
 			},
@@ -369,12 +345,12 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 				return
 			}
 		}
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Datalake")
 		return
 	}
 
 	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Datalake")
 		return
 	}
 }

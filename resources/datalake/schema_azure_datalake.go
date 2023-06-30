@@ -48,12 +48,6 @@ var azureDatalakeResourceSchema schema.Schema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"cloudbreak_version": schema.StringAttribute{
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
 		"cloudera_manager": schema.SingleNestedAttribute{
 			Computed: true,
 			PlanModifiers: []planmodifier.Object{
@@ -188,12 +182,6 @@ var azureDatalakeResourceSchema schema.Schema = schema.Schema{
 						},
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
-								"ambari_server": schema.BoolAttribute{
-									Computed: true,
-									PlanModifiers: []planmodifier.Bool{
-										boolplanmodifier.UseStateForUnknown(),
-									},
-								},
 								"discovery_fqdn": schema.StringAttribute{
 									Computed: true,
 									PlanModifiers: []planmodifier.String{
@@ -222,46 +210,6 @@ var azureDatalakeResourceSchema schema.Schema = schema.Schema{
 									Computed: true,
 									PlanModifiers: []planmodifier.String{
 										stringplanmodifier.UseStateForUnknown(),
-									},
-								},
-								"life_cycle": schema.StringAttribute{
-									Computed: true,
-									PlanModifiers: []planmodifier.String{
-										stringplanmodifier.UseStateForUnknown(),
-									},
-								},
-								"mounted_volumes": schema.SetNestedAttribute{
-									Computed: true,
-									PlanModifiers: []planmodifier.Set{
-										setplanmodifier.UseStateForUnknown(),
-									},
-									NestedObject: schema.NestedAttributeObject{
-										Attributes: map[string]schema.Attribute{
-											"device": schema.StringAttribute{
-												Computed: true,
-												PlanModifiers: []planmodifier.String{
-													stringplanmodifier.UseStateForUnknown(),
-												},
-											},
-											"volume_id": schema.StringAttribute{
-												Computed: true,
-												PlanModifiers: []planmodifier.String{
-													stringplanmodifier.UseStateForUnknown(),
-												},
-											},
-											"volume_size": schema.StringAttribute{
-												Computed: true,
-												PlanModifiers: []planmodifier.String{
-													stringplanmodifier.UseStateForUnknown(),
-												},
-											},
-											"volume_type": schema.StringAttribute{
-												Computed: true,
-												PlanModifiers: []planmodifier.String{
-													stringplanmodifier.UseStateForUnknown(),
-												},
-											},
-										},
 									},
 								},
 								"private_ip": schema.StringAttribute{

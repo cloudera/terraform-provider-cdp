@@ -115,42 +115,36 @@ var AzureEnvironmentSchema = schema.Schema{
 		},
 		"freeipa": schema.SingleNestedAttribute{
 			Optional: true,
-			Computed: true,
 			PlanModifiers: []planmodifier.Object{
 				objectplanmodifier.UseStateForUnknown(),
 			},
 			Attributes: map[string]schema.Attribute{
 				"catalog": schema.StringAttribute{
 					Optional: true,
-					Computed: true,
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
 				},
 				"image_id": schema.StringAttribute{
 					Optional: true,
-					Computed: true,
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
 				},
 				"instance_count_by_group": schema.Int64Attribute{
 					Optional: true,
-					Computed: true,
 					PlanModifiers: []planmodifier.Int64{
 						int64planmodifier.UseStateForUnknown(),
 					},
 				},
 				"instance_type": schema.StringAttribute{
 					Optional: true,
-					Computed: true,
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
 				},
 				"recipes": schema.SetAttribute{
 					Optional:    true,
-					Computed:    true,
 					ElementType: types.StringType,
 				},
 			},
@@ -357,6 +351,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 					Value: val.ValueStringPointer(),
 				}
 			}
+			i++
 		}
 	}
 	req.UsePublicIP = model.UsePublicIP.ValueBoolPointer()
