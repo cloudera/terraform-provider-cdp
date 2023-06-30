@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 	"fmt"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
@@ -87,7 +88,11 @@ func (d *awsCredentialPrerequisitesDataSource) Read(ctx context.Context, req dat
 
 	response, err := client.Operations.GetCredentialPrerequisites(params)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read cdp_environments_aws_credential_prerequisites, got error: %s", err))
+		msg := err.Error()
+		if d, ok := err.(*operations.GetCredentialPrerequisitesDefault); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read cdp_environments_aws_credential_prerequisites, got error: %s", msg))
 		return
 	}
 	prerequisites := response.GetPayload()

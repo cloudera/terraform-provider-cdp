@@ -103,10 +103,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	params.WithInput(toAzureDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAzureDatalake(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Azure Datalake",
-			"Got the following error creating Azure Datalake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating Azure Datalake")
 		return
 	}
 
@@ -120,10 +117,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Azure Data Lake",
-			"Failed to poll creating Azure Data Lake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating Azure Datalake")
 		return
 	}
 
@@ -131,10 +125,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error getting Azure Datalake",
-			"Got the following error getting Azure Datalake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating Azure Datalake")
 		return
 	}
 
@@ -184,10 +175,7 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 				return
 			}
 		}
-		resp.Diagnostics.AddError(
-			"Error getting Azure Datalake",
-			"Got the following error getting Azure Datalake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "reading Azure Datalake")
 		return
 	}
 
@@ -378,18 +366,12 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 				return
 			}
 		}
-		resp.Diagnostics.AddError(
-			"Error Deleting Azure Datalake",
-			"Could not delete Azure Datalake unexpected error: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting Azure Datalake")
 		return
 	}
 
 	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		resp.Diagnostics.AddError(
-			"Error Deleting Azure Data Lake",
-			"Failed to poll delete Azure Data Lake, unexpected error: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting Azure Datalake")
 		return
 	}
 }

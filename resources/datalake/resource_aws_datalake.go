@@ -12,6 +12,7 @@ package datalake
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -115,10 +116,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	params.WithInput(toAwsDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAWSDatalake(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating AWS Datalake",
-			"Got the following error creating AWS Datalake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -132,10 +130,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating AWS Data Lake",
-			"Failure to poll creating AWS Data Lake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -143,10 +138,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error getting AWS Datalake",
-			"Got the following error getting AWS Datalake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "creating AWS Datalake")
 		return
 	}
 
@@ -179,12 +171,19 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, timeou
 				return nil, "", err
 			}
 			log.Printf("Described datalake: %s", resp.GetPayload().Datalake.Status)
-			return resp, resp.GetPayload().Datalake.Status, nil
+			return checkResponseStatusForError(resp)
 		},
 	}
 	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
+}
+
+func checkResponseStatusForError(resp *operations.DescribeDatalakeOK) (interface{}, string, error) {
+	if utils.ContainsAsSubstring([]string{"FAILED", "ERROR"}, resp.GetPayload().Datalake.Status) {
+		return nil, "", fmt.Errorf("unexpected Data Lake status: %s", resp.GetPayload().Datalake.Status)
+	}
+	return resp, resp.GetPayload().Datalake.Status, nil
 }
 
 func toAwsDatalakeResourceModel(resp *datalakemodels.CreateAWSDatalakeResponse, model *awsDatalakeResourceModel) {
@@ -224,10 +223,7 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 				return
 			}
 		}
-		resp.Diagnostics.AddError(
-			"Error getting AWS Datalake",
-			"Got the following error getting AWS Datalake: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "reading AWS Datalake")
 		return
 	}
 
@@ -392,18 +388,12 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 				return
 			}
 		}
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Datalake",
-			"Could not delete AWS Datalake unexpected error: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datalake")
 		return
 	}
 
 	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Data Lake",
-			"Failure to poll delete AWS Data Lake, unexpected error: "+err.Error(),
-		)
+		utils.AddDatalakeDiagnosticsError(err, resp.Diagnostics, "deleting AWS Datalake")
 		return
 	}
 }
@@ -428,7 +418,7 @@ func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, timeou
 			if resp.GetPayload().Datalake == nil {
 				return nil, "", nil
 			}
-			return resp, resp.GetPayload().Datalake.Status, nil
+			return checkResponseStatusForError(resp)
 		},
 	}
 	_, err := stateConf.WaitForStateContext(ctx)

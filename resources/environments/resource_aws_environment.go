@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -67,10 +68,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	responseOk, err := client.Operations.CreateAWSEnvironment(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating AWS Environment",
-			"Got error while creating AWS Environment: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating AWS Environment")
 		return
 	}
 
@@ -85,10 +83,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	timeout := time.Hour * 1
 	if err := waitForEnvironmentToBeAvailable(refreshedState.ID.ValueString(), timeout, client, ctx); err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating AWS Environment",
-			"Failed to poll creating AWS Environment: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating AWS Environment")
 		return
 	}
 
@@ -107,10 +102,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error creating AWS Environment",
-			"Could not read AWS Environment: "+data.ID.ValueString()+": "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating AWS Environment")
 		return
 	}
 
@@ -161,12 +153,19 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 				return nil, "", err
 			}
 			log.Printf("Described environment: %s", *resp.GetPayload().Environment.Status)
-			return resp, *resp.GetPayload().Environment.Status, nil
+			return checkResponseStatusForError(resp)
 		},
 	}
 	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
+}
+
+func checkResponseStatusForError(resp *operations.DescribeEnvironmentOK) (interface{}, string, error) {
+	if utils.ContainsAsSubstring([]string{"FAILED", "ERROR"}, *resp.GetPayload().Environment.Status) {
+		return nil, "", fmt.Errorf("unexpected Enviornment status: %s", *resp.GetPayload().Environment.Status)
+	}
+	return resp, *resp.GetPayload().Environment.Status, nil
 }
 
 func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -192,10 +191,7 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error Reading AWS Environment",
-			"Could not read AWS Environment: "+state.ID.ValueString()+": "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading AWS Environment")
 		return
 	}
 
@@ -346,20 +342,14 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Environment",
-			"Could not delete AWS Environment, unexpected error: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting AWS Environment")
 		return
 	}
 
 	timeout := time.Hour * 1
 	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Environment",
-			"Failed to poll delete AWS Environment, unexpected error: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting AWS Environment")
 		return
 	}
 }
@@ -406,7 +396,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 				return nil, "", nil
 			}
 			log.Printf("Described environment: %s", *resp.GetPayload().Environment.Status)
-			return resp, *resp.GetPayload().Environment.Status, nil
+			return checkResponseStatusForError(resp)
 		},
 	}
 	_, err := stateConf.WaitForStateContext(ctx)

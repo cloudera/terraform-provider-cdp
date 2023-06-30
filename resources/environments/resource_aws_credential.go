@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
@@ -106,10 +107,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 	// is just created but is not "synced up" in AWS. We should retry for a short time if it is the case.
 	responseOk, err := client.Operations.CreateAWSCredential(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating AWS Credentials",
-			"Got error while creating AWS Credentials: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "creating AWS Credential")
 		return
 	}
 
@@ -139,10 +137,7 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error Reading AWS Credentials",
-			"Could not read AWS Credentials: "+credentialName+": "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "reading AWS Credential")
 		return
 	}
 
@@ -185,10 +180,7 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error Deleting AWS Credential",
-			"Could not delete AWS Credential, unexpected error: "+err.Error(),
-		)
+		utils.AddEnvironmentDiagnosticsError(err, resp.Diagnostics, "deleting AWS Credential")
 		return
 	}
 }
