@@ -19,6 +19,7 @@ type datahubResourceModel struct {
 	Crn               types.String    `tfsdk:"crn"`
 	Name              types.String    `tfsdk:"name"`
 	Status            types.String    `tfsdk:"status"`
+	DestroyOptions    *DestroyOptions `tfsdk:"destroy_options"`
 	Environment       types.String    `tfsdk:"environment"`
 	ClusterTemplate   types.String    `tfsdk:"cluster_template"`
 	ClusterDefinition types.String    `tfsdk:"cluster_definition"`
@@ -45,4 +46,12 @@ type AttachedVolumeConfiguration struct {
 
 type VolumeEncryption struct {
 	Encryption types.Bool `tfsdk:"encryption"`
+}
+
+type DestroyOptions struct {
+	ForceDeleteCluster bool `tfsdk:"force_delete_cluster"`
+}
+
+func (d *datahubResourceModel) forceDeleteRequested() bool {
+	return d.DestroyOptions != nil && d.DestroyOptions.ForceDeleteCluster
 }
