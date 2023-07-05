@@ -16,15 +16,16 @@ import (
 	"log"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 )
 
 var (
@@ -151,7 +152,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 				log.Printf("Error describing environment: %s", err)
 				return nil, "", err
 			}
-			log.Printf("Described environment: %s", *resp.GetPayload().Environment.Status)
+			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
 			return checkResponseStatusForError(resp)
 		},
 	}
@@ -376,7 +377,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 				log.Printf("Described environment. No environment.")
 				return nil, "", nil
 			}
-			log.Printf("Described environment: %s", *resp.GetPayload().Environment.Status)
+			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
 			return checkResponseStatusForError(resp)
 		},
 	}
