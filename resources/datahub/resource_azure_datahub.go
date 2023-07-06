@@ -13,6 +13,7 @@ package datahub
 import (
 	"context"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -57,10 +58,7 @@ func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRe
 
 	res, err := r.client.Datahub.Operations.CreateAzureCluster(params)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Azure Data hub cluster.",
-			"Got error while creating Azure Data hub cluster: "+err.Error(),
-		)
+		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "create Azure Datahub")
 		return
 	}
 
@@ -85,10 +83,7 @@ func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRe
 	}
 	if err != nil {
 		tflog.Debug(ctx, fmt.Sprintf("Cluster creation has ended up in error: %s", err.Error()))
-		resp.Diagnostics.AddError(
-			"Error creating Azure Data hub cluster",
-			"Failure to poll of Azure Data hub cluster creation: "+err.Error(),
-		)
+		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "create Azure Datahub")
 		return
 	}
 }
@@ -114,10 +109,7 @@ func (r *azureDatahubResource) Read(ctx context.Context, req resource.ReadReques
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error Reading Azure Data hub cluster",
-			"Could not read Azure Data hub cluster: "+state.ID.ValueString()+": "+err.Error(),
-		)
+		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "read Azure Datahub")
 		return
 	}
 
@@ -152,20 +144,14 @@ func (r *azureDatahubResource) Delete(ctx context.Context, req resource.DeleteRe
 	_, err := r.client.Datahub.Operations.DeleteCluster(params)
 	if err != nil {
 		if !isNotFoundError(err) {
-			resp.Diagnostics.AddError(
-				"Error Deleting Azure Data hub cluster",
-				"Could not delete Azure Data hub cluster due to: "+err.Error(),
-			)
+			utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datahub")
 		}
 		return
 	}
 
 	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error deleting Azure Data hub cluster",
-			"Failure to poll Azure Data hub deletion, unexpected error: "+err.Error(),
-		)
+		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datahub")
 		return
 	}
 }

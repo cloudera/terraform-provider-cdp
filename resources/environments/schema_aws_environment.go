@@ -12,10 +12,12 @@ package environments
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
@@ -111,7 +113,6 @@ var AwsEnvironmentSchema = schema.Schema{
 		},
 		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
 			Optional:    true,
-			Computed:    true,
 			ElementType: types.StringType,
 		},
 		"environment_name": schema.StringAttribute{
@@ -228,7 +229,6 @@ var AwsEnvironmentSchema = schema.Schema{
 				},
 				"default_security_group_ids": schema.SetAttribute{
 					Optional:    true,
-					Computed:    true,
 					ElementType: types.StringType,
 				},
 				"security_group_id_for_knox": schema.StringAttribute{
@@ -240,7 +240,6 @@ var AwsEnvironmentSchema = schema.Schema{
 				},
 				"security_group_ids_for_knox": schema.SetAttribute{
 					Optional:    true,
-					Computed:    true,
 					ElementType: types.StringType,
 				},
 			},
@@ -266,6 +265,9 @@ var AwsEnvironmentSchema = schema.Schema{
 			Optional:    true,
 			Computed:    true,
 			ElementType: types.StringType,
+			PlanModifiers: []planmodifier.Map{
+				mapplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"tunnel_type": schema.StringAttribute{
 			// tunnel_type is read only.

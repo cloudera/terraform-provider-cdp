@@ -19,6 +19,7 @@ import (
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -103,7 +104,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	params.WithInput(toAzureDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAzureDatalake(params)
 	if err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 		return
 	}
 
@@ -117,7 +118,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 		return
 	}
 
@@ -125,12 +126,12 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "creating Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 		return
 	}
 
 	descDlResp := descResponseOk.Payload
-	datalakeDetailsToAzureDatalakeResourceModel(ctx, descDlResp.Datalake, &state)
+	datalakeDetailsToAzureDatalakeResourceModel(ctx, descDlResp.Datalake, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -175,12 +176,12 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 				return
 			}
 		}
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "reading Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "read Azure Datalake")
 		return
 	}
 
 	datalakeResp := responseOk.Payload
-	datalakeDetailsToAzureDatalakeResourceModel(ctx, datalakeResp.Datalake, &state)
+	datalakeDetailsToAzureDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -189,14 +190,15 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	}
 }
 
-func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel) {
+func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	if resp.AzureConfiguration != nil {
 		model.ManagedIdentity = types.StringValue(resp.AzureConfiguration.ManagedIdentity)
 	}
 	model.CloudStorageBaseLocation = types.StringValue(resp.CloudStorageBaseLocation)
 	if resp.ClouderaManager != nil {
-		model.ClouderaManager, _ = types.ObjectValueFrom(ctx, map[string]attr.Type{
+		var cmDiags diag.Diagnostics
+		model.ClouderaManager, cmDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
 			"cloudera_manager_repository_url": types.StringType,
 			"cloudera_manager_server_url":     types.StringType,
 			"version":                         types.StringType,
@@ -205,6 +207,7 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 			ClouderaManagerServerURL:     types.StringValue(resp.ClouderaManager.ClouderaManagerServerURL),
 			Version:                      types.StringPointerValue(resp.ClouderaManager.Version),
 		})
+		diags.Append(cmDiags...)
 	}
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
 	model.CredentialCrn = types.StringValue(resp.CredentialCrn)
@@ -225,7 +228,8 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 			}
 		}
 	}
-	model.Endpoints, _ = types.SetValueFrom(ctx, types.ObjectType{
+	var epDiags diag.Diagnostics
+	model.Endpoints, epDiags = types.SetValueFrom(ctx, types.ObjectType{
 		AttrTypes: map[string]attr.Type{
 			"display_name": types.StringType,
 			"knox_service": types.StringType,
@@ -235,6 +239,7 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 			"service_url":  types.StringType,
 		},
 	}, endpoints)
+	diags.Append(epDiags...)
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
 	for i, v := range resp.InstanceGroups {
@@ -257,7 +262,8 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 				StatusReason:    types.StringValue(ins.StatusReason),
 			}
 		}
-		instanceGroups[i].Instances, _ = types.SetValueFrom(ctx, types.ObjectType{
+		var instDiags diag.Diagnostics
+		instanceGroups[i].Instances, instDiags = types.SetValueFrom(ctx, types.ObjectType{
 			AttrTypes: map[string]attr.Type{
 				"discovery_fqdn":    types.StringType,
 				"id":                types.StringType,
@@ -271,8 +277,10 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 				"status_reason":     types.StringType,
 			},
 		}, instances)
+		diags.Append(instDiags...)
 	}
-	model.InstanceGroups, _ = types.SetValueFrom(ctx, types.ObjectType{
+	var igDiags diag.Diagnostics
+	model.InstanceGroups, igDiags = types.SetValueFrom(ctx, types.ObjectType{
 		AttrTypes: map[string]attr.Type{
 			"instances": types.SetType{
 				ElemType: types.ObjectType{
@@ -293,6 +301,7 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 			"name": types.StringType,
 		},
 	}, instanceGroups)
+	diags.Append(igDiags...)
 	productVersions := make([]*productVersion, len(resp.ProductVersions))
 	for i, v := range resp.ProductVersions {
 		productVersions[i] = &productVersion{
@@ -300,12 +309,14 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 			Version: types.StringPointerValue(v.Version),
 		}
 	}
-	model.ProductVersions, _ = types.SetValueFrom(ctx, types.ObjectType{
+	var pvDiags diag.Diagnostics
+	model.ProductVersions, pvDiags = types.SetValueFrom(ctx, types.ObjectType{
 		AttrTypes: map[string]attr.Type{
 			"name":    types.StringType,
 			"version": types.StringType,
 		},
 	}, productVersions)
+	diags.Append(pvDiags...)
 	model.Region = types.StringValue(resp.Region)
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
@@ -345,12 +356,12 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 				return
 			}
 		}
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
 		return
 	}
 
 	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Datalake")
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
 		return
 	}
 }
