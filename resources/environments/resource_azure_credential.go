@@ -144,7 +144,7 @@ func (r *azureCredentialResource) Create(ctx context.Context, req resource.Creat
 
 	result, err := client.Operations.CreateAzureCredential(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating Azure Credential")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Credential")
 		return
 	}
 
@@ -173,7 +173,7 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "reading Azure Credential")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read Azure Credential")
 		return
 	}
 
@@ -216,7 +216,7 @@ func (r *azureCredentialResource) Delete(ctx context.Context, req resource.Delet
 	params := operations.NewDeleteCredentialParamsWithContext(ctx).WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: state.CredentialName.ValueStringPointer()})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Credential")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Azure Credential")
 		return
 	}
 

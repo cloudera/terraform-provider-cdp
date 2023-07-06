@@ -26,6 +26,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
 var (
@@ -68,12 +69,12 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	responseOk, err := client.Operations.CreateAWSEnvironment(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
 		return
 	}
 
 	envResp := responseOk.Payload.Environment
-	toAwsEnvrionmentResource(ctx, envResp, &data)
+	toAwsEnvrionmentResource(ctx, envResp, &data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -83,7 +84,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	timeout := time.Hour * 1
 	if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeout, client, ctx); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
 		return
 	}
 
@@ -102,11 +103,11 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
 		return
 	}
 
-	toAwsEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &data)
+	toAwsEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &data, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -191,11 +192,11 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "reading AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read AWS Environment")
 		return
 	}
 
-	toAwsEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &state)
+	toAwsEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -204,23 +205,9 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	}
 }
 
-func nilForEmptyString(in string) types.String {
-	if len(in) == 0 {
-		return types.StringNull()
-	} else {
-		return types.StringValue(in)
-	}
-}
-
-func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel) {
+func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel, diags *diag.Diagnostics) {
 
 	model.ID = types.StringPointerValue(env.Crn)
-	if env.Authentication != nil {
-		model.Authentication = &Authentication{
-			PublicKey:   nilForEmptyString(env.Authentication.PublicKey),
-			PublicKeyID: types.StringValue(env.Authentication.PublicKeyID),
-		}
-	}
 	if env.AwsDetails != nil {
 		model.S3GuardTableName = types.StringValue(env.AwsDetails.S3GuardTableName)
 	}
@@ -248,7 +235,9 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 		if env.Network.EndpointAccessGatewaySubnetIds != nil {
 			var eagSubnetids types.Set
 			if len(env.Network.EndpointAccessGatewaySubnetIds) > 0 {
-				eagSubnetids, _ = types.SetValueFrom(ctx, types.StringType, env.Network.EndpointAccessGatewaySubnetIds)
+				var eagSnDiags diag.Diagnostics
+				eagSubnetids, eagSnDiags = types.SetValueFrom(ctx, types.StringType, env.Network.EndpointAccessGatewaySubnetIds)
+				diags.Append(eagSnDiags...)
 			} else {
 				eagSubnetids = types.SetNull(types.StringType)
 			}
@@ -259,7 +248,9 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 		}
 		var subnetids types.Set
 		if len(env.Network.SubnetIds) > 0 {
-			subnetids, _ = types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
+			var snDiags diag.Diagnostics
+			subnetids, snDiags = types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
+			diags.Append(snDiags...)
 		} else {
 			subnetids = types.SetNull(types.StringType)
 		}
@@ -273,15 +264,11 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.ReportDeploymentLogs = types.BoolValue(env.ReportDeploymentLogs)
 	if env.SecurityAccess != nil {
 		var dsgIDs types.Set
-		if model.SecurityAccess == nil || model.SecurityAccess.DefaultSecurityGroupIDs.IsUnknown() {
-			dsgIDs = types.SetNull(types.StringType)
-		} else {
+		if model.SecurityAccess != nil && !model.SecurityAccess.DefaultSecurityGroupIDs.IsUnknown() {
 			dsgIDs = model.SecurityAccess.DefaultSecurityGroupIDs
 		}
 		var sgIDsknox types.Set
-		if model.SecurityAccess == nil || model.SecurityAccess.SecurityGroupIDsForKnox.IsUnknown() {
-			sgIDsknox = types.SetNull(types.StringType)
-		} else {
+		if model.SecurityAccess != nil && !model.SecurityAccess.SecurityGroupIDsForKnox.IsUnknown() {
 			sgIDsknox = model.SecurityAccess.DefaultSecurityGroupIDs
 		}
 		model.SecurityAccess = &SecurityAccess{
@@ -299,7 +286,9 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 		for k, v := range env.Tags.UserDefined {
 			merged[k] = v
 		}
-		tagMap, _ := types.MapValueFrom(ctx, types.StringType, merged)
+		var tagDiags diag.Diagnostics
+		tagMap, tagDiags := types.MapValueFrom(ctx, types.StringType, merged)
+		diags.Append(tagDiags...)
 		model.Tags = tagMap
 	}
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
@@ -324,14 +313,14 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Environment")
 		return
 	}
 
 	timeout := time.Hour * 1
 	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Environment")
 		return
 	}
 }

@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -65,12 +66,12 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 
 	responseOk, err := client.Operations.CreateAzureEnvironment(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Environment")
 		return
 	}
 
 	envResp := responseOk.Payload.Environment
-	toAzureEnvironmentResource(ctx, envResp, &data)
+	toAzureEnvironmentResource(ctx, envResp, &data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -80,7 +81,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 
 	timeout := time.Hour * 1
 	if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeout, client, ctx); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Environment")
 		return
 	}
 
@@ -99,11 +100,11 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Environment")
 		return
 	}
 
-	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &data)
+	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &data, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -134,11 +135,11 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 			resp.State.RemoveResource(ctx)
 			return
 		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "reading Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read Azure Environment")
 		return
 	}
 
-	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &state)
+	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -147,7 +148,7 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 	}
 }
 
-func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *azureEnvironmentResourceModel) {
+func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *azureEnvironmentResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(env.Crn)
 	model.Crn = types.StringPointerValue(env.Crn)
 	model.CredentialName = types.StringPointerValue(env.CredentialName)
@@ -169,14 +170,18 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 		}
 	}
 	if env.Network != nil {
-		model.NewNetworkParams, _ = types.ObjectValueFrom(ctx, map[string]attr.Type{
+		var npDiags diag.Diagnostics
+		model.NewNetworkParams, npDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
 			"network_cidr": types.StringType,
 		}, &newNetworkParams{
 			NetworkCidr: types.StringValue(env.Network.NetworkCidr),
 		})
+		diags.Append(npDiags...)
 		if env.Network.Azure != nil {
-			subnetIds, _ := types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
-			model.ExistingNetworkParams, _ = types.ObjectValueFrom(ctx, map[string]attr.Type{
+			subnetIds, snDiags := types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
+			diags.Append(snDiags...)
+			var enpDiags diag.Diagnostics
+			model.ExistingNetworkParams, enpDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
 				"aks_private_dns_zone_id":      types.StringType,
 				"database_private_dns_zone_id": types.StringType,
 				"network_id":                   types.StringType,
@@ -191,6 +196,7 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 				ResourceGroupName:        types.StringPointerValue(env.Network.Azure.ResourceGroupName),
 				SubnetIds:                subnetIds,
 			})
+			diags.Append(enpDiags...)
 			model.UsePublicIP = types.BoolPointerValue(env.Network.Azure.UsePublicIP)
 		}
 	}
@@ -226,7 +232,8 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 		for k, v := range env.Tags.UserDefined {
 			merged[k] = v
 		}
-		tagMap, _ := types.MapValueFrom(ctx, types.StringType, merged)
+		tagMap, tagDiags := types.MapValueFrom(ctx, types.StringType, merged)
+		diags.Append(tagDiags...)
 		model.Tags = tagMap
 	}
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
@@ -249,14 +256,14 @@ func (r *azureEnvironmentResource) Delete(ctx context.Context, req resource.Dele
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Azure Environment")
 		return
 	}
 
 	timeout := time.Hour * 1
 	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting Azure Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Azure Environment")
 		return
 	}
 }

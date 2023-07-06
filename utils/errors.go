@@ -15,6 +15,8 @@ import (
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type EnvironmentErrorPayload interface {
@@ -26,8 +28,9 @@ func AddEnvironmentDiagnosticsError(err error, diagnostics *diag.Diagnostics, er
 	if d, ok := err.(EnvironmentErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
 	}
+	caser := cases.Title(language.English)
 	diagnostics.AddError(
-		"Error "+errMsg,
+		caser.String(errMsg),
 		"Failed to "+errMsg+", unexpected error: "+msg,
 	)
 }
@@ -41,8 +44,9 @@ func AddDatalakeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMs
 	if d, ok := err.(DatalakeErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
 	}
+	caser := cases.Title(language.English)
 	diagnostics.AddError(
-		"Error "+errMsg,
+		caser.String(errMsg),
 		"Failed to "+errMsg+", unexpected error: "+msg,
 	)
 }
@@ -56,8 +60,9 @@ func AddDatahubDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg
 	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
 	}
+	caser := cases.Title(language.English)
 	diagnostics.AddError(
-		"Error "+errMsg,
+		caser.String(errMsg),
 		"Failed to "+errMsg+", unexpected error: "+msg,
 	)
 }
