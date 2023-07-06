@@ -12,17 +12,19 @@ package environments
 
 import (
 	"context"
-
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var AwsEnvironmentSchema = schema.Schema{
@@ -54,6 +56,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"create_private_subnets": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			Default:  booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
@@ -61,6 +64,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"create_service_endpoints": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			Default:  booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
@@ -68,6 +72,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"s3_guard_table_name": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			Default:  stringdefault.StaticString(""),
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
@@ -92,6 +97,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"encryption_key_arn": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			Default:  stringdefault.StaticString(""),
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
@@ -113,7 +119,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		},
 		"freeipa": schema.SingleNestedAttribute{
 			Optional: true,
-			Computed: true,
+			Default:  nil,
 			PlanModifiers: []planmodifier.Object{
 				objectplanmodifier.UseStateForUnknown(),
 			},
@@ -198,6 +204,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"proxy_config_name": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
+			Default:  stringdefault.StaticString(""),
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
