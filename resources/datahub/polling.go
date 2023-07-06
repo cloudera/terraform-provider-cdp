@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	"strings"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
@@ -35,7 +36,7 @@ func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx contex
 		ContinuousTargetOccurence: 2,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("About to describe cluster %s", datahubName))
-			resp, err := describeWithRecover(datahubName, client, ctx)
+			resp, err := describeWithRetry(datahubName, client, ctx)
 			if err != nil {
 				if isNotFoundError(err) {
 					tflog.Debug(ctx, fmt.Sprintf("Recoverable error describing cluster: %s", err))
@@ -55,7 +56,7 @@ func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx contex
 	return status, err
 }
 
-func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.Context) error {
+func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.Context, force bool) error {
 	tflog.Info(ctx, fmt.Sprintf("About to poll cluster (name: %s) deletion (polling [delay: %s, timeout: %s, interval :%s]).",
 		datahubName, pollingDelay, pollingTimeout, pollingInterval))
 	stateConf := &retry.StateChangeConf{
@@ -64,29 +65,33 @@ func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.
 		Timeout:      pollingTimeout,
 		PollInterval: pollingInterval,
 		Refresh: func() (interface{}, string, error) {
-			resp, err := describeWithRecover(datahubName, client, ctx)
+			resp, err := describeWithRetry(datahubName, client, ctx)
 			if err != nil {
 				tflog.Debug(ctx, fmt.Sprintf("Error describing cluster: %s", err))
-				if envErr, ok := err.(*operations.DescribeClusterDefault); ok {
-					if cdp.IsDatahubError(envErr.GetPayload(), "NOT_FOUND", "") {
+				if descrErr, ok := err.(*operations.DescribeClusterDefault); ok {
+					if cdp.IsDatahubError(descrErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}
 				}
 				return nil, "", err
 			}
+			status := resp.GetPayload().Cluster.Status
+			if !force && strings.Contains(status, "DELETE_FAILED") {
+				return nil, resp.GetPayload().Cluster.Status, fmt.Errorf("cluster deletion failed, its status became: %s", status)
+			}
 			if resp.GetPayload().Cluster == nil {
-				tflog.Debug(ctx, "Datahub described. No cluster.")
+				tflog.Debug(ctx, "Data hub described. No cluster.")
 				return nil, "", nil
 			}
 			tflog.Debug(ctx, fmt.Sprintf("Described cluster: %s", resp.GetPayload().Cluster.Status))
-			return resp, resp.GetPayload().Cluster.Status, nil
+			return resp, status, nil
 		},
 	}
 	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }
 
-func describeWithRecover(clusterName string, client *client.Datahub, ctx context.Context) (*operations.DescribeClusterOK, error) {
+func describeWithRetry(clusterName string, client *client.Datahub, ctx context.Context) (*operations.DescribeClusterOK, error) {
 	tflog.Debug(ctx, fmt.Sprintf("Describing cluster with name: %s", clusterName))
 	resp, err := client.Operations.DescribeCluster(operations.NewDescribeClusterParamsWithContext(ctx).WithInput(&datahubmodels.DescribeClusterRequest{ClusterName: &clusterName}))
 	for i := 0; i < internalServerErrorRetryQuantity; i++ {

@@ -140,7 +140,9 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 
 	params := operations.NewDeleteClusterParamsWithContext(ctx).WithInput(&datahubmodels.DeleteClusterRequest{
 		ClusterName: state.ID.ValueStringPointer(),
+		Force:       state.forceDeleteRequested(),
 	})
+	tflog.Debug(ctx, fmt.Sprintf("Performing delete for cluster with the following request: %+v\n", params))
 	_, err := r.client.Datahub.Operations.DeleteCluster(params)
 	if err != nil {
 		if !isNotFoundError(err) {
@@ -149,7 +151,7 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx)
+	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, state.forceDeleteRequested())
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datahub")
 		return
