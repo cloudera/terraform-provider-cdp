@@ -21,11 +21,6 @@ resource "cdp_datahub_aws_cluster" "aws-cluster" {
   environment        = "<value>"
   cluster_template   = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
   cluster_definition = "7.2.15 - Data Engineering for AWS"
-
-  destroy_options = {
-    force_delete_cluster = false
-  }
-
   /* The below section kept here as a working example if one would like to use the cluster creation w/o the usage of the cluster definition
 
   /*instance_group = [
@@ -122,10 +117,6 @@ output "cluster_template" {
 
 output "cluster_definition" {
   value = cdp_datahub_aws_cluster.aws-cluster.cluster_definition
-}
-
-output "force_delete_cluster" {
-  value = cdp_datahub_aws_cluster.aws-cluster.destroy_options.force_delete_cluster
 }
 
 /*
