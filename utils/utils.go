@@ -13,12 +13,11 @@ package utils
 import (
 	"fmt"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 )
 
 func GetCdpClientForResource(req resource.ConfigureRequest, resp *resource.ConfigureResponse) *cdp.Client {
