@@ -140,7 +140,13 @@ func (r *azureDatahubResource) Delete(ctx context.Context, req resource.DeleteRe
 
 	params := operations.NewDeleteClusterParamsWithContext(ctx).WithInput(&datahubmodels.DeleteClusterRequest{
 		ClusterName: state.ID.ValueStringPointer(),
+		Force:       state.forceDeleteRequested(),
 	})
+	if state.forceDeleteRequested() {
+		tflog.Debug(ctx, fmt.Sprintf("Sending force delete request for cluster: %s", *params.Input.ClusterName))
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("Sending delete request for cluster: %s", *params.Input.ClusterName))
+	}
 	_, err := r.client.Datahub.Operations.DeleteCluster(params)
 	if err != nil {
 		if !isNotFoundError(err) {
