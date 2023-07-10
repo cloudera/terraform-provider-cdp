@@ -13,11 +13,12 @@ package utils
 import (
 	"fmt"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 )
 
 func GetCdpClientForResource(req resource.ConfigureRequest, resp *resource.ConfigureResponse) *cdp.Client {
@@ -86,6 +87,9 @@ func ToBaseTypesStringMap(in map[string]string) map[string]types.String {
 }
 
 func FromListValueToStringList(tl types.List) []string {
+	if tl.IsNull() {
+		return []string{}
+	}
 	res := make([]string, len(tl.Elements()))
 	for i, elem := range tl.Elements() {
 		res[i] = elem.(types.String).ValueString()
@@ -94,6 +98,9 @@ func FromListValueToStringList(tl types.List) []string {
 }
 
 func FromSetValueToStringList(tl types.Set) []string {
+	if tl.IsNull() {
+		return []string{}
+	}
 	res := make([]string, len(tl.Elements()))
 	for i, elem := range tl.Elements() {
 		res[i] = elem.(types.String).ValueString()

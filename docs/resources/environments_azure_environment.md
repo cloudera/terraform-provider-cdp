@@ -92,6 +92,7 @@ output "crn" {
 - `enable_tunnel` (Boolean)
 - `encryption_key_resource_group_name` (String)
 - `encryption_key_url` (String)
+- `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 - `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--existing_network_params))
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `new_network_params` (Attributes) (see [below for nested schema](#nestedatt--new_network_params))
