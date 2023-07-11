@@ -16,9 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -121,48 +119,24 @@ var AwsEnvironmentSchema = schema.Schema{
 		"freeipa": schema.SingleNestedAttribute{
 			Optional: true,
 			Default:  nil,
-			PlanModifiers: []planmodifier.Object{
-				objectplanmodifier.UseStateForUnknown(),
-			},
 			Attributes: map[string]schema.Attribute{
 				"catalog": schema.StringAttribute{
 					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
 				},
 				"image_id": schema.StringAttribute{
 					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
 				},
 				"instance_count_by_group": schema.Int64Attribute{
 					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.Int64{
-						int64planmodifier.UseStateForUnknown(),
-					},
 				},
 				"instance_type": schema.StringAttribute{
 					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
 				},
 				"multi_az": schema.BoolAttribute{
 					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.Bool{
-						boolplanmodifier.UseStateForUnknown(),
-					},
 				},
 				"recipes": schema.SetAttribute{
 					Optional:    true,
-					Computed:    true,
 					ElementType: types.StringType,
 				},
 			},
