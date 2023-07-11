@@ -339,7 +339,6 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 		},
 		"tags": schema.MapAttribute{
 			Optional:    true,
-			Computed:    true,
 			ElementType: types.StringType,
 		},
 	},
