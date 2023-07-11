@@ -24,6 +24,10 @@ explained below:
 - Environment variables
 - Shared credentials file
 
+Additional details about these methods are available in the Cloudera documentation for
+[Generating an API access key](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html)
+and [Configuring CDP client](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-configuring-cdp-client-with-the-api-access-key.html).
+
 ### Static credentials
 
 !> **Warning:** Hard-coding credentials into any Terraform configuration is not
@@ -102,7 +106,7 @@ You can also override the config and credentials file locations that CDP provide
 {{ tffile "examples/provider/provider_with_custom_config_file.tf" }}
 
 ## Setting the CDP Region
-Every CDP Account belongs to only 1 CDP Control Plane region, which is a geographic region boundary for your accounts
+Every CDP Account belongs to only one CDP Control Plane region, which is a geographic region boundary for your accounts
 metadata. [CDP Control Plane Regions](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html)
 details existing control plane regions.
 
