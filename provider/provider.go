@@ -83,19 +83,19 @@ func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 			},
 			"cdp_profile": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "CDP Profile to use for the configuration in shared credentials file (~/.cdp/credentials). It can also be sourced from the `CDP_PROFILE` environment variable.",
+				MarkdownDescription: "CDP Profile to use for the configuration in shared credentials file (`~/.cdp/credentials`). It can also be sourced from the `CDP_PROFILE` environment variable.",
 			},
 			"cdp_region": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Cdp Control Plane Region to send the API requests to, not to be confused by the cloud workload region (AWS, Azure or GCP). Defaults to us-west-1 and can also be sourced from CDP_REGION environment variable. More details can be found [here](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html).",
+				MarkdownDescription: "CDP Control Plane Region to send the API requests to, not to be confused by the cloud workload region (AWS, Azure or GCP). Defaults to `us-west-1` and can also be sourced from `CDP_REGION` environment variable. More details can be found [here](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html).",
 			},
 			"cdp_config_file": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "CDP configuration file. Defaults to ~/.cdp/config.",
+				MarkdownDescription: "CDP configuration file. Defaults to `~/.cdp/config`.",
 			},
 			"cdp_shared_credentials_file": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "CDP shared credentials file. Defaults to ~/.cdp/credentials.",
+				MarkdownDescription: "CDP shared credentials file. Defaults to `~/.cdp/credentials`.",
 			},
 			"endpoint_url": schema.StringAttribute{
 				Optional:            true,
@@ -107,7 +107,7 @@ func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 			},
 			"local_environment": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "Defines wether CDP CP runs locally. Defaults to false.",
+				MarkdownDescription: "Defines whether CDP Control Plane runs locally. Defaults to `false`. This is an advanced configuration, not intended to be used by end users.",
 			},
 		},
 	}

@@ -52,6 +52,10 @@ explained below:
 - Environment variables
 - Shared credentials file
 
+Additional details about these methods are available in the Cloudera documentation for
+[Generating an API access key](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-generating-an-api-access-key.html)
+and [Configuring CDP client](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-configuring-cdp-client-with-the-api-access-key.html).
+
 ### Static credentials
 
 !> **Warning:** Hard-coding credentials into any Terraform configuration is not
@@ -225,7 +229,7 @@ provider "cdp" {
 ```
 
 ## Setting the CDP Region
-Every CDP Account belongs to only 1 CDP Control Plane region, which is a geographic region boundary for your accounts
+Every CDP Account belongs to only one CDP Control Plane region, which is a geographic region boundary for your accounts
 metadata. [CDP Control Plane Regions](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html)
 details existing control plane regions.
 
@@ -278,11 +282,11 @@ cdp_region = eu-1
 ### Optional
 
 - `cdp_access_key_id` (String) CDP access key id to authenticate the requests. It can be provided in the provider config (not recommended!), or it can be sourced from the `CDP_ACCESS_KEY_ID` environment variable, or via a shared credentials file. If `cdp_profile` is specified credentials for the specific profile will be used.
-- `cdp_config_file` (String) CDP configuration file. Defaults to ~/.cdp/config.
+- `cdp_config_file` (String) CDP configuration file. Defaults to `~/.cdp/config`.
 - `cdp_endpoint_url` (String) CDP Endpoint URL to use. Customize the endpoint URL format for connecting to alternate endpoints for CDP services. See the Custom [Service Endpoints Guide](guides/custom-service-endpoints.md) for more information about connecting to alternate CDP endpoints.
 - `cdp_private_key` (String, Sensitive) CDP private key associated with the given access key. It can be provided in the provider config(not recommended!), or it can also be sourced from the `CDP_PRIVATE_KEY` environment variable, or via a shared credentials file. If `cdp_profile` is specified credentials for the specific profile will be used.
-- `cdp_profile` (String) CDP Profile to use for the configuration in shared credentials file (~/.cdp/credentials). It can also be sourced from the `CDP_PROFILE` environment variable.
-- `cdp_region` (String) Cdp Control Plane Region to send the API requests to, not to be confused by the cloud workload region (AWS, Azure or GCP). Defaults to us-west-1 and can also be sourced from CDP_REGION environment variable. More details can be found [here](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html).
-- `cdp_shared_credentials_file` (String) CDP shared credentials file. Defaults to ~/.cdp/credentials.
+- `cdp_profile` (String) CDP Profile to use for the configuration in shared credentials file (`~/.cdp/credentials`). It can also be sourced from the `CDP_PROFILE` environment variable.
+- `cdp_region` (String) CDP Control Plane Region to send the API requests to, not to be confused by the cloud workload region (AWS, Azure or GCP). Defaults to `us-west-1` and can also be sourced from `CDP_REGION` environment variable. More details can be found [here](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html).
+- `cdp_shared_credentials_file` (String) CDP shared credentials file. Defaults to `~/.cdp/credentials`.
 - `endpoint_url` (String) Endpoint URL to use. Customize the endpoint URL format for connecting to alternate endpoints for IAM and Workload Management services. See the Custom [Service Endpoints Guide](guides/custom-service-endpoints.md) for more information about connecting to alternate CDP endpoints.
-- `local_environment` (Boolean) Defines wether CDP CP runs locally. Defaults to false.
+- `local_environment` (Boolean) Defines whether CDP Control Plane runs locally. Defaults to `false`. This is an advanced configuration, not intended to be used by end users.
