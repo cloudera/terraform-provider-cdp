@@ -88,15 +88,18 @@ func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) 
 	}
 	req.Runtime = model.Runtime.ValueString()
 	req.Scale = datalakemodels.DatalakeScaleType(model.Scale.ValueString())
-	req.Tags = make([]*datalakemodels.DatalakeResourceTagRequest, len(model.Tags.Elements()))
-	i := 0
-	for k, v := range model.Tags.Elements() {
-		val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
-		if !diag.HasError() {
-			req.Tags[i] = &datalakemodels.DatalakeResourceTagRequest{
-				Key:   &k,
-				Value: val.ValueStringPointer(),
+	if !model.Tags.IsNull() {
+		req.Tags = make([]*datalakemodels.DatalakeResourceTagRequest, len(model.Tags.Elements()))
+		i := 0
+		for k, v := range model.Tags.Elements() {
+			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
+			if !diag.HasError() {
+				req.Tags[i] = &datalakemodels.DatalakeResourceTagRequest{
+					Key:   &k,
+					Value: val.ValueStringPointer(),
+				}
 			}
+			i++
 		}
 	}
 	return req
@@ -366,9 +369,6 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 	model.StatusReason = types.StringValue(resp.StatusReason)
 	if model.CertificateExpirationState.IsUnknown() {
 		model.CertificateExpirationState = types.StringNull()
-	}
-	if model.Tags.IsUnknown() {
-		model.Tags = types.MapNull(types.StringType)
 	}
 }
 

@@ -321,6 +321,10 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 
 	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
 	input := &environmentsmodels.SetIDBrokerMappingsRequest{}
+	input.EnvironmentName = state.EnvironmentName.ValueStringPointer()
+	input.DataAccessRole = state.DataAccessRole.ValueStringPointer()
+	input.RangerAuditRole = state.RangerAuditRole.ValueString()
+	input.Mappings = make([]*environmentsmodels.IDBrokerMappingRequest, 0)
 	input.SetEmptyMappings = &emptyMappings
 	params.WithInput(input)
 	_, err := client.Operations.SetIDBrokerMappings(params)
