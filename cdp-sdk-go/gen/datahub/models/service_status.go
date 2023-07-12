@@ -91,6 +91,11 @@ func (m *ServiceStatus) contextValidateHealthChecks(ctx context.Context, formats
 	for i := 0; i < len(m.HealthChecks); i++ {
 
 		if m.HealthChecks[i] != nil {
+
+			if swag.IsZero(m.HealthChecks[i]) { // not required
+				return nil
+			}
+
 			if err := m.HealthChecks[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("healthChecks" + "." + strconv.Itoa(i))

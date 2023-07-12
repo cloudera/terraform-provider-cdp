@@ -75,6 +75,7 @@ func (m *DescribeWorkspaceResponse) ContextValidate(ctx context.Context, formats
 func (m *DescribeWorkspaceResponse) contextValidateWorkspace(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Workspace != nil {
+
 		if err := m.Workspace.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("workspace")

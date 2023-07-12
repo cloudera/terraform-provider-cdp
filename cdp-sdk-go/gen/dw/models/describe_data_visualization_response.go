@@ -72,6 +72,11 @@ func (m *DescribeDataVisualizationResponse) ContextValidate(ctx context.Context,
 func (m *DescribeDataVisualizationResponse) contextValidateDataVisualization(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.DataVisualization != nil {
+
+		if swag.IsZero(m.DataVisualization) { // not required
+			return nil
+		}
+
 		if err := m.DataVisualization.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dataVisualization")

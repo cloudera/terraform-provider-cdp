@@ -107,6 +107,7 @@ func (m *HbaseBackupRestoreState) ContextValidate(ctx context.Context, formats s
 func (m *HbaseBackupRestoreState) contextValidateAtlasEntityAuditEventTable(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AtlasEntityAuditEventTable != nil {
+
 		if err := m.AtlasEntityAuditEventTable.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("atlasEntityAuditEventTable")
@@ -123,6 +124,7 @@ func (m *HbaseBackupRestoreState) contextValidateAtlasEntityAuditEventTable(ctx 
 func (m *HbaseBackupRestoreState) contextValidateAtlasJanusTable(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AtlasJanusTable != nil {
+
 		if err := m.AtlasJanusTable.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("atlasJanusTable")

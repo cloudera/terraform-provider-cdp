@@ -88,6 +88,11 @@ func (m *ListGroupAssignedResourceRolesResponse) contextValidateResourceAssignme
 	for i := 0; i < len(m.ResourceAssignments); i++ {
 
 		if m.ResourceAssignments[i] != nil {
+
+			if swag.IsZero(m.ResourceAssignments[i]) { // not required
+				return nil
+			}
+
 			if err := m.ResourceAssignments[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("resourceAssignments" + "." + strconv.Itoa(i))

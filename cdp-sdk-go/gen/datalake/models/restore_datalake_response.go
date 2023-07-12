@@ -237,6 +237,7 @@ func (m *RestoreDatalakeResponse) ContextValidate(ctx context.Context, formats s
 func (m *RestoreDatalakeResponse) contextValidateOperationStates(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.OperationStates != nil {
+
 		if err := m.OperationStates.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("operationStates")

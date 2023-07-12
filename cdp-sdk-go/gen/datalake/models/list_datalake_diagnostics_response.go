@@ -82,6 +82,11 @@ func (m *ListDatalakeDiagnosticsResponse) contextValidateCollections(ctx context
 	for i := 0; i < len(m.Collections); i++ {
 
 		if m.Collections[i] != nil {
+
+			if swag.IsZero(m.Collections[i]) { // not required
+				return nil
+			}
+
 			if err := m.Collections[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("collections" + "." + strconv.Itoa(i))

@@ -199,6 +199,11 @@ func (m *RestoreClusterResponse) contextValidateDbcRestorePlans(ctx context.Cont
 	for i := 0; i < len(m.DbcRestorePlans); i++ {
 
 		if m.DbcRestorePlans[i] != nil {
+
+			if swag.IsZero(m.DbcRestorePlans[i]) { // not required
+				return nil
+			}
+
 			if err := m.DbcRestorePlans[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("dbcRestorePlans" + "." + strconv.Itoa(i))
@@ -219,6 +224,11 @@ func (m *RestoreClusterResponse) contextValidateHiveRestorePlans(ctx context.Con
 	for i := 0; i < len(m.HiveRestorePlans); i++ {
 
 		if m.HiveRestorePlans[i] != nil {
+
+			if swag.IsZero(m.HiveRestorePlans[i]) { // not required
+				return nil
+			}
+
 			if err := m.HiveRestorePlans[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
@@ -239,6 +249,11 @@ func (m *RestoreClusterResponse) contextValidateImpalaRestorePlans(ctx context.C
 	for i := 0; i < len(m.ImpalaRestorePlans); i++ {
 
 		if m.ImpalaRestorePlans[i] != nil {
+
+			if swag.IsZero(m.ImpalaRestorePlans[i]) { // not required
+				return nil
+			}
+
 			if err := m.ImpalaRestorePlans[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("impalaRestorePlans" + "." + strconv.Itoa(i))
@@ -259,6 +274,11 @@ func (m *RestoreClusterResponse) contextValidateVizRestorePlans(ctx context.Cont
 	for i := 0; i < len(m.VizRestorePlans); i++ {
 
 		if m.VizRestorePlans[i] != nil {
+
+			if swag.IsZero(m.VizRestorePlans[i]) { // not required
+				return nil
+			}
+
 			if err := m.VizRestorePlans[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("vizRestorePlans" + "." + strconv.Itoa(i))

@@ -123,6 +123,11 @@ func (m *GetCredentialPrerequisitesResponse) ContextValidate(ctx context.Context
 func (m *GetCredentialPrerequisitesResponse) contextValidateAws(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Aws != nil {
+
+		if swag.IsZero(m.Aws) { // not required
+			return nil
+		}
+
 		if err := m.Aws.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("aws")
@@ -139,6 +144,11 @@ func (m *GetCredentialPrerequisitesResponse) contextValidateAws(ctx context.Cont
 func (m *GetCredentialPrerequisitesResponse) contextValidateAzure(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Azure != nil {
+
+		if swag.IsZero(m.Azure) { // not required
+			return nil
+		}
+
 		if err := m.Azure.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azure")

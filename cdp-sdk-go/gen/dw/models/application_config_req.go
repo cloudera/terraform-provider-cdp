@@ -82,6 +82,11 @@ func (m *ApplicationConfigReq) contextValidateConfigBlocks(ctx context.Context, 
 	for i := 0; i < len(m.ConfigBlocks); i++ {
 
 		if m.ConfigBlocks[i] != nil {
+
+			if swag.IsZero(m.ConfigBlocks[i]) { // not required
+				return nil
+			}
+
 			if err := m.ConfigBlocks[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("configBlocks" + "." + strconv.Itoa(i))

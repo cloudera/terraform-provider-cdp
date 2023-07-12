@@ -72,6 +72,11 @@ func (m *DescribeDbcResponse) ContextValidate(ctx context.Context, formats strfm
 func (m *DescribeDbcResponse) contextValidateDbc(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Dbc != nil {
+
+		if swag.IsZero(m.Dbc) { // not required
+			return nil
+		}
+
 		if err := m.Dbc.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dbc")

@@ -88,6 +88,11 @@ func (m *ListResourceAssigneesResponse) contextValidateResourceAssignees(ctx con
 	for i := 0; i < len(m.ResourceAssignees); i++ {
 
 		if m.ResourceAssignees[i] != nil {
+
+			if swag.IsZero(m.ResourceAssignees[i]) { // not required
+				return nil
+			}
+
 			if err := m.ResourceAssignees[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("resourceAssignees" + "." + strconv.Itoa(i))

@@ -75,6 +75,7 @@ func (m *GetAccountResponse) ContextValidate(ctx context.Context, formats strfmt
 func (m *GetAccountResponse) contextValidateAccount(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Account != nil {
+
 		if err := m.Account.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("account")

@@ -142,6 +142,11 @@ func (m *ConfigBlockResp) ContextValidate(ctx context.Context, formats strfmt.Re
 func (m *ConfigBlockResp) contextValidateContent(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Content != nil {
+
+		if swag.IsZero(m.Content) { // not required
+			return nil
+		}
+
 		if err := m.Content.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("content")

@@ -162,6 +162,11 @@ func (m *UpdateClusterRequest) ContextValidate(ctx context.Context, formats strf
 func (m *UpdateClusterRequest) contextValidateAwsUpdate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsUpdate != nil {
+
+		if swag.IsZero(m.AwsUpdate) { // not required
+			return nil
+		}
+
 		if err := m.AwsUpdate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsUpdate")
@@ -178,6 +183,11 @@ func (m *UpdateClusterRequest) contextValidateAwsUpdate(ctx context.Context, for
 func (m *UpdateClusterRequest) contextValidateAzureUpdate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AzureUpdate != nil {
+
+		if swag.IsZero(m.AzureUpdate) { // not required
+			return nil
+		}
+
 		if err := m.AzureUpdate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azureUpdate")
@@ -194,6 +204,11 @@ func (m *UpdateClusterRequest) contextValidateAzureUpdate(ctx context.Context, f
 func (m *UpdateClusterRequest) contextValidateObservabilityConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ObservabilityConfig != nil {
+
+		if swag.IsZero(m.ObservabilityConfig) { // not required
+			return nil
+		}
+
 		if err := m.ObservabilityConfig.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("observabilityConfig")

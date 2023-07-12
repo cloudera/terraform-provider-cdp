@@ -131,6 +131,11 @@ func (m *ServiceConfigResp) contextValidateApplicationConfigs(ctx context.Contex
 func (m *ServiceConfigResp) contextValidateCommonConfigs(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.CommonConfigs != nil {
+
+		if swag.IsZero(m.CommonConfigs) { // not required
+			return nil
+		}
+
 		if err := m.CommonConfigs.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("commonConfigs")

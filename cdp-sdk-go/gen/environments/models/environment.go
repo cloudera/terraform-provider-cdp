@@ -515,6 +515,11 @@ func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Regist
 func (m *Environment) contextValidateAuthentication(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Authentication != nil {
+
+		if swag.IsZero(m.Authentication) { // not required
+			return nil
+		}
+
 		if err := m.Authentication.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("authentication")
@@ -531,6 +536,11 @@ func (m *Environment) contextValidateAuthentication(ctx context.Context, formats
 func (m *Environment) contextValidateAwsDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsDetails != nil {
+
+		if swag.IsZero(m.AwsDetails) { // not required
+			return nil
+		}
+
 		if err := m.AwsDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsDetails")
@@ -547,6 +557,11 @@ func (m *Environment) contextValidateAwsDetails(ctx context.Context, formats str
 func (m *Environment) contextValidateBackupStorage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BackupStorage != nil {
+
+		if swag.IsZero(m.BackupStorage) { // not required
+			return nil
+		}
+
 		if err := m.BackupStorage.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backupStorage")
@@ -563,6 +578,11 @@ func (m *Environment) contextValidateBackupStorage(ctx context.Context, formats 
 func (m *Environment) contextValidateFreeipa(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Freeipa != nil {
+
+		if swag.IsZero(m.Freeipa) { // not required
+			return nil
+		}
+
 		if err := m.Freeipa.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("freeipa")
@@ -579,6 +599,11 @@ func (m *Environment) contextValidateFreeipa(ctx context.Context, formats strfmt
 func (m *Environment) contextValidateGcpDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.GcpDetails != nil {
+
+		if swag.IsZero(m.GcpDetails) { // not required
+			return nil
+		}
+
 		if err := m.GcpDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("gcpDetails")
@@ -595,6 +620,7 @@ func (m *Environment) contextValidateGcpDetails(ctx context.Context, formats str
 func (m *Environment) contextValidateLogStorage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LogStorage != nil {
+
 		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("logStorage")
@@ -611,6 +637,7 @@ func (m *Environment) contextValidateLogStorage(ctx context.Context, formats str
 func (m *Environment) contextValidateNetwork(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Network != nil {
+
 		if err := m.Network.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("network")
@@ -627,6 +654,11 @@ func (m *Environment) contextValidateNetwork(ctx context.Context, formats strfmt
 func (m *Environment) contextValidateProxyConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ProxyConfig != nil {
+
+		if swag.IsZero(m.ProxyConfig) { // not required
+			return nil
+		}
+
 		if err := m.ProxyConfig.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("proxyConfig")
@@ -643,6 +675,11 @@ func (m *Environment) contextValidateProxyConfig(ctx context.Context, formats st
 func (m *Environment) contextValidateSecurityAccess(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.SecurityAccess != nil {
+
+		if swag.IsZero(m.SecurityAccess) { // not required
+			return nil
+		}
+
 		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("securityAccess")
@@ -659,6 +696,11 @@ func (m *Environment) contextValidateSecurityAccess(ctx context.Context, formats
 func (m *Environment) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Tags != nil {
+
+		if swag.IsZero(m.Tags) { // not required
+			return nil
+		}
+
 		if err := m.Tags.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tags")
@@ -673,6 +715,10 @@ func (m *Environment) contextValidateTags(ctx context.Context, formats strfmt.Re
 }
 
 func (m *Environment) contextValidateTunnelType(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TunnelType) { // not required
+		return nil
+	}
 
 	if err := m.TunnelType.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

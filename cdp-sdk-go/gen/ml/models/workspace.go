@@ -513,6 +513,11 @@ func (m *Workspace) ContextValidate(ctx context.Context, formats strfmt.Registry
 func (m *Workspace) contextValidateBackupMetadata(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BackupMetadata != nil {
+
+		if swag.IsZero(m.BackupMetadata) { // not required
+			return nil
+		}
+
 		if err := m.BackupMetadata.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backupMetadata")
@@ -531,6 +536,11 @@ func (m *Workspace) contextValidateHealthInfoLists(ctx context.Context, formats 
 	for i := 0; i < len(m.HealthInfoLists); i++ {
 
 		if m.HealthInfoLists[i] != nil {
+
+			if swag.IsZero(m.HealthInfoLists[i]) { // not required
+				return nil
+			}
+
 			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
@@ -551,6 +561,11 @@ func (m *Workspace) contextValidateInstanceGroups(ctx context.Context, formats s
 	for i := 0; i < len(m.InstanceGroups); i++ {
 
 		if m.InstanceGroups[i] != nil {
+
+			if swag.IsZero(m.InstanceGroups[i]) { // not required
+				return nil
+			}
+
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
@@ -571,6 +586,11 @@ func (m *Workspace) contextValidateTags(ctx context.Context, formats strfmt.Regi
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
@@ -589,6 +609,11 @@ func (m *Workspace) contextValidateTags(ctx context.Context, formats strfmt.Regi
 func (m *Workspace) contextValidateUpgradeState(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.UpgradeState != nil {
+
+		if swag.IsZero(m.UpgradeState) { // not required
+			return nil
+		}
+
 		if err := m.UpgradeState.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("upgradeState")

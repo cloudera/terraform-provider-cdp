@@ -85,6 +85,11 @@ func (m *DeleteClusterTemplatesResponse) contextValidateClusterTemplates(ctx con
 	for i := 0; i < len(m.ClusterTemplates); i++ {
 
 		if m.ClusterTemplates[i] != nil {
+
+			if swag.IsZero(m.ClusterTemplates[i]) { // not required
+				return nil
+			}
+
 			if err := m.ClusterTemplates[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterTemplates" + "." + strconv.Itoa(i))

@@ -88,6 +88,10 @@ func (m *DescribeServerSettingItem) contextValidateRequiresUpdate(ctx context.Co
 
 	for i := 0; i < len(m.RequiresUpdate); i++ {
 
+		if swag.IsZero(m.RequiresUpdate[i]) { // not required
+			return nil
+		}
+
 		if err := m.RequiresUpdate[i].ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("requiresUpdate" + "." + strconv.Itoa(i))

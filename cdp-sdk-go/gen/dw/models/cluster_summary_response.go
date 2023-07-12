@@ -183,6 +183,11 @@ func (m *ClusterSummaryResponse) ContextValidate(ctx context.Context, formats st
 func (m *ClusterSummaryResponse) contextValidateAwsOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsOptions != nil {
+
+		if swag.IsZero(m.AwsOptions) { // not required
+			return nil
+		}
+
 		if err := m.AwsOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsOptions")
@@ -199,6 +204,11 @@ func (m *ClusterSummaryResponse) contextValidateAwsOptions(ctx context.Context, 
 func (m *ClusterSummaryResponse) contextValidateAzureOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AzureOptions != nil {
+
+		if swag.IsZero(m.AzureOptions) { // not required
+			return nil
+		}
+
 		if err := m.AzureOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azureOptions")
@@ -215,6 +225,11 @@ func (m *ClusterSummaryResponse) contextValidateAzureOptions(ctx context.Context
 func (m *ClusterSummaryResponse) contextValidateCreator(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Creator != nil {
+
+		if swag.IsZero(m.Creator) { // not required
+			return nil
+		}
+
 		if err := m.Creator.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("creator")

@@ -191,6 +191,11 @@ func (m *GetRepairFreeipaStatusResponse) contextValidateFailureOperationDetails(
 	for i := 0; i < len(m.FailureOperationDetails); i++ {
 
 		if m.FailureOperationDetails[i] != nil {
+
+			if swag.IsZero(m.FailureOperationDetails[i]) { // not required
+				return nil
+			}
+
 			if err := m.FailureOperationDetails[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("failureOperationDetails" + "." + strconv.Itoa(i))
@@ -207,6 +212,10 @@ func (m *GetRepairFreeipaStatusResponse) contextValidateFailureOperationDetails(
 }
 
 func (m *GetRepairFreeipaStatusResponse) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Status) { // not required
+		return nil
+	}
 
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -225,6 +234,11 @@ func (m *GetRepairFreeipaStatusResponse) contextValidateSuccessfulOperationDetai
 	for i := 0; i < len(m.SuccessfulOperationDetails); i++ {
 
 		if m.SuccessfulOperationDetails[i] != nil {
+
+			if swag.IsZero(m.SuccessfulOperationDetails[i]) { // not required
+				return nil
+			}
+
 			if err := m.SuccessfulOperationDetails[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("successfulOperationDetails" + "." + strconv.Itoa(i))

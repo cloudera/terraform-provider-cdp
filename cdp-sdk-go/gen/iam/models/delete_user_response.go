@@ -136,6 +136,11 @@ func (m *DeleteUserResponse) contextValidateResourcesUnassigned(ctx context.Cont
 	for i := 0; i < len(m.ResourcesUnassigned); i++ {
 
 		if m.ResourcesUnassigned[i] != nil {
+
+			if swag.IsZero(m.ResourcesUnassigned[i]) { // not required
+				return nil
+			}
+
 			if err := m.ResourcesUnassigned[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("resourcesUnassigned" + "." + strconv.Itoa(i))

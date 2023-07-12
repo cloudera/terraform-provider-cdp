@@ -75,6 +75,7 @@ func (m *CreateAWSEnvironmentResponse) ContextValidate(ctx context.Context, form
 func (m *CreateAWSEnvironmentResponse) contextValidateEnvironment(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Environment != nil {
+
 		if err := m.Environment.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("environment")

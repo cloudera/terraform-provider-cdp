@@ -75,6 +75,7 @@ func (m *DescribeDatalakeResponse) ContextValidate(ctx context.Context, formats 
 func (m *DescribeDatalakeResponse) contextValidateDatalake(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Datalake != nil {
+
 		if err := m.Datalake.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("datalake")

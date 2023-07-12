@@ -172,6 +172,11 @@ func (m *MachineUser) contextValidateAzureCloudIdentities(ctx context.Context, f
 	for i := 0; i < len(m.AzureCloudIdentities); i++ {
 
 		if m.AzureCloudIdentities[i] != nil {
+
+			if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+				return nil
+			}
+
 			if err := m.AzureCloudIdentities[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
@@ -190,6 +195,11 @@ func (m *MachineUser) contextValidateAzureCloudIdentities(ctx context.Context, f
 func (m *MachineUser) contextValidateWorkloadPasswordDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.WorkloadPasswordDetails != nil {
+
+		if swag.IsZero(m.WorkloadPasswordDetails) { // not required
+			return nil
+		}
+
 		if err := m.WorkloadPasswordDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("workloadPasswordDetails")

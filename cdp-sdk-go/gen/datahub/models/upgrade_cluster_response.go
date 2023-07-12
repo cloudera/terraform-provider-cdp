@@ -113,6 +113,11 @@ func (m *UpgradeClusterResponse) ContextValidate(ctx context.Context, formats st
 func (m *UpgradeClusterResponse) contextValidateCurrent(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Current != nil {
+
+		if swag.IsZero(m.Current) { // not required
+			return nil
+		}
+
 		if err := m.Current.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("current")
@@ -131,6 +136,11 @@ func (m *UpgradeClusterResponse) contextValidateUpgradeCandidates(ctx context.Co
 	for i := 0; i < len(m.UpgradeCandidates); i++ {
 
 		if m.UpgradeCandidates[i] != nil {
+
+			if swag.IsZero(m.UpgradeCandidates[i]) { // not required
+				return nil
+			}
+
 			if err := m.UpgradeCandidates[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("upgradeCandidates" + "." + strconv.Itoa(i))

@@ -102,6 +102,11 @@ func (m *ReplaceRecipesRequest) contextValidateInstanceGroupRecipes(ctx context.
 	for i := 0; i < len(m.InstanceGroupRecipes); i++ {
 
 		if m.InstanceGroupRecipes[i] != nil {
+
+			if swag.IsZero(m.InstanceGroupRecipes[i]) { // not required
+				return nil
+			}
+
 			if err := m.InstanceGroupRecipes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroupRecipes" + "." + strconv.Itoa(i))

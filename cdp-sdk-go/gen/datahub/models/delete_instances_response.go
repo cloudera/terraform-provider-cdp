@@ -75,6 +75,7 @@ func (m *DeleteInstancesResponse) ContextValidate(ctx context.Context, formats s
 func (m *DeleteInstancesResponse) contextValidateCluster(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Cluster != nil {
+
 		if err := m.Cluster.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cluster")

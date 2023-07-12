@@ -255,6 +255,11 @@ func (m *Cluster) ContextValidate(ctx context.Context, formats strfmt.Registry) 
 func (m *Cluster) contextValidateClouderaManager(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ClouderaManager != nil {
+
+		if swag.IsZero(m.ClouderaManager) { // not required
+			return nil
+		}
+
 		if err := m.ClouderaManager.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clouderaManager")
@@ -271,6 +276,11 @@ func (m *Cluster) contextValidateClouderaManager(ctx context.Context, formats st
 func (m *Cluster) contextValidateEndpoints(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Endpoints != nil {
+
+		if swag.IsZero(m.Endpoints) { // not required
+			return nil
+		}
+
 		if err := m.Endpoints.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("endpoints")
@@ -287,6 +297,11 @@ func (m *Cluster) contextValidateEndpoints(ctx context.Context, formats strfmt.R
 func (m *Cluster) contextValidateImageDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ImageDetails != nil {
+
+		if swag.IsZero(m.ImageDetails) { // not required
+			return nil
+		}
+
 		if err := m.ImageDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("imageDetails")
@@ -305,6 +320,11 @@ func (m *Cluster) contextValidateInstanceGroups(ctx context.Context, formats str
 	for i := 0; i < len(m.InstanceGroups); i++ {
 
 		if m.InstanceGroups[i] != nil {
+
+			if swag.IsZero(m.InstanceGroups[i]) { // not required
+				return nil
+			}
+
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))

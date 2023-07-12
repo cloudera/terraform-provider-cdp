@@ -227,6 +227,11 @@ func (m *CreatePrivateEnvironmentRequest) ContextValidate(ctx context.Context, f
 func (m *CreatePrivateEnvironmentRequest) contextValidateDockerUserPass(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.DockerUserPass != nil {
+
+		if swag.IsZero(m.DockerUserPass) { // not required
+			return nil
+		}
+
 		if err := m.DockerUserPass.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dockerUserPass")

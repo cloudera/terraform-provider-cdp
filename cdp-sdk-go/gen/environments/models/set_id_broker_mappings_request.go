@@ -129,6 +129,11 @@ func (m *SetIDBrokerMappingsRequest) contextValidateMappings(ctx context.Context
 	for i := 0; i < len(m.Mappings); i++ {
 
 		if m.Mappings[i] != nil {
+
+			if swag.IsZero(m.Mappings[i]) { // not required
+				return nil
+			}
+
 			if err := m.Mappings[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("mappings" + "." + strconv.Itoa(i))

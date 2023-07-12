@@ -82,6 +82,11 @@ func (m *ListDataVisualizationsResponse) contextValidateDataVisualizations(ctx c
 	for i := 0; i < len(m.DataVisualizations); i++ {
 
 		if m.DataVisualizations[i] != nil {
+
+			if swag.IsZero(m.DataVisualizations[i]) { // not required
+				return nil
+			}
+
 			if err := m.DataVisualizations[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("dataVisualizations" + "." + strconv.Itoa(i))

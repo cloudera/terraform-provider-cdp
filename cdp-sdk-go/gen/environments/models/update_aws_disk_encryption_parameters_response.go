@@ -105,6 +105,11 @@ func (m *UpdateAwsDiskEncryptionParametersResponse) ContextValidate(ctx context.
 func (m *UpdateAwsDiskEncryptionParametersResponse) contextValidateAwsDiskEncryptionParameters(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsDiskEncryptionParameters != nil {
+
+		if swag.IsZero(m.AwsDiskEncryptionParameters) { // not required
+			return nil
+		}
+
 		if err := m.AwsDiskEncryptionParameters.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsDiskEncryptionParameters")
@@ -121,6 +126,7 @@ func (m *UpdateAwsDiskEncryptionParametersResponse) contextValidateAwsDiskEncryp
 func (m *UpdateAwsDiskEncryptionParametersResponse) contextValidateEnvironment(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Environment != nil {
+
 		if err := m.Environment.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("environment")
