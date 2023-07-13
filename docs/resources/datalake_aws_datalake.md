@@ -19,7 +19,7 @@ A Data Lake is a service which provides a protective ring around the data stored
 - `datalake_name` (String)
 - `environment_name` (String)
 - `instance_profile` (String)
-- `storage_bucket_location` (String)
+- `storage_location_base` (String)
 
 ### Optional
 
@@ -36,17 +36,14 @@ A Data Lake is a service which provides a protective ring around the data stored
 ### Read-Only
 
 - `certificate_expiration_state` (String)
-- `cloud_storage_base_location` (String)
 - `cloudera_manager` (Attributes) (see [below for nested schema](#nestedatt--cloudera_manager))
 - `creation_date` (String)
-- `credential_crn` (String)
 - `crn` (String)
 - `endpoints` (Attributes Set) (see [below for nested schema](#nestedatt--endpoints))
 - `environment_crn` (String)
 - `id` (String) The ID of this resource.
 - `instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--instance_groups))
 - `product_versions` (Attributes Set) (see [below for nested schema](#nestedatt--product_versions))
-- `region` (String)
 - `status` (String)
 - `status_reason` (String)
 

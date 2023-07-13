@@ -17,17 +17,13 @@ type azureDatalakeResourceModel struct {
 
 	ManagedIdentity types.String `tfsdk:"managed_identity"`
 
-	StorageLocation types.String `tfsdk:"storage_location"`
+	StorageLocationBase types.String `tfsdk:"storage_location_base"`
 
 	CertificateExpirationState types.String `tfsdk:"certificate_expiration_state"`
-
-	CloudStorageBaseLocation types.String `tfsdk:"cloud_storage_base_location"`
 
 	ClouderaManager types.Object `tfsdk:"cloudera_manager"`
 
 	CreationDate types.String `tfsdk:"creation_date"`
-
-	CredentialCrn types.String `tfsdk:"credential_crn"`
 
 	Crn types.String `tfsdk:"crn"`
 
@@ -46,8 +42,6 @@ type azureDatalakeResourceModel struct {
 	InstanceGroups types.Set `tfsdk:"instance_groups"`
 
 	ProductVersions types.Set `tfsdk:"product_versions"`
-
-	Region types.String `tfsdk:"region"`
 
 	JavaVersion types.Int64 `tfsdk:"java_version"`
 

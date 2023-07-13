@@ -33,16 +33,10 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 		"instance_profile": schema.StringAttribute{
 			Required: true,
 		},
-		"storage_bucket_location": schema.StringAttribute{
+		"storage_location_base": schema.StringAttribute{
 			Required: true,
 		},
 		"certificate_expiration_state": schema.StringAttribute{
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"cloud_storage_base_location": schema.StringAttribute{
 			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
@@ -75,12 +69,6 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 			},
 		},
 		"creation_date": schema.StringAttribute{
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"credential_crn": schema.StringAttribute{
 			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
@@ -310,12 +298,6 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 						Required: true,
 					},
 				},
-			},
-		},
-		"region": schema.StringAttribute{
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"runtime": schema.StringAttribute{

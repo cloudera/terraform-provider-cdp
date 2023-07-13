@@ -59,7 +59,7 @@ func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) 
 	req := &datalakemodels.CreateAWSDatalakeRequest{}
 	req.CloudProviderConfiguration = &datalakemodels.AWSConfigurationRequest{
 		InstanceProfile:       model.InstanceProfile.ValueStringPointer(),
-		StorageBucketLocation: model.StorageBucketLocation.ValueStringPointer(),
+		StorageBucketLocation: model.StorageLocationBase.ValueStringPointer(),
 	}
 	req.CustomInstanceGroups = make([]*datalakemodels.SdxInstanceGroupRequest, len(model.CustomInstanceGroups))
 	for i, v := range model.CustomInstanceGroups {
@@ -244,7 +244,6 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *awsDatalakeResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	model.InstanceProfile = types.StringValue(resp.AwsConfiguration.InstanceProfile)
-	model.CloudStorageBaseLocation = types.StringValue(resp.CloudStorageBaseLocation)
 	if resp.ClouderaManager != nil {
 		var cmDiags diag.Diagnostics
 		model.ClouderaManager, cmDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
@@ -259,7 +258,6 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 		diags.Append(cmDiags...)
 	}
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
-	model.CredentialCrn = types.StringValue(resp.CredentialCrn)
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
@@ -363,7 +361,6 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 		},
 	}, productVersions)
 	diags.Append(pvDiags...)
-	model.Region = types.StringValue(resp.Region)
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)

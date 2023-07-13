@@ -54,7 +54,7 @@ func toAzureDatalakeRequest(ctx context.Context, model *azureDatalakeResourceMod
 	req := &datalakemodels.CreateAzureDatalakeRequest{}
 	req.CloudProviderConfiguration = &datalakemodels.AzureConfigurationRequest{
 		ManagedIdentity: model.ManagedIdentity.ValueStringPointer(),
-		StorageLocation: model.StorageLocation.ValueStringPointer(),
+		StorageLocation: model.StorageLocationBase.ValueStringPointer(),
 	}
 	req.DatalakeName = model.DatalakeName.ValueStringPointer()
 	req.EnableRangerRaz = model.EnableRangerRaz.ValueBool()
@@ -198,7 +198,6 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 	if resp.AzureConfiguration != nil {
 		model.ManagedIdentity = types.StringValue(resp.AzureConfiguration.ManagedIdentity)
 	}
-	model.CloudStorageBaseLocation = types.StringValue(resp.CloudStorageBaseLocation)
 	if resp.ClouderaManager != nil {
 		var cmDiags diag.Diagnostics
 		model.ClouderaManager, cmDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
@@ -213,7 +212,6 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 		diags.Append(cmDiags...)
 	}
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
-	model.CredentialCrn = types.StringValue(resp.CredentialCrn)
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
@@ -320,7 +318,6 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 		},
 	}, productVersions)
 	diags.Append(pvDiags...)
-	model.Region = types.StringValue(resp.Region)
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
