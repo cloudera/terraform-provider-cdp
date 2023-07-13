@@ -131,6 +131,11 @@ func (m *CdpCluster) contextValidateClusterValidationMessages(ctx context.Contex
 	for i := 0; i < len(m.ClusterValidationMessages); i++ {
 
 		if m.ClusterValidationMessages[i] != nil {
+
+			if swag.IsZero(m.ClusterValidationMessages[i]) { // not required
+				return nil
+			}
+
 			if err := m.ClusterValidationMessages[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
@@ -151,6 +156,11 @@ func (m *CdpCluster) contextValidateExposedServices(ctx context.Context, formats
 	for i := 0; i < len(m.ExposedServices); i++ {
 
 		if m.ExposedServices[i] != nil {
+
+			if swag.IsZero(m.ExposedServices[i]) { // not required
+				return nil
+			}
+
 			if err := m.ExposedServices[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("exposedServices" + "." + strconv.Itoa(i))

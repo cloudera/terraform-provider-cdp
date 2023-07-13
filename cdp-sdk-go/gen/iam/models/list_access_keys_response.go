@@ -88,6 +88,11 @@ func (m *ListAccessKeysResponse) contextValidateAccessKeys(ctx context.Context, 
 	for i := 0; i < len(m.AccessKeys); i++ {
 
 		if m.AccessKeys[i] != nil {
+
+			if swag.IsZero(m.AccessKeys[i]) { // not required
+				return nil
+			}
+
 			if err := m.AccessKeys[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("accessKeys" + "." + strconv.Itoa(i))

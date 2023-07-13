@@ -176,6 +176,11 @@ func (m *UpdateDbcConfigRequest) contextValidateSet(ctx context.Context, formats
 	for i := 0; i < len(m.Set); i++ {
 
 		if m.Set[i] != nil {
+
+			if swag.IsZero(m.Set[i]) { // not required
+				return nil
+			}
+
 			if err := m.Set[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("set" + "." + strconv.Itoa(i))

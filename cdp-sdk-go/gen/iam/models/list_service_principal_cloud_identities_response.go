@@ -88,6 +88,11 @@ func (m *ListServicePrincipalCloudIdentitiesResponse) contextValidateServicePrin
 	for i := 0; i < len(m.ServicePrincipalCloudIdentities); i++ {
 
 		if m.ServicePrincipalCloudIdentities[i] != nil {
+
+			if swag.IsZero(m.ServicePrincipalCloudIdentities[i]) { // not required
+				return nil
+			}
+
 			if err := m.ServicePrincipalCloudIdentities[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("servicePrincipalCloudIdentities" + "." + strconv.Itoa(i))

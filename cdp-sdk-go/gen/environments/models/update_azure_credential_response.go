@@ -72,6 +72,11 @@ func (m *UpdateAzureCredentialResponse) ContextValidate(ctx context.Context, for
 func (m *UpdateAzureCredentialResponse) contextValidateCredential(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Credential != nil {
+
+		if swag.IsZero(m.Credential) { // not required
+			return nil
+		}
+
 		if err := m.Credential.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("credential")

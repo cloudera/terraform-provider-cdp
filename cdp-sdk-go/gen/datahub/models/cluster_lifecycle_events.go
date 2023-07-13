@@ -229,6 +229,10 @@ func (m *ClusterLifecycleEvents) ContextValidate(ctx context.Context, formats st
 
 func (m *ClusterLifecycleEvents) contextValidateClusterStatus(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.ClusterStatus) { // not required
+		return nil
+	}
+
 	if err := m.ClusterStatus.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("clusterStatus")
@@ -244,6 +248,11 @@ func (m *ClusterLifecycleEvents) contextValidateClusterStatus(ctx context.Contex
 func (m *ClusterLifecycleEvents) contextValidateLdapDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LdapDetails != nil {
+
+		if swag.IsZero(m.LdapDetails) { // not required
+			return nil
+		}
+
 		if err := m.LdapDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ldapDetails")
@@ -260,6 +269,11 @@ func (m *ClusterLifecycleEvents) contextValidateLdapDetails(ctx context.Context,
 func (m *ClusterLifecycleEvents) contextValidateRdsDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.RdsDetails != nil {
+
+		if swag.IsZero(m.RdsDetails) { // not required
+			return nil
+		}
+
 		if err := m.RdsDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rdsDetails")
@@ -274,6 +288,10 @@ func (m *ClusterLifecycleEvents) contextValidateRdsDetails(ctx context.Context, 
 }
 
 func (m *ClusterLifecycleEvents) contextValidateStackStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.StackStatus) { // not required
+		return nil
+	}
 
 	if err := m.StackStatus.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

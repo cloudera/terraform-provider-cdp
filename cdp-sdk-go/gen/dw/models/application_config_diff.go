@@ -90,6 +90,11 @@ func (m *ApplicationConfigDiff) ContextValidate(ctx context.Context, formats str
 func (m *ApplicationConfigDiff) contextValidateConfigBlocksDiffs(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ConfigBlocksDiffs != nil {
+
+		if swag.IsZero(m.ConfigBlocksDiffs) { // not required
+			return nil
+		}
+
 		if err := m.ConfigBlocksDiffs.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configBlocksDiffs")

@@ -75,6 +75,7 @@ func (m *DescribeSamlProviderResponse) ContextValidate(ctx context.Context, form
 func (m *DescribeSamlProviderResponse) contextValidateSamlProvider(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.SamlProvider != nil {
+
 		if err := m.SamlProvider.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("samlProvider")

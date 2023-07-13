@@ -149,6 +149,11 @@ func (m *Restore) contextValidateErrors(ctx context.Context, formats strfmt.Regi
 	for i := 0; i < len(m.Errors); i++ {
 
 		if m.Errors[i] != nil {
+
+			if swag.IsZero(m.Errors[i]) { // not required
+				return nil
+			}
+
 			if err := m.Errors[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("errors" + "." + strconv.Itoa(i))
@@ -169,6 +174,11 @@ func (m *Restore) contextValidateWarnings(ctx context.Context, formats strfmt.Re
 	for i := 0; i < len(m.Warnings); i++ {
 
 		if m.Warnings[i] != nil {
+
+			if swag.IsZero(m.Warnings[i]) { // not required
+				return nil
+			}
+
 			if err := m.Warnings[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("warnings" + "." + strconv.Itoa(i))

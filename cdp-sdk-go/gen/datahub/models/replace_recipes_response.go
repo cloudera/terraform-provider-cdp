@@ -119,6 +119,11 @@ func (m *ReplaceRecipesResponse) contextValidateAttachedRecipes(ctx context.Cont
 	for i := 0; i < len(m.AttachedRecipes); i++ {
 
 		if m.AttachedRecipes[i] != nil {
+
+			if swag.IsZero(m.AttachedRecipes[i]) { // not required
+				return nil
+			}
+
 			if err := m.AttachedRecipes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("attachedRecipes" + "." + strconv.Itoa(i))
@@ -139,6 +144,11 @@ func (m *ReplaceRecipesResponse) contextValidateDetachedRecipes(ctx context.Cont
 	for i := 0; i < len(m.DetachedRecipes); i++ {
 
 		if m.DetachedRecipes[i] != nil {
+
+			if swag.IsZero(m.DetachedRecipes[i]) { // not required
+				return nil
+			}
+
 			if err := m.DetachedRecipes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("detachedRecipes" + "." + strconv.Itoa(i))

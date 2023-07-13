@@ -317,6 +317,11 @@ func (m *CollectDatahubDiagnosticsRequest) contextValidateAdditionalLogs(ctx con
 	for i := 0; i < len(m.AdditionalLogs); i++ {
 
 		if m.AdditionalLogs[i] != nil {
+
+			if swag.IsZero(m.AdditionalLogs[i]) { // not required
+				return nil
+			}
+
 			if err := m.AdditionalLogs[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("additionalLogs" + "." + strconv.Itoa(i))

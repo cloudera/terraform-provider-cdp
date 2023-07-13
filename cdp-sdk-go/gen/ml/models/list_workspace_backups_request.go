@@ -81,6 +81,11 @@ func (m *ListWorkspaceBackupsRequest) ContextValidate(ctx context.Context, forma
 func (m *ListWorkspaceBackupsRequest) contextValidateQueryOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.QueryOptions != nil {
+
+		if swag.IsZero(m.QueryOptions) { // not required
+			return nil
+		}
+
 		if err := m.QueryOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("queryOptions")

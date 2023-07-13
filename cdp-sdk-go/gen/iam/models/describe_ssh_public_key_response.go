@@ -75,6 +75,7 @@ func (m *DescribeSSHPublicKeyResponse) ContextValidate(ctx context.Context, form
 func (m *DescribeSSHPublicKeyResponse) contextValidateSSHPublicKey(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.SSHPublicKey != nil {
+
 		if err := m.SSHPublicKey.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sshPublicKey")

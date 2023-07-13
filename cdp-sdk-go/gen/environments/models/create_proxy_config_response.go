@@ -75,6 +75,7 @@ func (m *CreateProxyConfigResponse) ContextValidate(ctx context.Context, formats
 func (m *CreateProxyConfigResponse) contextValidateProxyConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ProxyConfig != nil {
+
 		if err := m.ProxyConfig.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("proxyConfig")

@@ -115,6 +115,7 @@ func (m *CreateDataVisualizationRequest) ContextValidate(ctx context.Context, fo
 func (m *CreateDataVisualizationRequest) contextValidateConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Config != nil {
+
 		if err := m.Config.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("config")

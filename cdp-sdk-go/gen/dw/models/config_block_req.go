@@ -160,6 +160,7 @@ func (m *ConfigBlockReq) ContextValidate(ctx context.Context, formats strfmt.Reg
 func (m *ConfigBlockReq) contextValidateContent(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Content != nil {
+
 		if err := m.Content.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("content")

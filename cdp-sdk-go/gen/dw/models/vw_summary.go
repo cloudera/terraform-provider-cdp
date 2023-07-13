@@ -452,6 +452,11 @@ func (m *VwSummary) ContextValidate(ctx context.Context, formats strfmt.Registry
 func (m *VwSummary) contextValidateAutoscalingOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AutoscalingOptions != nil {
+
+		if swag.IsZero(m.AutoscalingOptions) { // not required
+			return nil
+		}
+
 		if err := m.AutoscalingOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("autoscalingOptions")
@@ -468,6 +473,11 @@ func (m *VwSummary) contextValidateAutoscalingOptions(ctx context.Context, forma
 func (m *VwSummary) contextValidateCreator(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Creator != nil {
+
+		if swag.IsZero(m.Creator) { // not required
+			return nil
+		}
+
 		if err := m.Creator.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("creator")
@@ -484,6 +494,11 @@ func (m *VwSummary) contextValidateCreator(ctx context.Context, formats strfmt.R
 func (m *VwSummary) contextValidateEndpoints(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Endpoints != nil {
+
+		if swag.IsZero(m.Endpoints) { // not required
+			return nil
+		}
+
 		if err := m.Endpoints.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("endpoints")
@@ -500,6 +515,11 @@ func (m *VwSummary) contextValidateEndpoints(ctx context.Context, formats strfmt
 func (m *VwSummary) contextValidateImpalaHaSettingsOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ImpalaHaSettingsOptions != nil {
+
+		if swag.IsZero(m.ImpalaHaSettingsOptions) { // not required
+			return nil
+		}
+
 		if err := m.ImpalaHaSettingsOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("impalaHaSettingsOptions")
@@ -516,6 +536,11 @@ func (m *VwSummary) contextValidateImpalaHaSettingsOptions(ctx context.Context, 
 func (m *VwSummary) contextValidateImpalaOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ImpalaOptions != nil {
+
+		if swag.IsZero(m.ImpalaOptions) { // not required
+			return nil
+		}
+
 		if err := m.ImpalaOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("impalaOptions")
@@ -532,6 +557,11 @@ func (m *VwSummary) contextValidateImpalaOptions(ctx context.Context, formats st
 func (m *VwSummary) contextValidateJwtAuth(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.JwtAuth != nil {
+
+		if swag.IsZero(m.JwtAuth) { // not required
+			return nil
+		}
+
 		if err := m.JwtAuth.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("jwtAuth")
@@ -548,6 +578,11 @@ func (m *VwSummary) contextValidateJwtAuth(ctx context.Context, formats strfmt.R
 func (m *VwSummary) contextValidateQueryIsolationOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.QueryIsolationOptions != nil {
+
+		if swag.IsZero(m.QueryIsolationOptions) { // not required
+			return nil
+		}
+
 		if err := m.QueryIsolationOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("queryIsolationOptions")
@@ -564,6 +599,11 @@ func (m *VwSummary) contextValidateQueryIsolationOptions(ctx context.Context, fo
 func (m *VwSummary) contextValidateReplicaStatus(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ReplicaStatus != nil {
+
+		if swag.IsZero(m.ReplicaStatus) { // not required
+			return nil
+		}
+
 		if err := m.ReplicaStatus.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("replicaStatus")
@@ -580,6 +620,11 @@ func (m *VwSummary) contextValidateReplicaStatus(ctx context.Context, formats st
 func (m *VwSummary) contextValidateSupportedAuthMethods(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.SupportedAuthMethods != nil {
+
+		if swag.IsZero(m.SupportedAuthMethods) { // not required
+			return nil
+		}
+
 		if err := m.SupportedAuthMethods.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("supportedAuthMethods")
@@ -598,6 +643,11 @@ func (m *VwSummary) contextValidateTags(ctx context.Context, formats strfmt.Regi
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
@@ -614,6 +664,10 @@ func (m *VwSummary) contextValidateTags(ctx context.Context, formats strfmt.Regi
 }
 
 func (m *VwSummary) contextValidateVwType(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.VwType) { // not required
+		return nil
+	}
 
 	if err := m.VwType.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

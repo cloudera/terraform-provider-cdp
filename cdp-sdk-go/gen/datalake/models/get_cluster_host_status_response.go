@@ -85,6 +85,11 @@ func (m *GetClusterHostStatusResponse) contextValidateHosts(ctx context.Context,
 	for i := 0; i < len(m.Hosts); i++ {
 
 		if m.Hosts[i] != nil {
+
+			if swag.IsZero(m.Hosts[i]) { // not required
+				return nil
+			}
+
 			if err := m.Hosts[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("hosts" + "." + strconv.Itoa(i))

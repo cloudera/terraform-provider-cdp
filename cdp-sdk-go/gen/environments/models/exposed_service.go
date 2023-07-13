@@ -100,6 +100,11 @@ func (m *ExposedService) contextValidateServiceValidationMessages(ctx context.Co
 	for i := 0; i < len(m.ServiceValidationMessages); i++ {
 
 		if m.ServiceValidationMessages[i] != nil {
+
+			if swag.IsZero(m.ServiceValidationMessages[i]) { // not required
+				return nil
+			}
+
 			if err := m.ServiceValidationMessages[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("serviceValidationMessages" + "." + strconv.Itoa(i))

@@ -92,6 +92,7 @@ func (m *StartFreeIpaVerticalScalingRequest) ContextValidate(ctx context.Context
 func (m *StartFreeIpaVerticalScalingRequest) contextValidateInstanceTemplate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.InstanceTemplate != nil {
+
 		if err := m.InstanceTemplate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instanceTemplate")

@@ -75,6 +75,7 @@ func (m *SetAWSAuditCredentialResponse) ContextValidate(ctx context.Context, for
 func (m *SetAWSAuditCredentialResponse) contextValidateCredential(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Credential != nil {
+
 		if err := m.Credential.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("credential")

@@ -75,6 +75,7 @@ func (m *DescribeClusterTemplateResponse) ContextValidate(ctx context.Context, f
 func (m *DescribeClusterTemplateResponse) contextValidateClusterTemplate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ClusterTemplate != nil {
+
 		if err := m.ClusterTemplate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterTemplate")

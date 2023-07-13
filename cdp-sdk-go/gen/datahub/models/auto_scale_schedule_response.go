@@ -82,6 +82,11 @@ func (m *AutoScaleScheduleResponse) contextValidateSchedules(ctx context.Context
 	for i := 0; i < len(m.Schedules); i++ {
 
 		if m.Schedules[i] != nil {
+
+			if swag.IsZero(m.Schedules[i]) { // not required
+				return nil
+			}
+
 			if err := m.Schedules[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("schedules" + "." + strconv.Itoa(i))

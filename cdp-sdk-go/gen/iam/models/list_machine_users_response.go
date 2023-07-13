@@ -88,6 +88,11 @@ func (m *ListMachineUsersResponse) contextValidateMachineUsers(ctx context.Conte
 	for i := 0; i < len(m.MachineUsers); i++ {
 
 		if m.MachineUsers[i] != nil {
+
+			if swag.IsZero(m.MachineUsers[i]) { // not required
+				return nil
+			}
+
 			if err := m.MachineUsers[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("machineUsers" + "." + strconv.Itoa(i))

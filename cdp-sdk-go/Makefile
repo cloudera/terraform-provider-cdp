@@ -14,13 +14,6 @@ SWAGGER_REPO_RAW=https://raw.githubusercontent.com/cloudera/cdp-dev-docs/
 API_DEFINITION_TAG ?= cdp-api-0.9.88
 SWAGGER=$(SWAGGER_REPO_RAW)/$(API_DEFINITION_TAG)/api-docs-beta/swagger
 
-IAM_SWAGGER_YAML=$(SWAGGER)/iam.yaml
-ENVIRONMENTS_SWAGGER_YAML=$(SWAGGER)/environments.yaml
-DATALAKE_SWAGGER_YAML=$(SWAGGER)/datalake.yaml
-DATAHUB_SWAGGER_YAML=$(SWAGGER)/datahub.yaml
-ML_SWAGGER_YAML=$(SWAGGER)/ml.yaml
-DW_SWAGGER_YAML=$(SWAGGER)/dw.yaml
-
 all: check-go test build
 
 check-go:
@@ -53,30 +46,30 @@ vet:
 generate:
 	go generate ./common/... ./cdp/...
 
-mkdirs:
-	mkdir -p gen/iam gen/environments gen/datalake gen/datahub gen/ml gen/dw
+mkdir-%:
+	mkdir -p gen/$*
 
 # TODO: Manage this via go mod
 install-go-swagger:
 	go get github.com/go-swagger/go-swagger/cmd/swagger
 
-# TODO: should run this as a part of main build
-swagger-gen: mkdirs install-go-swagger swagger-gen-iam swagger-gen-environments swagger-gen-datalake swagger-gen-datahub swagger-gen-ml swagger-gen-dw
+swagger-gen: install-go-swagger
+swagger-gen: swagger-gen-iam
+swagger-gen: swagger-gen-environments
+swagger-gen: swagger-gen-datalake
+swagger-gen: swagger-gen-datahub
+swagger-gen: swagger-gen-ml
+swagger-gen: swagger-gen-dw
 
-swagger-gen-iam: mkdirs
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(IAM_SWAGGER_YAML) -A iam -t gen/iam/
+clone-swaggers: clone-swagger-iam
+clone-swaggers: clone-swagger-environments
+clone-swaggers: clone-swagger-datalake
+clone-swaggers: clone-swagger-datahub
+clone-swaggers: clone-swagger-ml
+clone-swaggers: clone-swagger-dw
 
-swagger-gen-environments: mkdirs
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(ENVIRONMENTS_SWAGGER_YAML) -A environments -t gen/environments/
+clone-swagger-%:
+	wget $(SWAGGER)/$*.yaml -O resources/swagger/$*.yaml
 
-swagger-gen-datalake: mkdirs
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(DATALAKE_SWAGGER_YAML) -A datalake -t gen/datalake/
-
-swagger-gen-datahub: mkdirs
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(DATAHUB_SWAGGER_YAML) -A datahub -t  gen/datahub/
-
-swagger-gen-ml: mkdirs
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(ML_SWAGGER_YAML) -A ml -t  gen/ml/
-
-swagger-gen-dw: mkdirs
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f $(DW_SWAGGER_YAML) -A dw -t  gen/dw/
+swagger-gen-%: mkdir-%
+	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f resources/swagger/$*.yaml -A $* -t gen/$*/

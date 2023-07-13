@@ -298,6 +298,7 @@ func (m *CreateGCPDatalakeRequest) ContextValidate(ctx context.Context, formats 
 func (m *CreateGCPDatalakeRequest) contextValidateCloudProviderConfiguration(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.CloudProviderConfiguration != nil {
+
 		if err := m.CloudProviderConfiguration.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudProviderConfiguration")
@@ -316,6 +317,11 @@ func (m *CreateGCPDatalakeRequest) contextValidateCustomInstanceGroups(ctx conte
 	for i := 0; i < len(m.CustomInstanceGroups); i++ {
 
 		if m.CustomInstanceGroups[i] != nil {
+
+			if swag.IsZero(m.CustomInstanceGroups[i]) { // not required
+				return nil
+			}
+
 			if err := m.CustomInstanceGroups[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("customInstanceGroups" + "." + strconv.Itoa(i))
@@ -334,6 +340,11 @@ func (m *CreateGCPDatalakeRequest) contextValidateCustomInstanceGroups(ctx conte
 func (m *CreateGCPDatalakeRequest) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Image != nil {
+
+		if swag.IsZero(m.Image) { // not required
+			return nil
+		}
+
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("image")
@@ -352,6 +363,11 @@ func (m *CreateGCPDatalakeRequest) contextValidateRecipes(ctx context.Context, f
 	for i := 0; i < len(m.Recipes); i++ {
 
 		if m.Recipes[i] != nil {
+
+			if swag.IsZero(m.Recipes[i]) { // not required
+				return nil
+			}
+
 			if err := m.Recipes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("recipes" + "." + strconv.Itoa(i))
@@ -368,6 +384,10 @@ func (m *CreateGCPDatalakeRequest) contextValidateRecipes(ctx context.Context, f
 }
 
 func (m *CreateGCPDatalakeRequest) contextValidateScale(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Scale) { // not required
+		return nil
+	}
 
 	if err := m.Scale.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -386,6 +406,11 @@ func (m *CreateGCPDatalakeRequest) contextValidateTags(ctx context.Context, form
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))

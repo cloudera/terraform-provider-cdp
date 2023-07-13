@@ -133,6 +133,11 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) ContextValidate(ctx context.
 func (m *GetAutomatedSyncEnvironmentStatusResponse) contextValidateLastSyncStatus(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LastSyncStatus != nil {
+
+		if swag.IsZero(m.LastSyncStatus) { // not required
+			return nil
+		}
+
 		if err := m.LastSyncStatus.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("lastSyncStatus")

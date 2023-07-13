@@ -431,6 +431,11 @@ func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, for
 func (m *CreateAzureEnvironmentRequest) contextValidateExistingNetworkParams(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ExistingNetworkParams != nil {
+
+		if swag.IsZero(m.ExistingNetworkParams) { // not required
+			return nil
+		}
+
 		if err := m.ExistingNetworkParams.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("existingNetworkParams")
@@ -447,6 +452,11 @@ func (m *CreateAzureEnvironmentRequest) contextValidateExistingNetworkParams(ctx
 func (m *CreateAzureEnvironmentRequest) contextValidateFreeIpa(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.FreeIpa != nil {
+
+		if swag.IsZero(m.FreeIpa) { // not required
+			return nil
+		}
+
 		if err := m.FreeIpa.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("freeIpa")
@@ -463,6 +473,11 @@ func (m *CreateAzureEnvironmentRequest) contextValidateFreeIpa(ctx context.Conte
 func (m *CreateAzureEnvironmentRequest) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Image != nil {
+
+		if swag.IsZero(m.Image) { // not required
+			return nil
+		}
+
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("image")
@@ -479,6 +494,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateImage(ctx context.Context
 func (m *CreateAzureEnvironmentRequest) contextValidateLogStorage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LogStorage != nil {
+
 		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("logStorage")
@@ -495,6 +511,11 @@ func (m *CreateAzureEnvironmentRequest) contextValidateLogStorage(ctx context.Co
 func (m *CreateAzureEnvironmentRequest) contextValidateNewNetworkParams(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.NewNetworkParams != nil {
+
+		if swag.IsZero(m.NewNetworkParams) { // not required
+			return nil
+		}
+
 		if err := m.NewNetworkParams.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("newNetworkParams")
@@ -511,6 +532,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateNewNetworkParams(ctx cont
 func (m *CreateAzureEnvironmentRequest) contextValidateSecurityAccess(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.SecurityAccess != nil {
+
 		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("securityAccess")
@@ -529,6 +551,11 @@ func (m *CreateAzureEnvironmentRequest) contextValidateTags(ctx context.Context,
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))

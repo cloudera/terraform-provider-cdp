@@ -132,6 +132,11 @@ func (m *AutoScaleRulesResponse) contextValidateAutoScalePolicies(ctx context.Co
 	for i := 0; i < len(m.AutoScalePolicies); i++ {
 
 		if m.AutoScalePolicies[i] != nil {
+
+			if swag.IsZero(m.AutoScalePolicies[i]) { // not required
+				return nil
+			}
+
 			if err := m.AutoScalePolicies[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("autoScalePolicies" + "." + strconv.Itoa(i))

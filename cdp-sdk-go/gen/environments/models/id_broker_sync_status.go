@@ -122,6 +122,7 @@ func (m *IDBrokerSyncStatus) ContextValidate(ctx context.Context, formats strfmt
 func (m *IDBrokerSyncStatus) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Status != nil {
+
 		if err := m.Status.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")

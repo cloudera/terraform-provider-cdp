@@ -88,6 +88,11 @@ func (m *ListScimAccessTokensResponse) contextValidateAccessTokens(ctx context.C
 	for i := 0; i < len(m.AccessTokens); i++ {
 
 		if m.AccessTokens[i] != nil {
+
+			if swag.IsZero(m.AccessTokens[i]) { // not required
+				return nil
+			}
+
 			if err := m.AccessTokens[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("accessTokens" + "." + strconv.Itoa(i))

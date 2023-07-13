@@ -82,6 +82,11 @@ func (m *ListVwsResponse) contextValidateVws(ctx context.Context, formats strfmt
 	for i := 0; i < len(m.Vws); i++ {
 
 		if m.Vws[i] != nil {
+
+			if swag.IsZero(m.Vws[i]) { // not required
+				return nil
+			}
+
 			if err := m.Vws[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("vws" + "." + strconv.Itoa(i))

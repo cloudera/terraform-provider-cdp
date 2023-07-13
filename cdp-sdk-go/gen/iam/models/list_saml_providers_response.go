@@ -88,6 +88,11 @@ func (m *ListSamlProvidersResponse) contextValidateSamlProviders(ctx context.Con
 	for i := 0; i < len(m.SamlProviders); i++ {
 
 		if m.SamlProviders[i] != nil {
+
+			if swag.IsZero(m.SamlProviders[i]) { // not required
+				return nil
+			}
+
 			if err := m.SamlProviders[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("samlProviders" + "." + strconv.Itoa(i))

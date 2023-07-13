@@ -102,6 +102,11 @@ func (m *SetWorkloadPasswordPolicyRequest) ContextValidate(ctx context.Context, 
 func (m *SetWorkloadPasswordPolicyRequest) contextValidateGlobalPasswordPolicy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.GlobalPasswordPolicy != nil {
+
+		if swag.IsZero(m.GlobalPasswordPolicy) { // not required
+			return nil
+		}
+
 		if err := m.GlobalPasswordPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("globalPasswordPolicy")
@@ -118,6 +123,11 @@ func (m *SetWorkloadPasswordPolicyRequest) contextValidateGlobalPasswordPolicy(c
 func (m *SetWorkloadPasswordPolicyRequest) contextValidateMachineUsersPasswordPolicy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.MachineUsersPasswordPolicy != nil {
+
+		if swag.IsZero(m.MachineUsersPasswordPolicy) { // not required
+			return nil
+		}
+
 		if err := m.MachineUsersPasswordPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineUsersPasswordPolicy")

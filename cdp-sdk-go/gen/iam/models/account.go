@@ -169,6 +169,11 @@ func (m *Account) ContextValidate(ctx context.Context, formats strfmt.Registry) 
 func (m *Account) contextValidateAuthenticationPolicy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AuthenticationPolicy != nil {
+
+		if swag.IsZero(m.AuthenticationPolicy) { // not required
+			return nil
+		}
+
 		if err := m.AuthenticationPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("authenticationPolicy")
@@ -185,6 +190,11 @@ func (m *Account) contextValidateAuthenticationPolicy(ctx context.Context, forma
 func (m *Account) contextValidateMachineUserWorkloadPasswordPolicy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.MachineUserWorkloadPasswordPolicy != nil {
+
+		if swag.IsZero(m.MachineUserWorkloadPasswordPolicy) { // not required
+			return nil
+		}
+
 		if err := m.MachineUserWorkloadPasswordPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineUserWorkloadPasswordPolicy")
@@ -201,6 +211,7 @@ func (m *Account) contextValidateMachineUserWorkloadPasswordPolicy(ctx context.C
 func (m *Account) contextValidateWorkloadPasswordPolicy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.WorkloadPasswordPolicy != nil {
+
 		if err := m.WorkloadPasswordPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("workloadPasswordPolicy")

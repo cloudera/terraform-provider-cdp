@@ -150,6 +150,10 @@ func (m *Instance) ContextValidate(ctx context.Context, formats strfmt.Registry)
 
 func (m *Instance) contextValidateInstanceStatus(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.InstanceStatus) { // not required
+		return nil
+	}
+
 	if err := m.InstanceStatus.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("instanceStatus")
@@ -163,6 +167,10 @@ func (m *Instance) contextValidateInstanceStatus(ctx context.Context, formats st
 }
 
 func (m *Instance) contextValidateInstanceTypeVal(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.InstanceTypeVal) { // not required
+		return nil
+	}
 
 	if err := m.InstanceTypeVal.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
