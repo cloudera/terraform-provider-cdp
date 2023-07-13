@@ -84,6 +84,11 @@ func (m *ImageInfo) ContextValidate(ctx context.Context, formats strfmt.Registry
 func (m *ImageInfo) contextValidateComponentVersions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ComponentVersions != nil {
+
+		if swag.IsZero(m.ComponentVersions) { // not required
+			return nil
+		}
+
 		if err := m.ComponentVersions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("componentVersions")

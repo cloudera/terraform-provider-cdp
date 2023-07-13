@@ -75,6 +75,7 @@ func (m *GetLogsResponse) ContextValidate(ctx context.Context, formats strfmt.Re
 func (m *GetLogsResponse) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AuditLogs != nil {
+
 		if err := m.AuditLogs.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("auditLogs")

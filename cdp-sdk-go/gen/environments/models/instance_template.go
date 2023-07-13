@@ -115,6 +115,11 @@ func (m *InstanceTemplate) contextValidateAttachedVolumes(ctx context.Context, f
 	for i := 0; i < len(m.AttachedVolumes); i++ {
 
 		if m.AttachedVolumes[i] != nil {
+
+			if swag.IsZero(m.AttachedVolumes[i]) { // not required
+				return nil
+			}
+
 			if err := m.AttachedVolumes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
@@ -133,6 +138,11 @@ func (m *InstanceTemplate) contextValidateAttachedVolumes(ctx context.Context, f
 func (m *InstanceTemplate) contextValidateAwsProperties(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsProperties != nil {
+
+		if swag.IsZero(m.AwsProperties) { // not required
+			return nil
+		}
+
 		if err := m.AwsProperties.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsProperties")

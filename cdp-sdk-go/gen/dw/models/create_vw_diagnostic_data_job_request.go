@@ -239,6 +239,11 @@ func (m *CreateVwDiagnosticDataJobRequest) ContextValidate(ctx context.Context, 
 func (m *CreateVwDiagnosticDataJobRequest) contextValidateHiveDownloadOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.HiveDownloadOptions != nil {
+
+		if swag.IsZero(m.HiveDownloadOptions) { // not required
+			return nil
+		}
+
 		if err := m.HiveDownloadOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hiveDownloadOptions")
@@ -255,6 +260,11 @@ func (m *CreateVwDiagnosticDataJobRequest) contextValidateHiveDownloadOptions(ct
 func (m *CreateVwDiagnosticDataJobRequest) contextValidateImpalaDownloadOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ImpalaDownloadOptions != nil {
+
+		if swag.IsZero(m.ImpalaDownloadOptions) { // not required
+			return nil
+		}
+
 		if err := m.ImpalaDownloadOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("impalaDownloadOptions")

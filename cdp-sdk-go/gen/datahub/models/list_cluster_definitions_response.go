@@ -85,6 +85,11 @@ func (m *ListClusterDefinitionsResponse) contextValidateClusterDefinitions(ctx c
 	for i := 0; i < len(m.ClusterDefinitions); i++ {
 
 		if m.ClusterDefinitions[i] != nil {
+
+			if swag.IsZero(m.ClusterDefinitions[i]) { // not required
+				return nil
+			}
+
 			if err := m.ClusterDefinitions[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterDefinitions" + "." + strconv.Itoa(i))

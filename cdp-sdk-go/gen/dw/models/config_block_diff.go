@@ -75,6 +75,11 @@ func (m *ConfigBlockDiff) ContextValidate(ctx context.Context, formats strfmt.Re
 func (m *ConfigBlockDiff) contextValidateContentDiff(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ContentDiff != nil {
+
+		if swag.IsZero(m.ContentDiff) { // not required
+			return nil
+		}
+
 		if err := m.ContentDiff.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("contentDiff")

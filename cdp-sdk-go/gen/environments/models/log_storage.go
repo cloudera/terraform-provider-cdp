@@ -150,6 +150,11 @@ func (m *LogStorage) ContextValidate(ctx context.Context, formats strfmt.Registr
 func (m *LogStorage) contextValidateAwsDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsDetails != nil {
+
+		if swag.IsZero(m.AwsDetails) { // not required
+			return nil
+		}
+
 		if err := m.AwsDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsDetails")
@@ -166,6 +171,11 @@ func (m *LogStorage) contextValidateAwsDetails(ctx context.Context, formats strf
 func (m *LogStorage) contextValidateAzureDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AzureDetails != nil {
+
+		if swag.IsZero(m.AzureDetails) { // not required
+			return nil
+		}
+
 		if err := m.AzureDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azureDetails")
@@ -182,6 +192,11 @@ func (m *LogStorage) contextValidateAzureDetails(ctx context.Context, formats st
 func (m *LogStorage) contextValidateGcpDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.GcpDetails != nil {
+
+		if swag.IsZero(m.GcpDetails) { // not required
+			return nil
+		}
+
 		if err := m.GcpDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("gcpDetails")

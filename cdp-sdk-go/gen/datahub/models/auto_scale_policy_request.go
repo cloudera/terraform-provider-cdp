@@ -130,6 +130,11 @@ func (m *AutoScalePolicyRequest) ContextValidate(ctx context.Context, formats st
 func (m *AutoScalePolicyRequest) contextValidateLoadBasedPolicy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LoadBasedPolicy != nil {
+
+		if swag.IsZero(m.LoadBasedPolicy) { // not required
+			return nil
+		}
+
 		if err := m.LoadBasedPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("loadBasedPolicy")
@@ -146,6 +151,11 @@ func (m *AutoScalePolicyRequest) contextValidateLoadBasedPolicy(ctx context.Cont
 func (m *AutoScalePolicyRequest) contextValidateScheduleBasedPolicy(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ScheduleBasedPolicy != nil {
+
+		if swag.IsZero(m.ScheduleBasedPolicy) { // not required
+			return nil
+		}
+
 		if err := m.ScheduleBasedPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("scheduleBasedPolicy")

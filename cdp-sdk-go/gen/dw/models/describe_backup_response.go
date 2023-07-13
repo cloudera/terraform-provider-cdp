@@ -75,6 +75,7 @@ func (m *DescribeBackupResponse) ContextValidate(ctx context.Context, formats st
 func (m *DescribeBackupResponse) contextValidateBackup(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Backup != nil {
+
 		if err := m.Backup.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backup")

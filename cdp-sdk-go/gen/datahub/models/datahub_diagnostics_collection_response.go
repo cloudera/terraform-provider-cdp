@@ -159,6 +159,11 @@ func (m *DatahubDiagnosticsCollectionResponse) ContextValidate(ctx context.Conte
 func (m *DatahubDiagnosticsCollectionResponse) contextValidateCollectionDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.CollectionDetails != nil {
+
+		if swag.IsZero(m.CollectionDetails) { // not required
+			return nil
+		}
+
 		if err := m.CollectionDetails.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("collectionDetails")

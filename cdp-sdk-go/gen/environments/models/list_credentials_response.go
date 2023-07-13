@@ -85,6 +85,11 @@ func (m *ListCredentialsResponse) contextValidateCredentials(ctx context.Context
 	for i := 0; i < len(m.Credentials); i++ {
 
 		if m.Credentials[i] != nil {
+
+			if swag.IsZero(m.Credentials[i]) { // not required
+				return nil
+			}
+
 			if err := m.Credentials[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("credentials" + "." + strconv.Itoa(i))

@@ -395,6 +395,7 @@ func (m *CreateAWSEnvironmentRequest) ContextValidate(ctx context.Context, forma
 func (m *CreateAWSEnvironmentRequest) contextValidateAuthentication(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Authentication != nil {
+
 		if err := m.Authentication.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("authentication")
@@ -411,6 +412,11 @@ func (m *CreateAWSEnvironmentRequest) contextValidateAuthentication(ctx context.
 func (m *CreateAWSEnvironmentRequest) contextValidateFreeIpa(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.FreeIpa != nil {
+
+		if swag.IsZero(m.FreeIpa) { // not required
+			return nil
+		}
+
 		if err := m.FreeIpa.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("freeIpa")
@@ -427,6 +433,11 @@ func (m *CreateAWSEnvironmentRequest) contextValidateFreeIpa(ctx context.Context
 func (m *CreateAWSEnvironmentRequest) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Image != nil {
+
+		if swag.IsZero(m.Image) { // not required
+			return nil
+		}
+
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("image")
@@ -443,6 +454,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateImage(ctx context.Context, 
 func (m *CreateAWSEnvironmentRequest) contextValidateLogStorage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LogStorage != nil {
+
 		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("logStorage")
@@ -459,6 +471,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateLogStorage(ctx context.Cont
 func (m *CreateAWSEnvironmentRequest) contextValidateSecurityAccess(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.SecurityAccess != nil {
+
 		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("securityAccess")
@@ -477,6 +490,11 @@ func (m *CreateAWSEnvironmentRequest) contextValidateTags(ctx context.Context, f
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))

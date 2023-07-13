@@ -75,6 +75,7 @@ func (m *DescribeClusterDefinitionResponse) ContextValidate(ctx context.Context,
 func (m *DescribeClusterDefinitionResponse) contextValidateClusterDefinition(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ClusterDefinition != nil {
+
 		if err := m.ClusterDefinition.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterDefinition")

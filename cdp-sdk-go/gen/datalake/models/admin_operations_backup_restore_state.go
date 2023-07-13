@@ -171,6 +171,7 @@ func (m *AdminOperationsBackupRestoreState) ContextValidate(ctx context.Context,
 func (m *AdminOperationsBackupRestoreState) contextValidatePrecheckStoragePermission(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.PrecheckStoragePermission != nil {
+
 		if err := m.PrecheckStoragePermission.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("precheckStoragePermission")
@@ -187,6 +188,7 @@ func (m *AdminOperationsBackupRestoreState) contextValidatePrecheckStoragePermis
 func (m *AdminOperationsBackupRestoreState) contextValidateRangerAuditCollectionValidation(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.RangerAuditCollectionValidation != nil {
+
 		if err := m.RangerAuditCollectionValidation.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rangerAuditCollectionValidation")
@@ -203,6 +205,7 @@ func (m *AdminOperationsBackupRestoreState) contextValidateRangerAuditCollection
 func (m *AdminOperationsBackupRestoreState) contextValidateStartServices(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.StartServices != nil {
+
 		if err := m.StartServices.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("startServices")
@@ -219,6 +222,7 @@ func (m *AdminOperationsBackupRestoreState) contextValidateStartServices(ctx con
 func (m *AdminOperationsBackupRestoreState) contextValidateStopServices(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.StopServices != nil {
+
 		if err := m.StopServices.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("stopServices")

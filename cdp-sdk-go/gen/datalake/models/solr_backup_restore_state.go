@@ -291,6 +291,7 @@ func (m *SolrBackupRestoreState) ContextValidate(ctx context.Context, formats st
 func (m *SolrBackupRestoreState) contextValidateEdgeIndexCollection(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.EdgeIndexCollection != nil {
+
 		if err := m.EdgeIndexCollection.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("edgeIndexCollection")
@@ -307,6 +308,11 @@ func (m *SolrBackupRestoreState) contextValidateEdgeIndexCollection(ctx context.
 func (m *SolrBackupRestoreState) contextValidateEdgeIndexCollectionDelete(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.EdgeIndexCollectionDelete != nil {
+
+		if swag.IsZero(m.EdgeIndexCollectionDelete) { // not required
+			return nil
+		}
+
 		if err := m.EdgeIndexCollectionDelete.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("edgeIndexCollectionDelete")
@@ -323,6 +329,7 @@ func (m *SolrBackupRestoreState) contextValidateEdgeIndexCollectionDelete(ctx co
 func (m *SolrBackupRestoreState) contextValidateFulltextIndexCollection(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.FulltextIndexCollection != nil {
+
 		if err := m.FulltextIndexCollection.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("fulltextIndexCollection")
@@ -339,6 +346,11 @@ func (m *SolrBackupRestoreState) contextValidateFulltextIndexCollection(ctx cont
 func (m *SolrBackupRestoreState) contextValidateFulltextIndexCollectionDelete(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.FulltextIndexCollectionDelete != nil {
+
+		if swag.IsZero(m.FulltextIndexCollectionDelete) { // not required
+			return nil
+		}
+
 		if err := m.FulltextIndexCollectionDelete.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("fulltextIndexCollectionDelete")
@@ -355,6 +367,7 @@ func (m *SolrBackupRestoreState) contextValidateFulltextIndexCollectionDelete(ct
 func (m *SolrBackupRestoreState) contextValidateRangerAuditsCollection(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.RangerAuditsCollection != nil {
+
 		if err := m.RangerAuditsCollection.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rangerAuditsCollection")
@@ -371,6 +384,11 @@ func (m *SolrBackupRestoreState) contextValidateRangerAuditsCollection(ctx conte
 func (m *SolrBackupRestoreState) contextValidateRangerAuditsCollectionDelete(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.RangerAuditsCollectionDelete != nil {
+
+		if swag.IsZero(m.RangerAuditsCollectionDelete) { // not required
+			return nil
+		}
+
 		if err := m.RangerAuditsCollectionDelete.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rangerAuditsCollectionDelete")
@@ -387,6 +405,7 @@ func (m *SolrBackupRestoreState) contextValidateRangerAuditsCollectionDelete(ctx
 func (m *SolrBackupRestoreState) contextValidateVertexIndexCollection(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.VertexIndexCollection != nil {
+
 		if err := m.VertexIndexCollection.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vertexIndexCollection")
@@ -403,6 +422,11 @@ func (m *SolrBackupRestoreState) contextValidateVertexIndexCollection(ctx contex
 func (m *SolrBackupRestoreState) contextValidateVertexIndexCollectionDelete(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.VertexIndexCollectionDelete != nil {
+
+		if swag.IsZero(m.VertexIndexCollectionDelete) { // not required
+			return nil
+		}
+
 		if err := m.VertexIndexCollectionDelete.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vertexIndexCollectionDelete")

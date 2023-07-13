@@ -187,6 +187,11 @@ func (m *Credential) ContextValidate(ctx context.Context, formats strfmt.Registr
 func (m *Credential) contextValidateAwsCredentialProperties(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsCredentialProperties != nil {
+
+		if swag.IsZero(m.AwsCredentialProperties) { // not required
+			return nil
+		}
+
 		if err := m.AwsCredentialProperties.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsCredentialProperties")
@@ -203,6 +208,11 @@ func (m *Credential) contextValidateAwsCredentialProperties(ctx context.Context,
 func (m *Credential) contextValidateAzureCredentialProperties(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AzureCredentialProperties != nil {
+
+		if swag.IsZero(m.AzureCredentialProperties) { // not required
+			return nil
+		}
+
 		if err := m.AzureCredentialProperties.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azureCredentialProperties")
@@ -219,6 +229,11 @@ func (m *Credential) contextValidateAzureCredentialProperties(ctx context.Contex
 func (m *Credential) contextValidateGcpCredentialProperties(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.GcpCredentialProperties != nil {
+
+		if swag.IsZero(m.GcpCredentialProperties) { // not required
+			return nil
+		}
+
 		if err := m.GcpCredentialProperties.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("gcpCredentialProperties")

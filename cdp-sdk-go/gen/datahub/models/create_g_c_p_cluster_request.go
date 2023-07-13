@@ -252,6 +252,11 @@ func (m *CreateGCPClusterRequest) ContextValidate(ctx context.Context, formats s
 func (m *CreateGCPClusterRequest) contextValidateClusterExtension(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ClusterExtension != nil {
+
+		if swag.IsZero(m.ClusterExtension) { // not required
+			return nil
+		}
+
 		if err := m.ClusterExtension.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterExtension")
@@ -266,6 +271,10 @@ func (m *CreateGCPClusterRequest) contextValidateClusterExtension(ctx context.Co
 }
 
 func (m *CreateGCPClusterRequest) contextValidateDatahubDatabase(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.DatahubDatabase) { // not required
+		return nil
+	}
 
 	if err := m.DatahubDatabase.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -282,6 +291,11 @@ func (m *CreateGCPClusterRequest) contextValidateDatahubDatabase(ctx context.Con
 func (m *CreateGCPClusterRequest) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Image != nil {
+
+		if swag.IsZero(m.Image) { // not required
+			return nil
+		}
+
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("image")
@@ -300,6 +314,11 @@ func (m *CreateGCPClusterRequest) contextValidateInstanceGroups(ctx context.Cont
 	for i := 0; i < len(m.InstanceGroups); i++ {
 
 		if m.InstanceGroups[i] != nil {
+
+			if swag.IsZero(m.InstanceGroups[i]) { // not required
+				return nil
+			}
+
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
@@ -320,6 +339,11 @@ func (m *CreateGCPClusterRequest) contextValidateTags(ctx context.Context, forma
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))

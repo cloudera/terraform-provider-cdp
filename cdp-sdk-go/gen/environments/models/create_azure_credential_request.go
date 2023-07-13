@@ -101,6 +101,7 @@ func (m *CreateAzureCredentialRequest) ContextValidate(ctx context.Context, form
 func (m *CreateAzureCredentialRequest) contextValidateAppBased(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AppBased != nil {
+
 		if err := m.AppBased.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("appBased")
@@ -193,6 +194,10 @@ func (m *CreateAzureCredentialRequestAppBased) ContextValidate(ctx context.Conte
 }
 
 func (m *CreateAzureCredentialRequestAppBased) contextValidateAuthenticationType(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AuthenticationType) { // not required
+		return nil
+	}
 
 	if err := m.AuthenticationType.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

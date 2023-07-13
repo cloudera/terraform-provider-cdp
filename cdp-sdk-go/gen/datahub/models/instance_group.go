@@ -102,6 +102,11 @@ func (m *InstanceGroup) contextValidateInstances(ctx context.Context, formats st
 	for i := 0; i < len(m.Instances); i++ {
 
 		if m.Instances[i] != nil {
+
+			if swag.IsZero(m.Instances[i]) { // not required
+				return nil
+			}
+
 			if err := m.Instances[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instances" + "." + strconv.Itoa(i))

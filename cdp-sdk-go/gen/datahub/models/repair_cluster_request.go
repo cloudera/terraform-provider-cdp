@@ -96,6 +96,11 @@ func (m *RepairClusterRequest) ContextValidate(ctx context.Context, formats strf
 func (m *RepairClusterRequest) contextValidateInstances(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Instances != nil {
+
+		if swag.IsZero(m.Instances) { // not required
+			return nil
+		}
+
 		if err := m.Instances.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instances")

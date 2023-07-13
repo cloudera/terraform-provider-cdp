@@ -88,6 +88,11 @@ func (m *ListClusterLifecycleEventsResponse) contextValidateClusterEvents(ctx co
 	for i := 0; i < len(m.ClusterEvents); i++ {
 
 		if m.ClusterEvents[i] != nil {
+
+			if swag.IsZero(m.ClusterEvents[i]) { // not required
+				return nil
+			}
+
 			if err := m.ClusterEvents[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterEvents" + "." + strconv.Itoa(i))

@@ -125,6 +125,11 @@ func (m *DbcSummary) ContextValidate(ctx context.Context, formats strfmt.Registr
 func (m *DbcSummary) contextValidateCreator(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Creator != nil {
+
+		if swag.IsZero(m.Creator) { // not required
+			return nil
+		}
+
 		if err := m.Creator.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("creator")

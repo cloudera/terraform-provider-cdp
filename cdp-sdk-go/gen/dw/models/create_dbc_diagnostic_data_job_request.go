@@ -209,6 +209,11 @@ func (m *CreateDbcDiagnosticDataJobRequest) ContextValidate(ctx context.Context,
 func (m *CreateDbcDiagnosticDataJobRequest) contextValidateDownloadOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.DownloadOptions != nil {
+
+		if swag.IsZero(m.DownloadOptions) { // not required
+			return nil
+		}
+
 		if err := m.DownloadOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("downloadOptions")

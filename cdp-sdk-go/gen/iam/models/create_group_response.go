@@ -75,6 +75,7 @@ func (m *CreateGroupResponse) ContextValidate(ctx context.Context, formats strfm
 func (m *CreateGroupResponse) contextValidateGroup(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Group != nil {
+
 		if err := m.Group.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("group")

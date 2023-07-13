@@ -397,6 +397,11 @@ func (m *WorkspaceSummary) ContextValidate(ctx context.Context, formats strfmt.R
 func (m *WorkspaceSummary) contextValidateBackupMetadata(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.BackupMetadata != nil {
+
+		if swag.IsZero(m.BackupMetadata) { // not required
+			return nil
+		}
+
 		if err := m.BackupMetadata.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backupMetadata")
@@ -415,6 +420,11 @@ func (m *WorkspaceSummary) contextValidateHealthInfoLists(ctx context.Context, f
 	for i := 0; i < len(m.HealthInfoLists); i++ {
 
 		if m.HealthInfoLists[i] != nil {
+
+			if swag.IsZero(m.HealthInfoLists[i]) { // not required
+				return nil
+			}
+
 			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
@@ -433,6 +443,11 @@ func (m *WorkspaceSummary) contextValidateHealthInfoLists(ctx context.Context, f
 func (m *WorkspaceSummary) contextValidateUpgradeState(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.UpgradeState != nil {
+
+		if swag.IsZero(m.UpgradeState) { // not required
+			return nil
+		}
+
 		if err := m.UpgradeState.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("upgradeState")

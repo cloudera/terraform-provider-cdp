@@ -211,6 +211,11 @@ func (m *ConfigBlocksDiffs) contextValidateAdded(ctx context.Context, formats st
 	for i := 0; i < len(m.Added); i++ {
 
 		if m.Added[i] != nil {
+
+			if swag.IsZero(m.Added[i]) { // not required
+				return nil
+			}
+
 			if err := m.Added[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("added" + "." + strconv.Itoa(i))
@@ -231,6 +236,11 @@ func (m *ConfigBlocksDiffs) contextValidateChanged(ctx context.Context, formats 
 	for i := 0; i < len(m.Changed); i++ {
 
 		if m.Changed[i] != nil {
+
+			if swag.IsZero(m.Changed[i]) { // not required
+				return nil
+			}
+
 			if err := m.Changed[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("changed" + "." + strconv.Itoa(i))
@@ -251,6 +261,11 @@ func (m *ConfigBlocksDiffs) contextValidateRemoved(ctx context.Context, formats 
 	for i := 0; i < len(m.Removed); i++ {
 
 		if m.Removed[i] != nil {
+
+			if swag.IsZero(m.Removed[i]) { // not required
+				return nil
+			}
+
 			if err := m.Removed[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("removed" + "." + strconv.Itoa(i))
@@ -271,6 +286,11 @@ func (m *ConfigBlocksDiffs) contextValidateSame(ctx context.Context, formats str
 	for i := 0; i < len(m.Same); i++ {
 
 		if m.Same[i] != nil {
+
+			if swag.IsZero(m.Same[i]) { // not required
+				return nil
+			}
+
 			if err := m.Same[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("same" + "." + strconv.Itoa(i))

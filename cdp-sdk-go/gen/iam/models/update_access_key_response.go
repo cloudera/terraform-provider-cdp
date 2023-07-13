@@ -75,6 +75,7 @@ func (m *UpdateAccessKeyResponse) ContextValidate(ctx context.Context, formats s
 func (m *UpdateAccessKeyResponse) contextValidateAccessKey(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AccessKey != nil {
+
 		if err := m.AccessKey.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("accessKey")

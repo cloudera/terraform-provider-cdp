@@ -85,6 +85,11 @@ func (m *ListRuntimesResponse) contextValidateVersions(ctx context.Context, form
 	for i := 0; i < len(m.Versions); i++ {
 
 		if m.Versions[i] != nil {
+
+			if swag.IsZero(m.Versions[i]) { // not required
+				return nil
+			}
+
 			if err := m.Versions[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("versions" + "." + strconv.Itoa(i))

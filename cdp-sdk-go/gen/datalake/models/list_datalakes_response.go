@@ -85,6 +85,11 @@ func (m *ListDatalakesResponse) contextValidateDatalakes(ctx context.Context, fo
 	for i := 0; i < len(m.Datalakes); i++ {
 
 		if m.Datalakes[i] != nil {
+
+			if swag.IsZero(m.Datalakes[i]) { // not required
+				return nil
+			}
+
 			if err := m.Datalakes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("datalakes" + "." + strconv.Itoa(i))

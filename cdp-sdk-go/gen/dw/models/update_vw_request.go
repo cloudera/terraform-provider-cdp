@@ -200,6 +200,11 @@ func (m *UpdateVwRequest) ContextValidate(ctx context.Context, formats strfmt.Re
 func (m *UpdateVwRequest) contextValidateAutoscaling(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Autoscaling != nil {
+
+		if swag.IsZero(m.Autoscaling) { // not required
+			return nil
+		}
+
 		if err := m.Autoscaling.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("autoscaling")
@@ -216,6 +221,11 @@ func (m *UpdateVwRequest) contextValidateAutoscaling(ctx context.Context, format
 func (m *UpdateVwRequest) contextValidateConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Config != nil {
+
+		if swag.IsZero(m.Config) { // not required
+			return nil
+		}
+
 		if err := m.Config.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("config")
@@ -232,6 +242,11 @@ func (m *UpdateVwRequest) contextValidateConfig(ctx context.Context, formats str
 func (m *UpdateVwRequest) contextValidateImpalaHaSettings(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ImpalaHaSettings != nil {
+
+		if swag.IsZero(m.ImpalaHaSettings) { // not required
+			return nil
+		}
+
 		if err := m.ImpalaHaSettings.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("impalaHaSettings")
@@ -248,6 +263,11 @@ func (m *UpdateVwRequest) contextValidateImpalaHaSettings(ctx context.Context, f
 func (m *UpdateVwRequest) contextValidateQueryIsolationOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.QueryIsolationOptions != nil {
+
+		if swag.IsZero(m.QueryIsolationOptions) { // not required
+			return nil
+		}
+
 		if err := m.QueryIsolationOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("queryIsolationOptions")
