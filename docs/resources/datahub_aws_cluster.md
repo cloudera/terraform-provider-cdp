@@ -35,6 +35,11 @@ resource "cdp_datahub_aws_cluster" "aws-cluster" {
   environment        = "<value>"
   cluster_template   = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
   cluster_definition = "7.2.15 - Data Engineering for AWS"
+
+  destroy_options = {
+    force_delete_cluster = false
+  }
+
   /* The below section kept here as a working example if one would like to use the cluster creation w/o the usage of the cluster definition
 
   /*instance_group = [
@@ -133,6 +138,14 @@ output "cluster_definition" {
   value = cdp_datahub_aws_cluster.aws-cluster.cluster_definition
 }
 
+output "destroy_options" {
+  value = cdp_datahub_aws_cluster.aws-cluster.destroy_options
+}
+
+output "force_delete_cluster" {
+  value = cdp_datahub_aws_cluster.aws-cluster.destroy_options.force_delete_cluster
+}
+
 /*
 output "recipes" {
   value = cdp_datahub_aws_cluster.aws-cluster.instance_group[*].recipes
@@ -203,6 +216,7 @@ output "encryption" {
 
 ### Optional
 
+- `destroy_options` (Attributes) Cluster deletion options. (see [below for nested schema](#nestedatt--destroy_options))
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--instance_group))
 
 ### Read-Only
@@ -210,6 +224,14 @@ output "encryption" {
 - `crn` (String) The CRN of the cluster.
 - `id` (String) The ID of this resource.
 - `status` (String) The last known state of the cluster
+
+<a id="nestedatt--destroy_options"></a>
+### Nested Schema for `destroy_options`
+
+Optional:
+
+- `force_delete_cluster` (Boolean) An indicator that will take place once the cluster termination will be performed. If it is true, that means if something would go sideways during termination, the operation will proceed, however in such a case no notification would come thus it is advisable to check the cloud provider if there are no leftover resources once the destroy is finished.
+
 
 <a id="nestedatt--instance_group"></a>
 ### Nested Schema for `instance_group`
