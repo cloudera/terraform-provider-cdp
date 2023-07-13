@@ -35,7 +35,6 @@ A Data Lake is a service which provides a protective ring around the data stored
 
 - `certificate_expiration_state` (String)
 - `cloud_storage_base_location` (String)
-- `cloudbreak_version` (String)
 - `cloudera_manager` (Attributes) (see [below for nested schema](#nestedatt--cloudera_manager))
 - `creation_date` (String)
 - `credential_crn` (String)
@@ -106,30 +105,16 @@ Read-Only:
 
 Read-Only:
 
-- `ambari_server` (Boolean)
 - `discovery_fqdn` (String)
 - `id` (String)
 - `instance_group` (String)
 - `instance_status` (String)
 - `instance_type_val` (String)
-- `life_cycle` (String)
-- `mounted_volumes` (Attributes Set) (see [below for nested schema](#nestedatt--instance_groups--instances--mounted_volumes))
 - `private_ip` (String)
 - `public_ip` (String)
 - `ssh_port` (Number)
 - `state` (String)
 - `status_reason` (String)
-
-<a id="nestedatt--instance_groups--instances--mounted_volumes"></a>
-### Nested Schema for `instance_groups.instances.mounted_volumes`
-
-Read-Only:
-
-- `device` (String)
-- `volume_id` (String)
-- `volume_size` (String)
-- `volume_type` (String)
-
 
 
 

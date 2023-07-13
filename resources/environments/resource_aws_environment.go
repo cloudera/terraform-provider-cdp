@@ -21,12 +21,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 )
 
 var (
@@ -107,7 +108,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	toAwsEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &data, &resp.Diagnostics)
+	toAwsEnvrionmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -154,7 +155,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 				return nil, "", err
 			}
 			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
-			return checkResponseStatusForError(resp)
+			return checkResponseStatusForError(utils.LogEnvironmentResponseSilently(ctx, resp, describeLogPrefix))
 		},
 	}
 	_, err := stateConf.WaitForStateContext(ctx)
@@ -196,7 +197,7 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	toAwsEnvrionmentResource(ctx, descEnvResp.GetPayload().Environment, &state, &resp.Diagnostics)
+	toAwsEnvrionmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -367,7 +368,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 				return nil, "", nil
 			}
 			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
-			return checkResponseStatusForError(resp)
+			return checkResponseStatusForError(utils.LogEnvironmentResponseSilently(ctx, resp, describeLogPrefix))
 		},
 	}
 	_, err := stateConf.WaitForStateContext(ctx)
