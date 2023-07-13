@@ -75,6 +75,7 @@ func (m *CreateAWSCredentialResponse) ContextValidate(ctx context.Context, forma
 func (m *CreateAWSCredentialResponse) contextValidateCredential(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Credential != nil {
+
 		if err := m.Credential.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("credential")

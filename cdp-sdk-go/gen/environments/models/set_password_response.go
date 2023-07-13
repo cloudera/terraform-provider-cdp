@@ -202,6 +202,11 @@ func (m *SetPasswordResponse) contextValidateFailure(ctx context.Context, format
 	for i := 0; i < len(m.Failure); i++ {
 
 		if m.Failure[i] != nil {
+
+			if swag.IsZero(m.Failure[i]) { // not required
+				return nil
+			}
+
 			if err := m.Failure[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("failure" + "." + strconv.Itoa(i))
@@ -219,6 +224,10 @@ func (m *SetPasswordResponse) contextValidateFailure(ctx context.Context, format
 
 func (m *SetPasswordResponse) contextValidateOperationType(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.OperationType) { // not required
+		return nil
+	}
+
 	if err := m.OperationType.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("operationType")
@@ -232,6 +241,10 @@ func (m *SetPasswordResponse) contextValidateOperationType(ctx context.Context, 
 }
 
 func (m *SetPasswordResponse) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Status) { // not required
+		return nil
+	}
 
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -250,6 +263,11 @@ func (m *SetPasswordResponse) contextValidateSuccess(ctx context.Context, format
 	for i := 0; i < len(m.Success); i++ {
 
 		if m.Success[i] != nil {
+
+			if swag.IsZero(m.Success[i]) { // not required
+				return nil
+			}
+
 			if err := m.Success[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("success" + "." + strconv.Itoa(i))

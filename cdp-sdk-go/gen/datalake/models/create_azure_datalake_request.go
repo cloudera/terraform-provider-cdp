@@ -326,6 +326,7 @@ func (m *CreateAzureDatalakeRequest) ContextValidate(ctx context.Context, format
 func (m *CreateAzureDatalakeRequest) contextValidateCloudProviderConfiguration(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.CloudProviderConfiguration != nil {
+
 		if err := m.CloudProviderConfiguration.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudProviderConfiguration")
@@ -344,6 +345,11 @@ func (m *CreateAzureDatalakeRequest) contextValidateCustomInstanceGroups(ctx con
 	for i := 0; i < len(m.CustomInstanceGroups); i++ {
 
 		if m.CustomInstanceGroups[i] != nil {
+
+			if swag.IsZero(m.CustomInstanceGroups[i]) { // not required
+				return nil
+			}
+
 			if err := m.CustomInstanceGroups[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("customInstanceGroups" + "." + strconv.Itoa(i))
@@ -362,6 +368,11 @@ func (m *CreateAzureDatalakeRequest) contextValidateCustomInstanceGroups(ctx con
 func (m *CreateAzureDatalakeRequest) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Image != nil {
+
+		if swag.IsZero(m.Image) { // not required
+			return nil
+		}
+
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("image")
@@ -376,6 +387,10 @@ func (m *CreateAzureDatalakeRequest) contextValidateImage(ctx context.Context, f
 }
 
 func (m *CreateAzureDatalakeRequest) contextValidateLoadBalancerSku(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LoadBalancerSku) { // not required
+		return nil
+	}
 
 	if err := m.LoadBalancerSku.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -394,6 +409,11 @@ func (m *CreateAzureDatalakeRequest) contextValidateRecipes(ctx context.Context,
 	for i := 0; i < len(m.Recipes); i++ {
 
 		if m.Recipes[i] != nil {
+
+			if swag.IsZero(m.Recipes[i]) { // not required
+				return nil
+			}
+
 			if err := m.Recipes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("recipes" + "." + strconv.Itoa(i))
@@ -410,6 +430,10 @@ func (m *CreateAzureDatalakeRequest) contextValidateRecipes(ctx context.Context,
 }
 
 func (m *CreateAzureDatalakeRequest) contextValidateScale(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Scale) { // not required
+		return nil
+	}
 
 	if err := m.Scale.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
@@ -428,6 +452,11 @@ func (m *CreateAzureDatalakeRequest) contextValidateTags(ctx context.Context, fo
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))

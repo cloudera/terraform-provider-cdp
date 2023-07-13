@@ -105,6 +105,11 @@ func (m *UpgradeFreeipaResponse) ContextValidate(ctx context.Context, formats st
 func (m *UpgradeFreeipaResponse) contextValidateOriginalImage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.OriginalImage != nil {
+
+		if swag.IsZero(m.OriginalImage) { // not required
+			return nil
+		}
+
 		if err := m.OriginalImage.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("originalImage")
@@ -121,6 +126,11 @@ func (m *UpgradeFreeipaResponse) contextValidateOriginalImage(ctx context.Contex
 func (m *UpgradeFreeipaResponse) contextValidateTargetImage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.TargetImage != nil {
+
+		if swag.IsZero(m.TargetImage) { // not required
+			return nil
+		}
+
 		if err := m.TargetImage.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("targetImage")

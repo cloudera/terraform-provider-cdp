@@ -72,6 +72,11 @@ func (m *GetDataVisualizationUpgradeVersionResponse) ContextValidate(ctx context
 func (m *GetDataVisualizationUpgradeVersionResponse) contextValidateUpgradeVersions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.UpgradeVersions != nil {
+
+		if swag.IsZero(m.UpgradeVersions) { // not required
+			return nil
+		}
+
 		if err := m.UpgradeVersions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("upgradeVersions")

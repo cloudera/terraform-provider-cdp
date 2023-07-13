@@ -374,6 +374,11 @@ func (m *DatalakeDetails) ContextValidate(ctx context.Context, formats strfmt.Re
 func (m *DatalakeDetails) contextValidateAwsConfiguration(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsConfiguration != nil {
+
+		if swag.IsZero(m.AwsConfiguration) { // not required
+			return nil
+		}
+
 		if err := m.AwsConfiguration.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsConfiguration")
@@ -390,6 +395,11 @@ func (m *DatalakeDetails) contextValidateAwsConfiguration(ctx context.Context, f
 func (m *DatalakeDetails) contextValidateAzureConfiguration(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AzureConfiguration != nil {
+
+		if swag.IsZero(m.AzureConfiguration) { // not required
+			return nil
+		}
+
 		if err := m.AzureConfiguration.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azureConfiguration")
@@ -406,6 +416,11 @@ func (m *DatalakeDetails) contextValidateAzureConfiguration(ctx context.Context,
 func (m *DatalakeDetails) contextValidateClouderaManager(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ClouderaManager != nil {
+
+		if swag.IsZero(m.ClouderaManager) { // not required
+			return nil
+		}
+
 		if err := m.ClouderaManager.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clouderaManager")
@@ -422,6 +437,11 @@ func (m *DatalakeDetails) contextValidateClouderaManager(ctx context.Context, fo
 func (m *DatalakeDetails) contextValidateEndpoints(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Endpoints != nil {
+
+		if swag.IsZero(m.Endpoints) { // not required
+			return nil
+		}
+
 		if err := m.Endpoints.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("endpoints")
@@ -438,6 +458,11 @@ func (m *DatalakeDetails) contextValidateEndpoints(ctx context.Context, formats 
 func (m *DatalakeDetails) contextValidateGcpConfiguration(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.GcpConfiguration != nil {
+
+		if swag.IsZero(m.GcpConfiguration) { // not required
+			return nil
+		}
+
 		if err := m.GcpConfiguration.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("gcpConfiguration")
@@ -456,6 +481,11 @@ func (m *DatalakeDetails) contextValidateInstanceGroups(ctx context.Context, for
 	for i := 0; i < len(m.InstanceGroups); i++ {
 
 		if m.InstanceGroups[i] != nil {
+
+			if swag.IsZero(m.InstanceGroups[i]) { // not required
+				return nil
+			}
+
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
@@ -476,6 +506,11 @@ func (m *DatalakeDetails) contextValidateProductVersions(ctx context.Context, fo
 	for i := 0; i < len(m.ProductVersions); i++ {
 
 		if m.ProductVersions[i] != nil {
+
+			if swag.IsZero(m.ProductVersions[i]) { // not required
+				return nil
+			}
+
 			if err := m.ProductVersions[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("productVersions" + "." + strconv.Itoa(i))
@@ -492,6 +527,10 @@ func (m *DatalakeDetails) contextValidateProductVersions(ctx context.Context, fo
 }
 
 func (m *DatalakeDetails) contextValidateShape(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Shape) { // not required
+		return nil
+	}
 
 	if err := m.Shape.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {

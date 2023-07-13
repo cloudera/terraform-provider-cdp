@@ -171,6 +171,7 @@ func (m *InternalBackupRestoreState) ContextValidate(ctx context.Context, format
 func (m *InternalBackupRestoreState) contextValidateAdminOperations(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AdminOperations != nil {
+
 		if err := m.AdminOperations.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("adminOperations")
@@ -187,6 +188,7 @@ func (m *InternalBackupRestoreState) contextValidateAdminOperations(ctx context.
 func (m *InternalBackupRestoreState) contextValidateDatabase(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Database != nil {
+
 		if err := m.Database.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("database")
@@ -203,6 +205,7 @@ func (m *InternalBackupRestoreState) contextValidateDatabase(ctx context.Context
 func (m *InternalBackupRestoreState) contextValidateHbase(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Hbase != nil {
+
 		if err := m.Hbase.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hbase")
@@ -219,6 +222,7 @@ func (m *InternalBackupRestoreState) contextValidateHbase(ctx context.Context, f
 func (m *InternalBackupRestoreState) contextValidateSolr(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Solr != nil {
+
 		if err := m.Solr.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("solr")

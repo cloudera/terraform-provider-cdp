@@ -81,6 +81,10 @@ func (m *ImpalaHASettingsOptionsResponse) ContextValidate(ctx context.Context, f
 
 func (m *ImpalaHASettingsOptionsResponse) contextValidateHighAvailabilityMode(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.HighAvailabilityMode) { // not required
+		return nil
+	}
+
 	if err := m.HighAvailabilityMode.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("highAvailabilityMode")

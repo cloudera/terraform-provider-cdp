@@ -92,6 +92,7 @@ func (m *CreateScimAccessTokenResponse) ContextValidate(ctx context.Context, for
 func (m *CreateScimAccessTokenResponse) contextValidateAccessToken(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AccessToken != nil {
+
 		if err := m.AccessToken.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("accessToken")

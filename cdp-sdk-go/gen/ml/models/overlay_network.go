@@ -75,6 +75,11 @@ func (m *OverlayNetwork) ContextValidate(ctx context.Context, formats strfmt.Reg
 func (m *OverlayNetwork) contextValidateTopology(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Topology != nil {
+
+		if swag.IsZero(m.Topology) { // not required
+			return nil
+		}
+
 		if err := m.Topology.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("topology")

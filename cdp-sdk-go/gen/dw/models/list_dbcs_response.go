@@ -82,6 +82,11 @@ func (m *ListDbcsResponse) contextValidateDbcs(ctx context.Context, formats strf
 	for i := 0; i < len(m.Dbcs); i++ {
 
 		if m.Dbcs[i] != nil {
+
+			if swag.IsZero(m.Dbcs[i]) { // not required
+				return nil
+			}
+
 			if err := m.Dbcs[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("dbcs" + "." + strconv.Itoa(i))

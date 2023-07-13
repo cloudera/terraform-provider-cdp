@@ -72,6 +72,11 @@ func (m *UpdateAutoScaleRulesResponse) ContextValidate(ctx context.Context, form
 func (m *UpdateAutoScaleRulesResponse) contextValidateAutoScaleRules(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AutoScaleRules != nil {
+
+		if swag.IsZero(m.AutoScaleRules) { // not required
+			return nil
+		}
+
 		if err := m.AutoScaleRules.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("autoScaleRules")

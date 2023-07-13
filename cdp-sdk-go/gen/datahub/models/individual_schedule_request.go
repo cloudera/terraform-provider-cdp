@@ -126,6 +126,7 @@ func (m *IndividualScheduleRequest) ContextValidate(ctx context.Context, formats
 func (m *IndividualScheduleRequest) contextValidateConfiguration(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Configuration != nil {
+
 		if err := m.Configuration.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration")
@@ -250,6 +251,7 @@ func (m *IndividualScheduleRequestConfiguration) ContextValidate(ctx context.Con
 func (m *IndividualScheduleRequestConfiguration) contextValidateAction(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Action != nil {
+
 		if err := m.Action.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration" + "." + "action")
@@ -266,6 +268,7 @@ func (m *IndividualScheduleRequestConfiguration) contextValidateAction(ctx conte
 func (m *IndividualScheduleRequestConfiguration) contextValidateTrigger(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Trigger != nil {
+
 		if err := m.Trigger.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration" + "." + "trigger")

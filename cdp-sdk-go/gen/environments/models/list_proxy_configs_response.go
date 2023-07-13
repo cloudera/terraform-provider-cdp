@@ -85,6 +85,11 @@ func (m *ListProxyConfigsResponse) contextValidateProxyConfigs(ctx context.Conte
 	for i := 0; i < len(m.ProxyConfigs); i++ {
 
 		if m.ProxyConfigs[i] != nil {
+
+			if swag.IsZero(m.ProxyConfigs[i]) { // not required
+				return nil
+			}
+
 			if err := m.ProxyConfigs[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("proxyConfigs" + "." + strconv.Itoa(i))

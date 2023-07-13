@@ -75,6 +75,7 @@ func (m *UnlockMachineUserInControlPlaneResponse) ContextValidate(ctx context.Co
 func (m *UnlockMachineUserInControlPlaneResponse) contextValidateMachineUser(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.MachineUser != nil {
+
 		if err := m.MachineUser.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineUser")

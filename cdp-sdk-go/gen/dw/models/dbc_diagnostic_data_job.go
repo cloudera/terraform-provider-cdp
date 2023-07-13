@@ -119,6 +119,10 @@ func (m *DbcDiagnosticDataJob) ContextValidate(ctx context.Context, formats strf
 
 func (m *DbcDiagnosticDataJob) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
+	if swag.IsZero(m.Status) { // not required
+		return nil
+	}
+
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("status")

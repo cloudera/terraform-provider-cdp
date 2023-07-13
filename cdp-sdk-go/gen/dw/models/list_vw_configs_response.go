@@ -82,6 +82,11 @@ func (m *ListVwConfigsResponse) contextValidateConfigHistory(ctx context.Context
 	for i := 0; i < len(m.ConfigHistory); i++ {
 
 		if m.ConfigHistory[i] != nil {
+
+			if swag.IsZero(m.ConfigHistory[i]) { // not required
+				return nil
+			}
+
 			if err := m.ConfigHistory[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("configHistory" + "." + strconv.Itoa(i))

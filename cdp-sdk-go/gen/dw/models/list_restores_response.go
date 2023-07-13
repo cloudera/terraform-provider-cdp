@@ -85,6 +85,11 @@ func (m *ListRestoresResponse) contextValidateRestores(ctx context.Context, form
 	for i := 0; i < len(m.Restores); i++ {
 
 		if m.Restores[i] != nil {
+
+			if swag.IsZero(m.Restores[i]) { // not required
+				return nil
+			}
+
 			if err := m.Restores[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("restores" + "." + strconv.Itoa(i))

@@ -82,6 +82,11 @@ func (m *ListDatalakeBackupsResponse) contextValidateBackups(ctx context.Context
 	for i := 0; i < len(m.Backups); i++ {
 
 		if m.Backups[i] != nil {
+
+			if swag.IsZero(m.Backups[i]) { // not required
+				return nil
+			}
+
 			if err := m.Backups[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("backups" + "." + strconv.Itoa(i))

@@ -75,6 +75,7 @@ func (m *CreateAWSDatalakeResponse) ContextValidate(ctx context.Context, formats
 func (m *CreateAWSDatalakeResponse) contextValidateDatalake(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Datalake != nil {
+
 		if err := m.Datalake.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("datalake")

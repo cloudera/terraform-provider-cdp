@@ -204,6 +204,11 @@ func (m *CreateClusterRequest) ContextValidate(ctx context.Context, formats strf
 func (m *CreateClusterRequest) contextValidateAwsOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsOptions != nil {
+
+		if swag.IsZero(m.AwsOptions) { // not required
+			return nil
+		}
+
 		if err := m.AwsOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsOptions")
@@ -220,6 +225,11 @@ func (m *CreateClusterRequest) contextValidateAwsOptions(ctx context.Context, fo
 func (m *CreateClusterRequest) contextValidateAzureOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AzureOptions != nil {
+
+		if swag.IsZero(m.AzureOptions) { // not required
+			return nil
+		}
+
 		if err := m.AzureOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azureOptions")
@@ -236,6 +246,11 @@ func (m *CreateClusterRequest) contextValidateAzureOptions(ctx context.Context, 
 func (m *CreateClusterRequest) contextValidateCustomRegistryOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.CustomRegistryOptions != nil {
+
+		if swag.IsZero(m.CustomRegistryOptions) { // not required
+			return nil
+		}
+
 		if err := m.CustomRegistryOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("customRegistryOptions")
@@ -252,6 +267,11 @@ func (m *CreateClusterRequest) contextValidateCustomRegistryOptions(ctx context.
 func (m *CreateClusterRequest) contextValidatePrivateCloudOptions(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.PrivateCloudOptions != nil {
+
+		if swag.IsZero(m.PrivateCloudOptions) { // not required
+			return nil
+		}
+
 		if err := m.PrivateCloudOptions.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("privateCloudOptions")

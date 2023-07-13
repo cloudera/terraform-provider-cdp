@@ -92,6 +92,7 @@ func (m *CreateUserAccessKeyResponse) ContextValidate(ctx context.Context, forma
 func (m *CreateUserAccessKeyResponse) contextValidateAccessKey(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AccessKey != nil {
+
 		if err := m.AccessKey.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("accessKey")

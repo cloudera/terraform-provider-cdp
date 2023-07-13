@@ -85,6 +85,11 @@ func (m *ListRecipesResponse) contextValidateRecipes(ctx context.Context, format
 	for i := 0; i < len(m.Recipes); i++ {
 
 		if m.Recipes[i] != nil {
+
+			if swag.IsZero(m.Recipes[i]) { // not required
+				return nil
+			}
+
 			if err := m.Recipes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("recipes" + "." + strconv.Itoa(i))

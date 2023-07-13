@@ -82,6 +82,11 @@ func (m *RequestWorkflowCancellationResponse) contextValidateWorkflowMetadata(ct
 	for i := 0; i < len(m.WorkflowMetadata); i++ {
 
 		if m.WorkflowMetadata[i] != nil {
+
+			if swag.IsZero(m.WorkflowMetadata[i]) { // not required
+				return nil
+			}
+
 			if err := m.WorkflowMetadata[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("workflowMetadata" + "." + strconv.Itoa(i))

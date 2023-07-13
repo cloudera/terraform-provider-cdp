@@ -75,6 +75,7 @@ func (m *DescribeRestoreResponse) ContextValidate(ctx context.Context, formats s
 func (m *DescribeRestoreResponse) contextValidateRestore(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Restore != nil {
+
 		if err := m.Restore.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("restore")

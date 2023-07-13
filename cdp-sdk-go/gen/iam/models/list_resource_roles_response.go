@@ -88,6 +88,11 @@ func (m *ListResourceRolesResponse) contextValidateResourceRoles(ctx context.Con
 	for i := 0; i < len(m.ResourceRoles); i++ {
 
 		if m.ResourceRoles[i] != nil {
+
+			if swag.IsZero(m.ResourceRoles[i]) { // not required
+				return nil
+			}
+
 			if err := m.ResourceRoles[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("resourceRoles" + "." + strconv.Itoa(i))

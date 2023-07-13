@@ -75,6 +75,7 @@ func (m *DatabaseBackupRestoreState) ContextValidate(ctx context.Context, format
 func (m *DatabaseBackupRestoreState) contextValidateDatabase(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Database != nil {
+
 		if err := m.Database.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("database")

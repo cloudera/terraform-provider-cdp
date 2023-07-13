@@ -109,6 +109,7 @@ func (m *SetAzureAuditCredentialRequest) ContextValidate(ctx context.Context, fo
 func (m *SetAzureAuditCredentialRequest) contextValidateAppBased(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AppBased != nil {
+
 		if err := m.AppBased.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("appBased")

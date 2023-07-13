@@ -192,6 +192,11 @@ func (m *InstanceGroupRequest) contextValidateAttachedVolumeConfiguration(ctx co
 	for i := 0; i < len(m.AttachedVolumeConfiguration); i++ {
 
 		if m.AttachedVolumeConfiguration[i] != nil {
+
+			if swag.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
+				return nil
+			}
+
 			if err := m.AttachedVolumeConfiguration[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
@@ -210,6 +215,11 @@ func (m *InstanceGroupRequest) contextValidateAttachedVolumeConfiguration(ctx co
 func (m *InstanceGroupRequest) contextValidateVolumeEncryption(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.VolumeEncryption != nil {
+
+		if swag.IsZero(m.VolumeEncryption) { // not required
+			return nil
+		}
+
 		if err := m.VolumeEncryption.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("volumeEncryption")

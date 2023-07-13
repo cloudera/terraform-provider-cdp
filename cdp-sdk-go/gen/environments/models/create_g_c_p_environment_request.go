@@ -357,6 +357,7 @@ func (m *CreateGCPEnvironmentRequest) ContextValidate(ctx context.Context, forma
 func (m *CreateGCPEnvironmentRequest) contextValidateExistingNetworkParams(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ExistingNetworkParams != nil {
+
 		if err := m.ExistingNetworkParams.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("existingNetworkParams")
@@ -373,6 +374,11 @@ func (m *CreateGCPEnvironmentRequest) contextValidateExistingNetworkParams(ctx c
 func (m *CreateGCPEnvironmentRequest) contextValidateFreeIpa(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.FreeIpa != nil {
+
+		if swag.IsZero(m.FreeIpa) { // not required
+			return nil
+		}
+
 		if err := m.FreeIpa.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("freeIpa")
@@ -389,6 +395,11 @@ func (m *CreateGCPEnvironmentRequest) contextValidateFreeIpa(ctx context.Context
 func (m *CreateGCPEnvironmentRequest) contextValidateLogStorage(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LogStorage != nil {
+
+		if swag.IsZero(m.LogStorage) { // not required
+			return nil
+		}
+
 		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("logStorage")
@@ -405,6 +416,11 @@ func (m *CreateGCPEnvironmentRequest) contextValidateLogStorage(ctx context.Cont
 func (m *CreateGCPEnvironmentRequest) contextValidateSecurityAccess(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.SecurityAccess != nil {
+
+		if swag.IsZero(m.SecurityAccess) { // not required
+			return nil
+		}
+
 		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("securityAccess")
@@ -423,6 +439,11 @@ func (m *CreateGCPEnvironmentRequest) contextValidateTags(ctx context.Context, f
 	for i := 0; i < len(m.Tags); i++ {
 
 		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))

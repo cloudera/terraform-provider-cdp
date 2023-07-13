@@ -82,6 +82,11 @@ func (m *ListAutoScaleHistoryResponse) contextValidateHistoryEvents(ctx context.
 	for i := 0; i < len(m.HistoryEvents); i++ {
 
 		if m.HistoryEvents[i] != nil {
+
+			if swag.IsZero(m.HistoryEvents[i]) { // not required
+				return nil
+			}
+
 			if err := m.HistoryEvents[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("historyEvents" + "." + strconv.Itoa(i))

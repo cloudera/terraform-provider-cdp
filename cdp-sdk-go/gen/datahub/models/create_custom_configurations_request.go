@@ -105,6 +105,11 @@ func (m *CreateCustomConfigurationsRequest) contextValidateConfigurations(ctx co
 	for i := 0; i < len(m.Configurations); i++ {
 
 		if m.Configurations[i] != nil {
+
+			if swag.IsZero(m.Configurations[i]) { // not required
+				return nil
+			}
+
 			if err := m.Configurations[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("configurations" + "." + strconv.Itoa(i))

@@ -85,6 +85,11 @@ func (m *DeleteCustomConfigurationsResponse) contextValidateCustomConfigurations
 	for i := 0; i < len(m.CustomConfigurations); i++ {
 
 		if m.CustomConfigurations[i] != nil {
+
+			if swag.IsZero(m.CustomConfigurations[i]) { // not required
+				return nil
+			}
+
 			if err := m.CustomConfigurations[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("customConfigurations" + "." + strconv.Itoa(i))

@@ -75,6 +75,7 @@ func (m *CreateAWSClusterResponse) ContextValidate(ctx context.Context, formats 
 func (m *CreateAWSClusterResponse) contextValidateCluster(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Cluster != nil {
+
 		if err := m.Cluster.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cluster")

@@ -215,6 +215,11 @@ func (m *CreateWorkspaceRequest) ContextValidate(ctx context.Context, formats st
 func (m *CreateWorkspaceRequest) contextValidateExistingDatabaseConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ExistingDatabaseConfig != nil {
+
+		if swag.IsZero(m.ExistingDatabaseConfig) { // not required
+			return nil
+		}
+
 		if err := m.ExistingDatabaseConfig.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("existingDatabaseConfig")
@@ -231,6 +236,10 @@ func (m *CreateWorkspaceRequest) contextValidateExistingDatabaseConfig(ctx conte
 func (m *CreateWorkspaceRequest) contextValidateOutboundTypes(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.OutboundTypes); i++ {
+
+		if swag.IsZero(m.OutboundTypes[i]) { // not required
+			return nil
+		}
 
 		if err := m.OutboundTypes[i].ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
@@ -249,6 +258,11 @@ func (m *CreateWorkspaceRequest) contextValidateOutboundTypes(ctx context.Contex
 func (m *CreateWorkspaceRequest) contextValidateProvisionK8sRequest(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ProvisionK8sRequest != nil {
+
+		if swag.IsZero(m.ProvisionK8sRequest) { // not required
+			return nil
+		}
+
 		if err := m.ProvisionK8sRequest.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("provisionK8sRequest")

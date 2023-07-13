@@ -100,6 +100,11 @@ func (m *ServicePrincipalCloudIdentities) contextValidateAzureCloudIdentities(ct
 	for i := 0; i < len(m.AzureCloudIdentities); i++ {
 
 		if m.AzureCloudIdentities[i] != nil {
+
+			if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+				return nil
+			}
+
 			if err := m.AzureCloudIdentities[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))

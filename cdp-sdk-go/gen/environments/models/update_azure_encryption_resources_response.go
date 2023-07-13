@@ -105,6 +105,7 @@ func (m *UpdateAzureEncryptionResourcesResponse) ContextValidate(ctx context.Con
 func (m *UpdateAzureEncryptionResourcesResponse) contextValidateEnvironment(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Environment != nil {
+
 		if err := m.Environment.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("environment")
@@ -121,6 +122,11 @@ func (m *UpdateAzureEncryptionResourcesResponse) contextValidateEnvironment(ctx 
 func (m *UpdateAzureEncryptionResourcesResponse) contextValidateResourceEncryptionParameters(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.ResourceEncryptionParameters != nil {
+
+		if swag.IsZero(m.ResourceEncryptionParameters) { // not required
+			return nil
+		}
+
 		if err := m.ResourceEncryptionParameters.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("resourceEncryptionParameters")

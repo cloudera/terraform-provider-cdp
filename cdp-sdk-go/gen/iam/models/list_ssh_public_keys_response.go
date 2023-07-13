@@ -85,6 +85,11 @@ func (m *ListSSHPublicKeysResponse) contextValidateSSHPublicKeys(ctx context.Con
 	for i := 0; i < len(m.SSHPublicKeys); i++ {
 
 		if m.SSHPublicKeys[i] != nil {
+
+			if swag.IsZero(m.SSHPublicKeys[i]) { // not required
+				return nil
+			}
+
 			if err := m.SSHPublicKeys[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("sshPublicKeys" + "." + strconv.Itoa(i))
