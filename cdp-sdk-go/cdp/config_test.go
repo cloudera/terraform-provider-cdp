@@ -11,41 +11,68 @@
 package cdp
 
 import (
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/common"
 	"os"
 	"testing"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/common"
 )
+
+func unsetEnvs(keys ...string) {
+	for _, key := range keys {
+		os.Unsetenv(key)
+	}
+}
 
 func TestGetCdpProfileFromConfig(t *testing.T) {
 	os.Setenv(cdpProfileEnvVar, "foo")
 	os.Setenv(cdpDefaultProfileEnvVar, "bar")
+	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{
 		Profile: "baz",
 	}
-	common.AssertEquals(t, "baz", config.GetCdpProfile())
+	profile, err := config.GetCdpProfile()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "baz", profile)
 }
 
 func TestGetCdpProfileFromEnv(t *testing.T) {
 	os.Setenv(cdpProfileEnvVar, "foo")
 	os.Setenv(cdpDefaultProfileEnvVar, "bar")
+	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{
 		Profile: "",
 	}
-	common.AssertEquals(t, "bar", config.GetCdpProfile())
+	profile, err := config.GetCdpProfile()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "bar", profile)
 }
 
 func TestGetCdpProfileFromEnv2(t *testing.T) {
 	os.Setenv(cdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "bar")
+	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{}
-	common.AssertEquals(t, "bar", config.GetCdpProfile())
+	profile, err := config.GetCdpProfile()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "bar", profile)
 }
 
 func TestGetCdpProfileFromDefault(t *testing.T) {
 	os.Setenv(cdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
+	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{}
-	common.AssertEquals(t, cdpDefaultProfile, config.GetCdpProfile())
+	profile, err := config.GetCdpProfile()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, cdpDefaultProfile, profile)
 }
 
 func TestGetCredentialsNotFound(t *testing.T) {
@@ -54,6 +81,7 @@ func TestGetCredentialsNotFound(t *testing.T) {
 	os.Setenv(CdpPrivateKeyEnvVar, "")
 	os.Setenv(cdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
+	defer unsetEnvs(CdpAccessKeyIdEnvVar, CdpPrivateKeyEnvVar, cdpProfileEnvVar, cdpDefaultProfileEnvVar)
 
 	path := "testdata/test-credentials"
 	profile := "profile_non_existing"
@@ -78,6 +106,7 @@ func TestGetCdpCredentials(t *testing.T) {
 	os.Setenv(CdpPrivateKeyEnvVar, "value-from-env")
 	os.Setenv(cdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
+	defer unsetEnvs(CdpAccessKeyIdEnvVar, CdpPrivateKeyEnvVar, cdpProfileEnvVar, cdpDefaultProfileEnvVar)
 
 	path := "testdata/test-credentials"
 	profile := "file_cdp_credentials_provider_profile"
@@ -130,6 +159,7 @@ func TestGetCdpCredentials(t *testing.T) {
 
 func TestLoadConfigFileNotFound(t *testing.T) {
 	os.Setenv("CDP_CONFIG_FILE", "")
+	defer unsetEnvs("CDP_CONFIG_FILE")
 	config := Config{
 		ConfigFile: "testdata/non-existent-file",
 	}
@@ -142,6 +172,7 @@ func TestLoadConfigFileNotFound(t *testing.T) {
 
 func TestLoadConfigFile(t *testing.T) {
 	os.Setenv("CDP_CONFIG_FILE", "")
+	defer unsetEnvs("CDP_CONFIG_FILE")
 	config := Config{
 		ConfigFile: "testdata/test-config",
 	}
@@ -149,11 +180,16 @@ func TestLoadConfigFile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	common.AssertEquals(t, "value1", config.GetCdpApiEndpoint())
+	endpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "value1", endpoint)
 }
 
 func TestLoadConfigFileFromEnv(t *testing.T) {
 	os.Setenv("CDP_CONFIG_FILE", "testdata/test-config")
+	defer unsetEnvs("CDP_CONFIG_FILE")
 	config := Config{
 		ConfigFile: "testdata/test-config",
 	}
@@ -161,10 +197,43 @@ func TestLoadConfigFileFromEnv(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	common.AssertEquals(t, "value1", config.GetCdpApiEndpoint())
+	endpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "value1", endpoint)
 }
 
-func TestGetCdpApiEndpointWithProfile(t *testing.T) {
+func TestGetCdpRegionFromConfig(t *testing.T) {
+	config := Config{
+		CdpRegion: "foo",
+	}
+	os.Setenv("CDP_REGION", "bar")
+	defer unsetEnvs("CDP_REGION")
+	region, err := config.GetCdpRegion()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "foo", region)
+}
+
+func TestGetCdpRegionFromEnv(t *testing.T) {
+	config := Config{}
+	os.Setenv("CDP_REGION", "foo")
+	defer unsetEnvs("CDP_REGION")
+	region, err := config.GetCdpRegion()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "foo", region)
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "https://api.foo.cdp.cloudera.com/", cdpEndpoint)
+}
+
+func TestGetCdpRegionFromConfigFile(t *testing.T) {
 	config := Config{
 		Profile:    "foo",
 		ConfigFile: "testdata/test-config",
@@ -173,7 +242,72 @@ func TestGetCdpApiEndpointWithProfile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	common.AssertEquals(t, "value3", config.GetCdpApiEndpoint())
+	region, err := config.GetCdpRegion()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "value5", region)
+}
+
+func TestGetCdpRegionFromDefault(t *testing.T) {
+	config := Config{}
+	region, err := config.GetCdpRegion()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, defaultCdpRegion, region)
+}
+
+func TestGetEndpointsWithProfile(t *testing.T) {
+	config := Config{
+		Profile:    "foo",
+		ConfigFile: "testdata/test-config",
+	}
+	err := config.loadConfig()
+	if err != nil {
+		t.Fatal(err)
+	}
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	altusEndpoint, err := config.GetAltusApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	iamEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		t.Fatalf("Error getting the endpoint: %v", err)
+	}
+	common.AssertEquals(t, "value3", cdpEndpoint)
+	common.AssertEquals(t, "value4%s", altusEndpoint)
+	common.AssertEquals(t, "value4iam", iamEndpoint)
+}
+
+func TestGetEndpointsWithRegionInProfile(t *testing.T) {
+	config := Config{
+		Profile:    "bar",
+		ConfigFile: "testdata/test-config",
+	}
+	err := config.loadConfig()
+	if err != nil {
+		t.Fatal(err)
+	}
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	altusEndpoint, err := config.GetAltusApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	iamEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		t.Fatalf("Error getting the endpoint: %v", err)
+	}
+	common.AssertEquals(t, "https://api.value6.cdp.cloudera.com/", cdpEndpoint)
+	common.AssertEquals(t, "https://api.value6.cdp.cloudera.com/", altusEndpoint)
+	common.AssertEquals(t, "https://api.value6.cdp.cloudera.com/", iamEndpoint)
 }
 
 func TestDefaultEndpoints(t *testing.T) {
@@ -185,10 +319,107 @@ func TestDefaultEndpoints(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if config.GetCdpApiEndpoint() != defaultCdpApiEndpointUrl {
-		t.Errorf("Expected default CDP endpoint to be %s", defaultCdpApiEndpointUrl)
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
 	}
-	if config.GetAltusApiEndpoint() != defaultAltusApiEndpointUrl {
-		t.Errorf("Expected default Altus endpoint to be %s", defaultAltusApiEndpointUrl)
+	altusEndpoint, err := config.GetAltusApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
 	}
+	iamEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		t.Fatalf("Error getting the endpoint: %v", err)
+	}
+	common.AssertEquals(t, "https://api.us-west-1.cdp.cloudera.com/", cdpEndpoint)
+	common.AssertEquals(t, "https://%sapi.us-west-1.altus.cloudera.com/", altusEndpoint)
+	common.AssertEquals(t, "https://iamapi.us-west-1.altus.cloudera.com/", iamEndpoint)
+}
+
+func TestGetEndpointsWithRegionUsWest1(t *testing.T) {
+	config := Config{
+		CdpRegion: RegionUsWest1,
+	}
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	altusEndpoint, err := config.GetAltusApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	iamEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		t.Fatalf("Error getting the endpoint: %v", err)
+	}
+
+	common.AssertEquals(t, "https://api.us-west-1.cdp.cloudera.com/", cdpEndpoint)
+	common.AssertEquals(t, "https://%sapi.us-west-1.altus.cloudera.com/", altusEndpoint)
+	common.AssertEquals(t, "https://iamapi.us-west-1.altus.cloudera.com/", iamEndpoint)
+}
+
+func TestGetEndpointsWithRegionEu1(t *testing.T) {
+	config := Config{
+		CdpRegion: RegionEu1,
+	}
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	altusEndpoint, err := config.GetAltusApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	iamEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		t.Fatalf("Error getting the endpoint: %v", err)
+	}
+
+	common.AssertEquals(t, "https://api.eu-1.cdp.cloudera.com/", cdpEndpoint)
+	common.AssertEquals(t, "https://api.eu-1.cdp.cloudera.com/", altusEndpoint)
+	common.AssertEquals(t, "https://api.eu-1.cdp.cloudera.com/", iamEndpoint)
+}
+
+func TestGetEndpointsWithRegionAp1(t *testing.T) {
+	config := Config{
+		CdpRegion: RegionAp1,
+	}
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	altusEndpoint, err := config.GetAltusApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	iamEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		t.Fatalf("Error getting the endpoint: %v", err)
+	}
+
+	common.AssertEquals(t, "https://api.ap-1.cdp.cloudera.com/", cdpEndpoint)
+	common.AssertEquals(t, "https://api.ap-1.cdp.cloudera.com/", altusEndpoint)
+	common.AssertEquals(t, "https://api.ap-1.cdp.cloudera.com/", iamEndpoint)
+}
+
+func TestGetEndpointsWithRegionUsg1(t *testing.T) {
+	config := Config{
+		CdpRegion: RegionUsg1,
+	}
+	cdpEndpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	altusEndpoint, err := config.GetAltusApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	iamEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		t.Fatalf("Error getting the endpoint: %v", err)
+	}
+
+	common.AssertEquals(t, "https://api.usg-1.cdp.clouderagovt.com/", cdpEndpoint)
+	common.AssertEquals(t, "https://api.usg-1.cdp.clouderagovt.com/", altusEndpoint)
+	common.AssertEquals(t, "https://api.usg-1.cdp.clouderagovt.com/", iamEndpoint)
 }

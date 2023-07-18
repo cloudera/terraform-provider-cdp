@@ -75,7 +75,11 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 func NewIamClient(config *Config) (*iamclient.Iam, error) {
-	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("iam", true))
+	apiEndpoint, err := config.GetEndpoint("iam", true)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +87,11 @@ func NewIamClient(config *Config) (*iamclient.Iam, error) {
 }
 
 func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, error) {
-	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("environments", false))
+	apiEndpoint, err := config.GetEndpoint("environments", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +99,11 @@ func NewEnvironmentsClient(config *Config) (*environmentsclient.Environments, er
 }
 
 func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
-	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("datalake", false))
+	apiEndpoint, err := config.GetEndpoint("datalake", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +111,11 @@ func NewDatalakeClient(config *Config) (*datalakeclient.Datalake, error) {
 }
 
 func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
-	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("datahub", false))
+	apiEndpoint, err := config.GetEndpoint("datahub", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +123,11 @@ func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
 }
 
 func NewMlClient(config *Config) (*mlclient.Ml, error) {
-	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("ml", false))
+	apiEndpoint, err := config.GetEndpoint("ml", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +135,11 @@ func NewMlClient(config *Config) (*mlclient.Ml, error) {
 }
 
 func NewDwClient(config *Config) (*dwclient.Dw, error) {
-	transport, err := buildClientTransportWithDefaultHttpTransport(config, config.GetEndpoint("dw", false))
+	apiEndpoint, err := config.GetEndpoint("dw", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
 	if err != nil {
 		return nil, err
 	}

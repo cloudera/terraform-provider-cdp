@@ -52,8 +52,8 @@ provider "cdp" {}
 Usage:
 
 ```sh
-$ export CDP_ACCESS_KEY_ID="anaccesskey"
-$ export CDP_PRIVATE_KEY="aprivatekey"
+$ export CDP_ACCESS_KEY_ID="an-access-key"
+$ export CDP_PRIVATE_KEY="a-private-key"
 $ terraform plan
 ```
 
@@ -68,6 +68,10 @@ configuration by providing the `cdp_shared_credentials_file` attribute, or
 in the environment with the `CDP_SHARED_CREDENTIALS_FILE` variable.
 This method also supports a `cdp_profile` configuration and matching
 `CDP_PROFILE` environment variable:
+
+The easiest way to set the credentials in the shared file is to use the CDP CLI following
+[this guide](https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-configuring-cdp-client-with-the-api-access-key.html).
+The CDP CLI and the CDP Terraform provider are sharing the same config and credentials files.
 
 Usage:
 
@@ -88,7 +92,7 @@ $ cat $HOME/.cdp/config
 endpoint_url = https://%sapi.us-west-1.altus.cloudera.com/
 cdp_endpoint_url = https://api.us-west-1.cdp.cloudera.com/
 
-[profile dev]
+[profile customprofile]
 endpoint_url = ...
 cdp_endpoint_url = ...
 ```
@@ -96,5 +100,25 @@ cdp_endpoint_url = ...
 You can also override the config and credentials file locations that CDP provider. Usage:
 
 {{ tffile "examples/provider/provider_with_custom_config_file.tf" }}
+
+## Setting the CDP Region
+Every CDP Account belongs to only 1 CDP Control Plane region, which is a geographic region boundary for your accounts
+metadata. [CDP Control Plane Regions](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html)
+details existing control plane regions.
+
+You can set the CDP control plane region for your account in a couple of different ways. You can set it in your
+provider configuration by providing the `cdp_region` attribute:
+{{ tffile "examples/provider/provider_with_region.tf" }}
+
+An alternative way would be to set `cdp_region` in your CDP config file (`~/.cdp/config`):
+```
+[default]
+cdp_region = eu-1
+```
+Or under a profile:
+```
+[profile customprofile]
+cdp_region = eu-1
+```
 
 {{ .SchemaMarkdown | trimspace }}

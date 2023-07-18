@@ -4,5 +4,9 @@ endpoint_url=value2
 
 [profile foo]
 cdp_endpoint_url=value3
-endpoint_url=value4
+endpoint_url=value4%s
+cdp_region=value5
+
+[profile bar]
+cdp_region=value6
 

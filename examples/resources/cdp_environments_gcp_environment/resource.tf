@@ -17,11 +17,11 @@ terraform {
 }
 
 resource "cdp_environments_gcp_environment" "example" {
-  environment_name        = "<value>"
-  credential_name         = "<value>"
-  region                  = "<value>"
-  public_key              = "<value>"
-  use_public_ip           = false // or true, depends on the requirements/configurations
+  environment_name = "<value>"
+  credential_name  = "<value>"
+  region           = "<value>"
+  public_key       = "<value>"
+  use_public_ip    = false // or true, depends on the requirements/configurations
   existing_network_params = {
     network_name      = "<value>"
     subnet_names      = ["<value>", "<value2>", "..."] // one or more entries accepted

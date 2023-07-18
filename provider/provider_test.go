@@ -12,11 +12,12 @@ package provider
 
 import (
 	"context"
+	"regexp"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
-	"regexp"
-	"testing"
 )
 
 // testAccProtoV6ProviderFactories are used to instantiate a provider during
@@ -41,6 +42,7 @@ func createCdpProviderModel() *CdpProviderModel {
 		CdpAccessKeyId:           types.StringValue("cdp-access-key"),
 		CdpPrivateKey:            types.StringValue("cdp-private-key"),
 		Profile:                  types.StringValue("profile"),
+		CdpRegion:                types.StringValue("region"),
 		AltusEndpointUrl:         types.StringValue("altus-endpoint-url"),
 		CdpEndpointUrl:           types.StringValue("cdp-endpoint-url"),
 		CdpConfigFile:            types.StringValue("cdp-config-file"),
@@ -69,5 +71,19 @@ func TestProviderClientApplicationName(t *testing.T) {
 
 	if clientApplicationName != "terraform-provider-cdp" {
 		t.Fatalf("Terraform provider should have set client application name. Got: %v", clientApplicationName)
+	}
+}
+
+func TestProviderCdpRegion(t *testing.T) {
+	model := createCdpProviderModel()
+
+	config := getCdpConfig(context.Background(), model, "0.1.0", "v1.4.2")
+
+	cdpRegion, err := config.GetCdpRegion()
+	if err != nil {
+		t.Fatalf("Error getting cdp region: %v", err)
+	}
+	if cdpRegion != "region" {
+		t.Fatalf("Terraform provider should have set cdp region. Got: %v", cdpRegion)
 	}
 }
