@@ -12,18 +12,13 @@ package environments
 
 import (
 	"context"
-	"time"
-
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
-
-const describeLogPrefix = "Result of describe environment: "
 
 var (
 	_ resource.Resource = &gcpEnvironmentResource{}
@@ -75,28 +70,8 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	timeout := time.Hour * 1
-	if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeout, client, ctx); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create GCP Environment")
-		return
-	}
-
-	environmentName := data.EnvironmentName.ValueString()
-	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: &environmentName,
-	})
-	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(descParams)
+	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp)
 	if err != nil {
-		if isEnvNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
-			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
-				"id": data.ID.ValueString(),
-			})
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create GCP Environment")
 		return
 	}
 
@@ -116,26 +91,11 @@ func (r *gcpEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	environmentName := state.EnvironmentName.ValueString()
-	params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: &environmentName,
-	})
-	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(params)
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, resp)
 	if err != nil {
-		if isEnvNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
-			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
-				"id": state.ID.ValueString(),
-			})
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read GCP Environment")
 		return
 	}
-
-	toGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &state, &resp.Diagnostics)
+	toGcpEnvironmentResource(ctx, descEnvResp, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -156,19 +116,7 @@ func (r *gcpEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 		return
 	}
 
-	environmentName := state.EnvironmentName.ValueString()
-	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
-	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
-	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete GCP Environment")
-		return
-	}
-
-	timeout := time.Hour * 1
-	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
-	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete GCP Environment")
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp); err != nil {
 		return
 	}
 }

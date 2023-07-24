@@ -12,8 +12,6 @@ package environments
 
 import (
 	"context"
-	"time"
-
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -79,28 +77,8 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	timeout := time.Hour * 1
-	if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeout, client, ctx); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Environment")
-		return
-	}
-
-	environmentName := data.EnvironmentName.ValueString()
-	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: &environmentName,
-	})
-	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(descParams)
+	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp)
 	if err != nil {
-		if isEnvNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
-			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
-				"id": data.ID.ValueString(),
-			})
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Environment")
 		return
 	}
 
@@ -120,26 +98,11 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	environmentName := state.EnvironmentName.ValueString()
-	params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: &environmentName,
-	})
-	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(params)
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, resp)
 	if err != nil {
-		if isEnvNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
-			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
-				"id": state.ID.ValueString(),
-			})
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read Azure Environment")
 		return
 	}
-
-	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &state, &resp.Diagnostics)
+	toAzureEnvironmentResource(ctx, descEnvResp, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -262,19 +225,7 @@ func (r *azureEnvironmentResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	environmentName := state.EnvironmentName.ValueString()
-	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
-	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
-	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Azure Environment")
-		return
-	}
-
-	timeout := time.Hour * 1
-	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
-	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Azure Environment")
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp); err != nil {
 		return
 	}
 }

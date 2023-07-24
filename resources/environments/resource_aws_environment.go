@@ -12,19 +12,12 @@ package environments
 
 import (
 	"context"
-	"fmt"
-	"log"
-	"time"
-
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
-
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -42,11 +35,11 @@ func NewAwsEnvironmentResource() resource.Resource {
 	return &awsEnvironmentResource{}
 }
 
-func (r *awsEnvironmentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *awsEnvironmentResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_aws_environment"
 }
 
-func (r *awsEnvironmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *awsEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = AwsEnvironmentSchema
 }
 
@@ -75,7 +68,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	}
 
 	envResp := responseOk.Payload.Environment
-	toAwsEnvrionmentResource(ctx, envResp, &data, &resp.Diagnostics)
+	toAwsEnvironmentResource(ctx, envResp, &data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -83,91 +76,17 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	timeout := time.Hour * 1
-	if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeout, client, ctx); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
-		return
-	}
-
-	environmentName := data.EnvironmentName.ValueString()
-	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: &environmentName,
-	})
-	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(descParams)
+	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp)
 	if err != nil {
-		if isEnvNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
-			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
-				"id": data.ID.ValueString(),
-			})
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
 		return
 	}
 
-	toAwsEnvrionmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, &resp.Diagnostics)
+	toAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-}
-
-func isEnvNotFoundError(err error) bool {
-	if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
-		if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
-			return true
-		}
-	}
-	return false
-}
-
-func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Duration, client *client.Environments, ctx context.Context) error {
-	stateConf := &retry.StateChangeConf{
-		Pending: []string{"CREATION_INITIATED",
-			"NETWORK_CREATION_IN_PROGRESS",
-			"PUBLICKEY_CREATE_IN_PROGRESS",
-			"ENVIRONMENT_RESOURCE_ENCRYPTION_INITIALIZATION_IN_PROGRESS",
-			"ENVIRONMENT_VALIDATION_IN_PROGRESS",
-			"ENVIRONMENT_INITIALIZATION_IN_PROGRESS",
-			"FREEIPA_CREATION_IN_PROGRESS"},
-		Target:       []string{"AVAILABLE"},
-		Delay:        5 * time.Second,
-		Timeout:      timeout,
-		PollInterval: 10 * time.Second,
-		Refresh: func() (interface{}, string, error) {
-			log.Printf("[DEBUG] About to describe environment %s", environmentName)
-			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
-			resp, err := client.Operations.DescribeEnvironment(params)
-			if err != nil {
-				// Envs that have just been created may not be returned from Describe Environment request because of eventual
-				// consistency. We return an empty state to retry.
-
-				if isEnvNotFoundError(err) {
-					log.Printf("[DEBUG] Recoverable error describing environment: %s", err)
-					return nil, "", nil
-				}
-				log.Printf("Error describing environment: %s", err)
-				return nil, "", err
-			}
-			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
-			return checkResponseStatusForError(utils.LogEnvironmentResponseSilently(ctx, resp, describeLogPrefix))
-		},
-	}
-	_, err := stateConf.WaitForStateContext(ctx)
-
-	return err
-}
-
-func checkResponseStatusForError(resp *operations.DescribeEnvironmentOK) (interface{}, string, error) {
-	if utils.ContainsAsSubstring([]string{"FAILED", "ERROR"}, *resp.GetPayload().Environment.Status) {
-		return nil, "", fmt.Errorf("unexpected Enviornment status: %s. Reason: %s", *resp.GetPayload().Environment.Status, resp.GetPayload().Environment.StatusReason)
-	}
-	return resp, *resp.GetPayload().Environment.Status, nil
 }
 
 func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -178,26 +97,11 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	environmentName := state.EnvironmentName.ValueString()
-	params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: &environmentName,
-	})
-	descEnvResp, err := r.client.Environments.Operations.DescribeEnvironment(params)
+	env, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, resp)
 	if err != nil {
-		if isEnvNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
-			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
-				"id": state.ID.ValueString(),
-			})
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read AWS Environment")
 		return
 	}
-
-	toAwsEnvrionmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &state, &resp.Diagnostics)
+	toAwsEnvironmentResource(ctx, env, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -206,8 +110,23 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	}
 }
 
-func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel, diags *diag.Diagnostics) {
+func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 
+}
+
+func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state awsEnvironmentResourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp); err != nil {
+		return
+	}
+}
+
+func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(env.Crn)
 	if env.AwsDetails != nil {
 		model.S3GuardTableName = types.StringValue(env.AwsDetails.S3GuardTableName)
@@ -295,83 +214,4 @@ func toAwsEnvrionmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.TunnelType = types.StringValue(string(env.TunnelType))
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
-}
-
-func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-
-}
-
-func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state awsEnvironmentResourceModel
-	diags := req.State.Get(ctx, &state)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	environmentName := state.EnvironmentName.ValueString()
-	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
-	_, err := r.client.Environments.Operations.DeleteEnvironment(params)
-	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Environment")
-		return
-	}
-
-	timeout := time.Hour * 1
-	err = waitForEnvironmentToBeDeleted(environmentName, timeout, r.client.Environments, ctx)
-	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Environment")
-		return
-	}
-}
-
-func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration, client *client.Environments, ctx context.Context) error {
-	stateConf := &retry.StateChangeConf{
-		Pending: []string{"STORAGE_CONSUMPTION_COLLECTION_UNSCHEDULING_IN_PROGRESS",
-			"NETWORK_DELETE_IN_PROGRESS",
-			"FREEIPA_DELETE_IN_PROGRESS",
-			"RDBMS_DELETE_IN_PROGRESS",
-			"IDBROKER_MAPPINGS_DELETE_IN_PROGRESS",
-			"S3GUARD_TABLE_DELETE_IN_PROGRESS",
-			"CLUSTER_DEFINITION_DELETE_PROGRESS",
-			"CLUSTER_DEFINITION_CLEANUP_PROGRESS",
-			"UMS_RESOURCE_DELETE_IN_PROGRESS",
-			"DELETE_INITIATED",
-			"DATAHUB_CLUSTERS_DELETE_IN_PROGRESS",
-			"DATALAKE_CLUSTERS_DELETE_IN_PROGRESS",
-			"PUBLICKEY_DELETE_IN_PROGRESS",
-			"EVENT_CLEANUP_IN_PROGRESS",
-			"EXPERIENCE_DELETE_IN_PROGRESS",
-			"ENVIRONMENT_RESOURCE_ENCRYPTION_DELETE_IN_PROGRESS",
-			"ENVIRONMENT_ENCRYPTION_RESOURCES_DELETED"},
-		Target:       []string{},
-		Delay:        5 * time.Second,
-		Timeout:      timeout,
-		PollInterval: 10 * time.Second,
-		Refresh: func() (interface{}, string, error) {
-			log.Printf("About to describe environment")
-			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
-			resp, err := client.Operations.DescribeEnvironment(params)
-			if err != nil {
-				log.Printf("Error describing environment: %s", err)
-				if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
-					if isEnvNotFoundError(envErr) {
-						return nil, "", nil
-					}
-				}
-				return nil, "", err
-			}
-			if resp.GetPayload().Environment == nil {
-				log.Printf("Described environment. No environment.")
-				return nil, "", nil
-			}
-			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
-			return checkResponseStatusForError(utils.LogEnvironmentResponseSilently(ctx, resp, describeLogPrefix))
-		},
-	}
-	_, err := stateConf.WaitForStateContext(ctx)
-
-	return err
 }
