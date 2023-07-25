@@ -23,7 +23,7 @@ type AWSFreeIpaCreationRequest struct {
 	// Custom instance type of FreeIPA instances.
 	InstanceType string `json:"instanceType,omitempty"`
 
-	// Flag which marks that the freeIPA will be deployed in a multi-availability zone way or not.
+	// Flag which marks that the FreeIPA will be deployed in a multi-availability zone way or not.
 	MultiAz bool `json:"multiAz,omitempty"`
 
 	// The recipes for the FreeIPA cluster.

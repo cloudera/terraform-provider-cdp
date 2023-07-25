@@ -15,7 +15,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// DownscaleFreeipaRequest The request object for FreeIPA downscale.
+// DownscaleFreeipaRequest The request object for FreeIPA downscale. Either targetAvailabilityType or instances
 //
 // swagger:model DownscaleFreeipaRequest
 type DownscaleFreeipaRequest struct {
@@ -25,9 +25,8 @@ type DownscaleFreeipaRequest struct {
 	EnvironmentName *string `json:"environmentName"`
 
 	// The target FreeIPA availability type.
-	// Required: true
 	// Enum: [HA TWO_NODE_BASED]
-	TargetAvailabilityType *string `json:"targetAvailabilityType"`
+	TargetAvailabilityType string `json:"targetAvailabilityType,omitempty"`
 }
 
 // Validate validates this downscale freeipa request
@@ -87,13 +86,12 @@ func (m *DownscaleFreeipaRequest) validateTargetAvailabilityTypeEnum(path, locat
 }
 
 func (m *DownscaleFreeipaRequest) validateTargetAvailabilityType(formats strfmt.Registry) error {
-
-	if err := validate.Required("targetAvailabilityType", "body", m.TargetAvailabilityType); err != nil {
-		return err
+	if swag.IsZero(m.TargetAvailabilityType) { // not required
+		return nil
 	}
 
 	// value enum
-	if err := m.validateTargetAvailabilityTypeEnum("targetAvailabilityType", "body", *m.TargetAvailabilityType); err != nil {
+	if err := m.validateTargetAvailabilityTypeEnum("targetAvailabilityType", "body", m.TargetAvailabilityType); err != nil {
 		return err
 	}
 

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -18,6 +19,15 @@ import (
 //
 // swagger:model Instance
 type Instance struct {
+
+	// List of volumes attached to this instance.
+	AttachedVolumes []*AttachedVolumeDetail `json:"attachedVolumes"`
+
+	// The availability zone of the instance.
+	AvailabilityZone string `json:"availabilityZone,omitempty"`
+
+	// Whether the instance has Cloudera Manager deployed or not.
+	ClouderaManagerServer bool `json:"clouderaManagerServer,omitempty"`
 
 	// The FQDN of the instance.
 	DiscoveryFQDN string `json:"discoveryFQDN,omitempty"`
@@ -35,11 +45,17 @@ type Instance struct {
 	// The instance type.
 	InstanceTypeVal DatalakeInstanceType `json:"instanceTypeVal,omitempty"`
 
+	// The VM type of the instance. Supported values depend on the cloud platform.
+	InstanceVMType string `json:"instanceVmType,omitempty"`
+
 	// The private IP of the given instance.
 	PrivateIP string `json:"privateIp,omitempty"`
 
 	// The public IP of the given instance.
 	PublicIP string `json:"publicIp,omitempty"`
+
+	// The rack ID of the instance in Cloudera Manager.
+	RackID string `json:"rackId,omitempty"`
 
 	// The SSH port for the instance.
 	SSHPort int32 `json:"sshPort,omitempty"`
@@ -50,11 +66,18 @@ type Instance struct {
 
 	// The reason for the current status of this instance.
 	StatusReason string `json:"statusReason,omitempty"`
+
+	// The subnet ID of the instance.
+	SubnetID string `json:"subnetId,omitempty"`
 }
 
 // Validate validates this instance
 func (m *Instance) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateAttachedVolumes(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
@@ -75,6 +98,32 @@ func (m *Instance) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Instance) validateAttachedVolumes(formats strfmt.Registry) error {
+	if swag.IsZero(m.AttachedVolumes) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.AttachedVolumes); i++ {
+		if swag.IsZero(m.AttachedVolumes[i]) { // not required
+			continue
+		}
+
+		if m.AttachedVolumes[i] != nil {
+			if err := m.AttachedVolumes[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -134,6 +183,10 @@ func (m *Instance) validateState(formats strfmt.Registry) error {
 func (m *Instance) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateAttachedVolumes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateInstanceStatus(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -145,6 +198,31 @@ func (m *Instance) ContextValidate(ctx context.Context, formats strfmt.Registry)
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Instance) contextValidateAttachedVolumes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AttachedVolumes); i++ {
+
+		if m.AttachedVolumes[i] != nil {
+
+			if swag.IsZero(m.AttachedVolumes[i]) { // not required
+				return nil
+			}
+
+			if err := m.AttachedVolumes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

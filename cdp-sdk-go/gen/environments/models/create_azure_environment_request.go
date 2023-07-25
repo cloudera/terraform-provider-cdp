@@ -47,6 +47,9 @@ type CreateAzureEnvironmentRequest struct {
 	// Enum: [PUBLIC PRIVATE]
 	EndpointAccessGatewayScheme string `json:"endpointAccessGatewayScheme,omitempty"`
 
+	// The subnets to use for endpoint access gateway.
+	EndpointAccessGatewaySubnetIds []string `json:"endpointAccessGatewaySubnetIds"`
+
 	// The name of the environment. Must contain only lowercase letters, numbers and hyphens.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
