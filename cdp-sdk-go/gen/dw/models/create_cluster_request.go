@@ -50,6 +50,9 @@ type CreateClusterRequest struct {
 	// Set up load balancer with private IP address. In AWS it is created in private subnets. In Azure an internal load balancer gets created. Make sure there is connectivity between your client network and the network (VPC/VNet) where CDW environment is deployed.
 	UsePrivateLoadBalancer bool `json:"usePrivateLoadBalancer,omitempty"`
 
+	// Set up worker node with public IP address. In AWS it is created in public subnets.
+	UsePublicWorkerNode bool `json:"usePublicWorkerNode,omitempty"`
+
 	// This field is still available for Private Cloud deployments, however it'll be removed for Public Cloud in the next DWX release. Please use the use 'whitelistK8sClusterAccessIpCIDRs' in combination of 'whitelistWorkloadAccessIpCIDRs' on Public Cloud. Comma separated list of IP address CIDRs to whitelist.
 	WhitelistIPCIDRs string `json:"whitelistIpCIDRs,omitempty"`
 

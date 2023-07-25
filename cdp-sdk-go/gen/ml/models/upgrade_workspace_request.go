@@ -20,7 +20,7 @@ type UpgradeWorkspaceRequest struct {
 	// The environment of the workspace.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// The version of workspace to upgrade to. (Deprecated).
+	// The version of workspace to upgrade to.
 	MlVersion string `json:"mlVersion,omitempty"`
 
 	// The CRN of the workspace. If CRN is specified only the CRN is used for identifying the workspace, environment and name arguments are ignored.

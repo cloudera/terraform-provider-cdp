@@ -20,6 +20,9 @@ import (
 // swagger:model InstanceGroup
 type InstanceGroup struct {
 
+	// List of availability zones that this instance group is associated with.
+	AvailabilityZones []string `json:"availabilityZones"`
+
 	// List of instances in this instance group.
 	// Required: true
 	Instances []*Instance `json:"instances"`

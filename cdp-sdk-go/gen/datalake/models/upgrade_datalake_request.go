@@ -50,6 +50,9 @@ type UpgradeDatalakeRequest struct {
 	// If provided, will skip the backup flow for the upgrade process.
 	SkipBackup bool `json:"skipBackup,omitempty"`
 
+	// Skips the validation steps that run prior to the backup. Redundant if --skip-backup is included. If this option is not provided, the validations are performed by default.
+	SkipBackupValidation bool `json:"skipBackupValidation,omitempty"`
+
 	// With this option, the Data Lake upgrade can be performed with running Data Hub clusters. This option may cause problems on the running Data Hub clusters during the Data Lake upgrade.
 	SkipDatahubValidation bool `json:"skipDatahubValidation,omitempty"`
 

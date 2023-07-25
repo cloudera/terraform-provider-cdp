@@ -293,8 +293,8 @@ func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
 		}
 		res.Image = &environmentsmodels.FreeIpaImageRequest{
-			Catalog: freeIpaDetails.Catalog.ValueStringPointer(),
-			ID:      freeIpaDetails.ImageID.ValueStringPointer(),
+			Catalog: freeIpaDetails.Catalog.ValueString(),
+			ID:      freeIpaDetails.ImageID.ValueString(),
 		}
 	}
 

@@ -35,9 +35,6 @@ type AzureActivationOptions struct {
 	// Whether to enable spot instances for Virtual warehouses. It cannot be updated later. If the AzureActivationOptions is not provided it defaults to false.
 	EnableSpotInstances *bool `json:"enableSpotInstances,omitempty"`
 
-	// Enable uptime SLA for Kubernetes API server. This option is deprecated and will be removed upon the next release of the DWX Public Cloud. The uptime SLA for the Kubernetes API server will be always enabled.
-	EnableUptimeSLA *bool `json:"enableUptimeSLA,omitempty"`
-
 	// Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
 	LogAnalyticsWorkspaceID string `json:"logAnalyticsWorkspaceId,omitempty"`
 

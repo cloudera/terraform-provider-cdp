@@ -71,6 +71,10 @@ var AzureEnvironmentSchema = schema.Schema{
 			MarkdownDescription: "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
 			Optional:            true,
 		},
+		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
+			Optional:    true,
+			ElementType: types.StringType,
+		},
 		"encryption_key_resource_group_name": schema.StringAttribute{
 			Optional: true,
 		},
@@ -280,6 +284,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.EncryptionKeyURL = model.EncryptionKeyURL.ValueString()
 	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
 	req.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
+	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
 	if !model.ExistingNetworkParams.IsNull() && !model.ExistingNetworkParams.IsUnknown() {
 		tflog.Debug(ctx, "existing network params")
 		var existingNetworkParams existingAzureNetwork
@@ -309,8 +314,8 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
 		}
 		req.Image = &environmentsmodels.FreeIpaImageRequest{
-			Catalog: freeIpaDetails.Catalog.ValueStringPointer(),
-			ID:      freeIpaDetails.ImageID.ValueStringPointer(),
+			Catalog: freeIpaDetails.Catalog.ValueString(),
+			ID:      freeIpaDetails.ImageID.ValueString(),
 		}
 	}
 
