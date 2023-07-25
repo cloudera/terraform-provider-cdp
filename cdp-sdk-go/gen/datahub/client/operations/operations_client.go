@@ -76,6 +76,8 @@ type ClientService interface {
 
 	DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error)
 
+	DescribeScalingActivity(params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error)
+
 	GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
 
 	GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
@@ -99,6 +101,8 @@ type ClientService interface {
 	ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error)
 
 	ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error)
+
+	ListScalingActivities(params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error)
 
 	PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error)
 
@@ -1084,6 +1088,45 @@ func (a *Client) DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOpti
 }
 
 /*
+DescribeScalingActivity describes the scaling activity using cluster c r n or cluster n a m e and operation ID
+
+Describes the Scaling Activity using Cluster CRN or Cluster NAME and operation ID.
+*/
+func (a *Client) DescribeScalingActivity(params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeScalingActivityParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeScalingActivity",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/describeScalingActivity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeScalingActivityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeScalingActivityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeScalingActivityDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetClusterHostStatus gets cluster host status
 
 Gets the status of the hosts in a cluster.
@@ -1548,6 +1591,45 @@ func (a *Client) ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListRecipesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListScalingActivities lists scaling activities for a cluster
+
+Lists Scaling activities for a cluster.
+*/
+func (a *Client) ListScalingActivities(params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListScalingActivitiesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listScalingActivities",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/listScalingActivities",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListScalingActivitiesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListScalingActivitiesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListScalingActivitiesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

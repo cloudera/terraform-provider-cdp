@@ -160,6 +160,10 @@ type ClientService interface {
 
 	UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error)
 
+	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
+
+	UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error)
+
 	UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error)
 
 	UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error)
@@ -2742,6 +2746,84 @@ func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionRes
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateAzureEncryptionResourcesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateOrchestratorState runs orchestrator engine state update on the free IP a cluster
+
+Run orchestrator engine state update on the FreeIPA cluster.
+*/
+func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateOrchestratorStateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateOrchestratorState",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateOrchestratorState",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateOrchestratorStateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateOrchestratorStateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateProxyConfig updates the proxy config of the given environment
+
+Updates the proxy config of the given environment.
+*/
+func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateProxyConfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateProxyConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateProxyConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateProxyConfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateProxyConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateProxyConfigDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

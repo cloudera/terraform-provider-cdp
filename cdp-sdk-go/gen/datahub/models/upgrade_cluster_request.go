@@ -32,6 +32,9 @@ type UpgradeClusterRequest struct {
 	// Perform an os upgrade only.
 	LockComponents bool `json:"lockComponents,omitempty"`
 
+	// Enables the ability to perform rolling runtime upgrade.
+	RollingUpgradeEnabled bool `json:"rollingUpgradeEnabled,omitempty"`
+
 	// The runtime version to upgrade to.
 	Runtime string `json:"runtime,omitempty"`
 

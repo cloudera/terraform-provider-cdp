@@ -309,8 +309,8 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
 		}
 		req.Image = &environmentsmodels.FreeIpaImageRequest{
-			Catalog: freeIpaDetails.Catalog.ValueStringPointer(),
-			ID:      freeIpaDetails.ImageID.ValueStringPointer(),
+			Catalog: freeIpaDetails.Catalog.ValueString(),
+			ID:      freeIpaDetails.ImageID.ValueString(),
 		}
 	}
 
