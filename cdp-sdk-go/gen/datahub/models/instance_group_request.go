@@ -49,6 +49,9 @@ type InstanceGroupRequest struct {
 	// The root volume size.
 	RootVolumeSize int32 `json:"rootVolumeSize,omitempty"`
 
+	// The list of subnet IDs in case of multi-availability zone setup. Specifying this field overrides the datahub level subnet ID setup for the multi-availability zone configuration.
+	SubnetIds []string `json:"subnetIds"`
+
 	// The volume encryption settings. This setting does not apply to Azure which always encrypts volumes.
 	VolumeEncryption *VolumeEncryptionRequest `json:"volumeEncryption,omitempty"`
 }

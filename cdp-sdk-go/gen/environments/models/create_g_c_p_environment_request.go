@@ -21,6 +21,9 @@ import (
 // swagger:model CreateGCPEnvironmentRequest
 type CreateGCPEnvironmentRequest struct {
 
+	// The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
+	AvailabilityZones []string `json:"availabilityZones"`
+
 	// Name of the credential to use for the environment.
 	// Required: true
 	CredentialName *string `json:"credentialName"`
@@ -37,6 +40,9 @@ type CreateGCPEnvironmentRequest struct {
 	// The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 	// Enum: [PUBLIC PRIVATE]
 	EndpointAccessGatewayScheme string `json:"endpointAccessGatewayScheme,omitempty"`
+
+	// The subnets to use for endpoint access gateway.
+	EndpointAccessGatewaySubnetIds []string `json:"endpointAccessGatewaySubnetIds"`
 
 	// The name of the environment. Must contain only lowercase letters, numbers and hyphens.
 	// Required: true
