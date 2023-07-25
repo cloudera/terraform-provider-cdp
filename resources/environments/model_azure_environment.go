@@ -66,6 +66,8 @@ type azureEnvironmentResourceModel struct {
 	WorkloadAnalytics types.Bool `tfsdk:"workload_analytics"`
 
 	EndpointAccessGatewayScheme types.String `tfsdk:"endpoint_access_gateway_scheme"`
+
+	EndpointAccessGatewaySubnetIds types.Set `tfsdk:"endpoint_access_gateway_subnet_ids"`
 }
 
 type existingAzureNetwork struct {

@@ -176,6 +176,17 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 		}, &newNetworkParams{
 			NetworkCidr: types.StringValue(env.Network.NetworkCidr),
 		})
+		if env.Network.EndpointAccessGatewaySubnetIds != nil {
+			var gatewaySubnetIds types.Set
+			if len(env.Network.EndpointAccessGatewaySubnetIds) > 0 {
+				var eagSnDiags diag.Diagnostics
+				gatewaySubnetIds, eagSnDiags = types.SetValueFrom(ctx, types.StringType, env.Network.EndpointAccessGatewaySubnetIds)
+				diags.Append(eagSnDiags...)
+			} else {
+				gatewaySubnetIds = types.SetNull(types.StringType)
+			}
+			model.EndpointAccessGatewaySubnetIds = gatewaySubnetIds
+		}
 		diags.Append(npDiags...)
 		if env.Network.Azure != nil {
 			subnetIds, snDiags := types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
