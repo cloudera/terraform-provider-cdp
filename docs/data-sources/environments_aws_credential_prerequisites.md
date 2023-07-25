@@ -22,14 +22,6 @@ This data source is used to get information required to set up a delegated acces
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-terraform {
-  required_providers {
-    cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
-    }
-  }
-}
-
 data "cdp_environments_aws_credential_prerequisites" "credential_prerequisites" {}
 
 resource "aws_iam_role" "cdp-cross-account-role" {

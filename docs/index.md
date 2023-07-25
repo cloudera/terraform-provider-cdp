@@ -27,7 +27,7 @@ The provider needs to be configured with the proper credentials before it can be
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
@@ -89,7 +89,7 @@ Usage:
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
@@ -165,7 +165,7 @@ Usage:
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
@@ -209,6 +209,14 @@ You can also override the config and credentials file locations that CDP provide
 # permissions and limitations governing your use of the file.
 
 # This example shows how to use cdp with custom config and credentials files.
+
+terraform {
+  required_providers {
+    cdp = {
+      source = "cloudera/cdp"
+    }
+  }
+}
 
 provider "cdp" {
   cdp_config_file             = "/Users/myuser/.cdp/config"

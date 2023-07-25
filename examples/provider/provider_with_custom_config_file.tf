@@ -10,6 +10,14 @@
 
 # This example shows how to use cdp with custom config and credentials files.
 
+terraform {
+  required_providers {
+    cdp = {
+      source = "cloudera/cdp"
+    }
+  }
+}
+
 provider "cdp" {
   cdp_config_file             = "/Users/myuser/.cdp/config"
   cdp_shared_credentials_file = "/Users/myuser/.cdp/credentials"

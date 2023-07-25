@@ -8,14 +8,6 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-terraform {
-  required_providers {
-    cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
-    }
-  }
-}
-
 resource "cdp_environments_aws_credential" "example" {
   credential_name = "example-cdp-aws-credential"
   role_arn        = "arn:aws:iam::11111111111:role/example-cross-account-role"

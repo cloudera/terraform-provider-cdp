@@ -22,14 +22,6 @@ A group is a named collection of users and machine users. Roles and resource rol
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-terraform {
-  required_providers {
-    cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
-    }
-  }
-}
-
 resource "cdp_iam_group" "example" {
   group_name                    = "example"
   sync_membership_on_user_login = true
