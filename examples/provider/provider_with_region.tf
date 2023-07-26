@@ -8,6 +8,10 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
+# This example shows how to use cdp with a custom profile (other than 'default').
+# The profile must be defined in the CDP configuration file (default: ~/.cdp/config) and credentials should be available
+# under ~/.cdp/credentials.
+
 terraform {
   required_providers {
     cdp = {
@@ -16,20 +20,8 @@ terraform {
   }
 }
 
-resource "cdp_environments_aws_credential" "example" {
-  credential_name = "example-cdp-aws-credential"
-  role_arn        = "arn:aws:iam::11111111111:role/example-cross-account-role"
-  description     = "Example AWS Credentials"
-}
-
-output "credential_name" {
-  value = cdp_environments_aws_credential.example.credential_name
-}
-
-output "role_arn" {
-  value = cdp_environments_aws_credential.example.role_arn
-}
-
-output "crn" {
-  value = cdp_environments_aws_credential.example.crn
+provider "cdp" {
+  # Configure the CDP Control Plane region for your account. Valid values are: us-west-1, eu-1, ap-1, usg-1.
+  # https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html
+  cdp_region = "eu-1"
 }

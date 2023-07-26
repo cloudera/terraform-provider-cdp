@@ -54,6 +54,7 @@ type CdpProviderModel struct {
 	CdpAccessKeyId           types.String `tfsdk:"cdp_access_key_id"`
 	CdpPrivateKey            types.String `tfsdk:"cdp_private_key"`
 	Profile                  types.String `tfsdk:"cdp_profile"`
+	CdpRegion                types.String `tfsdk:"cdp_region"`
 	AltusEndpointUrl         types.String `tfsdk:"endpoint_url"`
 	CdpEndpointUrl           types.String `tfsdk:"cdp_endpoint_url"`
 	CdpConfigFile            types.String `tfsdk:"cdp_config_file"`
@@ -83,6 +84,10 @@ func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 			"cdp_profile": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "CDP Profile to use for the configuration in shared credentials file (~/.cdp/credentials). It can also be sourced from the `CDP_PROFILE` environment variable.",
+			},
+			"cdp_region": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Cdp Control Plane Region to send the API requests to, not to be confused by the cloud workload region (AWS, Azure or GCP). Defaults to us-west-1 and can also be sourced from CDP_REGION environment variable. More details can be found [here](https://docs.cloudera.com/cdp-public-cloud/cloud/cp-regions/topics/cdp-control-plane-regions.html).",
 			},
 			"cdp_config_file": schema.StringAttribute{
 				Optional:            true,
@@ -174,6 +179,7 @@ func getCdpConfig(ctx context.Context, data *CdpProviderModel, version string, t
 	accessKeyId := getOrDefaultFromEnv(data.CdpAccessKeyId, "CDP_ACCESS_KEY_ID")
 	privateKey := getOrDefaultFromEnv(data.CdpPrivateKey, "CDP_PRIVATE_KEY")
 	cdpProfile := getOrDefaultFromEnv(data.Profile, "CDP_PROFILE", "CDP_DEFAULT_PROFILE")
+	cdpRegion := getOrDefaultFromEnv(data.CdpRegion, "CDP_REGION")
 	altusEndpointUrl := getOrDefaultFromEnv(data.AltusEndpointUrl, "ENDPOINT_URL")
 	cdpEndpointUrl := getOrDefaultFromEnv(data.CdpEndpointUrl, "CDP_ENDPOINT_URL")
 	cdpConfigFile := getOrDefaultFromEnv(data.CdpConfigFile, "CDP_CONFIG_FILE")
@@ -183,6 +189,7 @@ func getCdpConfig(ctx context.Context, data *CdpProviderModel, version string, t
 	config := cdp.NewConfig()
 	config.WithContext(ctx)
 	config.WithProfile(cdpProfile)
+	config.WithCdpRegion(cdpRegion)
 	config.WithAltusApiEndpointUrl(altusEndpointUrl)
 	config.WithCdpApiEndpointUrl(cdpEndpointUrl)
 	config.WithCredentials(&cdp.Credentials{
@@ -201,6 +208,7 @@ func getCdpConfig(ctx context.Context, data *CdpProviderModel, version string, t
 	ctx = tflog.SetField(ctx, "accessKeyId", accessKeyId)
 	ctx = tflog.SetField(ctx, "privateKey", privateKey)
 	ctx = tflog.SetField(ctx, "cdpProfile", cdpProfile)
+	ctx = tflog.SetField(ctx, "cdpRegion", cdpRegion)
 	ctx = tflog.SetField(ctx, "altusEndpointUrl", altusEndpointUrl)
 	ctx = tflog.SetField(ctx, "cdpEndpointUrl", cdpEndpointUrl)
 	ctx = tflog.SetField(ctx, "cdpConfigFile", cdpConfigFile)

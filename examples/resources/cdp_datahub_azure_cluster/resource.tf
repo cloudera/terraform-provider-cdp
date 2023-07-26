@@ -17,9 +17,9 @@ terraform {
 }
 
 resource "cdp_datahub_azure_cluster" "azure-cluster" {
-  name = "<value>"
-  environment = "<value>"
-  cluster_template = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
+  name               = "<value>"
+  environment        = "<value>"
+  cluster_template   = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
   cluster_definition = "7.2.15 - Data Engineering for Azure"
   /* The below section kept here as a working example if one would like to use the cluster creation w/o the usage of the cluster definition
 

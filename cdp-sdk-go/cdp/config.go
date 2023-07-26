@@ -22,6 +22,14 @@ import (
 	"github.com/mitchellh/go-homedir"
 )
 
+// exported constants
+const (
+	RegionUsWest1 = "us-west-1"
+	RegionEu1     = "eu-1"
+	RegionAp1     = "ap-1"
+	RegionUsg1    = "usg-1"
+)
+
 const (
 	// These environment variables (and the ones below in the code are shared between the python CDP CLI, the Java SDK,
 	// GoLang SDK and the Terraform provider for CDP. These should be treated as a compatibility surface.
@@ -40,18 +48,23 @@ const (
 
 	defaultLocalEnvironment = "false"
 
-	defaultCdpApiEndpointUrl   = "https://api.us-west-1.cdp.cloudera.com/"
-	defaultAltusApiEndpointUrl = "https://%sapi.us-west-1.altus.cloudera.com/"
+	cdpApiEndpoint    = "https://api.%s.cdp.cloudera.com/"
+	cdpApiEndpointGov = "https://api.%s.cdp.clouderagovt.com/"
+	altusApiEndpoint  = "https://%%sapi.%s.altus.cloudera.com/"
 
 	cdpDir          = ".cdp"
 	credentialsFile = "credentials"
 	configFile      = "config"
+
+	// CDP defaults to using 'us-west-1'
+	defaultCdpRegion = RegionUsWest1
 )
 
 type Config struct {
 	CdpApiEndpointUrl     string
 	AltusApiEndpointUrl   string
 	Profile               string
+	CdpRegion             string
 	Credentials           *Credentials
 	BaseApiPath           string
 	ConfigFile            string
@@ -88,6 +101,14 @@ func (config *Config) loadConfig() error {
 	}
 	config.properties = config.convertProfileMap(properties)
 
+	credentialsFile, err := config.GetCdpCredentialsFile()
+	if err != nil {
+		return err
+	}
+	cdpProfile, err := config.GetCdpProfile()
+	if err != nil {
+		return err
+	}
 	// Default provider chain. By default, it first checks whether the given Config contains any, then it
 	// checks the environment variables, and lastly it checks the credentials from the shared credentials file
 	// under ~/.cdp/credentials.
@@ -95,7 +116,7 @@ func (config *Config) loadConfig() error {
 		ProviderChain: []CredentialsProvider{
 			&StaticCredentialsProvider{Credentials: config.Credentials},
 			&EnvCredentialsProvider{},
-			NewFileCredentialsProvider(config.GetCdpCredentialsFile(), config.GetCdpProfile()),
+			NewFileCredentialsProvider(credentialsFile, cdpProfile),
 		},
 	}
 
@@ -114,6 +135,11 @@ func (config *Config) WithAltusApiEndpointUrl(altusApiEndpointUrl string) *Confi
 
 func (config *Config) WithProfile(profile string) *Config {
 	config.Profile = profile
+	return config
+}
+
+func (config *Config) WithCdpRegion(cdpRegion string) *Config {
+	config.CdpRegion = cdpRegion
 	return config
 }
 
@@ -192,58 +218,68 @@ var propertySchemas = map[string]propertySchema{
 		defaultFunc: defaultCdpCredentialsFile,
 	},
 	"cdp_profile": {
-		envVars:   []string{cdpDefaultProfileEnvVar, cdpProfileEnvVar},
-		configKey: "",
-		defaultFunc: func() (string, error) {
-			return cdpDefaultProfile, nil
-		},
+		envVars:     []string{cdpDefaultProfileEnvVar, cdpProfileEnvVar},
+		configKey:   "",
+		defaultFunc: stringSupplier(cdpDefaultProfile),
+	},
+	"cdp_region": {
+		envVars:     []string{"CDP_REGION"},
+		configKey:   "cdp_region",
+		defaultFunc: stringSupplier(defaultCdpRegion),
 	},
 	"cdp_endpoint_url": {
-		envVars:   []string{"CDP_ENDPOINT_URL"},
-		configKey: "cdp_endpoint_url",
-		defaultFunc: func() (string, error) {
-			return defaultCdpApiEndpointUrl, nil
-		},
+		envVars:     []string{"CDP_ENDPOINT_URL"},
+		configKey:   "cdp_endpoint_url",
+		defaultFunc: stringSupplier(""),
 	},
 	"altus_endpoint_url": {
-		envVars:   []string{"ENDPOINT_URL"},
-		configKey: "endpoint_url",
-		defaultFunc: func() (string, error) {
-			return defaultAltusApiEndpointUrl, nil
-		},
+		envVars:     []string{"ENDPOINT_URL"},
+		configKey:   "endpoint_url",
+		defaultFunc: stringSupplier(""),
 	},
 	"local_environment": {
-		envVars:   []string{"LOCAL_ENVIRONMENT"},
-		configKey: "local_environment",
-		defaultFunc: func() (string, error) {
-			return defaultLocalEnvironment, nil
-		},
+		envVars:     []string{"LOCAL_ENVIRONMENT"},
+		configKey:   "local_environment",
+		defaultFunc: stringSupplier(defaultLocalEnvironment),
 	},
 }
 
-func (config *Config) GetCdpProfile() string {
-	val, _ := config.getVal(config.Profile, propertySchemas["cdp_profile"])
-	return val
+func (config *Config) GetCdpProfile() (string, error) {
+	return config.getVal(config.Profile, propertySchemas["cdp_profile"])
 }
 
-func (config *Config) GetCdpApiEndpoint() string {
-	val, _ := config.getVal(config.CdpApiEndpointUrl, propertySchemas["cdp_endpoint_url"])
-	return val
+func (config *Config) GetCdpRegion() (string, error) {
+	return config.getVal(config.CdpRegion, propertySchemas["cdp_region"])
 }
 
-func (config *Config) GetAltusApiEndpoint() string {
-	val, _ := config.getVal(config.AltusApiEndpointUrl, propertySchemas["altus_endpoint_url"])
-	return val
+func (config *Config) GetCdpApiEndpoint() (string, error) {
+	val, err := config.getVal(config.CdpApiEndpointUrl, propertySchemas["cdp_endpoint_url"])
+	if err != nil {
+		return val, err
+	}
+	if val == "" {
+		return defaultCdpEndpoint(config)
+	}
+	return val, err
 }
 
-func (config *Config) GetCdpConfigFile() string {
-	val, _ := config.getVal(config.ConfigFile, propertySchemas["cdp_config_file"])
-	return val
+func (config *Config) GetAltusApiEndpoint() (string, error) {
+	val, err := config.getVal(config.AltusApiEndpointUrl, propertySchemas["altus_endpoint_url"])
+	if err != nil {
+		return val, err
+	}
+	if val == "" {
+		return defaultAltusEndpoint(config)
+	}
+	return val, err
 }
 
-func (config *Config) GetCdpCredentialsFile() string {
-	val, _ := config.getVal(config.CredentialsFile, propertySchemas["cdp_credentials_file"])
-	return val
+func (config *Config) GetCdpConfigFile() (string, error) {
+	return config.getVal(config.ConfigFile, propertySchemas["cdp_config_file"])
+}
+
+func (config *Config) GetCdpCredentialsFile() (string, error) {
+	return config.getVal(config.CredentialsFile, propertySchemas["cdp_credentials_file"])
 }
 
 func (config *Config) GetLocalEnvironment() bool {
@@ -252,9 +288,16 @@ func (config *Config) GetLocalEnvironment() bool {
 	return boolVal
 }
 
-func (config *Config) GetEndpoint(serviceName string, isAltusService bool) string {
+func (config *Config) GetEndpoint(serviceName string, isAltusService bool) (string, error) {
 	if isAltusService {
-		return fmt.Sprintf(config.GetAltusApiEndpoint(), serviceName)
+		altusEndpoint, err := config.GetAltusApiEndpoint()
+		if err != nil {
+			return "", err
+		}
+		if strings.Contains(altusEndpoint, "%s") {
+			return fmt.Sprintf(altusEndpoint, serviceName), nil
+		}
+		return altusEndpoint, nil
 	} else {
 		return config.GetCdpApiEndpoint()
 	}
@@ -296,8 +339,45 @@ func defaultCdpConfigFile() (string, error) {
 	return path, nil
 }
 
+func defaultCdpEndpoint(config *Config) (string, error) {
+	cdpRegion, err := config.GetCdpRegion()
+	if err != nil {
+		return "", err
+	}
+	switch cdpRegion {
+	case RegionUsg1:
+		return fmt.Sprintf(cdpApiEndpointGov, cdpRegion), nil
+	default:
+		return fmt.Sprintf(cdpApiEndpoint, cdpRegion), nil
+	}
+}
+
+func defaultAltusEndpoint(config *Config) (string, error) {
+	cdpRegion, err := config.GetCdpRegion()
+	if err != nil {
+		return "", err
+	}
+	switch cdpRegion {
+	case RegionUsWest1:
+		return fmt.Sprintf(altusApiEndpoint, cdpRegion), nil
+	default:
+		return defaultCdpEndpoint(config)
+	}
+}
+
+// stringSupplier returns a function that returns the input string and nil for error.
+func stringSupplier(s string) func() (string, error) {
+	return func() (string, error) {
+		return s, nil
+	}
+}
+
 func (config *Config) loadConfigFile() (map[string]map[string]string, error) {
-	properties, err := rawParseConfigFile(config.GetCdpConfigFile())
+	configFile, err := config.GetCdpConfigFile()
+	if err != nil {
+		return nil, err
+	}
+	properties, err := rawParseConfigFile(configFile)
 	if err != nil {
 		return nil, err
 	}
@@ -357,7 +437,11 @@ func (config *Config) getVal(val string, meta propertySchema) (string, error) {
 	}
 
 	if meta.configKey != "" {
-		scopedConfig := config.properties[config.GetCdpProfile()]
+		profile, err := config.GetCdpProfile()
+		if err != nil {
+			return "", err
+		}
+		scopedConfig := config.properties[profile]
 		val, ok := scopedConfig[meta.configKey]
 		if ok && strings.TrimSpace(val) != "" {
 			return strings.TrimSpace(val), nil
