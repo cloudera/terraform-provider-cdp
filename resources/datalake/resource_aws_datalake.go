@@ -43,11 +43,11 @@ func NewAwsDatalakeResource() resource.Resource {
 	return &awsDatalakeResource{}
 }
 
-func (r *awsDatalakeResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *awsDatalakeResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_datalake_aws_datalake"
 }
 
-func (r *awsDatalakeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *awsDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = awsDatalakeResourceSchema
 }
 
