@@ -16,11 +16,8 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	environmentOperations "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
-
-const Descr_log_prefix = "Result of describe environment: "
 
 func LogEnvironmentSilently(ctx context.Context, content *environmentsmodels.Environment, messagePrefix string) *environmentsmodels.Environment {
 	encoded, err := json.Marshal(content)
@@ -30,14 +27,4 @@ func LogEnvironmentSilently(ctx context.Context, content *environmentsmodels.Env
 	}
 	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
 	return content
-}
-
-func LogEnvironmentResponseSilently(ctx context.Context, envResponse *environmentOperations.DescribeEnvironmentOK, msgPrefix string) *environmentOperations.DescribeEnvironmentOK {
-	encoded, err := json.Marshal(&envResponse)
-	if err != nil {
-		tflog.Info(ctx, "Logging content as JSON failed due to: "+err.Error())
-		return envResponse
-	}
-	tflog.Debug(ctx, fmt.Sprintf("%s%s", msgPrefix, string(encoded)))
-	return envResponse
 }
