@@ -140,7 +140,7 @@ func (p *ChainCredentialsProvider) GetCredentials() (*Credentials, error) {
 // maps to a set of key value pairs.
 func rawParseConfigFile(path string) (map[string]map[string]string, error) {
 	properties := make(map[string]map[string]string)
-	cfg, err := ini.InsensitiveLoad(path)
+	cfg, err := ini.Load(path)
 	if err != nil {
 		return nil, err
 	}
