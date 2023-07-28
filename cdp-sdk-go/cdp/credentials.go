@@ -12,9 +12,10 @@ package cdp
 
 import (
 	"fmt"
-	"gopkg.in/ini.v1"
 	"os"
 	"strings"
+
+	"gopkg.in/ini.v1"
 )
 
 const (
@@ -141,9 +142,9 @@ func (p *ChainCredentialsProvider) GetCredentials() (*Credentials, error) {
 func rawParseConfigFile(path string) (map[string]map[string]string, error) {
 	properties := make(map[string]map[string]string)
 	cfg, err := ini.LoadSources(
-			ini.LoadOptions{
-				InsensitiveKeys: true,
-			},
+		ini.LoadOptions{
+			InsensitiveKeys: true,
+		},
 		path)
 	if err != nil {
 		return nil, err

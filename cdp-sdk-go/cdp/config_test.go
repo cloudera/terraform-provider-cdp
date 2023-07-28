@@ -204,6 +204,24 @@ func TestLoadConfigFileFromEnv(t *testing.T) {
 	common.AssertEquals(t, "value1", endpoint)
 }
 
+func TestGetCdpProfileCaseSensitivity(t *testing.T) {
+	// We support case sensitive section names, but case insensitive option names
+	config := Config{
+		ConfigFile: "testdata/test-config",
+		Profile:    "UPPER_CASE_PROFILE",
+	}
+	err := config.loadConfig()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	endpoint, err := config.GetCdpApiEndpoint()
+	if err != nil {
+		t.Fatalf("Error getting the config value: %v", err)
+	}
+	common.AssertEquals(t, "value6", endpoint)
+}
+
 func TestGetCdpRegionFromConfig(t *testing.T) {
 	config := Config{
 		CdpRegion: "foo",

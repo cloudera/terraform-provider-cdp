@@ -10,3 +10,5 @@ cdp_region=value5
 [profile bar]
 cdp_region=value6
 
+[profile UPPER_CASE_PROFILE]
+CDP_ENDPOINT_URL=value6
