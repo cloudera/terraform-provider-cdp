@@ -6,3 +6,5 @@ endpoint_url=value2
 cdp_endpoint_url=value3
 endpoint_url=value4
 
+[profile UPPER_CASE_PROFILE]
+CDP_ENDPOINT_URL=value6
