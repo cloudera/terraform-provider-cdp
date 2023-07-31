@@ -9,7 +9,7 @@ Using the CDP terraform provider, one can create an environment with simple terr
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
@@ -44,7 +44,7 @@ resource "cdp_environments_aws_environment" "example" {
 
 ## Provider Documentation
 
-Find detailed documentation for the provider in the [docs](./docs) folder.
+Documentation for the latest release can be found at [CDP docs at the Terraform Registry](https://registry.terraform.io/providers/cloudera/cdp/latest/docs)
 
 Provider documentation is maintained according to [terraform guidance](https://www.terraform.io/docs/registry/providers/docs.html).
 
@@ -54,18 +54,18 @@ Target terraform version is 1.1+.
 
 ## Installation
 
-CDP Terraform provider is uploaded to the [Terraform Registry](https://registry.terraform.io/). To use the latest
+CDP Terraform provider is uploaded to the [Terraform Registry](https://registry.terraform.io/providers/cloudera/cdp/latest). To use the latest
 version, simply add a required provider to your terraform configuration:
 ```terraform
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
 ```
-and Terraform will download the cdp provider binary for you.
+and running `terraform init` will in your module download the cdp provider binary for you.
 
 ### Install a release manually
 If you have downloaded a [binary release](https://github.com/cloudera/terraform-provider-cdp/releases), you can execute these steps to install:

@@ -34,7 +34,6 @@ A Data Lake is a service which provides a protective ring around the data stored
 ### Read-Only
 
 - `certificate_expiration_state` (String)
-- `cloud_storage_base_location` (String)
 - `cloudera_manager` (Attributes) (see [below for nested schema](#nestedatt--cloudera_manager))
 - `creation_date` (String)
 - `crn` (String)
