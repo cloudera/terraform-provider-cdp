@@ -249,7 +249,7 @@ provider configuration by providing the `cdp_region` attribute:
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
