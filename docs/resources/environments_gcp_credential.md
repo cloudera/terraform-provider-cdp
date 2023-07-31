@@ -32,9 +32,9 @@ terraform {
 }
 
 resource "cdp_environments_gcp_credential" "example" {
-  credential_name     = "cdp-gcp-credential"
-  credential_key      = "<BASE64 content>"
-  description         = "Example GCP Credentials"
+  credential_name = "cdp-gcp-credential"
+  credential_key  = "<BASE64 content>"
+  description     = "Example GCP Credentials"
 }
 
 output "credential_name" {
@@ -42,7 +42,7 @@ output "credential_name" {
 }
 
 output "credential_key" {
-  value = cdp_environments_gcp_credential.example.credential_key
+  value     = cdp_environments_gcp_credential.example.credential_key
   sensitive = true
 }
 ```

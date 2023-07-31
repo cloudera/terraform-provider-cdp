@@ -9,9 +9,9 @@
 # permissions and limitations governing your use of the file.
 
 resource "cdp_environments_aws_credential" "example" {
-  credential_name        = "example-cdp-aws-credential"
-  role_arn    = "arn:aws:iam::11111111111:role/example-cross-account-role"
-  description = "Example AWS Credentials"
+  credential_name = "example-cdp-aws-credential"
+  role_arn        = "arn:aws:iam::11111111111:role/example-cross-account-role"
+  description     = "Example AWS Credentials"
 }
 
 resource "cdp_environments_aws_environment" "example" {
