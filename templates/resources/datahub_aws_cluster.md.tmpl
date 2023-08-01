@@ -9,11 +9,16 @@ description: |-
 
 {{ .Description | trimspace }}
 
-{{ if .HasExample -}}
 ## Example Usage
+### Datahub with existing Templates and cluster definitions
+DataHub's can be created with existing [Cluster Templates](https://docs.cloudera.com/data-hub/cloud/cluster-templates/topics/mc-templates.html) and [Cluster Definitions](https://docs.cloudera.com/data-hub/cloud/cluster-definitions/topics/dh-cluster-definitions.html) by providing the name of the template and the name of the Cluster Definition in the resource configuration.
+Below example uses the template named `7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie` and Cluster definition called `7.2.15 - Data Engineering for AWS`. More information about templates and cluster definitions can be found in [CDP Datahub documentation](https://docs.cloudera.com/data-hub/cloud/cluster-templates/topics/dh-default-cluster-definitions.html).
+{{ tffile "examples/resources/cdp_datahub_aws_cluster/with_templates/resource.tf" }}
 
-{{ tffile .ExampleFile }}
-{{- end }}
+### Datahub from custom cluster definition and InstanceGroup configuration
+DataHub's can be created with a custom cluster definition and InstanceGroup configuration by providing `instance_group` configuration in the resource configuration.
+
+{{ tffile "examples/resources/cdp_datahub_aws_cluster/with_instance_groups/resource.tf" }}
 
 {{ .SchemaMarkdown | trimspace }}
 

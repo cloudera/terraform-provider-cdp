@@ -74,6 +74,7 @@ var AzureEnvironmentSchema = schema.Schema{
 		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
 			Optional:    true,
 			ElementType: types.StringType,
+			Description: "The subnets to use for endpoint access gateway.",
 		},
 		"encryption_key_resource_group_name": schema.StringAttribute{
 			Optional: true,
