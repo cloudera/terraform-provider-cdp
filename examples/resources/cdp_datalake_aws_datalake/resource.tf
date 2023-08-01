@@ -11,7 +11,7 @@
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
