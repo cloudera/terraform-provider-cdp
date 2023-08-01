@@ -25,7 +25,7 @@ A Data Lake is a service which provides a protective ring around the data stored
 terraform {
   required_providers {
     cdp = {
-      source = "registry.terraform.io/cloudera/cdp"
+      source = "cloudera/cdp"
     }
   }
 }
