@@ -345,20 +345,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 		SecurityGroupIDsForKnox: utils.FromSetValueToStringList(model.SecurityAccess.SecurityGroupIDsForKnox),
 		SecurityGroupIDForKnox:  model.SecurityAccess.SecurityGroupIDForKnox.ValueString(),
 	}
-	if !model.Tags.IsNull() {
-		req.Tags = make([]*environmentsmodels.TagRequest, len(model.Tags.Elements()))
-		i := 0
-		for k, v := range model.Tags.Elements() {
-			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
-			if !diag.HasError() {
-				req.Tags[i] = &environmentsmodels.TagRequest{
-					Key:   &k,
-					Value: val.ValueStringPointer(),
-				}
-			}
-			i++
-		}
-	}
+	req.Tags = ConvertTags(ctx, model.Tags)
 	req.UsePublicIP = model.UsePublicIP.ValueBoolPointer()
 	req.WorkloadAnalytics = model.WorkloadAnalytics.ValueBool()
 	return req
