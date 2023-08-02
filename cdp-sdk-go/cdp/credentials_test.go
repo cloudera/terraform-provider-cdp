@@ -11,9 +11,10 @@
 package cdp
 
 import (
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/common"
 	"os"
 	"testing"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/common"
 )
 
 func TestEnvCdpCredentialsProviderWithUnsetEnv(t *testing.T) {
@@ -73,8 +74,9 @@ func TestEnvCdpCredentialsProviderWithAccessKeyAndPrivateKey(t *testing.T) {
 	}
 }
 
-func TestLoadCdpCredentialsFile(t *testing.T) {
+func TestRawParseConfigFile(t *testing.T) {
 	expected := map[string]map[string]string{
+		"DEFAULT": {},
 		"default": {
 			"cdp_access_key_id": "value1",
 			"cdp_private_key":   "value2",
@@ -91,6 +93,10 @@ func TestLoadCdpCredentialsFile(t *testing.T) {
 		"file_cdp_credentials_provider_profile": {
 			"cdp_access_key_id": "value-from-file",
 			"cdp_private_key":   "value-from-file",
+		},
+		"UPPER_CASE_PROFILE": {
+			"cdp_access_key_id": "value8",
+			"cdp_private_key":   "value9",
 		},
 	}
 
@@ -175,5 +181,20 @@ func TestConfigCdpCredentialsProviderNonEmptyConfig(t *testing.T) {
 	}
 	if res.AccessKeyId != "foo" && res.PrivateKey != "bar" {
 		t.Errorf("Wrong values returned as CDP credentials: accesKey: %s privateKey:%s", res.AccessKeyId, res.PrivateKey)
+	}
+}
+
+func TestFileCdpCredentialsProviderCaseSensitivity(t *testing.T) {
+	path := "testdata/test-credentials"
+	profile := "UPPER_CASE_PROFILE"
+	cdpCredentials, err := GetCredentialsFromFileProvider(t, path, profile)
+	if err != nil || cdpCredentials == nil {
+		t.Fatal(err)
+	}
+	if cdpCredentials.AccessKeyId != "value8" {
+		t.Errorf("%s should have been %s for the profile: %s", cdpAccessKeyIdPropertyKey, "value6", profile)
+	}
+	if cdpCredentials.PrivateKey != "value9" {
+		t.Errorf("%s should have been %s for the profile: %s", cdpPrivateKeyPropertyKey, "value7", profile)
 	}
 }
