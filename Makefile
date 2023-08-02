@@ -60,9 +60,11 @@ clean:
 	rm -rf dist
 
 # Run go fmt against code
-fmt:
+fmt: terraform-fmt
 	go fmt ./...
-	# terraform fmt -recursive ./examples/  TODO: Re-enable this in CDPCP-9174
+
+terraform-fmt:
+	terraform fmt -recursive ./examples/
 
 # Run go vet against code
 vet:
