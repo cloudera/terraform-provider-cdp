@@ -267,7 +267,7 @@ var AwsEnvironmentSchema = schema.Schema{
 	},
 }
 
-func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceModel) *environmentsmodels.CreateAWSEnvironmentRequest {
+func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceModel) *environmentsmodels.CreateAWSEnvironmentRequest {
 	res := &environmentsmodels.CreateAWSEnvironmentRequest{}
 	res.Authentication = &environmentsmodels.AuthenticationRequest{
 		PublicKey:   model.Authentication.PublicKey.ValueString(),
@@ -322,21 +322,9 @@ func ToAwsEnvrionmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	if !model.SubnetIds.IsNull() && !model.SubnetIds.IsUnknown() {
 		res.SubnetIds = utils.FromSetValueToStringList(model.SubnetIds)
 	}
-	if !model.Tags.IsNull() {
-		res.Tags = make([]*environmentsmodels.TagRequest, len(model.Tags.Elements()))
-		i := 0
-		for k, v := range model.Tags.Elements() {
-			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
-			if !diag.HasError() {
-				res.Tags[i] = &environmentsmodels.TagRequest{
-					Key:   &k,
-					Value: val.ValueStringPointer(),
-				}
-			}
-			i++
-		}
-	}
+	res.Tags = ConvertTags(ctx, model.Tags)
 	res.VpcID = model.VpcID.ValueString()
 	res.WorkloadAnalytics = model.WorkloadAnalytics.ValueBool()
+	utils.LogSilently(ctx, "CreateAWSEnvironmentRequest has been created: ", res)
 	return res
 }

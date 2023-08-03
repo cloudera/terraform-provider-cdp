@@ -59,7 +59,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	client := r.client.Environments
 
 	params := operations.NewCreateAWSEnvironmentParamsWithContext(ctx)
-	params.WithInput(ToAwsEnvrionmentRequest(ctx, &data))
+	params.WithInput(ToAwsEnvironmentRequest(ctx, &data))
 
 	responseOk, err := client.Operations.CreateAWSEnvironment(params)
 	if err != nil {

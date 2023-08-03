@@ -28,3 +28,11 @@ func LogEnvironmentSilently(ctx context.Context, content *environmentsmodels.Env
 	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
 	return content
 }
+
+func LogSilently(ctx context.Context, messagePrefix string, in any) {
+	encoded, err := json.Marshal(in)
+	if err != nil {
+		tflog.Info(ctx, "Logging content as JSON failed due to: "+err.Error())
+	}
+	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
+}

@@ -14,7 +14,6 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
@@ -61,20 +60,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 			SecurityGroupIDForKnox: model.SecurityAccess.SecurityGroupIdForKnox.String(),
 		}
 	}
-	if !model.Tags.IsNull() {
-		res.Tags = make([]*environmentsmodels.GcpTagRequest, len(model.Tags.Elements()))
-		i := 0
-		for k, v := range model.Tags.Elements() {
-			val, diagnostic := v.(basetypes.StringValuable).ToStringValue(ctx)
-			if !diagnostic.HasError() {
-				res.Tags[i] = &environmentsmodels.GcpTagRequest{
-					Key:   &k,
-					Value: val.ValueStringPointer(),
-				}
-			}
-			i++
-		}
-	}
+	res.Tags = ConvertGcpTags(ctx, model.Tags)
 	return res
 }
 
