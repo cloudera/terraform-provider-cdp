@@ -1,3 +1,5 @@
+[![Test](https://github.com/cloudera/terraform-provider-cdp/actions/workflows/test.yml/badge.svg)](https://github.com/cloudera/terraform-provider-cdp/actions/workflows/test.yml)
+
 # Terraform-provider-cdp
 
 `Terraform-provider-cdp` repository implements a terraform provider for Cloudera Data Platform(CDP) resources. Core CDP
