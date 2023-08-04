@@ -12,21 +12,29 @@ package environments
 
 import (
 	"context"
+	"time"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ resource.Resource = &awsCredentialResource{}
+	_ resource.ResourceWithConfigure   = &awsCredentialResource{}
+	_ resource.ResourceWithImportState = &awsCredentialResource{}
+)
+
+var (
+	credentialCreateRetryDuration = time.Duration(30) * time.Second
 )
 
 type awsCredentialResource struct {
@@ -55,6 +63,9 @@ func (r *awsCredentialResource) Schema(_ context.Context, _ resource.SchemaReque
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"credential_name": schema.StringAttribute{
 				Required: true,
@@ -71,11 +82,14 @@ func (r *awsCredentialResource) Schema(_ context.Context, _ resource.SchemaReque
 			"description": schema.StringAttribute{
 				Optional: true,
 				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.RequiresReplaceIfConfigured(),
 				},
 			},
 			"crn": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 		},
 	}
@@ -86,9 +100,9 @@ func (r *awsCredentialResource) Configure(_ context.Context, req resource.Config
 }
 
 func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	// Retrieve values from data
-	var data awsCredentialResourceModel
-	diags := req.Plan.Get(ctx, &data)
+	// Retrieve values from plan
+	var plan awsCredentialResourceModel
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -98,24 +112,32 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 
 	params := operations.NewCreateAWSCredentialParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.CreateAWSCredentialRequest{
-		CredentialName: data.CredentialName.ValueStringPointer(),
-		Description:    data.Description.ValueString(),
-		RoleArn:        data.RoleArn.ValueStringPointer(),
+		CredentialName: plan.CredentialName.ValueStringPointer(),
+		Description:    plan.Description.ValueString(),
+		RoleArn:        plan.RoleArn.ValueStringPointer(),
 	})
 
-	// TODO: find out how to do retries. There is an eventual consistency issue when the AWS cross account credential
-	// is just created but is not "synced up" in AWS. We should retry for a short time if it is the case.
-	responseOk, err := client.Operations.CreateAWSCredential(params)
+	err := retry.RetryContext(ctx, credentialCreateRetryDuration, func() *retry.RetryError {
+		responseOk, err := client.Operations.CreateAWSCredential(params)
+		if err != nil {
+			if envErr, ok := err.(*operations.CreateAWSCredentialDefault); ok {
+				if envErr.Code() == 403 {
+					return retry.RetryableError(err)
+				}
+			}
+			return retry.NonRetryableError(err)
+		}
+		plan.Crn = types.StringPointerValue(responseOk.Payload.Credential.Crn)
+		plan.ID = types.StringPointerValue(params.Input.CredentialName)
+		return nil
+	})
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Credential")
 		return
 	}
 
-	data.Crn = types.StringPointerValue(responseOk.Payload.Credential.Crn)
-	data.ID = data.Crn
-
-	// Save data into Terraform state
-	diags = resp.State.Set(ctx, data)
+	// Save plan into Terraform state
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -132,27 +154,24 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	// Get refreshed value from CDP
-	credentialName := state.CredentialName.ValueString()
-	params := operations.NewListCredentialsParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
-	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
+	credentialName := state.ID.ValueString()
+	c, err := FindCredentialByName(ctx, r.client, credentialName)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read AWS Credential")
-		return
+	}
+	if c == nil {
+		resp.State.RemoveResource(ctx) // deleted
 	}
 
 	// Overwrite items with refreshed state
-	credentials := listCredentialsResp.GetPayload().Credentials
-	if len(credentials) == 0 || *credentials[0].CredentialName != credentialName {
-		resp.State.RemoveResource(ctx) // deleted
-		return
-	}
-	c := credentials[0]
-
-	state.ID = types.StringPointerValue(c.Crn)
+	state.ID = types.StringPointerValue(c.CredentialName)
 	state.CredentialName = types.StringPointerValue(c.CredentialName)
 	state.Crn = types.StringPointerValue(c.Crn)
-	state.Description = types.StringValue(c.Description)
+	if c.Description != "" {
+		state.Description = types.StringValue(c.Description)
+	} else {
+		state.Description = types.StringNull()
+	}
 	state.RoleArn = types.StringValue(c.AwsCredentialProperties.RoleArn)
 
 	// Set refreshed state
@@ -163,7 +182,23 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	}
 }
 
+// FindCredentialByName reads and returns the credential from CDP if any.
+func FindCredentialByName(ctx context.Context, cdpClient *cdp.Client, credentialName string) (*environmentsmodels.Credential, error) {
+	params := operations.NewListCredentialsParamsWithContext(ctx)
+	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
+	listCredentialsResp, err := cdpClient.Environments.Operations.ListCredentials(params)
+	if err != nil {
+		return nil, err
+	}
+	credentials := listCredentialsResp.GetPayload().Credentials
+	if len(credentials) == 0 || *credentials[0].CredentialName != credentialName {
+		return nil, nil
+	}
+	return credentials[0], nil
+}
+
 func (r *awsCredentialResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// There is no UpdateAWSCredential API in CDP.
 }
 
 func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -175,7 +210,7 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	credentialName := state.CredentialName.ValueString()
+	credentialName := state.ID.ValueString()
 	params := operations.NewDeleteCredentialParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
@@ -183,4 +218,8 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Credential")
 		return
 	}
+}
+
+func (r *awsCredentialResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

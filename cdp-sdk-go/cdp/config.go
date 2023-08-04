@@ -39,9 +39,10 @@ const (
 	// when reading the credentials file. Overrides cdpDefaultProfile.
 	cdpDefaultProfileEnvVar = "CDP_DEFAULT_PROFILE"
 
+	// CdpProfileEnvVar is the environment variable to configure the CDP profile
 	// Python client uses both CDP_PROFILE and CDP_DEFAULT_PROFILE
 	// versus Java SDK uses CDP_DEFAULT_PROFILE
-	cdpProfileEnvVar = "CDP_PROFILE"
+	CdpProfileEnvVar = "CDP_PROFILE"
 
 	// Name of the profile in the users credentials file to read.
 	cdpDefaultProfile = "default"
@@ -223,7 +224,7 @@ var propertySchemas = map[string]propertySchema{
 		defaultFunc: defaultCdpCredentialsFile,
 	},
 	"cdp_profile": {
-		envVars:     []string{cdpDefaultProfileEnvVar, cdpProfileEnvVar},
+		envVars:     []string{cdpDefaultProfileEnvVar, CdpProfileEnvVar},
 		configKey:   "",
 		defaultFunc: stringSupplier(cdpDefaultProfile),
 	},

@@ -39,6 +39,7 @@ type awsCredentialPrerequisitesDataSource struct {
 
 // awsCredentialPrerequisitesDataSourceModel maps the data source schema data.
 type awsCredentialPrerequisitesDataSourceModel struct {
+	ID         types.String `tfsdk:"id"`
 	AccountID  types.String `tfsdk:"account_id"`
 	ExternalID types.String `tfsdk:"external_id"`
 }
@@ -56,6 +57,9 @@ func (d *awsCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datas
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "This data source is used to get information required to set up a delegated access role in AWS that can be used to create a CDP credential.",
 		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Computed: true,
+			},
 			"account_id": schema.StringAttribute{
 				MarkdownDescription: "The AWS account ID of the identity used by CDP when assuming a delegated access role associated with a CDP credential.",
 				Computed:            true,
@@ -106,6 +110,7 @@ func (d *awsCredentialPrerequisitesDataSource) Read(ctx context.Context, req dat
 
 	data.AccountID = types.StringValue(prerequisites.AccountID)
 	data.ExternalID = types.StringValue(*prerequisites.Aws.ExternalID)
+	data.ID = types.StringValue(prerequisites.AccountID + ":" + *prerequisites.Aws.ExternalID)
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
