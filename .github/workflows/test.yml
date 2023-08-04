@@ -17,36 +17,50 @@ jobs:
         go-version: [ '1.20', '1.19', '1.18' ]
 
     steps:
-    - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
-    - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
-      with:
-        go-version: ${{ matrix.go-version }}
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
-      with:
-        terraform_version: '1.4.*'
-        terraform_wrapper: false
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
+        with:
+          terraform_version: '1.4.*'
+          terraform_wrapper: false
 
-    - name: Run linters
-      uses: golangci/golangci-lint-action@639cd343e1d3b897ff35927a75193d57cfcba299 # v3.6.0
-      with:
-        version: latest
-        args: --timeout 3m
+      - name: Run linters
+        uses: golangci/golangci-lint-action@639cd343e1d3b897ff35927a75193d57cfcba299 # v3.6.0
+        with:
+          version: latest
+          args: --timeout 3m
 
-    - name: Generate
-      run: make generate
+      - name: Generate
+        run: make generate
 
-    - name: Confirm no diff
-      run: |
-        git diff --compact-summary --exit-code || \
-          (echo "*** Unexpected differences after code generation. Run 'make generate' and commit."; exit 1)
+      - name: Confirm no diff
+        run: |
+          git diff --compact-summary --exit-code || \
+            (echo "*** Unexpected differences after code generation. Run 'make generate' and commit."; exit 1)
 
-    - name: Build
-      run: make build
+      - name: Build
+        run: make build
+  lint:
+    name: 'Terraform Provider Quality Gate :: Code analysis.'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
+        with:
+          go-version-file: 'go.mod'
+      - name: Run linters
+        uses: golangci/golangci-lint-action@639cd343e1d3b897ff35927a75193d57cfcba299 # v3.6.0
+        with:
+          version: latest
+          args: --timeout 3m
 
   test:
-    name: 'Terraform Provider Acceptance Tests (OS: ${{ matrix.os }} / TF: ${{ matrix.terraform }})'
-    needs: build
+    name: 'Terraform Provider Quality Gate :: Unit test on: OS: ${{ matrix.os }} / TF: ${{ matrix.terraform }}'
+    needs: lint
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
 
@@ -65,24 +79,33 @@ jobs:
           - '1.4.*'
 
     steps:
-    - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
-    - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
-      with:
-        go-version-file: 'go.mod'
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
+        with:
+          go-version-file: 'go.mod'
 
-    - name: Setup Terraform ${{ matrix.terraform }}
-      uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
-      with:
-        terraform_version: ${{ matrix.terraform }}
-        terraform_wrapper: false
+      - name: Setup Terraform ${{ matrix.terraform }}
+        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
+        with:
+          terraform_version: ${{ matrix.terraform }}
+          terraform_wrapper: false
 
-    - name: Run acceptance test
-      run: make testacc
-    - name: Go Coverage
-      uses: gwatts/go-coverage-action@v1.3.0
-      with:
-        coverage-threshold: 5.7 # current (2023.08.03) state, should be increased - ideally up to at least 50% - as soon as possible
-        cover-pkg: ./...
-        ignore-pattern: |
-          /cdp-sdk-go/ 
-          /main.go$
+      - name: Run acceptance test
+        run: make testacc
+  coverage:
+    name: 'Terraform Provider Quality Gate :: Unit test coverage.'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
+        with:
+          go-version-file: 'go.mod'
+      - name: Go Coverage
+        uses: gwatts/go-coverage-action@v1.3.0
+        with:
+          coverage-threshold: 6.7 # current (2023.08.07) state, should be increased - ideally up to at least 50% - as soon as possible
+          cover-pkg: ./...
+          ignore-pattern: |
+            /cdp-sdk-go/ 
+            /main.go$
