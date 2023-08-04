@@ -9,6 +9,7 @@
 # permissions and limitations governing your use of the file.
 
 GO_FLAGS:=""
+TESTARGS:=""
 
 all: check-go test main
 
@@ -19,7 +20,7 @@ endif
 
 # Run tests
 test: generate fmt vet
-	go test $(GO_FLAGS) ./...
+	go test $(GO_FLAGS) ./... $(TESTARGS)
 
 # Run tests with coverage
 test-with-coverage: generate fmt vet
@@ -28,7 +29,7 @@ test-with-coverage: generate fmt vet
 
 # Run terraform provider acceptance tests
 testacc:
-	TF_ACC=1 go test -count=1 -parallel=4 -timeout 10m -v ./...
+	TF_ACC=1 TF_LOG=DEBUG go test ./... $(GO_FLAGS) $(TESTARGS) -count=1 -parallel=4 -timeout 10m -v
 
 # Build main binary
 main: build

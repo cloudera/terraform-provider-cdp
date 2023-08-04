@@ -24,9 +24,9 @@ func unsetEnvs(keys ...string) {
 }
 
 func TestGetCdpProfileFromConfig(t *testing.T) {
-	os.Setenv(cdpProfileEnvVar, "foo")
+	os.Setenv(CdpProfileEnvVar, "foo")
 	os.Setenv(cdpDefaultProfileEnvVar, "bar")
-	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
+	defer unsetEnvs(CdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{
 		Profile: "baz",
 	}
@@ -38,9 +38,9 @@ func TestGetCdpProfileFromConfig(t *testing.T) {
 }
 
 func TestGetCdpProfileFromEnv(t *testing.T) {
-	os.Setenv(cdpProfileEnvVar, "foo")
+	os.Setenv(CdpProfileEnvVar, "foo")
 	os.Setenv(cdpDefaultProfileEnvVar, "bar")
-	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
+	defer unsetEnvs(CdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{
 		Profile: "",
 	}
@@ -52,9 +52,9 @@ func TestGetCdpProfileFromEnv(t *testing.T) {
 }
 
 func TestGetCdpProfileFromEnv2(t *testing.T) {
-	os.Setenv(cdpProfileEnvVar, "")
+	os.Setenv(CdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "bar")
-	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
+	defer unsetEnvs(CdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{}
 	profile, err := config.GetCdpProfile()
 	if err != nil {
@@ -64,9 +64,9 @@ func TestGetCdpProfileFromEnv2(t *testing.T) {
 }
 
 func TestGetCdpProfileFromDefault(t *testing.T) {
-	os.Setenv(cdpProfileEnvVar, "")
+	os.Setenv(CdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
-	defer unsetEnvs(cdpProfileEnvVar, cdpDefaultProfileEnvVar)
+	defer unsetEnvs(CdpProfileEnvVar, cdpDefaultProfileEnvVar)
 	config := Config{}
 	profile, err := config.GetCdpProfile()
 	if err != nil {
@@ -79,9 +79,9 @@ func TestGetCredentialsNotFound(t *testing.T) {
 	// empty env vars.
 	os.Setenv(CdpAccessKeyIdEnvVar, "")
 	os.Setenv(CdpPrivateKeyEnvVar, "")
-	os.Setenv(cdpProfileEnvVar, "")
+	os.Setenv(CdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
-	defer unsetEnvs(CdpAccessKeyIdEnvVar, CdpPrivateKeyEnvVar, cdpProfileEnvVar, cdpDefaultProfileEnvVar)
+	defer unsetEnvs(CdpAccessKeyIdEnvVar, CdpPrivateKeyEnvVar, CdpProfileEnvVar, cdpDefaultProfileEnvVar)
 
 	path := "testdata/test-credentials"
 	profile := "profile_non_existing"
@@ -104,9 +104,9 @@ func TestGetCdpCredentials(t *testing.T) {
 	// empty env vars.
 	os.Setenv(CdpAccessKeyIdEnvVar, "value-from-env")
 	os.Setenv(CdpPrivateKeyEnvVar, "value-from-env")
-	os.Setenv(cdpProfileEnvVar, "")
+	os.Setenv(CdpProfileEnvVar, "")
 	os.Setenv(cdpDefaultProfileEnvVar, "")
-	defer unsetEnvs(CdpAccessKeyIdEnvVar, CdpPrivateKeyEnvVar, cdpProfileEnvVar, cdpDefaultProfileEnvVar)
+	defer unsetEnvs(CdpAccessKeyIdEnvVar, CdpPrivateKeyEnvVar, CdpProfileEnvVar, cdpDefaultProfileEnvVar)
 
 	path := "testdata/test-credentials"
 	profile := "file_cdp_credentials_provider_profile"
