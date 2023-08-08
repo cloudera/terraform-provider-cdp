@@ -158,9 +158,11 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	c, err := FindCredentialByName(ctx, r.client, credentialName)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read AWS Credential")
+		return
 	}
 	if c == nil {
 		resp.State.RemoveResource(ctx) // deleted
+		return
 	}
 
 	// Overwrite items with refreshed state

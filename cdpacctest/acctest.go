@@ -35,7 +35,7 @@ var TestAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServe
 
 var (
 	preCheckOnce sync.Once
-	crnPattern   = regexp.MustCompile("^crn:([\\w\\-]+):(\\w+):([\\w\\-]+):([\\w\\-]+):(\\w+):(\\S+)$")
+	crnPattern   = regexp.MustCompile(`^crn:([\w\-]+):(\w+):([\w\-]+):([\w\-]+):(\w+):(\S+)$`)
 
 	AwsExternalProvider = map[string]resource.ExternalProvider{
 		"aws": {
