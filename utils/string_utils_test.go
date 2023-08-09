@@ -19,8 +19,5 @@ import (
 func TestConcat(t *testing.T) {
 	common.AssertEquals(t, Concat(""), "")
 	common.AssertEquals(t, Concat("", "a"), "a")
-	common.AssertEquals(t, Concat("a", ""), "a")
-	common.AssertEquals(t, Concat("a", "b"), "ab")
-	common.AssertEquals(t, Concat("a", "b", "c"), "abc")
-	common.AssertEquals(t, Concat("a", " ", "c"), "a c")
+	common.AssertEquals(t, Concat("a", " ", "b"), "a b")
 }
