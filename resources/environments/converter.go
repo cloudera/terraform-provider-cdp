@@ -64,7 +64,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 	return res
 }
 
-func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *gcpEnvironmentResourceModel, diags *diag.Diagnostics) {
+func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *gcpEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(env.Crn)
 	model.CredentialName = types.StringPointerValue(env.CredentialName)
 	model.Crn = types.StringPointerValue(env.Crn)
@@ -72,6 +72,7 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
 	model.Status = types.StringValue(*env.Status)
 	model.StatusReason = types.StringValue(env.StatusReason)
+	model.PollingOptions = pollingOptions
 	tflog.Info(ctx, "about to convert log storage.")
 	if env.LogStorage != nil {
 		if env.LogStorage.GcpDetails != nil {

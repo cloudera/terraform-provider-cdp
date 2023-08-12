@@ -69,7 +69,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	envResp := responseOk.Payload.Environment
-	toAzureEnvironmentResource(ctx, envResp, &data, &resp.Diagnostics)
+	toAzureEnvironmentResource(ctx, envResp, &data, data.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -77,12 +77,12 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp)
+	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
 	if err != nil {
 		return
 	}
 
-	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &data, &resp.Diagnostics)
+	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &data, data.PollingOptions, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -102,7 +102,7 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 	if err != nil {
 		return
 	}
-	toAzureEnvironmentResource(ctx, descEnvResp, &state, &resp.Diagnostics)
+	toAzureEnvironmentResource(ctx, descEnvResp, &state, state.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -111,13 +111,14 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 	}
 }
 
-func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *azureEnvironmentResourceModel, diags *diag.Diagnostics) {
+func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *azureEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(env.Crn)
 	model.Crn = types.StringPointerValue(env.Crn)
 	model.CredentialName = types.StringPointerValue(env.CredentialName)
 	model.Description = types.StringValue(env.Description)
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
+	model.PollingOptions = pollingOptions
 	if env.LogStorage != nil {
 		if env.LogStorage.AzureDetails != nil {
 			model.LogStorage = &azureLogStorage{
@@ -225,7 +226,7 @@ func (r *azureEnvironmentResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp); err != nil {
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp, state.PollingOptions); err != nil {
 		return
 	}
 }

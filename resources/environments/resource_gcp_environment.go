@@ -62,7 +62,7 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	toGcpEnvironmentResource(ctx,
 		utils.LogEnvironmentSilently(ctx, responseOk.Payload.Environment, describeLogPrefix),
-		&data, &resp.Diagnostics)
+		&data, data.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -70,12 +70,12 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp)
+	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
 	if err != nil {
 		return
 	}
 
-	toGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, &resp.Diagnostics)
+	toGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -95,7 +95,7 @@ func (r *gcpEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	if err != nil {
 		return
 	}
-	toGcpEnvironmentResource(ctx, descEnvResp, &state, &resp.Diagnostics)
+	toGcpEnvironmentResource(ctx, descEnvResp, &state, state.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -116,7 +116,7 @@ func (r *gcpEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 		return
 	}
 
-	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp); err != nil {
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp, state.PollingOptions); err != nil {
 		return
 	}
 }

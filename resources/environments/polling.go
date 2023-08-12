@@ -23,7 +23,11 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration, client *client.Environments, ctx context.Context) error {
+func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.Duration, client *client.Environments, ctx context.Context, options *utils.PollingOptions) error {
+	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackTimeout)
+	if err != nil {
+		return err
+	}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"STORAGE_CONSUMPTION_COLLECTION_UNSCHEDULING_IN_PROGRESS",
 			"NETWORK_DELETE_IN_PROGRESS",
@@ -44,7 +48,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 			"ENVIRONMENT_ENCRYPTION_RESOURCES_DELETED"},
 		Target:       []string{},
 		Delay:        5 * time.Second,
-		Timeout:      timeout,
+		Timeout:      *timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("About to describe environment")
@@ -68,12 +72,16 @@ func waitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration
 			return checkResponseStatusForError(resp)
 		},
 	}
-	_, err := stateConf.WaitForStateContext(ctx)
+	_, err = stateConf.WaitForStateContext(ctx)
 
 	return err
 }
 
-func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Duration, client *client.Environments, ctx context.Context) error {
+func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout time.Duration, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions) error {
+	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, fallbackTimeout)
+	if err != nil {
+		return err
+	}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"CREATION_INITIATED",
 			"NETWORK_CREATION_IN_PROGRESS",
@@ -84,7 +92,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 			"FREEIPA_CREATION_IN_PROGRESS"},
 		Target:       []string{"AVAILABLE"},
 		Delay:        5 * time.Second,
-		Timeout:      timeout,
+		Timeout:      *timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("[DEBUG] About to describe environment %s", environmentName)
@@ -106,7 +114,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, timeout time.Durati
 			return checkResponseStatusForError(resp)
 		},
 	}
-	_, err := stateConf.WaitForStateContext(ctx)
+	_, err = stateConf.WaitForStateContext(ctx)
 
 	return err
 }

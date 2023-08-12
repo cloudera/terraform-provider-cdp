@@ -20,17 +20,22 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client/operations"
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx context.Context) (string, error) {
+func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx context.Context, options *utils.PollingOptions) (string, error) {
 	tflog.Info(ctx, fmt.Sprintf("About to poll cluster (name: %s) creation (polling [delay: %s, timeout: %s, interval :%s]).",
 		datahubName, pollingDelay, pollingTimeout, pollingInterval))
 	status := ""
+	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
+	if err != nil {
+		return "", err
+	}
 	stateConf := &retry.StateChangeConf{
 		Pending:                   []string{},
 		Target:                    []string{"AVAILABLE"},
 		Delay:                     pollingDelay,
-		Timeout:                   pollingTimeout,
+		Timeout:                   *timeout,
 		PollInterval:              pollingInterval,
 		ContinuousTargetOccurence: 2,
 		Refresh: func() (interface{}, string, error) {
@@ -51,17 +56,21 @@ func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx contex
 			return intf, st, e
 		},
 	}
-	_, err := stateConf.WaitForStateContext(ctx)
+	_, err = stateConf.WaitForStateContext(ctx)
 	return status, err
 }
 
-func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.Context) error {
+func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.Context, options *utils.PollingOptions) error {
 	tflog.Info(ctx, fmt.Sprintf("About to poll cluster (name: %s) deletion (polling [delay: %s, timeout: %s, interval :%s]).",
 		datahubName, pollingDelay, pollingTimeout, pollingInterval))
+	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
+	if err != nil {
+		return err
+	}
 	stateConf := &retry.StateChangeConf{
 		Target:       []string{},
 		Delay:        pollingDelay,
-		Timeout:      pollingTimeout,
+		Timeout:      *timeout,
 		PollInterval: pollingInterval,
 		Refresh: func() (interface{}, string, error) {
 			resp, err := describeWithRecover(datahubName, client, ctx)
@@ -82,7 +91,7 @@ func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.
 			return resp, resp.GetPayload().Cluster.Status, nil
 		},
 	}
-	_, err := stateConf.WaitForStateContext(ctx)
+	_, err = stateConf.WaitForStateContext(ctx)
 	return err
 }
 

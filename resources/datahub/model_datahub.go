@@ -12,18 +12,21 @@ package datahub
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 type datahubResourceModel struct {
-	ID                types.String    `tfsdk:"id"`
-	Crn               types.String    `tfsdk:"crn"`
-	Name              types.String    `tfsdk:"name"`
-	Status            types.String    `tfsdk:"status"`
-	Environment       types.String    `tfsdk:"environment"`
-	InstanceGroup     []InstanceGroup `tfsdk:"instance_group"`
-	DestroyOptions    *DestroyOptions `tfsdk:"destroy_options"`
-	ClusterTemplate   types.String    `tfsdk:"cluster_template"`
-	ClusterDefinition types.String    `tfsdk:"cluster_definition"`
+	ID                types.String          `tfsdk:"id"`
+	Crn               types.String          `tfsdk:"crn"`
+	Name              types.String          `tfsdk:"name"`
+	Status            types.String          `tfsdk:"status"`
+	Environment       types.String          `tfsdk:"environment"`
+	InstanceGroup     []InstanceGroup       `tfsdk:"instance_group"`
+	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
+	DestroyOptions    *DestroyOptions       `tfsdk:"destroy_options"`
+	ClusterTemplate   types.String          `tfsdk:"cluster_template"`
+	ClusterDefinition types.String          `tfsdk:"cluster_definition"`
 }
 
 type InstanceGroup struct {

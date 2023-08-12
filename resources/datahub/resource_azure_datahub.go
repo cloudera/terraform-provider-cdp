@@ -73,7 +73,7 @@ func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx)
+	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, data.PollingOptions)
 	tflog.Debug(ctx, fmt.Sprintf("Cluster polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 	data.Status = types.StringValue(status)
 	diags = resp.State.Set(ctx, data)
@@ -155,7 +155,7 @@ func (r *azureDatahubResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx)
+	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, state.PollingOptions)
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datahub")
 		return

@@ -13,7 +13,6 @@ package datahub
 import (
 	"context"
 	"fmt"
-
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -73,7 +72,7 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx)
+	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, data.PollingOptions)
 	tflog.Debug(ctx, fmt.Sprintf("Cluster polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 	data.Status = types.StringValue(status)
 	diags = resp.State.Set(ctx, data)
@@ -155,7 +154,7 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx)
+	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, state.PollingOptions)
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datahub")
 		return

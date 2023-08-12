@@ -68,7 +68,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	}
 
 	envResp := responseOk.Payload.Environment
-	toAwsEnvironmentResource(ctx, envResp, &data, &resp.Diagnostics)
+	toAwsEnvironmentResource(ctx, envResp, &data, data.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -76,12 +76,12 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp)
+	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
 	if err != nil {
 		return
 	}
 
-	toAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, &resp.Diagnostics)
+	toAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -101,7 +101,7 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	if err != nil {
 		return
 	}
-	toAwsEnvironmentResource(ctx, env, &state, &resp.Diagnostics)
+	toAwsEnvironmentResource(ctx, env, &state, state.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -121,12 +121,12 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp); err != nil {
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp, state.PollingOptions); err != nil {
 		return
 	}
 }
 
-func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel, diags *diag.Diagnostics) {
+func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(env.Crn)
 	if env.AwsDetails != nil {
 		model.S3GuardTableName = types.StringValue(env.AwsDetails.S3GuardTableName)
@@ -135,6 +135,7 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.Crn = types.StringPointerValue(env.Crn)
 	model.Description = types.StringValue(env.Description)
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
+	model.PollingOptions = pollingOptions
 	if env.LogStorage != nil {
 		if env.LogStorage.AwsDetails != nil {
 			model.LogStorage = &AWSLogStorage{

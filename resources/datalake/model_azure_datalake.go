@@ -10,10 +10,16 @@
 
 package datalake
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/utils"
+)
 
 type azureDatalakeResourceModel struct {
 	ID types.String `tfsdk:"id"`
+
+	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 
 	ManagedIdentity types.String `tfsdk:"managed_identity"`
 

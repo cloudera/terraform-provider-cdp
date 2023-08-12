@@ -12,10 +12,14 @@ package environments
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 type gcpEnvironmentResourceModel struct {
 	EnvironmentName types.String `tfsdk:"environment_name"`
+
+	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 
 	CredentialName types.String `tfsdk:"credential_name"`
 
