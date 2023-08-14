@@ -12,6 +12,8 @@ package environments
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -21,7 +23,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -40,6 +41,18 @@ var AwsEnvironmentSchema = schema.Schema{
 			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
+		"polling_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"polling_timeout": schema.Int64Attribute{
+					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+					Default:             int64default.StaticInt64(60),
+					Computed:            true,
+					Optional:            true,
+				},
 			},
 		},
 		"authentication": schema.SingleNestedAttribute{

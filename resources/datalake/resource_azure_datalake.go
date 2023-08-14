@@ -121,7 +121,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
+	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 		return
 	}
@@ -135,7 +135,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	descDlResp := descResponseOk.Payload
-	datalakeDetailsToAzureDatalakeResourceModel(ctx, descDlResp.Datalake, &state, &resp.Diagnostics)
+	datalakeDetailsToAzureDatalakeResourceModel(ctx, descDlResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -185,7 +185,7 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	datalakeResp := responseOk.Payload
-	datalakeDetailsToAzureDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, &resp.Diagnostics)
+	datalakeDetailsToAzureDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -194,7 +194,7 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	}
 }
 
-func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel, diags *diag.Diagnostics) {
+func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	if resp.AzureConfiguration != nil {
 		model.ManagedIdentity = types.StringValue(resp.AzureConfiguration.ManagedIdentity)
@@ -216,6 +216,7 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
+	model.PollingOptions = pollingOptions
 	endpoints := []*endpoint{}
 	if resp.Endpoints != nil {
 		endpoints = make([]*endpoint, len(resp.Endpoints.Endpoints))
@@ -358,7 +359,7 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake); err != nil {
+	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
 		return
 	}

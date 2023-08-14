@@ -89,6 +89,7 @@ output "crn" {
 - `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--existing_network_params))
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `new_network_params` (Attributes) (see [below for nested schema](#nestedatt--new_network_params))
+- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
 - `report_deployment_logs` (Boolean)
 - `resource_group_name` (String)
@@ -160,3 +161,11 @@ Optional:
 Required:
 
 - `network_cidr` (String)
+
+
+<a id="nestedatt--polling_options"></a>
+### Nested Schema for `polling_options`
+
+Optional:
+
+- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.

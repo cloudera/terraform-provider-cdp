@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -32,6 +33,18 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 			"environment_name": schema.StringAttribute{
 				MarkdownDescription: "The name of the environment. Must contain only lowercase letters, numbers and hyphens.",
 				Required:            true,
+			},
+			"polling_options": schema.SingleNestedAttribute{
+				MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"polling_timeout": schema.Int64Attribute{
+						MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+						Default:             int64default.StaticInt64(60),
+						Computed:            true,
+						Optional:            true,
+					},
+				},
 			},
 			"credential_name": schema.StringAttribute{
 				MarkdownDescription: "Name of the credential to use for the environment.",

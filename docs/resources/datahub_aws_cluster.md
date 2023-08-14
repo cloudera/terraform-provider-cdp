@@ -75,9 +75,9 @@ DataHub's can be created with a custom cluster definition and InstanceGroup conf
 // permissions and limitations governing your use of the file.
 
 resource "cdp_datahub_aws_cluster" "aws-cluster" {
-  name               = "<value>"
-  environment        = "<value>"
-  cluster_template   = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
+  name             = "<value>"
+  environment      = "<value>"
+  cluster_template = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
 
   destroy_options = {
     force_delete_cluster = false
@@ -85,11 +85,11 @@ resource "cdp_datahub_aws_cluster" "aws-cluster" {
 
   instance_group = [
     {
-      node_count                    = 0
-      instance_group_name           = "gateway"
-      instance_group_type           = "CORE"
-      instance_type                 = "m5.2xlarge"
-      root_volume_size              = 100
+      node_count          = 0
+      instance_group_name = "gateway"
+      instance_group_type = "CORE"
+      instance_type       = "m5.2xlarge"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 100
@@ -97,18 +97,18 @@ resource "cdp_datahub_aws_cluster" "aws-cluster" {
           volume_type  = "gp3"
         }
       ]
-      recovery_mode     = "MANUAL"
+      recovery_mode = "MANUAL"
       volume_encryption = {
         encryption = false
       }
       recipes = []
     },
     {
-      node_count                    = 1
-      instance_group_name           = "master"
-      instance_group_type           = "GATEWAY"
-      instance_type                 = "m5.4xlarge"
-      root_volume_size              = 100
+      node_count          = 1
+      instance_group_name = "master"
+      instance_group_type = "GATEWAY"
+      instance_type       = "m5.4xlarge"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 100
@@ -116,18 +116,18 @@ resource "cdp_datahub_aws_cluster" "aws-cluster" {
           volume_type  = "gp3"
         }
       ]
-      recovery_mode     = "MANUAL"
+      recovery_mode = "MANUAL"
       volume_encryption = {
         encryption = false
       }
       recipes = []
     },
     {
-      node_count                    = 3
-      instance_group_name           = "worker"
-      instance_group_type           = "CORE"
-      instance_type                 = "r5d.2xlarge"
-      root_volume_size              = 100
+      node_count          = 3
+      instance_group_name = "worker"
+      instance_group_type = "CORE"
+      instance_type       = "r5d.2xlarge"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 300
@@ -135,18 +135,18 @@ resource "cdp_datahub_aws_cluster" "aws-cluster" {
           volume_type  = "gp3"
         }
       ]
-      recovery_mode     = "MANUAL"
+      recovery_mode = "MANUAL"
       volume_encryption = {
         encryption = false
       }
       recipes = []
     },
     {
-      node_count                    = 3
-      instance_group_name           = "compute"
-      instance_group_type           = "CORE"
-      instance_type                 = "r5d.2xlarge"
-      root_volume_size              = 100
+      node_count          = 3
+      instance_group_name = "compute"
+      instance_group_type = "CORE"
+      instance_type       = "r5d.2xlarge"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 300
@@ -154,7 +154,7 @@ resource "cdp_datahub_aws_cluster" "aws-cluster" {
           volume_type  = "ephemeral"
         }
       ]
-      recovery_mode     = "MANUAL"
+      recovery_mode = "MANUAL"
       volume_encryption = {
         encryption = false
       }
@@ -258,6 +258,7 @@ output "encryption" {
 
 - `destroy_options` (Attributes) Cluster deletion options. (see [below for nested schema](#nestedatt--destroy_options))
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--instance_group))
+- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 
 ### Read-Only
 
@@ -307,3 +308,12 @@ Required:
 Required:
 
 - `encryption` (Boolean)
+
+
+
+<a id="nestedatt--polling_options"></a>
+### Nested Schema for `polling_options`
+
+Optional:
+
+- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.

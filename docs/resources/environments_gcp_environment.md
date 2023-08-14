@@ -94,6 +94,7 @@ output "shared_project_id" {
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 - `freeipa` (Attributes) The FreeIPA creation request for the environment. (see [below for nested schema](#nestedatt--freeipa))
 - `log_storage` (Attributes) GCP storage configuration for cluster and audit logs. (see [below for nested schema](#nestedatt--log_storage))
+- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String) Name of the proxy config to use for the environment.
 - `report_deployment_logs` (Boolean) When true, this will report additional diagnostic information back to Cloudera.
 - `security_access` (Attributes) Firewall rules for FreeIPA, Data Lake and Data Hub deployment. (see [below for nested schema](#nestedatt--security_access))
@@ -138,6 +139,14 @@ Required:
 Optional:
 
 - `backup_storage_location_base` (String) The Google storage bucket to use. This should be a gs:// url.
+
+
+<a id="nestedatt--polling_options"></a>
+### Nested Schema for `polling_options`
+
+Optional:
+
+- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
 
 
 <a id="nestedatt--security_access"></a>

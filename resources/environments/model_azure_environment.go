@@ -12,12 +12,16 @@ package environments
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 type azureEnvironmentResourceModel struct {
 	ID types.String `tfsdk:"id"`
 
 	Crn types.String `tfsdk:"crn"`
+
+	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 
 	CreatePrivateEndpoints types.Bool `tfsdk:"create_private_endpoints"`
 

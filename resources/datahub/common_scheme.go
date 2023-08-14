@@ -13,6 +13,7 @@ package datahub
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -23,6 +24,18 @@ var generalAttributes = map[string]schema.Attribute{
 		Computed: true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"polling_options": schema.SingleNestedAttribute{
+		MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		Optional:            true,
+		Attributes: map[string]schema.Attribute{
+			"polling_timeout": schema.Int64Attribute{
+				MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+				Default:             int64default.StaticInt64(60),
+				Computed:            true,
+				Optional:            true,
+			},
 		},
 	},
 	"crn": schema.StringAttribute{

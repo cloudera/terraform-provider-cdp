@@ -11,7 +11,10 @@
 package utils
 
 import (
+	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -76,6 +79,24 @@ func ToStringList(configured []interface{}) []string {
 		}
 	}
 	return vs
+}
+
+func CalculateTimeoutOrDefault(ctx context.Context, options *PollingOptions, fallback time.Duration) (*time.Duration, error) {
+	tflog.Debug(ctx, fmt.Sprintf("About to calculate polling timeout using the desired timeout (%+v) and the given fallback timeout (%+v)", options, fallback))
+	var timeout time.Duration
+	if options != nil && !options.PollingTimeout.IsNull() {
+		timeout = time.Duration(options.PollingTimeout.ValueInt64()) * time.Minute
+	} else {
+		tflog.Info(ctx, "No desired polling timeout is given, the fallback value will be used.")
+		timeout = fallback
+	}
+	if timeout.Minutes() <= 0 {
+		msg := "no meaningful timeout value can be calculated based on the given parameters, thus operation shall fail immediately"
+		tflog.Warn(ctx, msg)
+		return nil, fmt.Errorf(msg)
+	}
+	tflog.Info(ctx, fmt.Sprintf("The following polling timeout calculated: %+v", timeout))
+	return &timeout, nil
 }
 
 func ToBaseTypesStringMap(in map[string]string) map[string]types.String {

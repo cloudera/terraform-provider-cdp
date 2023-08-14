@@ -198,6 +198,7 @@ output "encryption" {
 
 - `destroy_options` (Attributes) Cluster deletion options. (see [below for nested schema](#nestedatt--destroy_options))
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--instance_group))
+- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 
 ### Read-Only
 
@@ -247,5 +248,14 @@ Required:
 Required:
 
 - `encryption` (Boolean)
+
+
+
+<a id="nestedatt--polling_options"></a>
+### Nested Schema for `polling_options`
+
+Optional:
+
+- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
 
 

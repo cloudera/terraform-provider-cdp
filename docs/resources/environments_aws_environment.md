@@ -77,6 +77,7 @@ output "crn" {
 - `endpoint_access_gateway_subnet_ids` (Set of String)
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `network_cidr` (String)
+- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
 - `report_deployment_logs` (Boolean)
 - `s3_guard_table_name` (String)
@@ -138,3 +139,11 @@ Optional:
 - `instance_type` (String)
 - `multi_az` (Boolean)
 - `recipes` (Set of String)
+
+
+<a id="nestedatt--polling_options"></a>
+### Nested Schema for `polling_options`
+
+Optional:
+
+- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.

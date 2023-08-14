@@ -50,7 +50,7 @@ func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx cont
 	return utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), nil
 }
 
-func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse) error {
+func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingTimeout *utils.PollingOptions) error {
 	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := client.Environments.Operations.DeleteEnvironment(params)
@@ -59,7 +59,7 @@ func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.C
 		return err
 	}
 
-	err = waitForEnvironmentToBeDeleted(environmentName, timeoutOneHour, client.Environments, ctx)
+	err = waitForEnvironmentToBeDeleted(environmentName, timeoutOneHour, client.Environments, ctx, pollingTimeout)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Environment")
 		return err
@@ -76,8 +76,8 @@ func isEnvNotFoundError(err error) bool {
 	return false
 }
 
-func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse) (*operations.DescribeEnvironmentOK, error) {
-	if err := waitForEnvironmentToBeAvailable(id, timeoutOneHour, client.Environments, ctx); err != nil {
+func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse, options *utils.PollingOptions) (*operations.DescribeEnvironmentOK, error) {
+	if err := waitForEnvironmentToBeAvailable(id, timeoutOneHour, client.Environments, ctx, options); err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
 		return nil, err
 	}
