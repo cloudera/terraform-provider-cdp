@@ -12,13 +12,12 @@ package iam
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -45,117 +44,134 @@ func (r *samlProvider) Configure(_ context.Context, req resource.ConfigureReques
 }
 
 func (r *samlProvider) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	// Retrieve values from data
-	var data samlProvider
-	diags := req.Plan.Get(ctx, &data)
+	tflog.Info(ctx, "SAML provider creation requested.")
+	var plan samlProviderModel
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	client := r.client.Iam
 
 	params := operations.NewCreateSamlProviderParamsWithContext(ctx)
 	params.WithInput(&iammodels.CreateSamlProviderRequest{
-		GroupName:                 data.GroupName.ValueStringPointer(),
-		SyncMembershipOnUserLogin: data.SyncMembershipOnUserLogin.ValueBoolPointer(),
+		EnableScim:                      plan.EnableScim.ValueBool(),
+		GenerateWorkloadUsernameByEmail: plan.GenerateWorkloadUsernameByEmail.ValueBool(),
+		SamlMetadataDocument:            plan.SamlMetadataDocument.ValueString(),
+		SamlProviderName:                plan.SamlProviderName.ValueStringPointer(),
+		SyncGroupsOnLogin:               plan.SyncGroupsOnLogin.ValueBool(),
 	})
 
-	responseOk, err := client.Operations.CreateGroup(params)
+	tflog.Debug(ctx, fmt.Sprintf("About to create SAML provider using the following request: %+v", *params.Input))
+
+	response, err := r.client.Iam.Operations.CreateSamlProvider(params)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error creating Group",
-			"Got error while creating Group: "+err.Error(),
+			"Error creating SAML provider",
+			"Got error while creating SAML provider: "+err.Error(),
 		)
 		return
 	}
+	tflog.Info(ctx, "SAML provider creation finished successfully.")
 
-	data.Crn = types.StringPointerValue(responseOk.Payload.Group.Crn)
-	data.ID = data.GroupName
+	plan.GenerateWorkloadUsernameByEmail = types.BoolValue(response.Payload.SamlProvider.GenerateWorkloadUsernameByEmail)
+	plan.SamlMetadataDocument = types.StringValue(response.Payload.SamlProvider.SamlMetadataDocument)
+	plan.SyncGroupsOnLogin = types.BoolPointerValue(response.Payload.SamlProvider.SyncGroupsOnLogin)
+	plan.SamlProviderName = types.StringPointerValue(response.Payload.SamlProvider.SamlProviderName)
+	plan.SamlProviderId = types.StringPointerValue(response.Payload.SamlProvider.SamlProviderID)
+	plan.CdpSpMetadata = types.StringValue(response.Payload.SamlProvider.CdpSpMetadata) // only for create & describe
+	plan.CreationDate = types.StringValue(response.Payload.SamlProvider.CreationDate.String())
+	plan.EnableScim = types.BoolValue(response.Payload.SamlProvider.EnableScim)
+	plan.ScimURL = types.StringValue(response.Payload.SamlProvider.ScimURL)
+	plan.Crn = types.StringPointerValue(response.Payload.SamlProvider.Crn)
 
 	// Save data into Terraform state
-	diags = resp.State.Set(ctx, data)
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r *groupResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	// Get current state
-	var state groupModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-	sharedGroupRead(ctx, r.client.Iam, &state, &resp.State, &resp.Diagnostics)
-}
-
-func sharedGroupRead(ctx context.Context, client *client.Iam, state *groupModel, respState *tfsdk.State, respDiagnostics *diag.Diagnostics) {
-	if respDiagnostics.HasError() {
+func (r *samlProvider) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state samlProviderModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	groupName := state.GroupName.ValueString()
-	params := operations.NewListGroupsParamsWithContext(ctx)
-	params.WithInput(&iammodels.ListGroupsRequest{GroupNames: []string{groupName}})
-	listGroupsOk, err := client.Operations.ListGroups(params)
+	params := operations.NewDescribeSamlProviderParamsWithContext(ctx)
+	params.WithInput(&iammodels.DescribeSamlProviderRequest{SamlProviderName: state.SamlProviderName.ValueString()})
+
+	response, err := r.client.Iam.Operations.DescribeSamlProvider(params)
 	if err != nil {
-		respDiagnostics.AddError(
-			"Error Reading Group",
-			"Could not read Group: "+state.ID.ValueString()+": "+err.Error(),
+		resp.Diagnostics.AddError(
+			"Error reading SAML provider",
+			"Got error while reading SAML provider: "+err.Error(),
 		)
 		return
 	}
 
-	// Overwrite items with refreshed state
-	groups := listGroupsOk.GetPayload().Groups
-	if len(groups) == 0 || *groups[0].GroupName != groupName {
-		respState.RemoveResource(ctx) // deleted
-		return
-	}
-	g := groups[0]
+	state.GenerateWorkloadUsernameByEmail = types.BoolValue(response.Payload.SamlProvider.GenerateWorkloadUsernameByEmail)
+	state.SamlMetadataDocument = types.StringValue(response.Payload.SamlProvider.SamlMetadataDocument)
+	state.SyncGroupsOnLogin = types.BoolPointerValue(response.Payload.SamlProvider.SyncGroupsOnLogin)
+	state.SamlProviderName = types.StringPointerValue(response.Payload.SamlProvider.SamlProviderName)
+	state.SamlProviderId = types.StringPointerValue(response.Payload.SamlProvider.SamlProviderID)
+	state.CdpSpMetadata = types.StringValue(response.Payload.SamlProvider.CdpSpMetadata) // only for create & describe
+	state.CreationDate = types.StringValue(response.Payload.SamlProvider.CreationDate.String())
+	state.EnableScim = types.BoolValue(response.Payload.SamlProvider.EnableScim)
+	state.ScimURL = types.StringValue(response.Payload.SamlProvider.ScimURL)
+	state.Crn = types.StringPointerValue(response.Payload.SamlProvider.Crn)
 
-	state.ID = types.StringPointerValue(g.GroupName)
-	state.GroupName = types.StringPointerValue(g.GroupName)
-	state.Crn = types.StringPointerValue(g.Crn)
-
-	// Set refreshed state
-	respDiagnostics.Append(respState.Set(ctx, &state)...)
-	if respDiagnostics.HasError() {
+	diags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r *groupResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	// Get current state
-	var plan, state groupModel
+func (r *samlProvider) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Get current state and the actual plan
+	var plan, state samlProviderModel
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	client := r.client.Iam
+	params := operations.NewUpdateSamlProviderParamsWithContext(ctx)
+	params.WithInput(&iammodels.UpdateSamlProviderRequest{
+		EnableScim:                      plan.EnableScim.ValueBool(),
+		GenerateWorkloadUsernameByEmail: plan.GenerateWorkloadUsernameByEmail.ValueBool(),
+		SamlMetadataDocument:            plan.SamlMetadataDocument.ValueString(),
+		SamlProviderName:                plan.SamlProviderName.ValueStringPointer(),
+		SyncGroupsOnLogin:               plan.SyncGroupsOnLogin.ValueBool(),
+	})
 
-	if !plan.SyncMembershipOnUserLogin.Equal(state.SyncMembershipOnUserLogin) {
-		params := operations.NewUpdateGroupParamsWithContext(ctx)
-		// TODO: Below works for false -> true, but does not work for true -> false since swagger generates the
-		// the UpdateGroupRequest.SyncMembershipOnUserLogin with `omitempty` which then gets omitted in the request
-		// resulting in the server side not seeing the intended change to this field at all. We need to take a look
-		// at x-omitempty and maybe change the swagger generation behavior.
-		params.WithInput(&iammodels.UpdateGroupRequest{
-			GroupName:                 plan.GroupName.ValueStringPointer(),
-			SyncMembershipOnUserLogin: plan.SyncMembershipOnUserLogin.ValueBool(),
-		})
+	response, err := r.client.Iam.Operations.UpdateSamlProvider(params)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error updating SAML provider",
+			"Got error while updating SAML provider: "+err.Error(),
+		)
+		return
+	}
 
-		_, err := client.Operations.UpdateGroup(params)
-		if err != nil {
-			resp.Diagnostics.AddError(
-				"Error Updating Group",
-				"Could not update Group: "+state.ID.ValueString()+": "+err.Error(),
-			)
-			return
-		}
-		// Save updated data into Terraform state
-		resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
+	state.GenerateWorkloadUsernameByEmail = types.BoolValue(response.Payload.SamlProvider.GenerateWorkloadUsernameByEmail)
+	state.SamlMetadataDocument = types.StringValue(response.Payload.SamlProvider.SamlMetadataDocument)
+	state.SyncGroupsOnLogin = types.BoolPointerValue(response.Payload.SamlProvider.SyncGroupsOnLogin)
+	state.SamlProviderName = types.StringPointerValue(response.Payload.SamlProvider.SamlProviderName)
+	state.SamlProviderId = types.StringPointerValue(response.Payload.SamlProvider.SamlProviderID)
+	state.CreationDate = types.StringValue(response.Payload.SamlProvider.CreationDate.String())
+	state.EnableScim = types.BoolValue(response.Payload.SamlProvider.EnableScim)
+	state.ScimURL = types.StringValue(response.Payload.SamlProvider.ScimURL)
+	state.Crn = types.StringPointerValue(response.Payload.SamlProvider.Crn)
+
+	diags = resp.State.Set(ctx, plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 }
 

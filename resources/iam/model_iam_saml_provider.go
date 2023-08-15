@@ -13,9 +13,14 @@ package iam
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type samlProviderModel struct {
-	ID             types.String `tfsdk:"id"`
-	CredentialName types.String `tfsdk:"credential_name"`
-	CredentialKey  types.String `tfsdk:"credential_key"`
-	Crn            types.String `tfsdk:"crn"`
-	Description    types.String `tfsdk:"description"`
+	GenerateWorkloadUsernameByEmail types.Bool   `tfsdk:"generate_workload_username_by_email"`
+	SamlMetadataDocument            types.String `tfsdk:"saml_metadata_document"`
+	SyncGroupsOnLogin               types.Bool   `tfsdk:"sync_groups_on_login"`
+	SamlProviderName                types.String `tfsdk:"saml_provider_name"`
+	SamlProviderId                  types.String `tfsdk:"saml_provider_id"`
+	CdpSpMetadata                   types.String `tfsdk:"cdp_sp_metadata"`
+	CreationDate                    types.String `tfsdk:"creation_date"`
+	EnableScim                      types.Bool   `tfsdk:"enable_scim"`
+	ScimURL                         types.String `tfsdk:"scim_url"`
+	Crn                             types.String `tfsdk:"crn"`
 }
