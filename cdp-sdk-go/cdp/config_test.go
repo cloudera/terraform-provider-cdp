@@ -441,3 +441,9 @@ func TestGetEndpointsWithRegionUsg1(t *testing.T) {
 	common.AssertEquals(t, "https://api.usg-1.cdp.clouderagovt.com/", altusEndpoint)
 	common.AssertEquals(t, "https://api.usg-1.cdp.clouderagovt.com/", iamEndpoint)
 }
+
+func TestConfig_WithBaseApiPath(t *testing.T) {
+	var config Config
+	config.WithBaseApiPath("/foo")
+	common.AssertEquals(t, "/foo", config.GetBaseApiPath())
+}

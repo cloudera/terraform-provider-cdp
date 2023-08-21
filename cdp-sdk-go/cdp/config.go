@@ -183,6 +183,11 @@ func (config *Config) WithClientApplicationName(clientApplicationName string) *C
 	return config
 }
 
+func (config *Config) WithBaseApiPath(baseApiPath string) *Config {
+	config.BaseApiPath = baseApiPath
+	return config
+}
+
 func (config *Config) WithVersion(version string) *Config {
 	// TODO: this function should not be exposed to SDK end-users. When the golang SDK is taken out of
 	// the terraform provider to be its own project, set this from the goreleaser config and do not let users override it.
@@ -312,6 +317,10 @@ func (config *Config) GetUserAgentOrDefault() string {
 		return getDefaultUserAgent(config.Version)
 	}
 	return config.UserAgent
+}
+
+func (config *Config) GetBaseApiPath() string {
+	return config.BaseApiPath
 }
 
 // getDefaultUserAgent returns a string to be set for the User-Agent header in HTTP requests. We follow the same format
