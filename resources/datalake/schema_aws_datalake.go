@@ -22,7 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var awsDatalakeResourceSchema schema.Schema = schema.Schema{
+var awsDatalakeResourceSchema = schema.Schema{
 	MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
@@ -307,7 +307,7 @@ var awsDatalakeResourceSchema schema.Schema = schema.Schema{
 					"instance_group_name": schema.StringAttribute{
 						Required: true,
 					},
-					"recipe_names": schema.StringAttribute{
+					"recipe_names": schema.SetNestedAttribute{
 						Required: true,
 					},
 				},
