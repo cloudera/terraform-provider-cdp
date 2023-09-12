@@ -129,11 +129,7 @@ Optional:
 Required:
 
 - `instance_group_name` (String)
-- `recipe_names` (Attributes Set) (see [below for nested schema](#nestedatt--recipes--recipe_names))
-
-<a id="nestedatt--recipes--recipe_names"></a>
-### Nested Schema for `recipes.recipe_names`
-
+- `recipe_names` (String)
 
 
 <a id="nestedatt--cloudera_manager"></a>
