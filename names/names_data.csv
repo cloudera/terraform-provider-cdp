@@ -1,0 +1,6 @@
+CDPCLICommand,GoPackage,ProviderPackage,Aliases,ProviderNameUpper,HumanFriendly,Exclude,Note
+datahub,datahub,datahub,,Audit,Data hub Service,,
+datalake,datalake,datalake,,Datalake,Datalake Service,,
+environments,environments,environments,,Datahub,Environments Service,,
+iam,iam,iam,,IAM,IAM Service,,
+ml,ml,ml,cml,MachineLearning,Machine Learning,,

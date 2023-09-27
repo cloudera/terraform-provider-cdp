@@ -87,4 +87,7 @@ mod-tidy:
 deploy: all
 	cp terraform-provider-cdp ~/.terraform.d/plugins/terraform-provider-cdp
 
-.PHONY: all check-go docs deploy test mod-tidy generate vet fmt clean release release-snapshot install-terraformrc install main build
+skaff:
+	cd skaff && go install .
+
+.PHONY: all check-go docs deploy test mod-tidy generate vet fmt clean release release-snapshot install-terraformrc install main build skaff
