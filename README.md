@@ -42,6 +42,11 @@ resource "cdp_environments_aws_environment" "example" {
 }
 ```
 
+Cloudera provides terraform modules that demonstrate how to use this provider together with the providers maintained by the respective cloud providers.
+The modules for creating cloud provider prerequisites and consqutievly deploying CDP on these resources are published in [the Cloudea Labs terraform-cdp-modules GitHub repository](https://github.com/cloudera-labs/terraform-cdp-modules).
+
+Combining the prerequisite and CDP deployment modules in turn allows you to deploy CDP from scratch in a fully automated way. The [CDP quickstart using the Terraform Module for CDP Prerequisites](https://github.com/cloudera-labs/cdp-tf-quickstarts) is an example for how this can be done.
+
 ## Provider Documentation
 
 Documentation for the latest release can be found at [CDP docs at the Terraform Registry](https://registry.terraform.io/providers/cloudera/cdp/latest/docs)
