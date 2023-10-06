@@ -101,7 +101,7 @@ jobs:
       - name: Go Coverage
         uses: gwatts/go-coverage-action@v1.3.0
         with:
-          coverage-threshold: 6.7 # current (2023.08.07) state, should be increased - ideally up to at least 50% - as soon as possible
+          coverage-threshold: 7.4 # current (2023.10.10) state
           cover-pkg: ./...
           ignore-pattern: |
             /cdp-sdk-go/ 
