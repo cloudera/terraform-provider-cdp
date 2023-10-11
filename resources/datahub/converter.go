@@ -62,6 +62,47 @@ func fromModelToAwsRequest(model datahubResourceModel, ctx context.Context) *dat
 	return &req
 }
 
+func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *datahubmodels.CreateGCPClusterRequest {
+	debug(ctx, "Conversion from gcpDatahubResourceModel to CreateGCPClusterRequest started.")
+	req := datahubmodels.CreateGCPClusterRequest{}
+	req.ClusterName = model.Name.ValueString()
+	req.EnvironmentName = model.Environment.ValueString()
+	req.ClusterTemplateName = model.ClusterTemplate.ValueString()
+	req.ClusterDefinitionName = model.ClusterDefinition.ValueString()
+	var igs []*datahubmodels.GCPInstanceGroupRequest
+	debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
+	for _, group := range model.InstanceGroup {
+		debug(ctx, fmt.Sprintf("Converting GCPInstanceGroupRequest: %+v.", group))
+		var volReqs []*datahubmodels.AttachedVolumeRequest
+		debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
+		for _, vrs := range group.AttachedVolumeConfiguration {
+			debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
+			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
+		}
+		var igRecipes []string
+		if group.Recipes != nil && len(group.Recipes) > 0 {
+			for _, recipe := range group.Recipes {
+				igRecipes = append(igRecipes, recipe.ValueString())
+			}
+		}
+		volumeSize := int64To32(group.RootVolumeSize)
+		ig := &datahubmodels.GCPInstanceGroupRequest{
+			AttachedVolumeConfiguration: volReqs,
+			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
+			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
+			InstanceType:                group.InstanceType.ValueStringPointer(),
+			NodeCount:                   int64To32Pointer(group.NodeCount),
+			RecipeNames:                 igRecipes,
+			RecoveryMode:                group.RecoveryMode.ValueString(),
+			RootVolumeSize:              &volumeSize,
+		}
+		igs = append(igs, ig)
+	}
+	req.InstanceGroups = igs
+	debug(ctx, "Conversion from gcpDatahubResourceModel to CreateGCPClusterRequest has finished.")
+	return &req
+}
+
 func fromModelToAzureRequest(model datahubResourceModel, ctx context.Context) *datahubmodels.CreateAzureClusterRequest {
 	debug(ctx, "Conversion from datahubResourceModel to CreateAzureClusterRequest started.")
 	req := datahubmodels.CreateAzureClusterRequest{}

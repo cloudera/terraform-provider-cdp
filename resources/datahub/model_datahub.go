@@ -17,16 +17,19 @@ import (
 )
 
 type datahubResourceModel struct {
-	ID                types.String          `tfsdk:"id"`
-	Crn               types.String          `tfsdk:"crn"`
-	Name              types.String          `tfsdk:"name"`
-	Status            types.String          `tfsdk:"status"`
-	Environment       types.String          `tfsdk:"environment"`
-	InstanceGroup     []InstanceGroup       `tfsdk:"instance_group"`
-	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
-	DestroyOptions    *DestroyOptions       `tfsdk:"destroy_options"`
-	ClusterTemplate   types.String          `tfsdk:"cluster_template"`
-	ClusterDefinition types.String          `tfsdk:"cluster_definition"`
+	ID                   types.String          `tfsdk:"id"`
+	Crn                  types.String          `tfsdk:"crn"`
+	Name                 types.String          `tfsdk:"name"`
+	Status               types.String          `tfsdk:"status"`
+	Environment          types.String          `tfsdk:"environment"`
+	GcpEnvironment       types.String          `tfsdk:"environment_name"`
+	InstanceGroup        []InstanceGroup       `tfsdk:"instance_group"`
+	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`
+	DestroyOptions       *DestroyOptions       `tfsdk:"destroy_options"`
+	ClusterTemplate      types.String          `tfsdk:"cluster_template"`
+	GcpClusterTemplate   types.String          `tfsdk:"cluster_template_name"`
+	ClusterDefinition    types.String          `tfsdk:"cluster_definition"`
+	GcpClusterDefinition types.String          `tfsdk:"cluster_definition_name"`
 }
 
 type InstanceGroup struct {
