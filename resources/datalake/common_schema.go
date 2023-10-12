@@ -1,0 +1,129 @@
+// Copyright 2023 Cloudera. All Rights Reserved.
+//
+// This file is licensed under the Apache License Version 2.0 (the "License").
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+//
+// This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+// OF ANY KIND, either express or implied. Refer to the License for the specific
+// permissions and limitations governing your use of the file.
+
+package datalake
+
+import (
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
+
+var generalAttributes = map[string]schema.Attribute{
+	"id": schema.StringAttribute{
+		Computed: true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"polling_options": schema.SingleNestedAttribute{
+		MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		Optional:            true,
+		Attributes: map[string]schema.Attribute{
+			"polling_timeout": schema.Int64Attribute{
+				MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+				Default:             int64default.StaticInt64(60),
+				Computed:            true,
+				Optional:            true,
+			},
+		},
+	},
+	"creation_date": schema.StringAttribute{
+		Computed: true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"crn": schema.StringAttribute{
+		Computed: true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"datalake_name": schema.StringAttribute{
+		Required: true,
+	},
+	"enable_ranger_raz": schema.BoolAttribute{
+		Optional: true,
+		Computed: true,
+		PlanModifiers: []planmodifier.Bool{
+			boolplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"environment_crn": schema.StringAttribute{
+		Computed: true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"environment_name": schema.StringAttribute{
+		Required: true,
+	},
+	"image": schema.SingleNestedAttribute{
+		Optional: true,
+		Attributes: map[string]schema.Attribute{
+			"catalog": schema.StringAttribute{
+				Optional: true,
+			},
+			"id": schema.StringAttribute{
+				Required: true,
+			},
+		},
+	},
+	"java_version": schema.Int64Attribute{
+		Optional: true,
+	},
+	"recipes": schema.SetNestedAttribute{
+		Optional: true,
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: map[string]schema.Attribute{
+				"instance_group_name": schema.StringAttribute{
+					Required: true,
+				},
+				"recipe_names": schema.SetNestedAttribute{
+					Required: true,
+				},
+			},
+		},
+	},
+	"runtime": schema.StringAttribute{
+		Optional: true,
+	},
+	"scale": schema.StringAttribute{
+		Computed: true,
+		Optional: true,
+	},
+	"status": schema.StringAttribute{
+		Computed: true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"status_reason": schema.StringAttribute{
+		Computed: true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"multi_az": schema.BoolAttribute{
+		Optional: true,
+		Computed: true,
+		PlanModifiers: []planmodifier.Bool{
+			boolplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"tags": schema.MapAttribute{
+		Optional:    true,
+		ElementType: types.StringType,
+	},
+}
