@@ -19,6 +19,7 @@ coverage.*
 
 # Ignore the binary
 terraform-provider-cdp
+!terraform-provider-cdp/
 
 # Ignore the dist directory
 dist/
