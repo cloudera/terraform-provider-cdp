@@ -14,6 +14,7 @@ import (
 	"context"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -24,6 +25,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -32,6 +34,63 @@ var (
 	_             resource.Resource = &idBrokerMappingsResource{}
 	emptyMappings                   = true
 )
+
+var IDBrokerMappingSchema = schema.Schema{
+	MarkdownDescription: "To enable your CDP user to utilize the central authentication features CDP provides and to exchange credentials for AWS or Azure access tokens, you have to map this CDP user to the correct IAM role or Azure Managed Service Identity (MSI).",
+	Attributes: map[string]schema.Attribute{
+		"id": schema.StringAttribute{
+			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
+		"data_access_role": schema.StringAttribute{
+			Optional: true,
+			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
+		"environment_name": schema.StringAttribute{
+			Required: true,
+		},
+		"environment_crn": schema.StringAttribute{
+			Required: true,
+		},
+		"mappings": schema.SetNestedAttribute{
+			Optional: true,
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: map[string]schema.Attribute{
+					"accessor_crn": schema.StringAttribute{
+						Required: true,
+					},
+					"role": schema.StringAttribute{
+						Required: true,
+					},
+				},
+			},
+		},
+		"ranger_audit_role": schema.StringAttribute{
+			Required: true,
+		},
+		"ranger_cloud_access_authorizer_role": schema.StringAttribute{
+			Optional: true,
+			Computed: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
+		"set_empty_mappings": schema.BoolAttribute{
+			Optional: true,
+		},
+		"mappings_version": schema.Int64Attribute{
+			Computed: true,
+			PlanModifiers: []planmodifier.Int64{
+				int64planmodifier.UseStateForUnknown(),
+			},
+		},
+	},
+}
 
 type idBrokerMappingsResource struct {
 	client *cdp.Client
@@ -91,62 +150,7 @@ func toSetIDBrokerMappingsRequest(ctx context.Context, model *idBrokerMappingsRe
 }
 
 func (r *idBrokerMappingsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "To enable your CDP user to utilize the central authentication features CDP provides and to exchange credentials for AWS or Azure access tokens, you have to map this CDP user to the correct IAM role or Azure Managed Service Identity (MSI).",
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
-			"data_access_role": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
-			"environment_name": schema.StringAttribute{
-				Required: true,
-			},
-			"environment_crn": schema.StringAttribute{
-				Required: true,
-			},
-			"mappings": schema.SetNestedAttribute{
-				Optional: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"accessor_crn": schema.StringAttribute{
-							Required: true,
-						},
-						"role": schema.StringAttribute{
-							Required: true,
-						},
-					},
-				},
-			},
-			"ranger_audit_role": schema.StringAttribute{
-				Required: true,
-			},
-			"ranger_cloud_access_authorizer_role": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
-			"set_empty_mappings": schema.BoolAttribute{
-				Optional: true,
-			},
-			"mappings_version": schema.Int64Attribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.UseStateForUnknown(),
-				},
-			},
-		},
-	}
+	resp.Schema = IDBrokerMappingSchema
 }
 
 func (r *idBrokerMappingsResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -200,6 +204,15 @@ func isSetIDBEnvNotFoundError(err error) bool {
 	return false
 }
 
+func queryEnvironment(ctx context.Context, client *client.Environments, envName string, state *idBrokerMappingsResourceModel) error {
+	envParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	envParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
+		EnvironmentName: &envName,
+	})
+	_, err := client.Operations.DescribeEnvironment(envParams)
+	return err
+}
+
 func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state idBrokerMappingsResourceModel
 	diags := req.State.Get(ctx, &state)
@@ -209,6 +222,12 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 	}
 
 	client := r.client.Environments
+
+	if err := queryEnvironment(ctx, client, state.EnvironmentName.ValueString(), &state); isEnvNotFoundError(err) {
+		removeResourceFromState(ctx, &resp.Diagnostics, &resp.State, state)
+		return
+	}
+
 	params := operations.NewGetIDBrokerMappingsParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.GetIDBrokerMappingsRequest{
 		EnvironmentName: state.EnvironmentName.ValueStringPointer(),
@@ -237,6 +256,14 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 	if resp.Diagnostics.HasError() {
 		return
 	}
+}
+
+func removeResourceFromState(ctx context.Context, diag *diag.Diagnostics, state *tfsdk.State, model idBrokerMappingsResourceModel) {
+	diag.AddWarning("Resource not found on provider", "Environment not found, removing ID Broker mapping from state.")
+	tflog.Warn(ctx, "Environment not found, removing ID Broker mapping from state", map[string]interface{}{
+		"id": model.ID.ValueString(),
+	})
+	state.RemoveResource(ctx)
 }
 
 func toIdBrokerMappingsResourceModel(ctx context.Context, mapping *environmentsmodels.GetIDBrokerMappingsResponse, out *idBrokerMappingsResourceModel, diags *diag.Diagnostics) {
@@ -281,6 +308,11 @@ func (r *idBrokerMappingsResource) Update(ctx context.Context, req resource.Upda
 
 	client := r.client.Environments
 
+	if err := queryEnvironment(ctx, client, state.EnvironmentName.ValueString(), &state); isEnvNotFoundError(err) {
+		removeResourceFromState(ctx, &resp.Diagnostics, &resp.State, state)
+		return
+	}
+
 	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
 	params.WithInput(toSetIDBrokerMappingsRequest(ctx, &state, &resp.Diagnostics))
 	responseOk, err := client.Operations.SetIDBrokerMappings(params)
@@ -318,6 +350,11 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 	}
 
 	client := r.client.Environments
+
+	if err := queryEnvironment(ctx, client, state.EnvironmentName.ValueString(), &state); isEnvNotFoundError(err) {
+		removeResourceFromState(ctx, &resp.Diagnostics, &resp.State, state)
+		return
+	}
 
 	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
 	input := &environmentsmodels.SetIDBrokerMappingsRequest{}

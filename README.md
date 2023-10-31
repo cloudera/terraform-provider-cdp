@@ -118,6 +118,26 @@ Pull requests are expected to include appropriate updates to the [change log](./
 make
 ```
 
+### Unit testing
+
+We are using github.com/vektra/mockery to generate mock interfaces for unit tests. To generate a new mock interface:
+1. Install the mockery cli tool:
+```
+brew install mockery
+```
+2. Add the package/interface to the mockery.yaml configuration file:
+```
+github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations:
+    interfaces:
+      ClientService:
+        config:
+          mockname: "MockEnvironment{{.InterfaceName}}"
+```
+3. Issue the mockery command in the repository to generate the mock interfaces:
+```
+$ mockery
+```
+
 ### Execute example terraform
 
 ```
