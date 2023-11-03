@@ -205,6 +205,92 @@ func TestFromModelToGcpRequestClusterDefinition(t *testing.T) {
 	compareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
 }
 
+func TestFromModelToAzureRequestBasicFields(t *testing.T) {
+	input := datahubResourceModel{
+		Name:            types.StringValue("someClusterName"),
+		Environment:     types.StringValue("someEnvironment"),
+		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
+	}
+	got := fromModelToAzureRequest(input, nil)
+
+	compareStrings(got.ClusterName, input.Name.ValueString(), t)
+	compareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
+	compareStrings(got.ClusterTemplateName, input.ClusterTemplate.ValueString(), t)
+}
+
+func TestFromModelToAzureRequestRecipe(t *testing.T) {
+	recipes := []types.String{types.StringValue("recipe1"), types.StringValue("recipe2")}
+	igs := []InstanceGroup{{Recipes: recipes}}
+	input := datahubResourceModel{InstanceGroup: igs}
+
+	got := fromModelToAzureRequest(input, nil)
+
+	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
+
+	for _, convertedRecipe := range got.InstanceGroups[0].RecipeNames {
+		var contains bool
+		for _, originalRecipe := range input.InstanceGroup[0].Recipes {
+			if originalRecipe.ValueString() == convertedRecipe {
+				contains = true
+			}
+		}
+		if !contains {
+			t.Errorf("Instance group does not contain recipe: %s", convertedRecipe)
+		}
+	}
+}
+
+func TestFromModelToAzureRequestAttachedVolumeConfiguration(t *testing.T) {
+	avcs := []AttachedVolumeConfiguration{{
+		VolumeSize:  types.Int64Value(100),
+		VolumeCount: types.Int64Value(1),
+		VolumeType:  types.StringValue("ephemeral"),
+	}}
+	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
+	input := datahubResourceModel{InstanceGroup: igs}
+
+	got := fromModelToAzureRequest(input, nil)
+
+	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
+
+	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
+	compareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	compareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	compareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
+}
+
+func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
+	igs := []InstanceGroup{{
+		NodeCount:         types.Int64Value(1),
+		InstanceGroupName: types.StringValue("gateway"),
+		InstanceGroupType: types.StringValue("CORE"),
+		InstanceType:      types.StringValue("m5.xlarge"),
+		RootVolumeSize:    types.Int64Value(100),
+		RecoveryMode:      types.StringValue("MANUAL"),
+	}}
+
+	input := datahubResourceModel{InstanceGroup: igs}
+
+	got := fromModelToAzureRequest(input, nil)
+
+	compareInts(len(got.InstanceGroups), len(igs), t)
+	resultIg := got.InstanceGroups[0]
+	compareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
+	compareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
+	compareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
+	compareInt32PointerToTypesInt64(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	compareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
+}
+
+func TestFromModelToAzureRequestClusterDefinition(t *testing.T) {
+	input := datahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
+	got := fromModelToAzureRequest(input, nil)
+
+	compareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
+}
+
 func compareStrings(got string, expected string, t *testing.T) {
 	if got != expected {
 		t.Errorf("Assertion error! Expected: %s, got: %s", expected, got)

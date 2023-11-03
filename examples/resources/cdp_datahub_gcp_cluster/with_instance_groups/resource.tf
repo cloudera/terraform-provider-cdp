@@ -19,11 +19,11 @@ resource "cdp_datahub_gcp_cluster" "gcp-cluster" {
 
   instance_group = [
     {
-      node_count                    = 0
-      instance_group_name           = "<value>"
-      instance_group_type           = "<value>"
-      instance_type                 = "<value>"
-      root_volume_size              = 100
+      node_count          = 0
+      instance_group_name = "<value>"
+      instance_group_type = "<value>"
+      instance_type       = "<value>"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 100
@@ -35,11 +35,11 @@ resource "cdp_datahub_gcp_cluster" "gcp-cluster" {
       recipes       = []
     },
     {
-      node_count                    = 1
-      instance_group_name           = "<value>"
-      instance_group_type           = "<value>"
-      instance_type                 = "<value>"
-      root_volume_size              = 100
+      node_count          = 1
+      instance_group_name = "<value>"
+      instance_group_type = "<value>"
+      instance_type       = "<value>"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 100
@@ -51,11 +51,11 @@ resource "cdp_datahub_gcp_cluster" "gcp-cluster" {
       recipes       = []
     },
     {
-      node_count                    = 3
-      instance_group_name           = "<value>"
-      instance_group_type           = "<value>"
-      instance_type                 = "<value>"
-      root_volume_size              = 100
+      node_count          = 3
+      instance_group_name = "<value>"
+      instance_group_type = "<value>"
+      instance_type       = "<value>"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 300
@@ -67,11 +67,11 @@ resource "cdp_datahub_gcp_cluster" "gcp-cluster" {
       recipes       = []
     },
     {
-      node_count                    = 3
-      instance_group_name           = "<value>"
-      instance_group_type           = "<value>"
-      instance_type                 = "<value>"
-      root_volume_size              = 100
+      node_count          = 3
+      instance_group_name = "<value>"
+      instance_group_type = "<value>"
+      instance_type       = "<value>"
+      root_volume_size    = 100
       attached_volume_configuration = [
         {
           volume_size  = 300
