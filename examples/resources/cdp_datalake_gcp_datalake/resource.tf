@@ -9,8 +9,8 @@
 // permissions and limitations governing your use of the file.
 
 resource "cdp_datalake_gcp_datalake" "example" {
-  datalake_name                = "<value>"
-  environment_name             = "<value>"
+  datalake_name    = "<value>"
+  environment_name = "<value>"
   cloud_provider_configuration = {
     service_account_email = "<value>"
     storage_location      = "<value>"
