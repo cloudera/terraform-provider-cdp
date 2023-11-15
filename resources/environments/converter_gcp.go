@@ -52,6 +52,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 		res.LogStorage = &environmentsmodels.GcpLogStorageRequest{
 			StorageLocationBase:       model.LogStorage.StorageLocationBase.ValueStringPointer(),
 			BackupStorageLocationBase: model.LogStorage.BackupStorageLocationBase.ValueString(),
+			ServiceAccountEmail:       model.LogStorage.ServiceAccountEmail.ValueStringPointer(),
 		}
 	}
 	if model.SecurityAccess != nil {
