@@ -78,7 +78,7 @@ func isEnvNotFoundError(err error) bool {
 
 func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse, options *utils.PollingOptions) (*operations.DescribeEnvironmentOK, error) {
 	if err := waitForEnvironmentToBeAvailable(id, timeoutOneHour, client.Environments, ctx, options); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
 		return nil, err
 	}
 
@@ -97,7 +97,7 @@ func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *c
 			resp.State.RemoveResource(ctx)
 			return nil, err
 		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
 		return nil, err
 	}
 	return descEnvResp, nil
