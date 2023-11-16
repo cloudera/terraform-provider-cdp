@@ -53,8 +53,8 @@ func TestToGcpEnvironmentRequestSecurityAccess(t *testing.T) {
 	result := toGcpEnvironmentRequest(context.TODO(), testObject)
 
 	assert.NotNilf(t, result.SecurityAccess, "SecurityAccess is expected to be not nil")
-	assert.Equal(t, testObject.SecurityAccess.DefaultSecurityGroupId.String(), result.SecurityAccess.DefaultSecurityGroupID)
-	assert.Equal(t, testObject.SecurityAccess.SecurityGroupIdForKnox.String(), result.SecurityAccess.SecurityGroupIDForKnox)
+	assert.Equal(t, testObject.SecurityAccess.DefaultSecurityGroupId.ValueString(), result.SecurityAccess.DefaultSecurityGroupID)
+	assert.Equal(t, testObject.SecurityAccess.SecurityGroupIdForKnox.ValueString(), result.SecurityAccess.SecurityGroupIDForKnox)
 }
 
 func TestToGcpEnvironmentRequestLogStorage(t *testing.T) {
@@ -76,7 +76,7 @@ func TestToGcpEnvironmentRequestFreeIpa(t *testing.T) {
 	assert.NotNilf(t, result.FreeIpa, "FreeIpa is expected to be not nil")
 	assert.Equal(t, testObject.FreeIpa.InstanceCountByGroup.ValueInt64(), int64(result.FreeIpa.InstanceCountByGroup))
 	assert.Equal(t, len(testObject.FreeIpa.Recipes.Elements()), len(result.FreeIpa.Recipes))
-	assert.Equal(t, testObject.FreeIpa.InstanceType.String(), result.FreeIpa.InstanceType)
+	assert.Equal(t, testObject.FreeIpa.InstanceType.ValueString(), result.FreeIpa.InstanceType)
 }
 
 func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {

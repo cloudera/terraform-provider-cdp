@@ -43,7 +43,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 	if model.FreeIpa != nil {
 		res.FreeIpa = &environmentsmodels.GCPFreeIpaCreationRequest{
 			InstanceCountByGroup: int32(model.FreeIpa.InstanceCountByGroup.ValueInt64()),
-			InstanceType:         model.FreeIpa.InstanceType.String(),
+			InstanceType:         model.FreeIpa.InstanceType.ValueString(),
 			Recipes:              utils.FromSetValueToStringList(model.FreeIpa.Recipes),
 		}
 	}
@@ -57,8 +57,8 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 	}
 	if model.SecurityAccess != nil {
 		res.SecurityAccess = &environmentsmodels.GcpSecurityAccessRequest{
-			DefaultSecurityGroupID: model.SecurityAccess.DefaultSecurityGroupId.String(),
-			SecurityGroupIDForKnox: model.SecurityAccess.SecurityGroupIdForKnox.String(),
+			DefaultSecurityGroupID: model.SecurityAccess.DefaultSecurityGroupId.ValueString(),
+			SecurityGroupIDForKnox: model.SecurityAccess.SecurityGroupIdForKnox.ValueString(),
 		}
 	}
 	res.Tags = ConvertGcpTags(ctx, model.Tags)
