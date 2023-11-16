@@ -81,6 +81,33 @@ func TestIsNotFoundError(t *testing.T) {
 	}
 }
 
+func TestIsInternalServerError(t *testing.T) {
+	type testCase struct {
+		description    string
+		input          operations.DescribeClusterDefault
+		expectedResult bool
+	}
+	for _, scenario := range []testCase{
+		{
+			description:    "Test with status: NOT_FOUND",
+			input:          createDefaultInputWithStatus("NOT_FOUND", "Clustar cannot be found."),
+			expectedResult: false,
+		},
+		{
+			description:    "Test with status: UNKNOWN",
+			input:          createDefaultInputWithStatus("UNKNOWN", "Internal server error occurred."),
+			expectedResult: true,
+		},
+	} {
+		t.Run(scenario.description, func(t *testing.T) {
+			result := isInternalServerError(&scenario.input)
+			if scenario.expectedResult != result {
+				t.Errorf("Test result ('%t') does not match with the expectation ('%t')", result, scenario.expectedResult)
+			}
+		})
+	}
+}
+
 func createOkInputWithStatus(status string) operations.DescribeClusterOK {
 	sum := &models.Cluster{Status: status}
 	pl := &models.DescribeClusterResponse{Cluster: sum}
