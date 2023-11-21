@@ -13,6 +13,7 @@ package utils
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"time"
 
@@ -127,4 +128,25 @@ func FromSetValueToStringList(tl types.Set) []string {
 		res[i] = elem.(types.String).ValueString()
 	}
 	return res
+}
+
+func ConvertStringSliceToTypesSet(input []string) types.Set {
+	var elems []attr.Value
+	elems = make([]attr.Value, len(input))
+	for _, str := range input {
+		elems = append(elems, types.StringValue(str))
+	}
+	var set types.Set
+	set, _ = types.SetValue(types.StringType, elems)
+	return set
+}
+
+func ConvertIntToTypesInt64(input int) types.Int64 {
+	upgraded := int64(input)
+	return types.Int64Value(upgraded)
+}
+
+func ConvertInt32ToTypesInt64(input int32) types.Int64 {
+	upgraded := int64(input)
+	return types.Int64Value(upgraded)
 }

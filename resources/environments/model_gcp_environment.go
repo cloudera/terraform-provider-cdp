@@ -65,9 +65,10 @@ type gcpEnvironmentResourceModel struct {
 }
 
 type GcpFreeIpa struct {
-	InstanceCountByGroup types.Int64  `tfsdk:"instance_count_by_group"`
-	Recipes              types.Set    `tfsdk:"recipes"`
-	InstanceType         types.String `tfsdk:"instance_type"`
+	InstanceCountByGroup types.Int64        `tfsdk:"instance_count_by_group"`
+	Recipes              types.Set          `tfsdk:"recipes"`
+	InstanceType         types.String       `tfsdk:"instance_type"`
+	Instances            *[]FreeIpaInstance `tfsdk:"instances"`
 }
 
 type ExistingNetworkParams struct {

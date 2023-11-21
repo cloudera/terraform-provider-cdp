@@ -120,4 +120,11 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	}
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
+	if env.Freeipa != nil {
+		model.FreeIpa = &GcpFreeIpa{
+			InstanceCountByGroup: utils.ConvertIntToTypesInt64(len(env.Freeipa.Instances)),
+			Recipes:              utils.ConvertStringSliceToTypesSet(env.Freeipa.Recipes),
+			Instances:            ConvertFreeIpaInstances(env.Freeipa.Instances),
+		}
+	}
 }
