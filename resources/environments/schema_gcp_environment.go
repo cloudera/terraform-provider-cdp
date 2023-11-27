@@ -13,10 +13,9 @@ package environments
 import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
@@ -176,15 +175,10 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 					"instance_type": schema.StringAttribute{
 						MarkdownDescription: "Custom instance type of FreeIPA instances.",
 						Optional:            true,
-						Computed:            true,
-						PlanModifiers: []planmodifier.String{
-							stringplanmodifier.UseStateForUnknown(),
-						},
 					},
 					"recipes": schema.SetAttribute{
 						MarkdownDescription: "The recipes for the FreeIPA cluster.",
 						Optional:            true,
-						Computed:            true,
 						ElementType:         types.StringType,
 					},
 				},
