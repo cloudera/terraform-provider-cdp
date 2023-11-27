@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -21,7 +22,7 @@ import (
 )
 
 func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceModel) *environmentsmodels.CreateGCPEnvironmentRequest {
-	res := &environmentsmodels.CreateGCPEnvironmentRequest{
+	req := &environmentsmodels.CreateGCPEnvironmentRequest{
 		CredentialName:              model.CredentialName.ValueStringPointer(),
 		Description:                 model.Description.ValueString(),
 		EnableTunnel:                model.EnableTunnel.ValueBool(),
@@ -41,28 +42,30 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 		WorkloadAnalytics:    model.WorkloadAnalytics.ValueBool(),
 	}
 	if model.FreeIpa != nil {
-		res.FreeIpa = &environmentsmodels.GCPFreeIpaCreationRequest{
+		tflog.Debug(ctx, fmt.Sprintf("model.FreeIpa: %+v\n", model.FreeIpa))
+		req.FreeIpa = &environmentsmodels.GCPFreeIpaCreationRequest{
 			InstanceCountByGroup: int32(model.FreeIpa.InstanceCountByGroup.ValueInt64()),
 			InstanceType:         model.FreeIpa.InstanceType.ValueString(),
 			Recipes:              utils.FromSetValueToStringList(model.FreeIpa.Recipes),
 		}
+		tflog.Debug(ctx, fmt.Sprintf("req.FreeIpa: %+v\n", req.FreeIpa))
 	}
 
 	if model.LogStorage != nil {
-		res.LogStorage = &environmentsmodels.GcpLogStorageRequest{
+		req.LogStorage = &environmentsmodels.GcpLogStorageRequest{
 			StorageLocationBase:       model.LogStorage.StorageLocationBase.ValueStringPointer(),
 			BackupStorageLocationBase: model.LogStorage.BackupStorageLocationBase.ValueString(),
 			ServiceAccountEmail:       model.LogStorage.ServiceAccountEmail.ValueStringPointer(),
 		}
 	}
 	if model.SecurityAccess != nil {
-		res.SecurityAccess = &environmentsmodels.GcpSecurityAccessRequest{
+		req.SecurityAccess = &environmentsmodels.GcpSecurityAccessRequest{
 			DefaultSecurityGroupID: model.SecurityAccess.DefaultSecurityGroupId.ValueString(),
 			SecurityGroupIDForKnox: model.SecurityAccess.SecurityGroupIdForKnox.ValueString(),
 		}
 	}
-	res.Tags = ConvertGcpTags(ctx, model.Tags)
-	return res
+	req.Tags = ConvertGcpTags(ctx, model.Tags)
+	return req
 }
 
 func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *gcpEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
