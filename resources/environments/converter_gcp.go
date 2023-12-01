@@ -80,19 +80,35 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	tflog.Info(ctx, "about to convert log storage.")
 	if env.LogStorage != nil {
 		if env.LogStorage.GcpDetails != nil {
+			backupStorageLocationBase := ""
+			if model.LogStorage != nil && !model.LogStorage.BackupStorageLocationBase.IsNull() &&
+				!model.LogStorage.BackupStorageLocationBase.IsUnknown() {
+				backupStorageLocationBase = model.LogStorage.BackupStorageLocationBase.ValueString()
+			}
 			model.LogStorage = &GcpLogStorage{
-				StorageLocationBase:       types.StringValue(env.LogStorage.GcpDetails.StorageLocationBase),
-				BackupStorageLocationBase: types.StringValue(env.LogStorage.GcpDetails.ServiceAccountEmail),
+				StorageLocationBase: types.StringValue(env.LogStorage.GcpDetails.StorageLocationBase),
+				BackupStorageLocationBase: func(base string) types.String {
+					if len(base) > 0 {
+						return types.StringValue(base)
+					}
+					return types.StringNull()
+				}(backupStorageLocationBase),
 			}
 		}
 	}
 	tflog.Info(ctx, "about to convert network.")
 	if env.Network != nil {
-		subnets := model.ExistingNetworkParams.SubnetNames
-		model.ExistingNetworkParams = &ExistingNetworkParams{
-			NetworkName:     types.StringValue(*env.Network.Gcp.NetworkName),
-			SharedProjectId: types.StringValue(env.Network.Gcp.SharedProjectID),
-			SubnetNames:     subnets,
+		if model.ExistingNetworkParams != nil {
+			model.ExistingNetworkParams = &ExistingNetworkParams{
+				NetworkName:     types.StringValue(*env.Network.Gcp.NetworkName),
+				SharedProjectId: types.StringValue(env.Network.Gcp.SharedProjectID),
+				SubnetNames:     model.ExistingNetworkParams.SubnetNames,
+			}
+		} else {
+			model.ExistingNetworkParams = &ExistingNetworkParams{
+				NetworkName:     types.StringValue(*env.Network.Gcp.NetworkName),
+				SharedProjectId: types.StringValue(env.Network.Gcp.SharedProjectID),
+			}
 		}
 	}
 	tflog.Info(ctx, "about to convert proxy config.")
