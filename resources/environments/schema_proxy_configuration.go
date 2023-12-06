@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var ProxyConfigurationSchema = schema.Schema{
@@ -40,8 +41,9 @@ var ProxyConfigurationSchema = schema.Schema{
 		"port": schema.Int64Attribute{
 			Required: true,
 		},
-		"no_proxy_hosts": schema.StringAttribute{
-			Optional: true,
+		"no_proxy_hosts": schema.SetAttribute{
+			ElementType: types.StringType,
+			Optional:    true,
 		},
 		"user": schema.StringAttribute{
 			Optional: true,
