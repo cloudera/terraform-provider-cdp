@@ -12,14 +12,18 @@ package environments
 
 import (
 	"context"
+	"errors"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -49,6 +53,17 @@ func (p *proxyConfigurationResource) Configure(_ context.Context, req resource.C
 	p.client = utils.GetCdpClientForResource(req, resp)
 }
 
+func joinHostSet(hosts basetypes.SetValue) string {
+	if hosts.IsNull() || hosts.IsUnknown() {
+		return ""
+	}
+	str := make([]string, len(hosts.Elements()))
+	for i, elem := range hosts.Elements() {
+		str[i] = elem.(types.String).ValueString()
+	}
+	return strings.Join(str, ",")
+}
+
 func (p *proxyConfigurationResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data proxyConfigurationResourceModel
 	diags := req.Plan.Get(ctx, &data)
@@ -67,7 +82,7 @@ func (p *proxyConfigurationResource) Create(ctx context.Context, req resource.Cr
 		Protocol:        data.Protocol.ValueStringPointer(),
 		Host:            data.Host.ValueStringPointer(),
 		Port:            func(i int32) *int32 { return &i }(int32(data.Port.ValueInt64())),
-		NoProxyHosts:    data.NoProxyHosts.ValueString(),
+		NoProxyHosts:    joinHostSet(data.NoProxyHosts),
 		User:            data.User.ValueString(),
 		Password:        data.Password.ValueString(),
 	})
@@ -135,6 +150,51 @@ func (p *proxyConfigurationResource) Delete(ctx context.Context, req resource.De
 	}
 }
 
+func splitHostsToSet(hostsStr string, diags *diag.Diagnostics, ctx context.Context) basetypes.SetValue {
+	hosts := strings.Split(hostsStr, ",")
+
+	result, diag := types.SetValueFrom(ctx, types.StringType, hosts)
+	diags.Append(diag...)
+	return result
+}
+
+func FindProxyConfigurationByName(name string, ctx context.Context, client *client.Environments, diags *diag.Diagnostics) (*models.ProxyConfig, error) {
+	params := operations.NewListProxyConfigsParamsWithContext(ctx)
+	params.WithInput(&models.ListProxyConfigsRequest{ProxyConfigName: name})
+
+	responseOk, err := client.Operations.ListProxyConfigs(params)
+	if err != nil {
+		if envErr, ok := err.(*operations.DeleteProxyConfigDefault); ok {
+			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
+				return nil, errors.New("not found")
+			} else {
+				diags.AddError(
+					"Read Proxy Configuration",
+					"Failed to read proxy configuration: "+envErr.Payload.Message,
+				)
+				return nil, errors.New("unknown error")
+			}
+		}
+		msg := err.Error()
+		if d, ok := err.(utils.EnvironmentErrorPayload); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
+
+		diags.AddError(
+			"Read Proxy Configuration",
+			"Failed to read proxy configuration, unexpected error: "+msg,
+		)
+
+		return nil, errors.New("unknown error")
+	}
+
+	if len(responseOk.Payload.ProxyConfigs) > 0 {
+		return responseOk.Payload.ProxyConfigs[0], nil
+	} else {
+		return nil, errors.New("not found")
+	}
+}
+
 func (p *proxyConfigurationResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state proxyConfigurationResourceModel
 	diags := req.State.Get(ctx, &state)
@@ -146,48 +206,20 @@ func (p *proxyConfigurationResource) Read(ctx context.Context, req resource.Read
 
 	client := p.client.Environments
 
-	params := operations.NewListProxyConfigsParamsWithContext(ctx)
-	params.WithInput(&models.ListProxyConfigsRequest{ProxyConfigName: state.Name.ValueString()})
-
-	responseOk, err := client.Operations.ListProxyConfigs(params)
+	proxyConfig, err := FindProxyConfigurationByName(state.Name.ValueString(), ctx, client, &resp.Diagnostics)
 	if err != nil {
-		if envErr, ok := err.(*operations.DeleteProxyConfigDefault); ok {
-			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
-				removeProxyConfigFromState(ctx, &resp.Diagnostics, &resp.State, state)
-				return
-			} else {
-				resp.Diagnostics.AddError(
-					"Read Proxy Configuration",
-					"Failed to read proxy configuration: "+envErr.Payload.Message,
-				)
-				return
-			}
+		if err.Error() == "not found" {
+			removeProxyConfigFromState(ctx, &resp.Diagnostics, &resp.State, state)
 		}
-		msg := err.Error()
-		if d, ok := err.(utils.EnvironmentErrorPayload); ok && d.GetPayload() != nil {
-			msg = d.GetPayload().Message
-		}
-
-		resp.Diagnostics.AddError(
-			"Read Proxy Configuration",
-			"Failed to read proxy configuration, unexpected error: "+msg,
-		)
 		return
 	}
-
-	if len(responseOk.Payload.ProxyConfigs) == 0 {
-		removeProxyConfigFromState(ctx, &resp.Diagnostics, &resp.State, state)
-		return
-	}
-
-	proxyConfig := responseOk.Payload.ProxyConfigs[0]
 
 	state.Name = types.StringValue(*proxyConfig.ProxyConfigName)
 	state.Description = types.StringValue(proxyConfig.Description)
 	state.Protocol = types.StringValue(*proxyConfig.Protocol)
 	state.Host = types.StringValue(*proxyConfig.Host)
 	state.Port = types.Int64Value(int64(*proxyConfig.Port))
-	state.NoProxyHosts = types.StringValue(proxyConfig.NoProxyHosts)
+	state.NoProxyHosts = splitHostsToSet(proxyConfig.NoProxyHosts, &diags, ctx)
 	state.User = types.StringValue(proxyConfig.User)
 	state.Password = types.StringValue(proxyConfig.Password)
 

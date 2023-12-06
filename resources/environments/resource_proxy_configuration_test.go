@@ -31,27 +31,31 @@ func createRawProxyConfigResource(resourceID string) tftypes.Value {
 	return tftypes.NewValue(
 		tftypes.Object{
 			AttributeTypes: map[string]tftypes.Type{
-				"id":             tftypes.String,
-				"name":           tftypes.String,
-				"description":    tftypes.String,
-				"protocol":       tftypes.String,
-				"host":           tftypes.String,
-				"port":           tftypes.Number,
-				"no_proxy_hosts": tftypes.String,
-				"user":           tftypes.String,
-				"password":       tftypes.String,
+				"id":          tftypes.String,
+				"name":        tftypes.String,
+				"description": tftypes.String,
+				"protocol":    tftypes.String,
+				"host":        tftypes.String,
+				"port":        tftypes.Number,
+				"no_proxy_hosts": tftypes.Set{
+					ElementType: tftypes.String,
+				},
+				"user":     tftypes.String,
+				"password": tftypes.String,
 			},
 		},
 		map[string]tftypes.Value{
-			"id":             tftypes.NewValue(tftypes.String, resourceID),
-			"name":           tftypes.NewValue(tftypes.String, "test-name"),
-			"description":    tftypes.NewValue(tftypes.String, "test-description"),
-			"protocol":       tftypes.NewValue(tftypes.String, "test-protocol"),
-			"host":           tftypes.NewValue(tftypes.String, "test-host"),
-			"port":           tftypes.NewValue(tftypes.Number, 99),
-			"no_proxy_hosts": tftypes.NewValue(tftypes.String, "test-npc"),
-			"user":           tftypes.NewValue(tftypes.String, "test-user"),
-			"password":       tftypes.NewValue(tftypes.String, "test-password"),
+			"id":          tftypes.NewValue(tftypes.String, resourceID),
+			"name":        tftypes.NewValue(tftypes.String, "test-name"),
+			"description": tftypes.NewValue(tftypes.String, "test-description"),
+			"protocol":    tftypes.NewValue(tftypes.String, "test-protocol"),
+			"host":        tftypes.NewValue(tftypes.String, "test-host"),
+			"port":        tftypes.NewValue(tftypes.Number, 99),
+			"no_proxy_hosts": tftypes.NewValue(tftypes.Set{
+				ElementType: tftypes.String,
+			}, []tftypes.Value{tftypes.NewValue(tftypes.String, "test-npc1"), tftypes.NewValue(tftypes.String, "test-npc2")}),
+			"user":     tftypes.NewValue(tftypes.String, "test-user"),
+			"password": tftypes.NewValue(tftypes.String, "test-password"),
 		},
 	)
 }
@@ -74,7 +78,7 @@ func TestCreateProxyConfiguration(t *testing.T) {
 						Crn:             func(s string) *string { return &s }("test-pc-crn"),
 						Description:     "test_description",
 						Host:            func(s string) *string { return &s }("test-host"),
-						NoProxyHosts:    "test-npc",
+						NoProxyHosts:    "test-npc1,test-npc2",
 						Password:        "test-password",
 						Port:            func(i int32) *int32 { return &i }(99),
 						Protocol:        func(s string) *string { return &s }("test-protocol"),
@@ -129,7 +133,7 @@ func TestCreateProxyConfiguration(t *testing.T) {
 				match = match && *params.Input.Protocol == "test-protocol"
 				match = match && *params.Input.Host == "test-host"
 				match = match && *params.Input.Port == 99
-				match = match && params.Input.NoProxyHosts == "test-npc"
+				match = match && params.Input.NoProxyHosts == "test-npc1,test-npc2"
 				match = match && params.Input.User == "test-user"
 				match = match && params.Input.Password == "test-password"
 				return match
@@ -192,7 +196,7 @@ func TestReadProxyConfiguration(t *testing.T) {
 							Crn:             func(s string) *string { return &s }("test-pc-crn"),
 							Description:     "test_description",
 							Host:            func(s string) *string { return &s }("test-host"),
-							NoProxyHosts:    "test-npc",
+							NoProxyHosts:    "test-npc1,test-npc2",
 							Password:        "test-password",
 							Port:            func(i int32) *int32 { return &i }(99),
 							Protocol:        func(s string) *string { return &s }("test-protocol"),

@@ -19,7 +19,7 @@ type proxyConfigurationResourceModel struct {
 	Protocol     types.String `tfsdk:"protocol"`
 	Host         types.String `tfsdk:"host"`
 	Port         types.Int64  `tfsdk:"port"`
-	NoProxyHosts types.String `tfsdk:"no_proxy_hosts"`
+	NoProxyHosts types.Set    `tfsdk:"no_proxy_hosts"`
 	User         types.String `tfsdk:"user"`
 	Password     types.String `tfsdk:"password"`
 }
