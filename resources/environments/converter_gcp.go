@@ -81,9 +81,15 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	if env.LogStorage != nil {
 		if env.LogStorage.GcpDetails != nil {
 			backupStorageLocationBase := ""
-			if model.LogStorage != nil && !model.LogStorage.BackupStorageLocationBase.IsNull() &&
-				!model.LogStorage.BackupStorageLocationBase.IsUnknown() {
-				backupStorageLocationBase = model.LogStorage.BackupStorageLocationBase.ValueString()
+			serviceAccountEmail := ""
+			if model.LogStorage != nil {
+				if !model.LogStorage.BackupStorageLocationBase.IsNull() &&
+					!model.LogStorage.BackupStorageLocationBase.IsUnknown() {
+					backupStorageLocationBase = model.LogStorage.BackupStorageLocationBase.ValueString()
+				}
+				if !model.LogStorage.ServiceAccountEmail.IsNull() && !model.LogStorage.ServiceAccountEmail.IsUnknown() {
+					serviceAccountEmail = model.LogStorage.ServiceAccountEmail.ValueString()
+				}
 			}
 			model.LogStorage = &GcpLogStorage{
 				StorageLocationBase: types.StringValue(env.LogStorage.GcpDetails.StorageLocationBase),
@@ -93,6 +99,12 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 					}
 					return types.StringNull()
 				}(backupStorageLocationBase),
+				ServiceAccountEmail: func(base string) types.String {
+					if len(base) > 0 {
+						return types.StringValue(base)
+					}
+					return types.StringNull()
+				}(serviceAccountEmail),
 			}
 		}
 	}
