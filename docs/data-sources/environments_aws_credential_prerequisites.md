@@ -66,3 +66,4 @@ output "external_id" {
 
 - `account_id` (String) The AWS account ID of the identity used by CDP when assuming a delegated access role associated with a CDP credential.
 - `external_id` (String) The external ID that will be used when assuming a delegated access role associated with a CDP credential.
+- `id` (String) The ID of this resource.
