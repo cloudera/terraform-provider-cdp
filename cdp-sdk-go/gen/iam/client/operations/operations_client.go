@@ -94,6 +94,8 @@ type ClientService interface {
 
 	GetAccountMessages(params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error)
 
+	GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error)
+
 	GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserOK, error)
 
 	ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error)
@@ -143,6 +145,8 @@ type ClientService interface {
 	SetAccountMessages(params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error)
 
 	SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error)
+
+	SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error)
 
 	SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error)
 
@@ -1471,6 +1475,45 @@ func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...Cl
 }
 
 /*
+GetDefaultIdentityProvider retrieves the c r n of the default identity provider
+
+Retrieves the CRN of the default identity provider used for CDP initiated login requests.
+*/
+func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetDefaultIdentityProviderParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getDefaultIdentityProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/getDefaultIdentityProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetDefaultIdentityProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetDefaultIdentityProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetDefaultIdentityProviderDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetUser gets information on a user
 
 Gets information on a user. If no user name is specified. The user name is determined from the access key used to make the request.
@@ -2409,7 +2452,7 @@ func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...Cl
 /*
 SetAuthenticationPolicy sets the authentication policy for the account
 
-Set the authentication policy for the account. Check each request parameter for its default values. Changes to the authentication policy only affect authentications that are done after the policy has been updated.
+Set the authentication policy for the account. Any parameters not specified in the request will be cleared, and their default values will be used for authentication. Changes to the authentication policy only affect authentications that are done after the policy has been updated.
 */
 func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error) {
 	// TODO: Validate the params before sending
@@ -2442,6 +2485,45 @@ func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SetAuthenticationPolicyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetDefaultIdentityProvider sets the default identity provider
+
+Sets the default identity provider used for CDP initiated login requests.
+*/
+func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetDefaultIdentityProviderParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setDefaultIdentityProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/setDefaultIdentityProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetDefaultIdentityProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetDefaultIdentityProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetDefaultIdentityProviderDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2838,7 +2920,7 @@ func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...Client
 /*
 UnlockMachineUserInControlPlane unlocks machine user in the c d p control plane
 
-Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active.
+Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active. This operation is only supported on Cloudera for Government.
 */
 func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error) {
 	// TODO: Validate the params before sending
@@ -2877,7 +2959,7 @@ func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInCont
 /*
 UnlockUserInControlPlane unlocks user in the c d p control plane
 
-Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active.
+Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active. This operation is only supported on Cloudera for Government.
 */
 func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error) {
 	// TODO: Validate the params before sending

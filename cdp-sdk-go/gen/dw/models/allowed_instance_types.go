@@ -17,10 +17,10 @@ import (
 // swagger:model AllowedInstanceTypes
 type AllowedInstanceTypes struct {
 
-	// Allowed values for the instance type.
+	// Allowed values for the instance type. This setting is Cluster-wide.
 	Allowed []string `json:"allowed"`
 
-	// Default value for the compute instance type usage.
+	// Default value for the compute instance type usage. This setting is Cluster-wide.
 	Default []string `json:"default"`
 }
 

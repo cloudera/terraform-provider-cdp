@@ -19,9 +19,15 @@ import (
 // swagger:model UpgradeFreeipaRequest
 type UpgradeFreeipaRequest struct {
 
+	// Allows the upgrade to a subsequent major OS version in the series.
+	AllowMajorOsUpgrade bool `json:"allowMajorOsUpgrade,omitempty"`
+
 	// The name or CRN of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
+
+	// Target image ID for upgrade.
+	ImageID string `json:"imageId,omitempty"`
 }
 
 // Validate validates this upgrade freeipa request

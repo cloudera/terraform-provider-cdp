@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
@@ -290,7 +291,7 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	res.CreateServiceEndpoints = model.CreateServiceEndpoints.ValueBool()
 	res.CredentialName = model.CredentialName.ValueStringPointer()
 	res.Description = model.Description.ValueString()
-	res.EnableTunnel = model.EnableTunnel.ValueBool()
+	res.EnableTunnel = model.EnableTunnel.ValueBoolPointer()
 	res.EncryptionKeyArn = model.EncryptionKeyArn.ValueString()
 	res.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
 	res.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)

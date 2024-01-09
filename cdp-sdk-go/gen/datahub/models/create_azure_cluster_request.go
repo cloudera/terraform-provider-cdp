@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -37,6 +38,10 @@ type CreateAzureClusterRequest struct {
 	// The name of the custom configurations to use for cluster creation.
 	CustomConfigurationsName string `json:"customConfigurationsName,omitempty"`
 
+	// The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
+	// Enum: [FLEXIBLE_SERVER SINGLE_SERVER]
+	DatabaseType string `json:"databaseType,omitempty"`
+
 	// Database type for datahub. Currently supported values: NONE, NON_HA, HA
 	DatahubDatabase DatahubDatabaseType `json:"datahubDatabase,omitempty"`
 
@@ -58,6 +63,9 @@ type CreateAzureClusterRequest struct {
 	// The SKU for the datahub load balancer. Allowed values are "BASIC", "STANDARD", or "NONE".
 	LoadBalancerSku DatahubLoadBalancerSkuType `json:"loadBalancerSku,omitempty"`
 
+	// Flag that toggles the multi availability zone feature for the given datahub cluster when unsure what subnet IDs can be used. When true, the subnet IDs suggested by the environment will be used.
+	MultiAz *bool `json:"multiAz,omitempty"`
+
 	// JSON template to use for cluster creation. This is different from cluster template and would be removed in the future.
 	RequestTemplate string `json:"requestTemplate,omitempty"`
 
@@ -77,6 +85,10 @@ func (m *CreateAzureClusterRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateClusterName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDatabaseType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -135,6 +147,48 @@ func (m *CreateAzureClusterRequest) validateClusterName(formats strfmt.Registry)
 	}
 
 	if err := validate.MaxLength("clusterName", "body", m.ClusterName, 40); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var createAzureClusterRequestTypeDatabaseTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["FLEXIBLE_SERVER","SINGLE_SERVER"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createAzureClusterRequestTypeDatabaseTypePropEnum = append(createAzureClusterRequestTypeDatabaseTypePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateAzureClusterRequestDatabaseTypeFLEXIBLESERVER captures enum value "FLEXIBLE_SERVER"
+	CreateAzureClusterRequestDatabaseTypeFLEXIBLESERVER string = "FLEXIBLE_SERVER"
+
+	// CreateAzureClusterRequestDatabaseTypeSINGLESERVER captures enum value "SINGLE_SERVER"
+	CreateAzureClusterRequestDatabaseTypeSINGLESERVER string = "SINGLE_SERVER"
+)
+
+// prop value enum
+func (m *CreateAzureClusterRequest) validateDatabaseTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createAzureClusterRequestTypeDatabaseTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateAzureClusterRequest) validateDatabaseType(formats strfmt.Registry) error {
+	if swag.IsZero(m.DatabaseType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateDatabaseTypeEnum("databaseType", "body", m.DatabaseType); err != nil {
 		return err
 	}
 

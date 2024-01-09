@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.91 (BETA)
+  version: 0.9.103 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -57,6 +57,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/CreateAWSDatalakeResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/createAWSGovCloudDatalake:
+    post:
+      summary: Creates a Data Lake on AWS GovCloud.
+      description: Creates a Data Lake on AWS GovCloud.
+      operationId: createAWSGovCloudDatalake
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudDatalakeRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudDatalakeResponse'
         default:
           description: The default response on an error.
           schema:
@@ -169,7 +190,7 @@ paths:
   /api/v1/datalake/startDatalakeVerticalScaling:
     post:
       summary: Initiates the vertical scaling on Data Lake.
-      description: Initiates the vertical scaling on Data Lake.
+      description: Initiates the vertical scaling on Data Lake. You have the option to specify 'modifyDisks' or 'instanceTemplate' as parameter.
       operationId: startDatalakeVerticalScaling
       x-mutating: true
       parameters:
@@ -737,6 +758,69 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datalake/describeDatabaseServer:
+    post:
+      summary: Gets external database server details.
+      description: Gets external database server details for Data Lake by cluster CRN
+      operationId: describeDatabaseServer
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DescribeDatabaseServerRequest'
+      responses:
+        200:
+          description: Database server details for the requested resource.
+          schema:
+            $ref: '#/definitions/DescribeDatabaseServerResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/validateAwsCloudStorage:
+    post:
+      summary: Validates AWS cloud storage.
+      description: Validates AWS cloud storage for Data Lake.
+      operationId: validateAwsCloudStorage
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ValidateAwsCloudStorageRequest'
+      responses:
+        200:
+          description: AWS cloud storage validation result for Data Lake.
+          schema:
+            $ref: '#/definitions/ValidateAwsCloudStorageResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/validateAzureCloudStorage:
+    post:
+      summary: Validates Azure cloud storage.
+      description: Validates Azure cloud storage for Data Lake.
+      operationId: validateAzureCloudStorage
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ValidateAzureCloudStorageRequest'
+      responses:
+        200:
+          description: Azure cloud storage validation result for Data Lake.
+          schema:
+            $ref: '#/definitions/ValidateAzureCloudStorageResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/datalake/resizeDatalake:
     post:
       summary: Resizes the given datalake to the given target size. Currently, the only valid use of this is for resizing a light duty datalake to a medium duty datalake.
@@ -754,6 +838,27 @@ paths:
           description: Expected response to a valid resize datalake request.
           schema:
             $ref: '#/definitions/ResizeDatalakeResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/scaleHorizontally:
+    post:
+      summary: Horizontally scale the Data Lake nodes, to add additional compute nodes to the cluster.
+      description: Horizontally scale the target host group in the Data Lake cluster. The possible option for the instance group are raz_scale_out, hms_scale_out, kafka_scale_out, solr_scale_out, storage_scale_out
+      operationId: scaleHorizontally
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ScaleHorizontallyRequest'
+      responses:
+        200:
+          description: Successful response to a valid Data Lake horizontal scaling request.
+          schema:
+            $ref: '#/definitions/ScaleHorizontallyResponse'
         default:
           description: The default response on an error.
           schema:
@@ -953,7 +1058,6 @@ definitions:
     required:
       - datalake
       - group
-      - instanceTemplate
     properties:
       datalake:
         type: string
@@ -964,6 +1068,9 @@ definitions:
       instanceTemplate:
         description: Instance template that specifies the core information for the vertical scale.
         $ref: '#/definitions/InstanceTemplate'
+      diskOptions:
+        description: Disk options for vertical scaling - modify disks.
+        $ref: '#/definitions/DiskOptions'
   StartDatalakeVerticalScalingResponse:
     type: object
     description: The response object for Data Lake vertical scaling.
@@ -978,6 +1085,27 @@ definitions:
       instanceType:
         type: string
         description: The type of the instance.
+  DiskOptions:
+    type: object
+    description: Attached disk configuration(s).
+    properties:
+      modifyDisks:
+        description: Modifies all the disks attached to all instances in a group.
+        $ref: '#/definitions/ModifyDisks'
+  ModifyDisks:
+    type: object
+    description: Attached volume configuration.
+    required:
+      - volumeType
+      - size
+    properties:
+      volumeType:
+        type: string
+        description: Type of disks to modify to on all the instances in a group.
+      size:
+        type: integer
+        format: int32
+        description: Size of disks to modify to on all the instances in a group in GB.
   DatalakeDetails:
     type: object
     description: Details about a datalake
@@ -1399,6 +1527,69 @@ definitions:
       datalake:
         $ref: '#/definitions/Datalake'
         description: The datalake.
+  CreateAWSGovCloudDatalakeRequest:
+    type: object
+    description: Request object for createing AWS Data Lake request on GovCloud.
+    required:
+      - datalakeName
+      - environmentName
+      - cloudProviderConfiguration
+    properties:
+      datalakeName:
+        type: string
+        description: The Data Lake name. This name must be unique, must have between 5 and 100 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
+        minLength: 5
+        maxLength: 100
+      environmentName:
+        type: string
+        description: The environment name or CRN.
+      cloudProviderConfiguration:
+        $ref: '#/definitions/AWSConfigurationRequest'
+        description: AWS configuration.
+      scale:
+        description: The scale of the datalake. Allowed values are "LIGHT_DUTY" or "MEDIUM_DUTY_HA". Defaults to "LIGHT_DUTY" if not set.
+        $ref: '#/definitions/DatalakeScaleType'
+        x-no-compatibility-guarantee: true
+      tags:
+        type: array
+        description: Tags to be added to Data Lake related resources.
+        items:
+          $ref: '#/definitions/DatalakeResourceTagRequest'
+      runtime:
+        type: string
+        description: Cloudera Runtime version.
+      image:
+        $ref: '#/definitions/ImageRequest'
+        description: The image to use for the datalake. This must not be set if the runtime parameter is provided.
+      enableRangerRaz:
+        type: boolean
+        description: Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
+      multiAz:
+        type: boolean
+        description: Controls if the datalake is deployed in a multi-availability zone way.
+      recipes:
+        type: array
+        items:
+          $ref: '#/definitions/InstanceGroupRecipeRequest'
+        description: Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker').
+      customInstanceGroups:
+        type: array
+        items:
+          $ref: '#/definitions/SdxInstanceGroupRequest'
+        description: Configure custom properties on an instance group level.
+      javaVersion:
+        type: integer
+        format: int32
+        description: Configure the major version of Java on the cluster.
+  CreateAWSGovCloudDatalakeResponse:
+    type: object
+    description: Response object for creating AWS Data Lake request on GovCloud.
+    required:
+      - datalake
+    properties:
+      datalake:
+        $ref: '#/definitions/Datalake'
+        description: The Data Lake.
   CreateAzureDatalakeRequest:
     type: object
     description: Request object for create Azure datalake request.
@@ -1439,6 +1630,12 @@ definitions:
       enableRangerRaz:
         type: boolean
         description: Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
+      databaseType:
+        type: string
+        description: The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
+        enum:
+          - FLEXIBLE_SERVER
+          - SINGLE_SERVER
       recipes:
         type: array
         items:
@@ -1453,6 +1650,10 @@ definitions:
         type: integer
         format: int32
         description: Configure the major version of Java on the cluster.
+      multiAz:
+        type: boolean
+        default: false
+        description: Creates CDP datalake distributed across multiple availability zones in an Azure region.
   CreateAzureDatalakeResponse:
     type: object
     description: Response object for create Azure datalake request.
@@ -1528,6 +1729,7 @@ definitions:
     enum:
       - LIGHT_DUTY
       - MEDIUM_DUTY_HA
+      - ENTERPRISE
   DatalakeLoadBalancerSkuType:
     type: string
     description: Represents the Azure load balancer SKU type. The current default is BASIC. To disable the load balancer, use type NONE.
@@ -2411,6 +2613,10 @@ definitions:
         description: The database engine major version to upgrade to.
         enum:
           - VERSION_11
+          - VERSION_14
+      force:
+        type: boolean
+        description: Start the database upgrade flow even if the source and target versions are the same. Can be used to reinitiate an upgrade after a failure.
   StartDatabaseUpgradeResponse:
     type: object
     description: Response object to Data Lake database upgrade.
@@ -2418,8 +2624,6 @@ definitions:
       targetVersion:
         type: string
         description: The database engine major version to upgrade to.
-        enum:
-          - VERSION_11
   DatalakeVmLogRequest:
     type: object
     description: Log descriptor, contains a path and label pair. Used for diagnostics collections.
@@ -2716,19 +2920,220 @@ definitions:
     type: object
     description: Response object for renew certificate request, deprecated.
     x-deprecated: true
-  ImageRequest:
-    description: The image request for the datalake. This must not be set if the runtime parameter is provided. The image ID parameter is required if this is present, but the image catalog name is optional, defaulting to 'cdp-default' if not present.
+  DescribeDatabaseServerRequest:
     type: object
-    required:
-      - id
+    description: Request object for obtaining Database Server details.
+    properties:
+      clusterCrn:
+        description: Stack CRN of the Data Lake
+        type: string
+  DescribeDatabaseServerResponse:
+    type: object
+    description: Response object for obtaining Database Server details.
+    properties:
+      crn:
+        type: string
+        description: CRN of the database server
+      name:
+        type: string
+        description: Name of the database server
+      description:
+        type: string
+        description: Description of the database server
+      environmentCrn:
+        type: string
+        description: CRN of the environment of the database server
+      host:
+        type: string
+        description: Host of the database server
+      port:
+        type: integer
+        format: int32
+        description: Port of the database server
+      databaseVendor:
+        type: string
+        description: Name of the database vendor (MYSQL, POSTGRES, ...)
+      databaseVendorDisplayName:
+        type: string
+        description: Display name of the database vendor (MySQL, PostgreSQL, ...)
+      creationDate:
+        type: string
+        format: date-time
+        description: Creation date of the database server
+      resourceStatus:
+        type: string
+        description: Ownership status of the database server
+        enum:
+          - UNKNOWN
+          - SERVICE_MANAGED
+          - USER_MANAGED
+      status:
+        type: string
+        description: Status of the database server stack
+        enum:
+          - REQUESTED
+          - CREATE_IN_PROGRESS
+          - AVAILABLE
+          - UPDATE_IN_PROGRESS
+          - UPDATE_REQUESTED
+          - UPDATE_FAILED
+          - CREATE_FAILED
+          - ENABLE_SECURITY_FAILED
+          - DELETE_REQUESTED
+          - PRE_DELETE_IN_PROGRESS
+          - DELETE_IN_PROGRESS
+          - DELETE_FAILED
+          - DELETE_COMPLETED
+          - STOPPED
+          - STOP_REQUESTED
+          - START_REQUESTED
+          - STOP_IN_PROGRESS
+          - START_IN_PROGRESS
+          - START_FAILED
+          - STOP_FAILED
+          - WAIT_FOR_SYNC
+          - MAINTENANCE_MODE_ENABLED
+          - UNKNOWN
+      statusReason:
+        type: string
+        description: Additional status information about the database server stack
+      clusterCrn:
+        type: string
+        description: CRN of the cluster of the database server
+      sslConfig:
+        description: SSL configuration of the database server
+        $ref: '#/definitions/DatabaseServerSslConfig'
+  DatabaseServerSslConfig:
+    description: SSL configuration for the database server
+    type: object
+    properties:
+      sslCertificates:
+        type: array
+        description: Set of SSL certificates for the actual database server
+        uniqueItems: true
+        items:
+          type: string
+      sslCertificateType:
+        type: string
+        description: SSL certificate type
+        enum:
+          - CLOUD_PROVIDER_OWNED
+          - BRING_YOUR_OWN
+          - NONE
+      sslMode:
+        type: string
+        description: SSL enforcement mode for the actual database server
+        enum:
+          - ENABLED
+          - DISABLED
+  ImageRequest:
+    description: The image request for the datalake. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.
+    type: object
     properties:
       id:
         type: string
         description: The image ID from the catalog. The corresponding image will be used for the created cluster machines.
       catalogName:
         type: string
-        description: The name of the custom image catalog to use.
+        description: The name of the custom image catalog to use, defaulting to 'cdp-default' if not present.
         default: cdp-default
+      os:
+        type: string
+        description: The OS of the image used for cluster instances.
+  ValidateAwsCloudStorageRequest:
+    type: object
+    description: Request object for AWS cloud storage validation.
+    required:
+      - clusterName
+      - dataAccessRole
+      - rangerAuditRole
+      - credentialCrn
+      - blueprintName
+      - storageLocation
+      - instanceProfile
+    properties:
+      clusterName:
+        description: Datalake cluster name.
+        type: string
+      dataAccessRole:
+        description: Data access role.
+        type: string
+      rangerAuditRole:
+        description: Ranger audit role.
+        type: string
+      credentialCrn:
+        description: Credential CRN.
+        type: string
+      blueprintName:
+        description: Name of the blueprint.
+        type: string
+      storageLocation:
+        description: AWS S3 storage bucket base location.
+        type: string
+      instanceProfile:
+        description: AWS instance profile.
+        type: string
+  ValidateAwsCloudStorageResponse:
+    type: object
+    description: AWS cloud storage validation response.
+    properties:
+      status:
+        description: Validation result. Allowed values are "OK", "ACCESS_DENIED", "ERROR", "RESOURCE_NOT_FOUND".
+        type: string
+      error:
+        description: Error message if validation failed.
+        type: string
+  ValidateAzureCloudStorageRequest:
+    type: object
+    description: Request object for Azure cloud storage validation.
+    required:
+      - clusterName
+      - dataAccessRole
+      - rangerAuditRole
+      - credentialCrn
+      - blueprintName
+      - storageLocation
+    properties:
+      clusterName:
+        description: Datalake cluster name.
+        type: string
+      dataAccessRole:
+        description: Data access role.
+        type: string
+      rangerAuditRole:
+        description: Ranger audit role.
+        type: string
+      credentialCrn:
+        description: Credential CRN.
+        type: string
+      blueprintName:
+        description: Name of the blueprint.
+        type: string
+      storageLocation:
+        description: Azure storage base location.
+        type: string
+      managedIdentity:
+        description: Azure managed identity.
+        type: string
+      accountKey:
+        description: Azure account key.
+        type: string
+      accountName:
+        description: Azure account name.
+        type: string
+      secure:
+        description: Azure secure flag.
+        type: boolean
+  ValidateAzureCloudStorageResponse:
+    type: object
+    description: Azure cloud storage validation response.
+    properties:
+      status:
+        description: Validation result. Allowed values are "OK", "ACCESS_DENIED", "ERROR", "RESOURCE_NOT_FOUND".
+        type: string
+      error:
+        description: Error message if validation failed.
+        type: string
   ResizeDatalakeRequest:
     type: object
     description: Datalake resize request.
@@ -2744,6 +3149,11 @@ definitions:
         description: The target size for the datalake.
         enum:
           - MEDIUM_DUTY_HA
+          - ENTERPRISE
+      multiAz:
+        type: boolean
+        default: false
+        description: Whether to deploy a new datalake in a multi-availability zone way.
   ResizeDatalakeResponse:
     type: object
     description: Datalake resize response.
@@ -2769,6 +3179,39 @@ definitions:
       cloudbreakVersion:
         type: string
         description: The Cloudbreak version used to create the data lake.
+  ScaleHorizontallyRequest:
+    type: object
+    description: Data lake horizontal scaling request.
+    required:
+      - datalakeName
+      - instanceGroupName
+      - instanceGroupDesiredCount
+    properties:
+      datalakeName:
+        type: string
+        description: the name of the Data Lake
+      instanceGroupName:
+        type: string
+        description: The target host group name to be scaled.
+        enum:
+          - solr_scale_out
+          - hms_scale_out
+          - raz_scale_out
+          - kafka_scale_out
+          - storage_scale_out
+      instanceGroupDesiredCount:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 40
+        description: The target number of the scaling operation. If the desired count is less than the actual node count the scaling action will be a downscale operation.
+  ScaleHorizontallyResponse:
+    type: object
+    description: Data Lake horizontal scaling response
+    properties:
+      datalakeName:
+        type: string
+        description: The name of the datalake.
   ReplaceRecipesRequest:
     type: object
     description: The request for replacing recipes.

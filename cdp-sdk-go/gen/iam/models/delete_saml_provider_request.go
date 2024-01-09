@@ -8,8 +8,10 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // DeleteSamlProviderRequest Request object for deleting SAML provider request.
@@ -18,11 +20,30 @@ import (
 type DeleteSamlProviderRequest struct {
 
 	// The name or CRN of the SAML provider to delete.
-	SamlProviderName string `json:"samlProviderName,omitempty"`
+	// Required: true
+	SamlProviderName *string `json:"samlProviderName"`
 }
 
 // Validate validates this delete saml provider request
 func (m *DeleteSamlProviderRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateSamlProviderName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DeleteSamlProviderRequest) validateSamlProviderName(formats strfmt.Registry) error {
+
+	if err := validate.Required("samlProviderName", "body", m.SamlProviderName); err != nil {
+		return err
+	}
+
 	return nil
 }
 

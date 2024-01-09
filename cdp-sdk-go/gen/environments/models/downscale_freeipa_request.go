@@ -24,6 +24,9 @@ type DownscaleFreeipaRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// The instance Ids to downscale.
+	Instances []string `json:"instances"`
+
 	// The target FreeIPA availability type.
 	// Enum: [HA TWO_NODE_BASED]
 	TargetAvailabilityType string `json:"targetAvailabilityType,omitempty"`

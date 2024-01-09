@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -25,13 +26,13 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 	req := &environmentsmodels.CreateGCPEnvironmentRequest{
 		CredentialName:              model.CredentialName.ValueStringPointer(),
 		Description:                 model.Description.ValueString(),
-		EnableTunnel:                model.EnableTunnel.ValueBool(),
+		EnableTunnel:                model.EnableTunnel.ValueBoolPointer(),
 		EncryptionKey:               model.EncryptionKey.ValueString(),
 		EndpointAccessGatewayScheme: model.EndpointAccessGatewayScheme.ValueString(),
 		EnvironmentName:             model.EnvironmentName.ValueStringPointer(),
 		ExistingNetworkParams: &environmentsmodels.ExistingGCPNetworkRequest{
 			NetworkName:     model.ExistingNetworkParams.NetworkName.ValueStringPointer(),
-			SharedProjectID: model.ExistingNetworkParams.SharedProjectId.ValueStringPointer(),
+			SharedProjectID: model.ExistingNetworkParams.SharedProjectId.ValueString(),
 			SubnetNames:     utils.FromListValueToStringList(model.ExistingNetworkParams.SubnetNames),
 		},
 		ProxyConfigName:      model.ProxyConfigName.ValueString(),

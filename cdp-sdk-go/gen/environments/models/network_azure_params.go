@@ -19,14 +19,17 @@ import (
 // swagger:model NetworkAzureParams
 type NetworkAzureParams struct {
 
-	// The ID of an existing private DNS zone used for the AKS.
+	// The full Azure resource ID of an existing Private DNS zone used for the AKS.
 	AksPrivateDNSZoneID string `json:"aksPrivateDnsZoneId,omitempty"`
 
-	// The ID of an existing private DNS zone used for the database.
+	// The full Azure resource ID of the existing Private DNS Zone used for Flexible Server and Single Server Databases.
 	DatabasePrivateDNSZoneID string `json:"databasePrivateDnsZoneId,omitempty"`
 
 	// Whether the outbound load balancer was created for this environment.
 	EnableOutboundLoadBalancer bool `json:"enableOutboundLoadBalancer,omitempty"`
+
+	// The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
+	FlexibleServerSubnetIds []string `json:"flexibleServerSubnetIds"`
 
 	// The id of the Azure VNet.
 	// Required: true

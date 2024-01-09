@@ -35,6 +35,9 @@ const (
 
 	// DatalakeScaleTypeMEDIUMDUTYHA captures enum value "MEDIUM_DUTY_HA"
 	DatalakeScaleTypeMEDIUMDUTYHA DatalakeScaleType = "MEDIUM_DUTY_HA"
+
+	// DatalakeScaleTypeENTERPRISE captures enum value "ENTERPRISE"
+	DatalakeScaleTypeENTERPRISE DatalakeScaleType = "ENTERPRISE"
 )
 
 // for schema
@@ -42,7 +45,7 @@ var datalakeScaleTypeEnum []interface{}
 
 func init() {
 	var res []DatalakeScaleType
-	if err := json.Unmarshal([]byte(`["LIGHT_DUTY","MEDIUM_DUTY_HA"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["LIGHT_DUTY","MEDIUM_DUTY_HA","ENTERPRISE"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

@@ -35,7 +35,7 @@ type CreateDbcRequest struct {
 	// Version of the Database Catalog.
 	ImageVersion string `json:"imageVersion,omitempty"`
 
-	// Is this a Default Database Catalog?
+	// NOTE: creating Default Database Catalogs is deprecated and explicitly disabled. Denotes if Default Database Catalog creation needed.
 	IsDefault *bool `json:"isDefault,omitempty"`
 
 	// Load demo data into the Database Catalog?

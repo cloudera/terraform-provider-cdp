@@ -8,10 +8,8 @@ package models
 import (
 	"context"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // GetAuditEventsRequest GetAuditEventsRequest to get all audit events for a given workspace crn.
@@ -19,31 +17,15 @@ import (
 // swagger:model GetAuditEventsRequest
 type GetAuditEventsRequest struct {
 
-	// Workspace crn for which audit events to be fetched.
-	// Required: true
-	WorkspaceCrn *string `json:"workspaceCrn"`
+	// Resource crn for which audit events to be fetched. Resource can be workspace or model registry.
+	ResourceCrn string `json:"resourceCrn,omitempty"`
+
+	// Deprecated, please begin to use Resource crn, as this will soon be unsupported.
+	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 }
 
 // Validate validates this get audit events request
 func (m *GetAuditEventsRequest) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateWorkspaceCrn(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *GetAuditEventsRequest) validateWorkspaceCrn(formats strfmt.Registry) error {
-
-	if err := validate.Required("workspaceCrn", "body", m.WorkspaceCrn); err != nil {
-		return err
-	}
-
 	return nil
 }
 

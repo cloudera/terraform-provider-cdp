@@ -19,10 +19,10 @@ import (
 // swagger:model ExistingAzureNetworkRequest
 type ExistingAzureNetworkRequest struct {
 
-	// The ID of an existing private DNS zone used for the AKS.
+	// The full Azure resource ID of an existing Private DNS zone used for the AKS.
 	AksPrivateDNSZoneID string `json:"aksPrivateDnsZoneId,omitempty"`
 
-	// The ID of an existing private DNS zone used for the database.
+	// The full Azure resource ID of the existing Private DNS Zone used for Flexible Server and Single Server Databases.
 	DatabasePrivateDNSZoneID string `json:"databasePrivateDnsZoneId,omitempty"`
 
 	// The id of the Azure VNet.

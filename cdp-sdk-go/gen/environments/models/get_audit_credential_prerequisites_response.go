@@ -31,6 +31,9 @@ type GetAuditCredentialPrerequisitesResponse struct {
 	// The name of the given cloud platform
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
+
+	// Provides the service account creation command for GCP credential creation.
+	Gcp *GcpCredentialPrerequisitesResponse `json:"gcp,omitempty"`
 }
 
 // Validate validates this get audit credential prerequisites response
@@ -46,6 +49,10 @@ func (m *GetAuditCredentialPrerequisitesResponse) Validate(formats strfmt.Regist
 	}
 
 	if err := m.validateCloudPlatform(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateGcp(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -102,6 +109,25 @@ func (m *GetAuditCredentialPrerequisitesResponse) validateCloudPlatform(formats 
 	return nil
 }
 
+func (m *GetAuditCredentialPrerequisitesResponse) validateGcp(formats strfmt.Registry) error {
+	if swag.IsZero(m.Gcp) { // not required
+		return nil
+	}
+
+	if m.Gcp != nil {
+		if err := m.Gcp.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcp")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcp")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this get audit credential prerequisites response based on the context it is used
 func (m *GetAuditCredentialPrerequisitesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -111,6 +137,10 @@ func (m *GetAuditCredentialPrerequisitesResponse) ContextValidate(ctx context.Co
 	}
 
 	if err := m.contextValidateAzure(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateGcp(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -154,6 +184,27 @@ func (m *GetAuditCredentialPrerequisitesResponse) contextValidateAzure(ctx conte
 				return ve.ValidateName("azure")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("azure")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *GetAuditCredentialPrerequisitesResponse) contextValidateGcp(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Gcp != nil {
+
+		if swag.IsZero(m.Gcp) { // not required
+			return nil
+		}
+
+		if err := m.Gcp.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcp")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcp")
 			}
 			return err
 		}

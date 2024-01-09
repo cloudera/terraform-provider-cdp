@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -28,6 +29,9 @@ type AutoscalingOptionsUpdateRequest struct {
 
 	// Set wait time before a scale event happens. Either "hiveScaleWaitTimeSeconds" or "hiveDesiredFreeCapacity" can be provided. If "hiveScaleWaitTimeSeconds" provided, then the "hiveDesiredFreeCapacity" will be explicityly set to 0.
 	HiveScaleWaitTimeSeconds int32 `json:"hiveScaleWaitTimeSeconds,omitempty"`
+
+	// Re-configures executor group sets for workload aware autoscaling.
+	ImpalaExecutorGroupSets *ImpalaExecutorGroupSetsUpdateRequest `json:"impalaExecutorGroupSets,omitempty"`
 
 	// DEPRECATED in favor of the top level impalaHASettings object. Number of the active coordinators.
 	ImpalaNumOfActiveCoordinators int32 `json:"impalaNumOfActiveCoordinators,omitempty"`
@@ -50,11 +54,69 @@ type AutoscalingOptionsUpdateRequest struct {
 
 // Validate validates this autoscaling options update request
 func (m *AutoscalingOptionsUpdateRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateImpalaExecutorGroupSets(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this autoscaling options update request based on context it is used
+func (m *AutoscalingOptionsUpdateRequest) validateImpalaExecutorGroupSets(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+		return nil
+	}
+
+	if m.ImpalaExecutorGroupSets != nil {
+		if err := m.ImpalaExecutorGroupSets.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impalaExecutorGroupSets")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impalaExecutorGroupSets")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this autoscaling options update request based on the context it is used
 func (m *AutoscalingOptionsUpdateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateImpalaExecutorGroupSets(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AutoscalingOptionsUpdateRequest) contextValidateImpalaExecutorGroupSets(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImpalaExecutorGroupSets != nil {
+
+		if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+			return nil
+		}
+
+		if err := m.ImpalaExecutorGroupSets.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impalaExecutorGroupSets")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impalaExecutorGroupSets")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

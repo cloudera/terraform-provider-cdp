@@ -41,6 +41,9 @@ type CreateVwRequest struct {
 	// Enable Unified Analytics. In the case of Hive Virtual Warehouses, this cannot be provided, because this value is inferred. In the case of Impala, this can be set. Passing --query-isolation-options will be considered only if this flag is set to true. If Unified Analytics is enabled then the "enableShutdownOfCoordinator" in --impala-ha-settings is explicitly disabled (ignored) and should not be provided, furthermore the "highAvailabilityMode" in --impala-ha-settings cannot be set to ACTIVE_ACTIVE.
 	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
 
+	// DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` Default: `LDAP` if not specified
+	HiveAuthenticationMode *string `json:"hiveAuthenticationMode,omitempty"`
+
 	// version of the Virtual Warehouse.
 	ImageVersion string `json:"imageVersion,omitempty"`
 
@@ -54,7 +57,7 @@ type CreateVwRequest struct {
 	// Required: true
 	Name *string `json:"name"`
 
-	// Node Count per compute cluster. Implies 'custom' template, even if you pass template explicitly.
+	// Nodes per compute cluster. If specified, forces 'template' to be 'custom'
 	NodeCount int32 `json:"nodeCount,omitempty"`
 
 	// Value of 'true' automatically configures the Virtual Warehouse to support JWTs issues by the CDP JWT token provider.  Value of 'false' does not enable JWT auth on the Virtual Warehouse.  If this field is not specified, it defaults to 'false'.
@@ -62,6 +65,9 @@ type CreateVwRequest struct {
 
 	// Query isolation settings for the Virtual Warehouse. For Impala this value will be considered only if Unified Analytics is enabled.
 	QueryIsolationOptions *QueryIsolationOptionsRequest `json:"queryIsolationOptions,omitempty"`
+
+	// The Resource Pool of the Virtual Warehouse.
+	ResourcePool string `json:"resourcePool,omitempty"`
 
 	// Tags associated with the resources.
 	Tags []*TagRequest `json:"tags"`

@@ -36,6 +36,8 @@ type ClientService interface {
 
 	CreateAWSCluster(params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error)
 
+	CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error)
+
 	CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error)
 
 	CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error)
@@ -74,6 +76,8 @@ type ClientService interface {
 
 	DescribeCustomConfigurations(params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error)
 
+	DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
+
 	DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error)
 
 	DescribeScalingActivity(params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error)
@@ -85,6 +89,10 @@ type ClientService interface {
 	GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error)
 
 	GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error)
+
+	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
+	GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error)
 
 	ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error)
 
@@ -304,6 +312,45 @@ func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams, opts ...Client
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CreateAWSClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAWSGovCloudCluster creates an a w s data hub cluster for gov cloud
+
+Creates an AWS Data Hub cluster for GovCloud.
+*/
+func (a *Client) CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/createAWSGovCloudCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1049,6 +1096,45 @@ func (a *Client) DescribeCustomConfigurations(params *DescribeCustomConfiguratio
 }
 
 /*
+DescribeDatabaseServer gets external database server details
+
+Gets external database server details for Data Hub cluster by cluster CRN
+*/
+func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDatabaseServerParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDatabaseServer",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/describeDatabaseServer",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDatabaseServerReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDatabaseServerOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDatabaseServerDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 DescribeRecipe describes recipe a recipe is a script that runs on all nodes of a specified instance group
 
 Describes recipe. A recipe is a script that runs on all nodes of a specified instance group.
@@ -1279,6 +1365,84 @@ func (a *Client) GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*GetDatahubLogDescriptorsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetOperation gets the latest in progress or finished operation for the datahub cluster
+
+Get the latest (in progress or finished) operation for the datahub cluster.
+*/
+func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetOperationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getOperation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/getOperation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetOperationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetOperationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetOperationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetVMTypes creates a recommendation that advises virtual machine types for the given cluster template based on the given properties
+
+Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
+*/
+func (a *Client) GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetVMTypesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getVmTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/getVmTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetVMTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetVMTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetVMTypesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2104,7 +2268,7 @@ func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) 
 /*
 StartClusterVerticalScaling initiates the vertical scaling on data hub cluster
 
-Initiates the vertical scaling on Data Hub cluster.
+Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'deleteDisks', 'modifyDisks' or 'addDisks' or 'instanceTemplate' as parameter.
 */
 func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error) {
 	// TODO: Validate the params before sending

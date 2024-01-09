@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -29,14 +30,24 @@ type UpdateVwRequest struct {
 	// The service configuration to update the VW with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
 	Config *ServiceConfigReq `json:"config,omitempty"`
 
+	// DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` If not set then the authentication mode will not be changed during update.
+	HiveAuthenticationMode *string `json:"hiveAuthenticationMode,omitempty"`
+
 	// High Availability settings update for the Impala Virtual Warehouse.
 	ImpalaHaSettings *ImpalaHASettingsUpdateRequest `json:"impalaHaSettings,omitempty"`
+
+	// Nodes per compute cluster. If specified, forces 'template' to be 'custom'
+	NodeCount int32 `json:"nodeCount,omitempty"`
 
 	// Value of 'true' automatically configures the Virtual Warehouse to support JWTs issues by the CDP JWT token provider.  Value of 'false' does not enable JWT auth on the Virtual Warehouse.  If this field is not specified, it defaults to 'false'.
 	PlatformJwtAuth *bool `json:"platformJwtAuth,omitempty"`
 
 	// Query isolation settings for Hive Virtual Warehouses.
 	QueryIsolationOptions *QueryIsolationOptionsRequest `json:"queryIsolationOptions,omitempty"`
+
+	// Name of configuration template to use.
+	// Enum: [xsmall small medium large]
+	Template string `json:"template,omitempty"`
 
 	// ID of the Virtual Warehouse.
 	// Required: true
@@ -64,6 +75,10 @@ func (m *UpdateVwRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateQueryIsolationOptions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTemplate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -157,6 +172,54 @@ func (m *UpdateVwRequest) validateQueryIsolationOptions(formats strfmt.Registry)
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var updateVwRequestTypeTemplatePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["xsmall","small","medium","large"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		updateVwRequestTypeTemplatePropEnum = append(updateVwRequestTypeTemplatePropEnum, v)
+	}
+}
+
+const (
+
+	// UpdateVwRequestTemplateXsmall captures enum value "xsmall"
+	UpdateVwRequestTemplateXsmall string = "xsmall"
+
+	// UpdateVwRequestTemplateSmall captures enum value "small"
+	UpdateVwRequestTemplateSmall string = "small"
+
+	// UpdateVwRequestTemplateMedium captures enum value "medium"
+	UpdateVwRequestTemplateMedium string = "medium"
+
+	// UpdateVwRequestTemplateLarge captures enum value "large"
+	UpdateVwRequestTemplateLarge string = "large"
+)
+
+// prop value enum
+func (m *UpdateVwRequest) validateTemplateEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, updateVwRequestTypeTemplatePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *UpdateVwRequest) validateTemplate(formats strfmt.Registry) error {
+	if swag.IsZero(m.Template) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateTemplateEnum("template", "body", m.Template); err != nil {
+		return err
 	}
 
 	return nil

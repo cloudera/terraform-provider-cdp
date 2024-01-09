@@ -41,6 +41,9 @@ type AutoscalingOptionsResponse struct {
 	// DEPRECATED in favor of the top level impalaHASettings object. Whether a shutdown of the coordinator is enabled.
 	ImpalaEnableShutdownOfCoordinator bool `json:"impalaEnableShutdownOfCoordinator,omitempty"`
 
+	// Configurations of executor groups sets for workload aware autoscaling.
+	ImpalaExecutorGroupSets *ImpalaExecutorGroupSetsResponse `json:"impalaExecutorGroupSets,omitempty"`
+
 	// DEPRECATED in favor of the top level impalaHASettings object. High Availability mode.
 	// Enum: [ACTIVE_PASSIVE ACTIVE_ACTIVE DISABLED]
 	ImpalaHighAvailabilityMode string `json:"impalaHighAvailabilityMode,omitempty"`
@@ -71,6 +74,10 @@ type AutoscalingOptionsResponse struct {
 func (m *AutoscalingOptionsResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateImpalaExecutorGroupSets(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateImpalaHighAvailabilityMode(formats); err != nil {
 		res = append(res, err)
 	}
@@ -78,6 +85,25 @@ func (m *AutoscalingOptionsResponse) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *AutoscalingOptionsResponse) validateImpalaExecutorGroupSets(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+		return nil
+	}
+
+	if m.ImpalaExecutorGroupSets != nil {
+		if err := m.ImpalaExecutorGroupSets.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impalaExecutorGroupSets")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impalaExecutorGroupSets")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -126,8 +152,38 @@ func (m *AutoscalingOptionsResponse) validateImpalaHighAvailabilityMode(formats 
 	return nil
 }
 
-// ContextValidate validates this autoscaling options response based on context it is used
+// ContextValidate validate this autoscaling options response based on the context it is used
 func (m *AutoscalingOptionsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateImpalaExecutorGroupSets(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AutoscalingOptionsResponse) contextValidateImpalaExecutorGroupSets(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImpalaExecutorGroupSets != nil {
+
+		if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+			return nil
+		}
+
+		if err := m.ImpalaExecutorGroupSets.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impalaExecutorGroupSets")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impalaExecutorGroupSets")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

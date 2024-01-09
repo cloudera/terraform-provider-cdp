@@ -41,6 +41,9 @@ type AutoscalingOptionsCreateRequest struct {
 	// DEPRECATED in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator. If Unified Analytics enabled then this setting explicitly disabled and should not be provided.
 	ImpalaEnableShutdownOfCoordinator bool `json:"impalaEnableShutdownOfCoordinator,omitempty"`
 
+	// Configures executor group sets for workload aware autoscaling.
+	ImpalaExecutorGroupSets *ImpalaExecutorGroupSetsCreateRequest `json:"impalaExecutorGroupSets,omitempty"`
+
 	// DEPRECATED in favor of the top level impalaHASettings object. Set High Availability mode. If not provided the default will apply. This value is disregarded for Hive.
 	// Enum: [ACTIVE_PASSIVE ACTIVE_ACTIVE DISABLED]
 	ImpalaHighAvailabilityMode string `json:"impalaHighAvailabilityMode,omitempty"`
@@ -71,6 +74,10 @@ type AutoscalingOptionsCreateRequest struct {
 func (m *AutoscalingOptionsCreateRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateImpalaExecutorGroupSets(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateImpalaHighAvailabilityMode(formats); err != nil {
 		res = append(res, err)
 	}
@@ -78,6 +85,25 @@ func (m *AutoscalingOptionsCreateRequest) Validate(formats strfmt.Registry) erro
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *AutoscalingOptionsCreateRequest) validateImpalaExecutorGroupSets(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+		return nil
+	}
+
+	if m.ImpalaExecutorGroupSets != nil {
+		if err := m.ImpalaExecutorGroupSets.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impalaExecutorGroupSets")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impalaExecutorGroupSets")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -126,8 +152,38 @@ func (m *AutoscalingOptionsCreateRequest) validateImpalaHighAvailabilityMode(for
 	return nil
 }
 
-// ContextValidate validates this autoscaling options create request based on context it is used
+// ContextValidate validate this autoscaling options create request based on the context it is used
 func (m *AutoscalingOptionsCreateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateImpalaExecutorGroupSets(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AutoscalingOptionsCreateRequest) contextValidateImpalaExecutorGroupSets(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImpalaExecutorGroupSets != nil {
+
+		if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+			return nil
+		}
+
+		if err := m.ImpalaExecutorGroupSets.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impalaExecutorGroupSets")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impalaExecutorGroupSets")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

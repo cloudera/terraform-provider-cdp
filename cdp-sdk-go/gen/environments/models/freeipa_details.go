@@ -29,6 +29,9 @@ type FreeipaDetails struct {
 	// The hostname of the FreeIPA cluster.
 	Hostname string `json:"hostname,omitempty"`
 
+	// The number of FreeIPA instances to create per group when creating FreeIPA in environment.
+	InstanceCountByGroup int32 `json:"instanceCountByGroup,omitempty"`
+
 	// The instances of the FreeIPA cluster.
 	// Unique: true
 	Instances []*FreeIpaInstance `json:"instances"`

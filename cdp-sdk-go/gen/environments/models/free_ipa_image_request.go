@@ -22,6 +22,9 @@ type FreeIpaImageRequest struct {
 
 	// Image ID to use for creating FreeIPA instances.
 	ID string `json:"id,omitempty"`
+
+	// The OS to use for creating FreeIPA instances.
+	Os string `json:"os,omitempty"`
 }
 
 // Validate validates this free ipa image request

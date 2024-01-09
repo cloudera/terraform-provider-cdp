@@ -35,6 +35,9 @@ type DbcSummary struct {
 	// The name of the Database Catalog.
 	Name string `json:"name,omitempty"`
 
+	// The name of the Resource Pool the Database Catalog is in.
+	ResourcePool string `json:"resourcePool,omitempty"`
+
 	// Status of the Database Catalog. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.
 	Status string `json:"status,omitempty"`
 

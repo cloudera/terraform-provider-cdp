@@ -47,6 +47,9 @@ type Environment struct {
 	// Required: true
 	Crn *string `json:"crn"`
 
+	// Data Services parameters of the environment.
+	DataServices *DataServices `json:"dataServices,omitempty"`
+
 	// Description of the environment
 	Description string `json:"description,omitempty"`
 
@@ -130,6 +133,10 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCrn(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDataServices(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -274,6 +281,25 @@ func (m *Environment) validateCrn(formats strfmt.Registry) error {
 
 	if err := validate.Required("crn", "body", m.Crn); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *Environment) validateDataServices(formats strfmt.Registry) error {
+	if swag.IsZero(m.DataServices) { // not required
+		return nil
+	}
+
+	if m.DataServices != nil {
+		if err := m.DataServices.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataServices")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataServices")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -474,6 +500,10 @@ func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Regist
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateDataServices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateFreeipa(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -567,6 +597,27 @@ func (m *Environment) contextValidateBackupStorage(ctx context.Context, formats 
 				return ve.ValidateName("backupStorage")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("backupStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateDataServices(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataServices != nil {
+
+		if swag.IsZero(m.DataServices) { // not required
+			return nil
+		}
+
+		if err := m.DataServices.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataServices")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataServices")
 			}
 			return err
 		}

@@ -30,13 +30,19 @@ type ClientOption func(*runtime.ClientOperation)
 type ClientService interface {
 	BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error)
 
+	CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error)
+
 	CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error)
 
 	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
 
 	DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error)
 
+	DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error)
+
 	DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error)
+
+	DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error)
 
 	DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error)
 
@@ -48,7 +54,15 @@ type ClientService interface {
 
 	GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
 
+	GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error)
+
+	GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error)
+
 	GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error)
+
+	ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error)
+
+	ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error)
 
 	ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error)
 
@@ -62,11 +76,15 @@ type ClientService interface {
 
 	ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error)
 
+	RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error)
+
 	RequestWorkflowCancellation(params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error)
 
 	RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error)
 
 	ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error)
+
+	RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error)
 
 	RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error)
 
@@ -113,6 +131,45 @@ func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*BackupWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateModelRegistry creates a new model registry
+
+Create a new model registry by creating a new workspace and install model registry on it.
+*/
+func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateModelRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createModelRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/createModelRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateModelRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateModelRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateModelRegistryDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -234,6 +291,45 @@ func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...
 }
 
 /*
+DeleteModelRegistry deletes a model registry
+
+Delete a model registry.
+*/
+func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteModelRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteModelRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/deleteModelRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteModelRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteModelRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteModelRegistryDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 DeleteWorkspace deletes cloudera machine learning workspace
 
 Deletes a Cloudera Machine Learning workspace.
@@ -269,6 +365,45 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DeleteWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeModelRegistry describes cloudera machine learning model registry
+
+Describes a Cloudera Machine Learning Model Registry.
+*/
+func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeModelRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeModelRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/describeModelRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeModelRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeModelRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeModelRegistryDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -468,6 +603,84 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 }
 
 /*
+GetModelRegistryKubeconfig gets model registry kubeconfig returns kube config for model registry
+
+Gets the Kubeconfig of the model registry cluster.
+*/
+func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetModelRegistryKubeconfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getModelRegistryKubeconfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/getModelRegistryKubeconfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetModelRegistryKubeconfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetModelRegistryKubeconfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetModelRegistryKubeconfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GrantModelRegistryAccess grants model registry access cloudera machine learning model registry
+
+Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning model registry via EKS.
+*/
+func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGrantModelRegistryAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "grantModelRegistryAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/grantModelRegistryAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GrantModelRegistryAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GrantModelRegistryAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GrantModelRegistryAccessDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GrantWorkspaceAccess grants workspace access cloudera machine learning workspace
 
 Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
@@ -503,6 +716,84 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts .
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*GrantWorkspaceAccessDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListModelRegistries lists all model registries
+
+List all model registries.
+*/
+func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListModelRegistriesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listModelRegistries",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listModelRegistries",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListModelRegistriesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListModelRegistriesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListModelRegistriesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListModelRegistryAccess lists workspace access cloudera machine learning model registry
+
+Lists users that can perform Kubernetes operations on a Cloudera Machine Learning model registry via EKS.
+*/
+func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListModelRegistryAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listModelRegistryAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listModelRegistryAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListModelRegistryAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListModelRegistryAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListModelRegistryAccessDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -741,6 +1032,45 @@ func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancer
 }
 
 /*
+RefreshModelRegistryConfigmap refreshes the model registry configmap of the workspace
+
+Refreshes the model registry configmap of the workspace from the control plane.
+*/
+func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRefreshModelRegistryConfigmapParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "refreshModelRegistryConfigmap",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/refreshModelRegistryConfigmap",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RefreshModelRegistryConfigmapReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RefreshModelRegistryConfigmapOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RefreshModelRegistryConfigmapDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 RequestWorkflowCancellation requests a workflow cancellation
 
 Request a long running workflow cancellation by resource ID and workflow type.
@@ -854,6 +1184,45 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ResumeWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RevokeModelRegistryAccess revokes model registry access cloudera machine learning model registry
+
+Revokes an AWS user to perform Kubernetes operations on a Cloudera Machine Learning model registry via EKS.
+*/
+func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRevokeModelRegistryAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "revokeModelRegistryAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/revokeModelRegistryAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RevokeModelRegistryAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RevokeModelRegistryAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RevokeModelRegistryAccessDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

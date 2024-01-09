@@ -24,8 +24,7 @@ type ExistingGCPNetworkRequest struct {
 	NetworkName *string `json:"networkName"`
 
 	// The ID of the Google project associated with the VPC.
-	// Required: true
-	SharedProjectID *string `json:"sharedProjectId"`
+	SharedProjectID string `json:"sharedProjectId,omitempty"`
 
 	// One or more subnet names within the VPC. Google VPC's are global, please give subnets from single geographic region only to reduce latency.
 	// Required: true
@@ -38,10 +37,6 @@ func (m *ExistingGCPNetworkRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateNetworkName(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSharedProjectID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -58,15 +53,6 @@ func (m *ExistingGCPNetworkRequest) Validate(formats strfmt.Registry) error {
 func (m *ExistingGCPNetworkRequest) validateNetworkName(formats strfmt.Registry) error {
 
 	if err := validate.Required("networkName", "body", m.NetworkName); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *ExistingGCPNetworkRequest) validateSharedProjectID(formats strfmt.Registry) error {
-
-	if err := validate.Required("sharedProjectId", "body", m.SharedProjectID); err != nil {
 		return err
 	}
 

@@ -32,7 +32,7 @@ type CreateGCPEnvironmentRequest struct {
 	Description string `json:"description,omitempty"`
 
 	// Whether to enable SSH tunneling for the environment.
-	EnableTunnel bool `json:"enableTunnel,omitempty"`
+	EnableTunnel *bool `json:"enableTunnel,omitempty"`
 
 	// Key Resource ID of the customer managed encryption key to encrypt GCP resources.
 	EncryptionKey string `json:"encryptionKey,omitempty"`

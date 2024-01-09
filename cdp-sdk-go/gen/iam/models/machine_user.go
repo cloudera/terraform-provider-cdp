@@ -36,6 +36,9 @@ type MachineUser struct {
 	// Required: true
 	MachineUserName *string `json:"machineUserName"`
 
+	// The current status of the machine user. The possible status values are ACTIVE and CONTROL_PLANE_LOCKED_OUT. ACTIVE indicates that the machine user is active in CDP. An active machine user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the machine user is locked out of the CDP control plane. The locked-out machine user can no longer authenticate to the control plane but can authenticate to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
+	Status string `json:"status,omitempty"`
+
 	// Information about the workload password for the machine user.
 	WorkloadPasswordDetails *WorkloadPasswordDetails `json:"workloadPasswordDetails,omitempty"`
 

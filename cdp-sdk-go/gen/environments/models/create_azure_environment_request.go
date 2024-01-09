@@ -28,6 +28,9 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	CredentialName *string `json:"credentialName"`
 
+	// Data Services parameters of the environment.
+	DataServices *DataServicesRequest `json:"dataServices,omitempty"`
+
 	// An description of the environment.
 	Description string `json:"description,omitempty"`
 
@@ -35,7 +38,7 @@ type CreateAzureEnvironmentRequest struct {
 	EnableOutboundLoadBalancer bool `json:"enableOutboundLoadBalancer,omitempty"`
 
 	// Whether to enable SSH tunneling for the environment.
-	EnableTunnel bool `json:"enableTunnel,omitempty"`
+	EnableTunnel *bool `json:"enableTunnel,omitempty"`
 
 	// Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disks. It is required only when the entitlement is granted and the resource group of the key vault is different from the resource group in which the environment is to be created. Omitting it implies that, the key vault containing the encryption key is present in the same resource group where the environment would be created.
 	EncryptionKeyResourceGroupName string `json:"encryptionKeyResourceGroupName,omitempty"`
@@ -56,6 +59,9 @@ type CreateAzureEnvironmentRequest struct {
 
 	// Parameters needed to use an existing VNet and Subnets.
 	ExistingNetworkParams *ExistingAzureNetworkRequest `json:"existingNetworkParams,omitempty"`
+
+	// The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
+	FlexibleServerSubnetIds []string `json:"flexibleServerSubnetIds"`
 
 	// The FreeIPA creation request for the environment
 	FreeIpa *AzureFreeIpaCreationRequest `json:"freeIpa,omitempty"`
@@ -107,6 +113,10 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	var res []error
 
 	if err := m.validateCredentialName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDataServices(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -168,6 +178,25 @@ func (m *CreateAzureEnvironmentRequest) validateCredentialName(formats strfmt.Re
 
 	if err := validate.Required("credentialName", "body", m.CredentialName); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) validateDataServices(formats strfmt.Registry) error {
+	if swag.IsZero(m.DataServices) { // not required
+		return nil
+	}
+
+	if m.DataServices != nil {
+		if err := m.DataServices.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataServices")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataServices")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -397,6 +426,10 @@ func (m *CreateAzureEnvironmentRequest) validateUsePublicIP(formats strfmt.Regis
 func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDataServices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateExistingNetworkParams(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -428,6 +461,27 @@ func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, for
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateDataServices(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataServices != nil {
+
+		if swag.IsZero(m.DataServices) { // not required
+			return nil
+		}
+
+		if err := m.DataServices.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataServices")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataServices")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

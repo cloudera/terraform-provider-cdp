@@ -23,6 +23,12 @@ type AuthenticationPolicy struct {
 	// The inactivity duration, in seconds, of the access key, which would invalidate the access key due to no activity. The value of '0' indicates default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). There's no access key invalidation from no activity if the value is greater or equal to expiration.
 	AccessKeyInactivityDurationSec int32 `json:"accessKeyInactivityDurationSec,omitempty"`
 
+	// The list of IP addresses and/or CIDRs used for allowing client access to the UI and API services. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be present in the allowed list.
+	ClientIPAddressesAllowed []string `json:"clientIpAddressesAllowed"`
+
+	// The list of IP addresses and/or CIDRs used for blocking client access to the UI and API services. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be absent from the blocked list.
+	ClientIPAddressesBlocked []string `json:"clientIpAddressesBlocked"`
+
 	// The expiration, in seconds, of the UI session token. The value of '0' indicates the system default expiration (which is 12 hours).
 	SessionTokenExpirationSec int32 `json:"sessionTokenExpirationSec,omitempty"`
 

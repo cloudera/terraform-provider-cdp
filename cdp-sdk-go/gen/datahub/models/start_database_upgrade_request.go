@@ -24,8 +24,11 @@ type StartDatabaseUpgradeRequest struct {
 	// Required: true
 	Cluster *string `json:"cluster"`
 
+	// Start the database upgrade flow even if the source and target versions are the same. Can be used to reinitiate an upgrade after a failure.
+	Force bool `json:"force,omitempty"`
+
 	// The database engine major version to upgrade to.
-	// Enum: [VERSION_11]
+	// Enum: [VERSION_11 VERSION_14]
 	TargetVersion string `json:"targetVersion,omitempty"`
 }
 
@@ -60,7 +63,7 @@ var startDatabaseUpgradeRequestTypeTargetVersionPropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["VERSION_11"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["VERSION_11","VERSION_14"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -72,6 +75,9 @@ const (
 
 	// StartDatabaseUpgradeRequestTargetVersionVERSION11 captures enum value "VERSION_11"
 	StartDatabaseUpgradeRequestTargetVersionVERSION11 string = "VERSION_11"
+
+	// StartDatabaseUpgradeRequestTargetVersionVERSION14 captures enum value "VERSION_14"
+	StartDatabaseUpgradeRequestTargetVersionVERSION14 string = "VERSION_14"
 )
 
 // prop value enum

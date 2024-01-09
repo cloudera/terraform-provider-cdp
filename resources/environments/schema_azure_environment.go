@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -293,7 +294,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.CredentialName = model.CredentialName.ValueStringPointer()
 	req.Description = model.Description.ValueString()
 	req.EnableOutboundLoadBalancer = model.EnableOutboundLoadBalancer.ValueBool()
-	req.EnableTunnel = model.EnableTunnel.ValueBool()
+	req.EnableTunnel = model.EnableTunnel.ValueBoolPointer()
 	req.EncryptionKeyResourceGroupName = model.EncryptionKeyResourceGroupName.ValueString()
 	req.EncryptionKeyURL = model.EncryptionKeyURL.ValueString()
 	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()

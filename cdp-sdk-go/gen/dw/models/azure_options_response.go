@@ -17,6 +17,9 @@ import (
 // swagger:model AzureOptionsResponse
 type AzureOptionsResponse struct {
 
+	// AKS VNet integration subnet name. If it's an empty string, then VNet integration is disabled.
+	AksVNetIntegrationSubnetName string `json:"aksVNetIntegrationSubnetName"`
+
 	// Denotes whther the Azure Availability Zones for the cluster is enabled or not.
 	EnableAZ *bool `json:"enableAZ,omitempty"`
 

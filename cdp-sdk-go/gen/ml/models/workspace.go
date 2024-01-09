@@ -96,6 +96,9 @@ type Workspace struct {
 	// The value to indicate if the cluster is private or not.
 	IsPrivate bool `json:"isPrivate,omitempty"`
 
+	// The value to indicate if the workspace is restored one or not
+	IsRestored bool `json:"isRestored,omitempty"`
+
 	// The Kubernetes cluster name.
 	// Required: true
 	K8sClusterName *string `json:"k8sClusterName"`

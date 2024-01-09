@@ -20,13 +20,16 @@ import (
 // swagger:model AzureActivationOptions
 type AzureActivationOptions struct {
 
+	// Enable AKS VNet Azure Virtual Network (VNet) integration by specifying the delegated subnet name. An Azure Kubernetes Service (AKS) cluster configured with API Server VNet Integration projects the API server endpoint directly into a delegated subnet in the VNet where AKS is deployed. API Server VNet Integration enables network communication between the API server and the cluster nodes without requiring a private link or tunnel.
+	AksVNetIntegrationSubnetName string `json:"aksVNetIntegrationSubnetName,omitempty"`
+
 	// Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.
 	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
 
 	// Enables Azure Availability Zones for the cluster deployment.
 	EnableAZ bool `json:"enableAZ,omitempty"`
 
-	// Enable Azure Private AKS mode.
+	// Enable Azure Private AKS mode. Note that this feature is currently unstable due to critical networking issues within the Azure Software Definition Layer (SDN). This problem prevents the deployment of necessary components and results in unpredictable behavior and instability, impacting operations such as environment activation, VW creation, modification, and start/stop operations. While we work towards a resolution with Microsoft, estimated within the next 6-9 months, we recommend utilizing alternative methods like enabling public endpoints or virtual network peering for accessing your Azure Cluster.
 	EnablePrivateAks *bool `json:"enablePrivateAks,omitempty"`
 
 	// Enables private SQL for the cluster deployment.
@@ -45,7 +48,7 @@ type AzureActivationOptions struct {
 	// Private DNS zone AKS resource ID.
 	PrivateDNSZoneAKS string `json:"privateDNSZoneAKS,omitempty"`
 
-	// ID of Azure subnet where the cluster should be deployed.
+	// ID of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
 	SubnetID string `json:"subnetId,omitempty"`
 
 	// Resource ID of the managed identity used by AKS. It is a mandatory parameter for Azure cluster creation.

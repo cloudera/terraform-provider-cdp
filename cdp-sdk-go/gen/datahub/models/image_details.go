@@ -28,6 +28,9 @@ type ImageDetails struct {
 
 	// The name of the image used for cluster instances.
 	Name string `json:"name,omitempty"`
+
+	// The OS of the image used for cluster instances.
+	Os string `json:"os,omitempty"`
 }
 
 // Validate validates this image details

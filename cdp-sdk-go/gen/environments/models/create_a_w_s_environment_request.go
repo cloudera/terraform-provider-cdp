@@ -39,7 +39,7 @@ type CreateAWSEnvironmentRequest struct {
 	Description string `json:"description,omitempty"`
 
 	// Whether to enable SSH tunneling for the environment.
-	EnableTunnel bool `json:"enableTunnel,omitempty"`
+	EnableTunnel *bool `json:"enableTunnel,omitempty"`
 
 	// ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources.
 	EncryptionKeyArn string `json:"encryptionKeyArn,omitempty"`

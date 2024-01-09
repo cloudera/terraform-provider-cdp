@@ -23,6 +23,9 @@ type AzureFreeIpaCreationRequest struct {
 	// Custom instance type of FreeIPA instances.
 	InstanceType string `json:"instanceType,omitempty"`
 
+	// Flag that enables deployment of the FreeIPA in a multi-availability zone.
+	MultiAz *bool `json:"multiAz,omitempty"`
+
 	// The recipes for the FreeIPA cluster.
 	Recipes []string `json:"recipes"`
 }

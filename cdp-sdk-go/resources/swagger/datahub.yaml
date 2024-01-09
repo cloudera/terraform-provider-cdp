@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.91 (BETA)
+  version: 0.9.103 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -143,6 +143,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/CreateAWSClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/createAWSGovCloudCluster:
+    post:
+      summary: Creates an AWS Data Hub cluster for GovCloud.
+      description: Creates an AWS Data Hub cluster for GovCloud.
+      operationId: createAWSGovCloudCluster
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudClusterResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1098,7 +1119,7 @@ paths:
   /api/v1/datahub/startClusterVerticalScaling:
     post:
       summary: Initiates the vertical scaling on Data Hub cluster.
-      description: Initiates the vertical scaling on Data Hub cluster.
+      description: Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'deleteDisks', 'modifyDisks' or 'addDisks' or 'instanceTemplate' as parameter.
       operationId: startClusterVerticalScaling
       x-mutating: true
       parameters:
@@ -1158,6 +1179,28 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datahub/describeDatabaseServer:
+    post:
+      summary: Gets external database server details.
+      x-no-compatibility-guarantee: true
+      description: Gets external database server details for Data Hub cluster by cluster CRN
+      operationId: describeDatabaseServer
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DescribeDatabaseServerRequest'
+      responses:
+        200:
+          description: Database server details for the requested resource.
+          schema:
+            $ref: '#/definitions/DescribeDatabaseServerResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/datahub/setCatalog:
     post:
       summary: Sets a catalog for a DataHub.
@@ -1196,6 +1239,50 @@ paths:
           description: Expected response to a valid sync datahub CM component versions request.
           schema:
             $ref: '#/definitions/SyncComponentVersionsFromCmResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/getOperation:
+    post:
+      summary: Get the latest (in progress or finished) operation for the datahub cluster.
+      description: Get the latest (in progress or finished) operation for the datahub cluster.
+      operationId: getOperation
+      x-mutating: false
+      x-no-compatibility-guarantee: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetOperationRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetOperationResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/getVmTypes:
+    post:
+      summary: Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
+      description: Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
+      operationId: getVmTypes
+      x-mutating: false
+      x-no-compatibility-guarantee: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetVmTypesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetVmTypesResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1299,9 +1386,6 @@ definitions:
   ImageRequest:
     type: object
     description: The details of the image used for cluster instances.
-    required:
-      - id
-      - catalogName
     properties:
       id:
         type: string
@@ -1309,6 +1393,9 @@ definitions:
       catalogName:
         type: string
         description: The image catalog name.
+      os:
+        type: string
+        description: The OS of the image used for cluster instances.
   ImageDetails:
     type: object
     description: The details of the image used for cluster instances.
@@ -1319,6 +1406,9 @@ definitions:
       id:
         type: string
         description: The ID of the image used for cluster instances. This is internally generated by the cloud provider to uniquely identify the image.
+      os:
+        type: string
+        description: The OS of the image used for cluster instances.
       catalogUrl:
         type: string
         description: The image catalog URL.
@@ -1369,6 +1459,9 @@ definitions:
       environmentCrn:
         type: string
         description: The CRN of the environment.
+      environmentName:
+        type: string
+        description: The name of the environment.
       credentialCrn:
         type: string
         description: The CRN of the credential.
@@ -1387,6 +1480,10 @@ definitions:
       endpoints:
         $ref: '#/definitions/Endpoints'
         description: The exposed service api endpoints.
+      multiAz:
+        default: false
+        type: boolean
+        description: Flag that toggles the multi availability zone for the given datahub cluster when you are not sure what subnet IDs can be used. This way the subnet IDs will be used what the environment suggests.
   ClusterExtension:
     type: object
     description: Cluster extensions for Data Hub cluster.
@@ -1438,7 +1535,6 @@ definitions:
     required:
       - datahub
       - group
-      - instanceTemplate
     properties:
       datahub:
         type: string
@@ -1449,6 +1545,9 @@ definitions:
       instanceTemplate:
         description: Instance template that specifies the core information for the vertical scale.
         $ref: '#/definitions/InstanceTemplate'
+      diskOptions:
+        description: Disk options for vertical scaling. Available options are - add, remove, or modify.
+        $ref: '#/definitions/DiskOptions'
   StartClusterVerticalScalingResponse:
     type: object
     description: The response object for Data Hub cluster vertical scaling.
@@ -1463,6 +1562,27 @@ definitions:
       instanceType:
         type: string
         description: The type of the instance.
+  DiskOptions:
+    type: object
+    description: Attached disk configuration(s).
+    properties:
+      modifyDisks:
+        description: Modifies all the disks attached to all instances in a group.
+        $ref: '#/definitions/ModifyDisks'
+  ModifyDisks:
+    type: object
+    description: Attached volume configuration.
+    required:
+      - volumeType
+      - size
+    properties:
+      volumeType:
+        type: string
+        description: Type of disks to modify on all the instances in a group.
+      size:
+        type: integer
+        format: int32
+        description: Size of disks to modify on all the instances in a group in GB.
   Instance:
     type: object
     description: Object which holds some details of an instance for the given cluster.
@@ -1626,6 +1746,9 @@ definitions:
       environmentCrn:
         type: string
         description: The CRN of the environment.
+      environmentName:
+        type: string
+        description: The name of the environment.
       cloudPlatform:
         type: string
         description: The name of the cloud platform.
@@ -2529,6 +2652,74 @@ definitions:
       cluster:
         $ref: '#/definitions/Cluster'
         description: The cluster.
+  CreateAWSGovCloudClusterRequest:
+    type: object
+    description: Request object for creating AWS  Data Hub cluster request on GovCloud.
+    properties:
+      clusterName:
+        type: string
+        description: The name of the cluster. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers, and hyphens. Names are case-sensitive.
+        minLength: 5
+        maxLength: 40
+      clusterDefinition:
+        type: string
+        description: The name or CRN of the cluster definition to use for cluster creation.
+      environment:
+        type: string
+        description: Name or CRN of the environment to use when creating the cluster. The environment must be an AWS GovCloud environment.
+      clusterTemplate:
+        type: string
+        description: Name or CRN of the cluster template to use for cluster creation.
+      instanceGroups:
+        type: array
+        items:
+          $ref: '#/definitions/InstanceGroupRequest'
+        description: Instance group details.
+      subnetId:
+        type: string
+        description: The subnet ID.
+      image:
+        $ref: '#/definitions/ImageRequest'
+        description: The image to be used for cluster creation.
+      tags:
+        type: array
+        description: Tags to be added to  Data Hub related resources.
+        items:
+          $ref: '#/definitions/DatahubResourceTagRequest'
+      requestTemplate:
+        type: string
+        description: JSON template to use for cluster creation. This is different from the cluster template and would be removed in the future.
+      datahubDatabase:
+        $ref: '#/definitions/DatahubDatabaseType'
+        description: 'Database type for datahub. Currently supported values: NONE, NON_HA, HA'
+      subnetIds:
+        type: array
+        items:
+          type: string
+        description: List of subnet IDs in case of multi availability zone setup.
+      multiAz:
+        type: boolean
+        description: Flag that toggles the multi availability zone for the given Data Hub cluster when you are not sure what subnet IDs can be used. This way the subnet IDs will be used what the environment suggests.
+      clusterExtension:
+        $ref: '#/definitions/ClusterExtension'
+        description: Cluster extensions for the given Data Hub cluster.
+        x-no-compatibility-guarantee: true
+      enableLoadBalancer:
+        type: boolean
+        description: Flag that decides whether to provision a load-balancer to front various service endpoints for the given datahub. This will typically be used for HA cluster shapes.
+      javaVersion:
+        type: integer
+        format: int32
+        description: Configure the major version of Java on the cluster.
+  CreateAWSGovCloudClusterResponse:
+    type: object
+    description: Response object for create AWS cluster request on GovCloud.
+    required:
+      - cluster
+    properties:
+      cluster:
+        $ref: '#/definitions/Cluster'
+        description: The cluster.
   CreateAzureClusterRequest:
     type: object
     description: Request object for create Azure cluster request.
@@ -2572,6 +2763,10 @@ definitions:
       datahubDatabase:
         $ref: '#/definitions/DatahubDatabaseType'
         description: 'Database type for datahub. Currently supported values: NONE, NON_HA, HA'
+      multiAz:
+        default: false
+        type: boolean
+        description: Flag that toggles the multi availability zone feature for the given datahub cluster when unsure what subnet IDs can be used. When true, the subnet IDs suggested by the environment will be used.
       loadBalancerSku:
         description: The SKU for the datahub load balancer. Allowed values are "BASIC", "STANDARD", or "NONE".
         $ref: '#/definitions/DatahubLoadBalancerSkuType'
@@ -2582,6 +2777,12 @@ definitions:
       enableLoadBalancer:
         type: boolean
         description: Flag that decides whether to provision a load-balancer to front various service endpoints for the given datahub. This will typically be used for HA cluster shapes.
+      databaseType:
+        type: string
+        description: The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
+        enum:
+          - FLEXIBLE_SERVER
+          - SINGLE_SERVER
       javaVersion:
         type: integer
         format: int32
@@ -4049,6 +4250,78 @@ definitions:
         description: Array of log descriptors. (useful for diagnostics collection filtering)
         items:
           $ref: '#/definitions/DatahubVmLogResponse'
+  GetVmTypesRequest:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: Request object for fetching the available virtual machine types based on the given parameters.
+    required:
+      - clusterTemplate
+      - credential
+      - region
+    properties:
+      clusterTemplate:
+        type: string
+        description: The name of the given cluster template.
+      credential:
+        type: string
+        description: The name or CRN of the credential that is required to access the cloud provider.
+      region:
+        type: string
+        description: The region where we should look for the supported VM types.
+      availabilityZone:
+        type: string
+        description: The selected availability zone.
+      clusterDefinitionName:
+        type: string
+        description: The name of the cluster definition.
+  GetVmTypesResponse:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: Response object from the VM type fetch operation.
+    properties:
+      vmTypes:
+        description: The supported VM types based on the given parameters.
+        type: array
+        items:
+          type: string
+  GetOperationRequest:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Request object for tracking the latest (current/last) operation on the datahub resource.
+    required:
+      - crn
+    properties:
+      crn:
+        type: string
+        description: CRN of the datahub resource.
+      operationId:
+        type: string
+        description: Filter by operation id.
+        x-no-compatibility-guarantee: true
+  GetOperationResponse:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Response object for tracking the latest (current/last) operation on the datahub resource.
+    properties:
+      operationId:
+        type: string
+        description: Identifier of the operation.
+      operationType:
+        type: string
+        description: Type of the operation.
+      operationStatus:
+        type: string
+        description: Status of the operation.
+        enum:
+          - UNKNOWN
+          - RUNNING
+          - FAILED
+          - FINISHED
+          - CANCELLED
+      progress:
+        type: integer
+        format: int32
+        description: Progress percentage of the operation.
   RotateAutoTlsCertificatesRequest:
     type: object
     description: Request object to rotate autotls certificates on datahub's hosts, deprecated.
@@ -4194,6 +4467,10 @@ definitions:
         description: The database engine major version to upgrade to.
         enum:
           - VERSION_11
+          - VERSION_14
+      force:
+        type: boolean
+        description: Start the database upgrade flow even if the source and target versions are the same. Can be used to reinitiate an upgrade after a failure.
   StartDatabaseUpgradeResponse:
     type: object
     description: Response object to Data Hub database upgrade.
@@ -4201,8 +4478,91 @@ definitions:
       targetVersion:
         type: string
         description: The database engine major version to upgrade to.
+  DescribeDatabaseServerRequest:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: Request object for obtaining Database Server details.
+    properties:
+      clusterCrn:
+        description: CRN of the Data Hub cluster
+        type: string
+  DescribeDatabaseServerResponse:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: Response object for obtaining Database Server details.
+    properties:
+      crn:
+        type: string
+        description: CRN of the database server
+      name:
+        type: string
+        description: Name of the database server
+      description:
+        type: string
+        description: Description of the database server
+      environmentCrn:
+        type: string
+        description: CRN of the environment of the database server
+      host:
+        type: string
+        description: Host of the database server
+      port:
+        type: integer
+        format: int32
+        description: Port of the database server
+      databaseVendor:
+        type: string
+        description: Name of the database vendor (MYSQL, POSTGRES, ...)
+      databaseVendorDisplayName:
+        type: string
+        description: Display name of the database vendor (MySQL, PostgreSQL, ...)
+      creationDate:
+        type: string
+        format: date-time
+        description: Creation date of the database server
+      resourceStatus:
+        type: string
+        description: Ownership status of the database server
         enum:
-          - VERSION_11
+          - UNKNOWN
+          - SERVICE_MANAGED
+          - USER_MANAGED
+      status:
+        type: string
+        description: Status of the database server stack
+        enum:
+          - REQUESTED
+          - CREATE_IN_PROGRESS
+          - AVAILABLE
+          - UPDATE_IN_PROGRESS
+          - UPDATE_REQUESTED
+          - UPDATE_FAILED
+          - CREATE_FAILED
+          - ENABLE_SECURITY_FAILED
+          - DELETE_REQUESTED
+          - PRE_DELETE_IN_PROGRESS
+          - DELETE_IN_PROGRESS
+          - DELETE_FAILED
+          - DELETE_COMPLETED
+          - STOPPED
+          - STOP_REQUESTED
+          - START_REQUESTED
+          - STOP_IN_PROGRESS
+          - START_IN_PROGRESS
+          - START_FAILED
+          - STOP_FAILED
+          - WAIT_FOR_SYNC
+          - MAINTENANCE_MODE_ENABLED
+          - UNKNOWN
+      statusReason:
+        type: string
+        description: Additional status information about the database server stack
+      clusterCrn:
+        type: string
+        description: CRN of the cluster of the database server
+      sslConfig:
+        description: SSL configuration of the database server
+        $ref: '#/definitions/DatabaseServerSslConfig'
   SetCatalogRequest:
     type: object
     description: The request object to set catalog for a DataHub.
@@ -4219,6 +4579,30 @@ definitions:
   SetCatalogResponse:
     type: object
     description: The response object to set catalog for a DataHub request.
+  DatabaseServerSslConfig:
+    x-no-compatibility-guarantee: true
+    description: SSL configuration for the database server
+    type: object
+    properties:
+      sslCertificates:
+        type: array
+        description: Set of SSL certificates for the actual database server
+        uniqueItems: true
+        items:
+          type: string
+      sslCertificateType:
+        type: string
+        description: SSL certificate type
+        enum:
+          - CLOUD_PROVIDER_OWNED
+          - BRING_YOUR_OWN
+          - NONE
+      sslMode:
+        type: string
+        description: SSL enforcement mode for the actual database server
+        enum:
+          - ENABLED
+          - DISABLED
   SyncComponentVersionsFromCmRequest:
     type: object
     description: Datahub sync CM component versions request.

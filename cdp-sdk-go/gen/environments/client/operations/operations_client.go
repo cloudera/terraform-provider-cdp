@@ -46,6 +46,10 @@ type ClientService interface {
 
 	CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error)
 
+	CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error)
+
+	CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error)
+
 	CreateAzureCredential(params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error)
 
 	CreateAzureEnvironment(params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error)
@@ -82,6 +86,8 @@ type ClientService interface {
 
 	GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error)
 
+	GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error)
+
 	GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error)
 
 	GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error)
@@ -92,17 +98,25 @@ type ClientService interface {
 
 	GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error)
 
+	GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error)
+
+	GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error)
+
 	GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error)
 
 	GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error)
 
 	GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error)
 
+	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
 	GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error)
 
 	GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error)
 
 	ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error)
+
+	ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error)
 
 	ListCredentials(params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error)
 
@@ -120,6 +134,8 @@ type ClientService interface {
 
 	SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error)
 
+	SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error)
+
 	SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error)
 
 	SetAzureAuditCredential(params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error)
@@ -129,6 +145,8 @@ type ClientService interface {
 	SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error)
 
 	SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error)
+
+	SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error)
 
 	SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error)
 
@@ -158,11 +176,21 @@ type ClientService interface {
 
 	UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error)
 
+	UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error)
+
 	UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error)
+
+	UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error)
+
+	UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error)
 
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
 	UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error)
+
+	UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error)
+
+	UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error)
 
 	UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error)
 
@@ -171,6 +199,10 @@ type ClientService interface {
 	UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error)
 
 	UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error)
+
+	ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
+
+	ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -523,6 +555,84 @@ func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts .
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CreateAWSEnvironmentDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAWSGovCloudCredential creates a new a w s credential for gov cloud that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+
+Creates a new AWS credential for GovCloud.
+*/
+func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/createAWSGovCloudCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAWSGovCloudEnvironment creates a new a w s gov cloud environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+
+Creates a new AWS GovCloud environment.
+*/
+func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudEnvironmentParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudEnvironment",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/createAWSGovCloudEnvironment",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudEnvironmentReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudEnvironmentOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudEnvironmentDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1229,6 +1339,45 @@ func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvir
 }
 
 /*
+GetAzureImageTermsPolicy gets account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour
+
+Gets account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+*/
+func (a *Client) GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAzureImageTermsPolicyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getAzureImageTermsPolicy",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getAzureImageTermsPolicy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetAzureImageTermsPolicyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetAzureImageTermsPolicyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetAzureImageTermsPolicyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetCredentialPrerequisites this API provides the credential prerequisites for the given cloud provider
 
 Provides the the credential prerequisites for the given cloud provider.
@@ -1424,6 +1573,84 @@ func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...Client
 }
 
 /*
+GetGovCloudAuditCredentialPrerequisites this API provides the audit credential prerequisites for gov cloud for the enabled providers
+
+Provides the the audit credential prerequisites for GovCloud for the enabled providers.
+*/
+func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetGovCloudAuditCredentialPrerequisitesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getGovCloudAuditCredentialPrerequisites",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getGovCloudAuditCredentialPrerequisites",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetGovCloudAuditCredentialPrerequisitesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetGovCloudAuditCredentialPrerequisitesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetGovCloudAuditCredentialPrerequisitesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetGovCloudCredentialPrerequisites this API provides the credential prerequisites for gov cloud for the enabled providers
+
+Provides the the credential prerequisites for GovCloud for the enabled providers.
+*/
+func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetGovCloudCredentialPrerequisitesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getGovCloudCredentialPrerequisites",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getGovCloudCredentialPrerequisites",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetGovCloudCredentialPrerequisitesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetGovCloudCredentialPrerequisitesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetGovCloudCredentialPrerequisitesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetIDBrokerMappings gets all ID broker mappings for an environment
 
 Gets all ID Broker mappings for an environment.
@@ -1541,6 +1768,45 @@ func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetK
 }
 
 /*
+GetOperation gets the latest in progress or finished operation for the environment resource
+
+Get the latest (in progress or finished) operation for the environment resource.
+*/
+func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetOperationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getOperation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getOperation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetOperationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetOperationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetOperationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetRepairFreeipaStatus returns status of the repair operation for the operation id
 
 Returns status of the repair operation for the operation id. Operation Id should be one of the previously requested repair operation ids.
@@ -1654,6 +1920,45 @@ func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts .
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListAuditCredentialsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListConnectedDataServices returns the list of data services and their cluster names that are attached the given environment
+
+Returns the list of Data Services and their cluster names that are attached to the given environment.
+*/
+func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListConnectedDataServicesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listConnectedDataServices",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listConnectedDataServices",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListConnectedDataServicesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListConnectedDataServicesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListConnectedDataServicesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1970,6 +2275,45 @@ func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts
 }
 
 /*
+SetAWSGovCloudAuditCredential creates or updates the a w s gov cloud audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+
+Creates or updates the AWS GovCloud audit credential for the account. The response will only contain details appropriate to AWS.
+*/
+func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetAWSGovCloudAuditCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setAWSGovCloudAuditCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setAWSGovCloudAuditCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetAWSGovCloudAuditCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetAWSGovCloudAuditCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetAWSGovCloudAuditCredentialDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 SetAccountTelemetry sets account level telemetry settings telemetry features and anonymization rules
 
 Set account level telemetry settings. (telemetry features and anonymization rules)
@@ -2161,6 +2505,45 @@ func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SetEnvironmentSettingDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetGCPAuditCredential creates or updates the g c p audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+
+Creates or updates the GCP audit credential for the account. The response will only contain details appropriate to GCP.
+*/
+func (a *Client) SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetGCPAuditCredentialParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setGCPAuditCredential",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setGCPAuditCredential",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetGCPAuditCredentialReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetGCPAuditCredentialOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetGCPAuditCredentialDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2711,6 +3094,45 @@ func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts
 }
 
 /*
+UpdateAzureDatabaseResources updates the azure database resources for the environment
+
+Updates the Azure database resources for the environment. Enables deploying private Flexible Server for the existing environment.
+*/
+func (a *Client) UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAzureDatabaseResourcesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAzureDatabaseResources",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateAzureDatabaseResources",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAzureDatabaseResourcesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAzureDatabaseResourcesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAzureDatabaseResourcesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 UpdateAzureEncryptionResources updates the azure encryption resources for the environment
 
 Updates the Azure encryption resources for the environment. Enables the SSE with CMK for newly created Azure resources for the existing environment.
@@ -2746,6 +3168,84 @@ func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionRes
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateAzureEncryptionResourcesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAzureImageTermsPolicy updates account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour
+
+Updates account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+*/
+func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAzureImageTermsPolicyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAzureImageTermsPolicy",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateAzureImageTermsPolicy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAzureImageTermsPolicyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAzureImageTermsPolicyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAzureImageTermsPolicyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateDataServiceResources updates data service resources of an environment
+
+Updates Data Service resources of an environment.
+*/
+func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateDataServiceResourcesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateDataServiceResources",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateDataServiceResources",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateDataServiceResourcesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateDataServiceResourcesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateDataServiceResourcesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2824,6 +3324,84 @@ func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...Clie
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateProxyConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateSecurityAccess updates the security access settings of the given environment
+
+Updates the security access settings of the given environment.
+*/
+func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSecurityAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateSecurityAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateSecurityAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateSecurityAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSecurityAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateSecurityAccessDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateSSHKey updates the designated SSH key for the given environment
+
+Updates the designated SSH key for the given environment.
+*/
+func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSSHKeyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateSshKey",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateSshKey",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateSSHKeyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSSHKeyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateSSHKeyDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2980,6 +3558,84 @@ func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOpti
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpscaleFreeipaDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAwsCloudStorage validates a w s cloud storage settings of the given environment
+
+Validates AWS cloud storage settings of the given environment.
+*/
+func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAwsCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAwsCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/validateAwsCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAwsCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAwsCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAwsCloudStorageDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAzureCloudStorage validates azure cloud storage settings of the given environment
+
+Validates Azure cloud storage settings of the given environment.
+*/
+func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAzureCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAzureCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/validateAzureCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAzureCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAzureCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAzureCloudStorageDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
