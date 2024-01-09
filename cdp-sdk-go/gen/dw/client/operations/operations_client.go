@@ -32,6 +32,10 @@ type ClientService interface {
 
 	BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error)
 
+	CreateAwsCluster(params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error)
+
+	CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error)
+
 	CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error)
 
 	CreateCluster(params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error)
@@ -43,6 +47,8 @@ type ClientService interface {
 	CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error)
 
 	CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error)
+
+	CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error)
 
 	CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error)
 
@@ -126,6 +132,8 @@ type ClientService interface {
 
 	ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error)
 
+	ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error)
+
 	ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error)
 
 	ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error)
@@ -154,11 +162,19 @@ type ClientService interface {
 
 	RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error)
 
+	ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error)
+
 	StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error)
+
+	SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error)
 
 	SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error)
 
 	SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error)
+
+	UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error)
+
+	UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error)
 
 	UpdateCluster(params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error)
 
@@ -167,6 +183,8 @@ type ClientService interface {
 	UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error)
 
 	UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error)
+
+	UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error)
 
 	UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error)
 
@@ -262,6 +280,84 @@ func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*BackupClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAwsCluster creates an a w s cluster in the cloudera data warehouse
+
+Create an AWS cluster in the Cloudera Data Warehouse environment with the provided settings.
+*/
+func (a *Client) CreateAwsCluster(params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAwsClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAwsCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createAwsCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAwsClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAwsClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAwsClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateAzureCluster creates an azure cluster in the cloudera data warehouse
+
+Create an Azure cluster in the Cloudera Data Warehouse environment with the provided settings.
+*/
+func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAzureClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAzureCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createAzureCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAzureClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAzureClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAzureClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -424,7 +520,7 @@ func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, 
 /*
 CreateDbc creates a database catalog
 
-Create a Database Catalog.
+DEPRECATED: Create a Database Catalog. The Database Catalog creation is deprecated and will be removed in subsequent releases. The Default Database Catalog is getting created during the cluster activation (create-cluster).
 */
 func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error) {
 	// TODO: Validate the params before sending
@@ -496,6 +592,45 @@ func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobPa
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CreateDbcDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreatePrivateCluster creates a a private cloud cluster in the cloudera data warehouse
+
+Create a Private Cloud cluster in the Cloudera Data Warehouse environment with the provided settings.
+*/
+func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreatePrivateClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createPrivateCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createPrivateCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreatePrivateClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreatePrivateClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreatePrivateClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2099,6 +2234,45 @@ func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDb
 }
 
 /*
+ListEvents gets the list of events
+
+Get the list of events for the given Operation or a specific Service (Cluster, Database Catalog, Virtual Warehouse, or Data Visualization App). Events can belong to a particular Operation which might span across multiple Services. This happens if the given operation affects one or more Services e.g.: restore-cluster. It is also possible to return the events only for a given Service, in this case it is enough to pass the Id of a Service (e.g.: env-sq7hfv, warehouse-1696571829-pps2, compute-1696571962-8dd8, impala-1696572085-cn44).
+*/
+func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListEventsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listEvents",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listEvents",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListEventsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListEventsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListEventsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListLatestVersions lists the latest version of the product if available for all catalogs in the environment
 
 Lists the latest version of the product (if available) for all catalogs in the environment.
@@ -2645,6 +2819,45 @@ func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOpti
 }
 
 /*
+ResumeCluster resumes cloudera data warehouse cluster
+
+Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW.
+*/
+func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewResumeClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "resumeCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/resumeCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ResumeClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ResumeClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ResumeClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 StartVw starts a suspended virtual warehouse
 
 Starts a suspended Virtual Warehouse. Has no effect if the VW is already started.
@@ -2680,6 +2893,45 @@ func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwO
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*StartVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SuspendCluster suspends cloudera data warehouse cluster
+
+Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database.
+*/
+func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSuspendClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "suspendCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/suspendCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SuspendClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SuspendClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SuspendClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2758,6 +3010,84 @@ func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*Susp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SuspendVwDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAwsCluster updates an a w s cluster in the cloudera data warehouse
+
+Update an AWS cluster in the Cloudera Data Warehouse with the provided settings.
+*/
+func (a *Client) UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAwsClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAwsCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateAwsCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAwsClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAwsClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAwsClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAzureCluster updates an azure cluster in the cloudera data warehouse
+
+Update an Azure cluster in the Cloudera Data Warehouse with the provided settings.
+*/
+func (a *Client) UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAzureClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAzureCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateAzureCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAzureClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAzureClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAzureClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2914,6 +3244,45 @@ func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateDbcConfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdatePrivateCluster updates a private cloud pv c cluster in the cloudera data warehouse
+
+Update a Private Cloud cluster (PvC) in the Cloudera Data Warehouse with the provided settings.
+*/
+func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdatePrivateClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updatePrivateCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updatePrivateCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdatePrivateClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdatePrivateClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdatePrivateClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

@@ -8,45 +8,27 @@ package models
 import (
 	"context"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
-// ImageRequest The image request for the datalake. This must not be set if the runtime parameter is provided. The image ID parameter is required if this is present, but the image catalog name is optional, defaulting to 'cdp-default' if not present.
+// ImageRequest The image request for the datalake. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.
 //
 // swagger:model ImageRequest
 type ImageRequest struct {
 
-	// The name of the custom image catalog to use.
+	// The name of the custom image catalog to use, defaulting to 'cdp-default' if not present.
 	CatalogName *string `json:"catalogName,omitempty"`
 
 	// The image ID from the catalog. The corresponding image will be used for the created cluster machines.
-	// Required: true
-	ID *string `json:"id"`
+	ID string `json:"id,omitempty"`
+
+	// The OS of the image used for cluster instances.
+	Os string `json:"os,omitempty"`
 }
 
 // Validate validates this image request
 func (m *ImageRequest) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *ImageRequest) validateID(formats strfmt.Registry) error {
-
-	if err := validate.Required("id", "body", m.ID); err != nil {
-		return err
-	}
-
 	return nil
 }
 

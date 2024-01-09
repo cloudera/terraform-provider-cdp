@@ -5,8 +5,9 @@ x-form-factors: public,private
 x-altus-releases: PUBLIC
 x-cdp-releases: PUBLIC
 x-audit: true
+x-extensions: pvcapipath
 info:
-  version: 0.9.91 (BETA)
+  version: 0.9.103 (BETA)
   title: Cloudera IAM Service
   license:
     name: Apache 2.0
@@ -1399,7 +1400,7 @@ paths:
   /iam/setAuthenticationPolicy:
     post:
       summary: Set the authentication policy for the account.
-      description: Set the authentication policy for the account. Check each request parameter for its default values. Changes to the authentication policy only affect authentications that are done after the policy has been updated.
+      description: Set the authentication policy for the account. Any parameters not specified in the request will be cleared, and their default values will be used for authentication. Changes to the authentication policy only affect authentications that are done after the policy has been updated.
       operationId: setAuthenticationPolicy
       x-no-compatibility-guarantee: true
       x-right: iam/setAuthenticationPolicy
@@ -1629,6 +1630,52 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /iam/getDefaultIdentityProvider:
+    post:
+      summary: Retrieves the CRN of the default identity provider.
+      description: Retrieves the CRN of the default identity provider used for CDP initiated login requests.
+      operationId: getDefaultIdentityProvider
+      x-form-factors: public
+      x-right: iam/getDefaultIdentityProvider
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetDefaultIdentityProviderRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetDefaultIdentityProviderResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /iam/setDefaultIdentityProvider:
+    post:
+      summary: Sets the default identity provider.
+      description: Sets the default identity provider used for CDP initiated login requests.
+      operationId: setDefaultIdentityProvider
+      x-form-factors: public
+      x-right: iam/setDefaultIdentityProvider
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SetDefaultIdentityProviderRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SetDefaultIdentityProviderResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /iam/generateWorkloadAuthToken:
     post:
       summary: Generates an authentication token for workload APIs.
@@ -1725,7 +1772,7 @@ paths:
   /iam/unlockUserInControlPlane:
     post:
       summary: Unlocks user in the CDP control plane.
-      description: Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active.
+      description: Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active. This operation is only supported on Cloudera for Government.
       operationId: unlockUserInControlPlane
       x-form-factors: public
       x-right: iam/unlockUserInControlPlane
@@ -1748,7 +1795,7 @@ paths:
   /iam/unlockMachineUserInControlPlane:
     post:
       summary: Unlocks machine user in the CDP control plane.
-      description: Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active.
+      description: Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active. This operation is only supported on Cloudera for Government.
       operationId: unlockMachineUserInControlPlane
       x-form-factors: public
       x-right: iam/unlockMachineUserInControlPlane
@@ -1845,6 +1892,18 @@ definitions:
         format: int32
         description: The expiration, in seconds, of the UI session token. The value of '0' indicates the system default expiration (which is 12 hours).
         x-no-compatibility-guarantee: true
+      clientIpAddressesAllowed:
+        type: array
+        items:
+          type: string
+        description: The list of IP addresses and/or CIDRs used for allowing client access to the UI and API services. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be present in the allowed list.
+        x-no-compatibility-guarantee: true
+      clientIpAddressesBlocked:
+        type: array
+        items:
+          type: string
+        description: The list of IP addresses and/or CIDRs used for blocking client access to the UI and API services. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be absent from the blocked list.
+        x-no-compatibility-guarantee: true
   Account:
     type: object
     description: Information about a Cloudera CDP account.
@@ -1925,6 +1984,9 @@ definitions:
           $ref: '#/definitions/AzureCloudIdentity'
         description: The list of Azure cloud identities assigned to the user.
         x-no-compatibility-guarantee: true
+      status:
+        type: string
+        description: The current status of the user. The possible status values are ACTIVE, CONTROL_PLANE_LOCKED_OUT, and DEACTIVATED. ACTIVE indicates that the user is active in CDP. An active user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the user is locked out of the CDP control plane. The locked-out user can no longer authenticate to the control plane but can authenticate to the workload clusters. DEACTIVATED indicates that the user is deactivated in CDP. A deactivated user can neither authenticate to the control plane nor to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
       workloadPasswordDetails:
         $ref: '#/definitions/WorkloadPasswordDetails'
         description: Information about the workload password for the user.
@@ -1960,6 +2022,9 @@ definitions:
           $ref: '#/definitions/AzureCloudIdentity'
         description: The list of Azure cloud identities assigned to the machine user.
         x-no-compatibility-guarantee: true
+      status:
+        type: string
+        description: The current status of the machine user. The possible status values are ACTIVE and CONTROL_PLANE_LOCKED_OUT. ACTIVE indicates that the machine user is active in CDP. An active machine user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the machine user is locked out of the CDP control plane. The locked-out machine user can no longer authenticate to the control plane but can authenticate to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
       workloadPasswordDetails:
         $ref: '#/definitions/WorkloadPasswordDetails'
         description: Information about the workload password for the machine user.
@@ -2451,6 +2516,8 @@ definitions:
   DeleteSamlProviderRequest:
     type: object
     description: Request object for deleting SAML provider request.
+    required:
+      - samlProviderName
     properties:
       samlProviderName:
         type: string
@@ -2498,6 +2565,8 @@ definitions:
   DescribeSamlProviderRequest:
     type: object
     description: Request object for a describe SAML provider request.
+    required:
+      - samlProviderName
     properties:
       samlProviderName:
         type: string
@@ -3693,6 +3762,18 @@ definitions:
         minimum: 0
         description: The expiration, in seconds, of the UI session token. Set the value to '0' to use system default expiration (which is 12 hours for CDP). The value will be set to '0' if not provided.
         x-no-compatibility-guarantee: true
+      clientIpAddressesAllowed:
+        type: array
+        items:
+          type: string
+        description: The list of IP addresses and/or CIDRs used for allowing client access to the UI and API services. Duplicated values will be removed automatically. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be present in the allowed list.
+        x-no-compatibility-guarantee: true
+      clientIpAddressesBlocked:
+        type: array
+        items:
+          type: string
+        description: The list of IP addresses and/or CIDRs used for blocking client access to the UI and API services. Duplicated values will be removed automatically. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be absent from the blocked list.
+        x-no-compatibility-guarantee: true
   SetAuthenticationPolicyResponse:
     type: object
     description: Response object for a set authentication policy request.
@@ -3903,6 +3984,30 @@ definitions:
         type: string
         x-paging-output-token: true
         description: The token to use when requesting the next set of results. If not present, there are no additional results.
+  GetDefaultIdentityProviderRequest:
+    type: object
+    description: Request object to get the default identity provider.
+  GetDefaultIdentityProviderResponse:
+    type: object
+    description: Response object to get the default identity provider.
+    required:
+      - crn
+    properties:
+      crn:
+        type: string
+        description: The CRN of the identity provider used for CDP initiated login requests. The CRN could be a user defined identity provider's CRN or one of the CDP built-ins (like Cloudera SSO). To retrieve more information about your own user-defined saml providers (or other provider types, not the default ones) call the relevant describeXXXProvider, e.g. for SAML providers call describeSamlProvider.
+  SetDefaultIdentityProviderRequest:
+    type: object
+    description: Request object to set the default identity provider.
+    required:
+      - nameOrCrn
+    properties:
+      nameOrCrn:
+        type: string
+        description: The name or CRN of the default identity provider.
+  SetDefaultIdentityProviderResponse:
+    type: object
+    description: Response object to set the default identity provider.
   GenerateWorkloadAuthTokenRequest:
     type: object
     description: Request object for GenerateWorkloadAuthToken method.

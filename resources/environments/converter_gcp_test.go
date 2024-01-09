@@ -12,12 +12,13 @@ package environments
 
 import (
 	"context"
+	"testing"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
 
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -50,7 +51,7 @@ func TestToGcpEnvironmentRequestExistingNetworkParams(t *testing.T) {
 
 	assert.NotNilf(t, result.ExistingNetworkParams, "ExistingNetworkParams is expected to be not nil")
 	assert.Equal(t, testObject.ExistingNetworkParams.NetworkName.ValueString(), *result.ExistingNetworkParams.NetworkName)
-	assert.Equal(t, testObject.ExistingNetworkParams.SharedProjectId.ValueString(), *result.ExistingNetworkParams.SharedProjectID)
+	assert.Equal(t, testObject.ExistingNetworkParams.SharedProjectId.ValueString(), result.ExistingNetworkParams.SharedProjectID)
 	assert.Equal(t, len(testObject.ExistingNetworkParams.SubnetNames.Elements()), len(result.ExistingNetworkParams.SubnetNames))
 }
 

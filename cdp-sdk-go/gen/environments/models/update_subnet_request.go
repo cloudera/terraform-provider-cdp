@@ -19,12 +19,14 @@ import (
 // swagger:model UpdateSubnetRequest
 type UpdateSubnetRequest struct {
 
+	// The selected subnets to update for the given environment's endpoint access gateway.
+	EndpointAccessGatewaySubnetIds []string `json:"endpointAccessGatewaySubnetIds"`
+
 	// The name or the CRN of the environment.
 	// Required: true
 	Environment *string `json:"environment"`
 
 	// The selected subnets to update the given environment to.
-	// Required: true
 	SubnetIds []string `json:"subnetIds"`
 }
 
@@ -33,10 +35,6 @@ func (m *UpdateSubnetRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateEnvironment(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSubnetIds(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -49,15 +47,6 @@ func (m *UpdateSubnetRequest) Validate(formats strfmt.Registry) error {
 func (m *UpdateSubnetRequest) validateEnvironment(formats strfmt.Registry) error {
 
 	if err := validate.Required("environment", "body", m.Environment); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *UpdateSubnetRequest) validateSubnetIds(formats strfmt.Registry) error {
-
-	if err := validate.Required("subnetIds", "body", m.SubnetIds); err != nil {
 		return err
 	}
 

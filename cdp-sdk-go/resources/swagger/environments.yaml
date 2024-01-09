@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.92 (BETA)
+  version: 0.9.103 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -40,6 +40,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/environments2/getGovCloudCredentialPrerequisites:
+    post:
+      summary: This API provides the credential prerequisites for GovCloud for the enabled providers.
+      description: Provides the the credential prerequisites for GovCloud for the enabled providers.
+      operationId: getGovCloudCredentialPrerequisites
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetGovCloudCredentialPrerequisitesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetGovCloudCredentialPrerequisitesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/environments2/createAWSEnvironment:
     post:
       summary: Creates a new AWS environment by providing the cloud provider access and network information. A FreeIPA server will be automatically provisioned when an environment is created.
@@ -57,6 +78,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/CreateAWSEnvironmentResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/createAWSGovCloudEnvironment:
+    post:
+      summary: Creates a new AWS GovCloud environment by providing the cloud provider access and network information. A FreeIPA server will be automatically provisioned when an environment is created.
+      description: Creates a new AWS GovCloud environment.
+      operationId: createAWSGovCloudEnvironment
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudEnvironmentRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudEnvironmentResponse'
         default:
           description: The default response on an error.
           schema:
@@ -142,6 +184,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/CreateAWSCredentialResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/createAWSGovCloudCredential:
+    post:
+      summary: Creates a new AWS credential for GovCloud that can be attatched to an environment. The credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+      description: Creates a new AWS credential for GovCloud.
+      operationId: createAWSGovCloudCredential
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudCredentialRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateAWSGovCloudCredentialResponse'
         default:
           description: The default response on an error.
           schema:
@@ -247,6 +310,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpdateAzureEncryptionResourcesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/updateAzureDatabaseResources:
+    post:
+      summary: Update the Azure database resources for the environment.
+      description: Updates the Azure database resources for the environment. Enables deploying private Flexible Server for the existing environment.
+      operationId: updateAzureDatabaseResources
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateAzureDatabaseResourcesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateAzureDatabaseResourcesResponse'
         default:
           description: The default response on an error.
           schema:
@@ -458,6 +542,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/SyncStatusResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/listConnectedDataServices:
+    post:
+      summary: Returns the list of Data Services and their cluster names that are attached the given environment.
+      description: Returns the list of Data Services and their cluster names that are attached to the given environment.
+      operationId: listConnectedDataServices
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListConnectedDataServicesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListConnectedDataServicesResponse'
         default:
           description: The default response on an error.
           schema:
@@ -716,6 +821,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/StopEnvironmentResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/getOperation:
+    post:
+      summary: Get the latest (in progress or finished) operation for the environment resource.
+      description: Get the latest (in progress or finished) operation for the environment resource.
+      operationId: getOperation
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetOperationRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetOperationResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1208,6 +1334,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/environments2/getGovCloudAuditCredentialPrerequisites:
+    post:
+      summary: This API provides the audit credential prerequisites for GovCloud for the enabled providers.
+      description: Provides the the audit credential prerequisites for GovCloud for the enabled providers.
+      operationId: getGovCloudAuditCredentialPrerequisites
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetGovCloudAuditCredentialPrerequisitesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetGovCloudAuditCredentialPrerequisitesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/environments2/listAuditCredentials:
     post:
       summary: Lists audit credentials.
@@ -1250,6 +1397,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/environments2/setAWSGovCloudAuditCredential:
+    post:
+      summary: Creates or updates the AWS GovCloud audit credential for the account. The credential is used for authorization to archive audit events to your cloud storage.
+      description: Creates or updates the AWS GovCloud audit credential for the account. The response will only contain details appropriate to AWS.
+      operationId: setAWSGovCloudAuditCredential
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SetAWSGovCloudAuditCredentialRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SetAWSGovCloudAuditCredentialResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/environments2/setAzureAuditCredential:
     post:
       summary: Creates or updates the Azure audit credential for the account. The credential is used for authorization to archive audit events to your cloud storage.
@@ -1267,6 +1435,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/SetAzureAuditCredentialResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/setGCPAuditCredential:
+    post:
+      summary: Creates or updates the GCP audit credential for the account. The credential is used for authorization to archive audit events to your cloud storage.
+      description: Creates or updates the GCP audit credential for the account. The response will only contain details appropriate to GCP.
+      operationId: setGCPAuditCredential
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SetGCPAuditCredentialRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SetGCPAuditCredentialResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1314,13 +1503,33 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/environments2/updateSshKey:
+    post:
+      summary: Updates the designated SSH key for the given environment.
+      description: Updates the designated SSH key for the given environment.
+      operationId: updateSshKey
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateSshKeyRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateSshKeyResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/environments2/updateSubnet:
     post:
       summary: Updates the subnet(s) of the given environment.
       description: Updates the subnet(s) of the given environment.
       operationId: updateSubnet
       x-mutating: true
-      x-no-compatibility-guarantee: true
       parameters:
         - name: input
           in: body
@@ -1332,6 +1541,69 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpdateSubnetResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/updateSecurityAccess:
+    post:
+      summary: Updates the security access settings of the given environment.
+      description: Updates the security access settings of the given environment.
+      operationId: updateSecurityAccess
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateSecurityAccessRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateSecurityAccessResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/validateAwsCloudStorage:
+    post:
+      summary: Validates AWS cloud storage settings of the given environment.
+      description: Validates AWS cloud storage settings of the given environment.
+      operationId: validateAwsCloudStorage
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ValidateAwsCloudStorageRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ValidateAwsCloudStorageResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/validateAzureCloudStorage:
+    post:
+      summary: Validates Azure cloud storage settings of the given environment.
+      description: Validates Azure cloud storage settings of the given environment.
+      operationId: validateAzureCloudStorage
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ValidateAzureCloudStorageRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ValidateAzureCloudStorageResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1363,7 +1635,6 @@ paths:
       description: FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
       operationId: upgradeFreeipa
       x-mutating: true
-      x-no-compatibility-guarantee: true
       parameters:
         - name: input
           in: body
@@ -1427,7 +1698,6 @@ paths:
       description: Retries the last failed operation on a FreeIPA.
       operationId: retryFreeipa
       x-mutating: true
-      x-no-compatibility-guarantee: true
       parameters:
         - name: input
           in: body
@@ -1535,7 +1805,6 @@ paths:
       description: Updates the proxy config of the given environment.
       operationId: updateProxyConfig
       x-mutating: true
-      x-entitlement: CDP_ENVIRONMENT_EDIT_PROXY_CONFIG
       parameters:
         - name: input
           in: body
@@ -1551,6 +1820,69 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/environments2/updateAzureImageTermsPolicy:
+    post:
+      summary: Updates account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+      description: Updates account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+      operationId: updateAzureImageTermsPolicy
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateAzureImageTermsPolicyRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateAzureImageTermsPolicyResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/getAzureImageTermsPolicy:
+    post:
+      summary: Gets account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+      description: Gets account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+      operationId: getAzureImageTermsPolicy
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetAzureImageTermsPolicyRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetAzureImageTermsPolicyResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/updateDataServiceResources:
+    post:
+      summary: Updates Data Service resources of an environment.
+      description: Updates Data Service resources of an environment.
+      operationId: updateDataServiceResources
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateDataServiceResourcesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateDataServiceResourcesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -1562,13 +1894,35 @@ definitions:
       message:
         type: string
         description: The error message.
+  UpdateSshKeyRequest:
+    type: object
+    description: The request object for updating the environment SSH key.
+    required:
+      - environment
+    properties:
+      environment:
+        type: string
+        description: The name or the CRN of the environment.
+      newPublicKey:
+        type: string
+        description: A new SSH public key that is stored locally. Either this or an existing public key ID has to be given.
+      existingPublicKeyId:
+        type: string
+        description: The ID of the existing SSH public key that is stored on the cloud provider side. Either this or a new public key has to be given.
+  UpdateSshKeyResponse:
+    type: object
+    description: Response object for an update environment SSH key request.
+    required:
+      - environment
+    properties:
+      environment:
+        $ref: '#/definitions/Environment'
+        description: The environment.
   UpdateSubnetRequest:
     type: object
     description: The request for updating subnets of the given environment.
-    x-no-compatibility-guarantee: true
     required:
       - environment
-      - subnetIds
     properties:
       environment:
         type: string
@@ -1578,10 +1932,40 @@ definitions:
         items:
           type: string
         description: The selected subnets to update the given environment to.
+      endpointAccessGatewaySubnetIds:
+        type: array
+        items:
+          type: string
+        description: The selected subnets to update for the given environment's endpoint access gateway.
   UpdateSubnetResponse:
     type: object
     description: Response object for an update environment subnet request.
-    x-no-compatibility-guarantee: true
+    required:
+      - environment
+    properties:
+      environment:
+        $ref: '#/definitions/Environment'
+        description: The environment.
+  UpdateSecurityAccessRequest:
+    type: object
+    description: The request object for updating security access of the given environment.
+    required:
+      - environment
+      - gatewayNodeSecurityGroupId
+      - defaultSecurityGroupId
+    properties:
+      environment:
+        type: string
+        description: The name or the CRN of the environment.
+      gatewayNodeSecurityGroupId:
+        type: string
+        description: Security group ID where Knox-enabled hosts are placed.
+      defaultSecurityGroupId:
+        type: string
+        description: Security group ID for non-gateway nodes.
+  UpdateSecurityAccessResponse:
+    type: object
+    description: Response object for an update environment security access request.
     required:
       - environment
     properties:
@@ -1613,6 +1997,31 @@ definitions:
       description:
         type: string
         description: A description for the credential.
+  CreateAWSGovCloudCredentialRequest:
+    type: object
+    description: Request object for a create AWS credential request for GovCloud.
+    required:
+      - credentialName
+      - roleArn
+    properties:
+      credentialName:
+        type: string
+        description: The name of the credential.
+      roleArn:
+        type: string
+        description: The ARN of the delegated access role.
+      description:
+        type: string
+        description: A description for the credential.
+  CreateAWSGovCloudCredentialResponse:
+    type: object
+    description: Response object for a create AWS credential request for GovCloud.
+    required:
+      - credential
+    properties:
+      credential:
+        description: The credential object.
+        $ref: '#/definitions/Credential'
   CreateAzureCredentialRequest:
     type: object
     description: Request object for a create Azure credential request.
@@ -1758,6 +2167,9 @@ definitions:
       roleArn:
         type: string
         description: The AWS role arn for the given credential.
+      govCloud:
+        type: boolean
+        description: Flag that indicates that the given AWS credential is GovCloud specfic.
   AzureCredentialProperties:
     type: object
     description: The credential properties that closely related to those that have been created on Azure.
@@ -1879,6 +2291,34 @@ definitions:
         description: The fine-grained policies related to each service.
         items:
           $ref: '#/definitions/CredentialGranularPolicyResponse'
+  GcpCredentialPrerequisitesResponse:
+    type: object
+    description: Response object for getting GCP credential prerequisites.
+    required:
+      - serviceAccountCreationCommand
+    properties:
+      serviceAccountCreationCommand:
+        type: string
+        description: GCP CLI command to create service account encoded in base64.
+  GetGovCloudCredentialPrerequisitesRequest:
+    type: object
+    description: Request object for getting the credential prerequisites for GovCloud for the enabled providers.
+    required:
+      - cloudPlatform
+    properties:
+      cloudPlatform:
+        type: string
+        description: The kind of cloud platform. As of now, the following cloud provider is accepted as the value of this field - AWS
+  GetGovCloudCredentialPrerequisitesResponse:
+    type: object
+    description: The credential prerequisites for GovCloud for the enabled providers.
+    properties:
+      accountId:
+        type: string
+        description: The provider specific identifier of the account/subscription/project.
+      aws:
+        description: Provides the external id and policy JSON (this one encoded in base64) for AWS GovCloud credential creation.
+        $ref: '#/definitions/AwsCredentialPrerequisitesResponse'
   CredentialGranularPolicyResponse:
     type: object
     description: Response object for the granular policy for the given service or experience.
@@ -1958,6 +2398,7 @@ definitions:
         description: An description of the environment.
       enableTunnel:
         type: boolean
+        default: true
         description: Whether to enable SSH tunneling for the environment.
       workloadAnalytics:
         type: boolean
@@ -1982,6 +2423,106 @@ definitions:
       encryptionKeyArn:
         type: string
         description: ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources.
+  CreateAWSGovCloudEnvironmentRequest:
+    type: object
+    description: Request object for a create AWS GovCloud environment request.
+    required:
+      - environmentName
+      - credentialName
+      - region
+      - securityAccess
+      - authentication
+      - logStorage
+    properties:
+      environmentName:
+        type: string
+        description: The name of the environment. Must contain only lowercase letters, numbers and hyphens.
+      credentialName:
+        type: string
+        description: Name of the credential to use for the environment.
+      region:
+        type: string
+        description: The region of the environment.
+      securityAccess:
+        description: Security control for FreeIPA and Data Lake deployment.
+        $ref: '#/definitions/SecurityAccessRequest'
+      authentication:
+        description: SSH authentication information for accessing cluster node instances. Users with access to this authentication information have root level access to the Data Lake and Data Hub cluster instances.
+        $ref: '#/definitions/AuthenticationRequest'
+      logStorage:
+        description: AWS storage configuration for cluster and audit logs.
+        $ref: '#/definitions/AwsLogStorageRequest'
+      networkCidr:
+        type: string
+        description: The network CIDR. This will create a VPC along with subnets in multiple Availability Zones.
+      vpcId:
+        type: string
+        description: The Amazon VPC ID. Mutually exclusive with networkCidr.
+      subnetIds:
+        type: array
+        description: One or more subnet IDs within the VPC. Mutually exclusive with networkCidr.
+        uniqueItems: true
+        items:
+          type: string
+      createPrivateSubnets:
+        type: boolean
+        description: Whether to create private subnets or not.
+      createServiceEndpoints:
+        type: boolean
+        description: Whether to create service endpoints or not.
+      endpointAccessGatewayScheme:
+        type: string
+        description: The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
+        enum:
+          - PUBLIC
+          - PRIVATE
+      endpointAccessGatewaySubnetIds:
+        type: array
+        items:
+          type: string
+        description: The subnets to use for endpoint access gateway.
+      s3GuardTableName:
+        type: string
+        description: The name for the DynamoDB table backing S3Guard.
+      description:
+        type: string
+        description: An description of the environment.
+      enableTunnel:
+        type: boolean
+        default: true
+        description: Whether to enable SSH tunneling for the environment.
+      workloadAnalytics:
+        type: boolean
+        description: When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
+      reportDeploymentLogs:
+        type: boolean
+        description: When true, this will report additional diagnostic information back to Cloudera.
+      freeIpa:
+        $ref: '#/definitions/AWSFreeIpaCreationRequest'
+        description: The FreeIPA creation request for the environment
+      image:
+        $ref: '#/definitions/FreeIpaImageRequest'
+        description: The FreeIPA image request for the environment
+      tags:
+        type: array
+        description: Tags associated with the resources.
+        items:
+          $ref: '#/definitions/TagRequest'
+      proxyConfigName:
+        type: string
+        description: Name of the proxy config to use for the environment.
+      encryptionKeyArn:
+        type: string
+        description: ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources.
+  CreateAWSGovCloudEnvironmentResponse:
+    type: object
+    description: Response object for a create AWS GovCloud environment request.
+    required:
+      - environment
+    properties:
+      environment:
+        $ref: '#/definitions/Environment'
+        description: Created environment object.
   CreatePrivateEnvironmentRequest:
     type: object
     description: Request object for a create private cloud environment request.
@@ -2398,6 +2939,7 @@ definitions:
         description: An description of the environment.
       enableTunnel:
         type: boolean
+        default: true
         description: Whether to enable SSH tunneling for the environment.
       workloadAnalytics:
         type: boolean
@@ -2446,6 +2988,14 @@ definitions:
       enableOutboundLoadBalancer:
         type: boolean
         description: Whether or not outbound load balancers should be created for Azure environments. The default behavior is to not create the outbound load balancer.
+      flexibleServerSubnetIds:
+        type: array
+        items:
+          type: string
+        description: The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
+      dataServices:
+        description: Data Services parameters of the environment.
+        $ref: '#/definitions/DataServicesRequest'
   CreateGCPEnvironmentRequest:
     type: object
     description: Request object for a create GCP environment request.
@@ -2486,6 +3036,7 @@ definitions:
         description: A description of the environment.
       enableTunnel:
         type: boolean
+        default: true
         description: Whether to enable SSH tunneling for the environment.
       workloadAnalytics:
         type: boolean
@@ -2518,7 +3069,6 @@ definitions:
       encryptionKey:
         type: string
         description: Key Resource ID of the customer managed encryption key to encrypt GCP resources.
-        x-entitlement: CDP_CB_GCP_DISK_ENCRYPTION_WITH_CMEK
       availabilityZones:
         description: The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
         type: array
@@ -2546,17 +3096,16 @@ definitions:
           type: string
       databasePrivateDnsZoneId:
         type: string
-        description: The ID of an existing private DNS zone used for the database.
+        description: The full Azure resource ID of the existing Private DNS Zone used for Flexible Server and Single Server Databases.
       aksPrivateDnsZoneId:
         type: string
-        description: The ID of an existing private DNS zone used for the AKS.
+        description: The full Azure resource ID of an existing Private DNS zone used for the AKS.
   ExistingGCPNetworkRequest:
     type: object
     description: Request object for creating an GCP environment using existing VPC and subnets.
     required:
       - networkName
       - subnetNames
-      - sharedProjectId
     properties:
       networkName:
         type: string
@@ -2621,6 +3170,36 @@ definitions:
       resourceEncryptionParameters:
         $ref: '#/definitions/AzureResourceEncryptionParameters'
         description: Object containing details of encryption parameters for Azure cloud.
+  UpdateAzureDatabaseResourcesRequest:
+    type: object
+    description: Request object for updating Azure Database resources.
+    required:
+      - environment
+    properties:
+      environment:
+        type: string
+        description: The name or CRN of the environment.
+      databasePrivateDnsZoneId:
+        type: string
+        description: The full Azure resource ID of the existing Private DNS Zone used for Flexible Server and Single Server Databases.
+        x-no-paramfile: true
+      flexibleServerSubnetIds:
+        type: array
+        items:
+          type: string
+        description: The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
+  UpdateAzureDatabaseResourcesResponse:
+    type: object
+    description: Response object for a update Azure Database resources request.
+    required:
+      - environment
+    properties:
+      environment:
+        $ref: '#/definitions/Environment'
+        description: The environment summary.
+      azureDatabaseResources:
+        $ref: '#/definitions/AzureDatabaseResources'
+        description: Object containing details of database resources for Azure cloud.
   UpdateAwsDiskEncryptionParametersRequest:
     type: object
     description: Request object for updating AWS encryption parameters.
@@ -2669,6 +3248,19 @@ definitions:
       diskEncryptionSetId:
         type: string
         description: ID of the Disk Encryption Set created in Azure which is used to encrypt Managed Disks of FreeIPA, Data Lake, Data Hub and PostgreSQL.
+  AzureDatabaseResources:
+    type: object
+    description: Object containing details of database resources for Azure cloud.
+    properties:
+      databasePrivateDnsZoneId:
+        type: string
+        description: The full Azure resource ID of the existing Private DNS Zone used for Flexible Server and Single Server Databases.
+        x-no-paramfile: true
+      flexibleServerSubnetIds:
+        type: array
+        items:
+          type: string
+        description: The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
   DisableS3GuardRequest:
     type: object
     description: Request object for disabling S3Guard in an environment.
@@ -2838,7 +3430,9 @@ definitions:
       tags:
         description: Environment tags object containing the tag values defined for the environment.
         $ref: '#/definitions/EnvironmentTags'
-        x-no-compatibility-guarantee: true
+      dataServices:
+        description: Data Services parameters of the environment.
+        $ref: '#/definitions/DataServices'
   AuthenticationRequest:
     type: object
     description: Additional SSH key authentication configuration for accessing cluster node.
@@ -2952,13 +3546,18 @@ definitions:
         description: Whether to associate public ip's to the resources within the network.
       databasePrivateDnsZoneId:
         type: string
-        description: The ID of an existing private DNS zone used for the database.
+        description: The full Azure resource ID of the existing Private DNS Zone used for Flexible Server and Single Server Databases.
       aksPrivateDnsZoneId:
         type: string
-        description: The ID of an existing private DNS zone used for the AKS.
+        description: The full Azure resource ID of an existing Private DNS zone used for the AKS.
       enableOutboundLoadBalancer:
         type: boolean
         description: Whether the outbound load balancer was created for this environment.
+      flexibleServerSubnetIds:
+        type: array
+        items:
+          type: string
+        description: The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
   NetworkGcpParams:
     type: object
     description: GCP network parameters.
@@ -3206,6 +3805,41 @@ definitions:
       endTime:
         type: string
         description: Sync operation end timestamp.
+  ListConnectedDataServicesRequest:
+    type: object
+    description: Request object for listing connected Data Service(s) for a given environment.
+    required:
+      - environment
+    properties:
+      environment:
+        type: string
+        description: Name or CRN of the environment.
+  ListConnectedDataServicesResponse:
+    type: object
+    description: Response object for listing connected Data Service(s) for a given environment.
+    required:
+      - result
+    properties:
+      result:
+        type: array
+        description: List of connected Data Service for the given environment.
+        items:
+          $ref: '#/definitions/ConnectedDataService'
+  ConnectedDataService:
+    type: object
+    description: A single entry that contains the name of the given Data Service and its related resource(s).
+    required:
+      - name
+      - clusters
+    properties:
+      name:
+        type: string
+        description: The name of the given Data Service.
+      clusters:
+        type: array
+        description: List of resource names for the given Data Service.
+        items:
+          type: string
   GetEnvironmentUserSyncStateRequest:
     type: object
     description: Request object for retrieving the user sync state of an environment.
@@ -3542,6 +4176,38 @@ definitions:
       - COMPLETED
       - FAILED
       - TIMEDOUT
+  GetOperationRequest:
+    type: object
+    description: Request object for tracking the latest (current/last) operation on the environment resource.
+    required:
+      - environmentName
+    properties:
+      environmentName:
+        type: string
+        description: Name of the environment resource.
+  GetOperationResponse:
+    type: object
+    description: Response object for tracking the latest (current/last) operation on the environment resource.
+    properties:
+      operationId:
+        type: string
+        description: Identifier of the operation.
+      operationType:
+        type: string
+        description: Type of the operation.
+      operationStatus:
+        type: string
+        description: Status of the operation.
+        enum:
+          - UNKNOWN
+          - RUNNING
+          - FAILED
+          - FINISHED
+          - CANCELLED
+      progress:
+        type: integer
+        format: int32
+        description: Progress percentage of the operation.
   ExposedService:
     x-form-factors: private
     description: Exposed CDP DC service object.
@@ -3942,6 +4608,10 @@ definitions:
       instanceType:
         type: string
         description: Custom instance type of FreeIPA instances.
+      multiAz:
+        type: boolean
+        default: false
+        description: Flag that enables deployment of the FreeIPA in a multi-availability zone.
   GCPFreeIpaCreationRequest:
     description: Request object for creating FreeIPA in the environment.
     type: object
@@ -3969,6 +4639,9 @@ definitions:
       id:
         type: string
         description: Image ID to use for creating FreeIPA instances.
+      os:
+        type: string
+        description: The OS to use for creating FreeIPA instances.
   TagRequest:
     description: A label that can be attached to some resources.
     type: object
@@ -4025,6 +4698,10 @@ definitions:
         uniqueItems: true
         items:
           $ref: '#/definitions/FreeIpaInstance'
+      instanceCountByGroup:
+        type: integer
+        format: int32
+        description: The number of FreeIPA instances to create per group when creating FreeIPA in environment.
   FreeIpaInstance:
     type: object
     description: Object for a FreeIPA instance providing specific information about the instance.
@@ -4218,6 +4895,30 @@ definitions:
   SetTelemetryFeaturesResponse:
     type: object
     description: Response object to enable environment level telemetry features.
+  UpdateAzureImageTermsPolicyRequest:
+    type: object
+    description: Request object to enable or disable automatic acceptance of Azure Marketplace image terms.
+    required:
+      - accepted
+    properties:
+      accepted:
+        type: boolean
+        description: Flag to enable or disable automatic acceptance of Azure Marketplace image terms.
+  UpdateAzureImageTermsPolicyResponse:
+    type: object
+    description: Response object to enable or disable automatic acceptance of Azure Marketplace image terms.
+  GetAzureImageTermsPolicyRequest:
+    type: object
+    description: Request object to retrieve current value of setting that controls automatic acceptance of Azure Marketplace image terms.
+  GetAzureImageTermsPolicyResponse:
+    type: object
+    description: Response object to retrieve current value of setting that controls automatic acceptance of Azure Marketplace image terms.
+    required:
+      - accepted
+    properties:
+      accepted:
+        type: boolean
+        description: Flag denoting whether automatic Azure Marketplace image terms acceptance is enabled or disabled.
   GetEnvironmentSettingRequest:
     x-form-factors: private
     type: object
@@ -4581,7 +5282,6 @@ definitions:
           $ref: '#/definitions/FreeipaVmLogResponse'
   EnvironmentTags:
     type: object
-    x-no-compatibility-guarantee: true
     description: Environment tags object containing the tag values defined for the environment.
     properties:
       userDefined:
@@ -4614,6 +5314,7 @@ definitions:
         enum:
           - AWS
           - AZURE
+          - GCP
         description: The kind of cloud platform.
   GetAuditCredentialPrerequisitesResponse:
     type: object
@@ -4633,6 +5334,28 @@ definitions:
       azure:
         description: Provides the app creation command and role definition Json for Azure credential creation.
         $ref: '#/definitions/AzureCredentialPrerequisitesResponse'
+      gcp:
+        description: Provides the service account creation command for GCP credential creation.
+        $ref: '#/definitions/GcpCredentialPrerequisitesResponse'
+  GetGovCloudAuditCredentialPrerequisitesRequest:
+    type: object
+    description: Request object for getting the audit credential prerequisites for GovCloud for the enabled providers.
+    required:
+      - cloudPlatform
+    properties:
+      cloudPlatform:
+        type: string
+        description: The kind of cloud platform. As of now, the following cloud provider is accepted as the value of this field - AWS
+  GetGovCloudAuditCredentialPrerequisitesResponse:
+    type: object
+    description: The audit credential prerequisites for GovCloud for the enabled providers.
+    properties:
+      accountId:
+        type: string
+        description: The provider specific identifier of the account/subscription/project.
+      aws:
+        description: Provides the external id and policy JSON (this one encoded in base64) for AWS credential creation.
+        $ref: '#/definitions/AwsCredentialPrerequisitesResponse'
   ListAuditCredentialsRequest:
     type: object
     description: Request object for a list audit credentials request.
@@ -4659,6 +5382,24 @@ definitions:
   SetAWSAuditCredentialResponse:
     type: object
     description: Response object for a set AWS audit credential request.
+    required:
+      - credential
+    properties:
+      credential:
+        description: The credential object.
+        $ref: '#/definitions/Credential'
+  SetAWSGovCloudAuditCredentialRequest:
+    type: object
+    description: Request object for a set AWS GovCloud audit credential request.
+    required:
+      - roleArn
+    properties:
+      roleArn:
+        type: string
+        description: The ARN of the delegated access role.
+  SetAWSGovCloudAuditCredentialResponse:
+    type: object
+    description: Response object for a set AWS GovCloud audit credential request.
     required:
       - credential
     properties:
@@ -4696,6 +5437,25 @@ definitions:
   SetAzureAuditCredentialResponse:
     type: object
     description: Response object for a set Azure audit credential request.
+    required:
+      - credential
+    properties:
+      credential:
+        description: The credential object.
+        $ref: '#/definitions/Credential'
+  SetGCPAuditCredentialRequest:
+    type: object
+    description: Request object for a set GCP audit credential request.
+    required:
+      - credentialKey
+    properties:
+      credentialKey:
+        type: string
+        x-sensitive: true
+        description: The JSON key for the service account. Please use the local path when using the CLI (e.g. file:///absolute/path/to/cred.json) to avoid exposing the keys in the command line history.
+  SetGCPAuditCredentialResponse:
+    type: object
+    description: Response object for a set GCP audit credential request.
     required:
       - credential
     properties:
@@ -4761,6 +5521,68 @@ definitions:
         description: Additional detail related to the status.
         items:
           type: string
+  ValidateAwsCloudStorageRequest:
+    type: object
+    description: Request object for AWS environment cloud storage validation.
+    required:
+      - credentialCrn
+      - storageLocation
+      - instanceProfile
+    properties:
+      credentialCrn:
+        type: string
+        description: The CRN of the credential.
+      storageLocation:
+        type: string
+        description: AWS S3 storage bucket location for logging.
+      instanceProfile:
+        type: string
+        description: AWS instance profile.
+  ValidateAwsCloudStorageResponse:
+    type: object
+    description: Response object for AWS environment cloud storage validation.
+    properties:
+      status:
+        description: Validation result. Allowed values are "OK", "ACCESS_DENIED", "ERROR", "RESOURCE_NOT_FOUND".
+        type: string
+      error:
+        description: Error message if validation failed.
+        type: string
+  ValidateAzureCloudStorageRequest:
+    type: object
+    description: Request object for Azure environment cloud storage validation.
+    required:
+      - credentialCrn
+      - storageLocation
+    properties:
+      credentialCrn:
+        type: string
+        description: The CRN of the credential.
+      storageLocation:
+        type: string
+        description: Azure storage location for logging.
+      managedIdentity:
+        type: string
+        description: Azure managed identity.
+      accountKey:
+        description: Azure account key.
+        type: string
+      accountName:
+        description: Azure account name.
+        type: string
+      secure:
+        description: Azure secure flag.
+        type: boolean
+  ValidateAzureCloudStorageResponse:
+    type: object
+    description: Response object for Azure environment cloud storage validation.
+    properties:
+      status:
+        description: Validation result. Allowed values are "OK", "ACCESS_DENIED", "ERROR", "RESOURCE_NOT_FOUND".
+        type: string
+      error:
+        description: Error message if validation failed.
+        type: string
   SetCatalogRequest:
     type: object
     description: The request object to set catalog for a FreeIPA.
@@ -4781,17 +5603,21 @@ definitions:
   UpgradeFreeipaRequest:
     type: object
     description: The request object for FreeIPA upgrade.
-    x-no-compatibility-guarantee: true
     required:
       - environmentName
     properties:
       environmentName:
         type: string
         description: The name or CRN of the environment.
+      imageId:
+        type: string
+        description: Target image ID for upgrade.
+      allowMajorOsUpgrade:
+        type: boolean
+        description: Allows the upgrade to a subsequent major OS version in the series.
   UpgradeFreeipaResponse:
     type: object
     description: The response object for FreeIPA upgrade.
-    x-no-compatibility-guarantee: true
     properties:
       targetImage:
         description: Image selected for upgrade.
@@ -4850,6 +5676,11 @@ definitions:
           - HA
           - TWO_NODE_BASED
         description: The target FreeIPA availability type.
+      instances:
+        type: array
+        items:
+          type: string
+        description: The instance Ids to downscale.
   DownscaleFreeipaResponse:
     type: object
     description: The response object for FreeIPA downscale.
@@ -4937,7 +5768,6 @@ definitions:
   ImageInfoResponse:
     type: object
     description: Information about FreeIPA image.
-    x-no-compatibility-guarantee: true
     properties:
       catalog:
         type: string
@@ -4960,7 +5790,6 @@ definitions:
   RetryFreeipaRequest:
     type: object
     description: Request object for retry FreeIPA request.
-    x-no-compatibility-guarantee: true
     required:
       - environment
     properties:
@@ -4970,7 +5799,6 @@ definitions:
   RetryFreeipaResponse:
     type: object
     description: Response object for retry FreeIPA operation on an environment.
-    x-no-compatibility-guarantee: true
   UpgradeCcmRequest:
     type: object
     description: Request object for upgrading Cluster Connectivity Manager on an environment.
@@ -5027,3 +5855,57 @@ definitions:
   UpdateOrchestratorStateResponse:
     type: object
     description: Response object for running orchestrator engine state update on the FreeIPA cluster.
+  DataServicesRequest:
+    type: object
+    description: Data Services parameters request of the environment.
+    properties:
+      azure:
+        description: Azure-specific Data Service parameters request.
+        $ref: '#/definitions/AzureDataServicesParametersRequest'
+  DataServices:
+    type: object
+    description: Data Services parameters response of the environment.
+    properties:
+      azure:
+        description: Azure-specific Data Service parameters response.
+        $ref: '#/definitions/AzureDataServicesParameters'
+  AzureDataServicesParametersRequest:
+    description: Azure-specific Data Service parameters request.
+    type: object
+    required:
+      - sharedManagedIdentity
+    properties:
+      sharedManagedIdentity:
+        type: string
+        description: User-assigned managed identity used by the AKS control plane.
+  AzureDataServicesParameters:
+    description: Azure-specific Data Service parameters response.
+    type: object
+    required:
+      - sharedManagedIdentity
+    properties:
+      sharedManagedIdentity:
+        type: string
+        description: User-assigned managed identity used by the AKS control plane.
+  UpdateDataServiceResourcesRequest:
+    type: object
+    description: Update Data Services parameters request of the environment.
+    required:
+      - environment
+      - dataServices
+    properties:
+      environment:
+        type: string
+        description: The name or CRN of the environment.
+      dataServices:
+        description: Data Services parameters request of the environment.
+        $ref: '#/definitions/DataServicesRequest'
+  UpdateDataServiceResourcesResponse:
+    type: object
+    description: Response object for an update environment Data Service resource request.
+    required:
+      - environment
+    properties:
+      environment:
+        $ref: '#/definitions/Environment'
+        description: The environment.

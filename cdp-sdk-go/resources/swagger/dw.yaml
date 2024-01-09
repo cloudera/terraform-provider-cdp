@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.91 (BETA)
+  version: 0.9.103 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -238,6 +238,28 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       x-mutating: true
+  /api/v1/dw/listEvents:
+    post:
+      x-form-factors: public,private
+      x-mutating: false
+      summary: Get the list of events.
+      description: 'Get the list of events for the given Operation or a specific Service (Cluster, Database Catalog, Virtual Warehouse, or Data Visualization App). Events can belong to a particular Operation which might span across multiple Services. This happens if the given operation affects one or more Services e.g.: restore-cluster. It is also possible to return the events only for a given Service, in this case it is enough to pass the Id of a Service (e.g.: env-sq7hfv, warehouse-1696571829-pps2, compute-1696571962-8dd8, impala-1696572085-cn44).'
+      operationId: listEvents
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListEventsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListEventsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/dw/updateSshKey:
     post:
       x-form-factors: public
@@ -307,6 +329,119 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       x-mutating: true
+  /api/v1/dw/suspendCluster:
+    post:
+      x-no-compatibility-guarantee: true
+      x-mutating: true
+      x-form-factors: public
+      summary: Suspend Cloudera Data Warehouse cluster.
+      description: Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database.
+      operationId: suspendCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SuspendClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SuspendClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/resumeCluster:
+    post:
+      x-no-compatibility-guarantee: true
+      x-mutating: true
+      x-form-factors: public
+      summary: Resume Cloudera Data Warehouse cluster.
+      description: Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW.
+      operationId: resumeCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ResumeClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ResumeClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/createAwsCluster:
+    post:
+      x-no-compatibility-guarantee: true
+      x-mutating: true
+      summary: Create an AWS cluster in the Cloudera Data Warehouse.
+      description: Create an AWS cluster in the Cloudera Data Warehouse environment with the provided settings.
+      operationId: createAwsCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateAwsClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateAwsClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/createAzureCluster:
+    post:
+      x-no-compatibility-guarantee: true
+      x-mutating: true
+      summary: Create an Azure cluster in the Cloudera Data Warehouse.
+      description: Create an Azure cluster in the Cloudera Data Warehouse environment with the provided settings.
+      operationId: createAzureCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateAzureClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateAzureClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/createPrivateCluster:
+    post:
+      x-form-factors: private
+      x-no-compatibility-guarantee: true
+      x-mutating: true
+      summary: Create a  a Private Cloud cluster in the Cloudera Data Warehouse.
+      description: Create a Private Cloud cluster in the Cloudera Data Warehouse environment with the provided settings.
+      operationId: createPrivateCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreatePrivateClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreatePrivateClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/dw/deleteCluster:
     post:
       x-no-compatibility-guarantee: true
@@ -346,6 +481,70 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpdateClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/updateAwsCluster:
+    post:
+      x-mutating: true
+      summary: Updates an AWS cluster in the Cloudera Data Warehouse.
+      description: Update an AWS cluster in the Cloudera Data Warehouse with the provided settings.
+      operationId: updateAwsCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateAwsClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateAwsClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/updateAzureCluster:
+    post:
+      x-mutating: true
+      summary: Updates an Azure cluster in the Cloudera Data Warehouse.
+      description: Update an Azure cluster in the Cloudera Data Warehouse with the provided settings.
+      operationId: updateAzureCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateAzureClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateAzureClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/updatePrivateCluster:
+    post:
+      x-form-factors: private
+      x-mutating: true
+      summary: Updates a Private Cloud (PvC) cluster in the Cloudera Data Warehouse.
+      description: Update a Private Cloud cluster (PvC) in the Cloudera Data Warehouse with the provided settings.
+      operationId: updatePrivateCluster
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdatePrivateClusterRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdatePrivateClusterResponse'
         default:
           description: The default response on an error.
           schema:
@@ -565,8 +764,9 @@ paths:
   /api/v1/dw/createDbc:
     post:
       x-no-compatibility-guarantee: true
+      x-deprecated: true
       summary: Create a Database Catalog.
-      description: Create a Database Catalog.
+      description: 'DEPRECATED: Create a Database Catalog. The Database Catalog creation is deprecated and will be removed in subsequent releases. The Default Database Catalog is getting created during the cluster activation (create-cluster).'
       operationId: createDbc
       parameters:
         - name: input
@@ -1748,6 +1948,42 @@ definitions:
       cluster:
         description: The cluster.
         $ref: '#/definitions/ClusterSummaryResponse'
+  SuspendClusterRequest:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: Request object for suspend cluster method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster to suspend.
+  ResumeClusterRequest:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: Request object for resume cluster method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster to resume.
+  SuspendClusterResponse:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: The response object for the suspendCluster method.
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster to describe.
+  ResumeClusterResponse:
+    x-no-compatibility-guarantee: true
+    type: object
+    description: The response object for the resumeCluster method.
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster to describe.
   DescribeKubeconfigRequest:
     type: object
     description: Request object for the describeKubeconfig method.
@@ -1783,12 +2019,12 @@ definitions:
     properties:
       default:
         type: array
-        description: Default value for the compute instance type usage.
+        description: Default value for the compute instance type usage. This setting is Cluster-wide.
         items:
           type: string
       allowed:
         type: array
-        description: Allowed values for the instance type.
+        description: Allowed values for the instance type. This setting is Cluster-wide.
         items:
           type: string
   DescribeServerSettingRequest:
@@ -1865,6 +2101,56 @@ definitions:
       enabled:
         type: boolean
         description: The state of the setting.
+  ListEventsRequest:
+    x-form-factors: public,private
+    type: object
+    description: Request object for the listEvents method.
+    properties:
+      operationId:
+        type: string
+        description: Filter events based on the operation ID. Either operation ID or service ID is required.
+      serviceId:
+        type: string
+        description: Filter events based on the service ID. It can be Cluster ID, Database Catalog ID, Virtual Warehouse ID or Data Visualization App ID.
+      limit:
+        type: integer
+        format: int32
+        description: Limit the number of returned rows. If not specified then the recent 20 events will be returned. The maximum is 100.
+      ascending:
+        type: boolean
+        default: false
+        description: Provide the result in ascending order, default is descending.
+  ListEventsResponse:
+    x-form-factors: public,private
+    type: object
+    description: Response object for the listEvents method.
+    properties:
+      events:
+        type: array
+        description: List of the events.
+        items:
+          $ref: '#/definitions/Event'
+  Event:
+    x-form-factors: public,private
+    type: object
+    description: Represents a Event.
+    properties:
+      operationId:
+        type: string
+        description: The ID of the operation to which the event belongs.
+      serviceId:
+        type: string
+        description: The ID of the service to which the event belongs.
+      event:
+        type: string
+        description: The name of the event.
+      message:
+        type: string
+        description: Detailed message.
+      timestamp:
+        type: string
+        format: date-time
+        description: The timestamp of the event.
   UpdateSshKeyRequest:
     type: object
     description: Request object for the updateSshKey method.
@@ -1939,6 +2225,16 @@ definitions:
         default: false
         x-form-factors: public
         x-entitlement: CDW_STORAGE_ROLES
+      reservedComputeNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+      reservedSharedServicesNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
       customRegistryOptions:
         description: Options for custom ACR/ECR/Docker registries.
         $ref: '#/definitions/CustomRegistryOptions'
@@ -1957,6 +2253,231 @@ definitions:
       customSubdomain:
         type: string
         description: Custom environment subdomain. Overrides the environment subdomain using a customized domain either in the old subdomain format like ENV_ID.dw or the new format like dw-ENV_NAME.
+      resourcePool:
+        type: string
+        description: The Resource Pool of the cluster.
+        x-form-factors: private
+  CreateAwsClusterRequest:
+    type: object
+    description: Request object for the createAwsCluster method.
+    required:
+      - environmentCrn
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment for the cluster to create.
+      useOverlayNetwork:
+        type: boolean
+        description: Using an overlay network will save IP addresses in the VPC by using a private IP address range for Pods in the cluster.
+      databaseBackupRetentionPeriod:
+        type: integer
+        format: int32
+        default: 30
+        description: PostgreSQL server backup retention days.
+      whitelistK8sClusterAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for kubernetes cluster access.
+      whitelistWorkloadAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for workload access.
+      usePrivateLoadBalancer:
+        type: boolean
+        description: Set up load balancer with private IP address. In AWS it is created in private subnets. In Azure an internal load balancer gets created. Make sure there is connectivity between your client network and the network (VPC/VNet) where CDW environment is deployed.
+      usePublicWorkerNode:
+        type: boolean
+        description: Set up worker node with public IP address. In AWS it is created in public subnets.
+      enablePrivateEKS:
+        type: boolean
+        description: Use this option to set up AWS EKS cluster in private only mode with restricted access only from internal/peered networks. Ensure you have ccmv2 setup functional to achieve this integration.
+        default: false
+      enableStorageRoles:
+        type: boolean
+        description: Enable Storage Roles
+        default: false
+        x-form-factors: public
+        x-entitlement: CDW_STORAGE_ROLES
+      reservedComputeNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+      reservedSharedServicesNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+      customRegistryOptions:
+        description: Options for custom ACR/ECR/Docker registries.
+        $ref: '#/definitions/CustomRegistryOptions'
+      customSubdomain:
+        type: string
+        description: Custom environment subdomain. Overrides the environment subdomain using a customized domain either in the old subdomain format like ENV_ID.dw or the new format like dw-ENV_NAME.
+      workerSubnetIds:
+        type: array
+        description: IDs of AWS subnets where the cluster worker nodes should be deployed.
+        items:
+          type: string
+      lbSubnetIds:
+        type: array
+        description: IDs of AWS subnets where the cluster load balancer should be deployed.
+        items:
+          type: string
+      customAmiId:
+        type: string
+        description: Custom AMI ID.
+      nodeRoleCDWManagedPolicyArn:
+        type: string
+        description: Managed Policy Arn to be attached to the Node Instance Role.
+      enableSpotInstances:
+        type: boolean
+        description: Whether to enable Spot instances for Virtual warehouses. It cannot be updated later. Defaults to false.
+        default: false
+      reducedPermissionMode:
+        type: boolean
+        description: Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
+      computeInstanceTypes:
+        type: array
+        items:
+          type: string
+        description: AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
+      additionalInstanceTypes:
+        type: array
+        items:
+          type: string
+        description: Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.
+  CreateAzureClusterRequest:
+    type: object
+    description: Request object for the createAzureCluster method.
+    required:
+      - environmentCrn
+      - userAssignedManagedIdentity
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment for the cluster to create.
+      userAssignedManagedIdentity:
+        type: string
+        description: Resource ID of the managed identity used by AKS. It is a mandatory parameter for Azure cluster creation.
+      subnetId:
+        type: string
+        description: ID of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
+      kubenet:
+        type: boolean
+        description: With kubenet, nodes get an IP address from the Azure virtual network subnet. Pods receive an IP address from a logically different address space to the Azure virtual network subnet of the nodes.
+      databaseBackupRetentionPeriod:
+        type: integer
+        format: int32
+        default: 30
+        description: PostgreSQL server backup retention days.
+      whitelistK8sClusterAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for kubernetes cluster access.
+      whitelistWorkloadAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for workload access.
+      usePrivateLoadBalancer:
+        type: boolean
+        description: Set up load balancer with private IP address. An internal load balancer gets created. Make sure there is connectivity between your client network and the network VNet where CDW environment is deployed.
+      enableStorageRoles:
+        type: boolean
+        description: Enable Storage Roles
+        default: false
+        x-form-factors: public
+        x-entitlement: CDW_STORAGE_ROLES
+      reservedComputeNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+      reservedSharedServicesNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+      customRegistryOptions:
+        description: Options for custom ACR/ECR/Docker registries.
+        $ref: '#/definitions/CustomRegistryOptions'
+      customSubdomain:
+        type: string
+        description: Custom environment subdomain. Overrides the environment subdomain using a customized domain either in the old subdomain format like ENV_ID.dw or the new format like dw-ENV_NAME.
+      enableAZ:
+        type: boolean
+        description: Enables Azure Availability Zones for the cluster deployment.
+      enableSpotInstances:
+        type: boolean
+        description: Whether to enable spot instances for Virtual warehouses. It cannot be updated later. Defaults to false.
+        default: false
+      computeInstanceTypes:
+        type: array
+        items:
+          type: string
+        description: Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.
+      logAnalyticsWorkspaceId:
+        type: string
+        description: Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
+      outboundType:
+        type: string
+        description: Network outbound type. This setting controls the egress traffic for cluster nodes in Azure Kubernetes Service. Please refer to the following AKS documentation on the Azure portal. https://learn.microsoft.com/en-us/azure/aks/egress-outboundtype, https://learn.microsoft.com/en-us/azure/aks/nat-gateway
+        enum:
+          - LoadBalancer
+          - UserAssignedNATGateway
+          - UserDefinedRouting
+      enablePrivateSQL:
+        type: boolean
+        description: Enables private SQL for the cluster deployment.
+        default: false
+      privateDNSZoneAKS:
+        type: string
+        description: Private DNS zone AKS resource ID.
+      enablePrivateAks:
+        type: boolean
+        description: Enable Azure Private AKS mode. Note that this feature is currently unstable due to critical networking issues within the Azure Software Definition Layer (SDN). This problem prevents the deployment of necessary components and results in unpredictable behavior and instability, impacting operations such as environment activation, VW creation, modification, and start/stop operations. While we work towards a resolution with Microsoft, estimated within the next 6-9 months, we recommend utilizing alternative methods like enabling public endpoints or virtual network peering for accessing your Azure Cluster.
+        default: false
+      aksVNetIntegrationSubnetName:
+        type: string
+        description: Enable AKS VNet Azure Virtual Network (VNet) integration by specifying the delegated subnet name. An Azure Kubernetes Service (AKS) cluster configured with API Server VNet Integration projects the API server endpoint directly into a delegated subnet in the VNet where AKS is deployed. API Server VNet Integration enables network communication between the API server and the cluster nodes without requiring a private link or tunnel.
+  CreatePrivateClusterRequest:
+    x-form-factors: private
+    type: object
+    description: Request object for the createPrivateCluster method.
+    required:
+      - environmentCrn
+      - delegationUsername
+      - delegationPassword
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment for the cluster to create.
+      delegationUsername:
+        type: string
+        description: Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.
+      delegationPassword:
+        type: string
+        description: Password of delegation user.
+      securityContextConstraintName:
+        type: string
+        description: The name of the Hive Security Context Constraint.
+      storageClass:
+        type: string
+        description: The storage class for the Local Storage Operator.
+      dbHue:
+        type: string
+        description: The name of the HUE database. Not required for embedded databases.
+      resourcePool:
+        type: string
+        description: The Resource Pool of the cluster.
+      dedicatedExecutorNodes:
+        type: boolean
+        description: Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+        default: false
   BackupClusterRequest:
     type: object
     description: Request object for the backupCluster method.
@@ -1973,6 +2494,9 @@ definitions:
       clusterId:
         type: string
         description: The ID of the cluster.
+      operationId:
+        type: string
+        description: The ID of the backup operation.
       timestamp:
         type: string
         format: date-time
@@ -2004,13 +2528,24 @@ definitions:
     properties:
       clusterId:
         type: string
-        description: The the ID of the cluster.
+        description: The ID of the cluster.
       operationId:
         type: string
-        description: The the ID of the restore operation.
+        description: The ID of the restore operation.
+      action:
+        type: string
+        description: 'The cluster action. Possible actions: Create, Skip'
+      message:
+        type: string
+        description: The description of the cluster action.
       dbcRestorePlans:
         type: array
         description: Information about the restore-plan of the DbCatalogs.
+        items:
+          $ref: '#/definitions/RestoreClusterEntityPlan'
+      hueRestorePlans:
+        type: array
+        description: Information about the restore-plan of Hue.
         items:
           $ref: '#/definitions/RestoreClusterEntityPlan'
       hiveRestorePlans:
@@ -2072,16 +2607,10 @@ definitions:
     type: object
     description: Options for activating an AWS environment.
     properties:
-      privateSubnetIds:
-        type: array
-        description: IDs of private AWS subnets where the cluster should be deployed.
-        items:
-          type: string
-      publicSubnetIds:
-        type: array
-        description: IDs of public AWS subnets where the cluster should be deployed.
-        items:
-          type: string
+      enablePrivateEKS:
+        type: boolean
+        description: Use this option to set up AWS EKS cluster in private only mode with restricted access only from internal/peered networks. Ensure you have ccmv2 setup functional to achieve this integration.
+        default: false
       workerSubnetIds:
         type: array
         description: IDs of AWS subnets where the cluster worker nodes should be deployed.
@@ -2124,7 +2653,7 @@ definitions:
         description: Resource ID of the managed identity used by AKS. It is a mandatory parameter for Azure cluster creation.
       subnetId:
         type: string
-        description: ID of Azure subnet where the cluster should be deployed.
+        description: ID of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
       enableAZ:
         type: boolean
         description: Enables Azure Availability Zones for the cluster deployment.
@@ -2156,11 +2685,15 @@ definitions:
         description: Private DNS zone AKS resource ID.
       enablePrivateAks:
         type: boolean
-        description: Enable Azure Private AKS mode.
+        description: Enable Azure Private AKS mode. Note that this feature is currently unstable due to critical networking issues within the Azure Software Definition Layer (SDN). This problem prevents the deployment of necessary components and results in unpredictable behavior and instability, impacting operations such as environment activation, VW creation, modification, and start/stop operations. While we work towards a resolution with Microsoft, estimated within the next 6-9 months, we recommend utilizing alternative methods like enabling public endpoints or virtual network peering for accessing your Azure Cluster.
         default: false
+      aksVNetIntegrationSubnetName:
+        type: string
+        description: Enable AKS VNet Azure Virtual Network (VNet) integration by specifying the delegated subnet name. An Azure Kubernetes Service (AKS) cluster configured with API Server VNet Integration projects the API server endpoint directly into a delegated subnet in the VNet where AKS is deployed. API Server VNet Integration enables network communication between the API server and the cluster nodes without requiring a private link or tunnel.
   PrivateCloudActivationOptions:
     type: object
     description: Options for activating a Private Cloud environment.
+    x-form-factors: private
     required:
       - delegationUsername
       - delegationPassword
@@ -2183,6 +2716,10 @@ definitions:
       dbHue:
         type: string
         description: The name of the HUE database. Not required for embedded databases.
+      dedicatedExecutorNodes:
+        type: boolean
+        description: Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+        default: false
   CreateClusterResponse:
     type: object
     description: Response object for the createCluster method.
@@ -2190,6 +2727,28 @@ definitions:
       clusterId:
         type: string
         description: ID of new cluster.
+  CreateAwsClusterResponse:
+    type: object
+    description: Response object for the createAwsCluster method.
+    properties:
+      clusterId:
+        type: string
+        description: ID of new AWS cluster.
+  CreateAzureClusterResponse:
+    type: object
+    description: Response object for the createCluster method.
+    properties:
+      clusterId:
+        type: string
+        description: ID of new Azure cluster.
+  CreatePrivateClusterResponse:
+    x-form-factors: private
+    type: object
+    description: Response object for the createPrivateCluster method.
+    properties:
+      clusterId:
+        type: string
+        description: ID of new Private Cloud cluster.
   DeleteClusterRequest:
     type: object
     description: Request object for the deleteCluster method.
@@ -2267,8 +2826,8 @@ definitions:
             type: object
             description: External bucket definition.
             additionalProperties:
-              description: External bucket access info.
-              $ref: '#/definitions/ExternalBucketAccessInfo'
+              description: External bucket access information.
+              $ref: '#/definitions/UpdateClusterExternalBucketAccessInfo'
       azureUpdate:
         type: object
         description: Additional properties for Azure clusters.
@@ -2278,15 +2837,90 @@ definitions:
             default: false
             description: Renew Azure cluster certificate.
       observabilityConfig:
+        description: Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
+        $ref: '#/definitions/UpdateClusterObservabilityConfig'
+  UpdateAwsClusterRequest:
+    type: object
+    description: Request object for the updateAwsCluster method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the AWS cluster to update.
+      description:
+        type: string
+        description: Cluster description.
+      whitelistK8sClusterAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for kubernetes cluster access.
+      whitelistWorkloadAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for workload access.
+      observabilityConfig:
+        description: Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
+        $ref: '#/definitions/UpdateClusterObservabilityConfig'
+      externalBuckets:
         type: object
-        description: Update the cluster observability configurations. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splun. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
-        properties:
-          logsForwardingConfig:
-            type: string
-            description: Create the log forwarding configuration in a valid fluentd format. Then that configuration is later inserted into a larger fluentd configuration.
-          proxyCABundle:
-            type: string
-            description: Set the proxy CA certificates (PEM Bundle). If you use a TLS-terminating proxy server to inspect outbound internet traffic, you need to provide the proxy server's CA certificates bundle in PEM bundle format when you configure log forwarding.
+        description: Cluster external bucket definition to update.
+        additionalProperties:
+          description: External bucket access information.
+          $ref: '#/definitions/UpdateClusterExternalBucketAccessInfo'
+  UpdateAzureClusterRequest:
+    type: object
+    description: Request object for the updateAzureCluster method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the Azure cluster to update.
+      description:
+        type: string
+        description: Cluster description.
+      whitelistK8sClusterAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for kubernetes cluster access.
+      whitelistWorkloadAccessIpCIDRs:
+        type: array
+        items:
+          type: string
+        description: List of IP address CIDRs to whitelist for workload access.
+      observabilityConfig:
+        description: Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
+        $ref: '#/definitions/UpdateClusterObservabilityConfig'
+      renewCertificate:
+        type: boolean
+        default: false
+        description: Renew Azure cluster certificate.
+  UpdatePrivateClusterRequest:
+    x-form-factors: private
+    type: object
+    description: Request object for the updatePrivateCluster method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the Private Cloud cluster to update.
+      description:
+        type: string
+        description: Cluster description.
+      delegationUsername:
+        type: string
+        description: The user name to update for delegation user. Setting it to the same value as the existing delegation user name will be a no-op.
+      delegationPassword:
+        type: string
+        description: The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.
+      dedicatedExecutorNodes:
+        type: boolean
+        description: Set it true to enable dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserve nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
   ExternalBucketAccessInfo:
     type: object
     description: External bucket definition.
@@ -2300,9 +2934,42 @@ definitions:
       kmsCmkArn:
         type: string
         description: Enable server side encryption with the specified KMS CMK ARN. If the value is empty or unspecified, default server side encryption will be used when the access mode is read-write. Otherwise this value is ignored.
+  UpdateClusterExternalBucketAccessInfo:
+    type: object
+    description: Cluster external bucket definition to update.
+    properties:
+      accessMode:
+        type: string
+        description: Specifies whether the external bucket will be added in read-only or read-write mode.
+        enum:
+          - READ
+          - READWRITE
+      kmsCmkArn:
+        type: string
+        description: Enable server side encryption with the specified KMS CMK ARN. If the value is empty or unspecified, default server side encryption will be used when the access mode is read-write. Otherwise this value is ignored.
+  UpdateClusterObservabilityConfig:
+    type: object
+    description: Cluster observability settings to update.
+    properties:
+      logsForwardingConfig:
+        type: string
+        description: Create the log forwarding configuration in a valid fluentd format. Then that configuration is later inserted into a larger fluentd configuration.
+      proxyCABundle:
+        type: string
+        description: Set the proxy CA certificates (PEM Bundle). If you use a TLS-terminating proxy server to inspect outbound internet traffic, you need to provide the proxy server's CA certificates bundle in PEM bundle format when you configure log forwarding.
   UpdateClusterResponse:
     type: object
     description: Response object for the updateCluster method.
+  UpdateAwsClusterResponse:
+    type: object
+    description: Response object for the updateAwsCluster method.
+  UpdateAzureClusterResponse:
+    type: object
+    description: Response object for the updateAzureCluster method.
+  UpdatePrivateClusterResponse:
+    x-form-factors: private
+    type: object
+    description: Response object for the updatePrivateCluster method.
   ListClustersRequest:
     type: object
     description: Request object for the listClusters method.
@@ -2487,7 +3154,8 @@ definitions:
         x-form-factors: public
       isDefault:
         type: boolean
-        description: Is this a Default Database Catalog?
+        x-deprecated: true
+        description: 'NOTE: creating Default Database Catalogs is deprecated and explicitly disabled. Denotes if Default Database Catalog creation needed.'
         default: false
       tenantStorageRole:
         type: string
@@ -3148,6 +3816,9 @@ definitions:
       podConfigName:
         type: string
         description: Name of the pod configuration.
+      impalaExecutorGroupSets:
+        $ref: '#/definitions/ImpalaExecutorGroupSetsCreateRequest'
+        description: Configures executor group sets for workload aware autoscaling.
   ImpalaOptionsCreateRequest:
     type: object
     description: Impala specific options. It cannot be provided for Virtual Warehouse types other than Impala.
@@ -3240,6 +3911,9 @@ definitions:
         type: integer
         format: int32
         description: DEPRECATED in favor of the top level impalaHASettings object. Number of the active coordinators.
+      impalaExecutorGroupSets:
+        $ref: '#/definitions/ImpalaExecutorGroupSetsUpdateRequest'
+        description: Re-configures executor group sets for workload aware autoscaling.
   ImpalaHASettingsUpdateRequest:
     type: object
     description: High Availability settings update options for the Impala Virtual Warehouse.
@@ -3320,6 +3994,9 @@ definitions:
       podConfigName:
         type: string
         description: Name of the pod configuration.
+      impalaExecutorGroupSets:
+        $ref: '#/definitions/ImpalaExecutorGroupSetsResponse'
+        description: Configurations of executor groups sets for workload aware autoscaling.
   ImpalaHASettingsOptionsResponse:
     type: object
     description: Impala High Availability settings for a Virtual Warehouse.
@@ -3394,6 +4071,11 @@ definitions:
         format: int32
         description: Total number of coordinator replicas scheduled for the virtual warehouse. This number contains the number of coordinator replicas in pending state, as well as the replicas that are already running. If this number is zero, then the coordinator functionality is stopped.
         x-omitempty: false
+      readyCoordinatorReplicas:
+        type: integer
+        format: int32
+        description: Total number of ready coordinator replicas in the virtual warehouse. This number only contains the healthy executor replicas that have already started up and are ready to accept requests. If this number is less than the totalCoordinatorReplicas, then the virtual warehouse might still be starting up or there might be a problem scheduling these replicas.
+        x-omitempty: false
   CreateVwRequest:
     type: object
     description: Request object for the createVw method.
@@ -3432,7 +4114,7 @@ definitions:
         type: integer
         format: int32
         default: 0
-        description: Node Count per compute cluster. Implies 'custom' template, even if you pass template explicitly.
+        description: Nodes per compute cluster. If specified, forces 'template' to be 'custom'
       availabilityZone:
         type: string
         description: This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets. In order to query possible options, see "availabilityZones" field of describe-cluster or list-clusters command response.
@@ -3459,6 +4141,16 @@ definitions:
         description: Tags associated with the resources.
         items:
           $ref: '#/definitions/TagRequest'
+      resourcePool:
+        type: string
+        description: The Resource Pool of the Virtual Warehouse.
+        x-form-factors: private
+      hiveAuthenticationMode:
+        type: string
+        x-nullable: true
+        x-deprecated: true
+        x-form-factors: private
+        description: 'DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` Default: `LDAP` if not specified'
       platformJwtAuth:
         type: boolean
         default: false
@@ -3679,6 +4371,10 @@ definitions:
       logAnalyticsWorkspaceId:
         type: string
         description: Workspace ID for Azure log analytics.
+      aksVNetIntegrationSubnetName:
+        x-omitempty: false
+        type: string
+        description: AKS VNet integration subnet name. If it's an empty string, then VNet integration is disabled.
   RestartVwRequest:
     type: object
     description: Request object for the restartVw method.
@@ -4001,6 +4697,16 @@ definitions:
         type: boolean
         default: false
         description: Include Kube system.
+  ExternalBucket:
+    type: object
+    description: External bucket details.
+    properties:
+      name:
+        type: string
+        description: Name of the bucket.
+      accessInfo:
+        $ref: '#/definitions/ExternalBucketAccessInfo'
+        description: AccessInfo of the bucket.
   ClusterSummaryResponse:
     type: object
     description: A Cloudera Data Warehouse cluster.
@@ -4039,6 +4745,16 @@ definitions:
         x-form-factors: public
         type: boolean
         description: Denotes whether the spot instances have been enabled for the cluster. This value is only available for AWS and Azure clusters.
+      reservedComputeNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Number of additional reserved nodes for executors and coordinators to use during autoscaling.
+      reservedSharedServicesNodes:
+        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        type: integer
+        format: int32
+        description: Number of additional reserved nodes for other services in the cluster.
       computeInstanceTypes:
         type: array
         items:
@@ -4057,6 +4773,24 @@ definitions:
         $ref: '#/definitions/AzureOptionsResponse'
         description: Response object of Azure related cluster options.
         x-form-factors: public
+      description:
+        type: string
+        description: Cluster description.
+      whitelistK8sClusterAccessIpCIDRs:
+        type: string
+        description: List of IP address CIDRs to whitelist for kubernetes cluster access.
+      whitelistWorkloadAccessIpCIDRs:
+        type: string
+        description: List of IP address CIDRs to whitelist for workload access.
+      resourcePool:
+        type: string
+        description: The name of the Resource Pool the cluster is in.
+        x-form-factors: private
+      externalBuckets:
+        type: array
+        description: External buckets attached to the environment.
+        items:
+          $ref: '#/definitions/ExternalBucket'
   DataVisualizationSummary:
     type: object
     description: A Cloudera Data Visualization.
@@ -4079,6 +4813,20 @@ definitions:
       size:
         type: string
         description: The template size for the Cloudera Data Visualization
+      resourcePool:
+        type: string
+        description: The name of the Resource Pool the Cloudera Data Visualization is in.
+        x-form-factors: private
+      userGroups:
+        type: array
+        items:
+          type: string
+        description: User groups that are allowed to access the Data Visualization.
+      adminGroups:
+        type: array
+        items:
+          type: string
+        description: Admin groups that are allowed to access the Data Visualization.
   DbcSummary:
     type: object
     description: A Database Catalog.
@@ -4106,6 +4854,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date of Database Catalog.
+      resourcePool:
+        type: string
+        description: The name of the Resource Pool the Database Catalog is in.
+        x-form-factors: private
   VwSummary:
     type: object
     description: A Virtual Warehouse.
@@ -4145,6 +4897,18 @@ definitions:
       cdhVersion:
         type: string
         description: CDH image version.
+      numOfCores:
+        type: integer
+        format: int32
+        description: Number of cores of the Virtual Warehouse.
+      memoryCapacity:
+        type: integer
+        format: int32
+        description: Memory size of the Virtual Warehouse in MB.
+      nodeCount:
+        type: integer
+        format: int32
+        description: Size of the Virtual Warehouse (node count per compute cluster).
       availabilityZone:
         type: string
         description: Availability zone in which the Virtual Warehouse is running.
@@ -4158,12 +4922,24 @@ definitions:
           impalaJdbc:
             type: string
             description: JDBC URL for Impala Virtual Warehouses.
+          impalaKerberosJdbc:
+            type: string
+            x-form-factors: private
+            description: JDBC URL for Impala Virtual Warehouses with Kerberos authentication.
           impalaFENGJdbc:
             type: string
             description: FENG JDBC URL for Impala Virtual Warehouses.
           impalaShell:
             type: string
             description: Command to use impala-shell for Impala Virtual Warehouses.
+          fengImpalaShell:
+            type: string
+            x-form-factors: private
+            description: Command to use impala-shell for Unified Analytics
+          kerberosImpalaShell:
+            type: string
+            x-form-factors: private
+            description: Command to use impala-shell for Impala Virtual Warehouses with Kerberos authentication.
           hue:
             type: string
             description: URL of Hue for both Hive and Impala Virtual Warehouses.
@@ -4237,6 +5013,16 @@ definitions:
         x-form-factors: public,private
         description: Status information on the current state of replicas in the virtual warehouse.
         $ref: '#/definitions/ReplicaStatus'
+      resourcePool:
+        type: string
+        description: The name of the Resource Pool the Virtual Warehouse is in.
+        x-form-factors: private
+      hiveAuthenticationMode:
+        type: string
+        x-nullable: true
+        x-deprecated: true
+        x-form-factors: private
+        description: 'DEPRECATED - Authentication mode used by Hive Server: * `LDAP` * `KERBEROS`'
   TagResponse:
     description: A key/value pair attached to some resources.
     type: object
@@ -4438,6 +5224,19 @@ definitions:
       vwId:
         type: string
         description: ID of the Virtual Warehouse.
+      template:
+        type: string
+        description: Name of configuration template to use.
+        enum:
+          - xsmall
+          - small
+          - medium
+          - large
+      nodeCount:
+        type: integer
+        format: int32
+        default: 0
+        description: Nodes per compute cluster. If specified, forces 'template' to be 'custom'
       config:
         description: The service configuration to update the VW with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
         $ref: '#/definitions/ServiceConfigReq'
@@ -4450,6 +5249,12 @@ definitions:
       queryIsolationOptions:
         description: Query isolation settings for Hive Virtual Warehouses.
         $ref: '#/definitions/QueryIsolationOptionsRequest'
+      hiveAuthenticationMode:
+        type: string
+        x-nullable: true
+        x-deprecated: true
+        x-form-factors: private
+        description: 'DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` If not set then the authentication mode will not be changed during update.'
       platformJwtAuth:
         type: boolean
         x-nullable: true
@@ -4577,6 +5382,10 @@ definitions:
         items:
           type: string
         description: Admin groups to allow configuration access to Data Visualization for selected users
+      resourcePool:
+        type: string
+        description: The Resource Pool of the Cloudera Data Visualization.
+        x-form-factors: private
   ConfigContentDiff:
     type: object
     description: Difference between two ConfigContents.
@@ -4839,6 +5648,175 @@ definitions:
         items:
           $ref: '#/definitions/CloudUserReference'
         description: The list of users allowed to access the given cluster.
+  ImpalaExecutorGroupSetsCreateRequest:
+    type: object
+    description: Configure executor group sets for workload aware autoscaling.
+    properties:
+      small:
+        $ref: '#/definitions/ImpalaExecutorGroupSetCreateRequest'
+        description: Configure small executor group set for workload aware autoscaling.
+        x-omitempty: false
+      custom1:
+        $ref: '#/definitions/ImpalaExecutorGroupSetCreateRequest'
+        description: Configure first optional custom executor group set for workload aware autoscaling.
+      custom2:
+        $ref: '#/definitions/ImpalaExecutorGroupSetCreateRequest'
+        description: Configure second optional custom executor group set for workload aware autoscaling.
+      custom3:
+        $ref: '#/definitions/ImpalaExecutorGroupSetCreateRequest'
+        description: Configure third optional custom executor group set for workload aware autoscaling.
+      large:
+        $ref: '#/definitions/ImpalaExecutorGroupSetCreateRequest'
+        description: Configure large executor group set for workload aware autoscaling.
+        x-omitempty: false
+  ImpalaExecutorGroupSetsUpdateRequest:
+    type: object
+    description: Re-configure executor group sets for workload aware autoscaling.
+    properties:
+      small:
+        $ref: '#/definitions/ImpalaExecutorGroupSetUpdateRequest'
+        description: Re-configure small executor group set for workload aware autoscaling.
+      custom1:
+        $ref: '#/definitions/ImpalaExecutorGroupSetUpdateRequest'
+        description: Re-configure first optional custom executor group set for workload aware autoscaling.
+      custom2:
+        $ref: '#/definitions/ImpalaExecutorGroupSetUpdateRequest'
+        description: Re-configure second optional custom executor group set for workload aware autoscaling.
+      custom3:
+        $ref: '#/definitions/ImpalaExecutorGroupSetUpdateRequest'
+        description: Re-configure third optional custom executor group set for workload aware autoscaling.
+      large:
+        $ref: '#/definitions/ImpalaExecutorGroupSetUpdateRequest'
+        description: Re-configure large executor group set for workload aware autoscaling.
+  ImpalaExecutorGroupSetsResponse:
+    type: object
+    description: Describes executor group sets for workload aware autoscaling.
+    properties:
+      small:
+        $ref: '#/definitions/ImpalaExecutorGroupSetResponse'
+        description: Describes small executor group set for workload aware autoscaling.
+      custom1:
+        $ref: '#/definitions/ImpalaExecutorGroupSetResponse'
+        description: Describes first custom executor group set for workload aware autoscaling.
+      custom2:
+        $ref: '#/definitions/ImpalaExecutorGroupSetResponse'
+        description: Describes second custom executor group set for workload aware autoscaling.
+      custom3:
+        $ref: '#/definitions/ImpalaExecutorGroupSetResponse'
+        description: Describes third custom executor group set for workload aware autoscaling.
+      large:
+        $ref: '#/definitions/ImpalaExecutorGroupSetResponse'
+        description: Describes large executor group set for workload aware autoscaling.
+  ImpalaExecutorGroupSetCreateRequest:
+    type: object
+    description: Configure independently scaling set of uniformly sized executor groups.
+    properties:
+      execGroupSize:
+        type: integer
+        format: int32
+        description: Set number of executors per executor group.
+        x-omitempty: false
+      minExecutorGroups:
+        type: integer
+        format: int32
+        description: Set minimum number of executor groups allowed.
+        x-omitempty: false
+      maxExecutorGroups:
+        type: integer
+        format: int32
+        description: Set maximum number of executor groups allowed.
+        x-omitempty: false
+      autoSuspendTimeoutSeconds:
+        type: integer
+        format: int32
+        description: Set auto suspend threshold. If not provided defaults will apply.
+      disableAutoSuspend:
+        type: boolean
+        description: Turn off auto suspend. If not provided defaults will apply.
+      triggerScaleUpDelay:
+        type: integer
+        format: int32
+        description: Set scale up threshold in seconds. If not provided defaults will apply.
+      triggerScaleDownDelay:
+        type: integer
+        format: int32
+        description: Set scale down threshold in seconds. If not provided defaults will apply.
+  ImpalaExecutorGroupSetUpdateRequest:
+    type: object
+    description: Re-configure independently scaling set of uniformly sized executor groups.
+    properties:
+      execGroupSize:
+        type: integer
+        format: int32
+        description: Set number of executors per executor group.
+      minExecutorGroups:
+        type: integer
+        format: int32
+        description: Set minimum number of executor groups allowed.
+      maxExecutorGroups:
+        type: integer
+        format: int32
+        description: Set maximum number of executor groups allowed.
+      autoSuspendTimeoutSeconds:
+        type: integer
+        format: int32
+        description: Set auto suspend threshold. If not provided defaults will apply.
+      disableAutoSuspend:
+        type: boolean
+        description: Turn off auto suspend. If not provided defaults will apply.
+      triggerScaleUpDelay:
+        type: integer
+        format: int32
+        description: Set scale up threshold in seconds. If not provided defaults will apply.
+      triggerScaleDownDelay:
+        type: integer
+        format: int32
+        description: Set scale down threshold in seconds. If not provided defaults will apply.
+      deleteGroupSet:
+        type: boolean
+        description: Delete the executor group set.
+  ImpalaExecutorGroupSetResponse:
+    type: object
+    description: Describes configurations for an executor group set.
+    properties:
+      groupSetPrefix:
+        type: string
+        description: Name of resource pool for this executor group set.
+        x-omitempty: false
+      execGroupSize:
+        type: integer
+        format: int32
+        description: Number of executors per executor group.
+        x-omitempty: false
+      minExecutorGroups:
+        type: integer
+        format: int32
+        description: Minimum number of executor groups allowed.
+        x-omitempty: false
+      maxExecutorGroups:
+        type: integer
+        format: int32
+        description: Maximum number of executor groups allowed.
+        x-omitempty: false
+      autoSuspendTimeoutSeconds:
+        type: integer
+        format: int32
+        description: Auto suspend threshold.
+        x-omitempty: false
+      disableAutoSuspend:
+        type: boolean
+        description: Denotes whether auto suspend is turned off.
+        x-omitempty: false
+      triggerScaleUpDelay:
+        type: integer
+        format: int32
+        description: Scale up threshold in seconds.
+        x-omitempty: false
+      triggerScaleDownDelay:
+        type: integer
+        format: int32
+        description: Scale down threshold in seconds.
+        x-omitempty: false
   CloudUserReference:
     type: object
     description: Cloud user definition object.
@@ -5013,8 +5991,14 @@ definitions:
         type: string
         description: Specified name for the backup. If not set, the name will be blank.
       namespaceName:
+        x-deprecated: true
         type: string
-        description: Namespace of the potential candidate for backup. If not set, all of the Data Warehouse namespaces will be backed up.
+        description: DEPRECATED in favor of the namespaceNames. Namespace of the potential candidate for backup. If not set, all of the Data Warehouse namespaces will be backed up.
+      namespaceNames:
+        type: array
+        description: If both namespaceName and namespaceNames are set, the namespaceName will be ignored! A list of namespace of the potential candidates for backup. If not set, all of the Data Warehouse namespaces will be backed up.
+        items:
+          type: string
   CreateBackupResponse:
     type: object
     x-form-factors: private

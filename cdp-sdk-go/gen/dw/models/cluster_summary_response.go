@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -44,6 +45,9 @@ type ClusterSummaryResponse struct {
 	// The CRN of the cluster.
 	Crn string `json:"crn,omitempty"`
 
+	// Cluster description.
+	Description string `json:"description,omitempty"`
+
 	// Denotes whether the spot instances have been enabled for the cluster. This value is only available for AWS and Azure clusters.
 	EnableSpotInstances bool `json:"enableSpotInstances,omitempty"`
 
@@ -53,14 +57,32 @@ type ClusterSummaryResponse struct {
 	// The CRN of the environment where the cluster is located.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 
+	// External buckets attached to the environment.
+	ExternalBuckets []*ExternalBucket `json:"externalBuckets"`
+
 	// The ID of the cluster.
 	ID string `json:"id,omitempty"`
 
 	// Name of the cluster (same as the name of the environment).
 	Name string `json:"name,omitempty"`
 
+	// Number of additional reserved nodes for executors and coordinators to use during autoscaling.
+	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
+
+	// Number of additional reserved nodes for other services in the cluster.
+	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
+
+	// The name of the Resource Pool the cluster is in.
+	ResourcePool string `json:"resourcePool,omitempty"`
+
 	// Status of the cluster. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.
 	Status string `json:"status,omitempty"`
+
+	// List of IP address CIDRs to whitelist for kubernetes cluster access.
+	WhitelistK8sClusterAccessIPCIDRs string `json:"whitelistK8sClusterAccessIpCIDRs,omitempty"`
+
+	// List of IP address CIDRs to whitelist for workload access.
+	WhitelistWorkloadAccessIPCIDRs string `json:"whitelistWorkloadAccessIpCIDRs,omitempty"`
 }
 
 // Validate validates this cluster summary response
@@ -80,6 +102,10 @@ func (m *ClusterSummaryResponse) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCreator(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateExternalBuckets(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -158,6 +184,32 @@ func (m *ClusterSummaryResponse) validateCreator(formats strfmt.Registry) error 
 	return nil
 }
 
+func (m *ClusterSummaryResponse) validateExternalBuckets(formats strfmt.Registry) error {
+	if swag.IsZero(m.ExternalBuckets) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.ExternalBuckets); i++ {
+		if swag.IsZero(m.ExternalBuckets[i]) { // not required
+			continue
+		}
+
+		if m.ExternalBuckets[i] != nil {
+			if err := m.ExternalBuckets[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 // ContextValidate validate this cluster summary response based on the context it is used
 func (m *ClusterSummaryResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -171,6 +223,10 @@ func (m *ClusterSummaryResponse) ContextValidate(ctx context.Context, formats st
 	}
 
 	if err := m.contextValidateCreator(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateExternalBuckets(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -238,6 +294,31 @@ func (m *ClusterSummaryResponse) contextValidateCreator(ctx context.Context, for
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *ClusterSummaryResponse) contextValidateExternalBuckets(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ExternalBuckets); i++ {
+
+		if m.ExternalBuckets[i] != nil {
+
+			if swag.IsZero(m.ExternalBuckets[i]) { // not required
+				return nil
+			}
+
+			if err := m.ExternalBuckets[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

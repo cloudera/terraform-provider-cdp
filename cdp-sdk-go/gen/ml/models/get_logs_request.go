@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// GetLogsRequest GetLogsRequestfor getting logs for a request ID.
+// GetLogsRequest GetLogsRequest for getting logs for a request ID.
 //
 // swagger:model GetLogsRequest
 type GetLogsRequest struct {
@@ -32,9 +32,8 @@ type GetLogsRequest struct {
 	// Required: true
 	RequestID *string `json:"requestID"`
 
-	// WorkspaceCrn the requestID belongs to.
-	// Required: true
-	WorkspaceCrn *string `json:"workspaceCrn"`
+	// Deprecated. Please begin to use resourceCrn, as this will soon be unsupported
+	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 }
 
 // Validate validates this get logs request
@@ -42,10 +41,6 @@ func (m *GetLogsRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateRequestID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateWorkspaceCrn(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -58,15 +53,6 @@ func (m *GetLogsRequest) Validate(formats strfmt.Registry) error {
 func (m *GetLogsRequest) validateRequestID(formats strfmt.Registry) error {
 
 	if err := validate.Required("requestID", "body", m.RequestID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *GetLogsRequest) validateWorkspaceCrn(formats strfmt.Registry) error {
-
-	if err := validate.Required("workspaceCrn", "body", m.WorkspaceCrn); err != nil {
 		return err
 	}
 

@@ -225,6 +225,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		environments.NewIDBrokerMappingsResource,
 		environments.NewAzureCredentialResource,
 		environments.NewAzureEnvironmentResource,
+		environments.NewAzureImageTermsResource,
 		environments.NewGcpEnvironmentResource,
 		environments.NewGcpCredentialResource,
 		environments.NewProxyConfigurationResource,

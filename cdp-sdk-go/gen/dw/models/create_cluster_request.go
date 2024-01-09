@@ -44,6 +44,15 @@ type CreateClusterRequest struct {
 	// Options for activating a Private Cloud environment.
 	PrivateCloudOptions *PrivateCloudActivationOptions `json:"privateCloudOptions,omitempty"`
 
+	// Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
+
+	// Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
+
+	// The Resource Pool of the cluster.
+	ResourcePool string `json:"resourcePool,omitempty"`
+
 	// Using an overlay network will save IP addresses in the VPC by using a private IP address range for Pods in the cluster.
 	UseOverlayNetwork bool `json:"useOverlayNetwork,omitempty"`
 

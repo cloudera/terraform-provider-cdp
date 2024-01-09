@@ -22,7 +22,7 @@ type GetAuditCredentialPrerequisitesRequest struct {
 
 	// The kind of cloud platform.
 	// Required: true
-	// Enum: [AWS AZURE]
+	// Enum: [AWS AZURE GCP]
 	CloudPlatform *string `json:"cloudPlatform"`
 }
 
@@ -44,7 +44,7 @@ var getAuditCredentialPrerequisitesRequestTypeCloudPlatformPropEnum []interface{
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["AWS","AZURE"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["AWS","AZURE","GCP"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -59,6 +59,9 @@ const (
 
 	// GetAuditCredentialPrerequisitesRequestCloudPlatformAZURE captures enum value "AZURE"
 	GetAuditCredentialPrerequisitesRequestCloudPlatformAZURE string = "AZURE"
+
+	// GetAuditCredentialPrerequisitesRequestCloudPlatformGCP captures enum value "GCP"
+	GetAuditCredentialPrerequisitesRequestCloudPlatformGCP string = "GCP"
 )
 
 // prop value enum

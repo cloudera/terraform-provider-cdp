@@ -56,6 +56,9 @@ type User struct {
 	// Required: true
 	LastName *string `json:"lastName"`
 
+	// The current status of the user. The possible status values are ACTIVE, CONTROL_PLANE_LOCKED_OUT, and DEACTIVATED. ACTIVE indicates that the user is active in CDP. An active user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the user is locked out of the CDP control plane. The locked-out user can no longer authenticate to the control plane but can authenticate to the workload clusters. DEACTIVATED indicates that the user is deactivated in CDP. A deactivated user can neither authenticate to the control plane nor to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
+	Status string `json:"status,omitempty"`
+
 	// The stable, unique identifier of the user.
 	// Required: true
 	UserID *string `json:"userId"`

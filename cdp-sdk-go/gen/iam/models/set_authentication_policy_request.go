@@ -27,6 +27,12 @@ type SetAuthenticationPolicyRequest struct {
 	// Minimum: 0
 	AccessKeyInactivityDurationSec *int32 `json:"accessKeyInactivityDurationSec,omitempty"`
 
+	// The list of IP addresses and/or CIDRs used for allowing client access to the UI and API services. Duplicated values will be removed automatically. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be present in the allowed list.
+	ClientIPAddressesAllowed []string `json:"clientIpAddressesAllowed"`
+
+	// The list of IP addresses and/or CIDRs used for blocking client access to the UI and API services. Duplicated values will be removed automatically. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be absent from the blocked list.
+	ClientIPAddressesBlocked []string `json:"clientIpAddressesBlocked"`
+
 	// The expiration, in seconds, of the UI session token. Set the value to '0' to use system default expiration (which is 12 hours for CDP). The value will be set to '0' if not provided.
 	// Minimum: 0
 	SessionTokenExpirationSec *int32 `json:"sessionTokenExpirationSec,omitempty"`

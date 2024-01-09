@@ -12,6 +12,7 @@ package datalake
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
@@ -73,7 +74,7 @@ func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) 
 	if model.Image != nil {
 		req.Image = &datalakemodels.ImageRequest{
 			CatalogName: model.Image.CatalogName.ValueStringPointer(),
-			ID:          model.Image.ID.ValueStringPointer(),
+			ID:          model.Image.ID.ValueString(),
 		}
 	}
 	req.JavaVersion = int32(model.JavaVersion.ValueInt64())

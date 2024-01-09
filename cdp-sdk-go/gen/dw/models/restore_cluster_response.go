@@ -19,7 +19,10 @@ import (
 // swagger:model RestoreClusterResponse
 type RestoreClusterResponse struct {
 
-	// The the ID of the cluster.
+	// The cluster action. Possible actions: Create, Skip
+	Action string `json:"action,omitempty"`
+
+	// The ID of the cluster.
 	ClusterID string `json:"clusterId,omitempty"`
 
 	// Information about the restore-plan of the DbCatalogs.
@@ -28,10 +31,16 @@ type RestoreClusterResponse struct {
 	// Information about the restore-plan of the Hive Virtual Warehouses.
 	HiveRestorePlans []*RestoreClusterEntityPlan `json:"hiveRestorePlans"`
 
+	// Information about the restore-plan of Hue.
+	HueRestorePlans []*RestoreClusterEntityPlan `json:"hueRestorePlans"`
+
 	// Information about the restore-plan of the Impala Virtual Warehouses.
 	ImpalaRestorePlans []*RestoreClusterEntityPlan `json:"impalaRestorePlans"`
 
-	// The the ID of the restore operation.
+	// The description of the cluster action.
+	Message string `json:"message,omitempty"`
+
+	// The ID of the restore operation.
 	OperationID string `json:"operationId,omitempty"`
 
 	// Information about the restore-plan of the Data Visualization Apps.
@@ -47,6 +56,10 @@ func (m *RestoreClusterResponse) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateHiveRestorePlans(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHueRestorePlans(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -106,6 +119,32 @@ func (m *RestoreClusterResponse) validateHiveRestorePlans(formats strfmt.Registr
 					return ve.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
 				} else if ce, ok := err.(*errors.CompositeError); ok {
 					return ce.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreClusterResponse) validateHueRestorePlans(formats strfmt.Registry) error {
+	if swag.IsZero(m.HueRestorePlans) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.HueRestorePlans); i++ {
+		if swag.IsZero(m.HueRestorePlans[i]) { // not required
+			continue
+		}
+
+		if m.HueRestorePlans[i] != nil {
+			if err := m.HueRestorePlans[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -180,6 +219,10 @@ func (m *RestoreClusterResponse) ContextValidate(ctx context.Context, formats st
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateHueRestorePlans(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateImpalaRestorePlans(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -234,6 +277,31 @@ func (m *RestoreClusterResponse) contextValidateHiveRestorePlans(ctx context.Con
 					return ve.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
 				} else if ce, ok := err.(*errors.CompositeError); ok {
 					return ce.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreClusterResponse) contextValidateHueRestorePlans(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.HueRestorePlans); i++ {
+
+		if m.HueRestorePlans[i] != nil {
+
+			if swag.IsZero(m.HueRestorePlans[i]) { // not required
+				return nil
+			}
+
+			if err := m.HueRestorePlans[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

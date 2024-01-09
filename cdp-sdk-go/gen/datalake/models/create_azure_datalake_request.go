@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -26,6 +27,10 @@ type CreateAzureDatalakeRequest struct {
 
 	// Configure custom properties on an instance group level.
 	CustomInstanceGroups []*SdxInstanceGroupRequest `json:"customInstanceGroups"`
+
+	// The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
+	// Enum: [FLEXIBLE_SERVER SINGLE_SERVER]
+	DatabaseType string `json:"databaseType,omitempty"`
 
 	// The datalake name. This name must be unique, must have between 5 and 100 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
 	// Required: true
@@ -49,6 +54,9 @@ type CreateAzureDatalakeRequest struct {
 	// The SKU for the datalake load balancer. Allowed values are "BASIC", "STANDARD", or "NONE".
 	LoadBalancerSku DatalakeLoadBalancerSkuType `json:"loadBalancerSku,omitempty"`
 
+	// Creates CDP datalake distributed across multiple availability zones in an Azure region.
+	MultiAz *bool `json:"multiAz,omitempty"`
+
 	// Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker').
 	Recipes []*InstanceGroupRecipeRequest `json:"recipes"`
 
@@ -71,6 +79,10 @@ func (m *CreateAzureDatalakeRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCustomInstanceGroups(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDatabaseType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -149,6 +161,48 @@ func (m *CreateAzureDatalakeRequest) validateCustomInstanceGroups(formats strfmt
 			}
 		}
 
+	}
+
+	return nil
+}
+
+var createAzureDatalakeRequestTypeDatabaseTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["FLEXIBLE_SERVER","SINGLE_SERVER"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createAzureDatalakeRequestTypeDatabaseTypePropEnum = append(createAzureDatalakeRequestTypeDatabaseTypePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateAzureDatalakeRequestDatabaseTypeFLEXIBLESERVER captures enum value "FLEXIBLE_SERVER"
+	CreateAzureDatalakeRequestDatabaseTypeFLEXIBLESERVER string = "FLEXIBLE_SERVER"
+
+	// CreateAzureDatalakeRequestDatabaseTypeSINGLESERVER captures enum value "SINGLE_SERVER"
+	CreateAzureDatalakeRequestDatabaseTypeSINGLESERVER string = "SINGLE_SERVER"
+)
+
+// prop value enum
+func (m *CreateAzureDatalakeRequest) validateDatabaseTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createAzureDatalakeRequestTypeDatabaseTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateAzureDatalakeRequest) validateDatabaseType(formats strfmt.Registry) error {
+	if swag.IsZero(m.DatabaseType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateDatabaseTypeEnum("databaseType", "body", m.DatabaseType); err != nil {
+		return err
 	}
 
 	return nil

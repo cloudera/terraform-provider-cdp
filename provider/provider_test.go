@@ -613,6 +613,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		environments.NewGcpEnvironmentResource,
 		environments.NewGcpCredentialResource,
 		environments.NewProxyConfigurationResource,
+		environments.NewAzureImageTermsResource,
 		datalake.NewAwsDatalakeResource,
 		datalake.NewAzureDatalakeResource,
 		datalake.NewGcpDatalakeResource,

@@ -28,6 +28,9 @@ type BackupClusterResponse struct {
 	// The md5 hash of the encoded data.
 	Md5 string `json:"md5,omitempty"`
 
+	// The ID of the backup operation.
+	OperationID string `json:"operationId,omitempty"`
+
 	// The date of the creation.
 	// Format: date-time
 	Timestamp strfmt.DateTime `json:"timestamp,omitempty"`

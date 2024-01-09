@@ -7,12 +7,9 @@ package models
 
 import (
 	"context"
-	"encoding/json"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // StartDatabaseUpgradeResponse Response object to Data Lake database upgrade.
@@ -21,60 +18,11 @@ import (
 type StartDatabaseUpgradeResponse struct {
 
 	// The database engine major version to upgrade to.
-	// Enum: [VERSION_11]
 	TargetVersion string `json:"targetVersion,omitempty"`
 }
 
 // Validate validates this start database upgrade response
 func (m *StartDatabaseUpgradeResponse) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateTargetVersion(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-var startDatabaseUpgradeResponseTypeTargetVersionPropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["VERSION_11"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		startDatabaseUpgradeResponseTypeTargetVersionPropEnum = append(startDatabaseUpgradeResponseTypeTargetVersionPropEnum, v)
-	}
-}
-
-const (
-
-	// StartDatabaseUpgradeResponseTargetVersionVERSION11 captures enum value "VERSION_11"
-	StartDatabaseUpgradeResponseTargetVersionVERSION11 string = "VERSION_11"
-)
-
-// prop value enum
-func (m *StartDatabaseUpgradeResponse) validateTargetVersionEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, startDatabaseUpgradeResponseTypeTargetVersionPropEnum, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (m *StartDatabaseUpgradeResponse) validateTargetVersion(formats strfmt.Registry) error {
-	if swag.IsZero(m.TargetVersion) { // not required
-		return nil
-	}
-
-	// value enum
-	if err := m.validateTargetVersionEnum("targetVersion", "body", m.TargetVersion); err != nil {
-		return err
-	}
-
 	return nil
 }
 

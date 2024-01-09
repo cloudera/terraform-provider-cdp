@@ -17,6 +17,9 @@ import (
 // swagger:model DataVisualizationSummary
 type DataVisualizationSummary struct {
 
+	// Admin groups that are allowed to access the Data Visualization.
+	AdminGroups []string `json:"adminGroups"`
+
 	// The CRN of the user who created the Cloudera Data Visualization
 	CreatorCrn string `json:"creatorCrn,omitempty"`
 
@@ -29,11 +32,17 @@ type DataVisualizationSummary struct {
 	// The name of the Cloudera Data Visualization.
 	Name string `json:"name,omitempty"`
 
+	// The name of the Resource Pool the Cloudera Data Visualization is in.
+	ResourcePool string `json:"resourcePool,omitempty"`
+
 	// The template size for the Cloudera Data Visualization
 	Size string `json:"size,omitempty"`
 
 	// Status of the Cloudera Data Visualization. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.
 	Status string `json:"status,omitempty"`
+
+	// User groups that are allowed to access the Data Visualization.
+	UserGroups []string `json:"userGroups"`
 }
 
 // Validate validates this data visualization summary

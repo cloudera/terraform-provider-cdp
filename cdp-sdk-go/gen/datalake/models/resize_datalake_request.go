@@ -24,9 +24,12 @@ type ResizeDatalakeRequest struct {
 	// Required: true
 	DatalakeName *string `json:"datalakeName"`
 
+	// Whether to deploy a new datalake in a multi-availability zone way.
+	MultiAz *bool `json:"multiAz,omitempty"`
+
 	// The target size for the datalake.
 	// Required: true
-	// Enum: [MEDIUM_DUTY_HA]
+	// Enum: [MEDIUM_DUTY_HA ENTERPRISE]
 	TargetSize *string `json:"targetSize"`
 }
 
@@ -61,7 +64,7 @@ var resizeDatalakeRequestTypeTargetSizePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["MEDIUM_DUTY_HA"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["MEDIUM_DUTY_HA","ENTERPRISE"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -73,6 +76,9 @@ const (
 
 	// ResizeDatalakeRequestTargetSizeMEDIUMDUTYHA captures enum value "MEDIUM_DUTY_HA"
 	ResizeDatalakeRequestTargetSizeMEDIUMDUTYHA string = "MEDIUM_DUTY_HA"
+
+	// ResizeDatalakeRequestTargetSizeENTERPRISE captures enum value "ENTERPRISE"
+	ResizeDatalakeRequestTargetSizeENTERPRISE string = "ENTERPRISE"
 )
 
 // prop value enum

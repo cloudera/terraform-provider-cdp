@@ -42,11 +42,15 @@ type ClientService interface {
 
 	CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error)
 
+	CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error)
+
 	CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error)
 
 	CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error)
 
 	DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error)
+
+	DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
 
 	DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error)
 
@@ -94,6 +98,8 @@ type ClientService interface {
 
 	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
 
+	ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error)
+
 	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
 
 	StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
@@ -109,6 +115,10 @@ type ClientService interface {
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
 	UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error)
+
+	ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
+
+	ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -387,6 +397,45 @@ func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...Clie
 }
 
 /*
+CreateAWSGovCloudDatalake creates a data lake on a w s gov cloud
+
+Creates a Data Lake on AWS GovCloud.
+*/
+func (a *Client) CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAWSGovCloudDatalakeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createAWSGovCloudDatalake",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/createAWSGovCloudDatalake",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAWSGovCloudDatalakeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateAWSGovCloudDatalakeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateAWSGovCloudDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 CreateAzureDatalake creates an azure datalake
 
 Creates an Azure datalake.
@@ -500,6 +549,45 @@ func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOpti
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DeleteDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeDatabaseServer gets external database server details
+
+Gets external database server details for Data Lake by cluster CRN
+*/
+func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeDatabaseServerParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeDatabaseServer",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/describeDatabaseServer",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeDatabaseServerReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeDatabaseServerOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeDatabaseServerDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1401,6 +1489,45 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 }
 
 /*
+ScaleHorizontally horizontallies scale the data lake nodes to add additional compute nodes to the cluster
+
+Horizontally scale the target host group in the Data Lake cluster. The possible option for the instance group are raz_scale_out, hms_scale_out, kafka_scale_out, solr_scale_out, storage_scale_out
+*/
+func (a *Client) ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewScaleHorizontallyParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "scaleHorizontally",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/scaleHorizontally",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ScaleHorizontallyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ScaleHorizontallyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ScaleHorizontallyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 SetCatalog sets a catalog for a data lake
 
 Sets a catalog for a DataLake.
@@ -1520,7 +1647,7 @@ func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption
 /*
 StartDatalakeVerticalScaling initiates the vertical scaling on data lake
 
-Initiates the vertical scaling on Data Lake.
+Initiates the vertical scaling on Data Lake. You have the option to specify 'modifyDisks' or 'instanceTemplate' as parameter.
 */
 func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error) {
 	// TODO: Validate the params before sending
@@ -1709,6 +1836,84 @@ func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpgradeDatalakeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAwsCloudStorage validates a w s cloud storage
+
+Validates AWS cloud storage for Data Lake.
+*/
+func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAwsCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAwsCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/validateAwsCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAwsCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAwsCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAwsCloudStorageDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ValidateAzureCloudStorage validates azure cloud storage
+
+Validates Azure cloud storage for Data Lake.
+*/
+func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateAzureCloudStorageParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "validateAzureCloudStorage",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/validateAzureCloudStorage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ValidateAzureCloudStorageReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateAzureCloudStorageOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ValidateAzureCloudStorageDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

@@ -25,6 +25,9 @@ type PrivateCloudActivationOptions struct {
 	// The name of the HUE database. Not required for embedded databases.
 	DbHue string `json:"dbHue,omitempty"`
 
+	// Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+	DedicatedExecutorNodes *bool `json:"dedicatedExecutorNodes,omitempty"`
+
 	// Password of delegation user.
 	// Required: true
 	DelegationPassword *string `json:"delegationPassword"`

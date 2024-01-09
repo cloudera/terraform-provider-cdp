@@ -23,13 +23,15 @@ type StartDatalakeVerticalScalingRequest struct {
 	// Required: true
 	Datalake *string `json:"datalake"`
 
+	// Disk options for vertical scaling - modify disks.
+	DiskOptions *DiskOptions `json:"diskOptions,omitempty"`
+
 	// The target group that requested vertical scaling.
 	// Required: true
 	Group *string `json:"group"`
 
 	// Instance template that specifies the core information for the vertical scale.
-	// Required: true
-	InstanceTemplate *InstanceTemplate `json:"instanceTemplate"`
+	InstanceTemplate *InstanceTemplate `json:"instanceTemplate,omitempty"`
 }
 
 // Validate validates this start datalake vertical scaling request
@@ -37,6 +39,10 @@ func (m *StartDatalakeVerticalScalingRequest) Validate(formats strfmt.Registry) 
 	var res []error
 
 	if err := m.validateDatalake(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDiskOptions(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -63,6 +69,25 @@ func (m *StartDatalakeVerticalScalingRequest) validateDatalake(formats strfmt.Re
 	return nil
 }
 
+func (m *StartDatalakeVerticalScalingRequest) validateDiskOptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.DiskOptions) { // not required
+		return nil
+	}
+
+	if m.DiskOptions != nil {
+		if err := m.DiskOptions.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *StartDatalakeVerticalScalingRequest) validateGroup(formats strfmt.Registry) error {
 
 	if err := validate.Required("group", "body", m.Group); err != nil {
@@ -73,9 +98,8 @@ func (m *StartDatalakeVerticalScalingRequest) validateGroup(formats strfmt.Regis
 }
 
 func (m *StartDatalakeVerticalScalingRequest) validateInstanceTemplate(formats strfmt.Registry) error {
-
-	if err := validate.Required("instanceTemplate", "body", m.InstanceTemplate); err != nil {
-		return err
+	if swag.IsZero(m.InstanceTemplate) { // not required
+		return nil
 	}
 
 	if m.InstanceTemplate != nil {
@@ -96,6 +120,10 @@ func (m *StartDatalakeVerticalScalingRequest) validateInstanceTemplate(formats s
 func (m *StartDatalakeVerticalScalingRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDiskOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateInstanceTemplate(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -106,9 +134,34 @@ func (m *StartDatalakeVerticalScalingRequest) ContextValidate(ctx context.Contex
 	return nil
 }
 
+func (m *StartDatalakeVerticalScalingRequest) contextValidateDiskOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DiskOptions != nil {
+
+		if swag.IsZero(m.DiskOptions) { // not required
+			return nil
+		}
+
+		if err := m.DiskOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *StartDatalakeVerticalScalingRequest) contextValidateInstanceTemplate(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.InstanceTemplate != nil {
+
+		if swag.IsZero(m.InstanceTemplate) { // not required
+			return nil
+		}
 
 		if err := m.InstanceTemplate.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {

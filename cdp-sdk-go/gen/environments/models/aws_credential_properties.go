@@ -17,6 +17,9 @@ import (
 // swagger:model AwsCredentialProperties
 type AwsCredentialProperties struct {
 
+	// Flag that indicates that the given AWS credential is GovCloud specfic.
+	GovCloud bool `json:"govCloud,omitempty"`
+
 	// The AWS role arn for the given credential.
 	RoleArn string `json:"roleArn,omitempty"`
 }

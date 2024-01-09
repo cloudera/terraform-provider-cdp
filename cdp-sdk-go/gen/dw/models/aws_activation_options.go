@@ -26,6 +26,9 @@ type AwsActivationOptions struct {
 	// Custom AMI ID.
 	CustomAmiID string `json:"customAmiId,omitempty"`
 
+	// Use this option to set up AWS EKS cluster in private only mode with restricted access only from internal/peered networks. Ensure you have ccmv2 setup functional to achieve this integration.
+	EnablePrivateEKS *bool `json:"enablePrivateEKS,omitempty"`
+
 	// Whether to enable Spot instances for Virtual warehouses. It cannot be updated later. If the aws-options is not provided it defaults to false.
 	EnableSpotInstances *bool `json:"enableSpotInstances,omitempty"`
 
@@ -34,12 +37,6 @@ type AwsActivationOptions struct {
 
 	// Managed Policy Arn to be attached to the Node Instance Role.
 	NodeRoleCDWManagedPolicyArn string `json:"nodeRoleCDWManagedPolicyArn,omitempty"`
-
-	// IDs of private AWS subnets where the cluster should be deployed.
-	PrivateSubnetIds []string `json:"privateSubnetIds"`
-
-	// IDs of public AWS subnets where the cluster should be deployed.
-	PublicSubnetIds []string `json:"publicSubnetIds"`
 
 	// Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
 	ReducedPermissionMode bool `json:"reducedPermissionMode,omitempty"`

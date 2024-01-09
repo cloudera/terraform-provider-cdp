@@ -48,6 +48,9 @@ type ClusterSummary struct {
 	// The CRN of the environment.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 
+	// The name of the environment.
+	EnvironmentName string `json:"environmentName,omitempty"`
+
 	// The cluster node count.
 	NodeCount int32 `json:"nodeCount,omitempty"`
 

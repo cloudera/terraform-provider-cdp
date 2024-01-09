@@ -32,8 +32,8 @@ type UpdateClusterRequest struct {
 	// Cluster description.
 	Description string `json:"description,omitempty"`
 
-	// observability config
-	ObservabilityConfig *UpdateClusterRequestObservabilityConfig `json:"observabilityConfig,omitempty"`
+	// Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
+	ObservabilityConfig *UpdateClusterObservabilityConfig `json:"observabilityConfig,omitempty"`
 
 	// List of IP address CIDRs to whitelist. NOTE: CDW is in process of rolling out a new feature to whitelist IP CIDR separately for Kubernetes Clusters and Loadbalancers on CDP Public Cloud. For an existing cluster, if different IP CIDR has been already applied to LoadBalancer and the Kubernetes cluster through the DWX UI, then updating the IP CIDR of such cluster is not supported from CLI. In the upcoming release, the CLI will support this feature. Please make use of UI for the same.
 	WhitelistIPCIDRs []string `json:"whitelistIpCIDRs"`
@@ -246,7 +246,7 @@ func (m *UpdateClusterRequest) UnmarshalBinary(b []byte) error {
 type UpdateClusterRequestAwsUpdate struct {
 
 	// External bucket definition.
-	ExternalBuckets map[string]ExternalBucketAccessInfo `json:"externalBuckets,omitempty"`
+	ExternalBuckets map[string]UpdateClusterExternalBucketAccessInfo `json:"externalBuckets,omitempty"`
 }
 
 // Validate validates this update cluster request aws update
@@ -366,46 +366,6 @@ func (m *UpdateClusterRequestAzureUpdate) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *UpdateClusterRequestAzureUpdate) UnmarshalBinary(b []byte) error {
 	var res UpdateClusterRequestAzureUpdate
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*m = res
-	return nil
-}
-
-// UpdateClusterRequestObservabilityConfig Update the cluster observability configurations. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splun. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
-//
-// swagger:model UpdateClusterRequestObservabilityConfig
-type UpdateClusterRequestObservabilityConfig struct {
-
-	// Create the log forwarding configuration in a valid fluentd format. Then that configuration is later inserted into a larger fluentd configuration.
-	LogsForwardingConfig string `json:"logsForwardingConfig,omitempty"`
-
-	// Set the proxy CA certificates (PEM Bundle). If you use a TLS-terminating proxy server to inspect outbound internet traffic, you need to provide the proxy server's CA certificates bundle in PEM bundle format when you configure log forwarding.
-	ProxyCABundle string `json:"proxyCABundle,omitempty"`
-}
-
-// Validate validates this update cluster request observability config
-func (m *UpdateClusterRequestObservabilityConfig) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this update cluster request observability config based on context it is used
-func (m *UpdateClusterRequestObservabilityConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (m *UpdateClusterRequestObservabilityConfig) MarshalBinary() ([]byte, error) {
-	if m == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(m)
-}
-
-// UnmarshalBinary interface implementation
-func (m *UpdateClusterRequestObservabilityConfig) UnmarshalBinary(b []byte) error {
-	var res UpdateClusterRequestObservabilityConfig
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

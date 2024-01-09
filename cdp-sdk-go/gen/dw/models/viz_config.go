@@ -20,6 +20,9 @@ type VizConfig struct {
 	// Admin groups to allow configuration access to Data Visualization for selected users
 	AdminGroups []string `json:"adminGroups"`
 
+	// The Resource Pool of the Cloudera Data Visualization.
+	ResourcePool string `json:"resourcePool,omitempty"`
+
 	// User groups to allow user access to Data Visualization for selected users
 	UserGroups []string `json:"userGroups"`
 }

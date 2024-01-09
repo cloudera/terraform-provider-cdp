@@ -17,6 +17,9 @@ import (
 // swagger:model ReplicaStatus
 type ReplicaStatus struct {
 
+	// Total number of ready coordinator replicas in the virtual warehouse. This number only contains the healthy executor replicas that have already started up and are ready to accept requests. If this number is less than the totalCoordinatorReplicas, then the virtual warehouse might still be starting up or there might be a problem scheduling these replicas.
+	ReadyCoordinatorReplicas int32 `json:"readyCoordinatorReplicas"`
+
 	// Total number of ready executor replicas in the virtual warehouse. This number only contains the healthy executor replicas that have already started up and are ready to accept requests. If this number is less than the totalExecutorReplicas, then the virtual warehouse might still be starting up or there might be a problem scheduling these replicas.
 	ReadyExecutorReplicas int32 `json:"readyExecutorReplicas"`
 

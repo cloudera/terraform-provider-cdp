@@ -56,11 +56,17 @@ type Cluster struct {
 	// The CRN of the environment.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 
+	// The name of the environment.
+	EnvironmentName string `json:"environmentName,omitempty"`
+
 	// The image details.
 	ImageDetails *ImageDetails `json:"imageDetails,omitempty"`
 
 	// The instance details.
 	InstanceGroups []*InstanceGroup `json:"instanceGroups"`
+
+	// Flag that toggles the multi availability zone for the given datahub cluster when you are not sure what subnet IDs can be used. This way the subnet IDs will be used what the environment suggests.
+	MultiAz *bool `json:"multiAz,omitempty"`
 
 	// The cluster node count.
 	NodeCount int32 `json:"nodeCount,omitempty"`
