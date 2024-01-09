@@ -31,6 +31,14 @@ type azureImageTermsResource struct {
 	client *cdp.Client
 }
 
+<<<<<<< HEAD
+=======
+type azureImageTermsResourceModel struct {
+	ID       types.String `tfsdk:"id"`
+	Accepted types.Bool   `tfsdk:"accepted"`
+}
+
+>>>>>>> 6f63600 (CDPCP-10777 Added Azure Image Terms Policy resource)
 func NewAzureImageTermsResource() resource.Resource {
 	return &azureImageTermsResource{}
 }
