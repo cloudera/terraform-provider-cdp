@@ -141,12 +141,8 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.StatusReason = types.StringValue(env.StatusReason)
 	tflog.Info(ctx, "about to convert tags.")
 	if env.Tags != nil {
-		merged := env.Tags.Defaults
-		for k, v := range env.Tags.UserDefined {
-			merged[k] = v
-		}
 		var tagDiags diag.Diagnostics
-		tagMap, tagDiags := types.MapValueFrom(ctx, types.StringType, merged)
+		tagMap, tagDiags := types.MapValueFrom(ctx, types.StringType, env.Tags.UserDefined)
 		diags.Append(tagDiags...)
 		model.Tags = tagMap
 	}
