@@ -19,7 +19,6 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	mocks "github.com/cloudera/terraform-provider-cdp/mocks/github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	environments "github.com/cloudera/terraform-provider-cdp/resources"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -86,13 +85,13 @@ func TestCreateAzureImageTerms(t *testing.T) {
 			req := resource.CreateRequest{
 				Plan: tfsdk.Plan{
 					Raw:    createRawAzureImageTermsResource(true),
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
 			resp := &resource.CreateResponse{
 				State: tfsdk.State{
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
@@ -162,13 +161,13 @@ func TestReadAzureImageTermsPolicy(t *testing.T) {
 			req := resource.ReadRequest{
 				State: tfsdk.State{
 					Raw:    createRawAzureImageTermsResource(true),
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
 			resp := &resource.ReadResponse{
 				State: tfsdk.State{
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
@@ -241,14 +240,14 @@ func TestUpdateAzureImageTermsPolicy(t *testing.T) {
 			req := resource.UpdateRequest{
 				Plan: tfsdk.Plan{
 					Raw:    createRawAzureImageTermsResource(true),
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
 			resp := &resource.UpdateResponse{
 				State: tfsdk.State{
 					Raw:    createRawAzureImageTermsResource(false),
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
@@ -321,13 +320,13 @@ func TestDeleteAzureImageTermsPolicy(t *testing.T) {
 			req := resource.DeleteRequest{
 				State: tfsdk.State{
 					Raw:    createRawAzureImageTermsResource(true),
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
 			resp := &resource.DeleteResponse{
 				State: tfsdk.State{
-					Schema: environments.AzureImageTermsPolicySchema,
+					Schema: AzureImageTermsPolicySchema,
 				},
 			}
 
