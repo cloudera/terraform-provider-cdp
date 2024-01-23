@@ -84,6 +84,8 @@ type existingAzureNetwork struct {
 	ResourceGroupName types.String `tfsdk:"resource_group_name"`
 
 	SubnetIds types.Set `tfsdk:"subnet_ids"`
+
+	FlexibleServerSubnetIds types.Set `tfsdk:"flexible_server_subnet_ids"`
 }
 
 type azureFreeIpaDetails struct {

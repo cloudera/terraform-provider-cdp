@@ -130,6 +130,11 @@ var AzureEnvironmentSchema = schema.Schema{
 					Required:    true,
 					ElementType: types.StringType,
 				},
+				"flexible_server_subnet_ids": schema.SetAttribute{
+					Optional:    true,
+					Computed:    true,
+					ElementType: types.StringType,
+				},
 			},
 		},
 		"freeipa": schema.SingleNestedAttribute{
@@ -318,6 +323,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 			ResourceGroupName:        existingNetworkParams.ResourceGroupName.ValueStringPointer(),
 			SubnetIds:                utils.FromSetValueToStringList(existingNetworkParams.SubnetIds),
 		}
+		req.FlexibleServerSubnetIds = utils.FromSetValueToStringList(existingNetworkParams.FlexibleServerSubnetIds)
 	}
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {

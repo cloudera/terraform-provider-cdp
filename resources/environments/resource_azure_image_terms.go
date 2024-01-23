@@ -16,7 +16,6 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	environments "github.com/cloudera/terraform-provider-cdp/resources"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -31,14 +30,6 @@ type azureImageTermsResource struct {
 	client *cdp.Client
 }
 
-<<<<<<< HEAD
-=======
-type azureImageTermsResourceModel struct {
-	ID       types.String `tfsdk:"id"`
-	Accepted types.Bool   `tfsdk:"accepted"`
-}
-
->>>>>>> 6f63600 (CDPCP-10777 Added Azure Image Terms Policy resource)
 func NewAzureImageTermsResource() resource.Resource {
 	return &azureImageTermsResource{}
 }
@@ -48,7 +39,7 @@ func (r *azureImageTermsResource) Metadata(_ context.Context, req resource.Metad
 }
 
 func (r *azureImageTermsResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = environments.AzureImageTermsPolicySchema
+	resp.Schema = AzureImageTermsPolicySchema
 }
 
 func (r *azureImageTermsResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {

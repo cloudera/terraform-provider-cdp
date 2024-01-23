@@ -12,9 +12,10 @@ package environments
 
 import (
 	"context"
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"time"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
@@ -55,13 +56,13 @@ func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.C
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Environment")
 		return err
 	}
 
 	err = waitForEnvironmentToBeDeleted(environmentName, timeoutOneHour, client.Environments, ctx, pollingTimeout)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Environment")
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Environment")
 		return err
 	}
 	return nil

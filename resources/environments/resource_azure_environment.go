@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -155,6 +156,8 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 		if env.Network.Azure != nil {
 			subnetIds, snDiags := types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
 			diags.Append(snDiags...)
+			flexSubnetIds, fsDiags := types.SetValueFrom(ctx, types.StringType, env.Network.Azure.FlexibleServerSubnetIds)
+			diags.Append(fsDiags...)
 			var enpDiags diag.Diagnostics
 			model.ExistingNetworkParams, enpDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
 				"aks_private_dns_zone_id":      types.StringType,
@@ -164,12 +167,16 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 				"subnet_ids": types.SetType{
 					ElemType: types.StringType,
 				},
+				"flexible_server_subnet_ids": types.SetType{
+					ElemType: types.StringType,
+				},
 			}, &existingAzureNetwork{
 				AksPrivateDNSZoneID:      types.StringValue(env.Network.Azure.AksPrivateDNSZoneID),
 				DatabasePrivateDNSZoneID: types.StringValue(env.Network.Azure.DatabasePrivateDNSZoneID),
 				NetworkID:                types.StringPointerValue(env.Network.Azure.NetworkID),
 				ResourceGroupName:        types.StringPointerValue(env.Network.Azure.ResourceGroupName),
 				SubnetIds:                subnetIds,
+				FlexibleServerSubnetIds:  flexSubnetIds,
 			})
 			diags.Append(enpDiags...)
 			model.UsePublicIP = types.BoolPointerValue(env.Network.Azure.UsePublicIP)
