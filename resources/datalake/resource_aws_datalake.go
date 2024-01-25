@@ -13,7 +13,6 @@ package datalake
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -133,11 +132,6 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
-		return
-	}
-
 	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
@@ -154,36 +148,6 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	if resp.Diagnostics.HasError() {
 		return
 	}
-}
-
-func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, client *client.Datalake, options *utils.PollingOptions) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackPollingTimeout)
-	if err != nil {
-		return err
-	}
-	stateConf := &retry.StateChangeConf{
-		Pending: []string{"REQUESTED", "WAIT_FOR_ENVIRONMENT", "ENVIRONMENT_CREATED", "STACK_CREATION_IN_PROGRESS",
-			"STACK_CREATION_FINISHED", "EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED",
-		},
-		Target:       []string{"RUNNING"},
-		Delay:        5 * time.Second,
-		Timeout:      *timeout,
-		PollInterval: 10 * time.Second,
-		Refresh: func() (interface{}, string, error) {
-			log.Printf("About to describe datalake")
-			params := operations.NewDescribeDatalakeParamsWithContext(ctx)
-			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
-			resp, err := client.Operations.DescribeDatalake(params)
-			if err != nil {
-				log.Printf("Error describing datalake: %s", err)
-				return nil, "", err
-			}
-			log.Printf("Described datalake: %s", resp.GetPayload().Datalake.Status)
-			return checkResponseStatusForError(resp)
-		},
-	}
-	_, err = stateConf.WaitForStateContext(ctx)
-	return err
 }
 
 func checkResponseStatusForError(resp *operations.DescribeDatalakeOK) (interface{}, string, error) {

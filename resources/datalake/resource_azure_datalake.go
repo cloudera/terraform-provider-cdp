@@ -121,11 +121,6 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
-		return
-	}
-
 	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)

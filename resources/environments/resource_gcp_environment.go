@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -70,12 +71,12 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(data.EnvironmentName.ValueString(), data.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
 	if err != nil {
 		return
 	}
 
-	toGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+	toGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -91,7 +92,7 @@ func (r *gcpEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, resp)
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
 	if err != nil {
 		return
 	}
