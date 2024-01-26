@@ -22,6 +22,7 @@ type datahubResourceModel struct {
 	Name                 types.String          `tfsdk:"name"`
 	Status               types.String          `tfsdk:"status"`
 	Environment          types.String          `tfsdk:"environment"`
+	DatabaseType         types.String          `tfsdk:"database_type"`
 	GcpEnvironment       types.String          `tfsdk:"environment_name"`
 	InstanceGroup        []InstanceGroup       `tfsdk:"instance_group"`
 	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`

@@ -14,6 +14,8 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
@@ -22,6 +24,15 @@ func (r *azureDatahubResource) Schema(_ context.Context, _ resource.SchemaReques
 	attr := map[string]schema.Attribute{}
 	utils.Append(attr, generalAttributes)
 	utils.Append(attr, instanceGroupSchemaAttributes)
+	utils.Append(attr, map[string]schema.Attribute{
+		"database_type": schema.StringAttribute{
+			Optional: true,
+			Computed: false,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
+	})
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Creates an Azure Data hub cluster.",
 		Attributes:          attr,

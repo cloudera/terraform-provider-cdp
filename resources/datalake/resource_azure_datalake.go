@@ -53,6 +53,7 @@ func (r *azureDatalakeResource) Configure(_ context.Context, req resource.Config
 
 func toAzureDatalakeRequest(ctx context.Context, model *azureDatalakeResourceModel) *datalakemodels.CreateAzureDatalakeRequest {
 	req := &datalakemodels.CreateAzureDatalakeRequest{}
+	req.DatabaseType = model.DatabaseType.ValueString()
 	req.CloudProviderConfiguration = &datalakemodels.AzureConfigurationRequest{
 		ManagedIdentity: model.ManagedIdentity.ValueStringPointer(),
 		StorageLocation: model.StorageLocationBase.ValueStringPointer(),

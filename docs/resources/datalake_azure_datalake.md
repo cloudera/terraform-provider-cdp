@@ -23,6 +23,7 @@ A Data Lake is a service which provides a protective ring around the data stored
 
 ### Optional
 
+- `database_type` (Number) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
 - `enable_ranger_raz` (Boolean)
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)

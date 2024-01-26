@@ -62,6 +62,8 @@ type azureDatalakeResourceModel struct {
 	StatusReason types.String `tfsdk:"status_reason"`
 
 	Tags types.Map `tfsdk:"tags"`
+
+	DatabaseType types.String `tfsdk:"database_type"`
 }
 
 type azureDatalakeImage struct {
