@@ -122,9 +122,11 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
-		return
+	if !state.PollingOptions.Async.ValueBool() {
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
+			return
+		}
 	}
 
 	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
@@ -360,8 +362,10 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
-		return
+	if !state.PollingOptions.Async.ValueBool() {
+		if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
+			return
+		}
 	}
 }

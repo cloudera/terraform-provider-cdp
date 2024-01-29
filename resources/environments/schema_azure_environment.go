@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -49,6 +50,15 @@ var AzureEnvironmentSchema = schema.Schema{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
+				"async": schema.BoolAttribute{
+					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(true),
+					PlanModifiers: []planmodifier.Bool{
+						boolplanmodifier.UseStateForUnknown(),
+					},
+				},
 				"polling_timeout": schema.Int64Attribute{
 					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
 					Default:             int64default.StaticInt64(60),

@@ -13,5 +13,6 @@ package utils
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type PollingOptions struct {
+	Async          types.Bool  `tfsdk:"async"`
 	PollingTimeout types.Int64 `tfsdk:"polling_timeout"`
 }
