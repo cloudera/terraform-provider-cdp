@@ -14,7 +14,9 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
@@ -28,7 +30,7 @@ const (
 	timeoutOneHour    = time.Hour * 1
 )
 
-func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx context.Context, client *cdp.Client, resp *resource.ReadResponse) (*environmentsmodels.Environment, error) {
+func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx context.Context, client *cdp.Client, diags *diag.Diagnostics, state *tfsdk.State) (*environmentsmodels.Environment, error) {
 	tflog.Info(ctx, "About to describe environment '"+envName+"'.")
 	params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
@@ -38,20 +40,20 @@ func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx cont
 	if err != nil {
 		tflog.Warn(ctx, "Something happened during environment fetch: "+err.Error())
 		if isEnvNotFoundError(err) {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
+			diags.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
 			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
 				"id": id,
 			})
-			resp.State.RemoveResource(ctx)
+			state.RemoveResource(ctx)
 			return nil, err
 		}
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read Environment")
+		utils.AddEnvironmentDiagnosticsError(err, diags, "read Environment")
 		return nil, err
 	}
 	return utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), nil
 }
 
-func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingTimeout *utils.PollingOptions) error {
+func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingOptions *utils.PollingOptions) error {
 	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName})
 	_, err := client.Environments.Operations.DeleteEnvironment(params)
@@ -60,7 +62,10 @@ func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.C
 		return err
 	}
 
-	err = waitForEnvironmentToBeDeleted(environmentName, timeoutOneHour, client.Environments, ctx, pollingTimeout)
+	if pollingOptions.Async.ValueBool() {
+		return nil
+	}
+	err = waitForEnvironmentToBeDeleted(environmentName, timeoutOneHour, client.Environments, ctx, pollingOptions)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Environment")
 		return err
@@ -77,7 +82,7 @@ func isEnvNotFoundError(err error) bool {
 	return false
 }
 
-func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse, options *utils.PollingOptions) (*operations.DescribeEnvironmentOK, error) {
+func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse, options *utils.PollingOptions) (*environmentsmodels.Environment, error) {
 	if err := waitForEnvironmentToBeAvailable(id, timeoutOneHour, client.Environments, ctx, options); err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
 		return nil, err
@@ -101,5 +106,5 @@ func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *c
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
 		return nil, err
 	}
-	return descEnvResp, nil
+	return descEnvResp.GetPayload().Environment, nil
 }

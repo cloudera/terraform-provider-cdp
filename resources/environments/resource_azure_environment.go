@@ -78,12 +78,18 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	descEnvResp, err := waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(data.EnvironmentName.ValueString(), data.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
 	if err != nil {
 		return
 	}
+	if !data.PollingOptions.Async.ValueBool() {
+		descEnvResp, err = waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
+		if err != nil {
+			return
+		}
+	}
 
-	toAzureEnvironmentResource(ctx, descEnvResp.GetPayload().Environment, &data, data.PollingOptions, &resp.Diagnostics)
+	toAzureEnvironmentResource(ctx, descEnvResp, &data, data.PollingOptions, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -99,7 +105,7 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, resp)
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
 	if err != nil {
 		return
 	}
@@ -210,11 +216,7 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 	model.Status = types.StringPointerValue(env.Status)
 	model.StatusReason = types.StringValue(env.StatusReason)
 	if env.Tags != nil {
-		merged := env.Tags.Defaults
-		for k, v := range env.Tags.UserDefined {
-			merged[k] = v
-		}
-		tagMap, tagDiags := types.MapValueFrom(ctx, types.StringType, merged)
+		tagMap, tagDiags := types.MapValueFrom(ctx, types.StringType, env.Tags.UserDefined)
 		diags.Append(tagDiags...)
 		model.Tags = tagMap
 	}
