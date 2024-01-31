@@ -140,6 +140,9 @@ var AwsEnvironmentSchema = schema.Schema{
 				"image_id": schema.StringAttribute{
 					Optional: true,
 				},
+				"os": schema.StringAttribute{
+					Optional: true,
+				},
 				"instance_count_by_group": schema.Int64Attribute{
 					Optional: true,
 				},
@@ -309,6 +312,7 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 		res.Image = &environmentsmodels.FreeIpaImageRequest{
 			Catalog: freeIpaDetails.Catalog.ValueString(),
 			ID:      freeIpaDetails.ImageID.ValueString(),
+			Os:      freeIpaDetails.Os.ValueString(),
 		}
 	}
 

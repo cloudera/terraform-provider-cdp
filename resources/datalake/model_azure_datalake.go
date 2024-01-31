@@ -68,4 +68,6 @@ type azureDatalakeImage struct {
 	CatalogName types.String `tfsdk:"catalog_name"`
 
 	ID types.String `tfsdk:"id"`
+
+	Os types.String `tfsdk:"os"`
 }

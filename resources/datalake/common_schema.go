@@ -78,6 +78,9 @@ var generalAttributes = map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Required: true,
 			},
+			"os": schema.StringAttribute{
+				Optional: true,
+			},
 		},
 	},
 	"java_version": schema.Int64Attribute{
