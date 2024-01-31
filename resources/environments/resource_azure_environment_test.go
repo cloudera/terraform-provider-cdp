@@ -75,6 +75,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 					AttributeTypes: map[string]tftypes.Type{
 						"catalog":                 tftypes.String,
 						"image_id":                tftypes.String,
+						"os":                      tftypes.String,
 						"instance_count_by_group": tftypes.Number,
 						"instance_type":           tftypes.String,
 						"recipes": tftypes.Set{
@@ -175,6 +176,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 				AttributeTypes: map[string]tftypes.Type{
 					"catalog":                 tftypes.String,
 					"image_id":                tftypes.String,
+					"os":                      tftypes.String,
 					"instance_count_by_group": tftypes.Number,
 					"instance_type":           tftypes.String,
 					"recipes": tftypes.Set{
@@ -184,6 +186,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}, map[string]tftypes.Value{
 				"catalog":                 tftypes.NewValue(tftypes.String, ""),
 				"image_id":                tftypes.NewValue(tftypes.String, ""),
+				"os":                      tftypes.NewValue(tftypes.String, ""),
 				"instance_count_by_group": tftypes.NewValue(tftypes.Number, 0),
 				"instance_type":           tftypes.NewValue(tftypes.String, ""),
 				"recipes": tftypes.NewValue(tftypes.Set{

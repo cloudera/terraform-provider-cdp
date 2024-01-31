@@ -64,6 +64,7 @@ func toAzureDatalakeRequest(ctx context.Context, model *azureDatalakeResourceMod
 		req.Image = &datalakemodels.ImageRequest{
 			CatalogName: model.Image.CatalogName.ValueStringPointer(),
 			ID:          model.Image.ID.ValueString(),
+			Os:          model.Image.Os.ValueString(),
 		}
 	}
 	req.JavaVersion = int32(model.JavaVersion.ValueInt64())

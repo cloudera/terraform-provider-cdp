@@ -155,6 +155,12 @@ var AzureEnvironmentSchema = schema.Schema{
 						stringplanmodifier.UseStateForUnknown(),
 					},
 				},
+				"os": schema.StringAttribute{
+					Optional: true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
 				"instance_count_by_group": schema.Int64Attribute{
 					Optional: true,
 					PlanModifiers: []planmodifier.Int64{
@@ -337,6 +343,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 		req.Image = &environmentsmodels.FreeIpaImageRequest{
 			Catalog: freeIpaDetails.Catalog.ValueString(),
 			ID:      freeIpaDetails.ImageID.ValueString(),
+			Os:      freeIpaDetails.Os.ValueString(),
 		}
 	}
 

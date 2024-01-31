@@ -180,6 +180,9 @@ var awsDatalakeResourceSchema = schema.Schema{
 				"id": schema.StringAttribute{
 					Required: true,
 				},
+				"os": schema.StringAttribute{
+					Optional: true,
+				},
 			},
 		},
 		"instance_groups": schema.SetNestedAttribute{

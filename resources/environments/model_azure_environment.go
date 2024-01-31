@@ -93,6 +93,8 @@ type azureFreeIpaDetails struct {
 
 	ImageID types.String `tfsdk:"image_id"`
 
+	Os types.String `tfsdk:"image_id"`
+
 	InstanceCountByGroup types.Int64 `tfsdk:"instance_count_by_group"`
 
 	InstanceType types.String `tfsdk:"instance_type"`
