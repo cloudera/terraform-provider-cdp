@@ -70,20 +70,9 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 						},
 					},
 				},
-				"workload_analytics": tftypes.Bool,
-				"encryption_key_url": tftypes.String,
-				"freeipa": tftypes.Object{
-					AttributeTypes: map[string]tftypes.Type{
-						"catalog":                 tftypes.String,
-						"image_id":                tftypes.String,
-						"os":                      tftypes.String,
-						"instance_count_by_group": tftypes.Number,
-						"instance_type":           tftypes.String,
-						"recipes": tftypes.Set{
-							ElementType: tftypes.String,
-						},
-					},
-				},
+				"workload_analytics":       tftypes.Bool,
+				"encryption_key_url":       tftypes.String,
+				"freeipa":                  FreeIpaDetailsObject,
 				"region":                   tftypes.String,
 				"resource_group_name":      tftypes.String,
 				"create_private_endpoints": tftypes.Bool,
@@ -175,23 +164,16 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}),
 			"workload_analytics": tftypes.NewValue(tftypes.Bool, false),
 			"encryption_key_url": tftypes.NewValue(tftypes.String, ""),
-			"freeipa": tftypes.NewValue(tftypes.Object{
-				AttributeTypes: map[string]tftypes.Type{
-					"catalog":                 tftypes.String,
-					"image_id":                tftypes.String,
-					"os":                      tftypes.String,
-					"instance_count_by_group": tftypes.Number,
-					"instance_type":           tftypes.String,
-					"recipes": tftypes.Set{
-						ElementType: tftypes.String,
-					},
-				},
-			}, map[string]tftypes.Value{
+			"freeipa": tftypes.NewValue(FreeIpaDetailsObject, map[string]tftypes.Value{
 				"catalog":                 tftypes.NewValue(tftypes.String, ""),
 				"image_id":                tftypes.NewValue(tftypes.String, ""),
 				"os":                      tftypes.NewValue(tftypes.String, ""),
 				"instance_count_by_group": tftypes.NewValue(tftypes.Number, 0),
 				"instance_type":           tftypes.NewValue(tftypes.String, ""),
+				"instances": tftypes.NewValue(tftypes.Set{
+					ElementType: FreeIpaInstanceObject,
+				}, []tftypes.Value{}),
+				"multi_az": tftypes.NewValue(tftypes.Bool, false),
 				"recipes": tftypes.NewValue(tftypes.Set{
 					ElementType: tftypes.String,
 				}, []tftypes.Value{}),

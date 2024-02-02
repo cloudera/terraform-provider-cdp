@@ -80,22 +80,6 @@ type Authentication struct {
 	PublicKeyID types.String `tfsdk:"public_key_id"`
 }
 
-type AWSFreeIpaDetails struct {
-	Catalog types.String `tfsdk:"catalog"`
-
-	ImageID types.String `tfsdk:"image_id"`
-
-	Os types.String `tfsdk:"os"`
-
-	InstanceCountByGroup types.Int64 `tfsdk:"instance_count_by_group"`
-
-	InstanceType types.String `tfsdk:"instance_type"`
-
-	MultiAz types.Bool `tfsdk:"multi_az"`
-
-	Recipes types.Set `tfsdk:"recipes"`
-}
-
 type AWSLogStorage struct {
 	InstanceProfile types.String `tfsdk:"instance_profile"`
 

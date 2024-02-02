@@ -134,6 +134,7 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 }
 
 func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+	utils.LogEnvironmentSilently(ctx, env, "")
 	model.ID = types.StringPointerValue(env.Crn)
 	if env.AwsDetails != nil {
 		model.S3GuardTableName = types.StringValue(env.AwsDetails.S3GuardTableName)
@@ -157,6 +158,7 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 			}
 		}
 	}
+	diags.Append(*FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
 	if env.Network != nil {
 		model.EndpointAccessGatewayScheme = types.StringValue(env.Network.EndpointAccessGatewayScheme)
 		model.NetworkCidr = types.StringValue(env.Network.NetworkCidr)

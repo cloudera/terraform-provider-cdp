@@ -18,9 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -167,33 +165,7 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 					boolplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"freeipa": schema.SingleNestedAttribute{
-				MarkdownDescription: "The FreeIPA creation request for the environment.",
-				Optional:            true,
-				Default:             nil,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.UseStateForUnknown(),
-				},
-				Attributes: map[string]schema.Attribute{
-					"instance_count_by_group": schema.Int64Attribute{
-						MarkdownDescription: "The number of FreeIPA instances to create per group when creating FreeIPA in the environment.",
-						Optional:            true,
-						Computed:            true,
-						PlanModifiers: []planmodifier.Int64{
-							int64planmodifier.UseStateForUnknown(),
-						},
-					},
-					"instance_type": schema.StringAttribute{
-						MarkdownDescription: "Custom instance type of FreeIPA instances.",
-						Optional:            true,
-					},
-					"recipes": schema.SetAttribute{
-						MarkdownDescription: "The recipes for the FreeIPA cluster.",
-						Optional:            true,
-						ElementType:         types.StringType,
-					},
-				},
-			},
+			"freeipa": FreeIpaSchema,
 			"endpoint_access_gateway_scheme": schema.StringAttribute{
 				MarkdownDescription: "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
 				Optional:            true,

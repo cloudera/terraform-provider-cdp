@@ -88,20 +88,6 @@ type existingAzureNetwork struct {
 	FlexibleServerSubnetIds types.Set `tfsdk:"flexible_server_subnet_ids"`
 }
 
-type azureFreeIpaDetails struct {
-	Catalog types.String `tfsdk:"catalog"`
-
-	ImageID types.String `tfsdk:"image_id"`
-
-	Os types.String `tfsdk:"image_id"`
-
-	InstanceCountByGroup types.Int64 `tfsdk:"instance_count_by_group"`
-
-	InstanceType types.String `tfsdk:"instance_type"`
-
-	Recipes types.Set `tfsdk:"recipes"`
-}
-
 type azureLogStorage struct {
 	ManagedIdentity types.String `tfsdk:"managed_identity"`
 

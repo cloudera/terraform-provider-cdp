@@ -17,6 +17,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
@@ -79,12 +80,16 @@ func TestToGcpEnvironmentRequestLogStorage(t *testing.T) {
 func TestToGcpEnvironmentRequestFreeIpa(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
-	result := toGcpEnvironmentRequest(context.TODO(), testObject)
+	ctx := context.TODO()
+	result := toGcpEnvironmentRequest(ctx, testObject)
+
+	var freeIpaDetails FreeIpaDetails
+	testObject.FreeIpa.As(ctx, &freeIpaDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 
 	assert.NotNilf(t, result.FreeIpa, "FreeIpa is expected to be not nil")
-	assert.Equal(t, testObject.FreeIpa.InstanceCountByGroup.ValueInt64(), int64(result.FreeIpa.InstanceCountByGroup))
-	assert.Equal(t, len(testObject.FreeIpa.Recipes.Elements()), len(result.FreeIpa.Recipes))
-	assert.Equal(t, testObject.FreeIpa.InstanceType.ValueString(), result.FreeIpa.InstanceType)
+	assert.Equal(t, freeIpaDetails.InstanceCountByGroup.ValueInt64(), int64(result.FreeIpa.InstanceCountByGroup))
+	assert.Equal(t, len(freeIpaDetails.Recipes.Elements()), len(result.FreeIpa.Recipes))
+	assert.Equal(t, freeIpaDetails.InstanceType.ValueString(), result.FreeIpa.InstanceType)
 }
 
 func TestToGcpEnvironmentResourceRootFields(t *testing.T) {
@@ -109,6 +114,18 @@ func stringExists(t *testing.T, expected string, underTest types.String) {
 }
 
 func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
+	var elems []attr.Value
+	instances, _ := types.SetValue(FreeIpaInstanceType, elems)
+	freeIpaObj, _ := basetypes.NewObjectValue(FreeIpaDetailsType.AttrTypes, map[string]attr.Value{
+		"instance_count_by_group": types.Int64Value(123),
+		"recipes":                 createSetOfString(),
+		"instance_type":           types.StringValue("someInstanceType"),
+		"catalog":                 types.StringValue(""),
+		"image_id":                types.StringValue(""),
+		"os":                      types.StringValue(""),
+		"instances":               instances,
+		"multi_az":                types.BoolValue(false),
+	})
 	return &gcpEnvironmentResourceModel{
 		EnvironmentName: types.StringValue("someEnvironmentName"),
 		PollingOptions:  &utils.PollingOptions{PollingTimeout: types.Int64Value(123)},
@@ -130,15 +147,11 @@ func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
 			ServiceAccountEmail:       types.StringValue("someServiceAccountEmail"),
 			BackupStorageLocationBase: types.StringValue("someBackupStorageLocationBase"),
 		},
-		Description:          types.StringValue("someDescription"),
-		EnableTunnel:         types.BoolValue(true),
-		WorkloadAnalytics:    types.BoolValue(true),
-		ReportDeploymentLogs: types.BoolValue(true),
-		FreeIpa: &GcpFreeIpa{
-			InstanceCountByGroup: types.Int64Value(123),
-			Recipes:              createSetOfString(),
-			InstanceType:         types.StringValue("someInstanceType"),
-		},
+		Description:                 types.StringValue("someDescription"),
+		EnableTunnel:                types.BoolValue(true),
+		WorkloadAnalytics:           types.BoolValue(true),
+		ReportDeploymentLogs:        types.BoolValue(true),
+		FreeIpa:                     freeIpaObj,
 		EndpointAccessGatewayScheme: types.StringValue("someEndpointAccessGatewayScheme"),
 		Tags:                        createMapOfString(),
 		ProxyConfigName:             types.StringValue("someProxyConfigName"),
