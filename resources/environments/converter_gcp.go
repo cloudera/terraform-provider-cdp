@@ -12,7 +12,6 @@ package environments
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -42,14 +41,13 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 		UsePublicIP:          model.UsePublicIp.ValueBoolPointer(),
 		WorkloadAnalytics:    model.WorkloadAnalytics.ValueBool(),
 	}
-	if model.FreeIpa != nil {
-		tflog.Debug(ctx, fmt.Sprintf("model.FreeIpa: %+v\n", model.FreeIpa))
+	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
+		trans, _ := FreeIpaModelToRequest(&model.FreeIpa, ctx)
 		req.FreeIpa = &environmentsmodels.GCPFreeIpaCreationRequest{
-			InstanceCountByGroup: int32(model.FreeIpa.InstanceCountByGroup.ValueInt64()),
-			InstanceType:         model.FreeIpa.InstanceType.ValueString(),
-			Recipes:              utils.FromSetValueToStringList(model.FreeIpa.Recipes),
+			InstanceCountByGroup: trans.InstanceCountByGroup,
+			InstanceType:         trans.InstanceType,
+			Recipes:              trans.Recipes,
 		}
-		tflog.Debug(ctx, fmt.Sprintf("req.FreeIpa: %+v\n", req.FreeIpa))
 	}
 
 	if model.LogStorage != nil {

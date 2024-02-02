@@ -14,7 +14,6 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -139,34 +138,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"environment_name": schema.StringAttribute{
 			Required: true,
 		},
-		"freeipa": schema.SingleNestedAttribute{
-			Optional: true,
-			Default:  nil,
-			Attributes: map[string]schema.Attribute{
-				"catalog": schema.StringAttribute{
-					Optional: true,
-				},
-				"image_id": schema.StringAttribute{
-					Optional: true,
-				},
-				"os": schema.StringAttribute{
-					Optional: true,
-				},
-				"instance_count_by_group": schema.Int64Attribute{
-					Optional: true,
-				},
-				"instance_type": schema.StringAttribute{
-					Optional: true,
-				},
-				"multi_az": schema.BoolAttribute{
-					Optional: true,
-				},
-				"recipes": schema.SetAttribute{
-					Optional:    true,
-					ElementType: types.StringType,
-				},
-			},
-		},
+		"freeipa": FreeIpaSchema,
 		"log_storage": schema.SingleNestedAttribute{
 			Required: true,
 			Attributes: map[string]schema.Attribute{
@@ -310,19 +282,14 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	res.EnvironmentName = model.EnvironmentName.ValueStringPointer()
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
-		var freeIpaDetails AWSFreeIpaDetails
-		model.FreeIpa.As(ctx, &freeIpaDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)
 		res.FreeIpa = &environmentsmodels.AWSFreeIpaCreationRequest{
-			InstanceCountByGroup: int32(freeIpaDetails.InstanceCountByGroup.ValueInt64()),
-			InstanceType:         freeIpaDetails.InstanceType.ValueString(),
-			MultiAz:              freeIpaDetails.MultiAz.ValueBool(),
-			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
+			InstanceCountByGroup: trans.InstanceCountByGroup,
+			InstanceType:         trans.InstanceType,
+			MultiAz:              trans.MultiAz,
+			Recipes:              trans.Recipes,
 		}
-		res.Image = &environmentsmodels.FreeIpaImageRequest{
-			Catalog: freeIpaDetails.Catalog.ValueString(),
-			ID:      freeIpaDetails.ImageID.ValueString(),
-			Os:      freeIpaDetails.Os.ValueString(),
-		}
+		res.Image = img
 	}
 
 	if model.LogStorage != nil {

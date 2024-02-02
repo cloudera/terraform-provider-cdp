@@ -18,7 +18,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -147,48 +146,7 @@ var AzureEnvironmentSchema = schema.Schema{
 				},
 			},
 		},
-		"freeipa": schema.SingleNestedAttribute{
-			Optional: true,
-			PlanModifiers: []planmodifier.Object{
-				objectplanmodifier.UseStateForUnknown(),
-			},
-			Attributes: map[string]schema.Attribute{
-				"catalog": schema.StringAttribute{
-					Optional: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"image_id": schema.StringAttribute{
-					Optional: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"os": schema.StringAttribute{
-					Optional: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"instance_count_by_group": schema.Int64Attribute{
-					Optional: true,
-					PlanModifiers: []planmodifier.Int64{
-						int64planmodifier.UseStateForUnknown(),
-					},
-				},
-				"instance_type": schema.StringAttribute{
-					Optional: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"recipes": schema.SetAttribute{
-					Optional:    true,
-					ElementType: types.StringType,
-				},
-			},
-		},
+		"freeipa": FreeIpaSchema,
 		"log_storage": schema.SingleNestedAttribute{
 			Required: true,
 			Attributes: map[string]schema.Attribute{
@@ -343,18 +301,14 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	}
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
-		var freeIpaDetails azureFreeIpaDetails
-		model.FreeIpa.As(ctx, &freeIpaDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)
 		req.FreeIpa = &environmentsmodels.AzureFreeIpaCreationRequest{
-			InstanceCountByGroup: int32(freeIpaDetails.InstanceCountByGroup.ValueInt64()),
-			InstanceType:         freeIpaDetails.InstanceType.ValueString(),
-			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
+			InstanceCountByGroup: trans.InstanceCountByGroup,
+			InstanceType:         trans.InstanceType,
+			MultiAz:              &trans.MultiAz,
+			Recipes:              trans.Recipes,
 		}
-		req.Image = &environmentsmodels.FreeIpaImageRequest{
-			Catalog: freeIpaDetails.Catalog.ValueString(),
-			ID:      freeIpaDetails.ImageID.ValueString(),
-			Os:      freeIpaDetails.Os.ValueString(),
-		}
+		req.Image = img
 	}
 
 	if model.LogStorage != nil {

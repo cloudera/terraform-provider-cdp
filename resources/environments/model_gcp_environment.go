@@ -43,7 +43,7 @@ type gcpEnvironmentResourceModel struct {
 
 	ReportDeploymentLogs types.Bool `tfsdk:"report_deployment_logs"`
 
-	FreeIpa *GcpFreeIpa `tfsdk:"freeipa"`
+	FreeIpa types.Object `tfsdk:"freeipa"`
 
 	EndpointAccessGatewayScheme types.String `tfsdk:"endpoint_access_gateway_scheme"`
 
@@ -62,12 +62,6 @@ type gcpEnvironmentResourceModel struct {
 	Status types.String `tfsdk:"status"`
 
 	StatusReason types.String `tfsdk:"status_reason"`
-}
-
-type GcpFreeIpa struct {
-	InstanceCountByGroup types.Int64  `tfsdk:"instance_count_by_group"`
-	Recipes              types.Set    `tfsdk:"recipes"`
-	InstanceType         types.String `tfsdk:"instance_type"`
 }
 
 type ExistingNetworkParams struct {
