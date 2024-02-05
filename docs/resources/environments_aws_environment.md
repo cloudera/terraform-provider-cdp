@@ -138,6 +138,7 @@ Optional:
 - `instance_count_by_group` (Number)
 - `instance_type` (String)
 - `multi_az` (Boolean)
+- `os` (String)
 - `recipes` (Set of String)
 
 

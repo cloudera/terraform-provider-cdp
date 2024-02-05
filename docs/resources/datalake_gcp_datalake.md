@@ -111,6 +111,7 @@ Required:
 Optional:
 
 - `catalog` (String)
+- `os` (String)
 
 
 <a id="nestedatt--polling_options"></a>

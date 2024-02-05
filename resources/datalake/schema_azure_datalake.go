@@ -288,10 +288,13 @@ var azureDatalakeResourceSchema = schema.Schema{
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
 					"instance_group_name": schema.StringAttribute{
-						Required: true,
+						MarkdownDescription: "The name of the designated instance group.",
+						Required:            true,
 					},
-					"recipe_names": schema.SetNestedAttribute{
-						Required: true,
+					"recipe_names": schema.SetAttribute{
+						MarkdownDescription: "The set of recipe names that are going to be applied on the given instance group.",
+						ElementType:         types.StringType,
+						Required:            true,
 					},
 				},
 			},
