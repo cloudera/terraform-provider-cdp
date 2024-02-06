@@ -56,6 +56,7 @@ Required:
 Optional:
 
 - `catalog` (String)
+- `os` (String)
 
 
 <a id="nestedatt--polling_options"></a>
@@ -71,12 +72,8 @@ Optional:
 
 Required:
 
-- `instance_group_name` (String)
-- `recipe_names` (Attributes Set) (see [below for nested schema](#nestedatt--recipes--recipe_names))
-
-<a id="nestedatt--recipes--recipe_names"></a>
-### Nested Schema for `recipes.recipe_names`
-
+- `instance_group_name` (String) The name of the designated instance group.
+- `recipe_names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
 
 
 <a id="nestedatt--cloudera_manager"></a>

@@ -141,6 +141,7 @@ Optional:
 
 - `aks_private_dns_zone_id` (String)
 - `database_private_dns_zone_id` (String)
+- `flexible_server_subnet_ids` (Set of String)
 
 
 <a id="nestedatt--freeipa"></a>
@@ -152,6 +153,7 @@ Optional:
 - `image_id` (String)
 - `instance_count_by_group` (Number)
 - `instance_type` (String)
+- `os` (String)
 - `recipes` (Set of String)
 
 

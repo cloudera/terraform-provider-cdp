@@ -17,10 +17,24 @@ terraform {
 }
 
 resource "cdp_datalake_aws_datalake" "example" {
-  datalake_name           = "<value>"
-  environment_name        = "<value>"
-  instance_profile        = "<value>"
-  storage_bucket_location = "<value>"
+  datalake_name         = "<value>"
+  environment_name      = "<value>"
+  instance_profile      = "<value>"
+  storage_location_base = "<value>"
+  recipes = [
+    {
+      instance_group_name = "master"
+      recipe_names = [
+        "<your-recipe>",
+      ]
+    },
+    {
+      instance_group_name = "idbroker"
+      recipe_names = [
+        "<your-recipe>",
+      ]
+    }
+  ]
 }
 
 output "name" {
@@ -36,5 +50,9 @@ output "instance_profile" {
 }
 
 output "storage_bucket_location" {
-  value = cdp_datalake_aws_datalake.example.storage_bucket_location
+  value = cdp_datalake_aws_datalake.example.storage_location_base
+}
+
+output "recipes" {
+  value = cdp_datalake_aws_datalake.example.recipes
 }
