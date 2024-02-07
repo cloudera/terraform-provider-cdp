@@ -11,6 +11,7 @@
 package datalake
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -21,112 +22,132 @@ type TestCaseStructure struct {
 	field            string
 	computed         bool
 	shouldBeRequired bool
+	attributeType    schema.Attribute
 }
 
-var commonElementCaseSet = []TestCaseStructure{
-	{
-		name:             "'id' field must exist",
-		field:            "id",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'polling_options' should exist",
-		field:            "polling_options",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'creation_date' should exist",
-		field:            "creation_date",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'crn' should exist",
-		field:            "crn",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'datalake_name' must exist",
-		field:            "datalake_name",
-		computed:         false,
-		shouldBeRequired: true,
-	},
-	{
-		name:             "'enable_ranger_raz' should exist",
-		field:            "enable_ranger_raz",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'environment_crn' should exist",
-		field:            "environment_crn",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'environment_name' must exist",
-		field:            "environment_name",
-		computed:         false,
-		shouldBeRequired: true,
-	},
-	{
-		name:             "'image' should exist",
-		field:            "image",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'java_version' should exist",
-		field:            "java_version",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'recipes' should exist",
-		field:            "recipes",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'runtime' should exist",
-		field:            "runtime",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'scale' should exist",
-		field:            "scale",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'status' should exist",
-		field:            "status",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'status_reason' should exist",
-		field:            "status_reason",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'multi_az' should exist",
-		field:            "multi_az",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "'tags' should exist",
-		field:            "tags",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-}
+var (
+	commonElementCaseSet = []TestCaseStructure{
+		{
+			name:             "'id' field must exist",
+			field:            "id",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'polling_options' should exist",
+			field:            "polling_options",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.SingleNestedAttribute{},
+		},
+		{
+			name:             "'creation_date' should exist",
+			field:            "creation_date",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'crn' should exist",
+			field:            "crn",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'datalake_name' must exist",
+			field:            "datalake_name",
+			computed:         false,
+			shouldBeRequired: true,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'enable_ranger_raz' should exist",
+			field:            "enable_ranger_raz",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.BoolAttribute{},
+		},
+		{
+			name:             "'environment_crn' should exist",
+			field:            "environment_crn",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'environment_name' must exist",
+			field:            "environment_name",
+			computed:         false,
+			shouldBeRequired: true,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'image' should exist",
+			field:            "image",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.SingleNestedAttribute{},
+		},
+		{
+			name:             "'java_version' should exist",
+			field:            "java_version",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.Int64Attribute{},
+		},
+		{
+			name:             "'recipes' should exist",
+			field:            "recipes",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.SetNestedAttribute{},
+		},
+		{
+			name:             "'runtime' should exist",
+			field:            "runtime",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'scale' should exist",
+			field:            "scale",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'status' should exist",
+			field:            "status",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'status_reason' should exist",
+			field:            "status_reason",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'multi_az' should exist",
+			field:            "multi_az",
+			computed:         true,
+			shouldBeRequired: false,
+			attributeType:    schema.BoolAttribute{},
+		},
+		{
+			name:             "'tags' should exist",
+			field:            "tags",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.MapAttribute{},
+		},
+	}
+)
 
 func TestRootElements(t *testing.T) {
 	SchemaContainsCommonElements(t, generalAttributes)
@@ -144,6 +165,11 @@ func SchemaContainsCommonElements(t *testing.T, providerSpecificSchema map[strin
 			}
 			if providerSpecificSchema[test.field].IsComputed() != test.computed {
 				t.Errorf("The '%s' filed's >computed< property should be: %t", test.field, test.computed)
+			}
+			var currentType = reflect.TypeOf(providerSpecificSchema[test.field])
+			var expectedType = reflect.TypeOf(test.attributeType)
+			if currentType != expectedType {
+				t.Errorf("The '%s' field's type should be: %t, instead of %t", test.field, expectedType, currentType)
 			}
 		})
 	}
