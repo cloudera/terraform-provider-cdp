@@ -28,12 +28,14 @@ func TestGcpSpecificElements(t *testing.T) {
 			field:            "custom_instance_groups",
 			computed:         false,
 			shouldBeRequired: false,
+			attributeType:    schema.SetNestedAttribute{},
 		},
 		{
 			name:             "cloud_provider_configuration should exist",
 			field:            "cloud_provider_configuration",
 			computed:         false,
 			shouldBeRequired: true,
+			attributeType:    schema.SingleNestedAttribute{},
 		},
 	}
 
