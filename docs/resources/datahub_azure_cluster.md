@@ -196,6 +196,7 @@ output "encryption" {
 
 ### Optional
 
+- `database_type` (String)
 - `destroy_options` (Attributes) Cluster deletion options. (see [below for nested schema](#nestedatt--destroy_options))
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--instance_group))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))

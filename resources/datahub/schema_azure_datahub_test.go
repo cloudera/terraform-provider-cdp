@@ -34,6 +34,19 @@ func TestAzureSchemaContainsInstanceGroup(t *testing.T) {
 	PerformValidation(t, test, underTestAttributes[test.field])
 }
 
+func TestAzureSchemaContainsDatabaseType(t *testing.T) {
+	test := TestCaseStructure{
+		name:             "database_type should exist",
+		field:            "database_type",
+		computed:         false,
+		shouldBeRequired: false,
+	}
+
+	underTestAttributes := createFilledAzureDatahubResourceTestObject()
+
+	PerformValidation(t, test, underTestAttributes[test.field])
+}
+
 func createFilledAzureDatahubResourceTestObject() map[string]schema.Attribute {
 	res := &azureDatahubResource{}
 	schemaResponse := &resource.SchemaResponse{}

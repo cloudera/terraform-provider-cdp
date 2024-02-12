@@ -106,6 +106,7 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 func fromModelToAzureRequest(model datahubResourceModel, ctx context.Context) *datahubmodels.CreateAzureClusterRequest {
 	debug(ctx, "Conversion from datahubResourceModel to CreateAzureClusterRequest started.")
 	req := datahubmodels.CreateAzureClusterRequest{}
+	req.DatabaseType = model.DatabaseType.ValueString()
 	req.ClusterName = model.Name.ValueString()
 	req.ClusterTemplateName = model.ClusterTemplate.ValueString()
 	req.EnvironmentName = model.Environment.ValueString()
