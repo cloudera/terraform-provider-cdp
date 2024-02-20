@@ -22,6 +22,20 @@ func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 	attr := map[string]schema.Attribute{}
 	utils.Append(attr, generalAttributes)
 	utils.Append(attr, instanceGroupSchemaAttributes)
+	utils.Append(attr, map[string]schema.Attribute{
+		"cluster_template": schema.StringAttribute{
+			MarkdownDescription: "The name of the cluster template.",
+			Required:            true,
+		},
+		"cluster_definition": schema.StringAttribute{
+			MarkdownDescription: "The name of the cluster definition.",
+			Required:            true,
+		},
+		"environment": schema.StringAttribute{
+			MarkdownDescription: "The name of the environment where the cluster will belong to.",
+			Required:            true,
+		},
+	})
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Creates an AWS Data hub cluster.",
 		Attributes:          attr,

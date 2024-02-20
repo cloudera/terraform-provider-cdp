@@ -46,7 +46,7 @@ func (r *azureDatahubResource) Configure(_ context.Context, req resource.Configu
 
 func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "Azure cluster creation process requested.")
-	var data datahubResourceModel
+	var data azureDatahubResourceModel
 	diags := req.Plan.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -89,7 +89,7 @@ func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRe
 }
 
 func (r *azureDatahubResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state datahubResourceModel
+	var state azureDatahubResourceModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -131,7 +131,7 @@ func (r *azureDatahubResource) Update(ctx context.Context, _ resource.UpdateRequ
 }
 
 func (r *azureDatahubResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state datahubResourceModel
+	var state azureDatahubResourceModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {

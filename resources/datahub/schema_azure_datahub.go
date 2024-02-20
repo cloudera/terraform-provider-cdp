@@ -25,6 +25,18 @@ func (r *azureDatahubResource) Schema(_ context.Context, _ resource.SchemaReques
 	utils.Append(attr, generalAttributes)
 	utils.Append(attr, instanceGroupSchemaAttributes)
 	utils.Append(attr, map[string]schema.Attribute{
+		"cluster_template": schema.StringAttribute{
+			MarkdownDescription: "The name of the cluster template.",
+			Required:            true,
+		},
+		"cluster_definition": schema.StringAttribute{
+			MarkdownDescription: "The name of the cluster definition.",
+			Required:            true,
+		},
+		"environment": schema.StringAttribute{
+			MarkdownDescription: "The name of the environment where the cluster will belong to.",
+			Required:            true,
+		},
 		"database_type": schema.StringAttribute{
 			Optional: true,
 			Computed: false,

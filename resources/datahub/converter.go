@@ -19,21 +19,21 @@ import (
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
-func fromModelToAwsRequest(model datahubResourceModel, ctx context.Context) *datahubmodels.CreateAWSClusterRequest {
-	debug(ctx, "Conversion from datahubResourceModel to CreateAWSClusterRequest started.")
+func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *datahubmodels.CreateAWSClusterRequest {
+	tflog.Debug(ctx, "Conversion from datahubResourceModel to CreateAWSClusterRequest started.")
 	req := datahubmodels.CreateAWSClusterRequest{}
 	req.ClusterName = model.Name.ValueString()
 	req.ClusterTemplate = model.ClusterTemplate.ValueString()
 	req.Environment = model.Environment.ValueString()
 	req.ClusterDefinition = model.ClusterDefinition.ValueString()
 	var igs []*datahubmodels.InstanceGroupRequest
-	debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
+	tflog.Debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
 	for _, group := range model.InstanceGroup {
-		debug(ctx, fmt.Sprintf("Converting InstanceGroupRequest: %+v.", group))
+		tflog.Debug(ctx, fmt.Sprintf("Converting InstanceGroupRequest: %+v.", group))
 		var volReqs []*datahubmodels.AttachedVolumeRequest
-		debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
+		tflog.Debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
 		for _, vrs := range group.AttachedVolumeConfiguration {
-			debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
+			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
 		var igRecipes []string
@@ -58,25 +58,25 @@ func fromModelToAwsRequest(model datahubResourceModel, ctx context.Context) *dat
 		igs = append(igs, ig)
 	}
 	req.InstanceGroups = igs
-	debug(ctx, "Conversion from datahubResourceModel to CreateAWSClusterRequest has finished.")
+	tflog.Debug(ctx, fmt.Sprintf("Conversion from datahubResourceModel to CreateAWSClusterRequest has finished with request: %+v.", req))
 	return &req
 }
 
 func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *datahubmodels.CreateGCPClusterRequest {
-	debug(ctx, "Conversion from gcpDatahubResourceModel to CreateGCPClusterRequest started.")
+	tflog.Debug(ctx, "Conversion from gcpDatahubResourceModel to CreateGCPClusterRequest started.")
 	req := datahubmodels.CreateGCPClusterRequest{}
 	req.ClusterName = model.Name.ValueString()
 	req.EnvironmentName = model.Environment.ValueString()
 	req.ClusterTemplateName = model.ClusterTemplate.ValueString()
 	req.ClusterDefinitionName = model.ClusterDefinition.ValueString()
 	var igs []*datahubmodels.GCPInstanceGroupRequest
-	debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
+	tflog.Debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
 	for _, group := range model.InstanceGroup {
-		debug(ctx, fmt.Sprintf("Converting GCPInstanceGroupRequest: %+v.", group))
+		tflog.Debug(ctx, fmt.Sprintf("Converting GCPInstanceGroupRequest: %+v.", group))
 		var volReqs []*datahubmodels.AttachedVolumeRequest
-		debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
+		tflog.Debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
 		for _, vrs := range group.AttachedVolumeConfiguration {
-			debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
+			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
 		var igRecipes []string
@@ -99,12 +99,12 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 		igs = append(igs, ig)
 	}
 	req.InstanceGroups = igs
-	debug(ctx, "Conversion from gcpDatahubResourceModel to CreateGCPClusterRequest has finished.")
+	tflog.Debug(ctx, "Conversion from gcpDatahubResourceModel to CreateGCPClusterRequest has finished.")
 	return &req
 }
 
-func fromModelToAzureRequest(model datahubResourceModel, ctx context.Context) *datahubmodels.CreateAzureClusterRequest {
-	debug(ctx, "Conversion from datahubResourceModel to CreateAzureClusterRequest started.")
+func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Context) *datahubmodels.CreateAzureClusterRequest {
+	tflog.Debug(ctx, "Conversion from datahubResourceModel to CreateAzureClusterRequest started.")
 	req := datahubmodels.CreateAzureClusterRequest{}
 	req.DatabaseType = model.DatabaseType.ValueString()
 	req.ClusterName = model.Name.ValueString()
@@ -112,13 +112,13 @@ func fromModelToAzureRequest(model datahubResourceModel, ctx context.Context) *d
 	req.EnvironmentName = model.Environment.ValueString()
 	req.ClusterDefinitionName = model.ClusterDefinition.ValueString()
 	var igs []*datahubmodels.AzureInstanceGroupRequest
-	debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
+	tflog.Debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
 	for _, group := range model.InstanceGroup {
-		debug(ctx, fmt.Sprintf("Converting InstanceGroupRequest: %+v.", group))
+		tflog.Debug(ctx, fmt.Sprintf("Converting InstanceGroupRequest: %+v.", group))
 		var volReqs []*datahubmodels.AttachedVolumeRequest
-		debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
+		tflog.Debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
 		for _, vrs := range group.AttachedVolumeConfiguration {
-			debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
+			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
 		var igRecipes []string
@@ -161,10 +161,4 @@ func int64To32Pointer(in types.Int64) *int32 {
 	n64 := in.ValueInt64()
 	var n2 = int32(n64)
 	return &n2
-}
-
-func debug(ctx context.Context, msg string) {
-	if ctx != nil {
-		tflog.Debug(ctx, msg)
-	}
 }

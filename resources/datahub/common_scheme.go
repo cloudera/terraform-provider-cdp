@@ -57,18 +57,6 @@ var generalAttributes = map[string]schema.Attribute{
 		MarkdownDescription: "The name of the cluster.",
 		Required:            true,
 	},
-	"cluster_template": schema.StringAttribute{
-		MarkdownDescription: "The name of the cluster template.",
-		Required:            true,
-	},
-	"cluster_definition": schema.StringAttribute{
-		MarkdownDescription: "The name of the cluster definition.",
-		Required:            true,
-	},
-	"environment": schema.StringAttribute{
-		MarkdownDescription: "The name of the environment where the cluster will belong to.",
-		Required:            true,
-	},
 	"destroy_options": schema.SingleNestedAttribute{
 		Optional:            true,
 		Description:         "Cluster deletion options.",

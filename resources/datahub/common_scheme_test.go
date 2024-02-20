@@ -55,24 +55,6 @@ var commonElementCaseSet = []TestCaseStructure{
 		shouldBeRequired: true,
 	},
 	{
-		name:             "cluster_template must exist",
-		field:            "cluster_template",
-		computed:         false,
-		shouldBeRequired: true,
-	},
-	{
-		name:             "cluster_definition must exist",
-		field:            "cluster_definition",
-		computed:         false,
-		shouldBeRequired: true,
-	},
-	{
-		name:             "environment must exist",
-		field:            "environment",
-		computed:         false,
-		shouldBeRequired: true,
-	},
-	{
 		name:             "destroy_options should exist",
 		field:            "destroy_options",
 		computed:         false,

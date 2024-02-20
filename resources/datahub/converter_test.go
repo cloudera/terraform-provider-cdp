@@ -11,17 +11,18 @@
 package datahub
 
 import (
+	"context"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"testing"
 )
 
 func TestFromModelToRequestBasicFields(t *testing.T) {
-	input := datahubResourceModel{
+	input := awsDatahubResourceModel{
 		Name:            types.StringValue("someClusterName"),
 		Environment:     types.StringValue("someEnvironment"),
 		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
 	}
-	got := fromModelToAwsRequest(input, nil)
+	got := fromModelToAwsRequest(input, context.TODO())
 
 	compareStrings(got.ClusterName, input.Name.ValueString(), t)
 	compareStrings(got.Environment, input.Environment.ValueString(), t)
@@ -31,9 +32,9 @@ func TestFromModelToRequestBasicFields(t *testing.T) {
 func TestFromModelToRequestRecipe(t *testing.T) {
 	recipes := []types.String{types.StringValue("recipe1"), types.StringValue("recipe2")}
 	igs := []InstanceGroup{{Recipes: recipes}}
-	input := datahubResourceModel{InstanceGroup: igs}
+	input := awsDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToAwsRequest(input, nil)
+	got := fromModelToAwsRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
 	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
@@ -58,9 +59,9 @@ func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
 	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
-	input := datahubResourceModel{InstanceGroup: igs}
+	input := awsDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToAwsRequest(input, nil)
+	got := fromModelToAwsRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
 	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
@@ -81,9 +82,9 @@ func TestFromModelToRequestInstanceGroups(t *testing.T) {
 		RecoveryMode:      types.StringValue("MANUAL"),
 	}}
 
-	input := datahubResourceModel{InstanceGroup: igs}
+	input := awsDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToAwsRequest(input, nil)
+	got := fromModelToAwsRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(igs), t)
 	resultIg := got.InstanceGroups[0]
@@ -99,9 +100,9 @@ func TestFromModelToRequestVolumeEncryption(t *testing.T) {
 		VolumeEncryption: VolumeEncryption{Encryption: types.BoolValue(true)},
 	}}
 
-	input := datahubResourceModel{InstanceGroup: igs}
+	input := awsDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToAwsRequest(input, nil)
+	got := fromModelToAwsRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(igs), t)
 	resultVolumeEncryption := got.InstanceGroups[0].VolumeEncryption
@@ -113,8 +114,8 @@ func TestFromModelToRequestVolumeEncryption(t *testing.T) {
 }
 
 func TestFromModelToRequestClusterDefinition(t *testing.T) {
-	input := datahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
-	got := fromModelToAwsRequest(input, nil)
+	input := awsDatahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
+	got := fromModelToAwsRequest(input, context.TODO())
 
 	compareStrings(got.ClusterDefinition, input.ClusterDefinition.ValueString(), t)
 }
@@ -125,7 +126,7 @@ func TestFromModelToGcpRequestBasicFields(t *testing.T) {
 		Environment:     types.StringValue("someEnvironment"),
 		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
 	}
-	got := fromModelToGcpRequest(input, nil)
+	got := fromModelToGcpRequest(input, context.TODO())
 
 	compareStrings(got.ClusterName, input.Name.ValueString(), t)
 	compareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
@@ -137,7 +138,7 @@ func TestFromModelToGcpRequestRecipe(t *testing.T) {
 	igs := []GcpInstanceGroup{{Recipes: recipes}}
 	input := gcpDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToGcpRequest(input, nil)
+	got := fromModelToGcpRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
 	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
@@ -164,7 +165,7 @@ func TestFromModelToGcpRequestAttachedVolumeConfiguration(t *testing.T) {
 	igs := []GcpInstanceGroup{{AttachedVolumeConfiguration: avcs}}
 	input := gcpDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToGcpRequest(input, nil)
+	got := fromModelToGcpRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
 	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
@@ -187,7 +188,7 @@ func TestFromModelToGcpRequestInstanceGroups(t *testing.T) {
 
 	input := gcpDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToGcpRequest(input, nil)
+	got := fromModelToGcpRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(igs), t)
 	resultIg := got.InstanceGroups[0]
@@ -200,18 +201,18 @@ func TestFromModelToGcpRequestInstanceGroups(t *testing.T) {
 
 func TestFromModelToGcpRequestClusterDefinition(t *testing.T) {
 	input := gcpDatahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
-	got := fromModelToGcpRequest(input, nil)
+	got := fromModelToGcpRequest(input, context.TODO())
 
 	compareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
 }
 
 func TestFromModelToAzureRequestBasicFields(t *testing.T) {
-	input := datahubResourceModel{
+	input := azureDatahubResourceModel{
 		Name:            types.StringValue("someClusterName"),
 		Environment:     types.StringValue("someEnvironment"),
 		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
 	}
-	got := fromModelToAzureRequest(input, nil)
+	got := fromModelToAzureRequest(input, context.TODO())
 
 	compareStrings(got.ClusterName, input.Name.ValueString(), t)
 	compareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
@@ -221,9 +222,9 @@ func TestFromModelToAzureRequestBasicFields(t *testing.T) {
 func TestFromModelToAzureRequestRecipe(t *testing.T) {
 	recipes := []types.String{types.StringValue("recipe1"), types.StringValue("recipe2")}
 	igs := []InstanceGroup{{Recipes: recipes}}
-	input := datahubResourceModel{InstanceGroup: igs}
+	input := azureDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToAzureRequest(input, nil)
+	got := fromModelToAzureRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
 	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
@@ -248,9 +249,9 @@ func TestFromModelToAzureRequestAttachedVolumeConfiguration(t *testing.T) {
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
 	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
-	input := datahubResourceModel{InstanceGroup: igs}
+	input := azureDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToAzureRequest(input, nil)
+	got := fromModelToAzureRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
 	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
@@ -271,9 +272,9 @@ func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
 		RecoveryMode:      types.StringValue("MANUAL"),
 	}}
 
-	input := datahubResourceModel{InstanceGroup: igs}
+	input := azureDatahubResourceModel{InstanceGroup: igs}
 
-	got := fromModelToAzureRequest(input, nil)
+	got := fromModelToAzureRequest(input, context.TODO())
 
 	compareInts(len(got.InstanceGroups), len(igs), t)
 	resultIg := got.InstanceGroups[0]
@@ -285,8 +286,8 @@ func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
 }
 
 func TestFromModelToAzureRequestClusterDefinition(t *testing.T) {
-	input := datahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
-	got := fromModelToAzureRequest(input, nil)
+	input := azureDatahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
+	got := fromModelToAzureRequest(input, context.TODO())
 
 	compareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
 }
