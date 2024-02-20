@@ -12,26 +12,7 @@ package datahub
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
-
-	"github.com/cloudera/terraform-provider-cdp/utils"
 )
-
-type datahubResourceModel struct {
-	ID                   types.String          `tfsdk:"id"`
-	Crn                  types.String          `tfsdk:"crn"`
-	Name                 types.String          `tfsdk:"name"`
-	Status               types.String          `tfsdk:"status"`
-	Environment          types.String          `tfsdk:"environment"`
-	DatabaseType         types.String          `tfsdk:"database_type"`
-	GcpEnvironment       types.String          `tfsdk:"environment_name"`
-	InstanceGroup        []InstanceGroup       `tfsdk:"instance_group"`
-	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`
-	DestroyOptions       *DestroyOptions       `tfsdk:"destroy_options"`
-	ClusterTemplate      types.String          `tfsdk:"cluster_template"`
-	GcpClusterTemplate   types.String          `tfsdk:"cluster_template_name"`
-	ClusterDefinition    types.String          `tfsdk:"cluster_definition"`
-	GcpClusterDefinition types.String          `tfsdk:"cluster_definition_name"`
-}
 
 type InstanceGroup struct {
 	NodeCount                   types.Int64                   `tfsdk:"node_count"`
@@ -57,8 +38,4 @@ type VolumeEncryption struct {
 
 type DestroyOptions struct {
 	ForceDeleteCluster types.Bool `tfsdk:"force_delete_cluster"`
-}
-
-func (d *datahubResourceModel) forceDeleteRequested() bool {
-	return d.DestroyOptions != nil && !d.DestroyOptions.ForceDeleteCluster.IsNull() && d.DestroyOptions.ForceDeleteCluster.ValueBool()
 }

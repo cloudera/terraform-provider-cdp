@@ -15,30 +15,66 @@ import (
 	"testing"
 )
 
-func TestForceDeleteRequested(t *testing.T) {
+func TestForceDeleteRequestedForAws(t *testing.T) {
 	tests := []struct {
 		name           string
-		model          *datahubResourceModel
+		model          *awsDatahubResourceModel
 		expectedResult bool
 	}{
 		{
 			name:           "when DestroyOptions nil",
-			model:          &datahubResourceModel{DestroyOptions: nil},
+			model:          &awsDatahubResourceModel{DestroyOptions: nil},
 			expectedResult: false,
 		},
 		{
 			name:           "when DestroyOptions not nil but ForceDeleteCluster is",
-			model:          &datahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolNull()}},
+			model:          &awsDatahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolNull()}},
 			expectedResult: false,
 		},
 		{
 			name:           "when neither DestroyOptions or ForceDeleteCluster are nil but ForceDeleteCluster is false",
-			model:          &datahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolValue(false)}},
+			model:          &awsDatahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolValue(false)}},
 			expectedResult: false,
 		},
 		{
 			name:           "when ForceDeleteCluster is true",
-			model:          &datahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolValue(true)}},
+			model:          &awsDatahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolValue(true)}},
+			expectedResult: true,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if test.model.forceDeleteRequested() != test.expectedResult {
+				t.Errorf("Did not get the expected output! Expected: %t, got: %t", test.expectedResult, test.model.forceDeleteRequested())
+			}
+		})
+	}
+}
+
+func TestForceDeleteRequestedForAzure(t *testing.T) {
+	tests := []struct {
+		name           string
+		model          *azureDatahubResourceModel
+		expectedResult bool
+	}{
+		{
+			name:           "when DestroyOptions nil",
+			model:          &azureDatahubResourceModel{DestroyOptions: nil},
+			expectedResult: false,
+		},
+		{
+			name:           "when DestroyOptions not nil but ForceDeleteCluster is",
+			model:          &azureDatahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolNull()}},
+			expectedResult: false,
+		},
+		{
+			name:           "when neither DestroyOptions or ForceDeleteCluster are nil but ForceDeleteCluster is false",
+			model:          &azureDatahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolValue(false)}},
+			expectedResult: false,
+		},
+		{
+			name:           "when ForceDeleteCluster is true",
+			model:          &azureDatahubResourceModel{DestroyOptions: &DestroyOptions{ForceDeleteCluster: types.BoolValue(true)}},
 			expectedResult: true,
 		},
 	}

@@ -271,7 +271,7 @@ var azureDatalakeResourceSchema = schema.Schema{
 		"java_version": schema.Int64Attribute{
 			Optional: true,
 		},
-		"database_type": schema.Int64Attribute{
+		"database_type": schema.StringAttribute{
 			MarkdownDescription: "The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.",
 			Optional:            true,
 		},

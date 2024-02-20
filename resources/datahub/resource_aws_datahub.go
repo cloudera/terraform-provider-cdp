@@ -45,17 +45,23 @@ func (r *awsDatahubResource) Configure(_ context.Context, req resource.Configure
 
 func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	tflog.Info(ctx, "AWS cluster creation process requested.")
-	var data datahubResourceModel
+	var data awsDatahubResourceModel
+	tflog.Info(ctx, fmt.Sprintf("Creating AWS Datahub with name: %s", data.Name.ValueString()))
 	diags := req.Plan.Get(ctx, &data)
+	tflog.Info(ctx, fmt.Sprintf("Datahub resource model: %+v", data))
 	resp.Diagnostics.Append(diags...)
+	tflog.Info(ctx, fmt.Sprintf("Diags: %+v", resp.Diagnostics))
 	if resp.Diagnostics.HasError() {
+		tflog.Warn(ctx, "Datahub resource model has error, stopping the creation process.")
 		return
 	}
 
 	params := operations.NewCreateAWSClusterParamsWithContext(ctx)
 	params.WithInput(fromModelToAwsRequest(data, ctx))
 
+	tflog.Info(ctx, fmt.Sprintf("Sending create request for AWS Datahub with name: %s", data.Name.ValueString()))
 	res, err := r.client.Datahub.Operations.CreateAWSCluster(params)
+	tflog.Info(ctx, fmt.Sprintf("Create request for AWS Datahub with name: %s has been sent with the result of: %+v", data.Name.ValueString(), res))
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "create AWS Datahub")
 		return
@@ -88,7 +94,7 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 }
 
 func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var state datahubResourceModel
+	var state awsDatahubResourceModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -130,7 +136,7 @@ func (r *awsDatahubResource) Update(ctx context.Context, _ resource.UpdateReques
 }
 
 func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state datahubResourceModel
+	var state awsDatahubResourceModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
