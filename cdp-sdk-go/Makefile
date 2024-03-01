@@ -60,6 +60,7 @@ swagger-gen: swagger-gen-datalake
 swagger-gen: swagger-gen-datahub
 swagger-gen: swagger-gen-ml
 swagger-gen: swagger-gen-dw
+swagger-gen: swagger-gen-opdb
 
 clone-swaggers: clone-swagger-iam
 clone-swaggers: clone-swagger-environments
@@ -67,6 +68,7 @@ clone-swaggers: clone-swagger-datalake
 clone-swaggers: clone-swagger-datahub
 clone-swaggers: clone-swagger-ml
 clone-swaggers: clone-swagger-dw
+clone-swaggers: clone-swagger-opdb
 
 clone-swagger-%:
 	wget $(SWAGGER)/$*.yaml -O resources/swagger/$*.yaml
