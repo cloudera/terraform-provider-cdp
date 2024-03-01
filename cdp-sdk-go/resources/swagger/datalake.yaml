@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.104 (BETA)
+  version: 0.9.105 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -1096,16 +1096,15 @@ definitions:
     type: object
     description: Attached volume configuration.
     required:
-      - volumeType
       - size
     properties:
-      volumeType:
-        type: string
-        description: Type of disks to modify to on all the instances in a group.
       size:
         type: integer
         format: int32
         description: Size of disks to modify to on all the instances in a group in GB.
+      volumeType:
+        type: string
+        description: Type of disks to modify to on all the instances in a group.
   DatalakeDetails:
     type: object
     description: Details about a datalake

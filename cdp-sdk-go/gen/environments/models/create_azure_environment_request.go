@@ -21,6 +21,9 @@ import (
 // swagger:model CreateAzureEnvironmentRequest
 type CreateAzureEnvironmentRequest struct {
 
+	// The zones of the environment in the given region.
+	AvailabilityZones []string `json:"availabilityZones"`
+
 	// When this is enabled, then Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. When this is disabled, then Azure Service Endpoints will be created. The default value is disabled.
 	CreatePrivateEndpoints bool `json:"createPrivateEndpoints,omitempty"`
 

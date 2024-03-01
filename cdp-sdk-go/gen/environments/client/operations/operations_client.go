@@ -174,6 +174,8 @@ type ClientService interface {
 
 	UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error)
 
+	UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error)
+
 	UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error)
 
 	UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error)
@@ -3051,6 +3053,45 @@ func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncrypti
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateAwsDiskEncryptionParametersDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateAzureAvailabilityZones updates the availability zones for the azure environment
+
+Updates the Availability Zones for the Azure environment.
+*/
+func (a *Client) UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateAzureAvailabilityZonesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateAzureAvailabilityZones",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateAzureAvailabilityZones",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateAzureAvailabilityZonesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateAzureAvailabilityZonesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateAzureAvailabilityZonesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
