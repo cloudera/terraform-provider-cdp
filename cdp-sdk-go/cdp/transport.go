@@ -38,7 +38,7 @@ func getDefaultTransport(config *Config) (http.RoundTripper, error) {
 		return nil, err
 	}
 
-	return &http.Transport{TLSClientConfig: cfg}, nil
+	return &http.Transport{Proxy: http.ProxyFromEnvironment, TLSClientConfig: cfg}, nil
 }
 
 func buildClientTransportWithDefaultHttpTransport(config *Config, endpoint string) (*ClientTransport, error) {
