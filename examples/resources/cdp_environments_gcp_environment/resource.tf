@@ -19,6 +19,8 @@ resource "cdp_environments_gcp_environment" "example" {
     subnet_names      = ["<value>", "<value2>", "..."] // one or more entries accepted
     shared_project_id = "<value>"
   }
+  freeipa = {
+  }
 }
 
 output "environment_name" {
@@ -55,4 +57,8 @@ output "subnet_names" {
 
 output "shared_project_id" {
   value = cdp_environments_gcp_environment.example.existing_network_params.shared_project_id
+}
+
+output "freeipa" {
+  value = cdp_environments_gcp_environment.example.freeipa
 }

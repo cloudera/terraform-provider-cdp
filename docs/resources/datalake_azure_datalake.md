@@ -23,7 +23,7 @@ A Data Lake is a service which provides a protective ring around the data stored
 
 ### Optional
 
-- `database_type` (Number) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
+- `database_type` (String) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
 - `enable_ranger_raz` (Boolean)
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)
@@ -65,6 +65,7 @@ Optional:
 
 Optional:
 
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
 
 

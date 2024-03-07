@@ -52,6 +52,8 @@ resource "cdp_environments_azure_environment" "example-env" {
   }
   resource_group_name = "rg-name"
   use_public_ip       = true
+  freeipa = {
+  }
 }
 
 output "environment_name" {
@@ -60,6 +62,10 @@ output "environment_name" {
 
 output "crn" {
   value = cdp_environments_azure_environment.example-env.crn
+}
+
+output "freeipa" {
+value = cdp_environments_azure_environment.example-env.freeipa
 }
 ```
 
@@ -70,6 +76,7 @@ output "crn" {
 
 - `credential_name` (String)
 - `environment_name` (String)
+- `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `log_storage` (Attributes) (see [below for nested schema](#nestedatt--log_storage))
 - `public_key` (String)
 - `region` (String)
@@ -87,7 +94,6 @@ output "crn" {
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 - `endpoint_access_gateway_subnet_ids` (Set of String) The subnets to use for endpoint access gateway.
 - `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--existing_network_params))
-- `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `new_network_params` (Attributes) (see [below for nested schema](#nestedatt--new_network_params))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
@@ -102,6 +108,41 @@ output "crn" {
 - `id` (String) The ID of this resource.
 - `status` (String)
 - `status_reason` (String)
+
+<a id="nestedatt--freeipa"></a>
+### Nested Schema for `freeipa`
+
+Optional:
+
+- `catalog` (String)
+- `image_id` (String)
+- `instance_count_by_group` (Number)
+- `instance_type` (String)
+- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--freeipa--instances))
+- `multi_az` (Boolean)
+- `os` (String)
+- `recipes` (Set of String)
+
+<a id="nestedatt--freeipa--instances"></a>
+### Nested Schema for `freeipa.instances`
+
+Read-Only:
+
+- `availability_zone` (String)
+- `discovery_fqdn` (String)
+- `instance_group` (String)
+- `instance_id` (String)
+- `instance_status` (String)
+- `instance_status_reason` (String)
+- `instance_type` (String)
+- `instance_vm_type` (String)
+- `life_cycle` (String)
+- `private_ip` (String)
+- `public_ip` (String)
+- `ssh_port` (Number)
+- `subnet_id` (String)
+
+
 
 <a id="nestedatt--log_storage"></a>
 ### Nested Schema for `log_storage`
@@ -144,19 +185,6 @@ Optional:
 - `flexible_server_subnet_ids` (Set of String)
 
 
-<a id="nestedatt--freeipa"></a>
-### Nested Schema for `freeipa`
-
-Optional:
-
-- `catalog` (String)
-- `image_id` (String)
-- `instance_count_by_group` (Number)
-- `instance_type` (String)
-- `os` (String)
-- `recipes` (Set of String)
-
-
 <a id="nestedatt--new_network_params"></a>
 ### Nested Schema for `new_network_params`
 
@@ -170,4 +198,5 @@ Required:
 
 Optional:
 
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.

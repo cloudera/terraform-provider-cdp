@@ -119,6 +119,7 @@ Optional:
 
 Optional:
 
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
 
 
@@ -127,10 +128,7 @@ Optional:
 
 Required:
 
-- `instance_group_name` (String)
-- `recipe_names` (Attributes Set) (see [below for nested schema](#nestedatt--recipes--recipe_names))
-
-<a id="nestedatt--recipes--recipe_names"></a>
-### Nested Schema for `recipes.recipe_names`
+- `instance_group_name` (String) The name of the designated instance group.
+- `recipe_names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
 
 

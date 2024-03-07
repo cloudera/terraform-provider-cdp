@@ -38,6 +38,8 @@ resource "cdp_environments_azure_environment" "example-env" {
   }
   resource_group_name = "rg-name"
   use_public_ip       = true
+  freeipa = {
+  }
 }
 
 output "environment_name" {
@@ -46,4 +48,8 @@ output "environment_name" {
 
 output "crn" {
   value = cdp_environments_azure_environment.example-env.crn
+}
+
+output "freeipa" {
+value = cdp_environments_azure_environment.example-env.freeipa
 }

@@ -29,6 +29,8 @@ resource "cdp_environments_aws_environment" "example" {
     storage_location_base = "s3a://storage-bucket/location"
     instance_profile      = "arn:aws:iam::11111111111:instance-profile/storage-instance-profile"
   }
+  freeipa = {
+  }
 }
 
 output "environment_name" {
@@ -37,4 +39,8 @@ output "environment_name" {
 
 output "crn" {
   value = cdp_environments_aws_environment.example.crn
+}
+
+output "freeipa" {
+  value = cdp_environments_aws_environment.example.freeipa
 }

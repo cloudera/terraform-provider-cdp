@@ -43,6 +43,8 @@ resource "cdp_environments_aws_environment" "example" {
     storage_location_base = "s3a://storage-bucket/location"
     instance_profile      = "arn:aws:iam::11111111111:instance-profile/storage-instance-profile"
   }
+  freeipa = {
+  }
 }
 
 output "environment_name" {
@@ -51,6 +53,10 @@ output "environment_name" {
 
 output "crn" {
   value = cdp_environments_aws_environment.example.crn
+}
+
+output "freeipa" {
+  value = cdp_environments_aws_environment.example.freeipa
 }
 ```
 
@@ -62,6 +68,7 @@ output "crn" {
 - `authentication` (Attributes) (see [below for nested schema](#nestedatt--authentication))
 - `credential_name` (String)
 - `environment_name` (String)
+- `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `log_storage` (Attributes) (see [below for nested schema](#nestedatt--log_storage))
 - `region` (String)
 - `security_access` (Attributes) (see [below for nested schema](#nestedatt--security_access))
@@ -75,7 +82,6 @@ output "crn" {
 - `encryption_key_arn` (String)
 - `endpoint_access_gateway_scheme` (String)
 - `endpoint_access_gateway_subnet_ids` (Set of String)
-- `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `network_cidr` (String)
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
@@ -103,6 +109,41 @@ Optional:
 - `public_key_id` (String)
 
 
+<a id="nestedatt--freeipa"></a>
+### Nested Schema for `freeipa`
+
+Optional:
+
+- `catalog` (String)
+- `image_id` (String)
+- `instance_count_by_group` (Number)
+- `instance_type` (String)
+- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--freeipa--instances))
+- `multi_az` (Boolean)
+- `os` (String)
+- `recipes` (Set of String)
+
+<a id="nestedatt--freeipa--instances"></a>
+### Nested Schema for `freeipa.instances`
+
+Read-Only:
+
+- `availability_zone` (String)
+- `discovery_fqdn` (String)
+- `instance_group` (String)
+- `instance_id` (String)
+- `instance_status` (String)
+- `instance_status_reason` (String)
+- `instance_type` (String)
+- `instance_vm_type` (String)
+- `life_cycle` (String)
+- `private_ip` (String)
+- `public_ip` (String)
+- `ssh_port` (Number)
+- `subnet_id` (String)
+
+
+
 <a id="nestedatt--log_storage"></a>
 ### Nested Schema for `log_storage`
 
@@ -128,23 +169,10 @@ Optional:
 - `security_group_ids_for_knox` (Set of String)
 
 
-<a id="nestedatt--freeipa"></a>
-### Nested Schema for `freeipa`
-
-Optional:
-
-- `catalog` (String)
-- `image_id` (String)
-- `instance_count_by_group` (Number)
-- `instance_type` (String)
-- `multi_az` (Boolean)
-- `os` (String)
-- `recipes` (Set of String)
-
-
 <a id="nestedatt--polling_options"></a>
 ### Nested Schema for `polling_options`
 
 Optional:
 
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
