@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.104 (BETA)
+  version: 0.9.108 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -335,7 +335,7 @@ paths:
       x-mutating: true
       x-form-factors: public
       summary: Suspend Cloudera Data Warehouse cluster.
-      description: Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database.
+      description: Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
       operationId: suspendCluster
       parameters:
         - name: input
@@ -358,7 +358,7 @@ paths:
       x-mutating: true
       x-form-factors: public
       summary: Resume Cloudera Data Warehouse cluster.
-      description: Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW.
+      description: Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
       operationId: resumeCluster
       parameters:
         - name: input
@@ -575,7 +575,7 @@ paths:
       x-mutating: true
       x-no-compatibility-guarantee: true
       summary: Creates a backup from the cluster configuration and settings.
-      description: Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command.
+      description: Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command. The CDW doesn't provide centralized management of the backups. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
       operationId: backupCluster
       parameters:
         - name: input
@@ -597,7 +597,7 @@ paths:
       x-mutating: true
       x-no-compatibility-guarantee: true
       summary: Restores the cluster from a backup data made by "backup-cluster" command.
-      description: Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps.
+      description: Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
       operationId: restoreCluster
       parameters:
         - name: input
@@ -1921,6 +1921,54 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/dw/getK8sCertPEM:
+    post:
+      summary: Gets Kubernetes certificate in PEM format.
+      description: Gets the Kubernetes certificate in PEM format for the given cluster ID of the CDW environment.
+      operationId: getK8sCertPEM
+      x-mutating: false
+      x-form-factors: private
+      x-no-compatibility-guarantee: true
+      x-right: dw/getK8sCertPEM
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetK8sCertPEMRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetK8sCertPEMResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/getK8sCertJKS:
+    post:
+      summary: Gets Kubernetes certificates in JKS format.
+      description: Gets the Kubernetes certificate in a Java Truststore for the given cluster ID of the CDW environment.
+      operationId: getK8sCertJKS
+      x-mutating: false
+      x-form-factors: private
+      x-no-compatibility-guarantee: true
+      x-right: dw/getK8sCertJKS
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetK8sCertJKSRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetK8sCertJKSResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -2221,8 +2269,9 @@ definitions:
         description: Set up worker node with public IP address. In AWS it is created in public subnets.
       enableStorageRoles:
         type: boolean
-        description: Enable Storage Roles
+        description: DEPRECATED - Enable Storage Roles
         default: false
+        x-deprecated: true
         x-form-factors: public
         x-entitlement: CDW_STORAGE_ROLES
       reservedComputeNodes:
@@ -2294,12 +2343,6 @@ definitions:
         type: boolean
         description: Use this option to set up AWS EKS cluster in private only mode with restricted access only from internal/peered networks. Ensure you have ccmv2 setup functional to achieve this integration.
         default: false
-      enableStorageRoles:
-        type: boolean
-        description: Enable Storage Roles
-        default: false
-        x-form-factors: public
-        x-entitlement: CDW_STORAGE_ROLES
       reservedComputeNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
         type: integer
@@ -2362,12 +2405,12 @@ definitions:
       userAssignedManagedIdentity:
         type: string
         description: Resource ID of the managed identity used by AKS. It is a mandatory parameter for Azure cluster creation.
-      subnetId:
+      subnetName:
         type: string
-        description: ID of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
-      kubenet:
+        description: Name of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
+      useOverlayNetworking:
         type: boolean
-        description: With kubenet, nodes get an IP address from the Azure virtual network subnet. Pods receive an IP address from a logically different address space to the Azure virtual network subnet of the nodes.
+        description: With overlay network nodes get an IP address from the Azure virtual network subnet. Pods receive an IP address from a logically different address space to the Azure virtual network subnet of the nodes.
       databaseBackupRetentionPeriod:
         type: integer
         format: int32
@@ -2383,15 +2426,9 @@ definitions:
         items:
           type: string
         description: List of IP address CIDRs to whitelist for workload access.
-      usePrivateLoadBalancer:
+      useInternalLoadBalancer:
         type: boolean
         description: Set up load balancer with private IP address. An internal load balancer gets created. Make sure there is connectivity between your client network and the network VNet where CDW environment is deployed.
-      enableStorageRoles:
-        type: boolean
-        description: Enable Storage Roles
-        default: false
-        x-form-factors: public
-        x-entitlement: CDW_STORAGE_ROLES
       reservedComputeNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
         type: integer
@@ -2439,9 +2476,9 @@ definitions:
         description: Private DNS zone AKS resource ID.
       enablePrivateAks:
         type: boolean
-        description: Enable Azure Private AKS mode. Note that this feature is currently unstable due to critical networking issues within the Azure Software Definition Layer (SDN). This problem prevents the deployment of necessary components and results in unpredictable behavior and instability, impacting operations such as environment activation, VW creation, modification, and start/stop operations. While we work towards a resolution with Microsoft, estimated within the next 6-9 months, we recommend utilizing alternative methods like enabling public endpoints or virtual network peering for accessing your Azure Cluster.
+        description: Enable Azure Private AKS mode.
         default: false
-      aksVNetIntegrationSubnetName:
+      aksVNETIntegrationSubnetName:
         type: string
         description: Enable AKS VNet Azure Virtual Network (VNet) integration by specifying the delegated subnet name. An Azure Kubernetes Service (AKS) cluster configured with API Server VNet Integration projects the API server endpoint directly into a delegated subnet in the VNet where AKS is deployed. API Server VNet Integration enables network communication between the API server and the cluster nodes without requiring a private link or tunnel.
   CreatePrivateClusterRequest:
@@ -2685,7 +2722,7 @@ definitions:
         description: Private DNS zone AKS resource ID.
       enablePrivateAks:
         type: boolean
-        description: Enable Azure Private AKS mode. Note that this feature is currently unstable due to critical networking issues within the Azure Software Definition Layer (SDN). This problem prevents the deployment of necessary components and results in unpredictable behavior and instability, impacting operations such as environment activation, VW creation, modification, and start/stop operations. While we work towards a resolution with Microsoft, estimated within the next 6-9 months, we recommend utilizing alternative methods like enabling public endpoints or virtual network peering for accessing your Azure Cluster.
+        description: Enable Azure Private AKS mode.
         default: false
       aksVNetIntegrationSubnetName:
         type: string
@@ -3152,15 +3189,18 @@ definitions:
         description: Version of the Database Catalog.
         default: ''
         x-form-factors: public
+      memorySize:
+        type: string
+        description: Set Metastore container memory size. If not provided, small will apply.
+        enum:
+          - small
+          - medium
+          - large
       isDefault:
         type: boolean
         x-deprecated: true
         description: 'NOTE: creating Default Database Catalogs is deprecated and explicitly disabled. Denotes if Default Database Catalog creation needed.'
         default: false
-      tenantStorageRole:
-        type: string
-        description: Tenant Storage Role if the feature is enabled for the account.
-        default: ''
       dbMetastore:
         type: string
         description: The name of the Metastore database.
@@ -3702,9 +3742,6 @@ definitions:
       dbcId:
         type: string
         description: ID of the Database Catalog to rebuild.
-      keepImageVersion:
-        type: boolean
-        description: true - keep the current image version. false - set to latest image version when rebuilding the Database Catalog. If not provided, the latest image version will be set.
   RebuildDbcResponse:
     type: object
     description: Response object for the rebuildDbc method.
@@ -4286,9 +4323,6 @@ definitions:
       vwId:
         type: string
         description: ID of the Virtual Warehouse to rebuild.
-      keepImageVersion:
-        type: boolean
-        description: Set it to true to keep the current image version. Set it to false to use the latest image version when rebuilding the Virtual Warehouse. If not provided, the latest image version will be set.
   RebuildVwResponse:
     type: object
     description: Response object for the rebuildVw method.
@@ -4736,11 +4770,6 @@ definitions:
       cloudPlatform:
         type: string
         description: The cloud platform of the environment that was used to create this cluster.
-      enableStorageRoles:
-        type: boolean
-        description: Enable Storage Roles checkbox was checked when creating/activating this cluster.
-        x-form-factors: public
-        x-entitlement: CDW_STORAGE_ROLES
       enableSpotInstances:
         x-form-factors: public
         type: boolean
@@ -4840,6 +4869,9 @@ definitions:
       name:
         type: string
         description: The name of the Database Catalog.
+      memorySize:
+        type: string
+        description: Metastore container memory size.
       status:
         type: string
         description: 'Status of the Database Catalog. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.'
@@ -5275,6 +5307,13 @@ definitions:
       dbcId:
         type: string
         description: ID of the Database Catalog.
+      memorySize:
+        type: string
+        description: Set Metastore container memory size. If not provided, small will apply.
+        enum:
+          - small
+          - medium
+          - large
       config:
         description: The service configuration to update the DBC with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
         $ref: '#/definitions/ServiceConfigReq'
@@ -6320,4 +6359,47 @@ definitions:
         description: A list of available namespaces for backup, corresponding to the CDW entities.
         items:
           type: string
+  GetK8sCertPEMRequest:
+    type: object
+    description: Request object for the getK8sCertPEM method.
+    x-form-factors: private
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The cluster ID of the CDW environment to get the Kubernetes certificates for.
+  GetK8sCertPEMResponse:
+    type: object
+    description: The response object for the getK8sCertPEM method.
+    x-form-factors: private
+    properties:
+      pem:
+        x-sensitive: true
+        type: string
+        description: The Kubernetes certificate in PEM format.
+  GetK8sCertJKSRequest:
+    type: object
+    description: Request object for the getK8sCertJKS method.
+    x-form-factors: private
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The cluster ID of the CDW environment to get the Kubernetes certificates for.
+  GetK8sCertJKSResponse:
+    type: object
+    description: The response object for the getK8sCertJKS method.
+    x-form-factors: private
+    properties:
+      password:
+        x-sensitive: true
+        type: string
+        description: The password for the received Java truststore.
+      data:
+        type: string
+        format: byte
+        description: Base64 encoded Java truststore.
+        x-skip-logging: true
 x-audit: true

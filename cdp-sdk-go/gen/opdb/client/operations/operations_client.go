@@ -46,8 +46,6 @@ type ClientService interface {
 
 	DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, opts ...ClientOption) (*DescribeUpgradeDatabaseOK, error)
 
-	DisengageAutoAdmin(params *DisengageAutoAdminParams, opts ...ClientOption) (*DisengageAutoAdminOK, error)
-
 	DropDatabase(params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error)
 
 	ListCoprocessors(params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error)
@@ -67,6 +65,8 @@ type ClientService interface {
 	ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error)
 
 	ListSupportedEnvironments(params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error)
+
+	PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error)
 
 	RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error)
 
@@ -435,45 +435,6 @@ func (a *Client) DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DescribeUpgradeDatabaseDefault)
-	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
-}
-
-/*
-DisengageAutoAdmin disables autonomous support
-
-Stops managing the operational database
-*/
-func (a *Client) DisengageAutoAdmin(params *DisengageAutoAdminParams, opts ...ClientOption) (*DisengageAutoAdminOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewDisengageAutoAdminParams()
-	}
-	op := &runtime.ClientOperation{
-		ID:                 "disengageAutoAdmin",
-		Method:             "POST",
-		PathPattern:        "/api/v1/opdb/disengageAutoAdmin",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"https"},
-		Params:             params,
-		Reader:             &DisengageAutoAdminReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*DisengageAutoAdminOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	unexpectedSuccess := result.(*DisengageAutoAdminDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -864,6 +825,45 @@ func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsPara
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListSupportedEnvironmentsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+PrepareUpgradeDatabase prepares database upgrade
+
+Running upgrade related validations and prepares the required parcels for the upgrade.
+*/
+func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPrepareUpgradeDatabaseParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "prepareUpgradeDatabase",
+		Method:             "POST",
+		PathPattern:        "/api/v1/opdb/prepareUpgradeDatabase",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PrepareUpgradeDatabaseReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*PrepareUpgradeDatabaseOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*PrepareUpgradeDatabaseDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

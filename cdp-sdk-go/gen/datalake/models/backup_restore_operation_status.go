@@ -25,6 +25,9 @@ type BackupRestoreOperationStatus struct {
 	// The failure reason if the operation was not successful.
 	FailureReason string `json:"failureReason,omitempty"`
 
+	// Predicted duration of the operation, in minutes.
+	PredictedDurationInMinutes string `json:"predictedDurationInMinutes,omitempty"`
+
 	// The status of the backup or restore operation.
 	// Required: true
 	Status *string `json:"status"`

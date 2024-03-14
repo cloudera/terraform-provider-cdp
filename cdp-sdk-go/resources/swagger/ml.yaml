@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.104 (BETA)
+  version: 0.9.108 (BETA)
   title: Cloudera Machine Learning
   license:
     name: Apache 2.0
@@ -1053,15 +1053,15 @@ definitions:
       workspaceName:
         type: string
         description: The name of the workspace to create.
+      provisionK8sRequest:
+        description: The request for Kubernetes workspace provision. Required in public cloud.
+        $ref: '#/definitions/ProvisionK8sRequest'
       usePublicLoadBalancer:
         type: boolean
         description: The boolean flag to request public load balancer. By default, private load balancer is used.
       disableTLS:
         type: boolean
         description: The boolean flag to disable TLS setup for workspace. By default, the TLS is enabled.
-      provisionK8sRequest:
-        description: The request for Kubernetes workspace provision. Required in public cloud.
-        $ref: '#/definitions/ProvisionK8sRequest'
       enableMonitoring:
         type: boolean
         description: The boolean flag is used to enable monitoring. By default, monitoring is disabled.
@@ -1950,10 +1950,6 @@ definitions:
       environmentName:
         type: string
         description: The environment for the model registry to create.
-      createWorkspacePayload:
-        description: Deprecated. The create workspace request on which model registry helm chart is deployed.
-        x-deprecated: true
-        $ref: '#/definitions/CreateWorkspaceRequest'
       usePublicLoadBalancer:
         type: boolean
         description: The boolean flag to request a public load balancer. By default, a private load balancer is used.
@@ -1976,6 +1972,9 @@ definitions:
       provisionK8sRequest:
         description: The request for Kubernetes cluster provision. Required in public cloud.
         $ref: '#/definitions/ModelRegistryProvisionK8sRequest'
+      backupCrn:
+        type: string
+        description: The CRN of the backup that this model registry is created from.
   CreateModelRegistryResponse:
     type: object
     description: Response for creating model registry request.

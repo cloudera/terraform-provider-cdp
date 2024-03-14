@@ -29,7 +29,7 @@ type AzureActivationOptions struct {
 	// Enables Azure Availability Zones for the cluster deployment.
 	EnableAZ bool `json:"enableAZ,omitempty"`
 
-	// Enable Azure Private AKS mode. Note that this feature is currently unstable due to critical networking issues within the Azure Software Definition Layer (SDN). This problem prevents the deployment of necessary components and results in unpredictable behavior and instability, impacting operations such as environment activation, VW creation, modification, and start/stop operations. While we work towards a resolution with Microsoft, estimated within the next 6-9 months, we recommend utilizing alternative methods like enabling public endpoints or virtual network peering for accessing your Azure Cluster.
+	// Enable Azure Private AKS mode.
 	EnablePrivateAks *bool `json:"enablePrivateAks,omitempty"`
 
 	// Enables private SQL for the cluster deployment.

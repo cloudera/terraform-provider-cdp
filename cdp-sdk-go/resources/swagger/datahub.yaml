@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.104 (BETA)
+  version: 0.9.108 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -1119,7 +1119,7 @@ paths:
   /api/v1/datahub/startClusterVerticalScaling:
     post:
       summary: Initiates the vertical scaling on Data Hub cluster.
-      description: Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'deleteDisks', 'modifyDisks' or 'addDisks' or 'instanceTemplate' as parameter.
+      description: Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'modifyDisks' or 'instanceTemplate' as parameter.
       operationId: startClusterVerticalScaling
       x-mutating: true
       parameters:
@@ -1529,6 +1529,11 @@ definitions:
         items:
           type: string
         description: List of availability zones that this instance group is associated with.
+      recipes:
+        type: array
+        description: The recipe names for the Data Hub cluster.
+        items:
+          type: string
   StartClusterVerticalScalingRequest:
     type: object
     description: The request object for Data Hub vertical scaling.
@@ -1573,16 +1578,15 @@ definitions:
     type: object
     description: Attached volume configuration.
     required:
-      - volumeType
       - size
     properties:
-      volumeType:
-        type: string
-        description: Type of disks to modify on all the instances in a group.
       size:
         type: integer
         format: int32
         description: Size of disks to modify on all the instances in a group in GB.
+      volumeType:
+        type: string
+        description: Type of disks to modify on all the instances in a group.
   Instance:
     type: object
     description: Object which holds some details of an instance for the given cluster.
@@ -2514,6 +2518,11 @@ definitions:
       recoveryMode:
         type: string
         description: Recovery mode for the instance group.
+      availabilityZones:
+        type: array
+        items:
+          type: string
+        description: List of availability zones that this instance group is associated with.
   GCPInstanceGroupRequest:
     type: object
     description: Configurations for instance group
@@ -2783,6 +2792,9 @@ definitions:
         enum:
           - FLEXIBLE_SERVER
           - SINGLE_SERVER
+      flexibleServerDelegatedSubnetId:
+        type: string
+        description: Allows you to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
       javaVersion:
         type: integer
         format: int32

@@ -45,6 +45,9 @@ type CreateAzureDatalakeRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// This argument allows you to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
+	FlexibleServerDelegatedSubnetID string `json:"flexibleServerDelegatedSubnetId,omitempty"`
+
 	// The image to use for the datalake. This must not be set if the runtime parameter is provided.
 	Image *ImageRequest `json:"image,omitempty"`
 

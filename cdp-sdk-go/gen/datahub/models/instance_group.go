@@ -31,6 +31,9 @@ type InstanceGroup struct {
 	// Required: true
 	Name *string `json:"name"`
 
+	// The recipe names for the Data Hub cluster.
+	Recipes []string `json:"recipes"`
+
 	// The list of subnet IDs in case of multi-availability zone setup
 	SubnetIds []string `json:"subnetIds"`
 }

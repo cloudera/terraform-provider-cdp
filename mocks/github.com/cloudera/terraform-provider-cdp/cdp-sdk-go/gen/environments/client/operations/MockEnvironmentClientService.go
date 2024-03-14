@@ -32,6 +32,10 @@ func (_m *MockEnvironmentClientService) AttachFreeIpaRecipes(params *operations.
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for AttachFreeIpaRecipes")
+	}
+
 	var r0 *operations.AttachFreeIpaRecipesOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.AttachFreeIpaRecipesParams, ...operations.ClientOption) (*operations.AttachFreeIpaRecipesOK, error)); ok {
@@ -100,6 +104,10 @@ func (_m *MockEnvironmentClientService) CancelFreeipaDiagnostics(params *operati
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CancelFreeipaDiagnostics")
+	}
 
 	var r0 *operations.CancelFreeipaDiagnosticsOK
 	var r1 error
@@ -170,6 +178,10 @@ func (_m *MockEnvironmentClientService) ChangeEnvironmentCredential(params *oper
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for ChangeEnvironmentCredential")
+	}
+
 	var r0 *operations.ChangeEnvironmentCredentialOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.ChangeEnvironmentCredentialParams, ...operations.ClientOption) (*operations.ChangeEnvironmentCredentialOK, error)); ok {
@@ -238,6 +250,10 @@ func (_m *MockEnvironmentClientService) CheckDatabaseConnectivity(params *operat
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckDatabaseConnectivity")
+	}
 
 	var r0 *operations.CheckDatabaseConnectivityOK
 	var r1 error
@@ -308,6 +324,10 @@ func (_m *MockEnvironmentClientService) CheckEnvironmentConnectivity(params *ope
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for CheckEnvironmentConnectivity")
+	}
+
 	var r0 *operations.CheckEnvironmentConnectivityOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.CheckEnvironmentConnectivityParams, ...operations.ClientOption) (*operations.CheckEnvironmentConnectivityOK, error)); ok {
@@ -376,6 +396,10 @@ func (_m *MockEnvironmentClientService) CheckKubernetesConnectivity(params *oper
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckKubernetesConnectivity")
+	}
 
 	var r0 *operations.CheckKubernetesConnectivityOK
 	var r1 error
@@ -446,6 +470,10 @@ func (_m *MockEnvironmentClientService) CollectFreeipaDiagnostics(params *operat
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for CollectFreeipaDiagnostics")
+	}
+
 	var r0 *operations.CollectFreeipaDiagnosticsOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.CollectFreeipaDiagnosticsParams, ...operations.ClientOption) (*operations.CollectFreeipaDiagnosticsOK, error)); ok {
@@ -514,6 +542,10 @@ func (_m *MockEnvironmentClientService) CreateAWSCredential(params *operations.C
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSCredential")
+	}
 
 	var r0 *operations.CreateAWSCredentialOK
 	var r1 error
@@ -584,6 +616,10 @@ func (_m *MockEnvironmentClientService) CreateAWSEnvironment(params *operations.
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSEnvironment")
+	}
+
 	var r0 *operations.CreateAWSEnvironmentOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.CreateAWSEnvironmentParams, ...operations.ClientOption) (*operations.CreateAWSEnvironmentOK, error)); ok {
@@ -652,6 +688,10 @@ func (_m *MockEnvironmentClientService) CreateAWSGovCloudCredential(params *oper
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSGovCloudCredential")
+	}
 
 	var r0 *operations.CreateAWSGovCloudCredentialOK
 	var r1 error
@@ -722,6 +762,10 @@ func (_m *MockEnvironmentClientService) CreateAWSGovCloudEnvironment(params *ope
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSGovCloudEnvironment")
+	}
+
 	var r0 *operations.CreateAWSGovCloudEnvironmentOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.CreateAWSGovCloudEnvironmentParams, ...operations.ClientOption) (*operations.CreateAWSGovCloudEnvironmentOK, error)); ok {
@@ -790,6 +834,10 @@ func (_m *MockEnvironmentClientService) CreateAzureCredential(params *operations
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAzureCredential")
+	}
 
 	var r0 *operations.CreateAzureCredentialOK
 	var r1 error
@@ -860,6 +908,10 @@ func (_m *MockEnvironmentClientService) CreateAzureEnvironment(params *operation
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAzureEnvironment")
+	}
+
 	var r0 *operations.CreateAzureEnvironmentOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.CreateAzureEnvironmentParams, ...operations.ClientOption) (*operations.CreateAzureEnvironmentOK, error)); ok {
@@ -928,6 +980,10 @@ func (_m *MockEnvironmentClientService) CreateGCPCredential(params *operations.C
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateGCPCredential")
+	}
 
 	var r0 *operations.CreateGCPCredentialOK
 	var r1 error
@@ -998,6 +1054,10 @@ func (_m *MockEnvironmentClientService) CreateGCPEnvironment(params *operations.
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for CreateGCPEnvironment")
+	}
+
 	var r0 *operations.CreateGCPEnvironmentOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.CreateGCPEnvironmentParams, ...operations.ClientOption) (*operations.CreateGCPEnvironmentOK, error)); ok {
@@ -1066,6 +1126,10 @@ func (_m *MockEnvironmentClientService) CreatePrivateEnvironment(params *operati
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreatePrivateEnvironment")
+	}
 
 	var r0 *operations.CreatePrivateEnvironmentOK
 	var r1 error
@@ -1136,6 +1200,10 @@ func (_m *MockEnvironmentClientService) CreateProxyConfig(params *operations.Cre
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for CreateProxyConfig")
+	}
+
 	var r0 *operations.CreateProxyConfigOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.CreateProxyConfigParams, ...operations.ClientOption) (*operations.CreateProxyConfigOK, error)); ok {
@@ -1204,6 +1272,10 @@ func (_m *MockEnvironmentClientService) DeleteAuditCredential(params *operations
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteAuditCredential")
+	}
 
 	var r0 *operations.DeleteAuditCredentialOK
 	var r1 error
@@ -1274,6 +1346,10 @@ func (_m *MockEnvironmentClientService) DeleteCredential(params *operations.Dele
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteCredential")
+	}
+
 	var r0 *operations.DeleteCredentialOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.DeleteCredentialParams, ...operations.ClientOption) (*operations.DeleteCredentialOK, error)); ok {
@@ -1342,6 +1418,10 @@ func (_m *MockEnvironmentClientService) DeleteEnvironment(params *operations.Del
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteEnvironment")
+	}
 
 	var r0 *operations.DeleteEnvironmentOK
 	var r1 error
@@ -1412,6 +1492,10 @@ func (_m *MockEnvironmentClientService) DeleteProxyConfig(params *operations.Del
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteProxyConfig")
+	}
+
 	var r0 *operations.DeleteProxyConfigOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.DeleteProxyConfigParams, ...operations.ClientOption) (*operations.DeleteProxyConfigOK, error)); ok {
@@ -1480,6 +1564,10 @@ func (_m *MockEnvironmentClientService) DescribeEnvironment(params *operations.D
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeEnvironment")
+	}
 
 	var r0 *operations.DescribeEnvironmentOK
 	var r1 error
@@ -1550,6 +1638,10 @@ func (_m *MockEnvironmentClientService) DetachFreeIpaRecipes(params *operations.
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for DetachFreeIpaRecipes")
+	}
+
 	var r0 *operations.DetachFreeIpaRecipesOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.DetachFreeIpaRecipesParams, ...operations.ClientOption) (*operations.DetachFreeIpaRecipesOK, error)); ok {
@@ -1618,6 +1710,10 @@ func (_m *MockEnvironmentClientService) DisableS3Guard(params *operations.Disabl
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DisableS3Guard")
+	}
 
 	var r0 *operations.DisableS3GuardOK
 	var r1 error
@@ -1688,6 +1784,10 @@ func (_m *MockEnvironmentClientService) DownscaleFreeipa(params *operations.Down
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for DownscaleFreeipa")
+	}
+
 	var r0 *operations.DownscaleFreeipaOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.DownscaleFreeipaParams, ...operations.ClientOption) (*operations.DownscaleFreeipaOK, error)); ok {
@@ -1756,6 +1856,10 @@ func (_m *MockEnvironmentClientService) GetAccountTelemetry(params *operations.G
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAccountTelemetry")
+	}
 
 	var r0 *operations.GetAccountTelemetryOK
 	var r1 error
@@ -1826,6 +1930,10 @@ func (_m *MockEnvironmentClientService) GetAccountTelemetryDefault(params *opera
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetAccountTelemetryDefault")
+	}
+
 	var r0 *operations.GetAccountTelemetryDefaultOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetAccountTelemetryDefaultParams, ...operations.ClientOption) (*operations.GetAccountTelemetryDefaultOK, error)); ok {
@@ -1894,6 +2002,10 @@ func (_m *MockEnvironmentClientService) GetAuditCredentialPrerequisites(params *
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAuditCredentialPrerequisites")
+	}
 
 	var r0 *operations.GetAuditCredentialPrerequisitesOK
 	var r1 error
@@ -1964,6 +2076,10 @@ func (_m *MockEnvironmentClientService) GetAutomatedSyncEnvironmentStatus(params
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetAutomatedSyncEnvironmentStatus")
+	}
+
 	var r0 *operations.GetAutomatedSyncEnvironmentStatusOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetAutomatedSyncEnvironmentStatusParams, ...operations.ClientOption) (*operations.GetAutomatedSyncEnvironmentStatusOK, error)); ok {
@@ -2032,6 +2148,10 @@ func (_m *MockEnvironmentClientService) GetAzureImageTermsPolicy(params *operati
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAzureImageTermsPolicy")
+	}
 
 	var r0 *operations.GetAzureImageTermsPolicyOK
 	var r1 error
@@ -2102,6 +2222,10 @@ func (_m *MockEnvironmentClientService) GetCredentialPrerequisites(params *opera
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetCredentialPrerequisites")
+	}
+
 	var r0 *operations.GetCredentialPrerequisitesOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetCredentialPrerequisitesParams, ...operations.ClientOption) (*operations.GetCredentialPrerequisitesOK, error)); ok {
@@ -2170,6 +2294,10 @@ func (_m *MockEnvironmentClientService) GetEnvironmentSetting(params *operations
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetEnvironmentSetting")
+	}
 
 	var r0 *operations.GetEnvironmentSettingOK
 	var r1 error
@@ -2240,6 +2368,10 @@ func (_m *MockEnvironmentClientService) GetEnvironmentUserSyncState(params *oper
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetEnvironmentUserSyncState")
+	}
+
 	var r0 *operations.GetEnvironmentUserSyncStateOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetEnvironmentUserSyncStateParams, ...operations.ClientOption) (*operations.GetEnvironmentUserSyncStateOK, error)); ok {
@@ -2308,6 +2440,10 @@ func (_m *MockEnvironmentClientService) GetFreeipaLogDescriptors(params *operati
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetFreeipaLogDescriptors")
+	}
 
 	var r0 *operations.GetFreeipaLogDescriptorsOK
 	var r1 error
@@ -2378,6 +2514,10 @@ func (_m *MockEnvironmentClientService) GetFreeipaStatus(params *operations.GetF
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetFreeipaStatus")
+	}
+
 	var r0 *operations.GetFreeipaStatusOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetFreeipaStatusParams, ...operations.ClientOption) (*operations.GetFreeipaStatusOK, error)); ok {
@@ -2446,6 +2586,10 @@ func (_m *MockEnvironmentClientService) GetGovCloudAuditCredentialPrerequisites(
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetGovCloudAuditCredentialPrerequisites")
+	}
 
 	var r0 *operations.GetGovCloudAuditCredentialPrerequisitesOK
 	var r1 error
@@ -2516,6 +2660,10 @@ func (_m *MockEnvironmentClientService) GetGovCloudCredentialPrerequisites(param
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetGovCloudCredentialPrerequisites")
+	}
+
 	var r0 *operations.GetGovCloudCredentialPrerequisitesOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetGovCloudCredentialPrerequisitesParams, ...operations.ClientOption) (*operations.GetGovCloudCredentialPrerequisitesOK, error)); ok {
@@ -2584,6 +2732,10 @@ func (_m *MockEnvironmentClientService) GetIDBrokerMappings(params *operations.G
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetIDBrokerMappings")
+	}
 
 	var r0 *operations.GetIDBrokerMappingsOK
 	var r1 error
@@ -2654,6 +2806,10 @@ func (_m *MockEnvironmentClientService) GetIDBrokerMappingsSyncStatus(params *op
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetIDBrokerMappingsSyncStatus")
+	}
+
 	var r0 *operations.GetIDBrokerMappingsSyncStatusOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetIDBrokerMappingsSyncStatusParams, ...operations.ClientOption) (*operations.GetIDBrokerMappingsSyncStatusOK, error)); ok {
@@ -2722,6 +2878,10 @@ func (_m *MockEnvironmentClientService) GetKeytab(params *operations.GetKeytabPa
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetKeytab")
+	}
 
 	var r0 *operations.GetKeytabOK
 	var r1 error
@@ -2792,6 +2952,10 @@ func (_m *MockEnvironmentClientService) GetOperation(params *operations.GetOpera
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetOperation")
+	}
+
 	var r0 *operations.GetOperationOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetOperationParams, ...operations.ClientOption) (*operations.GetOperationOK, error)); ok {
@@ -2860,6 +3024,10 @@ func (_m *MockEnvironmentClientService) GetRepairFreeipaStatus(params *operation
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetRepairFreeipaStatus")
+	}
 
 	var r0 *operations.GetRepairFreeipaStatusOK
 	var r1 error
@@ -2930,6 +3098,10 @@ func (_m *MockEnvironmentClientService) GetRootCertificate(params *operations.Ge
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for GetRootCertificate")
+	}
+
 	var r0 *operations.GetRootCertificateOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.GetRootCertificateParams, ...operations.ClientOption) (*operations.GetRootCertificateOK, error)); ok {
@@ -2998,6 +3170,10 @@ func (_m *MockEnvironmentClientService) ListAuditCredentials(params *operations.
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListAuditCredentials")
+	}
 
 	var r0 *operations.ListAuditCredentialsOK
 	var r1 error
@@ -3068,6 +3244,10 @@ func (_m *MockEnvironmentClientService) ListConnectedDataServices(params *operat
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for ListConnectedDataServices")
+	}
+
 	var r0 *operations.ListConnectedDataServicesOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.ListConnectedDataServicesParams, ...operations.ClientOption) (*operations.ListConnectedDataServicesOK, error)); ok {
@@ -3136,6 +3316,10 @@ func (_m *MockEnvironmentClientService) ListCredentials(params *operations.ListC
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListCredentials")
+	}
 
 	var r0 *operations.ListCredentialsOK
 	var r1 error
@@ -3206,6 +3390,10 @@ func (_m *MockEnvironmentClientService) ListEnvironments(params *operations.List
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for ListEnvironments")
+	}
+
 	var r0 *operations.ListEnvironmentsOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.ListEnvironmentsParams, ...operations.ClientOption) (*operations.ListEnvironmentsOK, error)); ok {
@@ -3274,6 +3462,10 @@ func (_m *MockEnvironmentClientService) ListFreeipaDiagnostics(params *operation
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListFreeipaDiagnostics")
+	}
 
 	var r0 *operations.ListFreeipaDiagnosticsOK
 	var r1 error
@@ -3344,6 +3536,10 @@ func (_m *MockEnvironmentClientService) ListProxyConfigs(params *operations.List
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for ListProxyConfigs")
+	}
+
 	var r0 *operations.ListProxyConfigsOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.ListProxyConfigsParams, ...operations.ClientOption) (*operations.ListProxyConfigsOK, error)); ok {
@@ -3412,6 +3608,10 @@ func (_m *MockEnvironmentClientService) RepairFreeipa(params *operations.RepairF
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RepairFreeipa")
+	}
 
 	var r0 *operations.RepairFreeipaOK
 	var r1 error
@@ -3482,6 +3682,10 @@ func (_m *MockEnvironmentClientService) RetryFreeipa(params *operations.RetryFre
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for RetryFreeipa")
+	}
+
 	var r0 *operations.RetryFreeipaOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.RetryFreeipaParams, ...operations.ClientOption) (*operations.RetryFreeipaOK, error)); ok {
@@ -3550,6 +3754,10 @@ func (_m *MockEnvironmentClientService) RotateSaltPassword(params *operations.Ro
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RotateSaltPassword")
+	}
 
 	var r0 *operations.RotateSaltPasswordOK
 	var r1 error
@@ -3620,6 +3828,10 @@ func (_m *MockEnvironmentClientService) SetAWSAuditCredential(params *operations
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SetAWSAuditCredential")
+	}
+
 	var r0 *operations.SetAWSAuditCredentialOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SetAWSAuditCredentialParams, ...operations.ClientOption) (*operations.SetAWSAuditCredentialOK, error)); ok {
@@ -3688,6 +3900,10 @@ func (_m *MockEnvironmentClientService) SetAWSGovCloudAuditCredential(params *op
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAWSGovCloudAuditCredential")
+	}
 
 	var r0 *operations.SetAWSGovCloudAuditCredentialOK
 	var r1 error
@@ -3758,6 +3974,10 @@ func (_m *MockEnvironmentClientService) SetAccountTelemetry(params *operations.S
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SetAccountTelemetry")
+	}
+
 	var r0 *operations.SetAccountTelemetryOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SetAccountTelemetryParams, ...operations.ClientOption) (*operations.SetAccountTelemetryOK, error)); ok {
@@ -3826,6 +4046,10 @@ func (_m *MockEnvironmentClientService) SetAzureAuditCredential(params *operatio
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAzureAuditCredential")
+	}
 
 	var r0 *operations.SetAzureAuditCredentialOK
 	var r1 error
@@ -3896,6 +4120,10 @@ func (_m *MockEnvironmentClientService) SetCatalog(params *operations.SetCatalog
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SetCatalog")
+	}
+
 	var r0 *operations.SetCatalogOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SetCatalogParams, ...operations.ClientOption) (*operations.SetCatalogOK, error)); ok {
@@ -3964,6 +4192,10 @@ func (_m *MockEnvironmentClientService) SetEndpointAccessGateway(params *operati
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetEndpointAccessGateway")
+	}
 
 	var r0 *operations.SetEndpointAccessGatewayOK
 	var r1 error
@@ -4034,6 +4266,10 @@ func (_m *MockEnvironmentClientService) SetEnvironmentSetting(params *operations
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SetEnvironmentSetting")
+	}
+
 	var r0 *operations.SetEnvironmentSettingOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SetEnvironmentSettingParams, ...operations.ClientOption) (*operations.SetEnvironmentSettingOK, error)); ok {
@@ -4102,6 +4338,10 @@ func (_m *MockEnvironmentClientService) SetGCPAuditCredential(params *operations
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetGCPAuditCredential")
+	}
 
 	var r0 *operations.SetGCPAuditCredentialOK
 	var r1 error
@@ -4172,6 +4412,10 @@ func (_m *MockEnvironmentClientService) SetIDBrokerMappings(params *operations.S
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SetIDBrokerMappings")
+	}
+
 	var r0 *operations.SetIDBrokerMappingsOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SetIDBrokerMappingsParams, ...operations.ClientOption) (*operations.SetIDBrokerMappingsOK, error)); ok {
@@ -4241,6 +4485,10 @@ func (_m *MockEnvironmentClientService) SetPassword(params *operations.SetPasswo
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SetPassword")
+	}
+
 	var r0 *operations.SetPasswordOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SetPasswordParams, ...operations.ClientOption) (*operations.SetPasswordOK, error)); ok {
@@ -4309,6 +4557,10 @@ func (_m *MockEnvironmentClientService) SetTelemetryFeatures(params *operations.
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetTelemetryFeatures")
+	}
 
 	var r0 *operations.SetTelemetryFeaturesOK
 	var r1 error
@@ -4412,6 +4664,10 @@ func (_m *MockEnvironmentClientService) StartEnvironment(params *operations.Star
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for StartEnvironment")
+	}
+
 	var r0 *operations.StartEnvironmentOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.StartEnvironmentParams, ...operations.ClientOption) (*operations.StartEnvironmentOK, error)); ok {
@@ -4480,6 +4736,10 @@ func (_m *MockEnvironmentClientService) StartFreeIpaVerticalScaling(params *oper
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StartFreeIpaVerticalScaling")
+	}
 
 	var r0 *operations.StartFreeIpaVerticalScalingOK
 	var r1 error
@@ -4550,6 +4810,10 @@ func (_m *MockEnvironmentClientService) StopEnvironment(params *operations.StopE
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for StopEnvironment")
+	}
+
 	var r0 *operations.StopEnvironmentOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.StopEnvironmentParams, ...operations.ClientOption) (*operations.StopEnvironmentOK, error)); ok {
@@ -4618,6 +4882,10 @@ func (_m *MockEnvironmentClientService) SyncAllUsers(params *operations.SyncAllU
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SyncAllUsers")
+	}
 
 	var r0 *operations.SyncAllUsersOK
 	var r1 error
@@ -4688,6 +4956,10 @@ func (_m *MockEnvironmentClientService) SyncIDBrokerMappings(params *operations.
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SyncIDBrokerMappings")
+	}
+
 	var r0 *operations.SyncIDBrokerMappingsOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SyncIDBrokerMappingsParams, ...operations.ClientOption) (*operations.SyncIDBrokerMappingsOK, error)); ok {
@@ -4756,6 +5028,10 @@ func (_m *MockEnvironmentClientService) SyncStatus(params *operations.SyncStatus
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SyncStatus")
+	}
 
 	var r0 *operations.SyncStatusOK
 	var r1 error
@@ -4826,6 +5102,10 @@ func (_m *MockEnvironmentClientService) SyncUser(params *operations.SyncUserPara
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for SyncUser")
+	}
+
 	var r0 *operations.SyncUserOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.SyncUserParams, ...operations.ClientOption) (*operations.SyncUserOK, error)); ok {
@@ -4894,6 +5174,10 @@ func (_m *MockEnvironmentClientService) SynchronizeAllEnvironments(params *opera
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SynchronizeAllEnvironments")
+	}
 
 	var r0 *operations.SynchronizeAllEnvironmentsOK
 	var r1 error
@@ -4964,6 +5248,10 @@ func (_m *MockEnvironmentClientService) TestAccountTelemetryRules(params *operat
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for TestAccountTelemetryRules")
+	}
+
 	var r0 *operations.TestAccountTelemetryRulesOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.TestAccountTelemetryRulesParams, ...operations.ClientOption) (*operations.TestAccountTelemetryRulesOK, error)); ok {
@@ -5033,6 +5321,10 @@ func (_m *MockEnvironmentClientService) UpdateAwsDiskEncryptionParameters(params
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAwsDiskEncryptionParameters")
+	}
+
 	var r0 *operations.UpdateAwsDiskEncryptionParametersOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.UpdateAwsDiskEncryptionParametersParams, ...operations.ClientOption) (*operations.UpdateAwsDiskEncryptionParametersOK, error)); ok {
@@ -5091,6 +5383,79 @@ func (_c *MockEnvironmentClientService_UpdateAwsDiskEncryptionParameters_Call) R
 	return _c
 }
 
+// UpdateAzureAvailabilityZones provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) UpdateAzureAvailabilityZones(params *operations.UpdateAzureAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureAvailabilityZones")
+	}
+
+	var r0 *operations.UpdateAzureAvailabilityZonesOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateAzureAvailabilityZonesParams, ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateAzureAvailabilityZonesParams, ...operations.ClientOption) *operations.UpdateAzureAvailabilityZonesOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAzureAvailabilityZonesOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateAzureAvailabilityZonesParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAzureAvailabilityZones'
+type MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call struct {
+	*mock.Call
+}
+
+// UpdateAzureAvailabilityZones is a helper method to define mock.On call
+//   - params *operations.UpdateAzureAvailabilityZonesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAzureAvailabilityZones(params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call {
+	return &MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call{Call: _e.mock.On("UpdateAzureAvailabilityZones",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call) Run(run func(params *operations.UpdateAzureAvailabilityZonesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateAzureAvailabilityZonesParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call) Return(_a0 *operations.UpdateAzureAvailabilityZonesOK, _a1 error) *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call) RunAndReturn(run func(*operations.UpdateAzureAvailabilityZonesParams, ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error)) *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateAzureCredential provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) UpdateAzureCredential(params *operations.UpdateAzureCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAzureCredentialOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -5101,6 +5466,10 @@ func (_m *MockEnvironmentClientService) UpdateAzureCredential(params *operations
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureCredential")
+	}
 
 	var r0 *operations.UpdateAzureCredentialOK
 	var r1 error
@@ -5171,6 +5540,10 @@ func (_m *MockEnvironmentClientService) UpdateAzureDatabaseResources(params *ope
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureDatabaseResources")
+	}
+
 	var r0 *operations.UpdateAzureDatabaseResourcesOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.UpdateAzureDatabaseResourcesParams, ...operations.ClientOption) (*operations.UpdateAzureDatabaseResourcesOK, error)); ok {
@@ -5239,6 +5612,10 @@ func (_m *MockEnvironmentClientService) UpdateAzureEncryptionResources(params *o
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureEncryptionResources")
+	}
 
 	var r0 *operations.UpdateAzureEncryptionResourcesOK
 	var r1 error
@@ -5309,6 +5686,10 @@ func (_m *MockEnvironmentClientService) UpdateAzureImageTermsPolicy(params *oper
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureImageTermsPolicy")
+	}
+
 	var r0 *operations.UpdateAzureImageTermsPolicyOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.UpdateAzureImageTermsPolicyParams, ...operations.ClientOption) (*operations.UpdateAzureImageTermsPolicyOK, error)); ok {
@@ -5377,6 +5758,10 @@ func (_m *MockEnvironmentClientService) UpdateDataServiceResources(params *opera
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDataServiceResources")
+	}
 
 	var r0 *operations.UpdateDataServiceResourcesOK
 	var r1 error
@@ -5447,6 +5832,10 @@ func (_m *MockEnvironmentClientService) UpdateOrchestratorState(params *operatio
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateOrchestratorState")
+	}
+
 	var r0 *operations.UpdateOrchestratorStateOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.UpdateOrchestratorStateParams, ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error)); ok {
@@ -5515,6 +5904,10 @@ func (_m *MockEnvironmentClientService) UpdateProxyConfig(params *operations.Upd
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateProxyConfig")
+	}
 
 	var r0 *operations.UpdateProxyConfigOK
 	var r1 error
@@ -5585,6 +5978,10 @@ func (_m *MockEnvironmentClientService) UpdateSSHKey(params *operations.UpdateSS
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSSHKey")
+	}
+
 	var r0 *operations.UpdateSSHKeyOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.UpdateSSHKeyParams, ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error)); ok {
@@ -5653,6 +6050,10 @@ func (_m *MockEnvironmentClientService) UpdateSecurityAccess(params *operations.
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSecurityAccess")
+	}
 
 	var r0 *operations.UpdateSecurityAccessOK
 	var r1 error
@@ -5723,6 +6124,10 @@ func (_m *MockEnvironmentClientService) UpdateSubnet(params *operations.UpdateSu
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSubnet")
+	}
+
 	var r0 *operations.UpdateSubnetOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.UpdateSubnetParams, ...operations.ClientOption) (*operations.UpdateSubnetOK, error)); ok {
@@ -5791,6 +6196,10 @@ func (_m *MockEnvironmentClientService) UpgradeCcm(params *operations.UpgradeCcm
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeCcm")
+	}
 
 	var r0 *operations.UpgradeCcmOK
 	var r1 error
@@ -5861,6 +6270,10 @@ func (_m *MockEnvironmentClientService) UpgradeFreeipa(params *operations.Upgrad
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeFreeipa")
+	}
+
 	var r0 *operations.UpgradeFreeipaOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.UpgradeFreeipaParams, ...operations.ClientOption) (*operations.UpgradeFreeipaOK, error)); ok {
@@ -5929,6 +6342,10 @@ func (_m *MockEnvironmentClientService) UpscaleFreeipa(params *operations.Upscal
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpscaleFreeipa")
+	}
 
 	var r0 *operations.UpscaleFreeipaOK
 	var r1 error
@@ -5999,6 +6416,10 @@ func (_m *MockEnvironmentClientService) ValidateAwsCloudStorage(params *operatio
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
+	if len(ret) == 0 {
+		panic("no return value specified for ValidateAwsCloudStorage")
+	}
+
 	var r0 *operations.ValidateAwsCloudStorageOK
 	var r1 error
 	if rf, ok := ret.Get(0).(func(*operations.ValidateAwsCloudStorageParams, ...operations.ClientOption) (*operations.ValidateAwsCloudStorageOK, error)); ok {
@@ -6067,6 +6488,10 @@ func (_m *MockEnvironmentClientService) ValidateAzureCloudStorage(params *operat
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ValidateAzureCloudStorage")
+	}
 
 	var r0 *operations.ValidateAzureCloudStorageOK
 	var r1 error

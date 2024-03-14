@@ -51,9 +51,6 @@ type ClusterSummaryResponse struct {
 	// Denotes whether the spot instances have been enabled for the cluster. This value is only available for AWS and Azure clusters.
 	EnableSpotInstances bool `json:"enableSpotInstances,omitempty"`
 
-	// Enable Storage Roles checkbox was checked when creating/activating this cluster.
-	EnableStorageRoles bool `json:"enableStorageRoles,omitempty"`
-
 	// The CRN of the environment where the cluster is located.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 

@@ -32,6 +32,9 @@ type DbcSummary struct {
 	// The ID of the Database Catalog.
 	ID string `json:"id,omitempty"`
 
+	// Metastore container memory size.
+	MemorySize string `json:"memorySize,omitempty"`
+
 	// The name of the Database Catalog.
 	Name string `json:"name,omitempty"`
 
