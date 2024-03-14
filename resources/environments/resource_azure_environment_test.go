@@ -15,15 +15,16 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	mocks "github.com/cloudera/terraform-provider-cdp/mocks/github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	mocks "github.com/cloudera/terraform-provider-cdp/mocks/github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 )
 
 func createRawAzureEnvironmentResource() tftypes.Value {
@@ -46,6 +47,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 				"credential_name":                    tftypes.String,
 				"description":                        tftypes.String,
 				"encryption_key_resource_group_name": tftypes.String,
+				"encryption_at_host":                 tftypes.Bool,
 				"public_key":                         tftypes.String,
 				"status":                             tftypes.String,
 				"enable_tunnel":                      tftypes.Bool,
@@ -124,6 +126,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			"credential_name":                    tftypes.NewValue(tftypes.String, ""),
 			"description":                        tftypes.NewValue(tftypes.String, ""),
 			"encryption_key_resource_group_name": tftypes.NewValue(tftypes.String, ""),
+			"encryption_at_host":                 tftypes.NewValue(tftypes.Bool, false),
 			"public_key":                         tftypes.NewValue(tftypes.String, ""),
 			"status":                             tftypes.NewValue(tftypes.String, ""),
 			"enable_tunnel":                      tftypes.NewValue(tftypes.Bool, false),

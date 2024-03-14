@@ -37,6 +37,8 @@ type azureEnvironmentResourceModel struct {
 
 	EncryptionKeyURL types.String `tfsdk:"encryption_key_url"`
 
+	EncryptionAtHost types.Bool `tfsdk:"encryption_at_host"`
+
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
 	ExistingNetworkParams types.Object `tfsdk:"existing_network_params"`
