@@ -105,6 +105,10 @@ var AzureEnvironmentSchema = schema.Schema{
 		"encryption_key_url": schema.StringAttribute{
 			Optional: true,
 		},
+		"encryption_at_host": schema.BoolAttribute{
+			Optional: true,
+			Default:  booldefault.StaticBool(false),
+		},
 		"environment_name": schema.StringAttribute{
 			Required: true,
 		},
@@ -279,6 +283,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
 	req.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
 	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
+	req.EncryptionAtHost = model.EncryptionAtHost.ValueBool()
 	if !model.ExistingNetworkParams.IsNull() && !model.ExistingNetworkParams.IsUnknown() {
 		tflog.Debug(ctx, "existing network params")
 		var existingNetworkParams existingAzureNetwork
