@@ -91,7 +91,7 @@ var schemaElements = []SchemaTestCaseStructure{
 	{
 		name:             "encryption_at_host should exist and be valid",
 		field:            "encryption_at_host",
-		computed:         false,
+		computed:         true,
 		shouldBeRequired: false,
 	},
 	{

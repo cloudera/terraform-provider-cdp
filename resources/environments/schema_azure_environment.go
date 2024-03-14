@@ -107,6 +107,7 @@ var AzureEnvironmentSchema = schema.Schema{
 		},
 		"encryption_at_host": schema.BoolAttribute{
 			Optional: true,
+			Computed: true,
 			Default:  booldefault.StaticBool(false),
 		},
 		"environment_name": schema.StringAttribute{
