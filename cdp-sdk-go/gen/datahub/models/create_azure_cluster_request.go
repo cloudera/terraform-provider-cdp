@@ -51,6 +51,9 @@ type CreateAzureClusterRequest struct {
 	// Name or CRN of the environment to use when creating the cluster. The environment must be an Azure environment.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
+	// Allows you to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
+	FlexibleServerDelegatedSubnetID string `json:"flexibleServerDelegatedSubnetId,omitempty"`
+
 	// The image to be used for cluster creation.
 	Image *ImageRequest `json:"image,omitempty"`
 

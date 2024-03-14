@@ -21,6 +21,9 @@ import (
 // swagger:model CreateAzureEnvironmentRequest
 type CreateAzureEnvironmentRequest struct {
 
+	// The zones of the environment in the given region.
+	AvailabilityZones []string `json:"availabilityZones"`
+
 	// When this is enabled, then Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. When this is disabled, then Azure Service Endpoints will be created. The default value is disabled.
 	CreatePrivateEndpoints bool `json:"createPrivateEndpoints,omitempty"`
 
@@ -39,6 +42,9 @@ type CreateAzureEnvironmentRequest struct {
 
 	// Whether to enable SSH tunneling for the environment.
 	EnableTunnel *bool `json:"enableTunnel,omitempty"`
+
+	// When this is enabled, we will provision resources with host encrypted true flag.
+	EncryptionAtHost bool `json:"encryptionAtHost,omitempty"`
 
 	// Name of the existing Azure resource group hosting the Azure Key Vault containing customer managed key which will be used to encrypt the Azure Managed Disks. It is required only when the entitlement is granted and the resource group of the key vault is different from the resource group in which the environment is to be created. Omitting it implies that, the key vault containing the encryption key is present in the same resource group where the environment would be created.
 	EncryptionKeyResourceGroupName string `json:"encryptionKeyResourceGroupName,omitempty"`

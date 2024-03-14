@@ -26,9 +26,6 @@ type RebuildDbcRequest struct {
 	// ID of the Database Catalog to rebuild.
 	// Required: true
 	DbcID *string `json:"dbcId"`
-
-	// true - keep the current image version. false - set to latest image version when rebuilding the Database Catalog. If not provided, the latest image version will be set.
-	KeepImageVersion bool `json:"keepImageVersion,omitempty"`
 }
 
 // Validate validates this rebuild dbc request

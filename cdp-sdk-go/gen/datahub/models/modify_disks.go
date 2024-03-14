@@ -24,8 +24,7 @@ type ModifyDisks struct {
 	Size *int32 `json:"size"`
 
 	// Type of disks to modify on all the instances in a group.
-	// Required: true
-	VolumeType *string `json:"volumeType"`
+	VolumeType string `json:"volumeType,omitempty"`
 }
 
 // Validate validates this modify disks
@@ -33,10 +32,6 @@ func (m *ModifyDisks) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateSize(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateVolumeType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -49,15 +44,6 @@ func (m *ModifyDisks) Validate(formats strfmt.Registry) error {
 func (m *ModifyDisks) validateSize(formats strfmt.Registry) error {
 
 	if err := validate.Required("size", "body", m.Size); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *ModifyDisks) validateVolumeType(formats strfmt.Registry) error {
-
-	if err := validate.Required("volumeType", "body", m.VolumeType); err != nil {
 		return err
 	}
 

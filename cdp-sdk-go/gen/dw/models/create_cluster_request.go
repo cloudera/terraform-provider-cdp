@@ -34,7 +34,7 @@ type CreateClusterRequest struct {
 	// PostgreSQL server backup retention days.
 	DatabaseBackupRetentionPeriod *int32 `json:"databaseBackupRetentionPeriod,omitempty"`
 
-	// Enable Storage Roles
+	// DEPRECATED - Enable Storage Roles
 	EnableStorageRoles *bool `json:"enableStorageRoles,omitempty"`
 
 	// The CRN of the environment for the cluster to create.

@@ -23,9 +23,6 @@ type RebuildVwRequest struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
-	// Set it to true to keep the current image version. Set it to false to use the latest image version when rebuilding the Virtual Warehouse. If not provided, the latest image version will be set.
-	KeepImageVersion bool `json:"keepImageVersion,omitempty"`
-
 	// ID of the Virtual Warehouse to rebuild.
 	// Required: true
 	VwID *string `json:"vwId"`

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -41,12 +42,13 @@ type CreateDbcRequest struct {
 	// Load demo data into the Database Catalog?
 	LoadDemoData bool `json:"loadDemoData,omitempty"`
 
+	// Set Metastore container memory size. If not provided, small will apply.
+	// Enum: [small medium large]
+	MemorySize string `json:"memorySize,omitempty"`
+
 	// Name of the Database Catalog.
 	// Required: true
 	Name *string `json:"name"`
-
-	// Tenant Storage Role if the feature is enabled for the account.
-	TenantStorageRole string `json:"tenantStorageRole,omitempty"`
 }
 
 // Validate validates this create dbc request
@@ -54,6 +56,10 @@ func (m *CreateDbcRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateClusterID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMemorySize(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -70,6 +76,51 @@ func (m *CreateDbcRequest) Validate(formats strfmt.Registry) error {
 func (m *CreateDbcRequest) validateClusterID(formats strfmt.Registry) error {
 
 	if err := validate.Required("clusterId", "body", m.ClusterID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var createDbcRequestTypeMemorySizePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["small","medium","large"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createDbcRequestTypeMemorySizePropEnum = append(createDbcRequestTypeMemorySizePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateDbcRequestMemorySizeSmall captures enum value "small"
+	CreateDbcRequestMemorySizeSmall string = "small"
+
+	// CreateDbcRequestMemorySizeMedium captures enum value "medium"
+	CreateDbcRequestMemorySizeMedium string = "medium"
+
+	// CreateDbcRequestMemorySizeLarge captures enum value "large"
+	CreateDbcRequestMemorySizeLarge string = "large"
+)
+
+// prop value enum
+func (m *CreateDbcRequest) validateMemorySizeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createDbcRequestTypeMemorySizePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateDbcRequest) validateMemorySize(formats strfmt.Registry) error {
+	if swag.IsZero(m.MemorySize) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateMemorySizeEnum("memorySize", "body", m.MemorySize); err != nil {
 		return err
 	}
 

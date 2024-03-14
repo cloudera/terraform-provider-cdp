@@ -30,6 +30,9 @@ type InstanceGroup struct {
 	// The name of the instance group.
 	// Required: true
 	Name *string `json:"name"`
+
+	// The recipe names for the Datalake cluster.
+	Recipes []string `json:"recipes"`
 }
 
 // Validate validates this instance group

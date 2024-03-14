@@ -36,6 +36,9 @@ type FreeipaDetails struct {
 	// Unique: true
 	Instances []*FreeIpaInstance `json:"instances"`
 
+	// Whether the given FreeIPA is deployed in a multi-availability zone way or not.
+	MultiAz bool `json:"multiAz,omitempty"`
+
 	// The recipes for the FreeIPA cluster.
 	Recipes []string `json:"recipes"`
 

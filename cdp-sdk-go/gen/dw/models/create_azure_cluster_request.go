@@ -21,7 +21,7 @@ import (
 type CreateAzureClusterRequest struct {
 
 	// Enable AKS VNet Azure Virtual Network (VNet) integration by specifying the delegated subnet name. An Azure Kubernetes Service (AKS) cluster configured with API Server VNet Integration projects the API server endpoint directly into a delegated subnet in the VNet where AKS is deployed. API Server VNet Integration enables network communication between the API server and the cluster nodes without requiring a private link or tunnel.
-	AksVNetIntegrationSubnetName string `json:"aksVNetIntegrationSubnetName,omitempty"`
+	AksVNETIntegrationSubnetName string `json:"aksVNETIntegrationSubnetName,omitempty"`
 
 	// Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.
 	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
@@ -38,7 +38,7 @@ type CreateAzureClusterRequest struct {
 	// Enables Azure Availability Zones for the cluster deployment.
 	EnableAZ bool `json:"enableAZ,omitempty"`
 
-	// Enable Azure Private AKS mode. Note that this feature is currently unstable due to critical networking issues within the Azure Software Definition Layer (SDN). This problem prevents the deployment of necessary components and results in unpredictable behavior and instability, impacting operations such as environment activation, VW creation, modification, and start/stop operations. While we work towards a resolution with Microsoft, estimated within the next 6-9 months, we recommend utilizing alternative methods like enabling public endpoints or virtual network peering for accessing your Azure Cluster.
+	// Enable Azure Private AKS mode.
 	EnablePrivateAks *bool `json:"enablePrivateAks,omitempty"`
 
 	// Enables private SQL for the cluster deployment.
@@ -47,15 +47,9 @@ type CreateAzureClusterRequest struct {
 	// Whether to enable spot instances for Virtual warehouses. It cannot be updated later. Defaults to false.
 	EnableSpotInstances *bool `json:"enableSpotInstances,omitempty"`
 
-	// Enable Storage Roles
-	EnableStorageRoles *bool `json:"enableStorageRoles,omitempty"`
-
 	// The CRN of the environment for the cluster to create.
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
-
-	// With kubenet, nodes get an IP address from the Azure virtual network subnet. Pods receive an IP address from a logically different address space to the Azure virtual network subnet of the nodes.
-	Kubenet bool `json:"kubenet,omitempty"`
 
 	// Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
 	LogAnalyticsWorkspaceID string `json:"logAnalyticsWorkspaceId,omitempty"`
@@ -73,11 +67,14 @@ type CreateAzureClusterRequest struct {
 	// Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
 	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
 
-	// ID of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
-	SubnetID string `json:"subnetId,omitempty"`
+	// Name of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
+	SubnetName string `json:"subnetName,omitempty"`
 
 	// Set up load balancer with private IP address. An internal load balancer gets created. Make sure there is connectivity between your client network and the network VNet where CDW environment is deployed.
-	UsePrivateLoadBalancer bool `json:"usePrivateLoadBalancer,omitempty"`
+	UseInternalLoadBalancer bool `json:"useInternalLoadBalancer,omitempty"`
+
+	// With overlay network nodes get an IP address from the Azure virtual network subnet. Pods receive an IP address from a logically different address space to the Azure virtual network subnet of the nodes.
+	UseOverlayNetworking bool `json:"useOverlayNetworking,omitempty"`
 
 	// Resource ID of the managed identity used by AKS. It is a mandatory parameter for Azure cluster creation.
 	// Required: true

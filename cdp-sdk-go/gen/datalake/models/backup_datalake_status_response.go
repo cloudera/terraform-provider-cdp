@@ -60,6 +60,9 @@ type BackupDatalakeStatusResponse struct {
 	// Required: true
 	Status *string `json:"status"`
 
+	// Predicted total duration for the backup process, in minutes.
+	TotalPredictedDurationInMinutes string `json:"totalPredictedDurationInMinutes,omitempty"`
+
 	// Crn of the user who triggered this operation.
 	// Required: true
 	UserCrn *string `json:"userCrn"`

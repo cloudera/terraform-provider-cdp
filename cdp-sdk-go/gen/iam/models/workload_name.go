@@ -35,6 +35,9 @@ const (
 
 	// WorkloadNameDF captures enum value "DF"
 	WorkloadNameDF WorkloadName = "DF"
+
+	// WorkloadNameOPDB captures enum value "OPDB"
+	WorkloadNameOPDB WorkloadName = "OPDB"
 )
 
 // for schema
@@ -42,7 +45,7 @@ var workloadNameEnum []interface{}
 
 func init() {
 	var res []WorkloadName
-	if err := json.Unmarshal([]byte(`["DE","DF"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DE","DF","OPDB"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

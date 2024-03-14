@@ -19,8 +19,8 @@ import (
 // swagger:model CreateModelRegistryRequest
 type CreateModelRegistryRequest struct {
 
-	// Deprecated. The create workspace request on which model registry helm chart is deployed.
-	CreateWorkspacePayload *CreateWorkspaceRequest `json:"createWorkspacePayload,omitempty"`
+	// The CRN of the backup that this model registry is created from.
+	BackupCrn string `json:"backupCrn,omitempty"`
 
 	// The creator of model registry.
 	CreatorCrn string `json:"creatorCrn,omitempty"`
@@ -69,10 +69,6 @@ type CreateModelRegistryRequest struct {
 func (m *CreateModelRegistryRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateCreateWorkspacePayload(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateOutboundTypes(formats); err != nil {
 		res = append(res, err)
 	}
@@ -84,25 +80,6 @@ func (m *CreateModelRegistryRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *CreateModelRegistryRequest) validateCreateWorkspacePayload(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreateWorkspacePayload) { // not required
-		return nil
-	}
-
-	if m.CreateWorkspacePayload != nil {
-		if err := m.CreateWorkspacePayload.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("createWorkspacePayload")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("createWorkspacePayload")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 
@@ -150,10 +127,6 @@ func (m *CreateModelRegistryRequest) validateProvisionK8sRequest(formats strfmt.
 func (m *CreateModelRegistryRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.contextValidateCreateWorkspacePayload(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.contextValidateOutboundTypes(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -165,27 +138,6 @@ func (m *CreateModelRegistryRequest) ContextValidate(ctx context.Context, format
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *CreateModelRegistryRequest) contextValidateCreateWorkspacePayload(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CreateWorkspacePayload != nil {
-
-		if swag.IsZero(m.CreateWorkspacePayload) { // not required
-			return nil
-		}
-
-		if err := m.CreateWorkspacePayload.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("createWorkspacePayload")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("createWorkspacePayload")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 

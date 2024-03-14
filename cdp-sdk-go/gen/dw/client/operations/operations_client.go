@@ -106,6 +106,10 @@ type ClientService interface {
 
 	GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error)
 
+	GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error)
+
+	GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error)
+
 	GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
 
 	GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error)
@@ -247,7 +251,7 @@ func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserO
 /*
 BackupCluster creates a backup from the cluster configuration and settings
 
-Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command.
+Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command. The CDW doesn't provide centralized management of the backups. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
 */
 func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error) {
 	// TODO: Validate the params before sending
@@ -1727,6 +1731,84 @@ func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualization
 }
 
 /*
+GetK8sCertJKS gets kubernetes certificates in j k s format
+
+Gets the Kubernetes certificate in a Java Truststore for the given cluster ID of the CDW environment.
+*/
+func (a *Client) GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetK8sCertJKSParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getK8sCertJKS",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getK8sCertJKS",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetK8sCertJKSReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetK8sCertJKSOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetK8sCertJKSDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetK8sCertPEM gets kubernetes certificate in p e m format
+
+Gets the Kubernetes certificate in PEM format for the given cluster ID of the CDW environment.
+*/
+func (a *Client) GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetK8sCertPEMParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getK8sCertPEM",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getK8sCertPEM",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetK8sCertPEMReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetK8sCertPEMOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetK8sCertPEMDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetLogs gets job logs
 
 Given the CRN, returns the corresponding job logs.
@@ -2782,7 +2864,7 @@ func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption
 /*
 RestoreCluster restores the cluster from a backup data made by backup cluster command
 
-Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps.
+Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
 */
 func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error) {
 	// TODO: Validate the params before sending
@@ -2821,7 +2903,7 @@ func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOpti
 /*
 ResumeCluster resumes cloudera data warehouse cluster
 
-Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW.
+Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
 */
 func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error) {
 	// TODO: Validate the params before sending
@@ -2899,7 +2981,7 @@ func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwO
 /*
 SuspendCluster suspends cloudera data warehouse cluster
 
-Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database.
+Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
 */
 func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error) {
 	// TODO: Validate the params before sending

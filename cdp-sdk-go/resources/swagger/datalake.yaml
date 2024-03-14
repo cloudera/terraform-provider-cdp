@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.104 (BETA)
+  version: 0.9.108 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -1096,16 +1096,15 @@ definitions:
     type: object
     description: Attached volume configuration.
     required:
-      - volumeType
       - size
     properties:
-      volumeType:
-        type: string
-        description: Type of disks to modify to on all the instances in a group.
       size:
         type: integer
         format: int32
         description: Size of disks to modify to on all the instances in a group in GB.
+      volumeType:
+        type: string
+        description: Type of disks to modify to on all the instances in a group.
   DatalakeDetails:
     type: object
     description: Details about a datalake
@@ -1195,6 +1194,11 @@ definitions:
         items:
           type: string
         description: List of availability zones that this instance group is associated with.
+      recipes:
+        type: array
+        description: The recipe names for the Datalake cluster.
+        items:
+          type: string
   Instance:
     type: object
     description: Object which holds some details of an instance for the given cluster.
@@ -1636,6 +1640,9 @@ definitions:
         enum:
           - FLEXIBLE_SERVER
           - SINGLE_SERVER
+      flexibleServerDelegatedSubnetId:
+        type: string
+        description: This argument allows you to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
       recipes:
         type: array
         items:
@@ -2106,6 +2113,9 @@ definitions:
       failureReason:
         type: string
         description: Reason for the failure.
+      totalPredictedDurationInMinutes:
+        type: string
+        description: Predicted total duration for the backup process, in minutes.
   RestoreDatalakeRequest:
     type: object
     description: Request to restore datalake from backup. Restore does not restore the database by default.
@@ -2462,6 +2472,9 @@ definitions:
       durationInMinutes:
         type: string
         description: The duration of each operation, in minutes.
+      predictedDurationInMinutes:
+        type: string
+        description: Predicted duration of the operation, in minutes.
   ImageComponentVersions:
     type: object
     description: Versions of the image components

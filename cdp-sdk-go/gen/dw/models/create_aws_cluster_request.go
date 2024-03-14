@@ -43,9 +43,6 @@ type CreateAwsClusterRequest struct {
 	// Whether to enable Spot instances for Virtual warehouses. It cannot be updated later. Defaults to false.
 	EnableSpotInstances *bool `json:"enableSpotInstances,omitempty"`
 
-	// Enable Storage Roles
-	EnableStorageRoles *bool `json:"enableStorageRoles,omitempty"`
-
 	// The CRN of the environment for the cluster to create.
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`

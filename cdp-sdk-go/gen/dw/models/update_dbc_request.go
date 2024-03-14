@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -29,6 +30,10 @@ type UpdateDbcRequest struct {
 	// ID of the Database Catalog.
 	// Required: true
 	DbcID *string `json:"dbcId"`
+
+	// Set Metastore container memory size. If not provided, small will apply.
+	// Enum: [small medium large]
+	MemorySize string `json:"memorySize,omitempty"`
 }
 
 // Validate validates this update dbc request
@@ -44,6 +49,10 @@ func (m *UpdateDbcRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateDbcID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMemorySize(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -84,6 +93,51 @@ func (m *UpdateDbcRequest) validateConfig(formats strfmt.Registry) error {
 func (m *UpdateDbcRequest) validateDbcID(formats strfmt.Registry) error {
 
 	if err := validate.Required("dbcId", "body", m.DbcID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var updateDbcRequestTypeMemorySizePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["small","medium","large"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		updateDbcRequestTypeMemorySizePropEnum = append(updateDbcRequestTypeMemorySizePropEnum, v)
+	}
+}
+
+const (
+
+	// UpdateDbcRequestMemorySizeSmall captures enum value "small"
+	UpdateDbcRequestMemorySizeSmall string = "small"
+
+	// UpdateDbcRequestMemorySizeMedium captures enum value "medium"
+	UpdateDbcRequestMemorySizeMedium string = "medium"
+
+	// UpdateDbcRequestMemorySizeLarge captures enum value "large"
+	UpdateDbcRequestMemorySizeLarge string = "large"
+)
+
+// prop value enum
+func (m *UpdateDbcRequest) validateMemorySizeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, updateDbcRequestTypeMemorySizePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *UpdateDbcRequest) validateMemorySize(formats strfmt.Registry) error {
+	if swag.IsZero(m.MemorySize) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateMemorySizeEnum("memorySize", "body", m.MemorySize); err != nil {
 		return err
 	}
 

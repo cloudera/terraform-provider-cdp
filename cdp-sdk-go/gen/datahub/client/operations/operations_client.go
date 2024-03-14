@@ -2268,7 +2268,7 @@ func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) 
 /*
 StartClusterVerticalScaling initiates the vertical scaling on data hub cluster
 
-Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'deleteDisks', 'modifyDisks' or 'addDisks' or 'instanceTemplate' as parameter.
+Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'modifyDisks' or 'instanceTemplate' as parameter.
 */
 func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error) {
 	// TODO: Validate the params before sending
