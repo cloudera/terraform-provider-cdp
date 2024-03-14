@@ -92,7 +92,7 @@ output "shared_project_id" {
 - `enable_tunnel` (Boolean) Whether to enable SSH tunneling for the environment.
 - `encryption_key` (String) Key Resource ID of the customer managed encryption key to encrypt GCP resources.
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
-- `freeipa` (Attributes) The FreeIPA creation request for the environment. (see [below for nested schema](#nestedatt--freeipa))
+- `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `log_storage` (Attributes) GCP storage configuration for cluster and audit logs. (see [below for nested schema](#nestedatt--log_storage))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String) Name of the proxy config to use for the environment.
@@ -123,9 +123,37 @@ Required:
 
 Optional:
 
-- `instance_count_by_group` (Number) The number of FreeIPA instances to create per group when creating FreeIPA in the environment.
-- `instance_type` (String) Custom instance type of FreeIPA instances.
-- `recipes` (Set of String) The recipes for the FreeIPA cluster.
+- `catalog` (String)
+- `image_id` (String)
+- `instance_count_by_group` (Number)
+- `instance_type` (String)
+- `multi_az` (Boolean)
+- `os` (String)
+- `recipes` (Set of String)
+
+Read-Only:
+
+- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--freeipa--instances))
+
+<a id="nestedatt--freeipa--instances"></a>
+### Nested Schema for `freeipa.instances`
+
+Read-Only:
+
+- `availability_zone` (String)
+- `discovery_fqdn` (String)
+- `instance_group` (String)
+- `instance_id` (String)
+- `instance_status` (String)
+- `instance_status_reason` (String)
+- `instance_type` (String)
+- `instance_vm_type` (String)
+- `life_cycle` (String)
+- `private_ip` (String)
+- `public_ip` (String)
+- `ssh_port` (Number)
+- `subnet_id` (String)
+
 
 
 <a id="nestedatt--log_storage"></a>
@@ -146,6 +174,7 @@ Optional:
 
 Optional:
 
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
 
 
