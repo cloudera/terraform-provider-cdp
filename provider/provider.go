@@ -19,6 +19,7 @@ import (
 
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
+	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -70,7 +71,7 @@ func (p *CdpProvider) Metadata(_ context.Context, _ provider.MetadataRequest, re
 
 func (p *CdpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "The Cloudera Data Platform (CDP) provider manages the lifecycle of resources supported by CDP like Credentials, Environment, Datalake, Datahub and other data services.",
+		MarkdownDescription: "The Cloudera Data Platform (CDP) provider manages the lifecycle of resources supported by CDP like Credentials, Environment, Datalake, Datahub, OPDB and other data services.",
 		Attributes: map[string]schema.Attribute{
 			"cdp_access_key_id": schema.StringAttribute{
 				Optional:            true,
@@ -236,6 +237,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		datahub.NewAwsDatahubResource,
 		datahub.NewAzureDatahubResource,
 		datahub.NewGcpDatahubResource,
+		opdb.NewDatabaseResource,
 	}
 }
 
