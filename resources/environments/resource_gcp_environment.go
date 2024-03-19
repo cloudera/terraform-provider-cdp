@@ -75,7 +75,7 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 	if err != nil {
 		return
 	}
-	if data.PollingOptions != nil && !data.PollingOptions.Async.IsNull() && !data.PollingOptions.Async.ValueBool() {
+	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
 		descEnvResp, err = waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
 		if err != nil {
 			return

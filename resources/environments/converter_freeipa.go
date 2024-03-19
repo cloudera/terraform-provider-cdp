@@ -68,7 +68,7 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 		Catalog:              freeIpaDetails.Catalog,
 		ImageID:              freeIpaDetails.ImageID,
 		Os:                   freeIpaDetails.Os,
-		InstanceCountByGroup: types.Int64Value(int64(ipaResp.InstanceCountByGroup)),
+		InstanceCountByGroup: freeIpaDetails.InstanceCountByGroup,
 		InstanceType:         freeIpaDetails.InstanceType,
 		Instances:            ipaInstances,
 		MultiAz:              freeIpaDetails.MultiAz,

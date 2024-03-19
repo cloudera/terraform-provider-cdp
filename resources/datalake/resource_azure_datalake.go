@@ -123,7 +123,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	if state.PollingOptions != nil && !state.PollingOptions.Async.IsNull() && !state.PollingOptions.Async.ValueBool() {
+	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 			return
@@ -215,6 +215,12 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 			Version:                      types.StringPointerValue(resp.ClouderaManager.Version),
 		})
 		diags.Append(cmDiags...)
+	} else {
+		model.ClouderaManager = types.ObjectNull(map[string]attr.Type{
+			"cloudera_manager_repository_url": types.StringType,
+			"cloudera_manager_server_url":     types.StringType,
+			"version":                         types.StringType,
+		})
 	}
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
 	model.Crn = types.StringPointerValue(resp.Crn)
@@ -363,7 +369,7 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	if state.PollingOptions != nil && !state.PollingOptions.Async.IsNull() && !state.PollingOptions.Async.ValueBool() {
+	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
 			return
