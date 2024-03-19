@@ -48,9 +48,9 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 	var data awsDatahubResourceModel
 	tflog.Info(ctx, fmt.Sprintf("Creating AWS Datahub with name: %s", data.Name.ValueString()))
 	diags := req.Plan.Get(ctx, &data)
-	tflog.Info(ctx, fmt.Sprintf("Datahub resource model: %+v", data))
+	tflog.Debug(ctx, fmt.Sprintf("Datahub resource model: %+v", data))
 	resp.Diagnostics.Append(diags...)
-	tflog.Info(ctx, fmt.Sprintf("Diags: %+v", resp.Diagnostics))
+	tflog.Debug(ctx, fmt.Sprintf("Diags: %+v", resp.Diagnostics))
 	if resp.Diagnostics.HasError() {
 		tflog.Warn(ctx, "Datahub resource model has error, stopping the creation process.")
 		return

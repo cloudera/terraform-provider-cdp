@@ -14,6 +14,7 @@ import (
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -58,6 +59,22 @@ type DatahubErrorPayload interface {
 func AddDatahubDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
+		msg = d.GetPayload().Message
+	}
+	caser := cases.Title(language.English)
+	diagnostics.AddError(
+		caser.String(errMsg),
+		"Failed to "+errMsg+", unexpected error: "+msg,
+	)
+}
+
+type DatabaseErrorPayload interface {
+	GetPayload() *opdbmodels.Error
+}
+
+func AddDatabaseDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
+	msg := err.Error()
+	if d, ok := err.(DatabaseErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
 	}
 	caser := cases.Title(language.English)

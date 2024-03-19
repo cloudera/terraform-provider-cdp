@@ -153,8 +153,33 @@ Optional:
 - `image_id` (String)
 - `instance_count_by_group` (Number)
 - `instance_type` (String)
+- `multi_az` (Boolean)
 - `os` (String)
 - `recipes` (Set of String)
+
+Read-Only:
+
+- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--freeipa--instances))
+
+<a id="nestedatt--freeipa--instances"></a>
+### Nested Schema for `freeipa.instances`
+
+Read-Only:
+
+- `availability_zone` (String)
+- `discovery_fqdn` (String)
+- `instance_group` (String)
+- `instance_id` (String)
+- `instance_status` (String)
+- `instance_status_reason` (String)
+- `instance_type` (String)
+- `instance_vm_type` (String)
+- `life_cycle` (String)
+- `private_ip` (String)
+- `public_ip` (String)
+- `ssh_port` (Number)
+- `subnet_id` (String)
+
 
 
 <a id="nestedatt--new_network_params"></a>
@@ -170,4 +195,5 @@ Required:
 
 Optional:
 
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
