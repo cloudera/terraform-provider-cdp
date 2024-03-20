@@ -27,7 +27,7 @@ import (
 func (r *azureDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
 	utils.Append(attr, generalAttributes)
-	utils.Append(attr, instanceGroupSchemaAttributes)
+	utils.Append(attr, azureInstanceGroupSchemaAttributes)
 	utils.Append(attr, map[string]schema.Attribute{
 		"cluster_template": schema.StringAttribute{
 			MarkdownDescription: "The name of the cluster template.",

@@ -146,3 +146,76 @@ var instanceGroupSchemaAttributes = map[string]schema.Attribute{
 		},
 	},
 }
+
+var azureInstanceGroupSchemaAttributes = map[string]schema.Attribute{
+	"instance_group": schema.ListNestedAttribute{
+		Optional: true,
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: map[string]schema.Attribute{
+				"node_count": schema.Int64Attribute{
+					MarkdownDescription: "The cluster node count. Has to be greater or equal than 0 and less than 100,000.",
+					Required:            true,
+				},
+				"availability_zones": schema.SetAttribute{
+					MarkdownDescription: "List of availability zones that this instance group is associated with.",
+					ElementType:         types.StringType,
+					Optional:            true,
+				},
+				"instance_group_name": schema.StringAttribute{
+					MarkdownDescription: "The name of the instance group.",
+					Required:            true,
+				},
+				"instance_group_type": schema.StringAttribute{
+					MarkdownDescription: "The type of the instance group.",
+					Required:            true,
+				},
+				"instance_type": schema.StringAttribute{
+					MarkdownDescription: "The cloud provider-side instance type.",
+					Required:            true,
+				},
+				"root_volume_size": schema.Int64Attribute{
+					MarkdownDescription: "The size of the root volume in GB",
+					Required:            true,
+				},
+				"recipes": schema.SetAttribute{
+					MarkdownDescription: "The set of recipe names that are going to be applied on the given instance group.",
+					ElementType:         types.StringType,
+					Optional:            true,
+				},
+				"attached_volume_configuration": schema.ListNestedAttribute{
+					Required:            true,
+					MarkdownDescription: "Configuration regarding the attached volume to the specific instance group.",
+					NestedObject: schema.NestedAttributeObject{
+						Attributes: map[string]schema.Attribute{
+							"volume_size": schema.Int64Attribute{
+								MarkdownDescription: "The size of the volume in GB.",
+								Required:            true,
+							},
+							"volume_count": schema.Int64Attribute{
+								MarkdownDescription: "The number of volumes to be attached.",
+								Required:            true,
+							},
+							"volume_type": schema.StringAttribute{
+								MarkdownDescription: "The - cloud provider - type of the volume.",
+								Required:            true,
+							},
+						},
+					},
+				},
+				"recovery_mode": schema.StringAttribute{
+					MarkdownDescription: "The type of the recovery mode.",
+					Required:            true,
+				},
+				"volume_encryption": schema.SingleNestedAttribute{
+					MarkdownDescription: "The volume encryption related configuration.",
+					Required:            true,
+					Attributes: map[string]schema.Attribute{
+						"encryption": schema.BoolAttribute{
+							Required: true,
+						},
+					},
+				},
+			},
+		},
+	},
+}

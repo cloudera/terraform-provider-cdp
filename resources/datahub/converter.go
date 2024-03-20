@@ -127,6 +127,12 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 				igRecipes = append(igRecipes, recipe.ValueString())
 			}
 		}
+		var azs []string
+		if group.AvailabilityZones != nil && len(group.AvailabilityZones) > 0 {
+			for _, az := range group.AvailabilityZones {
+				azs = append(azs, az.ValueString())
+			}
+		}
 		rootVolumeSize := int32(group.RootVolumeSize.ValueInt64())
 		ig := &datahubmodels.AzureInstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
@@ -137,6 +143,7 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 			RecipeNames:                 igRecipes,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              &rootVolumeSize,
+			AvailabilityZones:           azs,
 		}
 		igs = append(igs, ig)
 	}

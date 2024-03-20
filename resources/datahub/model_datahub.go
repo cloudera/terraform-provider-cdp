@@ -24,6 +24,7 @@ type InstanceGroup struct {
 	RecoveryMode                types.String                  `tfsdk:"recovery_mode"`
 	VolumeEncryption            VolumeEncryption              `tfsdk:"volume_encryption"`
 	Recipes                     []types.String                `tfsdk:"recipes"`
+	AvailabilityZones           []types.String                `tfsdk:"availability_zones"`
 }
 
 type AttachedVolumeConfiguration struct {
