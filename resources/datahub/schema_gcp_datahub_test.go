@@ -13,9 +13,10 @@ package datahub
 import (
 	"context"
 
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"testing"
 )
 
 var exceptionalKeys = []string{"environment", "cluster_template", "cluster_definition"}
@@ -50,13 +51,13 @@ func TestGcpSchemaContainsGcpSpecificFields(t *testing.T) {
 			name:             "cluster_template_name must exist",
 			field:            "cluster_template_name",
 			computed:         false,
-			shouldBeRequired: true,
+			shouldBeRequired: false,
 		},
 		{
 			name:             "cluster_definition_name must exist",
 			field:            "cluster_definition_name",
 			computed:         false,
-			shouldBeRequired: true,
+			shouldBeRequired: false,
 		},
 		{
 			name:             "environment_name must exist",

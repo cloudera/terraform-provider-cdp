@@ -40,7 +40,7 @@ var awsDatalakeResourceSchema = schema.Schema{
 					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
 					Optional:            true,
 					Computed:            true,
-					Default:             booldefault.StaticBool(true),
+					Default:             booldefault.StaticBool(false),
 					PlanModifiers: []planmodifier.Bool{
 						boolplanmodifier.UseStateForUnknown(),
 					},

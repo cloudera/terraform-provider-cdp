@@ -41,7 +41,7 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 						MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
 						Optional:            true,
 						Computed:            true,
-						Default:             booldefault.StaticBool(true),
+						Default:             booldefault.StaticBool(false),
 						PlanModifiers: []planmodifier.Bool{
 							boolplanmodifier.UseStateForUnknown(),
 						},

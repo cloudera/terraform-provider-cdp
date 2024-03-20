@@ -82,7 +82,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 	if err != nil {
 		return
 	}
-	if data.PollingOptions != nil && !data.PollingOptions.Async.IsNull() && !data.PollingOptions.Async.ValueBool() {
+	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
 		descEnvResp, err = waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
 		if err != nil {
 			return
@@ -140,6 +140,7 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 			}
 		}
 	}
+	diags.Append(*FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
 	if env.Network != nil {
 		var npDiags diag.Diagnostics
 		model.NewNetworkParams, npDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{

@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -23,45 +24,45 @@ import (
 var FreeIpaSchema = schema.SingleNestedAttribute{
 	Optional: true,
 	Computed: true,
-	Default:  nil,
+	PlanModifiers: []planmodifier.Object{
+		objectplanmodifier.UseStateForUnknown(),
+	},
 	Attributes: map[string]schema.Attribute{
 		"catalog": schema.StringAttribute{
 			Optional: true,
-			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"image_id": schema.StringAttribute{
 			Optional: true,
-			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"os": schema.StringAttribute{
 			Optional: true,
-			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"instance_count_by_group": schema.Int64Attribute{
 			Optional: true,
-			Computed: true,
 			PlanModifiers: []planmodifier.Int64{
 				int64planmodifier.UseStateForUnknown(),
 			},
 		},
 		"instance_type": schema.StringAttribute{
 			Optional: true,
-			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"instances": schema.SetNestedAttribute{
 			Computed: true,
+			PlanModifiers: []planmodifier.Set{
+				setplanmodifier.UseStateForUnknown(),
+			},
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
 					"availability_zone": schema.StringAttribute{
@@ -108,7 +109,6 @@ var FreeIpaSchema = schema.SingleNestedAttribute{
 		},
 		"multi_az": schema.BoolAttribute{
 			Optional: true,
-			Computed: true,
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},

@@ -249,13 +249,13 @@ output "encryption" {
 
 ### Required
 
-- `cluster_definition` (String) The name of the cluster definition.
-- `cluster_template` (String) The name of the cluster template.
 - `environment` (String) The name of the environment where the cluster will belong to.
 - `name` (String) The name of the cluster.
 
 ### Optional
 
+- `cluster_definition` (String) The name of the cluster definition.
+- `cluster_template` (String) The name of the cluster template.
 - `destroy_options` (Attributes) Cluster deletion options. (see [below for nested schema](#nestedatt--destroy_options))
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--instance_group))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
