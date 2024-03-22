@@ -74,6 +74,9 @@ func (r *machineUserResource) Schema(_ context.Context, _ resource.SchemaRequest
 			"creation_date": schema.StringAttribute{
 				MarkdownDescription: "The date when this machine user was created.",
 				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"status": schema.StringAttribute{
 				MarkdownDescription: "The current status of the machine user.",
@@ -148,7 +151,6 @@ func sharedMachineUserRead(ctx context.Context, client *client.Iam, state *machi
 		return
 	}
 
-	// Overwrite items with refreshed state
 	machineUsers := listMachineUsersOk.GetPayload().MachineUsers
 	if len(machineUsers) == 0 || *machineUsers[0].MachineUserName != machineUserName {
 		respState.RemoveResource(ctx) // deleted
@@ -158,6 +160,11 @@ func sharedMachineUserRead(ctx context.Context, client *client.Iam, state *machi
 
 	state.Crn = types.StringPointerValue(mu.Crn)
 	state.ID = state.MachineUserName
+	state.Status = types.StringValue(mu.Status)
+	state.CreationDate = types.StringValue(mu.CreationDate.String())
+	state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
+	state.WorkloadPasswordDetails = types.StringValue(mu.WorkloadPasswordDetails.PasswordExpirationDate.String())
+
 }
 func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	// Get current state
@@ -165,43 +172,6 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	sharedMachineUserRead(ctx, r.client.Iam, &state, &resp.State, &resp.Diagnostics)
 }
-
-// Remove the duplicate function declaration
-// func sharedGroupRead(ctx context.Context, client *client.Iam, state *groupModel, respState *tfsdk.State, respDiagnostics *diag.Diagnostics) {
-//     if respDiagnostics.HasError() {
-//         return
-//     }
-
-//     groupName := state.GroupName.ValueString()
-//     params := operations.NewListGroupsParamsWithContext(ctx)
-//     params.WithInput(&iammodels.ListGroupsRequest{GroupNames: []string{groupName}})
-//     listGroupsOk, err := client.Operations.ListGroups(params)
-//     if err != nil {
-//         respDiagnostics.AddError(
-//             "Error Reading Group",
-//             "Could not read Group: "+state.ID.ValueString()+": "+err.Error(),
-//         )
-//         return
-//     }
-
-//     // Overwrite items with refreshed state
-//     groups := listGroupsOk.GetPayload().Groups
-//     if len(groups) == 0 || *groups[0].GroupName != groupName {
-//         respState.RemoveResource(ctx) // deleted
-//         return
-//     }
-//     g := groups[0]
-
-//     state.ID = types.StringPointerValue(g.GroupName)
-//     state.GroupName = types.StringPointerValue(g.GroupName)
-//     state.Crn = types.StringPointerValue(g.Crn)
-
-//     // Set refreshed state
-//     respDiagnostics.Append(respState.Set(ctx, &state)...)
-//     if respDiagnostics.HasError() {
-//         return
-//     }
-// }
 
 func (r *machineUserResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	// Get current state
