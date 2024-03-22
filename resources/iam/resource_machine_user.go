@@ -125,6 +125,10 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 
 	data.Crn = types.StringPointerValue(responseOk.Payload.MachineUser.Crn)
 	data.ID = data.MachineUserName
+	data.Status = types.String(data.Status)
+	data.CreationDate = types.StringValue(data.CreationDate.String())
+	data.WorkloadUsername = types.String(data.WorkloadUsername)
+	data.WorkloadPasswordDetails = types.String(data.WorkloadPasswordDetails)
 
 	// Save data into Terraform state
 	diags = resp.State.Set(ctx, data)

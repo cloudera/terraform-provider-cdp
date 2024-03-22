@@ -67,5 +67,5 @@ func (m *machineUserDataSource) Read(ctx context.Context, req datasource.ReadReq
 	var data machineUserModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
-	//sharedGroupRead(ctx, m.client.Iam, &data, &resp.State, &resp.Diagnostics)
+	sharedMachineUserRead(ctx, m.client.Iam, &data, &resp.State, &resp.Diagnostics)
 }
