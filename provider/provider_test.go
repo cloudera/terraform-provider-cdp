@@ -618,6 +618,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		datalake.NewAzureDatalakeResource,
 		datalake.NewGcpDatalakeResource,
 		iam.NewGroupResource,
+		iam.NewMachineUserResource,
 		datahub.NewAwsDatahubResource,
 		datahub.NewAzureDatahubResource,
 		datahub.NewGcpDatahubResource,
