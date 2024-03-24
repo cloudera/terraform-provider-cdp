@@ -73,14 +73,18 @@ func (r *machineUserResource) Schema(_ context.Context, _ resource.SchemaRequest
 			},
 			"creation_date": schema.StringAttribute{
 				MarkdownDescription: "The date when this machine user was created.",
-				Computed:            true,
+				Computed:            false, //changed from true
+				Required:            false,
+				Optional:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"status": schema.StringAttribute{
 				MarkdownDescription: "The current status of the machine user.",
-				Computed:            true,
+				Computed:            false, //changed from true
+				Required:            false,
+				Optional:            true,
 			},
 			"workload_username": schema.StringAttribute{
 				MarkdownDescription: "The username used in all the workload clusters of the machine user.",
@@ -125,10 +129,10 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 
 	data.Crn = types.StringPointerValue(responseOk.Payload.MachineUser.Crn)
 	data.ID = data.MachineUserName
-	data.Status = types.String(data.Status)
-	data.CreationDate = types.StringValue(data.CreationDate.String())
-	data.WorkloadUsername = types.String(data.WorkloadUsername)
-	data.WorkloadPasswordDetails = types.String(data.WorkloadPasswordDetails)
+	//data.Status = types.String(data.Status)
+	//data.CreationDate = types.StringValue(data.CreationDate.String())
+	//data.WorkloadUsername = types.String(data.WorkloadUsername)
+	//data.WorkloadPasswordDetails = types.String(data.WorkloadPasswordDetails)
 
 	// Save data into Terraform state
 	diags = resp.State.Set(ctx, data)
@@ -164,10 +168,10 @@ func sharedMachineUserRead(ctx context.Context, client *client.Iam, state *machi
 
 	state.Crn = types.StringPointerValue(mu.Crn)
 	state.ID = state.MachineUserName
-	state.Status = types.StringValue(mu.Status)
-	state.CreationDate = types.StringValue(mu.CreationDate.String())
-	state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
-	state.WorkloadPasswordDetails = types.StringValue(mu.WorkloadPasswordDetails.PasswordExpirationDate.String())
+	//state.Status = types.StringValue(mu.Status)
+	//state.CreationDate = types.StringValue(mu.CreationDate.String())
+	//state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
+	//state.WorkloadPasswordDetails = types.StringValue(mu.WorkloadPasswordDetails.PasswordExpirationDate.String())
 
 }
 func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
