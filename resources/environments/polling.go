@@ -13,9 +13,10 @@ package environments
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"log"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
@@ -77,7 +78,8 @@ func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 	return err
 }
 
-func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout time.Duration, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions) error {
+func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout time.Duration, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions,
+	stateSaverCb func(*environmentsmodels.Environment)) error {
 	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, fallbackTimeout)
 	if err != nil {
 		return err
@@ -110,6 +112,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 				log.Printf("Error describing environment: %s", err)
 				return nil, "", err
 			}
+			stateSaverCb(resp.Payload.Environment)
 			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
 			return checkResponseStatusForError(resp)
 		},

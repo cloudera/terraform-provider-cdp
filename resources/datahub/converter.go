@@ -13,7 +13,9 @@ package datahub
 import (
 	"context"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
@@ -58,6 +60,44 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 		igs = append(igs, ig)
 	}
 	req.InstanceGroups = igs
+	req.JavaVersion = int64To32(model.JavaVersion)
+	req.SubnetID = model.SubnetId.ValueString()
+	subnetIds := make([]string, len(model.SubnetIds.Elements()))
+	for i, v := range model.SubnetIds.Elements() {
+		subnetIds[i] = v.(types.String).ValueString()
+	}
+	req.SubnetIds = subnetIds
+	req.MultiAz = model.MultiAz.ValueBool()
+	if !model.Tags.IsNull() {
+		req.Tags = make([]*datahubmodels.DatahubResourceTagRequest, len(model.Tags.Elements()))
+		i := 0
+		for k, v := range model.Tags.Elements() {
+			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
+			if !diag.HasError() {
+				req.Tags[i] = &datahubmodels.DatahubResourceTagRequest{
+					Key:   &k,
+					Value: val.ValueStringPointer(),
+				}
+			}
+			i++
+		}
+	}
+	req.CustomConfigurationsName = model.CustomConfigurationsName.ValueString()
+	var image datahubImage
+	model.Image.As(ctx, &image, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	req.Image = &datahubmodels.ImageRequest{
+		CatalogName: image.CatalogName.ValueString(),
+		ID:          image.ID.ValueString(),
+		Os:          image.Os.ValueString(),
+	}
+	req.RequestTemplate = model.RequestTemplate.ValueString()
+	req.DatahubDatabase = datahubmodels.DatahubDatabaseType(model.DatahubDatabase.ValueString())
+	var clusterExt clusterExtension
+	model.ClusterExtension.As(ctx, &clusterExt, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	req.ClusterExtension = &datahubmodels.ClusterExtension{
+		CustomProperties: clusterExt.CustomProperties.ValueString(),
+	}
+	req.EnableLoadBalancer = model.EnableLoadBalancer.ValueBool()
 	tflog.Debug(ctx, fmt.Sprintf("Conversion from datahubResourceModel to CreateAWSClusterRequest has finished with request: %+v.", req))
 	return &req
 }
@@ -99,6 +139,37 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 		igs = append(igs, ig)
 	}
 	req.InstanceGroups = igs
+	req.CustomConfigurationsName = model.CustomConfigurationsName.ValueString()
+	var image datahubImage
+	model.Image.As(ctx, &image, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	req.Image = &datahubmodels.ImageRequest{
+		CatalogName: image.CatalogName.ValueString(),
+		ID:          image.ID.ValueString(),
+		Os:          image.Os.ValueString(),
+	}
+	req.RequestTemplate = model.RequestTemplate.ValueString()
+	req.DatahubDatabase = datahubmodels.DatahubDatabaseType(model.DatahubDatabase.ValueString())
+	var clusterExt clusterExtension
+	model.ClusterExtension.As(ctx, &clusterExt, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	req.ClusterExtension = &datahubmodels.ClusterExtension{
+		CustomProperties: clusterExt.CustomProperties.ValueString(),
+	}
+	req.JavaVersion = int64To32(model.JavaVersion)
+	req.SubnetName = model.SubnetName.ValueString()
+	if !model.Tags.IsNull() {
+		req.Tags = make([]*datahubmodels.GCPDatahubResourceTagRequest, len(model.Tags.Elements()))
+		i := 0
+		for k, v := range model.Tags.Elements() {
+			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
+			if !diag.HasError() {
+				req.Tags[i] = &datahubmodels.GCPDatahubResourceTagRequest{
+					Key:   &k,
+					Value: val.ValueStringPointer(),
+				}
+			}
+			i++
+		}
+	}
 	tflog.Debug(ctx, "Conversion from gcpDatahubResourceModel to CreateGCPClusterRequest has finished.")
 	return &req
 }
@@ -148,6 +219,41 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 		igs = append(igs, ig)
 	}
 	req.InstanceGroups = igs
+	req.CustomConfigurationsName = model.CustomConfigurationsName.ValueString()
+	var image datahubImage
+	model.Image.As(ctx, &image, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	req.Image = &datahubmodels.ImageRequest{
+		CatalogName: image.CatalogName.ValueString(),
+		ID:          image.ID.ValueString(),
+		Os:          image.Os.ValueString(),
+	}
+	req.RequestTemplate = model.RequestTemplate.ValueString()
+	req.DatahubDatabase = datahubmodels.DatahubDatabaseType(model.DatahubDatabase.ValueString())
+	var clusterExt clusterExtension
+	model.ClusterExtension.As(ctx, &clusterExt, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	req.ClusterExtension = &datahubmodels.ClusterExtension{
+		CustomProperties: clusterExt.CustomProperties.ValueString(),
+	}
+	req.JavaVersion = int64To32(model.JavaVersion)
+	req.SubnetID = model.SubnetId.ValueString()
+	req.MultiAz = model.MultiAz.ValueBoolPointer()
+	if !model.Tags.IsNull() {
+		req.Tags = make([]*datahubmodels.DatahubResourceTagRequest, len(model.Tags.Elements()))
+		i := 0
+		for k, v := range model.Tags.Elements() {
+			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
+			if !diag.HasError() {
+				req.Tags[i] = &datahubmodels.DatahubResourceTagRequest{
+					Key:   &k,
+					Value: val.ValueStringPointer(),
+				}
+			}
+			i++
+		}
+	}
+	req.EnableLoadBalancer = model.EnableLoadBalancer.ValueBool()
+	req.LoadBalancerSku = datahubmodels.DatahubLoadBalancerSkuType(model.LoadBalancerSku.ValueString())
+	req.FlexibleServerDelegatedSubnetID = model.FlexibleServerDelegatedSubnetId.ValueString()
 	return &req
 }
 

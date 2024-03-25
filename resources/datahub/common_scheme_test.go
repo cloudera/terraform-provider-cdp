@@ -60,6 +60,48 @@ var commonElementCaseSet = []TestCaseStructure{
 		computed:         false,
 		shouldBeRequired: false,
 	},
+	{
+		name:             "custom_configurations_name should exist",
+		field:            "custom_configurations_name",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "image should exist",
+		field:            "image",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "request_template should exist",
+		field:            "request_template",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "datahub_database should exist",
+		field:            "datahub_database",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "cluster_extension should exist",
+		field:            "cluster_extension",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "java_version should exist",
+		field:            "java_version",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "tags should exist",
+		field:            "tags",
+		computed:         false,
+		shouldBeRequired: false,
+	},
 }
 
 func TestRootCommonElements(t *testing.T) {

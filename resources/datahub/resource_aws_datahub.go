@@ -13,6 +13,7 @@ package datahub
 import (
 	"context"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -80,6 +81,7 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 
 	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, data.PollingOptions)
 	tflog.Debug(ctx, fmt.Sprintf("Cluster polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
+	//TODO: Should save to state fields filled by the backend from the response to make the resource more versatile for TF developers
 	data.Status = types.StringValue(status)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)

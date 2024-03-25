@@ -135,7 +135,12 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
-		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
+			datalakeDetailsToAwsDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
+			diags = resp.State.Set(ctx, state)
+			resp.Diagnostics.Append(diags...)
+		}
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 			return
 		}
@@ -159,7 +164,8 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 }
 
-func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, client *client.Datalake, options *utils.PollingOptions) error {
+func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, client *client.Datalake, options *utils.PollingOptions,
+	stateSaverCb func(*datalakemodels.DatalakeDetails)) error {
 	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackPollingTimeout)
 	if err != nil {
 		return err
@@ -181,6 +187,7 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallba
 				log.Printf("Error describing datalake: %s", err)
 				return nil, "", err
 			}
+			stateSaverCb(resp.Payload.Datalake)
 			log.Printf("Described datalake: %s", resp.GetPayload().Datalake.Status)
 			return checkResponseStatusForError(resp)
 		},

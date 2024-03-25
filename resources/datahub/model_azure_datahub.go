@@ -17,17 +17,29 @@ import (
 )
 
 type azureDatahubResourceModel struct {
-	ID                types.String          `tfsdk:"id"`
-	Crn               types.String          `tfsdk:"crn"`
-	Name              types.String          `tfsdk:"name"`
-	Status            types.String          `tfsdk:"status"`
-	InstanceGroup     []InstanceGroup       `tfsdk:"instance_group"`
-	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
-	DestroyOptions    *DestroyOptions       `tfsdk:"destroy_options"`
-	Environment       types.String          `tfsdk:"environment"`
-	DatabaseType      types.String          `tfsdk:"database_type"`
-	ClusterTemplate   types.String          `tfsdk:"cluster_template"`
-	ClusterDefinition types.String          `tfsdk:"cluster_definition"`
+	ID                              types.String          `tfsdk:"id"`
+	Crn                             types.String          `tfsdk:"crn"`
+	Name                            types.String          `tfsdk:"name"`
+	Status                          types.String          `tfsdk:"status"`
+	InstanceGroup                   []InstanceGroup       `tfsdk:"instance_group"`
+	PollingOptions                  *utils.PollingOptions `tfsdk:"polling_options"`
+	DestroyOptions                  *DestroyOptions       `tfsdk:"destroy_options"`
+	Environment                     types.String          `tfsdk:"environment"`
+	DatabaseType                    types.String          `tfsdk:"database_type"`
+	ClusterTemplate                 types.String          `tfsdk:"cluster_template"`
+	ClusterDefinition               types.String          `tfsdk:"cluster_definition"`
+	CustomConfigurationsName        types.String          `tfsdk:"custom_configurations_name"`
+	Image                           types.Object          `tfsdk:"image"`
+	RequestTemplate                 types.String          `tfsdk:"request_template"`
+	DatahubDatabase                 types.String          `tfsdk:"datahub_database"`
+	ClusterExtension                types.Object          `tfsdk:"cluster_extension"`
+	SubnetId                        types.String          `tfsdk:"subnet_id"`
+	MultiAz                         types.Bool            `tfsdk:"multi_az"`
+	JavaVersion                     types.Int64           `tfsdk:"java_version"`
+	Tags                            types.Map             `tfsdk:"tags"`
+	EnableLoadBalancer              types.Bool            `tfsdk:"enable_load_balancer"`
+	LoadBalancerSku                 types.String          `tfsdk:"load_balancer_sku"`
+	FlexibleServerDelegatedSubnetId types.String          `tfsdk:"flexible_server_delegated_subnet_id"`
 }
 
 func (d *azureDatahubResourceModel) forceDeleteRequested() bool {
