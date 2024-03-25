@@ -102,6 +102,10 @@ func (r *gcpDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 			MarkdownDescription: "The name of the environment where the cluster will belong to.",
 			Required:            true,
 		},
+		"subnet_name": schema.StringAttribute{
+			MarkdownDescription: "The subnet name.",
+			Optional:            true,
+		},
 	})
 	removeRequiredNonGcpAttributes(attr)
 	resp.Schema = schema.Schema{

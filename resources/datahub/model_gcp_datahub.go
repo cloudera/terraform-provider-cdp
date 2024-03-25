@@ -17,16 +17,24 @@ import (
 )
 
 type gcpDatahubResourceModel struct {
-	ID                types.String          `tfsdk:"id"`
-	Crn               types.String          `tfsdk:"crn"`
-	Name              types.String          `tfsdk:"name"`
-	Status            types.String          `tfsdk:"status"`
-	Environment       types.String          `tfsdk:"environment_name"`
-	InstanceGroup     []GcpInstanceGroup    `tfsdk:"instance_group"`
-	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
-	DestroyOptions    *DestroyOptions       `tfsdk:"destroy_options"`
-	ClusterTemplate   types.String          `tfsdk:"cluster_template_name"`
-	ClusterDefinition types.String          `tfsdk:"cluster_definition_name"`
+	ID                       types.String          `tfsdk:"id"`
+	Crn                      types.String          `tfsdk:"crn"`
+	Name                     types.String          `tfsdk:"name"`
+	Status                   types.String          `tfsdk:"status"`
+	Environment              types.String          `tfsdk:"environment_name"`
+	InstanceGroup            []GcpInstanceGroup    `tfsdk:"instance_group"`
+	PollingOptions           *utils.PollingOptions `tfsdk:"polling_options"`
+	DestroyOptions           *DestroyOptions       `tfsdk:"destroy_options"`
+	ClusterTemplate          types.String          `tfsdk:"cluster_template_name"`
+	ClusterDefinition        types.String          `tfsdk:"cluster_definition_name"`
+	CustomConfigurationsName types.String          `tfsdk:"custom_configurations_name"`
+	Image                    types.Object          `tfsdk:"image"`
+	RequestTemplate          types.String          `tfsdk:"request_template"`
+	DatahubDatabase          types.String          `tfsdk:"datahub_database"`
+	ClusterExtension         types.Object          `tfsdk:"cluster_extension"`
+	SubnetName               types.String          `tfsdk:"subnet_name"`
+	JavaVersion              types.Int64           `tfsdk:"java_version"`
+	Tags                     types.Map             `tfsdk:"tags"`
 }
 
 type GcpInstanceGroup struct {

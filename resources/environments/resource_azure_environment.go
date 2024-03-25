@@ -83,7 +83,12 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
-		descEnvResp, err = waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
+		stateSaver := func(env *environmentsmodels.Environment) {
+			toAzureEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+			diags = resp.State.Set(ctx, data)
+			resp.Diagnostics.Append(diags...)
+		}
+		descEnvResp, err = waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions, stateSaver)
 		if err != nil {
 			return
 		}

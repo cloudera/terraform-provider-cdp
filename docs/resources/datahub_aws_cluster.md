@@ -255,10 +255,21 @@ output "encryption" {
 ### Optional
 
 - `cluster_definition` (String) The name of the cluster definition.
+- `cluster_extension` (Attributes) (see [below for nested schema](#nestedatt--cluster_extension))
 - `cluster_template` (String) The name of the cluster template.
+- `custom_configurations_name` (String) The name of the custom configurations to use for cluster creation.
+- `datahub_database` (String) Database type for datahub. Currently supported values: NONE, NON_HA, HA
 - `destroy_options` (Attributes) Cluster deletion options. (see [below for nested schema](#nestedatt--destroy_options))
+- `enable_load_balancer` (Boolean) Flag that decides whether to provision a load-balancer to front var- ious service endpoints for the given datahub. This will typically be used for HA cluster shapes.
+- `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--instance_group))
+- `java_version` (Number) Configure the major version of Java on the cluster.
+- `multi_az` (Boolean) Flag  that toggles the multi availability zone for the given datahub cluster when you are not sure what subnet IDs can be used. This  way the subnet IDs will be used what the environment suggests.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `request_template` (String) JSON  template  to  use for cluster creation. This is different from cluster template and would be removed in the future.
+- `subnet_id` (String) The subnet id.
+- `subnet_ids` (Set of String) The subnet ids.
+- `tags` (Map of String)
 
 ### Read-Only
 
@@ -266,12 +277,33 @@ output "encryption" {
 - `id` (String) The ID of this resource.
 - `status` (String) The last known state of the cluster
 
+<a id="nestedatt--cluster_extension"></a>
+### Nested Schema for `cluster_extension`
+
+Optional:
+
+- `custom_properties` (String)
+
+
 <a id="nestedatt--destroy_options"></a>
 ### Nested Schema for `destroy_options`
 
 Optional:
 
 - `force_delete_cluster` (Boolean) An indicator that will take place once the cluster termination will be performed. If it is true, that means if something would go sideways during termination, the operation will proceed, however in such a case no notification would come thus it is advisable to check the cloud provider if there are no leftover resources once the destroy is finished.
+
+
+<a id="nestedatt--image"></a>
+### Nested Schema for `image`
+
+Required:
+
+- `id` (String)
+
+Optional:
+
+- `catalog` (String)
+- `os` (String)
 
 
 <a id="nestedatt--instance_group"></a>

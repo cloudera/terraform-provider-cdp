@@ -18,6 +18,7 @@ import (
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
@@ -76,7 +77,12 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
-		descEnvResp, err = waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions)
+		stateSaver := func(env *environmentsmodels.Environment) {
+			toGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+			diags = resp.State.Set(ctx, data)
+			resp.Diagnostics.Append(diags...)
+		}
+		descEnvResp, err = waitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions, stateSaver)
 		if err != nil {
 			return
 		}

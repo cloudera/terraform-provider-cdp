@@ -72,7 +72,12 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
-		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
+			datalakeDetailsToGcpDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
+			diags = resp.State.Set(ctx, state)
+			resp.Diagnostics.Append(diags...)
+		}
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 			return
 		}

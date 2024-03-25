@@ -124,12 +124,16 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
-		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
+			datalakeDetailsToAzureDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
+			diags = resp.State.Set(ctx, state)
+			resp.Diagnostics.Append(diags...)
+		}
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 			return
 		}
 	}
-
 	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)

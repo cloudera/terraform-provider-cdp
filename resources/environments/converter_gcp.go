@@ -146,4 +146,5 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	}
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
+	diags.Append(*FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
 }

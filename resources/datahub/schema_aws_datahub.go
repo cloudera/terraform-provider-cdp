@@ -18,6 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
@@ -41,6 +42,23 @@ func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 		"environment": schema.StringAttribute{
 			MarkdownDescription: "The name of the environment where the cluster will belong to.",
 			Required:            true,
+		},
+		"subnet_id": schema.StringAttribute{
+			MarkdownDescription: "The subnet id.",
+			Optional:            true,
+		},
+		"subnet_ids": schema.SetAttribute{
+			MarkdownDescription: "The subnet ids.",
+			Optional:            true,
+			ElementType:         types.StringType,
+		},
+		"multi_az": schema.BoolAttribute{
+			MarkdownDescription: "Flag  that toggles the multi availability zone for the given datahub cluster when you are not sure what subnet IDs can be used. This  way the subnet IDs will be used what the environment suggests.",
+			Optional:            true,
+		},
+		"enable_load_balancer": schema.BoolAttribute{
+			MarkdownDescription: "Flag that decides whether to provision a load-balancer to front var- ious service endpoints for the given datahub. This will typically be used for HA cluster shapes.",
+			Optional:            true,
 		},
 	})
 	resp.Schema = schema.Schema{

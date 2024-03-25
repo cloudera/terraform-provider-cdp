@@ -12,21 +12,63 @@ package datahub
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 func TestFromModelToRequestBasicFields(t *testing.T) {
+	subnetIds, _ := types.SetValue(types.StringType, []attr.Value{types.StringValue("someSubnetIds")})
+	tags, _ := types.MapValue(types.StringType, map[string]attr.Value{"key": types.StringValue("value")})
+	image, _ := types.ObjectValue(map[string]attr.Type{
+		"catalog": types.StringType,
+		"id":      types.StringType,
+		"os":      types.StringType,
+	}, map[string]attr.Value{
+		"catalog": types.StringValue("someCatalog"),
+		"id":      types.StringValue("someId"),
+		"os":      types.StringValue("someOs"),
+	})
+	clusterExt, _ := types.ObjectValue(map[string]attr.Type{
+		"custom_properties": types.StringType,
+	}, map[string]attr.Value{
+		"custom_properties": types.StringValue("someProps"),
+	})
 	input := awsDatahubResourceModel{
-		Name:            types.StringValue("someClusterName"),
-		Environment:     types.StringValue("someEnvironment"),
-		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
+		Name:                     types.StringValue("someClusterName"),
+		Environment:              types.StringValue("someEnvironment"),
+		ClusterTemplate:          types.StringValue("someClusterTemplateNameOrCRN"),
+		SubnetId:                 types.StringValue("someSubnetID"),
+		SubnetIds:                subnetIds,
+		MultiAz:                  types.BoolValue(true),
+		Tags:                     tags,
+		CustomConfigurationsName: types.StringValue("someCustomConfigurationsName"),
+		Image:                    image,
+		RequestTemplate:          types.StringValue("someRequestTemplate"),
+		DatahubDatabase:          types.StringValue("someDatahubDatabase"),
+		ClusterExtension:         clusterExt,
+		EnableLoadBalancer:       types.BoolValue(true),
+		JavaVersion:              types.Int64Value(11),
 	}
 	got := fromModelToAwsRequest(input, context.TODO())
 
 	compareStrings(got.ClusterName, input.Name.ValueString(), t)
 	compareStrings(got.Environment, input.Environment.ValueString(), t)
 	compareStrings(got.ClusterTemplate, input.ClusterTemplate.ValueString(), t)
+	compareStrings(got.SubnetID, input.SubnetId.ValueString(), t)
+	compareStringSlices(got.SubnetIds, input.SubnetIds.Elements(), t)
+	compareBools(got.MultiAz, input.MultiAz.ValueBool(), t)
+	compareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
+	compareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
+	compareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
+	compareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
+	compareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
+	compareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
+	compareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
+	compareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
+	compareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
+	compareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
 }
 
 func TestFromModelToRequestRecipe(t *testing.T) {
@@ -121,16 +163,49 @@ func TestFromModelToRequestClusterDefinition(t *testing.T) {
 }
 
 func TestFromModelToGcpRequestBasicFields(t *testing.T) {
+	tags, _ := types.MapValue(types.StringType, map[string]attr.Value{"key": types.StringValue("value")})
+	image, _ := types.ObjectValue(map[string]attr.Type{
+		"catalog": types.StringType,
+		"id":      types.StringType,
+		"os":      types.StringType,
+	}, map[string]attr.Value{
+		"catalog": types.StringValue("someCatalog"),
+		"id":      types.StringValue("someId"),
+		"os":      types.StringValue("someOs"),
+	})
+	clusterExt, _ := types.ObjectValue(map[string]attr.Type{
+		"custom_properties": types.StringType,
+	}, map[string]attr.Value{
+		"custom_properties": types.StringValue("someProps"),
+	})
 	input := gcpDatahubResourceModel{
-		Name:            types.StringValue("someClusterName"),
-		Environment:     types.StringValue("someEnvironment"),
-		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
+		Name:                     types.StringValue("someClusterName"),
+		Environment:              types.StringValue("someEnvironment"),
+		ClusterTemplate:          types.StringValue("someClusterTemplateNameOrCRN"),
+		SubnetName:               types.StringValue("someSubnetID"),
+		Tags:                     tags,
+		CustomConfigurationsName: types.StringValue("someCustomConfigurationsName"),
+		Image:                    image,
+		RequestTemplate:          types.StringValue("someRequestTemplate"),
+		DatahubDatabase:          types.StringValue("someDatahubDatabase"),
+		ClusterExtension:         clusterExt,
+		JavaVersion:              types.Int64Value(11),
 	}
 	got := fromModelToGcpRequest(input, context.TODO())
 
 	compareStrings(got.ClusterName, input.Name.ValueString(), t)
 	compareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
 	compareStrings(got.ClusterTemplateName, input.ClusterTemplate.ValueString(), t)
+	compareStrings(got.SubnetName, input.SubnetName.ValueString(), t)
+	compareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
+	compareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
+	compareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
+	compareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
+	compareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
+	compareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
+	compareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
+	compareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
+	compareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
 }
 
 func TestFromModelToGcpRequestRecipe(t *testing.T) {
@@ -207,16 +282,55 @@ func TestFromModelToGcpRequestClusterDefinition(t *testing.T) {
 }
 
 func TestFromModelToAzureRequestBasicFields(t *testing.T) {
+	tags, _ := types.MapValue(types.StringType, map[string]attr.Value{"key": types.StringValue("value")})
+	image, _ := types.ObjectValue(map[string]attr.Type{
+		"catalog": types.StringType,
+		"id":      types.StringType,
+		"os":      types.StringType,
+	}, map[string]attr.Value{
+		"catalog": types.StringValue("someCatalog"),
+		"id":      types.StringValue("someId"),
+		"os":      types.StringValue("someOs"),
+	})
+	clusterExt, _ := types.ObjectValue(map[string]attr.Type{
+		"custom_properties": types.StringType,
+	}, map[string]attr.Value{
+		"custom_properties": types.StringValue("someProps"),
+	})
 	input := azureDatahubResourceModel{
-		Name:            types.StringValue("someClusterName"),
-		Environment:     types.StringValue("someEnvironment"),
-		ClusterTemplate: types.StringValue("someClusterTemplateNameOrCRN"),
+		Name:                            types.StringValue("someClusterName"),
+		Environment:                     types.StringValue("someEnvironment"),
+		ClusterTemplate:                 types.StringValue("someClusterTemplateNameOrCRN"),
+		SubnetId:                        types.StringValue("someSubnetID"),
+		MultiAz:                         types.BoolValue(true),
+		Tags:                            tags,
+		CustomConfigurationsName:        types.StringValue("someCustomConfigurationsName"),
+		Image:                           image,
+		RequestTemplate:                 types.StringValue("someRequestTemplate"),
+		DatahubDatabase:                 types.StringValue("someDatahubDatabase"),
+		ClusterExtension:                clusterExt,
+		EnableLoadBalancer:              types.BoolValue(true),
+		JavaVersion:                     types.Int64Value(11),
+		FlexibleServerDelegatedSubnetId: types.StringValue("someFlexibleServerDelegatedSubnetId"),
 	}
 	got := fromModelToAzureRequest(input, context.TODO())
 
 	compareStrings(got.ClusterName, input.Name.ValueString(), t)
 	compareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
 	compareStrings(got.ClusterTemplateName, input.ClusterTemplate.ValueString(), t)
+	compareStrings(got.SubnetID, input.SubnetId.ValueString(), t)
+	compareBools(*got.MultiAz, input.MultiAz.ValueBool(), t)
+	compareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
+	compareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
+	compareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
+	compareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
+	compareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
+	compareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
+	compareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
+	compareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
+	compareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
+	compareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	compareStrings(got.FlexibleServerDelegatedSubnetID, input.FlexibleServerDelegatedSubnetId.ValueString(), t)
 }
 
 func TestFromModelToAzureRequestRecipe(t *testing.T) {
@@ -295,6 +409,19 @@ func TestFromModelToAzureRequestClusterDefinition(t *testing.T) {
 func compareStrings(got string, expected string, t *testing.T) {
 	if got != expected {
 		t.Errorf("Assertion error! Expected: %s, got: %s", expected, got)
+	}
+}
+
+func compareStringSlices(got []string, expected []attr.Value, t *testing.T) {
+	if len(got) != len(expected) {
+		t.Errorf("Assertion error! Expected length: %d, got length: %d", len(expected), len(got))
+		return
+	}
+
+	for i, exp := range expected {
+		if got[i] != exp.(types.String).ValueString() {
+			t.Errorf("Assertion error! Expected: %s, got: %s", expected, got)
+		}
 	}
 }
 

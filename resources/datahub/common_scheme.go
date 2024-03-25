@@ -77,6 +77,51 @@ var generalAttributes = map[string]schema.Attribute{
 			},
 		},
 	},
+	"custom_configurations_name": schema.StringAttribute{
+		MarkdownDescription: "The name of the custom configurations to use for cluster creation.",
+		Description:         "The name of the custom configurations to use for cluster creation.",
+		Optional:            true,
+	},
+	"image": schema.SingleNestedAttribute{
+		Optional: true,
+		Attributes: map[string]schema.Attribute{
+			"catalog": schema.StringAttribute{
+				Optional: true,
+			},
+			"id": schema.StringAttribute{
+				Required: true,
+			},
+			"os": schema.StringAttribute{
+				Optional: true,
+			},
+		},
+	},
+	"request_template": schema.StringAttribute{
+		MarkdownDescription: "JSON  template  to  use for cluster creation. This is different from cluster template and would be removed in the future.",
+		Description:         "JSON  template  to  use for cluster creation. This is different from cluster template and would be removed in the future.",
+		Optional:            true,
+	},
+	"datahub_database": schema.StringAttribute{
+		MarkdownDescription: "Database type for datahub. Currently supported values: NONE, NON_HA, HA",
+		Description:         "Database type for datahub. Currently supported values: NONE, NON_HA, HA",
+		Optional:            true,
+	},
+	"cluster_extension": schema.SingleNestedAttribute{
+		Optional: true,
+		Attributes: map[string]schema.Attribute{
+			"custom_properties": schema.StringAttribute{
+				Optional: true,
+			},
+		},
+	},
+	"java_version": schema.Int64Attribute{
+		MarkdownDescription: "Configure the major version of Java on the cluster.",
+		Optional:            true,
+	},
+	"tags": schema.MapAttribute{
+		Optional:    true,
+		ElementType: types.StringType,
+	},
 }
 
 var instanceGroupSchemaAttributes = map[string]schema.Attribute{

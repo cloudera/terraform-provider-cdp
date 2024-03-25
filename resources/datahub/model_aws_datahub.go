@@ -17,16 +17,39 @@ import (
 )
 
 type awsDatahubResourceModel struct {
-	ID                types.String          `tfsdk:"id"`
-	Crn               types.String          `tfsdk:"crn"`
-	Name              types.String          `tfsdk:"name"`
-	Status            types.String          `tfsdk:"status"`
-	InstanceGroup     []InstanceGroup       `tfsdk:"instance_group"`
-	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
-	DestroyOptions    *DestroyOptions       `tfsdk:"destroy_options"`
-	ClusterDefinition types.String          `tfsdk:"cluster_definition"`
-	ClusterTemplate   types.String          `tfsdk:"cluster_template"`
-	Environment       types.String          `tfsdk:"environment"`
+	ID                       types.String          `tfsdk:"id"`
+	Crn                      types.String          `tfsdk:"crn"`
+	Name                     types.String          `tfsdk:"name"`
+	Status                   types.String          `tfsdk:"status"`
+	InstanceGroup            []InstanceGroup       `tfsdk:"instance_group"`
+	PollingOptions           *utils.PollingOptions `tfsdk:"polling_options"`
+	DestroyOptions           *DestroyOptions       `tfsdk:"destroy_options"`
+	ClusterDefinition        types.String          `tfsdk:"cluster_definition"`
+	ClusterTemplate          types.String          `tfsdk:"cluster_template"`
+	Environment              types.String          `tfsdk:"environment"`
+	CustomConfigurationsName types.String          `tfsdk:"custom_configurations_name"`
+	Image                    types.Object          `tfsdk:"image"`
+	RequestTemplate          types.String          `tfsdk:"request_template"`
+	DatahubDatabase          types.String          `tfsdk:"datahub_database"`
+	ClusterExtension         types.Object          `tfsdk:"cluster_extension"`
+	SubnetId                 types.String          `tfsdk:"subnet_id"`
+	SubnetIds                types.Set             `tfsdk:"subnet_ids"`
+	MultiAz                  types.Bool            `tfsdk:"multi_az"`
+	JavaVersion              types.Int64           `tfsdk:"java_version"`
+	Tags                     types.Map             `tfsdk:"tags"`
+	EnableLoadBalancer       types.Bool            `tfsdk:"enable_load_balancer"`
+}
+
+type datahubImage struct {
+	CatalogName types.String `tfsdk:"catalog"`
+
+	ID types.String `tfsdk:"id"`
+
+	Os types.String `tfsdk:"os"`
+}
+
+type clusterExtension struct {
+	CustomProperties types.String `tfsdk:"custom_properties"`
 }
 
 func (d *awsDatahubResourceModel) forceDeleteRequested() bool {
