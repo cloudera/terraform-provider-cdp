@@ -132,7 +132,7 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 	data.Crn = types.StringPointerValue(responseOk.Payload.MachineUser.Crn)
 	data.ID = data.MachineUserName
 	data.Status = types.StringValue(responseOk.Payload.MachineUser.Status)
-	//data.Status = types.String(data.Status)
+	data.CreationDate = types.StringValue(responseOk.Payload.MachineUser.CreationDate.String())
 	//data.CreationDate = types.StringValue(data.CreationDate.String())
 	//data.WorkloadUsername = types.String(data.WorkloadUsername)
 	//data.WorkloadPasswordDetails = types.String(data.WorkloadPasswordDetails)
@@ -172,7 +172,7 @@ func sharedMachineUserRead(ctx context.Context, client *client.Iam, state *machi
 	state.Crn = types.StringPointerValue(mu.Crn)
 	state.ID = state.MachineUserName
 	state.Status = types.StringValue(mu.Status)
-	//state.Status = types.StringValue(mu.Status)
+	state.CreationDate = types.StringValue(mu.CreationDate.String())
 	//state.CreationDate = types.StringValue(mu.CreationDate.String())
 	//state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
 	//state.WorkloadPasswordDetails = types.StringValue(mu.WorkloadPasswordDetails.PasswordExpirationDate.String())
