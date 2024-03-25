@@ -133,8 +133,7 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 	data.ID = data.MachineUserName
 	data.Status = types.StringValue(responseOk.Payload.MachineUser.Status)
 	data.CreationDate = types.StringValue(responseOk.Payload.MachineUser.CreationDate.String())
-	//data.CreationDate = types.StringValue(data.CreationDate.String())
-	//data.WorkloadUsername = types.String(data.WorkloadUsername)
+	data.WorkloadUsername = types.StringValue(responseOk.Payload.MachineUser.WorkloadUsername)
 	//data.WorkloadPasswordDetails = types.String(data.WorkloadPasswordDetails)
 
 	// Save data into Terraform state
@@ -173,7 +172,7 @@ func sharedMachineUserRead(ctx context.Context, client *client.Iam, state *machi
 	state.ID = state.MachineUserName
 	state.Status = types.StringValue(mu.Status)
 	state.CreationDate = types.StringValue(mu.CreationDate.String())
-	//state.CreationDate = types.StringValue(mu.CreationDate.String())
+	state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
 	//state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
 	//state.WorkloadPasswordDetails = types.StringValue(mu.WorkloadPasswordDetails.PasswordExpirationDate.String())
 
