@@ -18,6 +18,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,14 +36,19 @@ type machineUserResource struct {
 	client *cdp.Client
 }
 
+type workloadPasswordDetails struct {
+	IsPasswordSet types.Bool `tfsdk:"is_password_set"`
+	//PasswordExpirationDate types.String `tfsdk:"password_expiration_date"`
+}
+
 type machineUserModel struct {
-	ID                      types.String `tfsdk:"id"`
-	MachineUserName         types.String `tfsdk:"machine_user_name"`
-	Crn                     types.String `tfsdk:"crn"`
-	CreationDate            types.String `tfsdk:"creation_date"`
-	Status                  types.String `tfsdk:"status"`
-	WorkloadUsername        types.String `tfsdk:"workload_username"`
-	WorkloadPasswordDetails types.String `tfsdk:"workload_password_details"`
+	ID                      types.String             `tfsdk:"id"`
+	MachineUserName         types.String             `tfsdk:"machine_user_name"`
+	Crn                     types.String             `tfsdk:"crn"`
+	CreationDate            types.String             `tfsdk:"creation_date"`
+	Status                  types.String             `tfsdk:"status"`
+	WorkloadUsername        types.String             `tfsdk:"workload_username"`
+	WorkloadPasswordDetails *workloadPasswordDetails `tfsdk:"workload_password_details"`
 }
 
 func NewMachineUserResource() resource.Resource {
@@ -92,9 +98,12 @@ func (r *machineUserResource) Schema(_ context.Context, _ resource.SchemaRequest
 				//Optional:            true,
 				Computed: true,
 			},
-			"workload_password_details": schema.StringAttribute{
+			"workload_password_details": schema.ObjectAttribute{
 				MarkdownDescription: "Information about the workload password for the machine user.",
 				Optional:            true,
+				AttributeTypes: map[string]attr.Type{
+					"IsPasswordSet": types.BoolType,
+				},
 			},
 		},
 	}
@@ -134,7 +143,10 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 	data.Status = types.StringValue(responseOk.Payload.MachineUser.Status)
 	data.CreationDate = types.StringValue(responseOk.Payload.MachineUser.CreationDate.String())
 	data.WorkloadUsername = types.StringValue(responseOk.Payload.MachineUser.WorkloadUsername)
+	//data.WorkloadPasswordDetails = types.BoolValue(responseOk.Payload.MachineUser.WorkloadPasswordDetails.IsPasswordSet)
+	//data.WorkloadPasswordDetails = types.StringValue(responseOk.Payload.MachineUser.WorkloadPasswordDetails.PasswordExpirationDate.String())
 	//data.WorkloadPasswordDetails = types.String(data.WorkloadPasswordDetails)
+	data.WorkloadPasswordDetails = &workloadPasswordDetails{}
 
 	// Save data into Terraform state
 	diags = resp.State.Set(ctx, data)
@@ -173,8 +185,9 @@ func sharedMachineUserRead(ctx context.Context, client *client.Iam, state *machi
 	state.Status = types.StringValue(mu.Status)
 	state.CreationDate = types.StringValue(mu.CreationDate.String())
 	state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
-	//state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
 	//state.WorkloadPasswordDetails = types.StringValue(mu.WorkloadPasswordDetails.PasswordExpirationDate.String())
+	//state.WorkloadPasswordDetails = types.StringValue(mu.WorkloadPasswordDetails.PasswordExpirationDate.String())
+	state.WorkloadPasswordDetails = &workloadPasswordDetails{}
 
 }
 func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
