@@ -64,6 +64,12 @@ type azureDatalakeResourceModel struct {
 	Tags types.Map `tfsdk:"tags"`
 
 	DatabaseType types.String `tfsdk:"database_type"`
+
+	LoadBalancerSku types.String `tfsdk:"load_balancer_sku"`
+
+	FlexibleServerDelegatedSubnetId types.String `tfsdk:"flexible_server_delegated_subnet_id"`
+
+	MultiAz types.Bool `tfsdk:"multi_az"`
 }
 
 type azureDatalakeImage struct {

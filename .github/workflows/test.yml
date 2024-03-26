@@ -21,6 +21,7 @@ jobs:
       - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
         with:
           go-version: ${{ matrix.go-version }}
+          cache: false
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
         with:
@@ -28,9 +29,8 @@ jobs:
           terraform_wrapper: false
 
       - name: Run linters
-        uses: golangci/golangci-lint-action@639cd343e1d3b897ff35927a75193d57cfcba299 # v3.6.0
+        uses: golangci/golangci-lint-action@3cfe3a4abbb849e10058ce4af15d205b6da42804 # v4.0.0
         with:
-          version: latest
           args: --timeout 3m
 
       - name: Generate
@@ -53,9 +53,8 @@ jobs:
         with:
           go-version-file: 'go.mod'
       - name: Run linters
-        uses: golangci/golangci-lint-action@639cd343e1d3b897ff35927a75193d57cfcba299 # v3.6.0
+        uses: golangci/golangci-lint-action@3cfe3a4abbb849e10058ce4af15d205b6da42804 # v4.0.0
         with:
-          version: latest
           args: --timeout 3m
 
   test:

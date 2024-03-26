@@ -674,7 +674,7 @@ func TestCdpProvider_Schema(t *testing.T) {
 		sresps = append(sresps, attribute)
 	}
 
-	unexpectedFields, missingFields := testUtil.CompareStrings(sresps, expectedSchemaFields)
+	unexpectedFields, missingFields := testUtil.CompareStringSlices(sresps, expectedSchemaFields)
 
 	if len(unexpectedFields) > 0 {
 		t.Errorf("The following unexpected field(s) got introduced: %s", strings.Join(unexpectedFields, ","))
@@ -720,13 +720,13 @@ func TestCdpProvider_DataSources(t *testing.T) {
 func compareResources(actual, expected []func() resource.Resource) (unexpected, missing []string) {
 	actualNames := testUtil.ToStringSliceFunc(actual, getPackageAndNameOfResource)
 	expectedNames := testUtil.ToStringSliceFunc(expected, getPackageAndNameOfResource)
-	return testUtil.CompareStrings(actualNames, expectedNames)
+	return testUtil.CompareStringSlices(actualNames, expectedNames)
 }
 
 func compareDataSources(actual, expected []func() datasource.DataSource) (unexpected, missing []string) {
 	actualNames := testUtil.ToStringSliceFunc(actual, getPackageAndNameOfDataSource)
 	expectedNames := testUtil.ToStringSliceFunc(expected, getPackageAndNameOfDataSource)
-	return testUtil.CompareStrings(actualNames, expectedNames)
+	return testUtil.CompareStringSlices(actualNames, expectedNames)
 }
 
 func getPackageAndNameOfResource(f func() resource.Resource) string {

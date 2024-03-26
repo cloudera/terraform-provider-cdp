@@ -92,6 +92,9 @@ func toAzureDatalakeRequest(ctx context.Context, model *azureDatalakeResourceMod
 			i++
 		}
 	}
+	req.LoadBalancerSku = datalakemodels.DatalakeLoadBalancerSkuType(model.LoadBalancerSku.ValueString())
+	req.FlexibleServerDelegatedSubnetID = model.FlexibleServerDelegatedSubnetId.ValueString()
+	req.MultiAz = model.MultiAz.ValueBoolPointer()
 	return req
 }
 

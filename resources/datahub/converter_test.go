@@ -14,6 +14,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/cloudera/terraform-provider-cdp/utils/test"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -53,22 +54,22 @@ func TestFromModelToRequestBasicFields(t *testing.T) {
 	}
 	got := fromModelToAwsRequest(input, context.TODO())
 
-	compareStrings(got.ClusterName, input.Name.ValueString(), t)
-	compareStrings(got.Environment, input.Environment.ValueString(), t)
-	compareStrings(got.ClusterTemplate, input.ClusterTemplate.ValueString(), t)
-	compareStrings(got.SubnetID, input.SubnetId.ValueString(), t)
-	compareStringSlices(got.SubnetIds, input.SubnetIds.Elements(), t)
-	compareBools(got.MultiAz, input.MultiAz.ValueBool(), t)
-	compareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
-	compareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
-	compareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
-	compareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
-	compareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
-	compareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
-	compareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
-	compareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
-	compareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
-	compareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareStrings(got.ClusterName, input.Name.ValueString(), t)
+	test.CompareStrings(got.Environment, input.Environment.ValueString(), t)
+	test.CompareStrings(got.ClusterTemplate, input.ClusterTemplate.ValueString(), t)
+	test.CompareStrings(got.SubnetID, input.SubnetId.ValueString(), t)
+	test.CompareStringValueSlices(got.SubnetIds, input.SubnetIds.Elements(), t)
+	test.CompareBools(got.MultiAz, input.MultiAz.ValueBool(), t)
+	test.CompareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
+	test.CompareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
+	test.CompareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
+	test.CompareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
+	test.CompareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
+	test.CompareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
+	test.CompareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
+	test.CompareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
+	test.CompareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
+	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
 }
 
 func TestFromModelToRequestRecipe(t *testing.T) {
@@ -78,8 +79,8 @@ func TestFromModelToRequestRecipe(t *testing.T) {
 
 	got := fromModelToAwsRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
+	test.CompareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	test.CompareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
 
 	for _, convertedRecipe := range got.InstanceGroups[0].RecipeNames {
 		var contains bool
@@ -105,13 +106,13 @@ func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 
 	got := fromModelToAwsRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
+	test.CompareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	test.CompareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
 
 	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
-	compareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
-	compareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
-	compareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
+	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	test.CompareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
 }
 
 func TestFromModelToRequestInstanceGroups(t *testing.T) {
@@ -128,13 +129,13 @@ func TestFromModelToRequestInstanceGroups(t *testing.T) {
 
 	got := fromModelToAwsRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(igs), t)
+	test.CompareInts(len(got.InstanceGroups), len(igs), t)
 	resultIg := got.InstanceGroups[0]
-	compareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
-	compareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
-	compareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
-	compareInt32PointerToTypesInt64(&resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
-	compareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
+	test.CompareInt32PointerToTypesInt64(&resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	test.CompareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
 }
 
 func TestFromModelToRequestVolumeEncryption(t *testing.T) {
@@ -146,12 +147,12 @@ func TestFromModelToRequestVolumeEncryption(t *testing.T) {
 
 	got := fromModelToAwsRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(igs), t)
+	test.CompareInts(len(got.InstanceGroups), len(igs), t)
 	resultVolumeEncryption := got.InstanceGroups[0].VolumeEncryption
 	if resultVolumeEncryption == nil {
 		t.Errorf("Volume encryption is not filled though it should've been!")
 	} else {
-		compareBools(*resultVolumeEncryption.EnableEncryption, igs[0].VolumeEncryption.Encryption.ValueBool(), t)
+		test.CompareBools(*resultVolumeEncryption.EnableEncryption, igs[0].VolumeEncryption.Encryption.ValueBool(), t)
 	}
 }
 
@@ -159,7 +160,7 @@ func TestFromModelToRequestClusterDefinition(t *testing.T) {
 	input := awsDatahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
 	got := fromModelToAwsRequest(input, context.TODO())
 
-	compareStrings(got.ClusterDefinition, input.ClusterDefinition.ValueString(), t)
+	test.CompareStrings(got.ClusterDefinition, input.ClusterDefinition.ValueString(), t)
 }
 
 func TestFromModelToGcpRequestBasicFields(t *testing.T) {
@@ -193,19 +194,19 @@ func TestFromModelToGcpRequestBasicFields(t *testing.T) {
 	}
 	got := fromModelToGcpRequest(input, context.TODO())
 
-	compareStrings(got.ClusterName, input.Name.ValueString(), t)
-	compareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
-	compareStrings(got.ClusterTemplateName, input.ClusterTemplate.ValueString(), t)
-	compareStrings(got.SubnetName, input.SubnetName.ValueString(), t)
-	compareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
-	compareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
-	compareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
-	compareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
-	compareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
-	compareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
-	compareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
-	compareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
-	compareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareStrings(got.ClusterName, input.Name.ValueString(), t)
+	test.CompareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
+	test.CompareStrings(got.ClusterTemplateName, input.ClusterTemplate.ValueString(), t)
+	test.CompareStrings(got.SubnetName, input.SubnetName.ValueString(), t)
+	test.CompareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
+	test.CompareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
+	test.CompareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
+	test.CompareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
+	test.CompareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
+	test.CompareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
+	test.CompareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
+	test.CompareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
+	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
 }
 
 func TestFromModelToGcpRequestRecipe(t *testing.T) {
@@ -215,8 +216,8 @@ func TestFromModelToGcpRequestRecipe(t *testing.T) {
 
 	got := fromModelToGcpRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
+	test.CompareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	test.CompareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
 
 	for _, convertedRecipe := range got.InstanceGroups[0].RecipeNames {
 		var contains bool
@@ -242,13 +243,13 @@ func TestFromModelToGcpRequestAttachedVolumeConfiguration(t *testing.T) {
 
 	got := fromModelToGcpRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
+	test.CompareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	test.CompareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
 
 	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
-	compareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
-	compareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
-	compareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
+	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	test.CompareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
 }
 
 func TestFromModelToGcpRequestInstanceGroups(t *testing.T) {
@@ -265,20 +266,20 @@ func TestFromModelToGcpRequestInstanceGroups(t *testing.T) {
 
 	got := fromModelToGcpRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(igs), t)
+	test.CompareInts(len(got.InstanceGroups), len(igs), t)
 	resultIg := got.InstanceGroups[0]
-	compareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
-	compareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
-	compareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
-	compareInt32PointerToTypesInt64(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
-	compareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
+	test.CompareInt32PointerToTypesInt64(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	test.CompareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
 }
 
 func TestFromModelToGcpRequestClusterDefinition(t *testing.T) {
 	input := gcpDatahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
 	got := fromModelToGcpRequest(input, context.TODO())
 
-	compareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
+	test.CompareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
 }
 
 func TestFromModelToAzureRequestBasicFields(t *testing.T) {
@@ -315,22 +316,22 @@ func TestFromModelToAzureRequestBasicFields(t *testing.T) {
 	}
 	got := fromModelToAzureRequest(input, context.TODO())
 
-	compareStrings(got.ClusterName, input.Name.ValueString(), t)
-	compareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
-	compareStrings(got.ClusterTemplateName, input.ClusterTemplate.ValueString(), t)
-	compareStrings(got.SubnetID, input.SubnetId.ValueString(), t)
-	compareBools(*got.MultiAz, input.MultiAz.ValueBool(), t)
-	compareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
-	compareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
-	compareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
-	compareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
-	compareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
-	compareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
-	compareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
-	compareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
-	compareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
-	compareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
-	compareStrings(got.FlexibleServerDelegatedSubnetID, input.FlexibleServerDelegatedSubnetId.ValueString(), t)
+	test.CompareStrings(got.ClusterName, input.Name.ValueString(), t)
+	test.CompareStrings(got.EnvironmentName, input.Environment.ValueString(), t)
+	test.CompareStrings(got.ClusterTemplateName, input.ClusterTemplate.ValueString(), t)
+	test.CompareStrings(got.SubnetID, input.SubnetId.ValueString(), t)
+	test.CompareBools(*got.MultiAz, input.MultiAz.ValueBool(), t)
+	test.CompareStrings(*got.Tags[0].Value, input.Tags.Elements()["key"].(types.String).ValueString(), t)
+	test.CompareStrings(got.CustomConfigurationsName, input.CustomConfigurationsName.ValueString(), t)
+	test.CompareStrings(got.Image.CatalogName, input.Image.Attributes()["catalog"].(types.String).ValueString(), t)
+	test.CompareStrings(got.Image.ID, input.Image.Attributes()["id"].(types.String).ValueString(), t)
+	test.CompareStrings(got.Image.Os, input.Image.Attributes()["os"].(types.String).ValueString(), t)
+	test.CompareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
+	test.CompareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
+	test.CompareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
+	test.CompareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
+	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareStrings(got.FlexibleServerDelegatedSubnetID, input.FlexibleServerDelegatedSubnetId.ValueString(), t)
 }
 
 func TestFromModelToAzureRequestRecipe(t *testing.T) {
@@ -340,8 +341,8 @@ func TestFromModelToAzureRequestRecipe(t *testing.T) {
 
 	got := fromModelToAzureRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
+	test.CompareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	test.CompareInts(len(got.InstanceGroups[0].RecipeNames), len(input.InstanceGroup[0].Recipes), t)
 
 	for _, convertedRecipe := range got.InstanceGroups[0].RecipeNames {
 		var contains bool
@@ -367,13 +368,13 @@ func TestFromModelToAzureRequestAttachedVolumeConfiguration(t *testing.T) {
 
 	got := fromModelToAzureRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
-	compareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
+	test.CompareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	test.CompareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
 
 	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
-	compareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
-	compareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
-	compareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
+	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	test.CompareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
 }
 
 func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
@@ -390,55 +391,18 @@ func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
 
 	got := fromModelToAzureRequest(input, context.TODO())
 
-	compareInts(len(got.InstanceGroups), len(igs), t)
+	test.CompareInts(len(got.InstanceGroups), len(igs), t)
 	resultIg := got.InstanceGroups[0]
-	compareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
-	compareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
-	compareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
-	compareInt32PointerToTypesInt64(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
-	compareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
+	test.CompareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
+	test.CompareInt32PointerToTypesInt64(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	test.CompareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
 }
 
 func TestFromModelToAzureRequestClusterDefinition(t *testing.T) {
 	input := azureDatahubResourceModel{ClusterDefinition: types.StringValue("SomeClusterDef")}
 	got := fromModelToAzureRequest(input, context.TODO())
 
-	compareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
-}
-
-func compareStrings(got string, expected string, t *testing.T) {
-	if got != expected {
-		t.Errorf("Assertion error! Expected: %s, got: %s", expected, got)
-	}
-}
-
-func compareStringSlices(got []string, expected []attr.Value, t *testing.T) {
-	if len(got) != len(expected) {
-		t.Errorf("Assertion error! Expected length: %d, got length: %d", len(expected), len(got))
-		return
-	}
-
-	for i, exp := range expected {
-		if got[i] != exp.(types.String).ValueString() {
-			t.Errorf("Assertion error! Expected: %s, got: %s", expected, got)
-		}
-	}
-}
-
-func compareInt32PointerToTypesInt64(got *int32, expected types.Int64, t *testing.T) {
-	if *got != *int64To32Pointer(expected) {
-		t.Errorf("Assertion error! Expected: %d, got: %d", expected.ValueInt64(), *got)
-	}
-}
-
-func compareInts(got int, expected int, t *testing.T) {
-	if got != expected {
-		t.Errorf("Assertion error! Expected: %d, got: %d", expected, got)
-	}
-}
-
-func compareBools(got bool, expected bool, t *testing.T) {
-	if got != expected {
-		t.Errorf("Assertion error! Expected: %t, got: %t", expected, got)
-	}
+	test.CompareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
 }

@@ -13,8 +13,9 @@ package utils
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -127,4 +128,10 @@ func FromSetValueToStringList(tl types.Set) []string {
 		res[i] = elem.(types.String).ValueString()
 	}
 	return res
+}
+
+func Int64To32Pointer(in types.Int64) *int32 {
+	n64 := in.ValueInt64()
+	var n2 = int32(n64)
+	return &n2
 }
