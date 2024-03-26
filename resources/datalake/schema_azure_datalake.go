@@ -335,5 +335,17 @@ var azureDatalakeResourceSchema = schema.Schema{
 			Optional:    true,
 			ElementType: types.StringType,
 		},
+		"load_balancer_sku": schema.StringAttribute{
+			MarkdownDescription: "Represents the Azure load balancer SKU type. The current default  is BASIC. To disable the load balancer, use type NONE. Possible values: BASIC, STANDARD, NONE",
+			Optional:            true,
+		},
+		"flexible_server_delegated_subnet_id": schema.StringAttribute{
+			MarkdownDescription: "This  argument  allows  you  to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.",
+			Optional:            true,
+		},
+		"multi_az": schema.BoolAttribute{
+			MarkdownDescription: "Creates CDP datalake distributed across multiple availability  zones in an Azure region.",
+			Optional:            true,
+		},
 	},
 }

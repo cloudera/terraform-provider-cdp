@@ -10,7 +10,14 @@
 
 package test
 
-func CompareStrings(actual, expected []string) (unexpected, missing []string) {
+import (
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
+
+func CompareStringSlices(actual, expected []string) (unexpected, missing []string) {
 	for _, res := range actual {
 		if !containsString(expected, res) {
 			unexpected = append(unexpected, res)
@@ -22,6 +29,12 @@ func CompareStrings(actual, expected []string) (unexpected, missing []string) {
 		}
 	}
 	return
+}
+
+func CompareStrings(got string, expected string, t *testing.T) {
+	if got != expected {
+		t.Errorf("Assertion error! Expected: %s, got: %s", expected, got)
+	}
 }
 
 func containsString(resources []string, target string) bool {
@@ -39,4 +52,41 @@ func ToStringSliceFunc[T any](elements []T, f func(T) string) []string {
 		result = append(result, f(e))
 	}
 	return result
+}
+
+func CompareStringValueSlices(got []string, expected []attr.Value, t *testing.T) {
+	if len(got) != len(expected) {
+		t.Errorf("Assertion error! Expected length: %d, got length: %d", len(expected), len(got))
+		return
+	}
+
+	for i, exp := range expected {
+		if got[i] != exp.(types.String).ValueString() {
+			t.Errorf("Assertion error! Expected: %s, got: %s", expected, got)
+		}
+	}
+}
+
+func CompareInt32PointerToTypesInt64(got *int32, expected types.Int64, t *testing.T) {
+	if *got != *Int64To32Pointer(expected) {
+		t.Errorf("Assertion error! Expected: %d, got: %d", expected.ValueInt64(), *got)
+	}
+}
+
+func CompareInts(got int, expected int, t *testing.T) {
+	if got != expected {
+		t.Errorf("Assertion error! Expected: %d, got: %d", expected, got)
+	}
+}
+
+func CompareBools(got bool, expected bool, t *testing.T) {
+	if got != expected {
+		t.Errorf("Assertion error! Expected: %t, got: %t", expected, got)
+	}
+}
+
+func Int64To32Pointer(in types.Int64) *int32 {
+	n64 := in.ValueInt64()
+	var n2 = int32(n64)
+	return &n2
 }

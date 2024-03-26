@@ -12,9 +12,10 @@ package datalake
 
 import (
 	"context"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"testing"
 )
 
 func TestAzureCommonSchemaElementsExist(t *testing.T) {
@@ -29,6 +30,27 @@ func TestAzureSpecificElements(t *testing.T) {
 			computed:         false,
 			shouldBeRequired: false,
 			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'load_balancer_sku' should exist",
+			field:            "load_balancer_sku",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'flexible_server_delegated_subnet_id' should exist",
+			field:            "flexible_server_delegated_subnet_id",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.StringAttribute{},
+		},
+		{
+			name:             "'multi_az' should exist",
+			field:            "multi_az",
+			computed:         false,
+			shouldBeRequired: false,
+			attributeType:    schema.BoolAttribute{},
 		},
 	}
 

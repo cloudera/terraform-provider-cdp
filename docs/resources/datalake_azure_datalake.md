@@ -25,8 +25,11 @@ A Data Lake is a service which provides a protective ring around the data stored
 
 - `database_type` (String) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
 - `enable_ranger_raz` (Boolean)
+- `flexible_server_delegated_subnet_id` (String) This  argument  allows  you  to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)
+- `load_balancer_sku` (String) Represents the Azure load balancer SKU type. The current default  is BASIC. To disable the load balancer, use type NONE. Possible values: BASIC, STANDARD, NONE
+- `multi_az` (Boolean) Creates CDP datalake distributed across multiple availability  zones in an Azure region.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `recipes` (Attributes Set) (see [below for nested schema](#nestedatt--recipes))
 - `runtime` (String)

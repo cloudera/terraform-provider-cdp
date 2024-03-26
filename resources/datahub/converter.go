@@ -19,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *datahubmodels.CreateAWSClusterRequest {
@@ -49,7 +50,7 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
-			NodeCount:                   int64To32Pointer(group.NodeCount),
+			NodeCount:                   utils.Int64To32Pointer(group.NodeCount),
 			RecipeNames:                 igRecipes,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              int64To32(group.RootVolumeSize),
@@ -131,7 +132,7 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
-			NodeCount:                   int64To32Pointer(group.NodeCount),
+			NodeCount:                   utils.Int64To32Pointer(group.NodeCount),
 			RecipeNames:                 igRecipes,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              &volumeSize,
@@ -210,7 +211,7 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
-			NodeCount:                   int64To32Pointer(group.NodeCount),
+			NodeCount:                   utils.Int64To32Pointer(group.NodeCount),
 			RecipeNames:                 igRecipes,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              &rootVolumeSize,
@@ -259,8 +260,8 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 
 func createAttachedVolumeRequest(attachedVolumeConfig AttachedVolumeConfiguration) *datahubmodels.AttachedVolumeRequest {
 	return &datahubmodels.AttachedVolumeRequest{
-		VolumeCount: int64To32Pointer(attachedVolumeConfig.VolumeCount),
-		VolumeSize:  int64To32Pointer(attachedVolumeConfig.VolumeSize),
+		VolumeCount: utils.Int64To32Pointer(attachedVolumeConfig.VolumeCount),
+		VolumeSize:  utils.Int64To32Pointer(attachedVolumeConfig.VolumeSize),
 		VolumeType:  attachedVolumeConfig.VolumeType.ValueStringPointer(),
 	}
 }
@@ -268,10 +269,4 @@ func createAttachedVolumeRequest(attachedVolumeConfig AttachedVolumeConfiguratio
 func int64To32(in types.Int64) int32 {
 	n64 := in.ValueInt64()
 	return int32(n64)
-}
-
-func int64To32Pointer(in types.Int64) *int32 {
-	n64 := in.ValueInt64()
-	var n2 = int32(n64)
-	return &n2
 }
