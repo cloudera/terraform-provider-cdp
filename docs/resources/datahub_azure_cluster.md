@@ -231,6 +231,7 @@ Required:
 
 Optional:
 
+- `availability_zones` (Set of String) List of availability zones that this instance group is associated with.
 - `recipes` (Set of String) The set of recipe names that are going to be applied on the given instance group.
 
 <a id="nestedatt--instance_group--attached_volume_configuration"></a>

@@ -17,12 +17,14 @@ import (
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	iamclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
 	mlclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client"
+	opdbclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/client"
 )
 
 type Client struct {
 	config       *Config
 	Environments *environmentsclient.Environments
 	Datalake     *datalakeclient.Datalake
+	Opdb         *opdbclient.Opdb
 	Datahub      *datahubclient.Datahub
 	Iam          *iamclient.Iam
 	Ml           *mlclient.Ml
@@ -48,6 +50,11 @@ func NewClient(config *Config) (*Client, error) {
 		return nil, err
 	}
 
+	opdbClient, err := NewOpdbClient(config)
+	if err != nil {
+		return nil, err
+	}
+
 	iamClient, err := NewIamClient(config)
 	if err != nil {
 		return nil, err
@@ -68,6 +75,7 @@ func NewClient(config *Config) (*Client, error) {
 		Environments: environmentsClient,
 		Datalake:     datalakeClient,
 		Datahub:      datahubClient,
+		Opdb:         opdbClient,
 		Iam:          iamClient,
 		Ml:           mlClient,
 		Dw:           dwClient,
@@ -120,6 +128,18 @@ func NewDatahubClient(config *Config) (*datahubclient.Datahub, error) {
 		return nil, err
 	}
 	return datahubclient.New(transport, nil), nil
+}
+
+func NewOpdbClient(config *Config) (*opdbclient.Opdb, error) {
+	apiEndpoint, err := config.GetEndpoint("opdb", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
+	if err != nil {
+		return nil, err
+	}
+	return opdbclient.New(transport, nil), nil
 }
 
 func NewMlClient(config *Config) (*mlclient.Ml, error) {

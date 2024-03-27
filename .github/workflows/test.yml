@@ -101,7 +101,7 @@ jobs:
       - name: Go Coverage
         uses: gwatts/go-coverage-action@v1.3.0
         with:
-          coverage-threshold: 18.2
+          coverage-threshold: 29.6
           cover-pkg: ./...
           ignore-pattern: |
             /cdp-sdk-go/ 

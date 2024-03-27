@@ -1,4 +1,4 @@
-// Copyright 2023 Cloudera. All Rights Reserved.
+// Copyright 2024 Cloudera. All Rights Reserved.
 //
 // This file is licensed under the Apache License Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -8,14 +8,13 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package datahub
+package opdb
 
-import "reflect"
-import "testing"
+import "time"
 
-func TestFailedStatusKeywords(t *testing.T) {
-	expected := [2]string{"FAILED", "DELETED"}
-	if reflect.DeepEqual(expected, failedStatusKeywords) {
-		t.Errorf("The failed status keywords are not the expected! Expected: %v, got: %v", expected, failedStatusKeywords)
-	}
-}
+const internalServerErrorRetryQuantity = 4
+const pollingInterval = 30 * time.Second
+const pollingTimeout = 2 * time.Hour
+const pollingDelay = 15 * time.Second
+
+var failedStatusKeywords = []string{"FAILED", "DELETE_FAILED", "MISSING", "CREATE_FAILED", "DELETED"}
