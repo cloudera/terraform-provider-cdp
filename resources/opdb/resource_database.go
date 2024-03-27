@@ -136,6 +136,8 @@ func getCommonDatabaseDetails(data *databaseResourceModel, databaseDetails *opdb
 
 	data.ScaleType = types.StringValue(string(databaseDetails.ScaleType))
 	data.StorageLocation = types.StringValue(databaseDetails.StorageLocation)
+
+	data.NumEdgeNodes = types.Int64Value(int64(databaseDetails.DbEdgeNodeCount))
 }
 
 func (r *databaseResource) Update(ctx context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {

@@ -22,11 +22,12 @@ provider "cdp" {
 }
 
 resource "cdp_operational_database" "opdb" {
-  database_name    = "<value>"
   environment_name = "<value>"
+  database_name    = "<value>"
 
-  scale_type   = "MICRO" // valid options are "MICRO","LIGHT","HEAVY"
-  storage_type = "HDFS"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
+  // scale_type   = "MICRO" // valid options are "MICRO","LIGHT","HEAVY"
+  // storage_type = "HDFS"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
 
-  disable_external_db = true
+  disable_multi_az = false
+  // num_edge_nodes   = 1
 }

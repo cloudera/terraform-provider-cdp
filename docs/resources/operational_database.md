@@ -37,13 +37,14 @@ provider "cdp" {
 }
 
 resource "cdp_operational_database" "opdb" {
-  database_name    = "<value>"
   environment_name = "<value>"
+  database_name    = "<value>"
 
-  scale_type   = "MICRO" // valid options are "MICRO","LIGHT","HEAVY"
-  storage_type = "HDFS"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
+  // scale_type   = "MICRO" // valid options are "MICRO","LIGHT","HEAVY"
+  // storage_type = "HDFS"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
 
-  disable_external_db = true
+  disable_multi_az = false
+  // num_edge_nodes   = 1
 }
 ```
 
@@ -57,10 +58,14 @@ resource "cdp_operational_database" "opdb" {
 
 ### Optional
 
-- `disable_external_db` (Boolean) Disable external database creation or not
+- `disable_external_db` (Boolean) Disable external database creation or not, it is only available in the BETA cdpcli
+- `disable_multi_az` (Boolean) Disable deployment to multiple availability zones or not
+- `java_version` (Number) Java version, it is only available in the BETA cdpcli
+- `num_edge_nodes` (Number) Number of edge nodes
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `scale_type` (String) Scale type, MICRO, LIGHT or HEAVY
 - `storage_type` (String) Storage type for clusters, CLOUD_WITH_EPHEMERAL, CLOUD or HDFS
+- `subnet_id` (String) ID of the subnet to deploy to
 
 ### Read-Only
 

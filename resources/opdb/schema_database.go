@@ -15,6 +15,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
+
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
@@ -33,15 +36,36 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 		"scale_type": schema.StringAttribute{
 			MarkdownDescription: "Scale type, MICRO, LIGHT or HEAVY",
 			Optional:            true,
+			Computed:            true,
+			Default:             stringdefault.StaticString("LIGHT"),
 		},
 		"storage_type": schema.StringAttribute{
 			MarkdownDescription: "Storage type for clusters, CLOUD_WITH_EPHEMERAL, CLOUD or HDFS",
 			Optional:            true,
 		},
 		"disable_external_db": schema.BoolAttribute{
-			MarkdownDescription: "Disable external database creation or not",
+			MarkdownDescription: "Disable external database creation or not, it is only available in the BETA cdpcli",
 			Optional:            true,
 		},
+		"disable_multi_az": schema.BoolAttribute{
+			MarkdownDescription: "Disable deployment to multiple availability zones or not",
+			Optional:            true,
+		},
+		"subnet_id": schema.StringAttribute{
+			MarkdownDescription: "ID of the subnet to deploy to",
+			Optional:            true,
+		},
+		"num_edge_nodes": schema.Int64Attribute{
+			MarkdownDescription: "Number of edge nodes",
+			Optional:            true,
+			Computed:            true,
+			Default:             int64default.StaticInt64(0),
+		},
+		"java_version": schema.Int64Attribute{
+			MarkdownDescription: "Java version, it is only available in the BETA cdpcli",
+			Optional:            true,
+		},
+
 		"storage_location": schema.StringAttribute{
 			MarkdownDescription: "Storage Location for OPDB",
 			Computed:            true,

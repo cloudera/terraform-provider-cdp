@@ -38,7 +38,7 @@ func TestSchemaContainsScaleType(t *testing.T) {
 	test := TestCaseStructure{
 		name:             "scale_type should exist",
 		field:            "scale_type",
-		computed:         false,
+		computed:         true,
 		shouldBeRequired: false,
 	}
 

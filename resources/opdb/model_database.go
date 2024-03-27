@@ -27,4 +27,9 @@ type databaseResourceModel struct {
 	StorageLocation   types.String `tfsdk:"storage_location"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
+
+	DisableMultiAz types.Bool   `tfsdk:"disable_multi_az"`
+	NumEdgeNodes   types.Int64  `tfsdk:"num_edge_nodes"`
+	JavaVersion    types.Int64  `tfsdk:"java_version"`
+	SubnetID       types.String `tfsdk:"subnet_id"`
 }
