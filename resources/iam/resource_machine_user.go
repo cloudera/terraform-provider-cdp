@@ -35,13 +35,6 @@ type machineUserResource struct {
 	client *cdp.Client
 }
 
-/*
-type workloadPasswordDetails struct {
-	IsPasswordSet types.Bool `tfsdk:"is_password_set"`
-	//PasswordExpirationDate types.String `tfsdk:"password_expiration_date"`
-}
-*/
-
 type machineUserModel struct {
 	ID               types.String `tfsdk:"id"`
 	MachineUserName  types.String `tfsdk:"machine_user_name"`
@@ -49,8 +42,6 @@ type machineUserModel struct {
 	CreationDate     types.String `tfsdk:"creation_date"`
 	Status           types.String `tfsdk:"status"`
 	WorkloadUsername types.String `tfsdk:"workload_username"`
-	//WorkloadPasswordDetails *workloadPasswordDetails `tfsdk:"workload_password_details"`
-	IsPasswordSet types.Bool `tfsdk:"is_password_set"`
 }
 
 func NewMachineUserResource() resource.Resource {
@@ -82,35 +73,13 @@ func (r *machineUserResource) Schema(_ context.Context, _ resource.SchemaRequest
 			"creation_date": schema.StringAttribute{
 				MarkdownDescription: "The date when this machine user was created.",
 				Computed:            true,
-				//Required:            false,
-				//Optional:            true,
-				//PlanModifiers: []planmodifier.String{
-				//	stringplanmodifier.UseStateForUnknown(),
-				//},
 			},
 			"status": schema.StringAttribute{
 				MarkdownDescription: "The current status of the machine user.",
-				//Computed:            false, //changed from true
-				Computed: true,
-				//Required:            false,
-				//Optional:            true,
+				Computed:            true,
 			},
 			"workload_username": schema.StringAttribute{
 				MarkdownDescription: "The username used in all the workload clusters of the machine user.",
-				//Optional:            true,
-				Computed: true,
-			},
-			/*
-				"workload_password_details": schema.ObjectAttribute{
-					MarkdownDescription: "Information about the workload password for the machine user.",
-					Optional:            true,
-					AttributeTypes: map[string]attr.Type{
-						"IsPasswordSet": types.BoolType,
-					},
-				},
-			*/
-			"is_password_set": schema.BoolAttribute{
-				MarkdownDescription: "Whether the workload password is set.",
 				Computed:            true,
 			},
 		},
@@ -151,8 +120,6 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 	data.Status = types.StringValue(responseOk.Payload.MachineUser.Status)
 	data.CreationDate = types.StringValue(responseOk.Payload.MachineUser.CreationDate.String())
 	data.WorkloadUsername = types.StringValue(responseOk.Payload.MachineUser.WorkloadUsername)
-	//data.WorkloadPasswordDetails = &workloadPasswordDetails{}
-	data.IsPasswordSet = types.BoolValue(*responseOk.Payload.MachineUser.WorkloadPasswordDetails.IsPasswordSet)
 
 	// Save data into Terraform state
 	diags = resp.State.Set(ctx, data)
@@ -191,10 +158,8 @@ func sharedMachineUserRead(ctx context.Context, client *client.Iam, state *machi
 	state.Status = types.StringValue(mu.Status)
 	state.CreationDate = types.StringValue(mu.CreationDate.String())
 	state.WorkloadUsername = types.StringValue(mu.WorkloadUsername)
-	//state.WorkloadPasswordDetails = &workloadPasswordDetails{}
-	state.IsPasswordSet = types.BoolValue(*mu.WorkloadPasswordDetails.IsPasswordSet)
-
 }
+
 func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	// Get current state
 	var state machineUserModel
@@ -210,32 +175,6 @@ func (r *machineUserResource) Update(ctx context.Context, req resource.UpdateReq
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	/*
-		client := r.client.Iam
-
-		if !plan.SyncMembershipOnUserLogin.Equal(state.SyncMembershipOnUserLogin) {
-			params := operations.NewUpdateGroupParamsWithContext(ctx)
-			// TODO: Below works for false -> true, but does not work for true -> false since swagger generates the
-			// the UpdateGroupRequest.SyncMembershipOnUserLogin with `omitempty` which then gets omitted in the request
-			// resulting in the server side not seeing the intended change to this field at all. We need to take a look
-			// at x-omitempty and maybe change the swagger generation behavior.
-			params.WithInput(&iammodels.UpdateGroupRequest{
-				GroupName:                 plan.GroupName.ValueStringPointer(),
-				SyncMembershipOnUserLogin: plan.SyncMembershipOnUserLogin.ValueBool(),
-			})
-
-			_, err := client.Operations.UpdateGroup(params)
-			if err != nil {
-				resp.Diagnostics.AddError(
-					"Error Updating Group",
-					"Could not update Group: "+state.ID.ValueString()+": "+err.Error(),
-				)
-				return
-			}
-			// Save updated data into Terraform state
-			resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
-		}
-	*/
 }
 
 func (r *machineUserResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
