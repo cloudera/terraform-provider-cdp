@@ -13,6 +13,7 @@ package opdb
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
@@ -25,8 +26,19 @@ func fromModelToDatabaseRequest(model databaseResourceModel, ctx context.Context
 	req.EnvironmentName = model.Environment.ValueStringPointer()
 	req.ScaleType = opdbmodels.ScaleType(model.ScaleType.ValueString())
 	req.StorageType = opdbmodels.StorageType(model.StorageType.ValueString())
-	req.DisableExternalDB = !model.DisableExternalDB.IsNull() && model.DisableExternalDB.ValueBool()
+	req.DisableExternalDB = model.DisableExternalDB.ValueBool()
+
+	req.DisableMultiAz = model.DisableMultiAz.ValueBool()
+	req.SubnetID = model.SubnetID.ValueString()
+
+	req.JavaVersion = int64To32(model.JavaVersion)
+	req.NumEdgeNodes = int64To32(model.NumEdgeNodes)
 
 	tflog.Debug(ctx, fmt.Sprintf("Conversion from databaseResourceModel to CreateDatabaseRequest has finished with request: %+v.", req))
 	return &req
+}
+
+func int64To32(in types.Int64) int32 {
+	n64 := in.ValueInt64()
+	return int32(n64)
 }
