@@ -256,7 +256,9 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 
 func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *awsDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
-	model.InstanceProfile = types.StringValue(resp.AwsConfiguration.InstanceProfile)
+	if resp.AwsConfiguration != nil {
+		model.InstanceProfile = types.StringValue(resp.AwsConfiguration.InstanceProfile)
+	}
 	if resp.ClouderaManager != nil {
 		var cmDiags diag.Diagnostics
 		model.ClouderaManager, cmDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
@@ -275,29 +277,31 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
 	model.PollingOptions = pollingOptions
-	endpoints := make([]*endpoint, len(resp.Endpoints.Endpoints))
-	for i, v := range resp.Endpoints.Endpoints {
-		endpoints[i] = &endpoint{
-			DisplayName: types.StringPointerValue(v.DisplayName),
-			KnoxService: types.StringPointerValue(v.KnoxService),
-			Mode:        types.StringPointerValue(v.Mode),
-			Open:        types.BoolPointerValue(v.Open),
-			ServiceName: types.StringPointerValue(v.ServiceName),
-			ServiceURL:  types.StringPointerValue(v.ServiceURL),
+	if resp.Endpoints != nil {
+		endpoints := make([]*endpoint, len(resp.Endpoints.Endpoints))
+		for i, v := range resp.Endpoints.Endpoints {
+			endpoints[i] = &endpoint{
+				DisplayName: types.StringPointerValue(v.DisplayName),
+				KnoxService: types.StringPointerValue(v.KnoxService),
+				Mode:        types.StringPointerValue(v.Mode),
+				Open:        types.BoolPointerValue(v.Open),
+				ServiceName: types.StringPointerValue(v.ServiceName),
+				ServiceURL:  types.StringPointerValue(v.ServiceURL),
+			}
 		}
+		var epDiags diag.Diagnostics
+		model.Endpoints, epDiags = types.SetValueFrom(ctx, types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"display_name": types.StringType,
+				"knox_service": types.StringType,
+				"mode":         types.StringType,
+				"open":         types.BoolType,
+				"service_name": types.StringType,
+				"service_url":  types.StringType,
+			},
+		}, endpoints)
+		diags.Append(epDiags...)
 	}
-	var epDiags diag.Diagnostics
-	model.Endpoints, epDiags = types.SetValueFrom(ctx, types.ObjectType{
-		AttrTypes: map[string]attr.Type{
-			"display_name": types.StringType,
-			"knox_service": types.StringType,
-			"mode":         types.StringType,
-			"open":         types.BoolType,
-			"service_name": types.StringType,
-			"service_url":  types.StringType,
-		},
-	}, endpoints)
-	diags.Append(epDiags...)
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
 	for i, v := range resp.InstanceGroups {
@@ -305,9 +309,12 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 			Name: types.StringPointerValue(v.Name),
 		}
 
-		instances := make([]*instance, len(v.Instances))
-		for j, ins := range v.Instances {
-			instances[j] = &instance{
+		instances := make([]*instance, 0, len(v.Instances))
+		for _, ins := range v.Instances {
+			if ins == nil || ins.ID == nil || len(*ins.ID) == 0 {
+				continue
+			}
+			instances = append(instances, &instance{
 				DiscoveryFQDN:   types.StringValue(ins.DiscoveryFQDN),
 				ID:              types.StringPointerValue(ins.ID),
 				InstanceGroup:   types.StringValue(ins.InstanceGroup),
@@ -318,7 +325,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 				SSHPort:         types.Int64Value(int64(ins.SSHPort)),
 				State:           types.StringPointerValue(ins.State),
 				StatusReason:    types.StringValue(ins.StatusReason),
-			}
+			})
 		}
 		var instDiags diag.Diagnostics
 		instanceGroups[i].Instances, instDiags = types.SetValueFrom(ctx, types.ObjectType{
