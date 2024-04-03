@@ -29,17 +29,6 @@ func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datala
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
 	model.PollingOptions = pollingOptions
-	endpoints := make([]*endpoint, len(resp.Endpoints.Endpoints))
-	for i, v := range resp.Endpoints.Endpoints {
-		endpoints[i] = &endpoint{
-			DisplayName: types.StringPointerValue(v.DisplayName),
-			KnoxService: types.StringPointerValue(v.KnoxService),
-			Mode:        types.StringPointerValue(v.Mode),
-			Open:        types.BoolPointerValue(v.Open),
-			ServiceName: types.StringPointerValue(v.ServiceName),
-			ServiceURL:  types.StringPointerValue(v.ServiceURL),
-		}
-	}
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	productVersions := make([]*productVersion, len(resp.ProductVersions))
 	for i, v := range resp.ProductVersions {

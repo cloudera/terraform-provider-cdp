@@ -47,7 +47,7 @@ var awsDatalakeResourceSchema = schema.Schema{
 				},
 				"polling_timeout": schema.Int64Attribute{
 					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
-					Default:             int64default.StaticInt64(60),
+					Default:             int64default.StaticInt64(90),
 					Computed:            true,
 					Optional:            true,
 				},
