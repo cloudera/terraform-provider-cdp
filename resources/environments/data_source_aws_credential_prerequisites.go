@@ -14,14 +14,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -37,13 +37,6 @@ type awsCredentialPrerequisitesDataSource struct {
 	client *cdp.Client
 }
 
-// awsCredentialPrerequisitesDataSourceModel maps the data source schema data.
-type awsCredentialPrerequisitesDataSourceModel struct {
-	ID         types.String `tfsdk:"id"`
-	AccountID  types.String `tfsdk:"account_id"`
-	ExternalID types.String `tfsdk:"external_id"`
-}
-
 // Configure adds the provider configured client to the data source.
 func (d *awsCredentialPrerequisitesDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	d.client = utils.GetCdpClientForDataSource(req, resp)
@@ -51,25 +44,6 @@ func (d *awsCredentialPrerequisitesDataSource) Configure(_ context.Context, req 
 
 func (d *awsCredentialPrerequisitesDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_aws_credential_prerequisites"
-}
-
-func (d *awsCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "This data source is used to get information required to set up a delegated access role in AWS that can be used to create a CDP credential.",
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed: true,
-			},
-			"account_id": schema.StringAttribute{
-				MarkdownDescription: "The AWS account ID of the identity used by CDP when assuming a delegated access role associated with a CDP credential.",
-				Computed:            true,
-			},
-			"external_id": schema.StringAttribute{
-				MarkdownDescription: "The external ID that will be used when assuming a delegated access role associated with a CDP credential.",
-				Computed:            true,
-			},
-		},
-	}
 }
 
 // Read refreshes the Terraform state with the latest data.
@@ -111,6 +85,14 @@ func (d *awsCredentialPrerequisitesDataSource) Read(ctx context.Context, req dat
 	data.AccountID = types.StringValue(prerequisites.AccountID)
 	data.ExternalID = types.StringValue(*prerequisites.Aws.ExternalID)
 	data.ID = types.StringValue(prerequisites.AccountID + ":" + *prerequisites.Aws.ExternalID)
+	data.Policy = types.StringPointerValue(prerequisites.Aws.PolicyJSON)
+	data.Policies = make([]*credentialGranularPolicyDataSourceModel, len(prerequisites.Aws.Policies))
+	for i, policy := range prerequisites.Aws.Policies {
+		data.Policies[i] = &credentialGranularPolicyDataSourceModel{
+			Service:    types.StringPointerValue(policy.Service),
+			PolicyJson: types.StringPointerValue(policy.PolicyJSON),
+		}
+	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
