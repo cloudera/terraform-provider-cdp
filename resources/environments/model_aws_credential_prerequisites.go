@@ -13,14 +13,9 @@ package environments
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type awsCredentialPrerequisitesDataSourceModel struct {
-	ID         types.String                               `tfsdk:"id"`
-	AccountID  types.String                               `tfsdk:"account_id"`
-	ExternalID types.String                               `tfsdk:"external_id"`
-	Policy     types.String                               `tfsdk:"policy"`
-	Policies   []*credentialGranularPolicyDataSourceModel `tfsdk:"policies"`
-}
-
-type credentialGranularPolicyDataSourceModel struct {
-	Service    types.String `tfsdk:"service"`
-	PolicyJson types.String `tfsdk:"policy_json"`
+	ID         types.String `tfsdk:"id"`
+	AccountID  types.String `tfsdk:"account_id"`
+	ExternalID types.String `tfsdk:"external_id"`
+	Policy     types.String `tfsdk:"policy"`
+	Policies   types.Map    `tfsdk:"policies"`
 }

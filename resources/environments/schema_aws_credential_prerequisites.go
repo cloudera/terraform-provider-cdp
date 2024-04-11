@@ -14,6 +14,7 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 func (d *awsCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
@@ -35,21 +36,10 @@ func (d *awsCredentialPrerequisitesDataSource) Schema(_ context.Context, _ datas
 				MarkdownDescription: "The related policy json encoded in base64",
 				Computed:            true,
 			},
-			"policies": schema.SetNestedAttribute{
+			"policies": schema.MapAttribute{
 				Computed:            true,
 				MarkdownDescription: "The fine-grained policies related to each service.",
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"service": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "The name of the service that requires the given policy for resource management.",
-						},
-						"policy_json": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "The policy JSON encoded in base64.",
-						},
-					},
-				},
+				ElementType:         types.StringType,
 			},
 		},
 	}
