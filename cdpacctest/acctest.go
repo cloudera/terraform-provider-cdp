@@ -12,6 +12,7 @@ package cdpacctest
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"regexp"
 	"sync"
@@ -21,7 +22,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/pkg/errors"
 )
 
@@ -81,6 +82,10 @@ func ConcatExternalProviders(providerMaps ...map[string]resource.ExternalProvide
 	}
 
 	return result
+}
+
+func RandomShortWithPrefix(name string) string {
+	return fmt.Sprintf("%s-%d", name, rand.Int()%1000)
 }
 
 func TestAccCdpProviderConfig() string {
