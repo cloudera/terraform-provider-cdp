@@ -86,14 +86,15 @@ func (d *awsCredentialPrerequisitesDataSource) Read(ctx context.Context, req dat
 	data.ExternalID = types.StringValue(*prerequisites.Aws.ExternalID)
 	data.ID = types.StringValue(prerequisites.AccountID + ":" + *prerequisites.Aws.ExternalID)
 	data.Policy = types.StringPointerValue(prerequisites.Aws.PolicyJSON)
-	data.Policies = make([]*credentialGranularPolicyDataSourceModel, len(prerequisites.Aws.Policies))
-	for i, policy := range prerequisites.Aws.Policies {
-		data.Policies[i] = &credentialGranularPolicyDataSourceModel{
-			Service:    types.StringPointerValue(policy.Service),
-			PolicyJson: types.StringPointerValue(policy.PolicyJSON),
-		}
+
+	var policyMap = make(map[string]string)
+	for _, policy := range prerequisites.Aws.Policies {
+		policyMap[*policy.Service] = *policy.PolicyJSON
 	}
 
-	// Save data into Terraform state
+	policyTypeMap, convDiag := types.MapValueFrom(ctx, types.StringType, policyMap)
+	data.Policies = policyTypeMap
+	resp.Diagnostics.Append(convDiag...)
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
