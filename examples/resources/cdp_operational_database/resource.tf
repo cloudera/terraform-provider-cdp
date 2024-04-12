@@ -28,6 +28,5 @@ resource "cdp_operational_database" "opdb" {
   // scale_type   = "MICRO" // valid options are "MICRO","LIGHT","HEAVY"
   // storage_type = "HDFS"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
 
-  disable_multi_az = false
   // num_edge_nodes   = 1
 }

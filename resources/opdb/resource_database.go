@@ -138,6 +138,18 @@ func getCommonDatabaseDetails(data *databaseResourceModel, databaseDetails *opdb
 	data.StorageLocation = types.StringValue(databaseDetails.StorageLocation)
 
 	data.NumEdgeNodes = types.Int64Value(int64(databaseDetails.DbEdgeNodeCount))
+
+	if len(databaseDetails.StorageDetailsForWorkers) >= 1 {
+		data.AttachedStorageForWorkers = createStorageDetailsForWorkers(databaseDetails.StorageDetailsForWorkers[0])
+	}
+}
+
+func createStorageDetailsForWorkers(storageDetailsForWorker *opdbmodels.StorageDetailsForWorker) *AttachedStorageForWorkersStruct {
+	return &AttachedStorageForWorkersStruct{
+		VolumeCount: types.Int64Value(int64(storageDetailsForWorker.VolumeCount)),
+		VolumeSize:  types.Int64Value(int64(storageDetailsForWorker.VolumeSize)),
+		VolumeType:  types.StringValue(string(storageDetailsForWorker.VolumeType)),
+	}
 }
 
 func (r *databaseResource) Update(ctx context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
