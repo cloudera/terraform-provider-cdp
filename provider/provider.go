@@ -244,6 +244,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		environments.NewAWSCredentialPrerequisitesDataSource,
+		environments.NewKeytabDataSource,
 		iam.NewGroupDataSource,
 	}
 }
