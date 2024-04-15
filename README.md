@@ -190,6 +190,23 @@ data-sources.
 You can use this tool: https://registry.terraform.io/tools/doc-preview to copy-paste the markdown files to see how they
 render in the terraform registry public docs.
 
+## Generating resource scaffolding code
+
+### Install 
+
+Install the terraform-plugin-codegen-framework tool:
+```
+go install github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework@latest
+```
+
+### Generate resource scaffolding
+Example
+```
+tfplugingen-framework scaffold resource \
+--name machine_user \
+--output-file resources/iam/resource_machine_user.go \
+--package "iam" 
+```
 
 ## Releases
 
