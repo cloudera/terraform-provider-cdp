@@ -99,7 +99,7 @@ installed version of the provider binary.
 
 ## Filing Bugs
 
-Create a Github Issue, or file a JIRA (for Cloudera-only) using the `CDPCP` project using the cdp terraform provider component.
+Create a GitHub Issue, or file a JIRA (for Cloudera-only) using the `CDPCP` project using the cdp terraform provider component.
 
 Generate logs by setting the `TF_LOG` environment variable to any value and capturing the output, for example by running
 ```
@@ -222,19 +222,17 @@ to the Terraform Registry.
    2. A release-candidate can be pushed by adding `-rc1` suffix like `v0.0.1-rc1`.
    3. You can find the next version to use by looking at the existing releases / tags.
 8. Push the tag: `git push origin v0.0.1`.
-9. Run `goreleaser`: `make release`
-10. If goreleaser runs successfully, it will automatically:
+9. Once the tag is pushed for the designated commit, the related GitHub Action will run and create a release.
+10. If the goreleaser GitHub action job finishes successfully, it will automatically:
     1. Cross-compile against all platforms and create binaries under `dist/`
     2. Create zip archives for all binaries.
     3. Checksums all of the binaries using sha256 and saves the checksums under `dist/terraform-provider-cdp_<VERSION>_SHA256SUMS`.
     4. Signs the checksums file with the gpg keys of the user.
     5. Creates other metadata files for the build and release.
-    6. Creates a release **as a draft** in Github (we are intentionally doing this. Once we get the other mechanics working we can do non-draft releases).
-    7. Uploads artifacts and release notes to the Github release.
-11. Until otherwise noted, select the pre-release checkbox to indicate that we
-  are not yet production ready.
-12. The release that is pushed by goreleaser is a draft release. Go to the release page in Github, and double check the release notes, artifacts and the version. If everything is fine, click on "Edit" and then "Publish Release" button.
-13. Once the release is done, send a PR to update the `CHANGELOG.md` with the new release section, and update the release date.
+    6. Creates a release **as a draft** in GitHub
+    7. Uploads artifacts and release notes to the GitHub release.
+11. As of now, the created release has to be published manually. Go to the release page in GitHub, and double-check the release notes, artifacts and the version. (Optionally the release notes can be updated again, since GH generates a slightly different format.) If everything is fine, click on "Edit" and then "Publish Release" button.
+12. Once the release is done, send a PR to update the `CHANGELOG.md` with the new release section, and update the release date.
 
 #### Publishing new releases to Terraform Registry
-Above steps only publish the artifacts to github. We need to futher publish the artifacts to Terraform Registry. The steps will be documented here.
+Once the release is published in GitHub, it will be transferred to the Terraform Registry automatically by a webhook, but usually takes some time to sync.
