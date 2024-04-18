@@ -24,9 +24,4 @@ provider "cdp" {
 resource "cdp_operational_database" "opdb" {
   environment_name = "<value>"
   database_name    = "<value>"
-
-  // scale_type   = "MICRO" // valid options are "MICRO","LIGHT","HEAVY"
-  // storage_type = "HDFS"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
-
-  // num_edge_nodes   = 1
 }
