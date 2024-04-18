@@ -24,14 +24,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
+	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 	testUtil "github.com/cloudera/terraform-provider-cdp/utils/test"
-	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 const (
@@ -619,6 +620,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		datalake.NewAzureDatalakeResource,
 		datalake.NewGcpDatalakeResource,
 		iam.NewGroupResource,
+		iam.NewAssignMachineUserResource,
 		iam.NewMachineUserResource,
 		datahub.NewAwsDatahubResource,
 		datahub.NewAzureDatahubResource,

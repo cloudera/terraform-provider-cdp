@@ -11,14 +11,15 @@
 package utils
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 type EnvironmentErrorPayload interface {
