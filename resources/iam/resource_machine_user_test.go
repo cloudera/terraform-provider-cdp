@@ -27,7 +27,7 @@ import (
 func TestAccIamMachineUser_basic(t *testing.T) {
 	rName := acctest.RandomWithPrefix(cdpacctest.ResourcePrefix)
 	resourceName := "cdp_iam_machine_user.test"
-	var credential models.MachineUser
+	var machineUser models.MachineUser
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { cdpacctest.PreCheck(t) },
 		ProtoV6ProviderFactories: cdpacctest.TestAccProtoV6ProviderFactories,
@@ -41,8 +41,8 @@ func TestAccIamMachineUser_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "name", rName),
 					resource.TestCheckResourceAttrWith(resourceName, "id", cdpacctest.CheckCrn),
-					testAccCheckIamMachineUserExists(resourceName, &credential),
-					testAccCheckIamMachineUserValues(&credential, rName),
+					testAccCheckIamMachineUserExists(resourceName, &machineUser),
+					testAccCheckIamMachineUserValues(&machineUser, rName),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -102,7 +102,7 @@ func testAccCheckIamMachineUserValues(mu *models.MachineUser, rName string) reso
 
 func testAccCheckIamMachineUserDestroy(s *terraform.State) error {
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cdp_environments_aws_credential" {
+		if rs.Type != "cdp_environments_aws_machineUser" {
 			continue
 		}
 

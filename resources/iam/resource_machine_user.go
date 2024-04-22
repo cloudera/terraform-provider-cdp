@@ -96,7 +96,7 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 	responseOk, err := client.Operations.ListMachineUsers(params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read Machine User")
-		if d, ok := err.(*operations.CreateMachineUserDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+		if d, ok := err.(*operations.ListMachineUsersDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 			resp.Diagnostics.AddWarning("Resource not found on provider", "Machine User not found, removing from state.")
 			tflog.Warn(ctx, "Machine User not found, removing from state", map[string]interface{}{
 				"id": data.Id,
@@ -113,14 +113,12 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 		// Save data into Terraform state
 		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	} else {
-		if d, ok := err.(*operations.CreateMachineUserDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
-			resp.Diagnostics.AddWarning("Resource not found on provider", "Machine User not found, removing from state.")
-			tflog.Warn(ctx, "Machine User not found, removing from state", map[string]interface{}{
-				"id": data.Id,
-			})
-			resp.State.RemoveResource(ctx)
-			return
-		}
+		resp.Diagnostics.AddWarning("Resource not found on provider", "Machine User not found, removing from state.")
+		tflog.Warn(ctx, "Machine User not found, removing from state", map[string]interface{}{
+			"id": data.Id,
+		})
+		resp.State.RemoveResource(ctx)
+		return
 	}
 }
 
