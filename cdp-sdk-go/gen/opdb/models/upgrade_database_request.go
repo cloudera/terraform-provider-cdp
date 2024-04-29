@@ -30,6 +30,9 @@ type UpgradeDatabaseRequest struct {
 	// ID of a database image to upgrade to. If this is empty, the default image is used.
 	ImageID string `json:"imageId,omitempty"`
 
+	// Batch size of non-worker nodes for restart.
+	NonWorkerBatchSize int32 `json:"nonWorkerBatchSize,omitempty"`
+
 	// Only perform an Operating System upgrade.
 	OsUpgradeOnly bool `json:"osUpgradeOnly,omitempty"`
 
@@ -38,6 +41,9 @@ type UpgradeDatabaseRequest struct {
 
 	// The CDP Runtime version to upgrade to.
 	Runtime string `json:"runtime,omitempty"`
+
+	// Batch size of worker nodes for restart.
+	WorkerBatchSize int32 `json:"workerBatchSize,omitempty"`
 }
 
 // Validate validates this upgrade database request

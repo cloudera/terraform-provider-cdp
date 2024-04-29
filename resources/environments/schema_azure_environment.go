@@ -251,6 +251,12 @@ var AzureEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
+		"encryption_user_managed_identity": schema.StringAttribute{
+			Optional: true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
 		"tags": schema.MapAttribute{
 			Optional:    true,
 			Computed:    true,
@@ -285,6 +291,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
 	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
 	req.EncryptionAtHost = model.EncryptionAtHost.ValueBool()
+	req.UserManagedIdentity = model.EncryptionUserManagedIdentity.ValueString()
 	if !model.ExistingNetworkParams.IsNull() && !model.ExistingNetworkParams.IsUnknown() {
 		tflog.Debug(ctx, "existing network params")
 		var existingNetworkParams existingAzureNetwork

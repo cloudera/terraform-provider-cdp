@@ -725,8 +725,14 @@ type VwSummaryEndpoints struct {
 	// Command to use impala-shell for Unified Analytics
 	FengImpalaShell string `json:"fengImpalaShell,omitempty"`
 
+	// Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud.
+	FengKerberosImpalaShell string `json:"fengKerberosImpalaShell,omitempty"`
+
 	// JDBC URL for Hive Virtual Warehouses.
 	HiveJdbc string `json:"hiveJdbc,omitempty"`
+
+	// JDBC URL with Kerberos authentication for Hive Virtual Warehouses in Private Cloud.
+	HiveKerberosJdbc string `json:"hiveKerberosJdbc,omitempty"`
 
 	// Hostname for clients to use when connecting to the VW.
 	Hostname string `json:"hostname,omitempty"`
@@ -736,6 +742,9 @@ type VwSummaryEndpoints struct {
 
 	// FENG JDBC URL for Impala Virtual Warehouses.
 	ImpalaFENGJdbc string `json:"impalaFENGJdbc,omitempty"`
+
+	// Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud.
+	ImpalaFengKerberosJdbc string `json:"impalaFengKerberosJdbc,omitempty"`
 
 	// JDBC URL for Impala Virtual Warehouses.
 	ImpalaJdbc string `json:"impalaJdbc,omitempty"`

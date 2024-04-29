@@ -51,6 +51,7 @@ resource "cdp_environments_azure_environment" "example-env" {
     managed_identity      = "/subscriptions/123e4567-e89b-12d3-a456-426614174000/resourcegroups/my-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/logger"
   }
   resource_group_name = "rg-name"
+  encryption_user_managed_identity = "some-identity"
   use_public_ip       = true
 }
 
@@ -85,6 +86,7 @@ output "crn" {
 - `encryption_at_host` (Boolean)
 - `encryption_key_resource_group_name` (String)
 - `encryption_key_url` (String)
+- `encryption_user_managed_identity` (String)
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 - `endpoint_access_gateway_subnet_ids` (Set of String) The subnets to use for endpoint access gateway.
 - `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--existing_network_params))

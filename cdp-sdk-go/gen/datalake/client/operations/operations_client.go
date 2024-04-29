@@ -1216,7 +1216,7 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 }
 
 /*
-ResizeDatalake resizes the given datalake to the given target size currently the only valid use of this is for resizing a light duty datalake to a medium duty datalake
+ResizeDatalake resizes the given datalake to the given target size
 
 Resizes the datalake to the given size.
 */

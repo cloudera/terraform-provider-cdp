@@ -5748,6 +5748,79 @@ func (_c *MockEnvironmentClientService_UpdateAzureImageTermsPolicy_Call) RunAndR
 	return _c
 }
 
+// UpdateCustomDockerRegistry provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) UpdateCustomDockerRegistry(params *operations.UpdateCustomDockerRegistryParams, opts ...operations.ClientOption) (*operations.UpdateCustomDockerRegistryOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateCustomDockerRegistry")
+	}
+
+	var r0 *operations.UpdateCustomDockerRegistryOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateCustomDockerRegistryParams, ...operations.ClientOption) (*operations.UpdateCustomDockerRegistryOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateCustomDockerRegistryParams, ...operations.ClientOption) *operations.UpdateCustomDockerRegistryOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateCustomDockerRegistryOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateCustomDockerRegistryParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateCustomDockerRegistry_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateCustomDockerRegistry'
+type MockEnvironmentClientService_UpdateCustomDockerRegistry_Call struct {
+	*mock.Call
+}
+
+// UpdateCustomDockerRegistry is a helper method to define mock.On call
+//   - params *operations.UpdateCustomDockerRegistryParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateCustomDockerRegistry(params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call {
+	return &MockEnvironmentClientService_UpdateCustomDockerRegistry_Call{Call: _e.mock.On("UpdateCustomDockerRegistry",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call) Run(run func(params *operations.UpdateCustomDockerRegistryParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateCustomDockerRegistryParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call) Return(_a0 *operations.UpdateCustomDockerRegistryOK, _a1 error) *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call) RunAndReturn(run func(*operations.UpdateCustomDockerRegistryParams, ...operations.ClientOption) (*operations.UpdateCustomDockerRegistryOK, error)) *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateDataServiceResources provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) UpdateDataServiceResources(params *operations.UpdateDataServiceResourcesParams, opts ...operations.ClientOption) (*operations.UpdateDataServiceResourcesOK, error) {
 	_va := make([]interface{}, len(opts))

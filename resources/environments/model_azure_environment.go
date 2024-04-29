@@ -74,6 +74,8 @@ type azureEnvironmentResourceModel struct {
 	EndpointAccessGatewayScheme types.String `tfsdk:"endpoint_access_gateway_scheme"`
 
 	EndpointAccessGatewaySubnetIds types.Set `tfsdk:"endpoint_access_gateway_subnet_ids"`
+
+	EncryptionUserManagedIdentity types.String `tfsdk:"encryption_user_managed_identity"`
 }
 
 type existingAzureNetwork struct {

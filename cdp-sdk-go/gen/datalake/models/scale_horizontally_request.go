@@ -15,12 +15,12 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// ScaleHorizontallyRequest Data lake horizontal scaling request.
+// ScaleHorizontallyRequest Data Lake horizontal scaling request.
 //
 // swagger:model ScaleHorizontallyRequest
 type ScaleHorizontallyRequest struct {
 
-	// the name of the Data Lake
+	// The name of the Data Lake
 	// Required: true
 	DatalakeName *string `json:"datalakeName"`
 

@@ -66,7 +66,7 @@ type CreateWorkspaceRequest struct {
 	// The request for Kubernetes workspace provision. Required in public cloud.
 	ProvisionK8sRequest *ProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
 
-	// Skip pre-flight validations if requested
+	// Skip pre-flight validations if requested.
 	SkipValidation bool `json:"skipValidation,omitempty"`
 
 	// The static subdomain to be used for the workspace.

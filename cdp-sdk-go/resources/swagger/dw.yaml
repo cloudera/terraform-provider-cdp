@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.108 (BETA)
+  version: 0.9.111 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -2398,6 +2398,7 @@ definitions:
     required:
       - environmentCrn
       - userAssignedManagedIdentity
+      - subnetName
     properties:
       environmentCrn:
         type: string
@@ -2487,18 +2488,18 @@ definitions:
     description: Request object for the createPrivateCluster method.
     required:
       - environmentCrn
-      - delegationUsername
-      - delegationPassword
     properties:
       environmentCrn:
         type: string
         description: The CRN of the environment for the cluster to create.
       delegationUsername:
+        x-deprecated: true
         type: string
-        description: Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.
+        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.'
       delegationPassword:
+        x-deprecated: true
         type: string
-        description: Password of delegation user.
+        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
       securityContextConstraintName:
         type: string
         description: The name of the Hive Security Context Constraint.
@@ -2731,16 +2732,15 @@ definitions:
     type: object
     description: Options for activating a Private Cloud environment.
     x-form-factors: private
-    required:
-      - delegationUsername
-      - delegationPassword
     properties:
       delegationUsername:
+        x-deprecated: true
         type: string
-        description: Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.
+        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.'
       delegationPassword:
+        x-deprecated: true
         type: string
-        description: Password of delegation user.
+        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
       securityContextConstraintName:
         type: string
         description: The name of the Hive Security Context Constraint.
@@ -2950,11 +2950,13 @@ definitions:
         type: string
         description: Cluster description.
       delegationUsername:
+        x-deprecated: true
         type: string
-        description: The user name to update for delegation user. Setting it to the same value as the existing delegation user name will be a no-op.
+        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The user name to update for delegation user. Setting it to the same value as the existing delegation user name will be a no-op.'
       delegationPassword:
+        x-deprecated: true
         type: string
-        description: The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.
+        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.'
       dedicatedExecutorNodes:
         type: boolean
         description: Set it true to enable dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserve nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
@@ -4951,6 +4953,10 @@ definitions:
           hiveJdbc:
             type: string
             description: JDBC URL for Hive Virtual Warehouses.
+          hiveKerberosJdbc:
+            type: string
+            x-form-factors: private
+            description: JDBC URL with Kerberos authentication for Hive Virtual Warehouses in Private Cloud.
           impalaJdbc:
             type: string
             description: JDBC URL for Impala Virtual Warehouses.
@@ -4961,6 +4967,10 @@ definitions:
           impalaFENGJdbc:
             type: string
             description: FENG JDBC URL for Impala Virtual Warehouses.
+          impalaFengKerberosJdbc:
+            type: string
+            x-form-factors: private
+            description: Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud.
           impalaShell:
             type: string
             description: Command to use impala-shell for Impala Virtual Warehouses.
@@ -4968,6 +4978,10 @@ definitions:
             type: string
             x-form-factors: private
             description: Command to use impala-shell for Unified Analytics
+          fengKerberosImpalaShell:
+            type: string
+            x-form-factors: private
+            description: Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud.
           kerberosImpalaShell:
             type: string
             x-form-factors: private

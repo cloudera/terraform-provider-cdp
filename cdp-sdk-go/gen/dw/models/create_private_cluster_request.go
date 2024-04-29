@@ -25,13 +25,11 @@ type CreatePrivateClusterRequest struct {
 	// Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
 	DedicatedExecutorNodes *bool `json:"dedicatedExecutorNodes,omitempty"`
 
-	// Password of delegation user.
-	// Required: true
-	DelegationPassword *string `json:"delegationPassword"`
+	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.
+	DelegationPassword string `json:"delegationPassword,omitempty"`
 
-	// Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.
-	// Required: true
-	DelegationUsername *string `json:"delegationUsername"`
+	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.
+	DelegationUsername string `json:"delegationUsername,omitempty"`
 
 	// The CRN of the environment for the cluster to create.
 	// Required: true
@@ -51,14 +49,6 @@ type CreatePrivateClusterRequest struct {
 func (m *CreatePrivateClusterRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateDelegationPassword(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateDelegationUsername(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateEnvironmentCrn(formats); err != nil {
 		res = append(res, err)
 	}
@@ -66,24 +56,6 @@ func (m *CreatePrivateClusterRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *CreatePrivateClusterRequest) validateDelegationPassword(formats strfmt.Registry) error {
-
-	if err := validate.Required("delegationPassword", "body", m.DelegationPassword); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *CreatePrivateClusterRequest) validateDelegationUsername(formats strfmt.Registry) error {
-
-	if err := validate.Required("delegationUsername", "body", m.DelegationUsername); err != nil {
-		return err
-	}
-
 	return nil
 }
 

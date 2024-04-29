@@ -47,6 +47,9 @@ type Environment struct {
 	// Required: true
 	Crn *string `json:"crn"`
 
+	// The configured custom docker registry for data services on the environment.
+	CustomDockerRegistry *CustomDockerRegistryResponse `json:"customDockerRegistry,omitempty"`
+
 	// Data Services parameters of the environment.
 	DataServices *DataServices `json:"dataServices,omitempty"`
 
@@ -133,6 +136,10 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCrn(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCustomDockerRegistry(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -281,6 +288,25 @@ func (m *Environment) validateCrn(formats strfmt.Registry) error {
 
 	if err := validate.Required("crn", "body", m.Crn); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *Environment) validateCustomDockerRegistry(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomDockerRegistry) { // not required
+		return nil
+	}
+
+	if m.CustomDockerRegistry != nil {
+		if err := m.CustomDockerRegistry.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDockerRegistry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDockerRegistry")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -500,6 +526,10 @@ func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Regist
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateCustomDockerRegistry(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateDataServices(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -597,6 +627,27 @@ func (m *Environment) contextValidateBackupStorage(ctx context.Context, formats 
 				return ve.ValidateName("backupStorage")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("backupStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateCustomDockerRegistry(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CustomDockerRegistry != nil {
+
+		if swag.IsZero(m.CustomDockerRegistry) { // not required
+			return nil
+		}
+
+		if err := m.CustomDockerRegistry.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDockerRegistry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDockerRegistry")
 			}
 			return err
 		}

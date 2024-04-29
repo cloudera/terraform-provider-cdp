@@ -173,6 +173,12 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
+		name:             "encryption_user_managed_identity should exist and be valid",
+		field:            "encryption_user_managed_identity",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
 		name:             "tags should exist and be valid",
 		field:            "tags",
 		computed:         true,

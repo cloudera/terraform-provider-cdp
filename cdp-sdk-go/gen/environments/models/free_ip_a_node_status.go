@@ -24,6 +24,9 @@ type FreeIPANodeStatus struct {
 	// Required: true
 	Hostname *string `json:"hostname"`
 
+	// The instance ID for the instance.
+	InstanceID string `json:"instanceId,omitempty"`
+
 	// A list of issues the node is having
 	Issues []string `json:"issues"`
 

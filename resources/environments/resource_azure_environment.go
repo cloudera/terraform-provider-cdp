@@ -131,6 +131,7 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
 	model.PollingOptions = pollingOptions
+	model.EncryptionUserManagedIdentity = types.StringValue(model.EncryptionUserManagedIdentity.ValueString())
 	if env.LogStorage != nil {
 		if env.LogStorage.AzureDetails != nil {
 			model.LogStorage = &azureLogStorage{
