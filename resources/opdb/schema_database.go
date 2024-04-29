@@ -20,7 +20,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -33,50 +37,78 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 		"database_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the database.",
 			Required:            true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
+			},
 		},
 		"environment_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the environment where the cluster will belong to.",
 			Required:            true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
+			},
 		},
 		"scale_type": schema.StringAttribute{
 			MarkdownDescription: "Scale type, MICRO, LIGHT or HEAVY",
 			Optional:            true,
 			Computed:            true,
 			Default:             stringdefault.StaticString("LIGHT"),
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
+			},
 		},
 		"storage_type": schema.StringAttribute{
 			MarkdownDescription: "Storage type for clusters, CLOUD_WITH_EPHEMERAL, CLOUD or HDFS",
 			Optional:            true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
+			},
 		},
 		"disable_external_db": schema.BoolAttribute{
-			MarkdownDescription: "Disable external database creation or not. It is only available in the BETA cdpcli.",
+			MarkdownDescription: "Disable external database creation or not. It is only available in the BETA api.",
 			Optional:            true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.RequiresReplace(),
+			},
 		},
 		"disable_multi_az": schema.BoolAttribute{
 			MarkdownDescription: "Disable deployment to multiple availability zones or not",
 			Optional:            true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.RequiresReplace(),
+			},
 		},
 		"subnet_id": schema.StringAttribute{
 			MarkdownDescription: "ID of the subnet to deploy to",
 			Optional:            true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
+			},
 		},
 		"num_edge_nodes": schema.Int64Attribute{
 			MarkdownDescription: "Number of edge nodes",
 			Optional:            true,
 			Computed:            true,
 			Default:             int64default.StaticInt64(0),
+			PlanModifiers: []planmodifier.Int64{
+				int64planmodifier.RequiresReplace(),
+			},
 		},
 		"java_version": schema.Int64Attribute{
-			MarkdownDescription: "Java version. It is only available in the BETA cdpcli.",
+			MarkdownDescription: "Java version. It is only available in the BETA api.",
 			Optional:            true,
+			PlanModifiers: []planmodifier.Int64{
+				int64planmodifier.RequiresReplace(),
+			},
 		},
 
 		"storage_location": schema.StringAttribute{
-			MarkdownDescription: "Storage Location for OPDB. It is only available in the BETA cdpcli.",
+			MarkdownDescription: "Storage Location for OPDB. It is only available in the BETA api.",
 			Computed:            true,
 			Optional:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
+				stringplanmodifier.RequiresReplace(),
 			},
 		},
 		"auto_scaling_parameters": schema.SingleNestedAttribute{
@@ -108,29 +140,32 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				},
 				"max_hdfs_usage_percentage": schema.Int64Attribute{
 					Optional:            true,
-					MarkdownDescription: "The maximum percentage of HDFS utilization for the database before we trigger the scaling. It is only available in the BETA cdpcli.",
+					MarkdownDescription: "The maximum percentage of HDFS utilization for the database before we trigger the scaling. It is only available in the BETA api.",
 				},
 				"max_regions_per_region_server": schema.Int64Attribute{
 					Optional:            true,
-					MarkdownDescription: "The maximum number of regions per region server. It is only available in the BETA cdpcli.",
+					MarkdownDescription: "The maximum number of regions per region server. It is only available in the BETA api.",
 				},
 				"max_cpu_utilization": schema.Int64Attribute{
 					Optional:            true,
-					MarkdownDescription: "The maximum percentage threshold for the CPU utilization of the worker nodes. The CPU utilization is obtained from the Cloudera Manager metric ‘cpu_percent’ across worker nodes. Set 100 or more to disable the CPU metrics. It is only available in the BETA cdpcli.",
+					MarkdownDescription: "The maximum percentage threshold for the CPU utilization of the worker nodes. The CPU utilization is obtained from the Cloudera Manager metric ‘cpu_percent’ across worker nodes. Set 100 or more to disable the CPU metrics. It is only available in the BETA api.",
 				},
 				"max_compute_nodes_for_database": schema.Int64Attribute{
 					Optional:            true,
-					MarkdownDescription: "The maximum number of compute nodes, as per these metrics, that can be scaled up to. It is only available in the BETA cdpcli.",
+					MarkdownDescription: "The maximum number of compute nodes, as per these metrics, that can be scaled up to. It is only available in the BETA api.",
 				},
 				"min_compute_nodes_for_database": schema.Int64Attribute{
 					Optional:            true,
-					MarkdownDescription: "The minimum number of compute nodes, as per these metrics, that can be scaled down to. It is only available in the BETA cdpcli.",
+					MarkdownDescription: "The minimum number of compute nodes, as per these metrics, that can be scaled down to. It is only available in the BETA api.",
 				},
 			},
 		},
 		"attached_storage_for_workers": schema.SingleNestedAttribute{
 			Optional:            true,
 			MarkdownDescription: "Attached storage for the worker nodes for AWS, Azure, and GCP cloud providers.",
+			PlanModifiers: []planmodifier.Object{
+				objectplanmodifier.RequiresReplace(),
+			},
 			Attributes: map[string]schema.Attribute{
 				"volume_count": schema.Int64Attribute{
 					Optional:            true,
@@ -155,10 +190,16 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 		"disable_kerberos": schema.BoolAttribute{
 			MarkdownDescription: "Disable Kerberos authentication. ",
 			Optional:            true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.RequiresReplace(),
+			},
 		},
 		"disable_jwt_auth": schema.BoolAttribute{
 			MarkdownDescription: "Disable OAuth Bearer (JWT) authentication scheme. ",
 			Optional:            true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.RequiresReplace(),
+			},
 		},
 		"image": schema.SingleNestedAttribute{
 			Optional:            true,
@@ -167,6 +208,9 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				"id": schema.StringAttribute{
 					Required:            true,
 					MarkdownDescription: "Image ID for the database.",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.RequiresReplace(),
+					},
 				},
 				"catalog": schema.StringAttribute{
 					Required:            true,
@@ -178,10 +222,16 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 		"enable_grafana": schema.BoolAttribute{
 			MarkdownDescription: "To enable grafana server for the database.",
 			Optional:            true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.RequiresReplace(),
+			},
 		},
 		"custom_user_tags": schema.SetNestedAttribute{
 			Optional:            true,
 			MarkdownDescription: "Optional tags to apply to launched infrastructure resources",
+			PlanModifiers: []planmodifier.Set{
+				setplanmodifier.RequiresReplace(),
+			},
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
 					"key": schema.StringAttribute{
@@ -196,10 +246,16 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 		"enable_region_canary": schema.BoolAttribute{
 			MarkdownDescription: "To enable the region canary for the database.",
 			Optional:            true,
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.RequiresReplace(),
+			},
 		},
 		"recipes": schema.SetNestedAttribute{
 			Optional:            true,
 			MarkdownDescription: "Custom recipes for the database.",
+			PlanModifiers: []planmodifier.Set{
+				setplanmodifier.RequiresReplace(),
+			},
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
 					"names": schema.SetAttribute{
