@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var AssignMachineUserSchema = schema.Schema{
+var MachineUserResourceRoleAssignmentSchema = schema.Schema{
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
 			Computed: true,
@@ -23,9 +23,13 @@ var AssignMachineUserSchema = schema.Schema{
 			Required:            true,
 			MarkdownDescription: "The machine user the role is assigned to. Can be the machine user’s name or CRN.",
 		},
-		"role": schema.StringAttribute{
+		"resource_crn": schema.StringAttribute{
 			Required:            true,
-			MarkdownDescription: "The role to assign to the machine user. Can be the role’s name or CRN.",
+			MarkdownDescription: "The resource for which the resource role rights are granted.",
+		},
+		"resource_role_crn": schema.StringAttribute{
+			Required:            true,
+			MarkdownDescription: "The CRN of the resource role to assign to the machine user.",
 		},
 	},
 }

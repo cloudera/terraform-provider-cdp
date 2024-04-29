@@ -12,12 +12,13 @@ package iam
 
 import (
 	"context"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"testing"
 )
 
-func TestAssignMachineUserResourceSchemaContainsExpectedFields(t *testing.T) {
+func TestMachineUserResourceRoleAssignmentResourceSchemaContainsExpectedFields(t *testing.T) {
 	cases := []SchemaTestCaseStructure{
 		{
 			name:             "id must exist",
@@ -32,14 +33,20 @@ func TestAssignMachineUserResourceSchemaContainsExpectedFields(t *testing.T) {
 			shouldBeRequired: true,
 		},
 		{
-			name:             "role must exist",
-			field:            "role",
+			name:             "resource_crn must exist",
+			field:            "resource_crn",
+			computed:         false,
+			shouldBeRequired: true,
+		},
+		{
+			name:             "resource_role_crn must exist",
+			field:            "resource_role_crn",
 			computed:         false,
 			shouldBeRequired: true,
 		},
 	}
 
-	underTestAttributes := createFilledAssignMachineUserResourceTestObject()
+	underTestAttributes := createFilledMachineUserResourceRoleAssignmentResourceTestObject()
 
 	for _, test := range cases {
 		t.Run(test.name, func(t *testing.T) {
@@ -48,8 +55,8 @@ func TestAssignMachineUserResourceSchemaContainsExpectedFields(t *testing.T) {
 	}
 }
 
-func createFilledAssignMachineUserResourceTestObject() map[string]schema.Attribute {
-	res := &assignMachineUserResource{}
+func createFilledMachineUserResourceRoleAssignmentResourceTestObject() map[string]schema.Attribute {
+	res := &machineUserResourceRoleAssignmentResource{}
 	schemaResponse := &resource.SchemaResponse{}
 	res.Schema(context.TODO(), resource.SchemaRequest{}, schemaResponse)
 
