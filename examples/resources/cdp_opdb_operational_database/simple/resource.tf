@@ -21,7 +21,7 @@ provider "cdp" {
   cdp_shared_credentials_file = "/Users/<value>/.cdp/credentials"
 }
 
-resource "cdp_operational_database" "opdb" {
+resource "cdp_opdb_operational_database" "opdb-simple-example" {
   environment_name = "<value>"
   database_name    = "<value>"
 }

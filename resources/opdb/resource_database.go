@@ -36,7 +36,7 @@ func NewDatabaseResource() resource.Resource {
 }
 
 func (r *databaseResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_operational_database"
+	resp.TypeName = req.ProviderTypeName + "_opdb_operational_database"
 }
 
 func (r *databaseResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -64,7 +64,7 @@ func (r *databaseResource) Create(ctx context.Context, req resource.CreateReques
 
 	tflog.Info(ctx, fmt.Sprintf("Create request for OPDB with name: %s has been sent with the result of: %+v", data.DatabaseName.ValueString(), res))
 	if err != nil {
-		utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "create OPDB")
+		utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "create Database")
 		return
 	}
 
@@ -152,8 +152,44 @@ func createStorageDetailsForWorkers(storageDetailsForWorker *opdbmodels.StorageD
 	}
 }
 
-func (r *databaseResource) Update(ctx context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
-	tflog.Warn(ctx, "Update operation is not implemented yet.")
+func (r *databaseResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	tflog.Info(ctx, "OPDB cluster update process requested.")
+	var data databaseResourceModel
+	tflog.Info(ctx, fmt.Sprintf("Update OPDB with name: %s", data.DatabaseName.ValueString()))
+	diags := req.Plan.Get(ctx, &data)
+	tflog.Debug(ctx, fmt.Sprintf("OPDB resource model: %+v", data))
+	resp.Diagnostics.Append(diags...)
+	tflog.Debug(ctx, fmt.Sprintf("Diags: %+v", resp.Diagnostics))
+	if resp.Diagnostics.HasError() {
+		tflog.Warn(ctx, "OPDB resource model has error, stopping the update process.")
+		return
+	}
+
+	params := operations.NewUpdateDatabaseParamsWithContext(ctx)
+	params.WithInput(fromModelToUpdateDatabaseRequest(data, ctx))
+
+	tflog.Info(ctx, fmt.Sprintf("Sending update request for OPDB with name: %s", data.DatabaseName.ValueString()))
+	res, err := r.client.Opdb.Operations.UpdateDatabase(params)
+
+	tflog.Info(ctx, fmt.Sprintf("Update request for OPDB with name: %s has been sent with the result of: %+v", data.DatabaseName.ValueString(), res))
+	if err != nil {
+		utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "update Database")
+		return
+	}
+
+	status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
+	tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
+	data.Status = types.StringValue(status)
+	diags = resp.State.Set(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	if err != nil {
+		tflog.Debug(ctx, fmt.Sprintf("Cluster update has ended up in error: %s", err.Error()))
+		utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "update Database")
+		return
+	}
 }
 
 func (r *databaseResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

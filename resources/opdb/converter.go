@@ -63,6 +63,25 @@ func fromModelToDatabaseRequest(model databaseResourceModel, ctx context.Context
 	return &req
 }
 
+func fromModelToUpdateDatabaseRequest(model databaseResourceModel, ctx context.Context) *opdbmodels.UpdateDatabaseRequest {
+	tflog.Debug(ctx, "Conversion from databaseResourceModel to UpdateDatabaseRequest started.")
+	req := opdbmodels.UpdateDatabaseRequest{}
+	req.DatabaseName = model.DatabaseName.ValueStringPointer()
+	req.EnvironmentName = model.Environment.ValueStringPointer()
+
+	if model.AutoScalingParameters != nil {
+		tflog.Info(ctx, fmt.Sprintf("Autoscaling parameters %+v.", model.AutoScalingParameters))
+		req.AutoScalingParameters = createAutoScalingParameters(*model.AutoScalingParameters, ctx)
+	}
+
+	if model.Image != nil {
+		req.Catalog = *model.Image.Catalog.ValueStringPointer()
+	}
+
+	tflog.Debug(ctx, fmt.Sprintf("Conversion from databaseResourceModel to UpdateDatabaseRequest has finished with request: %+v.", req))
+	return &req
+}
+
 func createAutoScalingParameters(autoScalingParameters AutoScalingParametersStruct, ctx context.Context) *opdbmodels.AutoScalingParameters {
 	return &opdbmodels.AutoScalingParameters{
 		TargetedValueForMetric: autoScalingParameters.TargetedValueForMetric.ValueInt64(),

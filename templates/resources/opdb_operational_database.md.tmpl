@@ -1,6 +1,6 @@
 ---
 page_title: "{{.Name}} {{.Type}} - {{.ProviderName}}"
-subcategory: "{{ index (split .Name "_") 1}}"
+subcategory: "Operational Database"
 description: |-
 {{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
 ---
@@ -14,14 +14,18 @@ description: |-
 Operational Database can be created by providing just the `environment_name` and the desired `database_name`.
 
 Below example uses the most simple configuration.
-{{ tffile "examples/resources/cdp_operational_database/simple/resource.tf" }}
+{{ tffile "examples/resources/cdp_opdb_operational_database/simple/resource.tf" }}
 
 ### Optional parameters
 Operational Database can also be created with custom configuration.
 
 Below example uses every parameter available to configure.
 
-{{ tffile "examples/resources/cdp_operational_database/with_all_parameters/resource.tf" }}
+{{ tffile "examples/resources/cdp_opdb_operational_database/with_all_parameters/resource.tf" }}
+
+## Update Database
+It is possible to update the autoscaling parameters without deleting and creating a new Operational Database.
+It is also possible to change Catalog name for the image.
 
 {{ .SchemaMarkdown | trimspace }}
 
