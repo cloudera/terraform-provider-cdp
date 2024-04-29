@@ -43,7 +43,6 @@ resource "cdp_operational_database" "opdb" {
   // scale_type   = "MICRO" // valid options are "MICRO","LIGHT","HEAVY"
   // storage_type = "HDFS"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
 
-  disable_multi_az = false
   // num_edge_nodes   = 1
 }
 ```
@@ -58,12 +57,22 @@ resource "cdp_operational_database" "opdb" {
 
 ### Optional
 
-- `disable_external_db` (Boolean) Disable external database creation or not, it is only available in the BETA cdpcli
+- `attached_storage_for_workers` (Attributes) Attached storage for the worker nodes for AWS, Azure, and GCP cloud providers. (see [below for nested schema](#nestedatt--attached_storage_for_workers))
+- `auto_scaling_parameters` (Attributes) (see [below for nested schema](#nestedatt--auto_scaling_parameters))
+- `custom_user_tags` (Attributes Set) Optional tags to apply to launched infrastructure resources (see [below for nested schema](#nestedatt--custom_user_tags))
+- `disable_external_db` (Boolean) Disable external database creation or not. It is only available in the BETA cdpcli.
+- `disable_jwt_auth` (Boolean) Disable OAuth Bearer (JWT) authentication scheme.
+- `disable_kerberos` (Boolean) Disable Kerberos authentication.
 - `disable_multi_az` (Boolean) Disable deployment to multiple availability zones or not
-- `java_version` (Number) Java version, it is only available in the BETA cdpcli
+- `enable_grafana` (Boolean) To enable grafana server for the database.
+- `enable_region_canary` (Boolean) To enable the region canary for the database.
+- `image` (Attributes) Details of an Image. (see [below for nested schema](#nestedatt--image))
+- `java_version` (Number) Java version. It is only available in the BETA cdpcli.
 - `num_edge_nodes` (Number) Number of edge nodes
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `recipes` (Attributes Set) Custom recipes for the database. (see [below for nested schema](#nestedatt--recipes))
 - `scale_type` (String) Scale type, MICRO, LIGHT or HEAVY
+- `storage_location` (String) Storage Location for OPDB. It is only available in the BETA cdpcli.
 - `storage_type` (String) Storage type for clusters, CLOUD_WITH_EPHEMERAL, CLOUD or HDFS
 - `subnet_id` (String) ID of the subnet to deploy to
 
@@ -71,7 +80,52 @@ resource "cdp_operational_database" "opdb" {
 
 - `crn` (String) The CRN of the cluster.
 - `status` (String) The last known state of the cluster
-- `storage_location` (String) Storage Location for OPDB
+
+<a id="nestedatt--attached_storage_for_workers"></a>
+### Nested Schema for `attached_storage_for_workers`
+
+Optional:
+
+- `volume_count` (Number) The number of Volumes. Default is 4. Valid Range: Minimum value of 1, maximum value 8.
+- `volume_size` (Number) The target size of the volume, in GiB. Default is 2048.
+- `volume_type` (String) Volume Type. HDD - Hard disk drives (HDD) volume type. Default is HDD. SSD - Solid disk drives (SSD) volume type. LOCAL_SSD - Local SSD volume type.
+
+
+<a id="nestedatt--auto_scaling_parameters"></a>
+### Nested Schema for `auto_scaling_parameters`
+
+Optional:
+
+- `evaluation_period` (Number) Period of metrics(in seconds) needs to be considered.
+- `max_compute_nodes_for_database` (Number) The maximum number of compute nodes, as per these metrics, that can be scaled up to. It is only available in the BETA cdpcli.
+- `max_cpu_utilization` (Number) The maximum percentage threshold for the CPU utilization of the worker nodes. The CPU utilization is obtained from the Cloudera Manager metric ‘cpu_percent’ across worker nodes. Set 100 or more to disable the CPU metrics. It is only available in the BETA cdpcli.
+- `max_hdfs_usage_percentage` (Number) The maximum percentage of HDFS utilization for the database before we trigger the scaling. It is only available in the BETA cdpcli.
+- `max_regions_per_region_server` (Number) The maximum number of regions per region server. It is only available in the BETA cdpcli.
+- `max_workers_for_database` (Number) Maximum number of worker nodes as per this metrics can be scaled up to.
+- `max_workers_per_batch` (Number) Maximum number of worker nodes as per this metrics can be scaled up to in one batch.
+- `min_compute_nodes_for_database` (Number) The minimum number of compute nodes, as per these metrics, that can be scaled down to. It is only available in the BETA cdpcli.
+- `min_workers_for_database` (Number) Minimum number of worker nodes as per this metrics can be scaled down to.
+- `minimum_block_cache_gb` (Number) The amount of block cache, in Gigabytes, which the database should have.
+- `targeted_value_for_metric` (Number) The target value of the metric a user expect to maintain for the cluster
+
+
+<a id="nestedatt--custom_user_tags"></a>
+### Nested Schema for `custom_user_tags`
+
+Required:
+
+- `key` (String)
+- `value` (String)
+
+
+<a id="nestedatt--image"></a>
+### Nested Schema for `image`
+
+Required:
+
+- `catalog` (String) Catalog name for the image.
+- `id` (String) Image ID for the database.
+
 
 <a id="nestedatt--polling_options"></a>
 ### Nested Schema for `polling_options`
@@ -79,5 +133,14 @@ resource "cdp_operational_database" "opdb" {
 Optional:
 
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--recipes"></a>
+### Nested Schema for `recipes`
+
+Required:
+
+- `instance_group` (String) The name of the designated instance group.
+- `names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
 
 
