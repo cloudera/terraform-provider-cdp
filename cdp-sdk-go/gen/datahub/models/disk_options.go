@@ -18,6 +18,12 @@ import (
 // swagger:model DiskOptions
 type DiskOptions struct {
 
+	// Adds the requested number of disks of the requested type, size, and usage type.
+	AddDisks *AddDisks `json:"addDisks,omitempty"`
+
+	// Set it true to delete all attached disks on all the instances in a group.
+	DeleteDisks bool `json:"deleteDisks,omitempty"`
+
 	// Modifies all the disks attached to all instances in a group.
 	ModifyDisks *ModifyDisks `json:"modifyDisks,omitempty"`
 }
@@ -26,6 +32,10 @@ type DiskOptions struct {
 func (m *DiskOptions) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAddDisks(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateModifyDisks(formats); err != nil {
 		res = append(res, err)
 	}
@@ -33,6 +43,25 @@ func (m *DiskOptions) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *DiskOptions) validateAddDisks(formats strfmt.Registry) error {
+	if swag.IsZero(m.AddDisks) { // not required
+		return nil
+	}
+
+	if m.AddDisks != nil {
+		if err := m.AddDisks.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("addDisks")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("addDisks")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -59,6 +88,10 @@ func (m *DiskOptions) validateModifyDisks(formats strfmt.Registry) error {
 func (m *DiskOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateAddDisks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateModifyDisks(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -66,6 +99,27 @@ func (m *DiskOptions) ContextValidate(ctx context.Context, formats strfmt.Regist
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *DiskOptions) contextValidateAddDisks(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AddDisks != nil {
+
+		if swag.IsZero(m.AddDisks) { // not required
+			return nil
+		}
+
+		if err := m.AddDisks.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("addDisks")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("addDisks")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

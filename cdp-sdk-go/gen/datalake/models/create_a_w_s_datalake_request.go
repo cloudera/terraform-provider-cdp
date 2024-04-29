@@ -36,6 +36,9 @@ type CreateAWSDatalakeRequest struct {
 	// Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
 	EnableRangerRaz bool `json:"enableRangerRaz,omitempty"`
 
+	// Whether to enable Ranger RMS for the datalake. Defaults to not being enabled.
+	EnableRangerRms bool `json:"enableRangerRms,omitempty"`
+
 	// The environment name or CRN.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`

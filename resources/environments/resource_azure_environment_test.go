@@ -83,10 +83,11 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 						"network_cidr": tftypes.String,
 					},
 				},
-				"environment_name":               tftypes.String,
-				"proxy_config_name":              tftypes.String,
-				"endpoint_access_gateway_scheme": tftypes.String,
-				"enable_outbound_load_balancer":  tftypes.Bool,
+				"environment_name":                 tftypes.String,
+				"proxy_config_name":                tftypes.String,
+				"endpoint_access_gateway_scheme":   tftypes.String,
+				"enable_outbound_load_balancer":    tftypes.Bool,
+				"encryption_user_managed_identity": tftypes.String,
 				"existing_network_params": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"aks_private_dns_zone_id":      tftypes.String,
@@ -130,6 +131,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			"public_key":                         tftypes.NewValue(tftypes.String, ""),
 			"status":                             tftypes.NewValue(tftypes.String, ""),
 			"enable_tunnel":                      tftypes.NewValue(tftypes.Bool, false),
+			"encryption_user_managed_identity":   tftypes.NewValue(tftypes.String, ""),
 			"log_storage": tftypes.NewValue(tftypes.Object{
 				AttributeTypes: map[string]tftypes.Type{
 					"managed_identity":             tftypes.String,

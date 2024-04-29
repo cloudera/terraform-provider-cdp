@@ -37,6 +37,7 @@ resource "cdp_environments_azure_environment" "example-env" {
     managed_identity      = "/subscriptions/123e4567-e89b-12d3-a456-426614174000/resourcegroups/my-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/logger"
   }
   resource_group_name = "rg-name"
+  encryption_user_managed_identity = "some-identity"
   use_public_ip       = true
 }
 

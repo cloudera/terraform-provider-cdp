@@ -184,6 +184,8 @@ type ClientService interface {
 
 	UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error)
 
+	UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error)
+
 	UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error)
 
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
@@ -3248,6 +3250,45 @@ func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicy
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateAzureImageTermsPolicyDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateCustomDockerRegistry updates custom docker registry c r n of an environment
+
+Updates custom docker registry CRN of an environment.
+*/
+func (a *Client) UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateCustomDockerRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateCustomDockerRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateCustomDockerRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateCustomDockerRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateCustomDockerRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateCustomDockerRegistryDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

@@ -26,10 +26,10 @@ type UpdatePrivateClusterRequest struct {
 	// Set it true to enable dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserve nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
 	DedicatedExecutorNodes bool `json:"dedicatedExecutorNodes,omitempty"`
 
-	// The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.
+	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.
 	DelegationPassword string `json:"delegationPassword,omitempty"`
 
-	// The user name to update for delegation user. Setting it to the same value as the existing delegation user name will be a no-op.
+	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The user name to update for delegation user. Setting it to the same value as the existing delegation user name will be a no-op.
 	DelegationUsername string `json:"delegationUsername,omitempty"`
 
 	// Cluster description.

@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.108 (BETA)
+  version: 0.9.111 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -1764,6 +1764,14 @@ definitions:
       imageId:
         type: string
         description: ID of a database image to upgrade to. If this is empty, the default image is used.
+      workerBatchSize:
+        type: integer
+        format: int32
+        description: Batch size of worker nodes for restart.
+      nonWorkerBatchSize:
+        type: integer
+        format: int32
+        description: Batch size of non-worker nodes for restart.
       rollingUpgrade:
         type: boolean
         description: Perform upgrade in a rolling fashion.

@@ -31,6 +31,9 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	CredentialName *string `json:"credentialName"`
 
+	// Configures the desired custom docker registry for data services.
+	CustomDockerRegistry *CustomDockerRegistryRequest `json:"customDockerRegistry,omitempty"`
+
 	// Data Services parameters of the environment.
 	DataServices *DataServicesRequest `json:"dataServices,omitempty"`
 
@@ -110,6 +113,9 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	UsePublicIP *bool `json:"usePublicIp"`
 
+	// User managed identity for encryption.
+	UserManagedIdentity string `json:"userManagedIdentity,omitempty"`
+
 	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
 	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`
 }
@@ -119,6 +125,10 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	var res []error
 
 	if err := m.validateCredentialName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCustomDockerRegistry(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -184,6 +194,25 @@ func (m *CreateAzureEnvironmentRequest) validateCredentialName(formats strfmt.Re
 
 	if err := validate.Required("credentialName", "body", m.CredentialName); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) validateCustomDockerRegistry(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomDockerRegistry) { // not required
+		return nil
+	}
+
+	if m.CustomDockerRegistry != nil {
+		if err := m.CustomDockerRegistry.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDockerRegistry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDockerRegistry")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -432,6 +461,10 @@ func (m *CreateAzureEnvironmentRequest) validateUsePublicIP(formats strfmt.Regis
 func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateCustomDockerRegistry(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateDataServices(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -467,6 +500,27 @@ func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, for
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateCustomDockerRegistry(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CustomDockerRegistry != nil {
+
+		if swag.IsZero(m.CustomDockerRegistry) { // not required
+			return nil
+		}
+
+		if err := m.CustomDockerRegistry.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDockerRegistry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDockerRegistry")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

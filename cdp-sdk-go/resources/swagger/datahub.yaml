@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.108 (BETA)
+  version: 0.9.111 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -1571,9 +1571,41 @@ definitions:
     type: object
     description: Attached disk configuration(s).
     properties:
+      deleteDisks:
+        type: boolean
+        description: Set it true to delete all attached disks on all the instances in a group.
+      addDisks:
+        description: Adds the requested number of disks of the requested type, size, and usage type.
+        $ref: '#/definitions/AddDisks'
       modifyDisks:
         description: Modifies all the disks attached to all instances in a group.
         $ref: '#/definitions/ModifyDisks'
+  AddDisks:
+    type: object
+    description: Attached volume configuration.
+    required:
+      - numberOfDisks
+      - volumeType
+      - size
+      - cloudVolumeUsageType
+    properties:
+      numberOfDisks:
+        type: integer
+        format: int32
+        description: Number of disks to add on all the instances in a group.
+      volumeType:
+        type: string
+        description: Type of disks to add on all the instances in a group.
+      size:
+        type: integer
+        format: int32
+        description: Size of disks to add on all the instances in a group in GB.
+      cloudVolumeUsageType:
+        type: string
+        description: Usage for the requested disks.
+        enum:
+          - GENERAL
+          - DATABASE
   ModifyDisks:
     type: object
     description: Attached volume configuration.

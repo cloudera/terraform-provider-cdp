@@ -29,6 +29,9 @@ type ModelRegistry struct {
 	// ModelRegistry CRN.
 	Crn string `json:"crn,omitempty"`
 
+	// The domain of the model registry
+	Domain string `json:"domain,omitempty"`
+
 	// The environment CRN of model registry.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 

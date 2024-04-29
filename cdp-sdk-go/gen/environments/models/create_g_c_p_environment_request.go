@@ -28,6 +28,9 @@ type CreateGCPEnvironmentRequest struct {
 	// Required: true
 	CredentialName *string `json:"credentialName"`
 
+	// Configures the desired custom docker registry for data services.
+	CustomDockerRegistry *CustomDockerRegistryRequest `json:"customDockerRegistry,omitempty"`
+
 	// A description of the environment.
 	Description string `json:"description,omitempty"`
 
@@ -94,6 +97,10 @@ func (m *CreateGCPEnvironmentRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateCustomDockerRegistry(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateEndpointAccessGatewayScheme(formats); err != nil {
 		res = append(res, err)
 	}
@@ -144,6 +151,25 @@ func (m *CreateGCPEnvironmentRequest) validateCredentialName(formats strfmt.Regi
 
 	if err := validate.Required("credentialName", "body", m.CredentialName); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateGCPEnvironmentRequest) validateCustomDockerRegistry(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomDockerRegistry) { // not required
+		return nil
+	}
+
+	if m.CustomDockerRegistry != nil {
+		if err := m.CustomDockerRegistry.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDockerRegistry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDockerRegistry")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -334,6 +360,10 @@ func (m *CreateGCPEnvironmentRequest) validateUsePublicIP(formats strfmt.Registr
 func (m *CreateGCPEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateCustomDockerRegistry(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateExistingNetworkParams(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -357,6 +387,27 @@ func (m *CreateGCPEnvironmentRequest) ContextValidate(ctx context.Context, forma
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateGCPEnvironmentRequest) contextValidateCustomDockerRegistry(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CustomDockerRegistry != nil {
+
+		if swag.IsZero(m.CustomDockerRegistry) { // not required
+			return nil
+		}
+
+		if err := m.CustomDockerRegistry.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDockerRegistry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDockerRegistry")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

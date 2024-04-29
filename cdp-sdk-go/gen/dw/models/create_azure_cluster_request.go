@@ -68,7 +68,8 @@ type CreateAzureClusterRequest struct {
 	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
 
 	// Name of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
-	SubnetName string `json:"subnetName,omitempty"`
+	// Required: true
+	SubnetName *string `json:"subnetName"`
 
 	// Set up load balancer with private IP address. An internal load balancer gets created. Make sure there is connectivity between your client network and the network VNet where CDW environment is deployed.
 	UseInternalLoadBalancer bool `json:"useInternalLoadBalancer,omitempty"`
@@ -100,6 +101,10 @@ func (m *CreateAzureClusterRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateOutboundType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSubnetName(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -180,6 +185,15 @@ func (m *CreateAzureClusterRequest) validateOutboundType(formats strfmt.Registry
 
 	// value enum
 	if err := m.validateOutboundTypeEnum("outboundType", "body", m.OutboundType); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *CreateAzureClusterRequest) validateSubnetName(formats strfmt.Registry) error {
+
+	if err := validate.Required("subnetName", "body", m.SubnetName); err != nil {
 		return err
 	}
 

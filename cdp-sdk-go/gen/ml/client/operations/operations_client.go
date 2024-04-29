@@ -88,7 +88,11 @@ type ClientService interface {
 
 	RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error)
 
+	RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error)
+
 	SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error)
+
+	UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error)
 
 	UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error)
 
@@ -1266,6 +1270,45 @@ func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts
 }
 
 /*
+RollbackModelRegistryUpgrade rollbacks a model registry upgrade restore prior model registry
+
+Rollback a model registry upgrade. Restore prior model registry.
+*/
+func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRollbackModelRegistryUpgradeParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rollbackModelRegistryUpgrade",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/rollbackModelRegistryUpgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RollbackModelRegistryUpgradeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RollbackModelRegistryUpgradeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RollbackModelRegistryUpgradeDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 SuspendWorkspace suspends cloudera machine learning workspace
 
 Suspend a Cloudera Machine Learning workspace.
@@ -1301,6 +1344,45 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...Client
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SuspendWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeModelRegistry upgrades a model registry
+
+Upgrade a model registry.
+*/
+func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeModelRegistryParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeModelRegistry",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/upgradeModelRegistry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeModelRegistryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeModelRegistryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeModelRegistryDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

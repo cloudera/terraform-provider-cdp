@@ -27,7 +27,7 @@ type ResizeDatalakeRequest struct {
 	// Whether to deploy a new datalake in a multi-availability zone way.
 	MultiAz *bool `json:"multiAz,omitempty"`
 
-	// The target size for the datalake.
+	// The target size for the datalake. The resize target size can be MEDIUM_DUTY or ENTERPRISE. If the runtime version >= 7.2.17 target size is ENTERPRISE. If not, the target size is MEDIUM_DUTY.
 	// Required: true
 	// Enum: [MEDIUM_DUTY_HA ENTERPRISE]
 	TargetSize *string `json:"targetSize"`

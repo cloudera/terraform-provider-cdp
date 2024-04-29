@@ -25,6 +25,9 @@ type AzureResourceEncryptionParameters struct {
 
 	// URL of the key which is used to encrypt the Azure Managed Disks.
 	EncryptionKeyURL string `json:"encryptionKeyUrl,omitempty"`
+
+	// User managed identity for encryption.
+	UserManagedIdentity string `json:"userManagedIdentity,omitempty"`
 }
 
 // Validate validates this azure resource encryption parameters
