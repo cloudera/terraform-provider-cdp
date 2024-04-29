@@ -12,6 +12,7 @@ package iam
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -22,26 +23,26 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-var _ resource.Resource = (*assignMachineUserResource)(nil)
+var _ resource.Resource = (*machineUserRoleAssignmentResource)(nil)
 
-func NewAssignMachineUserResource() resource.Resource {
-	return &assignMachineUserResource{}
+func NewMachineUserRoleAssignmentResource() resource.Resource {
+	return &machineUserRoleAssignmentResource{}
 }
 
-type assignMachineUserResource struct {
+type machineUserRoleAssignmentResource struct {
 	client *cdp.Client
 }
 
-func (r *assignMachineUserResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = AssignMachineUserSchema
+func (r *machineUserRoleAssignmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = MachineUserRoleAssignmentSchema
 }
 
-func (r *assignMachineUserResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *machineUserRoleAssignmentResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_machine_user_role_assignment"
 }
 
-func (r *assignMachineUserResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data assignMachineUserResourceModel
+func (r *machineUserRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data machineUserRoleAssignmentResourceModel
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 
@@ -64,8 +65,8 @@ func (r *assignMachineUserResource) Create(ctx context.Context, req resource.Cre
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *assignMachineUserResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data assignMachineUserResourceModel
+func (r *machineUserRoleAssignmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data machineUserRoleAssignmentResourceModel
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
@@ -97,12 +98,12 @@ func (r *assignMachineUserResource) Read(ctx context.Context, req resource.ReadR
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *assignMachineUserResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *machineUserRoleAssignmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	tflog.Warn(ctx, "Update operation is not supported yet.")
 }
 
-func (r *assignMachineUserResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data assignMachineUserResourceModel
+func (r *machineUserRoleAssignmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data machineUserRoleAssignmentResourceModel
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 

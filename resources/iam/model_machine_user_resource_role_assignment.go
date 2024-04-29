@@ -12,8 +12,9 @@ package iam
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type assignMachineUserResourceModel struct {
-	Id          types.String `tfsdk:"id"`
-	MachineUser types.String `tfsdk:"machine_user"`
-	Role        types.String `tfsdk:"role"`
+type machineUserResourceRoleAssignmentResourceModel struct {
+	Id              types.String `tfsdk:"id"`
+	MachineUser     types.String `tfsdk:"machine_user"`
+	ResourceCrn     types.String `tfsdk:"resource_role_crn"`
+	ResourceRoleCrn types.String `tfsdk:"resource_role_crn"`
 }
