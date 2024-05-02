@@ -17,10 +17,10 @@ var machineUserGroupAssignmentSchema = schema.Schema{
 		"id": schema.StringAttribute{
 			Computed: true,
 		},
-		"machine_user_name": schema.StringAttribute{
+		"machine_user": schema.StringAttribute{
 			Required: true,
 		},
-		"group_name": schema.StringAttribute{
+		"group": schema.StringAttribute{
 			Required: true,
 		},
 	},

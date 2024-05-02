@@ -8,15 +8,16 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-resource "cdp_iam_machine_user_role_assignment" "example" {
-  machine_user = "example"
-  role         = "some-role"
+resource "cdp_iam_machine_user_resource_role_assignment" "example" {
+  machine_user      = "example"
+  resource_crn      = "crn:cdp:environments:us-west-1:00000000-0000-0000-0000-000000000000:environment:00000000-0000-0000-0000-000000000000"
+  resource_role_crn = "crn:altus:iam:us-west-1:altus:resourceRole:EnvironmentUser"
 }
 
 output "machine_use" {
-  value = cdp_iam_machine_user_role_assignment.example.machine_user
+  value = cdp_iam_machine_user_resource_role_assignment.example.machine_user
 }
 
-output "role" {
-  value = cdp_iam_machine_user_role_assignment.example.role
+output "resource_role_crn" {
+  value = cdp_iam_machine_user_resource_role_assignment.example.resource_role_crn
 }
