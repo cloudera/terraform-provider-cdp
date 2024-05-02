@@ -38,7 +38,7 @@ func (r *machineUserResourceRoleAssignmentResource) Schema(_ context.Context, _ 
 }
 
 func (r *machineUserResourceRoleAssignmentResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_machine_user_resource_role_assignment"
+	resp.TypeName = req.ProviderTypeName + "_iam_machine_user_resource_role_assignment"
 }
 
 func (r *machineUserResourceRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

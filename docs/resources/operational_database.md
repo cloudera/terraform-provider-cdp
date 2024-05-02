@@ -77,17 +77,17 @@ resource "cdp_operational_database" "opdb" {
   environment_name = "<value>"
   database_name    = "<value>"
 
-  scale_type   = "HEAVY" // valid options are "MICRO","LIGHT","HEAVY"
-  storage_type = "CLOUD_WITH_EPHEMERAL"  // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
+  scale_type   = "HEAVY"                // valid options are "MICRO","LIGHT","HEAVY"
+  storage_type = "CLOUD_WITH_EPHEMERAL" // valid options are "CLOUD_WITH_EPHEMERAL","CLOUD","HDFS"
 
   java_version = 8
 
   disable_external_db = true
 
   disable_multi_az = true
-  subnet_id = "<value>"
+  subnet_id        = "<value>"
 
-  num_edge_nodes   = 1
+  num_edge_nodes = 1
 
   auto_scaling_parameters = {
     targeted_value_for_metric = 249

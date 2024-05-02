@@ -14,9 +14,11 @@ import (
 	"context"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -70,9 +72,28 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 		mu := responseOk.Payload.MachineUser
 		muRespToModel(ctx, mu, &data)
 
+		if !data.WorkloadPassword.IsNull() {
+			err = setWorkloadPassword(ctx, client, data.Id.ValueString(), data.WorkloadPassword.ValueStringPointer(), &resp.Diagnostics)
+			if err != nil {
+				utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "create Machine User")
+				return
+			}
+		}
+
 		// Save data into Terraform state
 		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	}
+}
+
+func setWorkloadPassword(ctx context.Context, client *client.Iam, crn string, pw *string, diags *diag.Diagnostics) error {
+	pwparams := operations.NewSetWorkloadPasswordParamsWithContext(ctx)
+	pwparams.WithInput(&models.SetWorkloadPasswordRequest{
+		ActorCrn: crn,
+		Password: pw,
+	})
+
+	_, err := client.Operations.SetWorkloadPassword(pwparams)
+	return err
 }
 
 func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -85,7 +106,6 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 		return
 	}
 
-	// Read API call logic
 	client := r.client.Iam
 
 	params := operations.NewListMachineUsersParamsWithContext(ctx)
@@ -123,7 +143,26 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 }
 
 func (r *machineUserResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	tflog.Warn(ctx, "Update operation is not implemented yet.")
+	var data machineUserResourceModel
+
+	// Read Terraform prior state data into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client := r.client.Iam
+	err := setWorkloadPassword(ctx, client, data.Id.ValueString(), data.WorkloadPassword.ValueStringPointer(), &resp.Diagnostics)
+	if err != nil {
+		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "update Machine User")
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
 func (r *machineUserResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

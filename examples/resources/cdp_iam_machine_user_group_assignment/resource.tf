@@ -8,15 +8,15 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-resource "cdp_iam_machine_user_role_assignment" "example" {
+resource "cdp_iam_machine_user_group_assignment" "example" {
   machine_user = "example"
-  role         = "some-role"
+  group        = "some-group"
 }
 
-output "machine_use" {
-  value = cdp_iam_machine_user_role_assignment.example.machine_user
+output "machine_user" {
+  value = cdp_iam_machine_user_group_assignment.example.machine_user
 }
 
 output "role" {
-  value = cdp_iam_machine_user_role_assignment.example.role
+  value = cdp_iam_machine_user_group_assignment.example.group
 }

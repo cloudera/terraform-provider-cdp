@@ -13,7 +13,7 @@ package iam
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type machineUserGroupAssignmentResourceModel struct {
-	Id              types.String `tfsdk:"id"`
-	MachineUserName types.String `tfsdk:"machine_user_name"`
-	GroupName       types.String `tfsdk:"group_name"`
+	Id          types.String `tfsdk:"id"`
+	MachineUser types.String `tfsdk:"machine_user"`
+	Group       types.String `tfsdk:"group"`
 }

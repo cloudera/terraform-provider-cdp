@@ -17,6 +17,7 @@ type machineUserResourceModel struct {
 	Name                    types.String `tfsdk:"name"`
 	Status                  types.String `tfsdk:"status"`
 	WorkloadUsername        types.String `tfsdk:"workload_username"`
+	WorkloadPassword        types.String `tfsdk:"workload_password"`
 	CreationDate            types.String `tfsdk:"creation_date"`
 	WorkloadPasswordDetails types.Object `tfsdk:"workload_password_details"`
 	AzureCloudIdentities    types.Set    `tfsdk:"azure_cloud_identities"`

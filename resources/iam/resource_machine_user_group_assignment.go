@@ -58,8 +58,8 @@ func (r *machineUserGroupAssignmentResource) Create(ctx context.Context, req res
 
 	params := operations.NewAddMachineUserToGroupParamsWithContext(ctx)
 	params.WithInput(&models.AddMachineUserToGroupRequest{
-		MachineUserName: data.MachineUserName.ValueStringPointer(),
-		GroupName:       data.GroupName.ValueStringPointer(),
+		MachineUserName: data.MachineUser.ValueStringPointer(),
+		GroupName:       data.Group.ValueStringPointer(),
 	})
 
 	responseOk, err := client.Operations.AddMachineUserToGroup(params)
@@ -69,7 +69,7 @@ func (r *machineUserGroupAssignmentResource) Create(ctx context.Context, req res
 	}
 
 	if responseOk.Payload != nil {
-		data.Id = types.StringValue(data.MachineUserName.ValueString() + "_" + data.GroupName.ValueString())
+		data.Id = types.StringValue(data.MachineUser.ValueString() + "_" + data.Group.ValueString())
 
 		// Save data into Terraform state
 		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -91,7 +91,7 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 
 	params := operations.NewListGroupsForMachineUserParamsWithContext(ctx)
 	params.WithInput(&models.ListGroupsForMachineUserRequest{
-		MachineUserName: data.MachineUserName.ValueStringPointer(),
+		MachineUserName: data.MachineUser.ValueStringPointer(),
 	})
 
 	responseOk, err := client.Operations.ListGroupsForMachineUser(params)
@@ -105,7 +105,7 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 
 	grParams := operations.NewListGroupsParamsWithContext(ctx)
 	grParams.WithInput(&models.ListGroupsRequest{
-		GroupNames: []string{data.GroupName.ValueString()},
+		GroupNames: []string{data.Group.ValueString()},
 	})
 
 	grRespOk, err := client.Operations.ListGroups(grParams)
@@ -161,8 +161,8 @@ func (r *machineUserGroupAssignmentResource) Delete(ctx context.Context, req res
 
 	params := operations.NewRemoveMachineUserFromGroupParamsWithContext(ctx)
 	params.WithInput(&models.RemoveMachineUserFromGroupRequest{
-		MachineUserName: data.MachineUserName.ValueStringPointer(),
-		GroupName:       data.GroupName.ValueStringPointer(),
+		MachineUserName: data.MachineUser.ValueStringPointer(),
+		GroupName:       data.Group.ValueStringPointer(),
 	})
 
 	_, err := client.Operations.RemoveMachineUserFromGroup(params)

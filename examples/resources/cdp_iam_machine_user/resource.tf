@@ -8,15 +8,21 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-resource "cdp_iam_machine_user_role_assignment" "example" {
-  machine_user = "example"
-  role         = "some-role"
+variable "password" {
+  type = string
 }
 
-output "machine_use" {
-  value = cdp_iam_machine_user_role_assignment.example.machine_user
+resource "cdp_iam_machine_user" "example" {
+  name = "example"
+
+  # Optional
+  workload_password = var.password
 }
 
-output "role" {
-  value = cdp_iam_machine_user_role_assignment.example.role
+output "machine_user" {
+  value = cdp_iam_machine_user.example.name
+}
+
+output "password_expiration_date" {
+  value = cdp_iam_machine_user.example.workload_password_details.expiration_date
 }
