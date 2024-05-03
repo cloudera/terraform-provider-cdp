@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.111 (BETA)
+  version: 0.9.112 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -1921,6 +1921,48 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpdateCustomDockerRegistryResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/updateFreeipaToAwsImdsV2:
+    post:
+      summary: Updates FreeIPA AWS cluster to use IMDSv2.
+      description: Updates FreeIPA AWS cluster to use IMDSv2.
+      operationId: updateFreeipaToAwsImdsV2
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateFreeipaToAwsImdsV2Request'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateFreeipaToAwsImdsV2Response'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/updateFreeipaToAwsImdsV1:
+    post:
+      summary: Updates FreeIPA AWS cluster to use IMDSv1.
+      description: Updates FreeIPA AWS cluster to use IMDSv1.
+      operationId: updateFreeipaToAwsImdsV1
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateFreeipaToAwsImdsV1Request'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateFreeipaToAwsImdsV1Response'
         default:
           description: The default response on an error.
           schema:
@@ -6053,3 +6095,27 @@ definitions:
       environment:
         $ref: '#/definitions/Environment'
         description: The environment.
+  UpdateFreeipaToAwsImdsV2Request:
+    description: The related environment where we update the corresponding FreeIPA to use AWS IMDSv2.
+    type: object
+    required:
+      - environmentCrn
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment.
+  UpdateFreeipaToAwsImdsV2Response:
+    type: object
+    description: Response object for updating corresponding FreeIPA of the given environment to AWS IMDSv2.
+  UpdateFreeipaToAwsImdsV1Request:
+    description: The related environment where we update the corresponding FreeIPA to use AWS IMDSv1.
+    type: object
+    required:
+      - environmentCrn
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment.
+  UpdateFreeipaToAwsImdsV1Response:
+    type: object
+    description: Response object for updating corresponding FreeIPA of the given environment to AWS IMDSv1.

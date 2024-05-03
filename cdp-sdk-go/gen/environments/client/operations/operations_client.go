@@ -188,6 +188,10 @@ type ClientService interface {
 
 	UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error)
 
+	UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error)
+
+	UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error)
+
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
 	UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error)
@@ -3328,6 +3332,84 @@ func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesPa
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateDataServiceResourcesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateFreeipaToAwsImdsV1 updates free IP a a w s cluster to use i m d sv1
+
+Updates FreeIPA AWS cluster to use IMDSv1.
+*/
+func (a *Client) UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateFreeipaToAwsImdsV1Params()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateFreeipaToAwsImdsV1",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateFreeipaToAwsImdsV1",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateFreeipaToAwsImdsV1Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateFreeipaToAwsImdsV1OK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateFreeipaToAwsImdsV1Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateFreeipaToAwsImdsV2 updates free IP a a w s cluster to use i m d sv2
+
+Updates FreeIPA AWS cluster to use IMDSv2.
+*/
+func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateFreeipaToAwsImdsV2Params()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateFreeipaToAwsImdsV2",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateFreeipaToAwsImdsV2",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateFreeipaToAwsImdsV2Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateFreeipaToAwsImdsV2OK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateFreeipaToAwsImdsV2Default)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

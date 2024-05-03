@@ -66,7 +66,7 @@ type AutoscalingOptionsResponse struct {
 	// Minimum number of available compute groups.
 	MinClusters int32 `json:"minClusters,omitempty"`
 
-	// Name of the pod configuration.
+	// DEPRECATED - Name of the pod configuration.
 	PodConfigName string `json:"podConfigName,omitempty"`
 }
 

@@ -5894,6 +5894,152 @@ func (_c *MockEnvironmentClientService_UpdateDataServiceResources_Call) RunAndRe
 	return _c
 }
 
+// UpdateFreeipaToAwsImdsV1 provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) UpdateFreeipaToAwsImdsV1(params *operations.UpdateFreeipaToAwsImdsV1Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV1OK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateFreeipaToAwsImdsV1")
+	}
+
+	var r0 *operations.UpdateFreeipaToAwsImdsV1OK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateFreeipaToAwsImdsV1Params, ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV1OK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateFreeipaToAwsImdsV1Params, ...operations.ClientOption) *operations.UpdateFreeipaToAwsImdsV1OK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateFreeipaToAwsImdsV1OK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateFreeipaToAwsImdsV1Params, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateFreeipaToAwsImdsV1'
+type MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call struct {
+	*mock.Call
+}
+
+// UpdateFreeipaToAwsImdsV1 is a helper method to define mock.On call
+//   - params *operations.UpdateFreeipaToAwsImdsV1Params
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateFreeipaToAwsImdsV1(params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call {
+	return &MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call{Call: _e.mock.On("UpdateFreeipaToAwsImdsV1",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call) Run(run func(params *operations.UpdateFreeipaToAwsImdsV1Params, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateFreeipaToAwsImdsV1Params), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call) Return(_a0 *operations.UpdateFreeipaToAwsImdsV1OK, _a1 error) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call) RunAndReturn(run func(*operations.UpdateFreeipaToAwsImdsV1Params, ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV1OK, error)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateFreeipaToAwsImdsV2 provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) UpdateFreeipaToAwsImdsV2(params *operations.UpdateFreeipaToAwsImdsV2Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateFreeipaToAwsImdsV2")
+	}
+
+	var r0 *operations.UpdateFreeipaToAwsImdsV2OK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) *operations.UpdateFreeipaToAwsImdsV2OK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateFreeipaToAwsImdsV2OK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateFreeipaToAwsImdsV2'
+type MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call struct {
+	*mock.Call
+}
+
+// UpdateFreeipaToAwsImdsV2 is a helper method to define mock.On call
+//   - params *operations.UpdateFreeipaToAwsImdsV2Params
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateFreeipaToAwsImdsV2(params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call {
+	return &MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call{Call: _e.mock.On("UpdateFreeipaToAwsImdsV2",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call) Run(run func(params *operations.UpdateFreeipaToAwsImdsV2Params, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateFreeipaToAwsImdsV2Params), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call) Return(_a0 *operations.UpdateFreeipaToAwsImdsV2OK, _a1 error) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call) RunAndReturn(run func(*operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateOrchestratorState provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) UpdateOrchestratorState(params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error) {
 	_va := make([]interface{}, len(opts))
