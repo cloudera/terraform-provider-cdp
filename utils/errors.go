@@ -19,6 +19,7 @@ import (
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
+	mlmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
@@ -45,6 +46,22 @@ type IamErrorPayload interface {
 func AddIamDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(IamErrorPayload); ok && d.GetPayload() != nil {
+		msg = d.GetPayload().Message
+	}
+	caser := cases.Title(language.English)
+	diagnostics.AddError(
+		caser.String(errMsg),
+		"Failed to "+errMsg+", unexpected error: "+msg,
+	)
+}
+
+type MlErrorPayload interface {
+	GetPayload() *mlmodels.Error
+}
+
+func AddMlDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
+	msg := err.Error()
+	if d, ok := err.(MlErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
 	}
 	caser := cases.Title(language.English)

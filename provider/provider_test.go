@@ -31,6 +31,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
+	"github.com/cloudera/terraform-provider-cdp/resources/ml"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 	testUtil "github.com/cloudera/terraform-provider-cdp/utils/test"
 )
@@ -628,6 +629,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		datahub.NewAzureDatahubResource,
 		datahub.NewGcpDatahubResource,
 		opdb.NewDatabaseResource,
+		ml.NewWorkspaceResource,
 	}
 
 	provider := CdpProvider{testVersion}
