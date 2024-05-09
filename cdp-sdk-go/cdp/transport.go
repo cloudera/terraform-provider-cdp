@@ -11,11 +11,12 @@
 package cdp
 
 import (
-	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/runtime/client"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/client"
 )
 
 var prefixTrim = []string{"http://", "https://"}

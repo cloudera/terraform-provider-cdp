@@ -1,4 +1,4 @@
-// Copyright 2023 Cloudera. All Rights Reserved.
+// Copyright 2024 Cloudera. All Rights Reserved.
 //
 // This file is licensed under the Apache License Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -12,278 +12,350 @@ package ml
 
 import (
 	"context"
-	"fmt"
+	"errors"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	mlclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client/operations"
-	mlmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"log"
-	"strings"
-	"time"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-func ResourceWorkspace() *schema.Resource {
-	return &schema.Resource{
-		Create: resourceWorkspaceCreate,
-		Read:   resourceWorkspaceRead,
-		Delete: resourceWorkspaceDelete,
+var _ resource.Resource = (*workspaceResource)(nil)
 
-		Timeouts: &schema.ResourceTimeout{
-			Create: schema.DefaultTimeout(60 * time.Minute),
-			Delete: schema.DefaultTimeout(60 * time.Minute),
-		},
-
-		Schema: map[string]*schema.Schema{
-			"workspace_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"environment_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"use_public_load_balancer": &schema.Schema{
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-				ForceNew: true,
-			},
-			"disable_tls": &schema.Schema{
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-				ForceNew: true,
-			},
-			"kubernetes": {
-				Type:     schema.TypeList,
-				Required: true,
-				ForceNew: true,
-				MaxItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"instance_group": {
-							Type:     schema.TypeSet,
-							Required: true,
-							ForceNew: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"instance_type": {
-										Type:     schema.TypeString,
-										Required: true,
-										ForceNew: true,
-									},
-									"autoscaling": {
-										Type:     schema.TypeList,
-										Required: true,
-										ForceNew: true,
-										MaxItems: 1,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												"min_instances": &schema.Schema{
-													Type:     schema.TypeInt,
-													Required: true,
-													ForceNew: true,
-												},
-												"max_instances": &schema.Schema{
-													Type:     schema.TypeInt,
-													Optional: true,
-													ForceNew: true,
-												},
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-			"crn": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
-	}
+func NewWorkspaceResource() resource.Resource {
+	return &workspaceResource{}
 }
 
-func resourceWorkspaceCreate(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Ml
+type workspaceResource struct {
+	client *cdp.Client
+}
 
-	workspaceName := d.Get("workspace_name").(string)
-	environmentName := d.Get("environment_name").(string)
-	usePublicLoadBalancer := d.Get("use_public_load_balancer").(bool)
-	disableTls := d.Get("disable_tls").(bool)
+func (r *workspaceResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_ml_workspace"
+}
 
-	kubernetes, kubernetesErr := utils.GetMapFromSingleItemList(d, "kubernetes")
-	if kubernetesErr != nil {
-		return kubernetesErr
+func (r *workspaceResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = workspaceSchema
+}
+
+func (r *workspaceResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *workspaceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data workspaceResourceModel
+
+	// Read Terraform plan data into the model
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
-	instanceGroups := []*mlmodels.InstanceGroup{}
-	instanceGroupSet := kubernetes["instance_group"].(*schema.Set)
-	for _, instanceGroupObject := range instanceGroupSet.List() {
-		instanceGroup := instanceGroupObject.(map[string]interface{})
+	client := r.client.Ml
 
-		instanceType := instanceGroup["instance_type"].(string)
+	params := operations.NewCreateWorkspaceParamsWithContext(ctx)
+	createReq, convDiag := modelToCreateWorkspaceRequest(ctx, &data)
 
-		autoscaling, autoscalingErr := utils.GetMapFromSingleItemListInMap(instanceGroup, "autoscaling")
-		if autoscalingErr != nil {
-			return autoscalingErr
-		}
-
-		minInstances := int32(autoscaling["min_instances"].(int))
-		maxInstances := int32(autoscaling["max_instances"].(int))
-
-		instanceGroups = append(instanceGroups, &mlmodels.InstanceGroup{
-			InstanceType: &instanceType,
-			Autoscaling: &mlmodels.Autoscaling{
-				MinInstances: &minInstances,
-				MaxInstances: &maxInstances,
-			},
-			IngressRules: []string{},
-		})
+	if convDiag.HasError() {
+		resp.Diagnostics.Append(*convDiag...)
+		utils.AddMlDiagnosticsError(errors.New("conversion error"), &resp.Diagnostics, "create Workspace")
+		return
 	}
 
-	params := operations.NewCreateWorkspaceParams()
-	params.WithInput(&mlmodels.CreateWorkspaceRequest{
-		WorkspaceName:         &workspaceName,
-		EnvironmentName:       &environmentName,
-		UsePublicLoadBalancer: usePublicLoadBalancer,
-		DisableTLS:            disableTls,
-		ProvisionK8sRequest: &mlmodels.ProvisionK8sRequest{
-			EnvironmentName: &environmentName,
-			InstanceGroups:  instanceGroups,
-			Tags:            []*mlmodels.ProvisionTag{},
-		},
-		LoadBalancerIPWhitelists: []string{},
-	})
+	params.WithInput(createReq)
 	_, err := client.Operations.CreateWorkspace(params)
 	if err != nil {
-		return err
+		utils.AddMlDiagnosticsError(err, &resp.Diagnostics, "create Workspace")
+		return
 	}
 
-	d.SetId(makeId(environmentName, workspaceName))
+	data.Id = data.WorkspaceName
 
-	if err := waitForWorkspaceToBeAvailable(environmentName, workspaceName, d.Timeout(schema.TimeoutCreate), client); err != nil {
-		return err
-	}
-
-	return resourceWorkspaceRead(d, m)
+	// Save data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func makeId(environmentName string, workspaceName string) string {
-	return fmt.Sprintf("%s::%s", environmentName, workspaceName)
-}
+func modelToCreateWorkspaceRequest(ctx context.Context, data *workspaceResourceModel) (*models.CreateWorkspaceRequest, *diag.Diagnostics) {
+	var diags diag.Diagnostics
 
-func getId(d *schema.ResourceData) (string, string) {
-	parts := strings.SplitN(d.Id(), "::", 2)
-	return parts[0], parts[1]
-}
-
-func describeWorkspace(environmentName string, workspaceName string, client *mlclient.Ml) (*mlmodels.WorkspaceSummary, error) {
-	params := operations.NewListWorkspacesParams()
-	params.WithInput(&mlmodels.ListWorkspacesRequest{}) // TODO: add workspace name as query param
-	resp, err := client.Operations.ListWorkspaces(params)
-	if err != nil {
-		return nil, err
-	}
-	for _, workspace := range resp.GetPayload().Workspaces {
-		if *workspace.EnvironmentName == environmentName && *workspace.InstanceName == workspaceName {
-			return workspace, nil
+	var exDbCfgReq *models.ExistingDatabaseConfig
+	if !data.ExistingDatabaseConfig.IsNull() {
+		var exDbCfg ExistingDatabaseConfig
+		objDiag := data.ExistingDatabaseConfig.As(ctx, &exDbCfg, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+		if objDiag.HasError() {
+			for _, v := range objDiag.Errors() {
+				tflog.Debug(ctx, "convert ExistingDatabaseConfig error: "+v.Detail())
+			}
+			diags.Append(objDiag...)
+			return nil, &diags
+		}
+		exDbCfgReq = &models.ExistingDatabaseConfig{
+			ExistingDatabaseHost:     exDbCfg.ExistingDatabaseHost.ValueString(),
+			ExistingDatabaseName:     exDbCfg.ExistingDatabaseName.ValueString(),
+			ExistingDatabasePassword: exDbCfg.ExistingDatabasePassword.ValueString(),
+			ExistingDatabasePort:     exDbCfg.ExistingDatabasePort.ValueString(),
+			ExistingDatabaseUser:     exDbCfg.ExistingDatabaseUser.ValueString(),
 		}
 	}
-	return nil, nil
-}
 
-func waitForWorkspaceToBeAvailable(environmentName string, workspaceName string, timeout time.Duration, client *mlclient.Ml) error {
-	stateConf := &retry.StateChangeConf{
-		Pending:      []string{"provision:started"},
-		Target:       []string{"installation:finished"},
-		Delay:        5 * time.Second,
-		Timeout:      timeout,
-		PollInterval: 10 * time.Second,
-		Refresh:      makePollWorkspaceStatus(environmentName, workspaceName, client),
+	obTypes := make([]models.OutboundTypes, 0, len(data.OutboundTypes.Elements()))
+	if !data.OutboundTypes.IsNull() {
+		for _, v := range data.OutboundTypes.Elements() {
+			obTypes = append(obTypes, models.OutboundTypes(v.(types.String).ValueString()))
+		}
 	}
-	_, err := stateConf.WaitForStateContext(context.Background())
 
-	return err
+	var provK8sReq *models.ProvisionK8sRequest
+	if !data.ProvisionK8sRequest.IsNull() {
+		var provK8s ProvisionK8sRequest
+		provDiag := data.ProvisionK8sRequest.As(ctx, &provK8s, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+		if provDiag.HasError() {
+			for _, v := range provDiag.Errors() {
+				tflog.Debug(ctx, "convert ProvisionK8sRequest error: "+v.Detail())
+			}
+			diags.Append(provDiag...)
+			return nil, &diags
+		}
+
+		igReqs := make([]*models.InstanceGroup, 0, len(provK8s.InstanceGroups.Elements()))
+		if !provK8s.InstanceGroups.IsNull() {
+			igs := make([]InstanceGroup, 0, len(provK8s.InstanceGroups.Elements()))
+			igsDiag := provK8s.InstanceGroups.ElementsAs(ctx, &igs, false)
+			if igsDiag.HasError() {
+				for _, v := range igsDiag.Errors() {
+					tflog.Debug(ctx, "convert InstanceGroup slice error: "+v.Detail())
+				}
+				diags.Append(igsDiag...)
+				return nil, &diags
+			}
+
+			for _, v := range igs {
+				var asReq *models.Autoscaling
+
+				if !v.Autoscaling.IsNull() {
+					var as Autoscaling
+					asDiag := v.Autoscaling.As(ctx, &as, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+					if asDiag.HasError() {
+						for _, v := range asDiag.Errors() {
+							tflog.Debug(ctx, "convert Autoscaling error: "+v.Detail())
+						}
+						diags.Append(asDiag...)
+						return nil, &diags
+					}
+
+					maxInst := int32(as.MaxInstances.ValueInt64())
+					minInst := int32(as.MinInstances.ValueInt64())
+					asReq = &models.Autoscaling{
+						Enabled:      as.Enabled.ValueBool(),
+						MaxInstances: &maxInst,
+						MinInstances: &minInst,
+					}
+				}
+
+				ir := make([]string, 0, len(v.IngressRules.Elements()))
+				irDiag := v.IngressRules.ElementsAs(ctx, &ir, false)
+				if irDiag.HasError() {
+					for _, v := range irDiag.Errors() {
+						tflog.Debug(ctx, "convert IngressRules error: "+v.Detail())
+					}
+					diags.Append(irDiag...)
+					return nil, &diags
+				}
+
+				var rvReq *models.RootVolume
+				if !v.RootVolume.IsNull() {
+					var rv RootVolume
+					rvDiag := v.RootVolume.As(ctx, &rv, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+					if rvDiag.HasError() {
+						for _, v := range rvDiag.Errors() {
+							tflog.Debug(ctx, "convert RootVolume error: "+v.Detail())
+						}
+						diags.Append(rvDiag...)
+						return nil, &diags
+					}
+					rvReq = &models.RootVolume{
+						Size: rv.Size.ValueInt64Pointer(),
+					}
+				}
+
+				igReq := &models.InstanceGroup{
+					Autoscaling:   asReq,
+					IngressRules:  ir,
+					InstanceCount: int32(v.InstanceCount.ValueInt64()),
+					InstanceTier:  v.InstanceTier.ValueString(),
+					InstanceType:  v.InstanceType.ValueStringPointer(),
+					Name:          v.Name.ValueString(),
+					RootVolume:    rvReq,
+				}
+				igReqs = append(igReqs, igReq)
+			}
+		}
+
+		var onReq *models.OverlayNetwork
+		if !provK8s.Network.IsNull() {
+			var on OverlayNetwork
+			onDiag := provK8s.Network.As(ctx, &on, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+			if onDiag.HasError() {
+				for _, v := range onDiag.Errors() {
+					tflog.Debug(ctx, "convert OverlayNetwork error: "+v.Detail())
+				}
+				diags.Append(onDiag...)
+				return nil, &diags
+			}
+
+			var tReq *models.Topology
+			if !on.Topology.IsNull() {
+				var t Topology
+				tDiag := on.Topology.As(ctx, &t, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+				if tDiag.HasError() {
+					for _, v := range tDiag.Errors() {
+						tflog.Debug(ctx, "convert Topology error: "+v.Detail())
+					}
+					diags.Append(tDiag...)
+					return nil, &diags
+				}
+
+				ss := make([]string, 0, len(t.Subnets.Elements()))
+				ssDiag := t.Subnets.ElementsAs(ctx, &ss, false)
+				if ssDiag.HasError() {
+					for _, v := range ssDiag.Errors() {
+						tflog.Debug(ctx, "convert Topology error: "+v.Detail())
+					}
+					diags.Append(ssDiag...)
+					return nil, &diags
+				}
+
+				tReq = &models.Topology{
+					Subnets: ss,
+				}
+			}
+
+			onReq = &models.OverlayNetwork{
+				Plugin:   on.Plugin.ValueString(),
+				Topology: tReq,
+			}
+		}
+
+		provTagReq := make([]*models.ProvisionTag, 0, len(provK8s.Tags.Elements()))
+		if !provK8s.Tags.IsNull() {
+			tags := make([]ProvisionTag, 0, len(provK8s.Tags.Elements()))
+			tagsDiag := provK8s.Tags.ElementsAs(ctx, &tags, false)
+			if tagsDiag.HasError() {
+				for _, v := range tagsDiag.Errors() {
+					tflog.Debug(ctx, "convert Topology error: "+v.Detail())
+				}
+				diags.Append(tagsDiag...)
+				return nil, &diags
+			}
+
+			for _, v := range tags {
+				provTagReq = append(provTagReq, &models.ProvisionTag{
+					Key:   v.Key.ValueStringPointer(),
+					Value: v.Value.ValueStringPointer(),
+				})
+			}
+		}
+
+		provK8sReq = &models.ProvisionK8sRequest{
+			EnvironmentName: provK8s.EnvironmentName.ValueStringPointer(),
+			InstanceGroups:  igReqs,
+			Network:         onReq,
+			Tags:            provTagReq,
+		}
+	}
+
+	return &models.CreateWorkspaceRequest{
+		AuthorizedIPRanges:          utils.FromSetValueToStringList(data.AuthorizedIPRanges),
+		CdswMigrationMode:           data.CdswMigrationMode.ValueString(),
+		DisableTLS:                  data.DisableTLS.ValueBool(),
+		EnableGovernance:            data.EnableGovernance.ValueBool(),
+		EnableModelMetrics:          data.EnableModelMetrics.ValueBool(),
+		EnableMonitoring:            data.EnableMonitoring.ValueBool(),
+		EnvironmentName:             data.EnvironmentName.ValueStringPointer(),
+		ExistingDatabaseConfig:      exDbCfgReq,
+		ExistingNFS:                 data.ExistingNFS.ValueString(),
+		LoadBalancerIPWhitelists:    utils.FromSetValueToStringList(data.LoadBalancerIPWhitelists),
+		MlVersion:                   data.MlVersion.ValueString(),
+		NfsVersion:                  data.NfsVersion.ValueString(),
+		OutboundTypes:               obTypes,
+		PrivateCluster:              data.PrivateCluster.ValueBool(),
+		ProvisionK8sRequest:         provK8sReq,
+		SkipValidation:              data.SkipValidation.ValueBool(),
+		StaticSubdomain:             data.StaticSubdomain.ValueString(),
+		SubnetsForLoadBalancers:     utils.FromSetValueToStringList(data.SubnetsForLoadBalancers),
+		UsePublicLoadBalancer:       data.UsePublicLoadBalancer.ValueBool(),
+		WhitelistAuthorizedIPRanges: data.WhitelistAuthorizedIPRanges.ValueBool(),
+		WorkspaceName:               data.WorkspaceName.ValueStringPointer(),
+	}, &diags
 }
 
-func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Ml
+func (r *workspaceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data workspaceResourceModel
 
-	environmentName, workspaceName := getId(d)
+	// Read Terraform prior state data into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
-	workspace, err := describeWorkspace(environmentName, workspaceName, client)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client := r.client.Ml
+
+	params := operations.NewDescribeWorkspaceParamsWithContext(ctx)
+	params.WithInput(&models.DescribeWorkspaceRequest{
+		EnvironmentName: data.EnvironmentName.ValueString(),
+		WorkspaceName:   data.WorkspaceName.ValueString(),
+	})
+
+	_, err := client.Operations.DescribeWorkspace(params)
 	if err != nil {
-		return err
+		utils.AddMlDiagnosticsError(err, &resp.Diagnostics, "read Workspace")
+		if d, ok := err.(*operations.DescribeWorkspaceDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+			resp.Diagnostics.AddWarning("Resource not found on provider", "Workspace not found, removing from state.")
+			tflog.Warn(ctx, "Workspace not found, removing from state", map[string]interface{}{
+				"id": data.Id,
+			})
+			resp.State.RemoveResource(ctx)
+		}
+		return
 	}
-	if workspace == nil {
-		d.SetId("") // deleted
-		return nil
-	}
-
-	return d.Set("crn", workspace.Crn)
 }
 
-func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
-	client := m.(*cdp.Client).Ml
+func (r *workspaceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	tflog.Warn(ctx, "Update operation is not supported yet.")
+}
 
-	environmentName, workspaceName := getId(d)
-	removeStorage := true
+func (r *workspaceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data workspaceResourceModel
+
+	// Read Terraform prior state data into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Delete API call logic
+	client := r.client.Ml
+
 	force := false
 
-	params := operations.NewDeleteWorkspaceParams()
-	params.WithInput(&mlmodels.DeleteWorkspaceRequest{
-		EnvironmentName: environmentName,
-		WorkspaceName:   workspaceName,
-		RemoveStorage:   removeStorage,
+	params := operations.NewDeleteWorkspaceParamsWithContext(ctx)
+	params.WithInput(&models.DeleteWorkspaceRequest{
+		EnvironmentName: data.EnvironmentName.ValueString(),
+		WorkspaceName:   data.WorkspaceName.ValueString(),
 		Force:           &force,
 	})
+
 	_, err := client.Operations.DeleteWorkspace(params)
 	if err != nil {
-		return err
-	}
-
-	if err := waitForWorkspaceToBeDeleted(environmentName, workspaceName, d.Timeout(schema.TimeoutDelete), client); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func waitForWorkspaceToBeDeleted(environmentName string, workspaceName string, timeout time.Duration, client *mlclient.Ml) error {
-	stateConf := &retry.StateChangeConf{
-		Pending:      []string{"deprovision:started"},
-		Target:       []string{},
-		Delay:        5 * time.Second,
-		Timeout:      timeout,
-		PollInterval: 10 * time.Second,
-		Refresh:      makePollWorkspaceStatus(environmentName, workspaceName, client),
-	}
-	_, err := stateConf.WaitForStateContext(context.Background())
-
-	return err
-}
-
-func makePollWorkspaceStatus(environmentName string, workspaceName string, client *mlclient.Ml) retry.StateRefreshFunc {
-	return func() (interface{}, string, error) {
-		log.Printf("About to describe workspace")
-		workspace, err := describeWorkspace(environmentName, workspaceName, client)
-		if err != nil {
-			log.Printf("Error describing workspace: %s", err)
-			return nil, "", err
-		}
-		if workspace == nil {
-			log.Printf("Workspace not found")
-			return nil, "", nil
-		}
-		log.Printf("Described workspace: %s", *workspace.InstanceStatus)
-		return workspace, *workspace.InstanceStatus, nil
+		utils.AddMlDiagnosticsError(err, &resp.Diagnostics, "delete Workspace")
+		return
 	}
 }
