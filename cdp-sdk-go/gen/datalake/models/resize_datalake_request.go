@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -19,6 +20,15 @@ import (
 //
 // swagger:model ResizeDatalakeRequest
 type ResizeDatalakeRequest struct {
+
+	// Any custom database properties to override defaults.
+	CustomDatabaseComputeStorage *CustomDatabaseComputeStorage `json:"customDatabaseComputeStorage,omitempty"`
+
+	// Any custom instance disk size to override defaults.
+	CustomInstanceDisks []*CustomInstanceDisk `json:"customInstanceDisks"`
+
+	// Any custom instance type to override defaults.
+	CustomInstanceTypes []*CustomInstanceType `json:"customInstanceTypes"`
 
 	// The name or CRN of the datalake.
 	// Required: true
@@ -37,6 +47,18 @@ type ResizeDatalakeRequest struct {
 func (m *ResizeDatalakeRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCustomDatabaseComputeStorage(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCustomInstanceDisks(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCustomInstanceTypes(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateDatalakeName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -48,6 +70,77 @@ func (m *ResizeDatalakeRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *ResizeDatalakeRequest) validateCustomDatabaseComputeStorage(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomDatabaseComputeStorage) { // not required
+		return nil
+	}
+
+	if m.CustomDatabaseComputeStorage != nil {
+		if err := m.CustomDatabaseComputeStorage.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDatabaseComputeStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDatabaseComputeStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *ResizeDatalakeRequest) validateCustomInstanceDisks(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomInstanceDisks) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.CustomInstanceDisks); i++ {
+		if swag.IsZero(m.CustomInstanceDisks[i]) { // not required
+			continue
+		}
+
+		if m.CustomInstanceDisks[i] != nil {
+			if err := m.CustomInstanceDisks[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *ResizeDatalakeRequest) validateCustomInstanceTypes(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomInstanceTypes) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.CustomInstanceTypes); i++ {
+		if swag.IsZero(m.CustomInstanceTypes[i]) { // not required
+			continue
+		}
+
+		if m.CustomInstanceTypes[i] != nil {
+			if err := m.CustomInstanceTypes[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -103,8 +196,96 @@ func (m *ResizeDatalakeRequest) validateTargetSize(formats strfmt.Registry) erro
 	return nil
 }
 
-// ContextValidate validates this resize datalake request based on context it is used
+// ContextValidate validate this resize datalake request based on the context it is used
 func (m *ResizeDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCustomDatabaseComputeStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCustomInstanceDisks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCustomInstanceTypes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ResizeDatalakeRequest) contextValidateCustomDatabaseComputeStorage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CustomDatabaseComputeStorage != nil {
+
+		if swag.IsZero(m.CustomDatabaseComputeStorage) { // not required
+			return nil
+		}
+
+		if err := m.CustomDatabaseComputeStorage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customDatabaseComputeStorage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customDatabaseComputeStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *ResizeDatalakeRequest) contextValidateCustomInstanceDisks(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.CustomInstanceDisks); i++ {
+
+		if m.CustomInstanceDisks[i] != nil {
+
+			if swag.IsZero(m.CustomInstanceDisks[i]) { // not required
+				return nil
+			}
+
+			if err := m.CustomInstanceDisks[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *ResizeDatalakeRequest) contextValidateCustomInstanceTypes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.CustomInstanceTypes); i++ {
+
+		if m.CustomInstanceTypes[i] != nil {
+
+			if swag.IsZero(m.CustomInstanceTypes[i]) { // not required
+				return nil
+			}
+
+			if err := m.CustomInstanceTypes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

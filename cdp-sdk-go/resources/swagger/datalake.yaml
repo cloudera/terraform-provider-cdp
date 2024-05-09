@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.111 (BETA)
+  version: 0.9.112 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -991,6 +991,48 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datalake/updateToAwsImdsV2:
+    post:
+      summary: Updates Data Lake AWS cluster to use IMDSv2.
+      description: Updates Data Lake AWS cluster to use IMDSv2.
+      operationId: updateToAwsImdsV2
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateToAwsImdsV2Request'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateToAwsImdsV2Response'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/updateToAwsImdsV1:
+    post:
+      summary: Updates Data Lake AWS cluster to use IMDSv1.
+      description: Updates Data Lake AWS cluster to use IMDSv1.
+      operationId: updateToAwsImdsV1
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateToAwsImdsV1Request'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateToAwsImdsV1Response'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -1203,6 +1245,11 @@ definitions:
       enableRangerRaz:
         type: boolean
         description: Whether Ranger RAZ is enabled for the datalake.
+      tags:
+        type: array
+        description: Datalake tags object containing the tag values defined for the datalake.
+        items:
+          $ref: '#/definitions/DatalakeResourceTag'
   InstanceGroup:
     type: object
     description: The type of the instance group which also contains the actual instance(s)
@@ -1405,6 +1452,11 @@ definitions:
       multiAz:
         type: boolean
         description: Flag which marks that the datalake is deployed in a multi-availability zone way or not.
+      tags:
+        type: array
+        description: Datalake tags object containing the tag values defined for the datalake.
+        items:
+          $ref: '#/definitions/DatalakeResourceTag'
   DatalakeResourceTagRequest:
     type: object
     description: Tag for a datalake resource.
@@ -1421,6 +1473,19 @@ definitions:
   DatalakeResourceGCPTagRequest:
     type: object
     description: A label that can be attached to GCP Data Lake resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.
+    required:
+      - key
+      - value
+    properties:
+      key:
+        type: string
+        description: The key of tag.
+      value:
+        type: string
+        description: The value of the tag.
+  DatalakeResourceTag:
+    type: object
+    description: Tag for a datalake resource.
     required:
       - key
       - value
@@ -3199,6 +3264,19 @@ definitions:
         type: boolean
         default: false
         description: Whether to deploy a new datalake in a multi-availability zone way.
+      customInstanceTypes:
+        type: array
+        items:
+          $ref: '#/definitions/CustomInstanceType'
+        description: Any custom instance type to override defaults.
+      customInstanceDisks:
+        type: array
+        items:
+          $ref: '#/definitions/CustomInstanceDisk'
+        description: Any custom instance disk size to override defaults.
+      customDatabaseComputeStorage:
+        $ref: '#/definitions/CustomDatabaseComputeStorage'
+        description: Any custom database properties to override defaults.
   ResizeDatalakeResponse:
     type: object
     description: Datalake resize response.
@@ -3224,6 +3302,11 @@ definitions:
       cloudbreakVersion:
         type: string
         description: The Cloudbreak version used to create the data lake.
+      tags:
+        type: array
+        description: Datalake tags object containing the tag values defined for the datalake.
+        items:
+          $ref: '#/definitions/DatalakeResourceTag'
   ScaleHorizontallyRequest:
     type: object
     description: Data Lake horizontal scaling request.
@@ -3436,3 +3519,59 @@ definitions:
   UpdateOrchestratorStateResponse:
     type: object
     description: Response object for running orchestrator engine state update on the Data Lake cluster.
+  UpdateToAwsImdsV2Request:
+    description: Request object for updating Data Lake to use AWS IMDSv2.
+    type: object
+    required:
+      - crn
+    properties:
+      crn:
+        type: string
+        description: The CRN of the Data Lake.
+  UpdateToAwsImdsV2Response:
+    type: object
+    description: Response object for updating Data Lake to AWS IMDSv2.
+  UpdateToAwsImdsV1Request:
+    description: Request object for updating Data Lake to use AWS IMDSv1.
+    type: object
+    required:
+      - crn
+    properties:
+      crn:
+        type: string
+        description: The CRN of the Data Lake.
+  UpdateToAwsImdsV1Response:
+    type: object
+    description: Response object for updating Data Lake to AWS IMDSv1.
+  CustomInstanceType:
+    type: object
+    description: Request object for modified instance type.
+    properties:
+      name:
+        type: string
+        description: The name of the modified instance.
+      instanceType:
+        type: string
+        description: The modified instance type
+  CustomInstanceDisk:
+    type: object
+    description: Request object for modified instance disk.
+    properties:
+      name:
+        type: string
+        description: The name of the modified instance.
+      diskSize:
+        type: integer
+        format: int32
+        description: The modified disk size
+  CustomDatabaseComputeStorage:
+    type: object
+    description: Request object for modified database storage properties.
+    properties:
+      instanceType:
+        type: string
+        description: The modified instance type.
+      storageSize:
+        type: integer
+        format: int32
+        description: The modified storage size for the database.

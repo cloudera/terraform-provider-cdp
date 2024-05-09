@@ -20,10 +20,7 @@ type CreateBackupRequest struct {
 	// Specified name for the backup. If not set, the name will be blank.
 	BackupName string `json:"backupName,omitempty"`
 
-	// DEPRECATED in favor of the namespaceNames. Namespace of the potential candidate for backup. If not set, all of the Data Warehouse namespaces will be backed up.
-	NamespaceName string `json:"namespaceName,omitempty"`
-
-	// If both namespaceName and namespaceNames are set, the namespaceName will be ignored! A list of namespace of the potential candidates for backup. If not set, all of the Data Warehouse namespaces will be backed up.
+	// A list of namespace of the potential candidates for backup. If not set, all of the Data Warehouse namespaces will be backed up.
 	NamespaceNames []string `json:"namespaceNames"`
 }
 

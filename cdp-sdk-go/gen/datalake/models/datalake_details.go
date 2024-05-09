@@ -79,6 +79,9 @@ type DatalakeDetails struct {
 
 	// The reason for the status of the datalake.
 	StatusReason string `json:"statusReason,omitempty"`
+
+	// Datalake tags object containing the tag values defined for the datalake.
+	Tags []*DatalakeResourceTag `json:"tags"`
 }
 
 // Validate validates this datalake details
@@ -126,6 +129,10 @@ func (m *DatalakeDetails) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateShape(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTags(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -329,6 +336,32 @@ func (m *DatalakeDetails) validateShape(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *DatalakeDetails) validateTags(formats strfmt.Registry) error {
+	if swag.IsZero(m.Tags) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Tags); i++ {
+		if swag.IsZero(m.Tags[i]) { // not required
+			continue
+		}
+
+		if m.Tags[i] != nil {
+			if err := m.Tags[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 // ContextValidate validate this datalake details based on the context it is used
 func (m *DatalakeDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -362,6 +395,10 @@ func (m *DatalakeDetails) ContextValidate(ctx context.Context, formats strfmt.Re
 	}
 
 	if err := m.contextValidateShape(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTags(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -539,6 +576,31 @@ func (m *DatalakeDetails) contextValidateShape(ctx context.Context, formats strf
 			return ce.ValidateName("shape")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *DatalakeDetails) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Tags); i++ {
+
+		if m.Tags[i] != nil {
+
+			if swag.IsZero(m.Tags[i]) { // not required
+				return nil
+			}
+
+			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

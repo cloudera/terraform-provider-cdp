@@ -70,6 +70,9 @@ type CreateDatabaseRequest struct {
 	// Custom recipes for the database.
 	Recipes []*CustomRecipe `json:"recipes"`
 
+	// Root volume size in GiB.
+	RootVolumeSize int32 `json:"rootVolumeSize,omitempty"`
+
 	// Optional tags to choose one of the predefined cluster sizes.
 	ScaleType ScaleType `json:"scaleType,omitempty"`
 
@@ -79,7 +82,7 @@ type CreateDatabaseRequest struct {
 	// Optional tag to choose the storage types.
 	StorageType StorageType `json:"storageType,omitempty"`
 
-	// Override subnet where the database will be deployed. Disables Multi-AZ if set.
+	// Override subnet where the database will be deployed. Disables Multi-AZ if set [only for AWS].
 	SubnetID string `json:"subnetId,omitempty"`
 }
 

@@ -154,6 +154,10 @@ type ClientService interface {
 
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
+	UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error)
+
+	UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error)
+
 	UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
@@ -2613,6 +2617,84 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateToAwsImdsV1 updates data hub a w s cluster to use i m d sv1
+
+Updates Data Hub AWS cluster to use IMDSv1.
+*/
+func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateToAwsImdsV1Params()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateToAwsImdsV1",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/updateToAwsImdsV1",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateToAwsImdsV1Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateToAwsImdsV1OK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateToAwsImdsV1Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateToAwsImdsV2 updates data hub a w s cluster to use i m d sv2
+
+Updates Data Hub AWS cluster to use IMDSv2.
+*/
+func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateToAwsImdsV2Params()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateToAwsImdsV2",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/updateToAwsImdsV2",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateToAwsImdsV2Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateToAwsImdsV2OK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateToAwsImdsV2Default)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.111 (BETA)
+  version: 0.9.112 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -752,7 +752,7 @@ definitions:
         description: Skips external database creation to avoid DB creation time.
       subnetId:
         type: string
-        description: Override subnet where the database will be deployed. Disables Multi-AZ if set.
+        description: Override subnet where the database will be deployed. Disables Multi-AZ if set [only for AWS].
       customUserTags:
         type: array
         items:
@@ -804,6 +804,10 @@ definitions:
       storageLocation:
         type: string
         description: Provide an optional external storage location for a non-CDP managed bucket as the HBase root.
+      rootVolumeSize:
+        type: integer
+        format: int32
+        description: Root volume size in GiB.
   VolumeType:
     type: string
     description: "Volume Type.\n `HDD` - Hard disk drives (HDD) volume type. Default is HDD. `SSD` - Solid disk drives (SSD) volume type. `LOCAL_SSD` - Local SSD volume type."
