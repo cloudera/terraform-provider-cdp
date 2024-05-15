@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateEdgeNodesOK) Code() int {
 }
 
 func (o *UpdateEdgeNodesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodesOK %s", 200, payload)
 }
 
 func (o *UpdateEdgeNodesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodesOK %s", 200, payload)
 }
 
 func (o *UpdateEdgeNodesOK) GetPayload() *models.UpdateEdgeNodesResponse {
@@ -158,11 +161,13 @@ func (o *UpdateEdgeNodesDefault) Code() int {
 }
 
 func (o *UpdateEdgeNodesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodes default %s", o._statusCode, payload)
 }
 
 func (o *UpdateEdgeNodesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateEdgeNodes][%d] updateEdgeNodes default %s", o._statusCode, payload)
 }
 
 func (o *UpdateEdgeNodesDefault) GetPayload() *models.Error {

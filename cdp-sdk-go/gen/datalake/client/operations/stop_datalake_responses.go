@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *StopDatalakeOK) Code() int {
 }
 
 func (o *StopDatalakeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalakeOK %s", 200, payload)
 }
 
 func (o *StopDatalakeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalakeOK %s", 200, payload)
 }
 
 func (o *StopDatalakeOK) GetPayload() models.StopDatalakeResponse {
@@ -156,11 +159,13 @@ func (o *StopDatalakeDefault) Code() int {
 }
 
 func (o *StopDatalakeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalake default %s", o._statusCode, payload)
 }
 
 func (o *StopDatalakeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/stopDatalake][%d] stopDatalake default %s", o._statusCode, payload)
 }
 
 func (o *StopDatalakeDefault) GetPayload() *models.Error {

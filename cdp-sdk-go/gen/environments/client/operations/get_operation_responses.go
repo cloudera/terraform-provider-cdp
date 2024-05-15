@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetOperationOK) Code() int {
 }
 
 func (o *GetOperationOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperationOK %s", 200, payload)
 }
 
 func (o *GetOperationOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperationOK %s", 200, payload)
 }
 
 func (o *GetOperationOK) GetPayload() *models.GetOperationResponse {
@@ -158,11 +161,13 @@ func (o *GetOperationDefault) Code() int {
 }
 
 func (o *GetOperationDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperation default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperation default %s", o._statusCode, payload)
 }
 
 func (o *GetOperationDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperation default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getOperation][%d] getOperation default %s", o._statusCode, payload)
 }
 
 func (o *GetOperationDefault) GetPayload() *models.Error {

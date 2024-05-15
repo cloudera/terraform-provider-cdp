@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteAccessKeyOK) Code() int {
 }
 
 func (o *DeleteAccessKeyOK) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKeyOK %s", 200, payload)
 }
 
 func (o *DeleteAccessKeyOK) String() string {
-	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKeyOK %s", 200, payload)
 }
 
 func (o *DeleteAccessKeyOK) GetPayload() models.DeleteAccessKeyResponse {
@@ -156,11 +159,13 @@ func (o *DeleteAccessKeyDefault) Code() int {
 }
 
 func (o *DeleteAccessKeyDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKey default %s", o._statusCode, payload)
 }
 
 func (o *DeleteAccessKeyDefault) String() string {
-	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteAccessKey][%d] deleteAccessKey default %s", o._statusCode, payload)
 }
 
 func (o *DeleteAccessKeyDefault) GetPayload() *models.Error {

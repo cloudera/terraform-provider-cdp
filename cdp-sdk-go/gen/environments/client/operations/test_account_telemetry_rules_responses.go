@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *TestAccountTelemetryRulesOK) Code() int {
 }
 
 func (o *TestAccountTelemetryRulesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRulesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRulesOK %s", 200, payload)
 }
 
 func (o *TestAccountTelemetryRulesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRulesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRulesOK %s", 200, payload)
 }
 
 func (o *TestAccountTelemetryRulesOK) GetPayload() *models.TestAccountTelemetryRulesResponse {
@@ -158,11 +161,13 @@ func (o *TestAccountTelemetryRulesDefault) Code() int {
 }
 
 func (o *TestAccountTelemetryRulesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRules default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRules default %s", o._statusCode, payload)
 }
 
 func (o *TestAccountTelemetryRulesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRules default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/testAccountTelemetryRules][%d] testAccountTelemetryRules default %s", o._statusCode, payload)
 }
 
 func (o *TestAccountTelemetryRulesDefault) GetPayload() *models.Error {

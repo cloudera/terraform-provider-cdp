@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeAllowedInstanceTypesOK) Code() int {
 }
 
 func (o *DescribeAllowedInstanceTypesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypesOK %s", 200, payload)
 }
 
 func (o *DescribeAllowedInstanceTypesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypesOK %s", 200, payload)
 }
 
 func (o *DescribeAllowedInstanceTypesOK) GetPayload() *models.DescribeAllowedInstanceTypesResponse {
@@ -158,11 +161,13 @@ func (o *DescribeAllowedInstanceTypesDefault) Code() int {
 }
 
 func (o *DescribeAllowedInstanceTypesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypes default %s", o._statusCode, payload)
 }
 
 func (o *DescribeAllowedInstanceTypesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeAllowedInstanceTypes][%d] describeAllowedInstanceTypes default %s", o._statusCode, payload)
 }
 
 func (o *DescribeAllowedInstanceTypesDefault) GetPayload() *models.Error {

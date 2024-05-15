@@ -5310,6 +5310,79 @@ func (_c *MockEnvironmentClientService_TestAccountTelemetryRules_Call) RunAndRet
 	return _c
 }
 
+// UpdateAwsCredential provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) UpdateAwsCredential(params *operations.UpdateAwsCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAwsCredential")
+	}
+
+	var r0 *operations.UpdateAwsCredentialOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateAwsCredentialParams, ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateAwsCredentialParams, ...operations.ClientOption) *operations.UpdateAwsCredentialOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAwsCredentialOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateAwsCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAwsCredential_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAwsCredential'
+type MockEnvironmentClientService_UpdateAwsCredential_Call struct {
+	*mock.Call
+}
+
+// UpdateAwsCredential is a helper method to define mock.On call
+//   - params *operations.UpdateAwsCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAwsCredential(params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAwsCredential_Call {
+	return &MockEnvironmentClientService_UpdateAwsCredential_Call{Call: _e.mock.On("UpdateAwsCredential",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsCredential_Call) Run(run func(params *operations.UpdateAwsCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAwsCredential_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateAwsCredentialParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsCredential_Call) Return(_a0 *operations.UpdateAwsCredentialOK, _a1 error) *MockEnvironmentClientService_UpdateAwsCredential_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsCredential_Call) RunAndReturn(run func(*operations.UpdateAwsCredentialParams, ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error)) *MockEnvironmentClientService_UpdateAwsCredential_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateAwsDiskEncryptionParameters provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) UpdateAwsDiskEncryptionParameters(params *operations.UpdateAwsDiskEncryptionParametersParams, opts ...operations.ClientOption) (*operations.UpdateAwsDiskEncryptionParametersOK, error) {
 	_va := make([]interface{}, len(opts))

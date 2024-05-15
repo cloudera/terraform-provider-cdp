@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RevokeModelRegistryAccessOK) Code() int {
 }
 
 func (o *RevokeModelRegistryAccessOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccessOK %s", 200, payload)
 }
 
 func (o *RevokeModelRegistryAccessOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccessOK %s", 200, payload)
 }
 
 func (o *RevokeModelRegistryAccessOK) GetPayload() models.RevokeModelRegistryAccessResponse {
@@ -156,11 +159,13 @@ func (o *RevokeModelRegistryAccessDefault) Code() int {
 }
 
 func (o *RevokeModelRegistryAccessDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccess default %s", o._statusCode, payload)
 }
 
 func (o *RevokeModelRegistryAccessDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeModelRegistryAccess][%d] revokeModelRegistryAccess default %s", o._statusCode, payload)
 }
 
 func (o *RevokeModelRegistryAccessDefault) GetPayload() *models.Error {

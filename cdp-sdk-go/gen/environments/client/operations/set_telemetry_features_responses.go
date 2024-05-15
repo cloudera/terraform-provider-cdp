@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetTelemetryFeaturesOK) Code() int {
 }
 
 func (o *SetTelemetryFeaturesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeaturesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeaturesOK %s", 200, payload)
 }
 
 func (o *SetTelemetryFeaturesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeaturesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeaturesOK %s", 200, payload)
 }
 
 func (o *SetTelemetryFeaturesOK) GetPayload() models.SetTelemetryFeaturesResponse {
@@ -156,11 +159,13 @@ func (o *SetTelemetryFeaturesDefault) Code() int {
 }
 
 func (o *SetTelemetryFeaturesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeatures default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeatures default %s", o._statusCode, payload)
 }
 
 func (o *SetTelemetryFeaturesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeatures default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setTelemetryFeatures][%d] setTelemetryFeatures default %s", o._statusCode, payload)
 }
 
 func (o *SetTelemetryFeaturesDefault) GetPayload() *models.Error {

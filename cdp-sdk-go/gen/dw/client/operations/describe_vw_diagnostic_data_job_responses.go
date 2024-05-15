@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeVwDiagnosticDataJobOK) Code() int {
 }
 
 func (o *DescribeVwDiagnosticDataJobOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *DescribeVwDiagnosticDataJobOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *DescribeVwDiagnosticDataJobOK) GetPayload() *models.DescribeVwDiagnosticDataJobResponse {
@@ -158,11 +161,13 @@ func (o *DescribeVwDiagnosticDataJobDefault) Code() int {
 }
 
 func (o *DescribeVwDiagnosticDataJobDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *DescribeVwDiagnosticDataJobDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeVwDiagnosticDataJob][%d] describeVwDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *DescribeVwDiagnosticDataJobDefault) GetPayload() *models.Error {

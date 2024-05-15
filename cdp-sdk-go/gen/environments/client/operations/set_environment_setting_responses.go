@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetEnvironmentSettingOK) Code() int {
 }
 
 func (o *SetEnvironmentSettingOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSettingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSettingOK %s", 200, payload)
 }
 
 func (o *SetEnvironmentSettingOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSettingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSettingOK %s", 200, payload)
 }
 
 func (o *SetEnvironmentSettingOK) GetPayload() models.SetEnvironmentSettingResponse {
@@ -156,11 +159,13 @@ func (o *SetEnvironmentSettingDefault) Code() int {
 }
 
 func (o *SetEnvironmentSettingDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSetting default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSetting default %s", o._statusCode, payload)
 }
 
 func (o *SetEnvironmentSettingDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSetting default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEnvironmentSetting][%d] setEnvironmentSetting default %s", o._statusCode, payload)
 }
 
 func (o *SetEnvironmentSettingDefault) GetPayload() *models.Error {

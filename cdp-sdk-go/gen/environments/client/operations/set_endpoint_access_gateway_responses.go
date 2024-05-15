@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetEndpointAccessGatewayOK) Code() int {
 }
 
 func (o *SetEndpointAccessGatewayOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGatewayOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGatewayOK %s", 200, payload)
 }
 
 func (o *SetEndpointAccessGatewayOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGatewayOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGatewayOK %s", 200, payload)
 }
 
 func (o *SetEndpointAccessGatewayOK) GetPayload() models.SetEndpointAccessGatewayResponse {
@@ -156,11 +159,13 @@ func (o *SetEndpointAccessGatewayDefault) Code() int {
 }
 
 func (o *SetEndpointAccessGatewayDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGateway default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGateway default %s", o._statusCode, payload)
 }
 
 func (o *SetEndpointAccessGatewayDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGateway default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGateway default %s", o._statusCode, payload)
 }
 
 func (o *SetEndpointAccessGatewayDefault) GetPayload() *models.Error {

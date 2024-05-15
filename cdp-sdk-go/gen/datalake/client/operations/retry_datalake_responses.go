@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RetryDatalakeOK) Code() int {
 }
 
 func (o *RetryDatalakeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalakeOK %s", 200, payload)
 }
 
 func (o *RetryDatalakeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalakeOK %s", 200, payload)
 }
 
 func (o *RetryDatalakeOK) GetPayload() models.RetryDatalakeResponse {
@@ -156,11 +159,13 @@ func (o *RetryDatalakeDefault) Code() int {
 }
 
 func (o *RetryDatalakeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalake default %s", o._statusCode, payload)
 }
 
 func (o *RetryDatalakeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalake default %s", o._statusCode, payload)
 }
 
 func (o *RetryDatalakeDefault) GetPayload() *models.Error {

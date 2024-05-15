@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetDatahubLogDescriptorsOK) Code() int {
 }
 
 func (o *GetDatahubLogDescriptorsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptorsOK %s", 200, payload)
 }
 
 func (o *GetDatahubLogDescriptorsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptorsOK %s", 200, payload)
 }
 
 func (o *GetDatahubLogDescriptorsOK) GetPayload() *models.GetDatahubLogDescriptorsResponse {
@@ -158,11 +161,13 @@ func (o *GetDatahubLogDescriptorsDefault) Code() int {
 }
 
 func (o *GetDatahubLogDescriptorsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptors default %s", o._statusCode, payload)
 }
 
 func (o *GetDatahubLogDescriptorsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getDatahubLogDescriptors][%d] getDatahubLogDescriptors default %s", o._statusCode, payload)
 }
 
 func (o *GetDatahubLogDescriptorsDefault) GetPayload() *models.Error {

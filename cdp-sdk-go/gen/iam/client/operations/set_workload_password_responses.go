@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetWorkloadPasswordOK) Code() int {
 }
 
 func (o *SetWorkloadPasswordOK) Error() string {
-	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPasswordOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPasswordOK %s", 200, payload)
 }
 
 func (o *SetWorkloadPasswordOK) String() string {
-	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPasswordOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPasswordOK %s", 200, payload)
 }
 
 func (o *SetWorkloadPasswordOK) GetPayload() models.SetWorkloadPasswordResponse {
@@ -156,11 +159,13 @@ func (o *SetWorkloadPasswordDefault) Code() int {
 }
 
 func (o *SetWorkloadPasswordDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPassword default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPassword default %s", o._statusCode, payload)
 }
 
 func (o *SetWorkloadPasswordDefault) String() string {
-	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPassword default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setWorkloadPassword][%d] setWorkloadPassword default %s", o._statusCode, payload)
 }
 
 func (o *SetWorkloadPasswordDefault) GetPayload() *models.Error {

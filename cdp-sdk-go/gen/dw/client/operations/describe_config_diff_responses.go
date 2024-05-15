@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeConfigDiffOK) Code() int {
 }
 
 func (o *DescribeConfigDiffOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiffOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiffOK %s", 200, payload)
 }
 
 func (o *DescribeConfigDiffOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiffOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiffOK %s", 200, payload)
 }
 
 func (o *DescribeConfigDiffOK) GetPayload() *models.DescribeConfigDiffResponse {
@@ -158,11 +161,13 @@ func (o *DescribeConfigDiffDefault) Code() int {
 }
 
 func (o *DescribeConfigDiffDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiff default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiff default %s", o._statusCode, payload)
 }
 
 func (o *DescribeConfigDiffDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiff default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeConfigDiff][%d] describeConfigDiff default %s", o._statusCode, payload)
 }
 
 func (o *DescribeConfigDiffDefault) GetPayload() *models.Error {

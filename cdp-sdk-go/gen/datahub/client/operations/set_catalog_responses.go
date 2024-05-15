@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetCatalogOK) Code() int {
 }
 
 func (o *SetCatalogOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalogOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalogOK %s", 200, payload)
 }
 
 func (o *SetCatalogOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalogOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalogOK %s", 200, payload)
 }
 
 func (o *SetCatalogOK) GetPayload() models.SetCatalogResponse {
@@ -156,11 +159,13 @@ func (o *SetCatalogDefault) Code() int {
 }
 
 func (o *SetCatalogDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalog default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalog default %s", o._statusCode, payload)
 }
 
 func (o *SetCatalogDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalog default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/setCatalog][%d] setCatalog default %s", o._statusCode, payload)
 }
 
 func (o *SetCatalogDefault) GetPayload() *models.Error {

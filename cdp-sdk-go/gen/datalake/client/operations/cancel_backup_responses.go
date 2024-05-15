@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CancelBackupOK) Code() int {
 }
 
 func (o *CancelBackupOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackupOK %s", 200, payload)
 }
 
 func (o *CancelBackupOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackupOK %s", 200, payload)
 }
 
 func (o *CancelBackupOK) GetPayload() *models.CancelBackupResponse {
@@ -158,11 +161,13 @@ func (o *CancelBackupDefault) Code() int {
 }
 
 func (o *CancelBackupDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackup default %s", o._statusCode, payload)
 }
 
 func (o *CancelBackupDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/cancelBackup][%d] cancelBackup default %s", o._statusCode, payload)
 }
 
 func (o *CancelBackupDefault) GetPayload() *models.Error {

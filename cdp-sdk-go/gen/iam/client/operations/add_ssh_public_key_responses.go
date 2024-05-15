@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *AddSSHPublicKeyOK) Code() int {
 }
 
 func (o *AddSSHPublicKeyOK) Error() string {
-	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKeyOK %s", 200, payload)
 }
 
 func (o *AddSSHPublicKeyOK) String() string {
-	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKeyOK %s", 200, payload)
 }
 
 func (o *AddSSHPublicKeyOK) GetPayload() *models.AddSSHPublicKeyResponse {
@@ -158,11 +161,13 @@ func (o *AddSSHPublicKeyDefault) Code() int {
 }
 
 func (o *AddSSHPublicKeyDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKey default %s", o._statusCode, payload)
 }
 
 func (o *AddSSHPublicKeyDefault) String() string {
-	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addSshPublicKey][%d] addSshPublicKey default %s", o._statusCode, payload)
 }
 
 func (o *AddSSHPublicKeyDefault) GetPayload() *models.Error {

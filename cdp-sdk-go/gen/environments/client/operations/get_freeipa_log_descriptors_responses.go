@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetFreeipaLogDescriptorsOK) Code() int {
 }
 
 func (o *GetFreeipaLogDescriptorsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptorsOK %s", 200, payload)
 }
 
 func (o *GetFreeipaLogDescriptorsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptorsOK %s", 200, payload)
 }
 
 func (o *GetFreeipaLogDescriptorsOK) GetPayload() *models.GetFreeipaLogDescriptorsResponse {
@@ -158,11 +161,13 @@ func (o *GetFreeipaLogDescriptorsDefault) Code() int {
 }
 
 func (o *GetFreeipaLogDescriptorsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptors default %s", o._statusCode, payload)
 }
 
 func (o *GetFreeipaLogDescriptorsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaLogDescriptors][%d] getFreeipaLogDescriptors default %s", o._statusCode, payload)
 }
 
 func (o *GetFreeipaLogDescriptorsDefault) GetPayload() *models.Error {

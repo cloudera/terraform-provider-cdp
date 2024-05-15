@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RollbackModelRegistryUpgradeOK) Code() int {
 }
 
 func (o *RollbackModelRegistryUpgradeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgradeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgradeOK %s", 200, payload)
 }
 
 func (o *RollbackModelRegistryUpgradeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgradeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgradeOK %s", 200, payload)
 }
 
 func (o *RollbackModelRegistryUpgradeOK) GetPayload() models.RollbackModelRegistryUpgradeResponse {
@@ -156,11 +159,13 @@ func (o *RollbackModelRegistryUpgradeDefault) Code() int {
 }
 
 func (o *RollbackModelRegistryUpgradeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgrade default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgrade default %s", o._statusCode, payload)
 }
 
 func (o *RollbackModelRegistryUpgradeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgrade default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/rollbackModelRegistryUpgrade][%d] rollbackModelRegistryUpgrade default %s", o._statusCode, payload)
 }
 
 func (o *RollbackModelRegistryUpgradeDefault) GetPayload() *models.Error {

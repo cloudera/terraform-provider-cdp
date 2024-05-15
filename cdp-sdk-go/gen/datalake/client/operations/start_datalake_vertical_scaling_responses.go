@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *StartDatalakeVerticalScalingOK) Code() int {
 }
 
 func (o *StartDatalakeVerticalScalingOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScalingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScalingOK %s", 200, payload)
 }
 
 func (o *StartDatalakeVerticalScalingOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScalingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScalingOK %s", 200, payload)
 }
 
 func (o *StartDatalakeVerticalScalingOK) GetPayload() *models.StartDatalakeVerticalScalingResponse {
@@ -158,11 +161,13 @@ func (o *StartDatalakeVerticalScalingDefault) Code() int {
 }
 
 func (o *StartDatalakeVerticalScalingDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScaling default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScaling default %s", o._statusCode, payload)
 }
 
 func (o *StartDatalakeVerticalScalingDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScaling default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatalakeVerticalScaling][%d] startDatalakeVerticalScaling default %s", o._statusCode, payload)
 }
 
 func (o *StartDatalakeVerticalScalingDefault) GetPayload() *models.Error {

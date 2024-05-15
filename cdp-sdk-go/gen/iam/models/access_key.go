@@ -41,7 +41,7 @@ type AccessKey struct {
 	LastUsage *AccessKeyLastUsage `json:"lastUsage,omitempty"`
 
 	// The status of an access key.
-	// Enum: [ACTIVE INACTIVE]
+	// Enum: ["ACTIVE","INACTIVE"]
 	Status string `json:"status,omitempty"`
 
 	// The type of an access key.

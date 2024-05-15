@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateAwsClusterOK) Code() int {
 }
 
 func (o *UpdateAwsClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsClusterOK %s", 200, payload)
 }
 
 func (o *UpdateAwsClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsClusterOK %s", 200, payload)
 }
 
 func (o *UpdateAwsClusterOK) GetPayload() models.UpdateAwsClusterResponse {
@@ -156,11 +159,13 @@ func (o *UpdateAwsClusterDefault) Code() int {
 }
 
 func (o *UpdateAwsClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsCluster default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAwsClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateAwsCluster][%d] updateAwsCluster default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAwsClusterDefault) GetPayload() *models.Error {

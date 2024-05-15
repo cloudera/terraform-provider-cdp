@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListServicePrincipalCloudIdentitiesOK) Code() int {
 }
 
 func (o *ListServicePrincipalCloudIdentitiesOK) Error() string {
-	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentitiesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentitiesOK %s", 200, payload)
 }
 
 func (o *ListServicePrincipalCloudIdentitiesOK) String() string {
-	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentitiesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentitiesOK %s", 200, payload)
 }
 
 func (o *ListServicePrincipalCloudIdentitiesOK) GetPayload() *models.ListServicePrincipalCloudIdentitiesResponse {
@@ -158,11 +161,13 @@ func (o *ListServicePrincipalCloudIdentitiesDefault) Code() int {
 }
 
 func (o *ListServicePrincipalCloudIdentitiesDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentities default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentities default %s", o._statusCode, payload)
 }
 
 func (o *ListServicePrincipalCloudIdentitiesDefault) String() string {
-	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentities default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listServicePrincipalCloudIdentities][%d] listServicePrincipalCloudIdentities default %s", o._statusCode, payload)
 }
 
 func (o *ListServicePrincipalCloudIdentitiesDefault) GetPayload() *models.Error {

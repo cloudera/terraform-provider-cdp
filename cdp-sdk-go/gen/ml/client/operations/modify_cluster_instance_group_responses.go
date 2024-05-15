@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ModifyClusterInstanceGroupOK) Code() int {
 }
 
 func (o *ModifyClusterInstanceGroupOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroupOK %s", 200, payload)
 }
 
 func (o *ModifyClusterInstanceGroupOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroupOK %s", 200, payload)
 }
 
 func (o *ModifyClusterInstanceGroupOK) GetPayload() models.ModifyClusterInstanceGroupResponse {
@@ -156,11 +159,13 @@ func (o *ModifyClusterInstanceGroupDefault) Code() int {
 }
 
 func (o *ModifyClusterInstanceGroupDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroup default %s", o._statusCode, payload)
 }
 
 func (o *ModifyClusterInstanceGroupDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyClusterInstanceGroup][%d] modifyClusterInstanceGroup default %s", o._statusCode, payload)
 }
 
 func (o *ModifyClusterInstanceGroupDefault) GetPayload() *models.Error {

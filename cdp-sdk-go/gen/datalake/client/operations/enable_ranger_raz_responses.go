@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *EnableRangerRazOK) Code() int {
 }
 
 func (o *EnableRangerRazOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRazOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRazOK %s", 200, payload)
 }
 
 func (o *EnableRangerRazOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRazOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRazOK %s", 200, payload)
 }
 
 func (o *EnableRangerRazOK) GetPayload() models.EnableRangerRazResponse {
@@ -156,11 +159,13 @@ func (o *EnableRangerRazDefault) Code() int {
 }
 
 func (o *EnableRangerRazDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRaz default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRaz default %s", o._statusCode, payload)
 }
 
 func (o *EnableRangerRazDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRaz default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/enableRangerRaz][%d] enableRangerRaz default %s", o._statusCode, payload)
 }
 
 func (o *EnableRangerRazDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetUpgradeDbcVersionsOK) Code() int {
 }
 
 func (o *GetUpgradeDbcVersionsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersionsOK %s", 200, payload)
 }
 
 func (o *GetUpgradeDbcVersionsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersionsOK %s", 200, payload)
 }
 
 func (o *GetUpgradeDbcVersionsOK) GetPayload() *models.GetUpgradeDbcVersionsResponse {
@@ -158,11 +161,13 @@ func (o *GetUpgradeDbcVersionsDefault) Code() int {
 }
 
 func (o *GetUpgradeDbcVersionsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersions default %s", o._statusCode, payload)
 }
 
 func (o *GetUpgradeDbcVersionsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeDbcVersions][%d] getUpgradeDbcVersions default %s", o._statusCode, payload)
 }
 
 func (o *GetUpgradeDbcVersionsDefault) GetPayload() *models.Error {

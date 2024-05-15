@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateWorkspaceOK) Code() int {
 }
 
 func (o *CreateWorkspaceOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspaceOK %s", 200, payload)
 }
 
 func (o *CreateWorkspaceOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspaceOK %s", 200, payload)
 }
 
 func (o *CreateWorkspaceOK) GetPayload() models.CreateWorkspaceResponse {
@@ -156,11 +159,13 @@ func (o *CreateWorkspaceDefault) Code() int {
 }
 
 func (o *CreateWorkspaceDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *CreateWorkspaceDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/createWorkspace][%d] createWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *CreateWorkspaceDefault) GetPayload() *models.Error {

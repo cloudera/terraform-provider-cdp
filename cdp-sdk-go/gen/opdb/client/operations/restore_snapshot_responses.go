@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RestoreSnapshotOK) Code() int {
 }
 
 func (o *RestoreSnapshotOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshotOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshotOK %s", 200, payload)
 }
 
 func (o *RestoreSnapshotOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshotOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshotOK %s", 200, payload)
 }
 
 func (o *RestoreSnapshotOK) GetPayload() *models.RestoreSnapshotResponse {
@@ -158,11 +161,13 @@ func (o *RestoreSnapshotDefault) Code() int {
 }
 
 func (o *RestoreSnapshotDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshot default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshot default %s", o._statusCode, payload)
 }
 
 func (o *RestoreSnapshotDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshot default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/restoreSnapshot][%d] restoreSnapshot default %s", o._statusCode, payload)
 }
 
 func (o *RestoreSnapshotDefault) GetPayload() *models.Error {

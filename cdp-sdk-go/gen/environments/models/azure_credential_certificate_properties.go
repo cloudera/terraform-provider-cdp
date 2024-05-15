@@ -34,7 +34,7 @@ type AzureCredentialCertificateProperties struct {
 	Sha512 string `json:"sha512,omitempty"`
 
 	// The status of an Azure credential.
-	// Enum: [KEY_GENERATED ACTIVE]
+	// Enum: ["KEY_GENERATED","ACTIVE"]
 	Status string `json:"status,omitempty"`
 }
 

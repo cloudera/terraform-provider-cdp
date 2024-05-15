@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.112 (BETA)
+  version: 0.9.113 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -3852,10 +3852,6 @@ definitions:
         x-deprecated: true
         type: boolean
         description: DEPRECATED in favor of the top level impalaHASettings object. Enables a backup instance for Impala catalog to ensure high availability.
-      podConfigName:
-        type: string
-        x-deprecated: true
-        description: DEPRECATED - Name of the pod configuration.
       impalaExecutorGroupSets:
         $ref: '#/definitions/ImpalaExecutorGroupSetsCreateRequest'
         description: Configures executor group sets for workload aware autoscaling.
@@ -4031,10 +4027,6 @@ definitions:
         x-deprecated: true
         type: boolean
         description: DEPRECATED in favor of the top level impalaHASettings object. Denotes whether a backup instance for Impala catalog is enabled.
-      podConfigName:
-        type: string
-        x-deprecated: true
-        description: DEPRECATED - Name of the pod configuration.
       impalaExecutorGroupSets:
         $ref: '#/definitions/ImpalaExecutorGroupSetsResponse'
         description: Configurations of executor groups sets for workload aware autoscaling.

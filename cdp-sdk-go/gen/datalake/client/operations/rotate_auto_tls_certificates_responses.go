@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RotateAutoTLSCertificatesOK) Code() int {
 }
 
 func (o *RotateAutoTLSCertificatesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificatesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificatesOK %s", 200, payload)
 }
 
 func (o *RotateAutoTLSCertificatesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificatesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificatesOK %s", 200, payload)
 }
 
 func (o *RotateAutoTLSCertificatesOK) GetPayload() models.RotateAutoTLSCertificatesResponse {
@@ -156,11 +159,13 @@ func (o *RotateAutoTLSCertificatesDefault) Code() int {
 }
 
 func (o *RotateAutoTLSCertificatesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificates default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificates default %s", o._statusCode, payload)
 }
 
 func (o *RotateAutoTLSCertificatesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificates default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/rotateAutoTlsCertificates][%d] rotateAutoTlsCertificates default %s", o._statusCode, payload)
 }
 
 func (o *RotateAutoTLSCertificatesDefault) GetPayload() *models.Error {

@@ -24,7 +24,7 @@ type GetOperationResponse struct {
 	OperationID string `json:"operationId,omitempty"`
 
 	// Status of the operation.
-	// Enum: [UNKNOWN RUNNING FAILED FINISHED CANCELLED]
+	// Enum: ["UNKNOWN","RUNNING","FAILED","FINISHED","CANCELLED"]
 	OperationStatus string `json:"operationStatus,omitempty"`
 
 	// Type of the operation.

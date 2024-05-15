@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreatePrivateClusterOK) Code() int {
 }
 
 func (o *CreatePrivateClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateClusterOK %s", 200, payload)
 }
 
 func (o *CreatePrivateClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateClusterOK %s", 200, payload)
 }
 
 func (o *CreatePrivateClusterOK) GetPayload() *models.CreatePrivateClusterResponse {
@@ -158,11 +161,13 @@ func (o *CreatePrivateClusterDefault) Code() int {
 }
 
 func (o *CreatePrivateClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreatePrivateClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createPrivateCluster][%d] createPrivateCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreatePrivateClusterDefault) GetPayload() *models.Error {

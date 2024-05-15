@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateServerSettingOK) Code() int {
 }
 
 func (o *UpdateServerSettingOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSettingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSettingOK %s", 200, payload)
 }
 
 func (o *UpdateServerSettingOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSettingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSettingOK %s", 200, payload)
 }
 
 func (o *UpdateServerSettingOK) GetPayload() *models.UpdateServerSettingResponse {
@@ -158,11 +161,13 @@ func (o *UpdateServerSettingDefault) Code() int {
 }
 
 func (o *UpdateServerSettingDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSetting default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSetting default %s", o._statusCode, payload)
 }
 
 func (o *UpdateServerSettingDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSetting default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateServerSetting][%d] updateServerSetting default %s", o._statusCode, payload)
 }
 
 func (o *UpdateServerSettingDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListClusterLifecycleEventsOK) Code() int {
 }
 
 func (o *ListClusterLifecycleEventsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEventsOK %s", 200, payload)
 }
 
 func (o *ListClusterLifecycleEventsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEventsOK %s", 200, payload)
 }
 
 func (o *ListClusterLifecycleEventsOK) GetPayload() *models.ListClusterLifecycleEventsResponse {
@@ -158,11 +161,13 @@ func (o *ListClusterLifecycleEventsDefault) Code() int {
 }
 
 func (o *ListClusterLifecycleEventsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListClusterLifecycleEventsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterLifecycleEvents][%d] listClusterLifecycleEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListClusterLifecycleEventsDefault) GetPayload() *models.Error {

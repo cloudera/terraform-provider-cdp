@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RenewCertificateOK) Code() int {
 }
 
 func (o *RenewCertificateOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificateOK %s", 200, payload)
 }
 
 func (o *RenewCertificateOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificateOK %s", 200, payload)
 }
 
 func (o *RenewCertificateOK) GetPayload() models.RenewCertificateResponse {
@@ -156,11 +159,13 @@ func (o *RenewCertificateDefault) Code() int {
 }
 
 func (o *RenewCertificateDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificate default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificate default %s", o._statusCode, payload)
 }
 
 func (o *RenewCertificateDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificate default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/renewCertificate][%d] renewCertificate default %s", o._statusCode, payload)
 }
 
 func (o *RenewCertificateDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListMachineUserAssignedResourceRolesOK) Code() int {
 }
 
 func (o *ListMachineUserAssignedResourceRolesOK) Error() string {
-	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRolesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRolesOK %s", 200, payload)
 }
 
 func (o *ListMachineUserAssignedResourceRolesOK) String() string {
-	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRolesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRolesOK %s", 200, payload)
 }
 
 func (o *ListMachineUserAssignedResourceRolesOK) GetPayload() *models.ListMachineUserAssignedResourceRolesResponse {
@@ -158,11 +161,13 @@ func (o *ListMachineUserAssignedResourceRolesDefault) Code() int {
 }
 
 func (o *ListMachineUserAssignedResourceRolesDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRoles default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRoles default %s", o._statusCode, payload)
 }
 
 func (o *ListMachineUserAssignedResourceRolesDefault) String() string {
-	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRoles default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listMachineUserAssignedResourceRoles][%d] listMachineUserAssignedResourceRoles default %s", o._statusCode, payload)
 }
 
 func (o *ListMachineUserAssignedResourceRolesDefault) GetPayload() *models.Error {

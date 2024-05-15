@@ -21,7 +21,7 @@ import (
 type CheckKubernetesConnectivityRequest struct {
 
 	// Format of Kubernetes configuration file. Defaults to YAML.
-	// Enum: [YAML]
+	// Enum: ["YAML"]
 	Format string `json:"format,omitempty"`
 
 	// Content of Kubernetes configuration file as a text blob in YAML format.

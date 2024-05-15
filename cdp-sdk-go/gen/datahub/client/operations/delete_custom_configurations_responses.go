@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteCustomConfigurationsOK) Code() int {
 }
 
 func (o *DeleteCustomConfigurationsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurationsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurationsOK %s", 200, payload)
 }
 
 func (o *DeleteCustomConfigurationsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurationsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurationsOK %s", 200, payload)
 }
 
 func (o *DeleteCustomConfigurationsOK) GetPayload() *models.DeleteCustomConfigurationsResponse {
@@ -158,11 +161,13 @@ func (o *DeleteCustomConfigurationsDefault) Code() int {
 }
 
 func (o *DeleteCustomConfigurationsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurations default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurations default %s", o._statusCode, payload)
 }
 
 func (o *DeleteCustomConfigurationsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurations default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCustomConfigurations][%d] deleteCustomConfigurations default %s", o._statusCode, payload)
 }
 
 func (o *DeleteCustomConfigurationsDefault) GetPayload() *models.Error {

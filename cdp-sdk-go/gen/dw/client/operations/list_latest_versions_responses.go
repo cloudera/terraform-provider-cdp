@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListLatestVersionsOK) Code() int {
 }
 
 func (o *ListLatestVersionsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersionsOK %s", 200, payload)
 }
 
 func (o *ListLatestVersionsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersionsOK %s", 200, payload)
 }
 
 func (o *ListLatestVersionsOK) GetPayload() *models.ListLatestVersionsResponse {
@@ -158,11 +161,13 @@ func (o *ListLatestVersionsDefault) Code() int {
 }
 
 func (o *ListLatestVersionsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersions default %s", o._statusCode, payload)
 }
 
 func (o *ListLatestVersionsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listLatestVersions][%d] listLatestVersions default %s", o._statusCode, payload)
 }
 
 func (o *ListLatestVersionsDefault) GetPayload() *models.Error {

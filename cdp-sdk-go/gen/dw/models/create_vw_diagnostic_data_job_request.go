@@ -32,7 +32,7 @@ type CreateVwDiagnosticDataJobRequest struct {
 
 	// Destination of the diagnostics collection.
 	// Required: true
-	// Enum: [UPLOAD_TO_CLOUDERA DOWNLOAD]
+	// Enum: ["UPLOAD_TO_CLOUDERA","DOWNLOAD"]
 	Destination *string `json:"destination"`
 
 	// The resulting bundle will contain logs/metrics before the specified end time. If not indicated, then the current time is taken as the end time.

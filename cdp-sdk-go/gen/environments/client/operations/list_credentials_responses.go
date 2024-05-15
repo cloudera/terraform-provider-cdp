@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListCredentialsOK) Code() int {
 }
 
 func (o *ListCredentialsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentialsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentialsOK %s", 200, payload)
 }
 
 func (o *ListCredentialsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentialsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentialsOK %s", 200, payload)
 }
 
 func (o *ListCredentialsOK) GetPayload() *models.ListCredentialsResponse {
@@ -158,11 +161,13 @@ func (o *ListCredentialsDefault) Code() int {
 }
 
 func (o *ListCredentialsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentials default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentials default %s", o._statusCode, payload)
 }
 
 func (o *ListCredentialsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentials default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listCredentials][%d] listCredentials default %s", o._statusCode, payload)
 }
 
 func (o *ListCredentialsDefault) GetPayload() *models.Error {

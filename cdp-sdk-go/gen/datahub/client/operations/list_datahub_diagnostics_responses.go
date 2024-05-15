@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListDatahubDiagnosticsOK) Code() int {
 }
 
 func (o *ListDatahubDiagnosticsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnosticsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnosticsOK %s", 200, payload)
 }
 
 func (o *ListDatahubDiagnosticsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnosticsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnosticsOK %s", 200, payload)
 }
 
 func (o *ListDatahubDiagnosticsOK) GetPayload() *models.ListDatahubDiagnosticsResponse {
@@ -158,11 +161,13 @@ func (o *ListDatahubDiagnosticsDefault) Code() int {
 }
 
 func (o *ListDatahubDiagnosticsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnostics default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnostics default %s", o._statusCode, payload)
 }
 
 func (o *ListDatahubDiagnosticsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnostics default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listDatahubDiagnostics][%d] listDatahubDiagnostics default %s", o._statusCode, payload)
 }
 
 func (o *ListDatahubDiagnosticsDefault) GetPayload() *models.Error {

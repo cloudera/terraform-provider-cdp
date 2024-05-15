@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SyncIDBrokerMappingsOK) Code() int {
 }
 
 func (o *SyncIDBrokerMappingsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappingsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappingsOK %s", 200, payload)
 }
 
 func (o *SyncIDBrokerMappingsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappingsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappingsOK %s", 200, payload)
 }
 
 func (o *SyncIDBrokerMappingsOK) GetPayload() models.SyncIDBrokerMappingsResponse {
@@ -156,11 +159,13 @@ func (o *SyncIDBrokerMappingsDefault) Code() int {
 }
 
 func (o *SyncIDBrokerMappingsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappings default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappings default %s", o._statusCode, payload)
 }
 
 func (o *SyncIDBrokerMappingsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappings default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncIdBrokerMappings][%d] syncIdBrokerMappings default %s", o._statusCode, payload)
 }
 
 func (o *SyncIDBrokerMappingsDefault) GetPayload() *models.Error {

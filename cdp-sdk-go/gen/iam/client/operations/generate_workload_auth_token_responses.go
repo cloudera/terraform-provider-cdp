@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GenerateWorkloadAuthTokenOK) Code() int {
 }
 
 func (o *GenerateWorkloadAuthTokenOK) Error() string {
-	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthTokenOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthTokenOK %s", 200, payload)
 }
 
 func (o *GenerateWorkloadAuthTokenOK) String() string {
-	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthTokenOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthTokenOK %s", 200, payload)
 }
 
 func (o *GenerateWorkloadAuthTokenOK) GetPayload() *models.GenerateWorkloadAuthTokenResponse {
@@ -158,11 +161,13 @@ func (o *GenerateWorkloadAuthTokenDefault) Code() int {
 }
 
 func (o *GenerateWorkloadAuthTokenDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthToken default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthToken default %s", o._statusCode, payload)
 }
 
 func (o *GenerateWorkloadAuthTokenDefault) String() string {
-	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthToken default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/generateWorkloadAuthToken][%d] generateWorkloadAuthToken default %s", o._statusCode, payload)
 }
 
 func (o *GenerateWorkloadAuthTokenDefault) GetPayload() *models.Error {

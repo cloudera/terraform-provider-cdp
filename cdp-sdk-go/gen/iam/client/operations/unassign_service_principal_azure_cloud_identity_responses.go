@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UnassignServicePrincipalAzureCloudIdentityOK) Code() int {
 }
 
 func (o *UnassignServicePrincipalAzureCloudIdentityOK) Error() string {
-	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *UnassignServicePrincipalAzureCloudIdentityOK) String() string {
-	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *UnassignServicePrincipalAzureCloudIdentityOK) GetPayload() models.UnassignServicePrincipalAzureCloudIdentityResponse {
@@ -156,11 +159,13 @@ func (o *UnassignServicePrincipalAzureCloudIdentityDefault) Code() int {
 }
 
 func (o *UnassignServicePrincipalAzureCloudIdentityDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *UnassignServicePrincipalAzureCloudIdentityDefault) String() string {
-	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignServicePrincipalAzureCloudIdentity][%d] unassignServicePrincipalAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *UnassignServicePrincipalAzureCloudIdentityDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetClusterServiceStatusOK) Code() int {
 }
 
 func (o *GetClusterServiceStatusOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatusOK %s", 200, payload)
 }
 
 func (o *GetClusterServiceStatusOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatusOK %s", 200, payload)
 }
 
 func (o *GetClusterServiceStatusOK) GetPayload() *models.GetClusterServiceStatusResponse {
@@ -158,11 +161,13 @@ func (o *GetClusterServiceStatusDefault) Code() int {
 }
 
 func (o *GetClusterServiceStatusDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetClusterServiceStatusDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getClusterServiceStatus][%d] getClusterServiceStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetClusterServiceStatusDefault) GetPayload() *models.Error {

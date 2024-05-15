@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetVMTypesOK) Code() int {
 }
 
 func (o *GetVMTypesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypesOK %s", 200, payload)
 }
 
 func (o *GetVMTypesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypesOK %s", 200, payload)
 }
 
 func (o *GetVMTypesOK) GetPayload() *models.GetVMTypesResponse {
@@ -158,11 +161,13 @@ func (o *GetVMTypesDefault) Code() int {
 }
 
 func (o *GetVMTypesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypes default %s", o._statusCode, payload)
 }
 
 func (o *GetVMTypesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/getVmTypes][%d] getVmTypes default %s", o._statusCode, payload)
 }
 
 func (o *GetVMTypesDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpgradeModelRegistryOK) Code() int {
 }
 
 func (o *UpgradeModelRegistryOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistryOK %s", 200, payload)
 }
 
 func (o *UpgradeModelRegistryOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistryOK %s", 200, payload)
 }
 
 func (o *UpgradeModelRegistryOK) GetPayload() *models.UpgradeModelRegistryResponse {
@@ -158,11 +161,13 @@ func (o *UpgradeModelRegistryDefault) Code() int {
 }
 
 func (o *UpgradeModelRegistryDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistry default %s", o._statusCode, payload)
 }
 
 func (o *UpgradeModelRegistryDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/upgradeModelRegistry][%d] upgradeModelRegistry default %s", o._statusCode, payload)
 }
 
 func (o *UpgradeModelRegistryDefault) GetPayload() *models.Error {

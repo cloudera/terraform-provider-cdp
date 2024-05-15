@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ScaleHorizontallyOK) Code() int {
 }
 
 func (o *ScaleHorizontallyOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontallyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontallyOK %s", 200, payload)
 }
 
 func (o *ScaleHorizontallyOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontallyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontallyOK %s", 200, payload)
 }
 
 func (o *ScaleHorizontallyOK) GetPayload() *models.ScaleHorizontallyResponse {
@@ -158,11 +161,13 @@ func (o *ScaleHorizontallyDefault) Code() int {
 }
 
 func (o *ScaleHorizontallyDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontally default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontally default %s", o._statusCode, payload)
 }
 
 func (o *ScaleHorizontallyDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontally default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/scaleHorizontally][%d] scaleHorizontally default %s", o._statusCode, payload)
 }
 
 func (o *ScaleHorizontallyDefault) GetPayload() *models.Error {

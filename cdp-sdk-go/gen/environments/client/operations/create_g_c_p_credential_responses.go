@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateGCPCredentialOK) Code() int {
 }
 
 func (o *CreateGCPCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredentialOK %s", 200, payload)
 }
 
 func (o *CreateGCPCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredentialOK %s", 200, payload)
 }
 
 func (o *CreateGCPCredentialOK) GetPayload() *models.CreateGCPCredentialResponse {
@@ -158,11 +161,13 @@ func (o *CreateGCPCredentialDefault) Code() int {
 }
 
 func (o *CreateGCPCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredential default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPCredential][%d] createGCPCredential default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPCredentialDefault) GetPayload() *models.Error {

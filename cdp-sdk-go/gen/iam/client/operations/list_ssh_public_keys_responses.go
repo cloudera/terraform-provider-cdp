@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListSSHPublicKeysOK) Code() int {
 }
 
 func (o *ListSSHPublicKeysOK) Error() string {
-	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeysOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeysOK %s", 200, payload)
 }
 
 func (o *ListSSHPublicKeysOK) String() string {
-	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeysOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeysOK %s", 200, payload)
 }
 
 func (o *ListSSHPublicKeysOK) GetPayload() *models.ListSSHPublicKeysResponse {
@@ -158,11 +161,13 @@ func (o *ListSSHPublicKeysDefault) Code() int {
 }
 
 func (o *ListSSHPublicKeysDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeys default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeys default %s", o._statusCode, payload)
 }
 
 func (o *ListSSHPublicKeysDefault) String() string {
-	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeys default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listSshPublicKeys][%d] listSshPublicKeys default %s", o._statusCode, payload)
 }
 
 func (o *ListSSHPublicKeysDefault) GetPayload() *models.Error {

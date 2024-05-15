@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SyncComponentVersionsFromCmOK) Code() int {
 }
 
 func (o *SyncComponentVersionsFromCmOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCmOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCmOK %s", 200, payload)
 }
 
 func (o *SyncComponentVersionsFromCmOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCmOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCmOK %s", 200, payload)
 }
 
 func (o *SyncComponentVersionsFromCmOK) GetPayload() models.SyncComponentVersionsFromCmResponse {
@@ -156,11 +159,13 @@ func (o *SyncComponentVersionsFromCmDefault) Code() int {
 }
 
 func (o *SyncComponentVersionsFromCmDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCm default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCm default %s", o._statusCode, payload)
 }
 
 func (o *SyncComponentVersionsFromCmDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCm default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCm default %s", o._statusCode, payload)
 }
 
 func (o *SyncComponentVersionsFromCmDefault) GetPayload() *models.Error {

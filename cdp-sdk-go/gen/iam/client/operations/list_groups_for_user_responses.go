@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListGroupsForUserOK) Code() int {
 }
 
 func (o *ListGroupsForUserOK) Error() string {
-	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUserOK %s", 200, payload)
 }
 
 func (o *ListGroupsForUserOK) String() string {
-	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUserOK %s", 200, payload)
 }
 
 func (o *ListGroupsForUserOK) GetPayload() *models.ListGroupsForUserResponse {
@@ -158,11 +161,13 @@ func (o *ListGroupsForUserDefault) Code() int {
 }
 
 func (o *ListGroupsForUserDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUser default %s", o._statusCode, payload)
 }
 
 func (o *ListGroupsForUserDefault) String() string {
-	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupsForUser][%d] listGroupsForUser default %s", o._statusCode, payload)
 }
 
 func (o *ListGroupsForUserDefault) GetPayload() *models.Error {

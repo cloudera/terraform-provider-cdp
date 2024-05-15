@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteAuditCredentialOK) Code() int {
 }
 
 func (o *DeleteAuditCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredentialOK %s", 200, payload)
 }
 
 func (o *DeleteAuditCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredentialOK %s", 200, payload)
 }
 
 func (o *DeleteAuditCredentialOK) GetPayload() models.DeleteAuditCredentialResponse {
@@ -156,11 +159,13 @@ func (o *DeleteAuditCredentialDefault) Code() int {
 }
 
 func (o *DeleteAuditCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *DeleteAuditCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteAuditCredential][%d] deleteAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *DeleteAuditCredentialDefault) GetPayload() *models.Error {

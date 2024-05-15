@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAzureEnvironmentOK) Code() int {
 }
 
 func (o *CreateAzureEnvironmentOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreateAzureEnvironmentOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreateAzureEnvironmentOK) GetPayload() *models.CreateAzureEnvironmentResponse {
@@ -158,11 +161,13 @@ func (o *CreateAzureEnvironmentDefault) Code() int {
 }
 
 func (o *CreateAzureEnvironmentDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreateAzureEnvironmentDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAzureEnvironment][%d] createAzureEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreateAzureEnvironmentDefault) GetPayload() *models.Error {

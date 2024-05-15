@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RepairFreeipaOK) Code() int {
 }
 
 func (o *RepairFreeipaOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipaOK %s", 200, payload)
 }
 
 func (o *RepairFreeipaOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipaOK %s", 200, payload)
 }
 
 func (o *RepairFreeipaOK) GetPayload() *models.RepairFreeipaResponse {
@@ -158,11 +161,13 @@ func (o *RepairFreeipaDefault) Code() int {
 }
 
 func (o *RepairFreeipaDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *RepairFreeipaDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/repairFreeipa][%d] repairFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *RepairFreeipaDefault) GetPayload() *models.Error {

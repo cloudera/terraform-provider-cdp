@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *PrepareClusterUpgradeOK) Code() int {
 }
 
 func (o *PrepareClusterUpgradeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgradeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgradeOK %s", 200, payload)
 }
 
 func (o *PrepareClusterUpgradeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgradeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgradeOK %s", 200, payload)
 }
 
 func (o *PrepareClusterUpgradeOK) GetPayload() *models.PrepareClusterUpgradeResponse {
@@ -158,11 +161,13 @@ func (o *PrepareClusterUpgradeDefault) Code() int {
 }
 
 func (o *PrepareClusterUpgradeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgrade default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgrade default %s", o._statusCode, payload)
 }
 
 func (o *PrepareClusterUpgradeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgrade default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/prepareClusterUpgrade][%d] prepareClusterUpgrade default %s", o._statusCode, payload)
 }
 
 func (o *PrepareClusterUpgradeDefault) GetPayload() *models.Error {

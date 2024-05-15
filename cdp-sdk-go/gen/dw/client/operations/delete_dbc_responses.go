@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteDbcOK) Code() int {
 }
 
 func (o *DeleteDbcOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbcOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbcOK %s", 200, payload)
 }
 
 func (o *DeleteDbcOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbcOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbcOK %s", 200, payload)
 }
 
 func (o *DeleteDbcOK) GetPayload() models.DeleteDbcResponse {
@@ -156,11 +159,13 @@ func (o *DeleteDbcDefault) Code() int {
 }
 
 func (o *DeleteDbcDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbc default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbc default %s", o._statusCode, payload)
 }
 
 func (o *DeleteDbcDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbc default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteDbc][%d] deleteDbc default %s", o._statusCode, payload)
 }
 
 func (o *DeleteDbcDefault) GetPayload() *models.Error {

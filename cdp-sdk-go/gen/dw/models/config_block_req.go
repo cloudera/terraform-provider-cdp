@@ -26,7 +26,7 @@ type ConfigBlockReq struct {
 
 	// Format of ConfigBlock.
 	// Required: true
-	// Enum: [HADOOP_XML PROPERTIES TEXT JSON BINARY ENV FLAGFILE]
+	// Enum: ["HADOOP_XML","PROPERTIES","TEXT","JSON","BINARY","ENV","FLAGFILE"]
 	Format *string `json:"format"`
 
 	// ID of the ConfigBlock. Unique within an ApplicationConfig.

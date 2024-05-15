@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetAuditEventsOK) Code() int {
 }
 
 func (o *GetAuditEventsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEventsOK %s", 200, payload)
 }
 
 func (o *GetAuditEventsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEventsOK %s", 200, payload)
 }
 
 func (o *GetAuditEventsOK) GetPayload() *models.GetAuditEventsResponse {
@@ -158,11 +161,13 @@ func (o *GetAuditEventsDefault) Code() int {
 }
 
 func (o *GetAuditEventsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEvents default %s", o._statusCode, payload)
 }
 
 func (o *GetAuditEventsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getAuditEvents][%d] getAuditEvents default %s", o._statusCode, payload)
 }
 
 func (o *GetAuditEventsDefault) GetPayload() *models.Error {

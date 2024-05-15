@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreatePrivateEnvironmentOK) Code() int {
 }
 
 func (o *CreatePrivateEnvironmentOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreatePrivateEnvironmentOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreatePrivateEnvironmentOK) GetPayload() *models.CreatePrivateEnvironmentResponse {
@@ -158,11 +161,13 @@ func (o *CreatePrivateEnvironmentDefault) Code() int {
 }
 
 func (o *CreatePrivateEnvironmentDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreatePrivateEnvironmentDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createPrivateEnvironment][%d] createPrivateEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreatePrivateEnvironmentDefault) GetPayload() *models.Error {

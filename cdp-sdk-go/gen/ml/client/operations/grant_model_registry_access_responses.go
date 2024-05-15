@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GrantModelRegistryAccessOK) Code() int {
 }
 
 func (o *GrantModelRegistryAccessOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccessOK %s", 200, payload)
 }
 
 func (o *GrantModelRegistryAccessOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccessOK %s", 200, payload)
 }
 
 func (o *GrantModelRegistryAccessOK) GetPayload() *models.GrantModelRegistryAccessResponse {
@@ -158,11 +161,13 @@ func (o *GrantModelRegistryAccessDefault) Code() int {
 }
 
 func (o *GrantModelRegistryAccessDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccess default %s", o._statusCode, payload)
 }
 
 func (o *GrantModelRegistryAccessDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantModelRegistryAccess][%d] grantModelRegistryAccess default %s", o._statusCode, payload)
 }
 
 func (o *GrantModelRegistryAccessDefault) GetPayload() *models.Error {

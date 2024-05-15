@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RevokeWorkspaceAccessOK) Code() int {
 }
 
 func (o *RevokeWorkspaceAccessOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccessOK %s", 200, payload)
 }
 
 func (o *RevokeWorkspaceAccessOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccessOK %s", 200, payload)
 }
 
 func (o *RevokeWorkspaceAccessOK) GetPayload() models.RevokeWorkspaceAccessResponse {
@@ -156,11 +159,13 @@ func (o *RevokeWorkspaceAccessDefault) Code() int {
 }
 
 func (o *RevokeWorkspaceAccessDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccess default %s", o._statusCode, payload)
 }
 
 func (o *RevokeWorkspaceAccessDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/revokeWorkspaceAccess][%d] revokeWorkspaceAccess default %s", o._statusCode, payload)
 }
 
 func (o *RevokeWorkspaceAccessDefault) GetPayload() *models.Error {

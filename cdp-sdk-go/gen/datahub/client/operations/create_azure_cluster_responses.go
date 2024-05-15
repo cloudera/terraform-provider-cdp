@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAzureClusterOK) Code() int {
 }
 
 func (o *CreateAzureClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureClusterOK %s", 200, payload)
 }
 
 func (o *CreateAzureClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureClusterOK %s", 200, payload)
 }
 
 func (o *CreateAzureClusterOK) GetPayload() *models.CreateAzureClusterResponse {
@@ -158,11 +161,13 @@ func (o *CreateAzureClusterDefault) Code() int {
 }
 
 func (o *CreateAzureClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAzureClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAzureCluster][%d] createAzureCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAzureClusterDefault) GetPayload() *models.Error {

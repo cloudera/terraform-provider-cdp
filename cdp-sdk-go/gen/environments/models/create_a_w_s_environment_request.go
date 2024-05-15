@@ -48,7 +48,7 @@ type CreateAWSEnvironmentRequest struct {
 	EncryptionKeyArn string `json:"encryptionKeyArn,omitempty"`
 
 	// The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
-	// Enum: [PUBLIC PRIVATE]
+	// Enum: ["PUBLIC","PRIVATE"]
 	EndpointAccessGatewayScheme string `json:"endpointAccessGatewayScheme,omitempty"`
 
 	// The subnets to use for endpoint access gateway.

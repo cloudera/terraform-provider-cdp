@@ -22,7 +22,7 @@ type LastAutomatedSyncDetails struct {
 
 	// The status of the sync.
 	// Required: true
-	// Enum: [UNKNOWN SUCCESS FAILED]
+	// Enum: ["UNKNOWN","SUCCESS","FAILED"]
 	Status *string `json:"status"`
 
 	// Additional detail related to the status.

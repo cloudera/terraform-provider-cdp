@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteVwOK) Code() int {
 }
 
 func (o *DeleteVwOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVwOK %s", 200, payload)
 }
 
 func (o *DeleteVwOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVwOK %s", 200, payload)
 }
 
 func (o *DeleteVwOK) GetPayload() models.DeleteVwResponse {
@@ -156,11 +159,13 @@ func (o *DeleteVwDefault) Code() int {
 }
 
 func (o *DeleteVwDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVw default %s", o._statusCode, payload)
 }
 
 func (o *DeleteVwDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteVw][%d] deleteVw default %s", o._statusCode, payload)
 }
 
 func (o *DeleteVwDefault) GetPayload() *models.Error {

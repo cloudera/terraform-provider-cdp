@@ -29,7 +29,7 @@ type CreatePrivateEnvironmentRequest struct {
 	AuthenticationToken *string `json:"authenticationToken"`
 
 	// How to interpret the authenticationToken field. Defaults to CLEARTEXT_PASSWORD.
-	// Enum: [CLEARTEXT_PASSWORD]
+	// Enum: ["CLEARTEXT_PASSWORD"]
 	AuthenticationTokenType string `json:"authenticationTokenType,omitempty"`
 
 	// The name of the cluster(s) to use as a Datalake for the environment.

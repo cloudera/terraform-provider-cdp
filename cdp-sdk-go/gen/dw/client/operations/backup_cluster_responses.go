@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *BackupClusterOK) Code() int {
 }
 
 func (o *BackupClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupClusterOK %s", 200, payload)
 }
 
 func (o *BackupClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupClusterOK %s", 200, payload)
 }
 
 func (o *BackupClusterOK) GetPayload() *models.BackupClusterResponse {
@@ -158,11 +161,13 @@ func (o *BackupClusterDefault) Code() int {
 }
 
 func (o *BackupClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupCluster default %s", o._statusCode, payload)
 }
 
 func (o *BackupClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/backupCluster][%d] backupCluster default %s", o._statusCode, payload)
 }
 
 func (o *BackupClusterDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateAzureAvailabilityZonesOK) Code() int {
 }
 
 func (o *UpdateAzureAvailabilityZonesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZonesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZonesOK %s", 200, payload)
 }
 
 func (o *UpdateAzureAvailabilityZonesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZonesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZonesOK %s", 200, payload)
 }
 
 func (o *UpdateAzureAvailabilityZonesOK) GetPayload() *models.UpdateAzureAvailabilityZonesResponse {
@@ -158,11 +161,13 @@ func (o *UpdateAzureAvailabilityZonesDefault) Code() int {
 }
 
 func (o *UpdateAzureAvailabilityZonesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZones default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZones default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAzureAvailabilityZonesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZones default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureAvailabilityZones][%d] updateAzureAvailabilityZones default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAzureAvailabilityZonesDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAWSClusterOK) Code() int {
 }
 
 func (o *CreateAWSClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSClusterOK %s", 200, payload)
 }
 
 func (o *CreateAWSClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSClusterOK %s", 200, payload)
 }
 
 func (o *CreateAWSClusterOK) GetPayload() *models.CreateAWSClusterResponse {
@@ -158,11 +161,13 @@ func (o *CreateAWSClusterDefault) Code() int {
 }
 
 func (o *CreateAWSClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSCluster][%d] createAWSCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSClusterDefault) GetPayload() *models.Error {

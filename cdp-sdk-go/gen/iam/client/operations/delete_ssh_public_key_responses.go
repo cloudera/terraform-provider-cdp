@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteSSHPublicKeyOK) Code() int {
 }
 
 func (o *DeleteSSHPublicKeyOK) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKeyOK %s", 200, payload)
 }
 
 func (o *DeleteSSHPublicKeyOK) String() string {
-	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKeyOK %s", 200, payload)
 }
 
 func (o *DeleteSSHPublicKeyOK) GetPayload() models.DeleteSSHPublicKeyResponse {
@@ -156,11 +159,13 @@ func (o *DeleteSSHPublicKeyDefault) Code() int {
 }
 
 func (o *DeleteSSHPublicKeyDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKey default %s", o._statusCode, payload)
 }
 
 func (o *DeleteSSHPublicKeyDefault) String() string {
-	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSshPublicKey][%d] deleteSshPublicKey default %s", o._statusCode, payload)
 }
 
 func (o *DeleteSSHPublicKeyDefault) GetPayload() *models.Error {

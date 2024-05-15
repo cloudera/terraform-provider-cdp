@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetAuthenticationPolicyOK) Code() int {
 }
 
 func (o *SetAuthenticationPolicyOK) Error() string {
-	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicyOK %s", 200, payload)
 }
 
 func (o *SetAuthenticationPolicyOK) String() string {
-	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicyOK %s", 200, payload)
 }
 
 func (o *SetAuthenticationPolicyOK) GetPayload() models.SetAuthenticationPolicyResponse {
@@ -156,11 +159,13 @@ func (o *SetAuthenticationPolicyDefault) Code() int {
 }
 
 func (o *SetAuthenticationPolicyDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicy default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicy default %s", o._statusCode, payload)
 }
 
 func (o *SetAuthenticationPolicyDefault) String() string {
-	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicy default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAuthenticationPolicy][%d] setAuthenticationPolicy default %s", o._statusCode, payload)
 }
 
 func (o *SetAuthenticationPolicyDefault) GetPayload() *models.Error {

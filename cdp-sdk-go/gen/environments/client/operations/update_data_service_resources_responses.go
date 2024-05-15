@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateDataServiceResourcesOK) Code() int {
 }
 
 func (o *UpdateDataServiceResourcesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResourcesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResourcesOK %s", 200, payload)
 }
 
 func (o *UpdateDataServiceResourcesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResourcesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResourcesOK %s", 200, payload)
 }
 
 func (o *UpdateDataServiceResourcesOK) GetPayload() *models.UpdateDataServiceResourcesResponse {
@@ -158,11 +161,13 @@ func (o *UpdateDataServiceResourcesDefault) Code() int {
 }
 
 func (o *UpdateDataServiceResourcesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResources default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResources default %s", o._statusCode, payload)
 }
 
 func (o *UpdateDataServiceResourcesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResources default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateDataServiceResources][%d] updateDataServiceResources default %s", o._statusCode, payload)
 }
 
 func (o *UpdateDataServiceResourcesDefault) GetPayload() *models.Error {

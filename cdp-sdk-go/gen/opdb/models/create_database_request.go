@@ -84,6 +84,9 @@ type CreateDatabaseRequest struct {
 
 	// Override subnet where the database will be deployed. Disables Multi-AZ if set [only for AWS].
 	SubnetID string `json:"subnetId,omitempty"`
+
+	// Specifies encryption key to encrypt volume for instance group. It is currently supported for AWS cloud provider only.
+	VolumeEncryptions []*VolumeEncryption `json:"volumeEncryptions"`
 }
 
 // Validate validates this create database request
@@ -123,6 +126,10 @@ func (m *CreateDatabaseRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateStorageType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateVolumeEncryptions(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -293,6 +300,32 @@ func (m *CreateDatabaseRequest) validateStorageType(formats strfmt.Registry) err
 	return nil
 }
 
+func (m *CreateDatabaseRequest) validateVolumeEncryptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.VolumeEncryptions) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.VolumeEncryptions); i++ {
+		if swag.IsZero(m.VolumeEncryptions[i]) { // not required
+			continue
+		}
+
+		if m.VolumeEncryptions[i] != nil {
+			if err := m.VolumeEncryptions[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 // ContextValidate validate this create database request based on the context it is used
 func (m *CreateDatabaseRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -322,6 +355,10 @@ func (m *CreateDatabaseRequest) ContextValidate(ctx context.Context, formats str
 	}
 
 	if err := m.contextValidateStorageType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVolumeEncryptions(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -475,6 +512,31 @@ func (m *CreateDatabaseRequest) contextValidateStorageType(ctx context.Context, 
 			return ce.ValidateName("storageType")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateDatabaseRequest) contextValidateVolumeEncryptions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.VolumeEncryptions); i++ {
+
+		if m.VolumeEncryptions[i] != nil {
+
+			if swag.IsZero(m.VolumeEncryptions[i]) { // not required
+				return nil
+			}
+
+			if err := m.VolumeEncryptions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

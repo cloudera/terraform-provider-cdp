@@ -27,7 +27,7 @@ type UpdateVwConfigRequest struct {
 
 	// Configuration component to update. Hive components are [DasWebapp, Hiveserver2, QueryCoordinator, QueryExecutor, StandaloneQueryExecutor, TokenAuth, Hue]. Impala components are [Hue, ImpalaAutoscaler, ImpalaCatalogd, ImpalaCoordinator, ImpalaExecutor, ImpalaProxy, ImpalaStatestored, ImpalaTokenAuth].
 	// Required: true
-	// Enum: [DasWebapp Hiveserver2 QueryCoordinator QueryExecutor StandaloneQueryExecutor TokenAuth Hue ImpalaAutoscaler ImpalaCatalogd ImpalaCoordinator ImpalaExecutor ImpalaProxy ImpalaStatestored ImpalaTokenAuth]
+	// Enum: ["DasWebapp","Hiveserver2","QueryCoordinator","QueryExecutor","StandaloneQueryExecutor","TokenAuth","Hue","ImpalaAutoscaler","ImpalaCatalogd","ImpalaCoordinator","ImpalaExecutor","ImpalaProxy","ImpalaStatestored","ImpalaTokenAuth"]
 	Component *string `json:"component"`
 
 	// Configuration files of the selected component to update.

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UnsetWorkloadPasswordMinLifetimeOK) Code() int {
 }
 
 func (o *UnsetWorkloadPasswordMinLifetimeOK) Error() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetimeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetimeOK %s", 200, payload)
 }
 
 func (o *UnsetWorkloadPasswordMinLifetimeOK) String() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetimeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetimeOK %s", 200, payload)
 }
 
 func (o *UnsetWorkloadPasswordMinLifetimeOK) GetPayload() models.UnsetWorkloadPasswordMinLifetimeResponse {
@@ -156,11 +159,13 @@ func (o *UnsetWorkloadPasswordMinLifetimeDefault) Code() int {
 }
 
 func (o *UnsetWorkloadPasswordMinLifetimeDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetime default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetime default %s", o._statusCode, payload)
 }
 
 func (o *UnsetWorkloadPasswordMinLifetimeDefault) String() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetime default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordMinLifetime][%d] unsetWorkloadPasswordMinLifetime default %s", o._statusCode, payload)
 }
 
 func (o *UnsetWorkloadPasswordMinLifetimeDefault) GetPayload() *models.Error {

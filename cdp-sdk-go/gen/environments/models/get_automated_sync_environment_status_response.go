@@ -27,7 +27,7 @@ type GetAutomatedSyncEnvironmentStatusResponse struct {
 	LastSyncStatus *LastAutomatedSyncDetails `json:"lastSyncStatus,omitempty"`
 
 	// The state to indicate whether the environment is synced or has a sync pending.
-	// Enum: [UNKNOWN SYNC_PENDING SYNCED SYNC_HALTED]
+	// Enum: ["UNKNOWN","SYNC_PENDING","SYNCED","SYNC_HALTED"]
 	SyncPendingState string `json:"syncPendingState,omitempty"`
 }
 

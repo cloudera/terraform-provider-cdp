@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListScimAccessTokensOK) Code() int {
 }
 
 func (o *ListScimAccessTokensOK) Error() string {
-	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokensOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokensOK %s", 200, payload)
 }
 
 func (o *ListScimAccessTokensOK) String() string {
-	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokensOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokensOK %s", 200, payload)
 }
 
 func (o *ListScimAccessTokensOK) GetPayload() *models.ListScimAccessTokensResponse {
@@ -158,11 +161,13 @@ func (o *ListScimAccessTokensDefault) Code() int {
 }
 
 func (o *ListScimAccessTokensDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokens default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokens default %s", o._statusCode, payload)
 }
 
 func (o *ListScimAccessTokensDefault) String() string {
-	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokens default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listScimAccessTokens][%d] listScimAccessTokens default %s", o._statusCode, payload)
 }
 
 func (o *ListScimAccessTokensDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateFreeipaToAwsImdsV1OK) Code() int {
 }
 
 func (o *UpdateFreeipaToAwsImdsV1OK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1OK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1OK %s", 200, payload)
 }
 
 func (o *UpdateFreeipaToAwsImdsV1OK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1OK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1OK %s", 200, payload)
 }
 
 func (o *UpdateFreeipaToAwsImdsV1OK) GetPayload() models.UpdateFreeipaToAwsImdsV1Response {
@@ -156,11 +159,13 @@ func (o *UpdateFreeipaToAwsImdsV1Default) Code() int {
 }
 
 func (o *UpdateFreeipaToAwsImdsV1Default) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1 default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1 default %s", o._statusCode, payload)
 }
 
 func (o *UpdateFreeipaToAwsImdsV1Default) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1 default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1 default %s", o._statusCode, payload)
 }
 
 func (o *UpdateFreeipaToAwsImdsV1Default) GetPayload() *models.Error {

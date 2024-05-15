@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateAwsDiskEncryptionParametersOK) Code() int {
 }
 
 func (o *UpdateAwsDiskEncryptionParametersOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParametersOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParametersOK %s", 200, payload)
 }
 
 func (o *UpdateAwsDiskEncryptionParametersOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParametersOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParametersOK %s", 200, payload)
 }
 
 func (o *UpdateAwsDiskEncryptionParametersOK) GetPayload() *models.UpdateAwsDiskEncryptionParametersResponse {
@@ -158,11 +161,13 @@ func (o *UpdateAwsDiskEncryptionParametersDefault) Code() int {
 }
 
 func (o *UpdateAwsDiskEncryptionParametersDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParameters default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParameters default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAwsDiskEncryptionParametersDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParameters default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAwsDiskEncryptionParameters][%d] updateAwsDiskEncryptionParameters default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAwsDiskEncryptionParametersDefault) GetPayload() *models.Error {

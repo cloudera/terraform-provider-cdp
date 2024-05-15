@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpgradeCcmOK) Code() int {
 }
 
 func (o *UpgradeCcmOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcmOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcmOK %s", 200, payload)
 }
 
 func (o *UpgradeCcmOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcmOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcmOK %s", 200, payload)
 }
 
 func (o *UpgradeCcmOK) GetPayload() models.UpgradeCcmResponse {
@@ -156,11 +159,13 @@ func (o *UpgradeCcmDefault) Code() int {
 }
 
 func (o *UpgradeCcmDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcm default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcm default %s", o._statusCode, payload)
 }
 
 func (o *UpgradeCcmDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcm default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcm default %s", o._statusCode, payload)
 }
 
 func (o *UpgradeCcmDefault) GetPayload() *models.Error {

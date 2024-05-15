@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SuspendDbcOK) Code() int {
 }
 
 func (o *SuspendDbcOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbcOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbcOK %s", 200, payload)
 }
 
 func (o *SuspendDbcOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbcOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbcOK %s", 200, payload)
 }
 
 func (o *SuspendDbcOK) GetPayload() models.SuspendDbcResponse {
@@ -156,11 +159,13 @@ func (o *SuspendDbcDefault) Code() int {
 }
 
 func (o *SuspendDbcDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbc default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbc default %s", o._statusCode, payload)
 }
 
 func (o *SuspendDbcDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbc default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendDbc][%d] suspendDbc default %s", o._statusCode, payload)
 }
 
 func (o *SuspendDbcDefault) GetPayload() *models.Error {

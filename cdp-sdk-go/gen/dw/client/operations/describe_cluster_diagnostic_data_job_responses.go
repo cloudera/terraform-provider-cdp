@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeClusterDiagnosticDataJobOK) Code() int {
 }
 
 func (o *DescribeClusterDiagnosticDataJobOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *DescribeClusterDiagnosticDataJobOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *DescribeClusterDiagnosticDataJobOK) GetPayload() *models.DescribeClusterDiagnosticDataJobResponse {
@@ -158,11 +161,13 @@ func (o *DescribeClusterDiagnosticDataJobDefault) Code() int {
 }
 
 func (o *DescribeClusterDiagnosticDataJobDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *DescribeClusterDiagnosticDataJobDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeClusterDiagnosticDataJob][%d] describeClusterDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *DescribeClusterDiagnosticDataJobDefault) GetPayload() *models.Error {

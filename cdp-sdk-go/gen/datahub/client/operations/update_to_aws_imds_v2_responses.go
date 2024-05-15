@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateToAwsImdsV2OK) Code() int {
 }
 
 func (o *UpdateToAwsImdsV2OK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2OK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2OK %s", 200, payload)
 }
 
 func (o *UpdateToAwsImdsV2OK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2OK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2OK %s", 200, payload)
 }
 
 func (o *UpdateToAwsImdsV2OK) GetPayload() models.UpdateToAwsImdsV2Response {
@@ -156,11 +159,13 @@ func (o *UpdateToAwsImdsV2Default) Code() int {
 }
 
 func (o *UpdateToAwsImdsV2Default) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2 default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2 default %s", o._statusCode, payload)
 }
 
 func (o *UpdateToAwsImdsV2Default) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2 default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2 default %s", o._statusCode, payload)
 }
 
 func (o *UpdateToAwsImdsV2Default) GetPayload() *models.Error {

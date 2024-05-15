@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetGovCloudAuditCredentialPrerequisitesOK) Code() int {
 }
 
 func (o *GetGovCloudAuditCredentialPrerequisitesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetGovCloudAuditCredentialPrerequisitesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetGovCloudAuditCredentialPrerequisitesOK) GetPayload() *models.GetGovCloudAuditCredentialPrerequisitesResponse {
@@ -158,11 +161,13 @@ func (o *GetGovCloudAuditCredentialPrerequisitesDefault) Code() int {
 }
 
 func (o *GetGovCloudAuditCredentialPrerequisitesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetGovCloudAuditCredentialPrerequisitesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudAuditCredentialPrerequisites][%d] getGovCloudAuditCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetGovCloudAuditCredentialPrerequisitesDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -92,11 +93,13 @@ func (o *RenewCertificatesOK) Code() int {
 }
 
 func (o *RenewCertificatesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesOK %s", 200, payload)
 }
 
 func (o *RenewCertificatesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesOK %s", 200, payload)
 }
 
 func (o *RenewCertificatesOK) GetPayload() models.RenewCertificatesResponse {
@@ -158,11 +161,13 @@ func (o *RenewCertificatesMethodNotAllowed) Code() int {
 }
 
 func (o *RenewCertificatesMethodNotAllowed) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesMethodNotAllowed  %+v", 405, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesMethodNotAllowed %s", 405, payload)
 }
 
 func (o *RenewCertificatesMethodNotAllowed) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesMethodNotAllowed  %+v", 405, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificatesMethodNotAllowed %s", 405, payload)
 }
 
 func (o *RenewCertificatesMethodNotAllowed) GetPayload() *models.Error {
@@ -230,11 +235,13 @@ func (o *RenewCertificatesDefault) Code() int {
 }
 
 func (o *RenewCertificatesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificates default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificates default %s", o._statusCode, payload)
 }
 
 func (o *RenewCertificatesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificates default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/renewCertificates][%d] renewCertificates default %s", o._statusCode, payload)
 }
 
 func (o *RenewCertificatesDefault) GetPayload() *models.Error {

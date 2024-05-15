@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteSamlProviderOK) Code() int {
 }
 
 func (o *DeleteSamlProviderOK) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProviderOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProviderOK %s", 200, payload)
 }
 
 func (o *DeleteSamlProviderOK) String() string {
-	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProviderOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProviderOK %s", 200, payload)
 }
 
 func (o *DeleteSamlProviderOK) GetPayload() models.DeleteSamlProviderResponse {
@@ -156,11 +159,13 @@ func (o *DeleteSamlProviderDefault) Code() int {
 }
 
 func (o *DeleteSamlProviderDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProvider default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProvider default %s", o._statusCode, payload)
 }
 
 func (o *DeleteSamlProviderDefault) String() string {
-	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProvider default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteSamlProvider][%d] deleteSamlProvider default %s", o._statusCode, payload)
 }
 
 func (o *DeleteSamlProviderDefault) GetPayload() *models.Error {

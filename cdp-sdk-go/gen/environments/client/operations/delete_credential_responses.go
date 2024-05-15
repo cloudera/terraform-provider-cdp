@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteCredentialOK) Code() int {
 }
 
 func (o *DeleteCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredentialOK %s", 200, payload)
 }
 
 func (o *DeleteCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredentialOK %s", 200, payload)
 }
 
 func (o *DeleteCredentialOK) GetPayload() models.DeleteCredentialResponse {
@@ -156,11 +159,13 @@ func (o *DeleteCredentialDefault) Code() int {
 }
 
 func (o *DeleteCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredential default %s", o._statusCode, payload)
 }
 
 func (o *DeleteCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteCredential][%d] deleteCredential default %s", o._statusCode, payload)
 }
 
 func (o *DeleteCredentialDefault) GetPayload() *models.Error {

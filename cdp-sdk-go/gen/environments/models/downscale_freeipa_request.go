@@ -28,7 +28,7 @@ type DownscaleFreeipaRequest struct {
 	Instances []string `json:"instances"`
 
 	// The target FreeIPA availability type.
-	// Enum: [HA TWO_NODE_BASED]
+	// Enum: ["HA","TWO_NODE_BASED"]
 	TargetAvailabilityType string `json:"targetAvailabilityType,omitempty"`
 }
 

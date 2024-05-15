@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetDefaultIdentityProviderOK) Code() int {
 }
 
 func (o *GetDefaultIdentityProviderOK) Error() string {
-	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProviderOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProviderOK %s", 200, payload)
 }
 
 func (o *GetDefaultIdentityProviderOK) String() string {
-	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProviderOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProviderOK %s", 200, payload)
 }
 
 func (o *GetDefaultIdentityProviderOK) GetPayload() *models.GetDefaultIdentityProviderResponse {
@@ -158,11 +161,13 @@ func (o *GetDefaultIdentityProviderDefault) Code() int {
 }
 
 func (o *GetDefaultIdentityProviderDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProvider default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProvider default %s", o._statusCode, payload)
 }
 
 func (o *GetDefaultIdentityProviderDefault) String() string {
-	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProvider default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getDefaultIdentityProvider][%d] getDefaultIdentityProvider default %s", o._statusCode, payload)
 }
 
 func (o *GetDefaultIdentityProviderDefault) GetPayload() *models.Error {

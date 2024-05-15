@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateClusterDiagnosticDataJobOK) Code() int {
 }
 
 func (o *CreateClusterDiagnosticDataJobOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *CreateClusterDiagnosticDataJobOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *CreateClusterDiagnosticDataJobOK) GetPayload() *models.CreateClusterDiagnosticDataJobResponse {
@@ -158,11 +161,13 @@ func (o *CreateClusterDiagnosticDataJobDefault) Code() int {
 }
 
 func (o *CreateClusterDiagnosticDataJobDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *CreateClusterDiagnosticDataJobDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createClusterDiagnosticDataJob][%d] createClusterDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *CreateClusterDiagnosticDataJobDefault) GetPayload() *models.Error {

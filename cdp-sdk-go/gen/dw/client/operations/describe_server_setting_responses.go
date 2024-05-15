@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeServerSettingOK) Code() int {
 }
 
 func (o *DescribeServerSettingOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSettingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSettingOK %s", 200, payload)
 }
 
 func (o *DescribeServerSettingOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSettingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSettingOK %s", 200, payload)
 }
 
 func (o *DescribeServerSettingOK) GetPayload() *models.DescribeServerSettingResponse {
@@ -158,11 +161,13 @@ func (o *DescribeServerSettingDefault) Code() int {
 }
 
 func (o *DescribeServerSettingDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSetting default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSetting default %s", o._statusCode, payload)
 }
 
 func (o *DescribeServerSettingDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSetting default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeServerSetting][%d] describeServerSetting default %s", o._statusCode, payload)
 }
 
 func (o *DescribeServerSettingDefault) GetPayload() *models.Error {

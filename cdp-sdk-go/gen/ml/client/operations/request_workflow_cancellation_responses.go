@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RequestWorkflowCancellationOK) Code() int {
 }
 
 func (o *RequestWorkflowCancellationOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellationOK %s", 200, payload)
 }
 
 func (o *RequestWorkflowCancellationOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellationOK %s", 200, payload)
 }
 
 func (o *RequestWorkflowCancellationOK) GetPayload() *models.RequestWorkflowCancellationResponse {
@@ -158,11 +161,13 @@ func (o *RequestWorkflowCancellationDefault) Code() int {
 }
 
 func (o *RequestWorkflowCancellationDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellation default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellation default %s", o._statusCode, payload)
 }
 
 func (o *RequestWorkflowCancellationDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellation default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/requestWorkflowCancellation][%d] requestWorkflowCancellation default %s", o._statusCode, payload)
 }
 
 func (o *RequestWorkflowCancellationDefault) GetPayload() *models.Error {

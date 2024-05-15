@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SyncClusterOK) Code() int {
 }
 
 func (o *SyncClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncClusterOK %s", 200, payload)
 }
 
 func (o *SyncClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncClusterOK %s", 200, payload)
 }
 
 func (o *SyncClusterOK) GetPayload() models.SyncClusterResponse {
@@ -156,11 +159,13 @@ func (o *SyncClusterDefault) Code() int {
 }
 
 func (o *SyncClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncCluster default %s", o._statusCode, payload)
 }
 
 func (o *SyncClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/syncCluster][%d] syncCluster default %s", o._statusCode, payload)
 }
 
 func (o *SyncClusterDefault) GetPayload() *models.Error {

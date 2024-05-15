@@ -73,7 +73,7 @@ type CreateVwRequest struct {
 	Tags []*TagRequest `json:"tags"`
 
 	// Name of configuration template to use.
-	// Enum: [xsmall small medium large]
+	// Enum: ["xsmall","small","medium","large"]
 	Template string `json:"template,omitempty"`
 
 	// Type of Virtual Warehouse to be created.

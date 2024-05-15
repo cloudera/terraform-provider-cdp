@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteGroupOK) Code() int {
 }
 
 func (o *DeleteGroupOK) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroupOK %s", 200, payload)
 }
 
 func (o *DeleteGroupOK) String() string {
-	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroupOK %s", 200, payload)
 }
 
 func (o *DeleteGroupOK) GetPayload() models.DeleteGroupResponse {
@@ -156,11 +159,13 @@ func (o *DeleteGroupDefault) Code() int {
 }
 
 func (o *DeleteGroupDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroup default %s", o._statusCode, payload)
 }
 
 func (o *DeleteGroupDefault) String() string {
-	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteGroup][%d] deleteGroup default %s", o._statusCode, payload)
 }
 
 func (o *DeleteGroupDefault) GetPayload() *models.Error {

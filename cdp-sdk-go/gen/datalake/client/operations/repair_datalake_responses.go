@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RepairDatalakeOK) Code() int {
 }
 
 func (o *RepairDatalakeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalakeOK %s", 200, payload)
 }
 
 func (o *RepairDatalakeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalakeOK %s", 200, payload)
 }
 
 func (o *RepairDatalakeOK) GetPayload() models.RepairDatalakeResponse {
@@ -156,11 +159,13 @@ func (o *RepairDatalakeDefault) Code() int {
 }
 
 func (o *RepairDatalakeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalake default %s", o._statusCode, payload)
 }
 
 func (o *RepairDatalakeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalake default %s", o._statusCode, payload)
 }
 
 func (o *RepairDatalakeDefault) GetPayload() *models.Error {

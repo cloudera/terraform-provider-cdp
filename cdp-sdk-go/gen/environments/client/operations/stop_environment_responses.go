@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *StopEnvironmentOK) Code() int {
 }
 
 func (o *StopEnvironmentOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironmentOK %s", 200, payload)
 }
 
 func (o *StopEnvironmentOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironmentOK %s", 200, payload)
 }
 
 func (o *StopEnvironmentOK) GetPayload() models.StopEnvironmentResponse {
@@ -156,11 +159,13 @@ func (o *StopEnvironmentDefault) Code() int {
 }
 
 func (o *StopEnvironmentDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *StopEnvironmentDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *StopEnvironmentDefault) GetPayload() *models.Error {

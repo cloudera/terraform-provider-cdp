@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAwsClusterOK) Code() int {
 }
 
 func (o *CreateAwsClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsClusterOK %s", 200, payload)
 }
 
 func (o *CreateAwsClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsClusterOK %s", 200, payload)
 }
 
 func (o *CreateAwsClusterOK) GetPayload() *models.CreateAwsClusterResponse {
@@ -158,11 +161,13 @@ func (o *CreateAwsClusterDefault) Code() int {
 }
 
 func (o *CreateAwsClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAwsClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createAwsCluster][%d] createAwsCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAwsClusterDefault) GetPayload() *models.Error {

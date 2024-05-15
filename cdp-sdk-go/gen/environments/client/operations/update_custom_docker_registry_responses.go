@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateCustomDockerRegistryOK) Code() int {
 }
 
 func (o *UpdateCustomDockerRegistryOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistryOK %s", 200, payload)
 }
 
 func (o *UpdateCustomDockerRegistryOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistryOK %s", 200, payload)
 }
 
 func (o *UpdateCustomDockerRegistryOK) GetPayload() *models.UpdateCustomDockerRegistryResponse {
@@ -158,11 +161,13 @@ func (o *UpdateCustomDockerRegistryDefault) Code() int {
 }
 
 func (o *UpdateCustomDockerRegistryDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistry default %s", o._statusCode, payload)
 }
 
 func (o *UpdateCustomDockerRegistryDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateCustomDockerRegistry][%d] updateCustomDockerRegistry default %s", o._statusCode, payload)
 }
 
 func (o *UpdateCustomDockerRegistryDefault) GetPayload() *models.Error {

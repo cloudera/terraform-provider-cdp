@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeDatabaseServerOK) Code() int {
 }
 
 func (o *DescribeDatabaseServerOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServerOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServerOK %s", 200, payload)
 }
 
 func (o *DescribeDatabaseServerOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServerOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServerOK %s", 200, payload)
 }
 
 func (o *DescribeDatabaseServerOK) GetPayload() *models.DescribeDatabaseServerResponse {
@@ -158,11 +161,13 @@ func (o *DescribeDatabaseServerDefault) Code() int {
 }
 
 func (o *DescribeDatabaseServerDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServer default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServer default %s", o._statusCode, payload)
 }
 
 func (o *DescribeDatabaseServerDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServer default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeDatabaseServer][%d] describeDatabaseServer default %s", o._statusCode, payload)
 }
 
 func (o *DescribeDatabaseServerDefault) GetPayload() *models.Error {

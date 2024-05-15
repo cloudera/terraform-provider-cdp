@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *AssignUserResourceRoleOK) Code() int {
 }
 
 func (o *AssignUserResourceRoleOK) Error() string {
-	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRoleOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRoleOK %s", 200, payload)
 }
 
 func (o *AssignUserResourceRoleOK) String() string {
-	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRoleOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRoleOK %s", 200, payload)
 }
 
 func (o *AssignUserResourceRoleOK) GetPayload() models.AssignUserResourceRoleResponse {
@@ -156,11 +159,13 @@ func (o *AssignUserResourceRoleDefault) Code() int {
 }
 
 func (o *AssignUserResourceRoleDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRole default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRole default %s", o._statusCode, payload)
 }
 
 func (o *AssignUserResourceRoleDefault) String() string {
-	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRole default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignUserResourceRole][%d] assignUserResourceRole default %s", o._statusCode, payload)
 }
 
 func (o *AssignUserResourceRoleDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *AssignServicePrincipalAzureCloudIdentityOK) Code() int {
 }
 
 func (o *AssignServicePrincipalAzureCloudIdentityOK) Error() string {
-	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *AssignServicePrincipalAzureCloudIdentityOK) String() string {
-	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *AssignServicePrincipalAzureCloudIdentityOK) GetPayload() models.AssignServicePrincipalAzureCloudIdentityResponse {
@@ -156,11 +159,13 @@ func (o *AssignServicePrincipalAzureCloudIdentityDefault) Code() int {
 }
 
 func (o *AssignServicePrincipalAzureCloudIdentityDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *AssignServicePrincipalAzureCloudIdentityDefault) String() string {
-	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignServicePrincipalAzureCloudIdentity][%d] assignServicePrincipalAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *AssignServicePrincipalAzureCloudIdentityDefault) GetPayload() *models.Error {

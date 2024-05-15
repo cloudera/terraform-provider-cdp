@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.112 (BETA)
+  version: 0.9.113 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -4370,6 +4370,21 @@ definitions:
         type: array
         items:
           type: string
+      vmTypesWithMetadata:
+        description: The supported VM types based on the given parameters with metadata.
+        type: array
+        items:
+          $ref: '#/definitions/VmTypeResponseWithMetadata'
+  VmTypeResponseWithMetadata:
+    type: object
+    description: Response object containing vm types and its metadata.
+    properties:
+      name:
+        type: string
+        description: Name of the vm type.
+      properties:
+        type: string
+        description: JSON string with metadata as key value pairs.
   GetOperationRequest:
     type: object
     x-no-compatibility-guarantee: true

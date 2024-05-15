@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RebuildVwOK) Code() int {
 }
 
 func (o *RebuildVwOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVwOK %s", 200, payload)
 }
 
 func (o *RebuildVwOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVwOK %s", 200, payload)
 }
 
 func (o *RebuildVwOK) GetPayload() models.RebuildVwResponse {
@@ -156,11 +159,13 @@ func (o *RebuildVwDefault) Code() int {
 }
 
 func (o *RebuildVwDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVw default %s", o._statusCode, payload)
 }
 
 func (o *RebuildVwDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/rebuildVw][%d] rebuildVw default %s", o._statusCode, payload)
 }
 
 func (o *RebuildVwDefault) GetPayload() *models.Error {

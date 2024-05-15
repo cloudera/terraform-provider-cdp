@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateVwOK) Code() int {
 }
 
 func (o *CreateVwOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVwOK %s", 200, payload)
 }
 
 func (o *CreateVwOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVwOK %s", 200, payload)
 }
 
 func (o *CreateVwOK) GetPayload() *models.CreateVwResponse {
@@ -158,11 +161,13 @@ func (o *CreateVwDefault) Code() int {
 }
 
 func (o *CreateVwDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVw default %s", o._statusCode, payload)
 }
 
 func (o *CreateVwDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/createVw][%d] createVw default %s", o._statusCode, payload)
 }
 
 func (o *CreateVwDefault) GetPayload() *models.Error {

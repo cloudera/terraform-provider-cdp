@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteEnvironmentOK) Code() int {
 }
 
 func (o *DeleteEnvironmentOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironmentOK %s", 200, payload)
 }
 
 func (o *DeleteEnvironmentOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironmentOK %s", 200, payload)
 }
 
 func (o *DeleteEnvironmentOK) GetPayload() models.DeleteEnvironmentResponse {
@@ -156,11 +159,13 @@ func (o *DeleteEnvironmentDefault) Code() int {
 }
 
 func (o *DeleteEnvironmentDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *DeleteEnvironmentDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteEnvironment][%d] deleteEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *DeleteEnvironmentDefault) GetPayload() *models.Error {

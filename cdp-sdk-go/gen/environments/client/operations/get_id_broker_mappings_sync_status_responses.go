@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetIDBrokerMappingsSyncStatusOK) Code() int {
 }
 
 func (o *GetIDBrokerMappingsSyncStatusOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatusOK %s", 200, payload)
 }
 
 func (o *GetIDBrokerMappingsSyncStatusOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatusOK %s", 200, payload)
 }
 
 func (o *GetIDBrokerMappingsSyncStatusOK) GetPayload() *models.GetIDBrokerMappingsSyncStatusResponse {
@@ -158,11 +161,13 @@ func (o *GetIDBrokerMappingsSyncStatusDefault) Code() int {
 }
 
 func (o *GetIDBrokerMappingsSyncStatusDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetIDBrokerMappingsSyncStatusDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getIdBrokerMappingsSyncStatus][%d] getIdBrokerMappingsSyncStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetIDBrokerMappingsSyncStatusDefault) GetPayload() *models.Error {

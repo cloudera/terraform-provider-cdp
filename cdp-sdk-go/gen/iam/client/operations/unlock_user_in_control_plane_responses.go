@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UnlockUserInControlPlaneOK) Code() int {
 }
 
 func (o *UnlockUserInControlPlaneOK) Error() string {
-	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlaneOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlaneOK %s", 200, payload)
 }
 
 func (o *UnlockUserInControlPlaneOK) String() string {
-	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlaneOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlaneOK %s", 200, payload)
 }
 
 func (o *UnlockUserInControlPlaneOK) GetPayload() *models.UnlockUserInControlPlaneResponse {
@@ -158,11 +161,13 @@ func (o *UnlockUserInControlPlaneDefault) Code() int {
 }
 
 func (o *UnlockUserInControlPlaneDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlane default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlane default %s", o._statusCode, payload)
 }
 
 func (o *UnlockUserInControlPlaneDefault) String() string {
-	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlane default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unlockUserInControlPlane][%d] unlockUserInControlPlane default %s", o._statusCode, payload)
 }
 
 func (o *UnlockUserInControlPlaneDefault) GetPayload() *models.Error {

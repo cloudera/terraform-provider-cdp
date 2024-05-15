@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAutoScaleRulesOK) Code() int {
 }
 
 func (o *CreateAutoScaleRulesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRulesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRulesOK %s", 200, payload)
 }
 
 func (o *CreateAutoScaleRulesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRulesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRulesOK %s", 200, payload)
 }
 
 func (o *CreateAutoScaleRulesOK) GetPayload() *models.CreateAutoScaleRulesResponse {
@@ -158,11 +161,13 @@ func (o *CreateAutoScaleRulesDefault) Code() int {
 }
 
 func (o *CreateAutoScaleRulesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRules default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRules default %s", o._statusCode, payload)
 }
 
 func (o *CreateAutoScaleRulesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRules default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAutoScaleRules][%d] createAutoScaleRules default %s", o._statusCode, payload)
 }
 
 func (o *CreateAutoScaleRulesDefault) GetPayload() *models.Error {

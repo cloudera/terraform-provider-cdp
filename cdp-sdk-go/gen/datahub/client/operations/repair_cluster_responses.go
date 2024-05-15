@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RepairClusterOK) Code() int {
 }
 
 func (o *RepairClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairClusterOK %s", 200, payload)
 }
 
 func (o *RepairClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairClusterOK %s", 200, payload)
 }
 
 func (o *RepairClusterOK) GetPayload() models.RepairClusterResponse {
@@ -156,11 +159,13 @@ func (o *RepairClusterDefault) Code() int {
 }
 
 func (o *RepairClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairCluster default %s", o._statusCode, payload)
 }
 
 func (o *RepairClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairCluster default %s", o._statusCode, payload)
 }
 
 func (o *RepairClusterDefault) GetPayload() *models.Error {

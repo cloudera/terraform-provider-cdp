@@ -26,7 +26,7 @@ type UpdateAccessKeyRequest struct {
 
 	// The status to assign to the access key.
 	// Required: true
-	// Enum: [ACTIVE INACTIVE]
+	// Enum: ["ACTIVE","INACTIVE"]
 	Status *string `json:"status"`
 }
 

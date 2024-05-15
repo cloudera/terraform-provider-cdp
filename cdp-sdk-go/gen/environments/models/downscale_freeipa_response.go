@@ -24,11 +24,11 @@ type DownscaleFreeipaResponse struct {
 	OperationID string `json:"operationId,omitempty"`
 
 	// The target FreeIPA availability type.
-	// Enum: [HA]
+	// Enum: ["HA"]
 	OriginalAvailabilityType string `json:"originalAvailabilityType,omitempty"`
 
 	// The target FreeIPA availability type.
-	// Enum: [HA TWO_NODE_BASED]
+	// Enum: ["HA","TWO_NODE_BASED"]
 	TargetAvailabilityType string `json:"targetAvailabilityType,omitempty"`
 }
 

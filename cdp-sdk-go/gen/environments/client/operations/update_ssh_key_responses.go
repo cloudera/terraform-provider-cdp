@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateSSHKeyOK) Code() int {
 }
 
 func (o *UpdateSSHKeyOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKeyOK %s", 200, payload)
 }
 
 func (o *UpdateSSHKeyOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKeyOK %s", 200, payload)
 }
 
 func (o *UpdateSSHKeyOK) GetPayload() *models.UpdateSSHKeyResponse {
@@ -158,11 +161,13 @@ func (o *UpdateSSHKeyDefault) Code() int {
 }
 
 func (o *UpdateSSHKeyDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKey default %s", o._statusCode, payload)
 }
 
 func (o *UpdateSSHKeyDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSshKey][%d] updateSshKey default %s", o._statusCode, payload)
 }
 
 func (o *UpdateSSHKeyDefault) GetPayload() *models.Error {

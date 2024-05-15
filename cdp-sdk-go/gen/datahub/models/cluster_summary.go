@@ -21,7 +21,7 @@ import (
 type ClusterSummary struct {
 
 	// Indicates the certificate status on the cluster.
-	// Enum: [VALID HOST_CERT_EXPIRING]
+	// Enum: ["VALID","HOST_CERT_EXPIRING"]
 	CertificateExpirationState string `json:"certificateExpirationState,omitempty"`
 
 	// The name of the cloud platform.

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeUpgradeDatabaseOK) Code() int {
 }
 
 func (o *DescribeUpgradeDatabaseOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabaseOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabaseOK %s", 200, payload)
 }
 
 func (o *DescribeUpgradeDatabaseOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabaseOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabaseOK %s", 200, payload)
 }
 
 func (o *DescribeUpgradeDatabaseOK) GetPayload() *models.DescribeUpgradeDatabaseResponse {
@@ -158,11 +161,13 @@ func (o *DescribeUpgradeDatabaseDefault) Code() int {
 }
 
 func (o *DescribeUpgradeDatabaseDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabase default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabase default %s", o._statusCode, payload)
 }
 
 func (o *DescribeUpgradeDatabaseDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabase default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeUpgradeDatabase][%d] describeUpgradeDatabase default %s", o._statusCode, payload)
 }
 
 func (o *DescribeUpgradeDatabaseDefault) GetPayload() *models.Error {

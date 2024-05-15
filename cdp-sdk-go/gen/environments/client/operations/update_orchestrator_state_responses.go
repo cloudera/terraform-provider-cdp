@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateOrchestratorStateOK) Code() int {
 }
 
 func (o *UpdateOrchestratorStateOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorStateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorStateOK %s", 200, payload)
 }
 
 func (o *UpdateOrchestratorStateOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorStateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorStateOK %s", 200, payload)
 }
 
 func (o *UpdateOrchestratorStateOK) GetPayload() models.UpdateOrchestratorStateResponse {
@@ -156,11 +159,13 @@ func (o *UpdateOrchestratorStateDefault) Code() int {
 }
 
 func (o *UpdateOrchestratorStateDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorState default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorState default %s", o._statusCode, payload)
 }
 
 func (o *UpdateOrchestratorStateDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorState default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorState default %s", o._statusCode, payload)
 }
 
 func (o *UpdateOrchestratorStateDefault) GetPayload() *models.Error {

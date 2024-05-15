@@ -32,7 +32,7 @@ type ScaleHorizontallyRequest struct {
 
 	// The target host group name to be scaled.
 	// Required: true
-	// Enum: [solr_scale_out hms_scale_out raz_scale_out kafka_scale_out storage_scale_out]
+	// Enum: ["solr_scale_out","hms_scale_out","raz_scale_out","kafka_scale_out","storage_scale_out"]
 	InstanceGroupName *string `json:"instanceGroupName"`
 }
 

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteInstancesOK) Code() int {
 }
 
 func (o *DeleteInstancesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstancesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstancesOK %s", 200, payload)
 }
 
 func (o *DeleteInstancesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstancesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstancesOK %s", 200, payload)
 }
 
 func (o *DeleteInstancesOK) GetPayload() *models.DeleteInstancesResponse {
@@ -158,11 +161,13 @@ func (o *DeleteInstancesDefault) Code() int {
 }
 
 func (o *DeleteInstancesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstances default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstances default %s", o._statusCode, payload)
 }
 
 func (o *DeleteInstancesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstances default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteInstances][%d] deleteInstances default %s", o._statusCode, payload)
 }
 
 func (o *DeleteInstancesDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListVwEventsOK) Code() int {
 }
 
 func (o *ListVwEventsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEventsOK %s", 200, payload)
 }
 
 func (o *ListVwEventsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEventsOK %s", 200, payload)
 }
 
 func (o *ListVwEventsOK) GetPayload() *models.ListVwEventsResponse {
@@ -158,11 +161,13 @@ func (o *ListVwEventsDefault) Code() int {
 }
 
 func (o *ListVwEventsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListVwEventsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listVwEvents][%d] listVwEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListVwEventsDefault) GetPayload() *models.Error {

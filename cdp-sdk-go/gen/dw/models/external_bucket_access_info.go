@@ -21,7 +21,7 @@ import (
 type ExternalBucketAccessInfo struct {
 
 	// Specifies whether the external bucket will be added in read-only or read-write mode.
-	// Enum: [READ READWRITE]
+	// Enum: ["READ","READWRITE"]
 	AccessMode string `json:"accessMode,omitempty"`
 
 	// Enable server side encryption with the specified KMS CMK ARN. If the value is empty or unspecified, default server side encryption will be used when the access mode is read-write. Otherwise this value is ignored.

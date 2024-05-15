@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetGCPAuditCredentialOK) Code() int {
 }
 
 func (o *SetGCPAuditCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredentialOK %s", 200, payload)
 }
 
 func (o *SetGCPAuditCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredentialOK %s", 200, payload)
 }
 
 func (o *SetGCPAuditCredentialOK) GetPayload() *models.SetGCPAuditCredentialResponse {
@@ -158,11 +161,13 @@ func (o *SetGCPAuditCredentialDefault) Code() int {
 }
 
 func (o *SetGCPAuditCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *SetGCPAuditCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setGCPAuditCredential][%d] setGCPAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *SetGCPAuditCredentialDefault) GetPayload() *models.Error {

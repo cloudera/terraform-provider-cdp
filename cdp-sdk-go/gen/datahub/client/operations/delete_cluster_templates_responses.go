@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteClusterTemplatesOK) Code() int {
 }
 
 func (o *DeleteClusterTemplatesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplatesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplatesOK %s", 200, payload)
 }
 
 func (o *DeleteClusterTemplatesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplatesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplatesOK %s", 200, payload)
 }
 
 func (o *DeleteClusterTemplatesOK) GetPayload() *models.DeleteClusterTemplatesResponse {
@@ -158,11 +161,13 @@ func (o *DeleteClusterTemplatesDefault) Code() int {
 }
 
 func (o *DeleteClusterTemplatesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplates default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplates default %s", o._statusCode, payload)
 }
 
 func (o *DeleteClusterTemplatesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplates default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteClusterTemplates][%d] deleteClusterTemplates default %s", o._statusCode, payload)
 }
 
 func (o *DeleteClusterTemplatesDefault) GetPayload() *models.Error {

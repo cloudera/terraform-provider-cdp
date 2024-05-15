@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateDataVisualizationOK) Code() int {
 }
 
 func (o *UpdateDataVisualizationOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualizationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualizationOK %s", 200, payload)
 }
 
 func (o *UpdateDataVisualizationOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualizationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualizationOK %s", 200, payload)
 }
 
 func (o *UpdateDataVisualizationOK) GetPayload() *models.UpdateDataVisualizationResponse {
@@ -158,11 +161,13 @@ func (o *UpdateDataVisualizationDefault) Code() int {
 }
 
 func (o *UpdateDataVisualizationDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualization default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualization default %s", o._statusCode, payload)
 }
 
 func (o *UpdateDataVisualizationDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualization default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/updateDataVisualization][%d] updateDataVisualization default %s", o._statusCode, payload)
 }
 
 func (o *UpdateDataVisualizationDefault) GetPayload() *models.Error {

@@ -31,7 +31,7 @@ type RepairFreeipaRequest struct {
 	Instances []string `json:"instances"`
 
 	// The type of FreeIPA repair to perform. * AUTO - Currently, this is the same as reboot but this may change in the future. * REBOOT - Repair the failed instances by rebooting them. * REBUILD - Repair the failed instances by deleting them and creating new instances, then replicate data from an existing instance to the new instances.
-	// Enum: [AUTO REBOOT REBUILD]
+	// Enum: ["AUTO","REBOOT","REBUILD"]
 	RepairType string `json:"repairType,omitempty"`
 }
 

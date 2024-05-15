@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListClusterDefinitionsOK) Code() int {
 }
 
 func (o *ListClusterDefinitionsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitionsOK %s", 200, payload)
 }
 
 func (o *ListClusterDefinitionsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitionsOK %s", 200, payload)
 }
 
 func (o *ListClusterDefinitionsOK) GetPayload() *models.ListClusterDefinitionsResponse {
@@ -158,11 +161,13 @@ func (o *ListClusterDefinitionsDefault) Code() int {
 }
 
 func (o *ListClusterDefinitionsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitions default %s", o._statusCode, payload)
 }
 
 func (o *ListClusterDefinitionsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listClusterDefinitions][%d] listClusterDefinitions default %s", o._statusCode, payload)
 }
 
 func (o *ListClusterDefinitionsDefault) GetPayload() *models.Error {

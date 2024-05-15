@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *EnableClouderaSSOLoginOK) Code() int {
 }
 
 func (o *EnableClouderaSSOLoginOK) Error() string {
-	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLoginOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLoginOK %s", 200, payload)
 }
 
 func (o *EnableClouderaSSOLoginOK) String() string {
-	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLoginOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLoginOK %s", 200, payload)
 }
 
 func (o *EnableClouderaSSOLoginOK) GetPayload() models.EnableClouderaSSOLoginResponse {
@@ -156,11 +159,13 @@ func (o *EnableClouderaSSOLoginDefault) Code() int {
 }
 
 func (o *EnableClouderaSSOLoginDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLogin default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLogin default %s", o._statusCode, payload)
 }
 
 func (o *EnableClouderaSSOLoginDefault) String() string {
-	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLogin default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/enableClouderaSSOLogin][%d] enableClouderaSSOLogin default %s", o._statusCode, payload)
 }
 
 func (o *EnableClouderaSSOLoginDefault) GetPayload() *models.Error {

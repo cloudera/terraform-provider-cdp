@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CollectFreeipaDiagnosticsOK) Code() int {
 }
 
 func (o *CollectFreeipaDiagnosticsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnosticsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnosticsOK %s", 200, payload)
 }
 
 func (o *CollectFreeipaDiagnosticsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnosticsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnosticsOK %s", 200, payload)
 }
 
 func (o *CollectFreeipaDiagnosticsOK) GetPayload() models.CollectFreeipaDiagnosticsResponse {
@@ -156,11 +159,13 @@ func (o *CollectFreeipaDiagnosticsDefault) Code() int {
 }
 
 func (o *CollectFreeipaDiagnosticsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnostics default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnostics default %s", o._statusCode, payload)
 }
 
 func (o *CollectFreeipaDiagnosticsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnostics default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnostics default %s", o._statusCode, payload)
 }
 
 func (o *CollectFreeipaDiagnosticsDefault) GetPayload() *models.Error {

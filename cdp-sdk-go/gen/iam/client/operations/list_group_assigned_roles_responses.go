@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListGroupAssignedRolesOK) Code() int {
 }
 
 func (o *ListGroupAssignedRolesOK) Error() string {
-	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRolesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRolesOK %s", 200, payload)
 }
 
 func (o *ListGroupAssignedRolesOK) String() string {
-	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRolesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRolesOK %s", 200, payload)
 }
 
 func (o *ListGroupAssignedRolesOK) GetPayload() *models.ListGroupAssignedRolesResponse {
@@ -158,11 +161,13 @@ func (o *ListGroupAssignedRolesDefault) Code() int {
 }
 
 func (o *ListGroupAssignedRolesDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRoles default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRoles default %s", o._statusCode, payload)
 }
 
 func (o *ListGroupAssignedRolesDefault) String() string {
-	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRoles default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listGroupAssignedRoles][%d] listGroupAssignedRoles default %s", o._statusCode, payload)
 }
 
 func (o *ListGroupAssignedRolesDefault) GetPayload() *models.Error {

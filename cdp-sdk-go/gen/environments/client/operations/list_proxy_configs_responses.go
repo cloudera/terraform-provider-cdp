@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListProxyConfigsOK) Code() int {
 }
 
 func (o *ListProxyConfigsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigsOK %s", 200, payload)
 }
 
 func (o *ListProxyConfigsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigsOK %s", 200, payload)
 }
 
 func (o *ListProxyConfigsOK) GetPayload() *models.ListProxyConfigsResponse {
@@ -158,11 +161,13 @@ func (o *ListProxyConfigsDefault) Code() int {
 }
 
 func (o *ListProxyConfigsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigs default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigs default %s", o._statusCode, payload)
 }
 
 func (o *ListProxyConfigsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigs default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listProxyConfigs][%d] listProxyConfigs default %s", o._statusCode, payload)
 }
 
 func (o *ListProxyConfigsDefault) GetPayload() *models.Error {

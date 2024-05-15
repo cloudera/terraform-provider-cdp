@@ -35,7 +35,7 @@ type CollectCmDiagnosticsRequest struct {
 
 	// Destination of the diagnostics collection (Support, Own cloud storage, Engineering or collect only on the nodes)
 	// Required: true
-	// Enum: [SUPPORT CLOUD_STORAGE LOCAL]
+	// Enum: ["SUPPORT","CLOUD_STORAGE","LOCAL"]
 	Destination *string `json:"destination"`
 
 	// Restrict collected logs and metrics (until the provided date timestamp).

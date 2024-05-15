@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ScaleClusterOK) Code() int {
 }
 
 func (o *ScaleClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleClusterOK %s", 200, payload)
 }
 
 func (o *ScaleClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleClusterOK %s", 200, payload)
 }
 
 func (o *ScaleClusterOK) GetPayload() models.ScaleClusterResponse {
@@ -156,11 +159,13 @@ func (o *ScaleClusterDefault) Code() int {
 }
 
 func (o *ScaleClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleCluster default %s", o._statusCode, payload)
 }
 
 func (o *ScaleClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleCluster default %s", o._statusCode, payload)
 }
 
 func (o *ScaleClusterDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetAWSGovCloudAuditCredentialOK) Code() int {
 }
 
 func (o *SetAWSGovCloudAuditCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredentialOK %s", 200, payload)
 }
 
 func (o *SetAWSGovCloudAuditCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredentialOK %s", 200, payload)
 }
 
 func (o *SetAWSGovCloudAuditCredentialOK) GetPayload() *models.SetAWSGovCloudAuditCredentialResponse {
@@ -158,11 +161,13 @@ func (o *SetAWSGovCloudAuditCredentialDefault) Code() int {
 }
 
 func (o *SetAWSGovCloudAuditCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *SetAWSGovCloudAuditCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSGovCloudAuditCredential][%d] setAWSGovCloudAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *SetAWSGovCloudAuditCredentialDefault) GetPayload() *models.Error {

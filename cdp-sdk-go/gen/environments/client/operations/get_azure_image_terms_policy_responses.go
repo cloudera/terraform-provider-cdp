@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetAzureImageTermsPolicyOK) Code() int {
 }
 
 func (o *GetAzureImageTermsPolicyOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicyOK %s", 200, payload)
 }
 
 func (o *GetAzureImageTermsPolicyOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicyOK %s", 200, payload)
 }
 
 func (o *GetAzureImageTermsPolicyOK) GetPayload() *models.GetAzureImageTermsPolicyResponse {
@@ -158,11 +161,13 @@ func (o *GetAzureImageTermsPolicyDefault) Code() int {
 }
 
 func (o *GetAzureImageTermsPolicyDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicy default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicy default %s", o._statusCode, payload)
 }
 
 func (o *GetAzureImageTermsPolicyDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicy default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAzureImageTermsPolicy][%d] getAzureImageTermsPolicy default %s", o._statusCode, payload)
 }
 
 func (o *GetAzureImageTermsPolicyDefault) GetPayload() *models.Error {

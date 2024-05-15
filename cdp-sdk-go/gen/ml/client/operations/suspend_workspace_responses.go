@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SuspendWorkspaceOK) Code() int {
 }
 
 func (o *SuspendWorkspaceOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspaceOK %s", 200, payload)
 }
 
 func (o *SuspendWorkspaceOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspaceOK %s", 200, payload)
 }
 
 func (o *SuspendWorkspaceOK) GetPayload() models.SuspendWorkspaceResponse {
@@ -156,11 +159,13 @@ func (o *SuspendWorkspaceDefault) Code() int {
 }
 
 func (o *SuspendWorkspaceDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *SuspendWorkspaceDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/suspendWorkspace][%d] suspendWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *SuspendWorkspaceDefault) GetPayload() *models.Error {

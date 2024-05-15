@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListResourceAssigneesOK) Code() int {
 }
 
 func (o *ListResourceAssigneesOK) Error() string {
-	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssigneesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssigneesOK %s", 200, payload)
 }
 
 func (o *ListResourceAssigneesOK) String() string {
-	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssigneesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssigneesOK %s", 200, payload)
 }
 
 func (o *ListResourceAssigneesOK) GetPayload() *models.ListResourceAssigneesResponse {
@@ -158,11 +161,13 @@ func (o *ListResourceAssigneesDefault) Code() int {
 }
 
 func (o *ListResourceAssigneesDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssignees default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssignees default %s", o._statusCode, payload)
 }
 
 func (o *ListResourceAssigneesDefault) String() string {
-	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssignees default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/listResourceAssignees][%d] listResourceAssignees default %s", o._statusCode, payload)
 }
 
 func (o *ListResourceAssigneesDefault) GetPayload() *models.Error {
