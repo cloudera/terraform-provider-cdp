@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListWorkspaceAccessOK) Code() int {
 }
 
 func (o *ListWorkspaceAccessOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccessOK %s", 200, payload)
 }
 
 func (o *ListWorkspaceAccessOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccessOK %s", 200, payload)
 }
 
 func (o *ListWorkspaceAccessOK) GetPayload() *models.ListWorkspaceAccessResponse {
@@ -158,11 +161,13 @@ func (o *ListWorkspaceAccessDefault) Code() int {
 }
 
 func (o *ListWorkspaceAccessDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccess default %s", o._statusCode, payload)
 }
 
 func (o *ListWorkspaceAccessDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listWorkspaceAccess][%d] listWorkspaceAccess default %s", o._statusCode, payload)
 }
 
 func (o *ListWorkspaceAccessDefault) GetPayload() *models.Error {

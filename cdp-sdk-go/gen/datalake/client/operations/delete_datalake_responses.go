@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteDatalakeOK) Code() int {
 }
 
 func (o *DeleteDatalakeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalakeOK %s", 200, payload)
 }
 
 func (o *DeleteDatalakeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalakeOK %s", 200, payload)
 }
 
 func (o *DeleteDatalakeOK) GetPayload() models.DeleteDatalakeResponse {
@@ -156,11 +159,13 @@ func (o *DeleteDatalakeDefault) Code() int {
 }
 
 func (o *DeleteDatalakeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalake default %s", o._statusCode, payload)
 }
 
 func (o *DeleteDatalakeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalake default %s", o._statusCode, payload)
 }
 
 func (o *DeleteDatalakeDefault) GetPayload() *models.Error {

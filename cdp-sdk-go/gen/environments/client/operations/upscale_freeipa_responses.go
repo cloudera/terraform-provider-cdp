@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpscaleFreeipaOK) Code() int {
 }
 
 func (o *UpscaleFreeipaOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipaOK %s", 200, payload)
 }
 
 func (o *UpscaleFreeipaOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipaOK %s", 200, payload)
 }
 
 func (o *UpscaleFreeipaOK) GetPayload() *models.UpscaleFreeipaResponse {
@@ -158,11 +161,13 @@ func (o *UpscaleFreeipaDefault) Code() int {
 }
 
 func (o *UpscaleFreeipaDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *UpscaleFreeipaDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upscaleFreeipa][%d] upscaleFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *UpscaleFreeipaDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *AddMachineUserToGroupOK) Code() int {
 }
 
 func (o *AddMachineUserToGroupOK) Error() string {
-	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroupOK %s", 200, payload)
 }
 
 func (o *AddMachineUserToGroupOK) String() string {
-	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroupOK %s", 200, payload)
 }
 
 func (o *AddMachineUserToGroupOK) GetPayload() models.AddMachineUserToGroupResponse {
@@ -156,11 +159,13 @@ func (o *AddMachineUserToGroupDefault) Code() int {
 }
 
 func (o *AddMachineUserToGroupDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroup default %s", o._statusCode, payload)
 }
 
 func (o *AddMachineUserToGroupDefault) String() string {
-	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/addMachineUserToGroup][%d] addMachineUserToGroup default %s", o._statusCode, payload)
 }
 
 func (o *AddMachineUserToGroupDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ModifyWorkspaceLoadBalancerOK) Code() int {
 }
 
 func (o *ModifyWorkspaceLoadBalancerOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancerOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancerOK %s", 200, payload)
 }
 
 func (o *ModifyWorkspaceLoadBalancerOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancerOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancerOK %s", 200, payload)
 }
 
 func (o *ModifyWorkspaceLoadBalancerOK) GetPayload() models.ModifyWorkspaceLoadBalancerResponse {
@@ -156,11 +159,13 @@ func (o *ModifyWorkspaceLoadBalancerDefault) Code() int {
 }
 
 func (o *ModifyWorkspaceLoadBalancerDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancer default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancer default %s", o._statusCode, payload)
 }
 
 func (o *ModifyWorkspaceLoadBalancerDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancer default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/modifyWorkspaceLoadBalancer][%d] modifyWorkspaceLoadBalancer default %s", o._statusCode, payload)
 }
 
 func (o *ModifyWorkspaceLoadBalancerDefault) GetPayload() *models.Error {

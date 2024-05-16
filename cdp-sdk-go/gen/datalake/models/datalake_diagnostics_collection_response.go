@@ -37,7 +37,7 @@ type DatalakeDiagnosticsCollectionResponse struct {
 	ProgressPercentage int32 `json:"progressPercentage,omitempty"`
 
 	// Status of the diagnostics collection flow.
-	// Enum: [RUNNING FAILED FINISHED CANCELLED]
+	// Enum: ["RUNNING","FAILED","FINISHED","CANCELLED"]
 	Status string `json:"status,omitempty"`
 }
 

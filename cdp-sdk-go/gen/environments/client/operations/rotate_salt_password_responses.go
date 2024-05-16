@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RotateSaltPasswordOK) Code() int {
 }
 
 func (o *RotateSaltPasswordOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPasswordOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPasswordOK %s", 200, payload)
 }
 
 func (o *RotateSaltPasswordOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPasswordOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPasswordOK %s", 200, payload)
 }
 
 func (o *RotateSaltPasswordOK) GetPayload() models.RotateSaltPasswordResponse {
@@ -156,11 +159,13 @@ func (o *RotateSaltPasswordDefault) Code() int {
 }
 
 func (o *RotateSaltPasswordDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPassword default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPassword default %s", o._statusCode, payload)
 }
 
 func (o *RotateSaltPasswordDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPassword default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/rotateSaltPassword][%d] rotateSaltPassword default %s", o._statusCode, payload)
 }
 
 func (o *RotateSaltPasswordDefault) GetPayload() *models.Error {

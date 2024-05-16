@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetDataVisualizationUpgradeVersionOK) Code() int {
 }
 
 func (o *GetDataVisualizationUpgradeVersionOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersionOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersionOK %s", 200, payload)
 }
 
 func (o *GetDataVisualizationUpgradeVersionOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersionOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersionOK %s", 200, payload)
 }
 
 func (o *GetDataVisualizationUpgradeVersionOK) GetPayload() *models.GetDataVisualizationUpgradeVersionResponse {
@@ -158,11 +161,13 @@ func (o *GetDataVisualizationUpgradeVersionDefault) Code() int {
 }
 
 func (o *GetDataVisualizationUpgradeVersionDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersion default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersion default %s", o._statusCode, payload)
 }
 
 func (o *GetDataVisualizationUpgradeVersionDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersion default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getDataVisualizationUpgradeVersion][%d] getDataVisualizationUpgradeVersion default %s", o._statusCode, payload)
 }
 
 func (o *GetDataVisualizationUpgradeVersionDefault) GetPayload() *models.Error {

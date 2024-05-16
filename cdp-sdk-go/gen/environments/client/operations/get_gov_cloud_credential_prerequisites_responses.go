@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetGovCloudCredentialPrerequisitesOK) Code() int {
 }
 
 func (o *GetGovCloudCredentialPrerequisitesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetGovCloudCredentialPrerequisitesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetGovCloudCredentialPrerequisitesOK) GetPayload() *models.GetGovCloudCredentialPrerequisitesResponse {
@@ -158,11 +161,13 @@ func (o *GetGovCloudCredentialPrerequisitesDefault) Code() int {
 }
 
 func (o *GetGovCloudCredentialPrerequisitesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetGovCloudCredentialPrerequisitesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getGovCloudCredentialPrerequisites][%d] getGovCloudCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetGovCloudCredentialPrerequisitesDefault) GetPayload() *models.Error {

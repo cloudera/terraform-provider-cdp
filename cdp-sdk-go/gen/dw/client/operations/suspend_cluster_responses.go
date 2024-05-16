@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SuspendClusterOK) Code() int {
 }
 
 func (o *SuspendClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendClusterOK %s", 200, payload)
 }
 
 func (o *SuspendClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendClusterOK %s", 200, payload)
 }
 
 func (o *SuspendClusterOK) GetPayload() *models.SuspendClusterResponse {
@@ -158,11 +161,13 @@ func (o *SuspendClusterDefault) Code() int {
 }
 
 func (o *SuspendClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendCluster default %s", o._statusCode, payload)
 }
 
 func (o *SuspendClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendCluster][%d] suspendCluster default %s", o._statusCode, payload)
 }
 
 func (o *SuspendClusterDefault) GetPayload() *models.Error {

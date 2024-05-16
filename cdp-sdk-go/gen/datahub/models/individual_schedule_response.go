@@ -276,7 +276,7 @@ func (m *IndividualScheduleResponseConfiguration) UnmarshalBinary(b []byte) erro
 type IndividualScheduleResponseConfigurationAction struct {
 
 	// The type of resource adjustment. Only ABSOLUTE_COUNT supported at the moment.
-	// Enum: [ABSOLUTE_COUNT]
+	// Enum: ["ABSOLUTE_COUNT"]
 	ResourceAdjustmentType string `json:"resourceAdjustmentType,omitempty"`
 
 	// The target value for the resource based on the AdjustmentType

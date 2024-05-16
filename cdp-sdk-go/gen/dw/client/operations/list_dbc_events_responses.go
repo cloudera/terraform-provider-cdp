@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListDbcEventsOK) Code() int {
 }
 
 func (o *ListDbcEventsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEventsOK %s", 200, payload)
 }
 
 func (o *ListDbcEventsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEventsOK %s", 200, payload)
 }
 
 func (o *ListDbcEventsOK) GetPayload() *models.ListDbcEventsResponse {
@@ -158,11 +161,13 @@ func (o *ListDbcEventsDefault) Code() int {
 }
 
 func (o *ListDbcEventsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListDbcEventsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listDbcEvents][%d] listDbcEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListDbcEventsDefault) GetPayload() *models.Error {

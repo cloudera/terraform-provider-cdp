@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpgradeFreeipaOK) Code() int {
 }
 
 func (o *UpgradeFreeipaOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipaOK %s", 200, payload)
 }
 
 func (o *UpgradeFreeipaOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipaOK %s", 200, payload)
 }
 
 func (o *UpgradeFreeipaOK) GetPayload() *models.UpgradeFreeipaResponse {
@@ -158,11 +161,13 @@ func (o *UpgradeFreeipaDefault) Code() int {
 }
 
 func (o *UpgradeFreeipaDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *UpgradeFreeipaDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/upgradeFreeipa][%d] upgradeFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *UpgradeFreeipaDefault) GetPayload() *models.Error {

@@ -26,11 +26,14 @@ type UpdateAzureEncryptionResourcesRequest struct {
 	// Required: true
 	EncryptionKeyURL *string `json:"encryptionKeyUrl"`
 
+	// User managed identity for encryption.
+	EncryptionUserManagedIdentity string `json:"encryptionUserManagedIdentity,omitempty"`
+
 	// The name or CRN of the environment.
 	// Required: true
 	Environment *string `json:"environment"`
 
-	// User managed identity for encryption.
+	// User managed identity for encryption. (deprecated)
 	UserManagedIdentity string `json:"userManagedIdentity,omitempty"`
 }
 

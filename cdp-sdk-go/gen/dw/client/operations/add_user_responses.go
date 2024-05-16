@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *AddUserOK) Code() int {
 }
 
 func (o *AddUserOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUserOK %s", 200, payload)
 }
 
 func (o *AddUserOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUserOK %s", 200, payload)
 }
 
 func (o *AddUserOK) GetPayload() models.AddUserResponse {
@@ -156,11 +159,13 @@ func (o *AddUserDefault) Code() int {
 }
 
 func (o *AddUserDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUser default %s", o._statusCode, payload)
 }
 
 func (o *AddUserDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/addUser][%d] addUser default %s", o._statusCode, payload)
 }
 
 func (o *AddUserDefault) GetPayload() *models.Error {

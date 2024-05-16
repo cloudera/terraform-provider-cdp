@@ -25,7 +25,7 @@ type CheckDatabaseConnectivityResponse struct {
 
 	// Result of the connectivity check.
 	// Required: true
-	// Enum: [SUCCESS FAILURE]
+	// Enum: ["SUCCESS","FAILURE"]
 	Result *string `json:"result"`
 }
 

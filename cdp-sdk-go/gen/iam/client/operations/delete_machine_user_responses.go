@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteMachineUserOK) Code() int {
 }
 
 func (o *DeleteMachineUserOK) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUserOK %s", 200, payload)
 }
 
 func (o *DeleteMachineUserOK) String() string {
-	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUserOK %s", 200, payload)
 }
 
 func (o *DeleteMachineUserOK) GetPayload() *models.DeleteMachineUserResponse {
@@ -158,11 +161,13 @@ func (o *DeleteMachineUserDefault) Code() int {
 }
 
 func (o *DeleteMachineUserDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUser default %s", o._statusCode, payload)
 }
 
 func (o *DeleteMachineUserDefault) String() string {
-	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteMachineUser][%d] deleteMachineUser default %s", o._statusCode, payload)
 }
 
 func (o *DeleteMachineUserDefault) GetPayload() *models.Error {

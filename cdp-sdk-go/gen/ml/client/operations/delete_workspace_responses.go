@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteWorkspaceOK) Code() int {
 }
 
 func (o *DeleteWorkspaceOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspaceOK %s", 200, payload)
 }
 
 func (o *DeleteWorkspaceOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspaceOK %s", 200, payload)
 }
 
 func (o *DeleteWorkspaceOK) GetPayload() models.DeleteWorkspaceResponse {
@@ -156,11 +159,13 @@ func (o *DeleteWorkspaceDefault) Code() int {
 }
 
 func (o *DeleteWorkspaceDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *DeleteWorkspaceDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteWorkspace][%d] deleteWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *DeleteWorkspaceDefault) GetPayload() *models.Error {

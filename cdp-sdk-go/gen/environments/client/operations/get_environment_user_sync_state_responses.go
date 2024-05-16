@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetEnvironmentUserSyncStateOK) Code() int {
 }
 
 func (o *GetEnvironmentUserSyncStateOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncStateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncStateOK %s", 200, payload)
 }
 
 func (o *GetEnvironmentUserSyncStateOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncStateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncStateOK %s", 200, payload)
 }
 
 func (o *GetEnvironmentUserSyncStateOK) GetPayload() *models.GetEnvironmentUserSyncStateResponse {
@@ -158,11 +161,13 @@ func (o *GetEnvironmentUserSyncStateDefault) Code() int {
 }
 
 func (o *GetEnvironmentUserSyncStateDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncState default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncState default %s", o._statusCode, payload)
 }
 
 func (o *GetEnvironmentUserSyncStateDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncState default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getEnvironmentUserSyncState][%d] getEnvironmentUserSyncState default %s", o._statusCode, payload)
 }
 
 func (o *GetEnvironmentUserSyncStateDefault) GetPayload() *models.Error {

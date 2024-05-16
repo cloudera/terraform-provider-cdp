@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeScalingActivityOK) Code() int {
 }
 
 func (o *DescribeScalingActivityOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivityOK %s", 200, payload)
 }
 
 func (o *DescribeScalingActivityOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivityOK %s", 200, payload)
 }
 
 func (o *DescribeScalingActivityOK) GetPayload() *models.DescribeScalingActivityResponse {
@@ -158,11 +161,13 @@ func (o *DescribeScalingActivityDefault) Code() int {
 }
 
 func (o *DescribeScalingActivityDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivity default %s", o._statusCode, payload)
 }
 
 func (o *DescribeScalingActivityDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/describeScalingActivity][%d] describeScalingActivity default %s", o._statusCode, payload)
 }
 
 func (o *DescribeScalingActivityDefault) GetPayload() *models.Error {

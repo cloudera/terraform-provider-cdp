@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetAccountTelemetryOK) Code() int {
 }
 
 func (o *GetAccountTelemetryOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetryOK %s", 200, payload)
 }
 
 func (o *GetAccountTelemetryOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetryOK %s", 200, payload)
 }
 
 func (o *GetAccountTelemetryOK) GetPayload() *models.GetAccountTelemetryResponse {
@@ -158,11 +161,13 @@ func (o *GetAccountTelemetryDefault) Code() int {
 }
 
 func (o *GetAccountTelemetryDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetry default %s", o._statusCode, payload)
 }
 
 func (o *GetAccountTelemetryDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAccountTelemetry][%d] getAccountTelemetry default %s", o._statusCode, payload)
 }
 
 func (o *GetAccountTelemetryDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetAutomatedSyncEnvironmentStatusOK) Code() int {
 }
 
 func (o *GetAutomatedSyncEnvironmentStatusOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatusOK %s", 200, payload)
 }
 
 func (o *GetAutomatedSyncEnvironmentStatusOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatusOK %s", 200, payload)
 }
 
 func (o *GetAutomatedSyncEnvironmentStatusOK) GetPayload() *models.GetAutomatedSyncEnvironmentStatusResponse {
@@ -158,11 +161,13 @@ func (o *GetAutomatedSyncEnvironmentStatusDefault) Code() int {
 }
 
 func (o *GetAutomatedSyncEnvironmentStatusDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetAutomatedSyncEnvironmentStatusDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAutomatedSyncEnvironmentStatus][%d] getAutomatedSyncEnvironmentStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetAutomatedSyncEnvironmentStatusDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DisableS3GuardOK) Code() int {
 }
 
 func (o *DisableS3GuardOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3GuardOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3GuardOK %s", 200, payload)
 }
 
 func (o *DisableS3GuardOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3GuardOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3GuardOK %s", 200, payload)
 }
 
 func (o *DisableS3GuardOK) GetPayload() *models.DisableS3GuardResponse {
@@ -158,11 +161,13 @@ func (o *DisableS3GuardDefault) Code() int {
 }
 
 func (o *DisableS3GuardDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3Guard default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3Guard default %s", o._statusCode, payload)
 }
 
 func (o *DisableS3GuardDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3Guard default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/disableS3Guard][%d] disableS3Guard default %s", o._statusCode, payload)
 }
 
 func (o *DisableS3GuardDefault) GetPayload() *models.Error {

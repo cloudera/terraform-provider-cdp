@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateGCPEnvironmentOK) Code() int {
 }
 
 func (o *CreateGCPEnvironmentOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreateGCPEnvironmentOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreateGCPEnvironmentOK) GetPayload() *models.CreateGCPEnvironmentResponse {
@@ -158,11 +161,13 @@ func (o *CreateGCPEnvironmentDefault) Code() int {
 }
 
 func (o *CreateGCPEnvironmentDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPEnvironmentDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createGCPEnvironment][%d] createGCPEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPEnvironmentDefault) GetPayload() *models.Error {

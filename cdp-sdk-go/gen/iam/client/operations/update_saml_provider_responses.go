@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateSamlProviderOK) Code() int {
 }
 
 func (o *UpdateSamlProviderOK) Error() string {
-	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProviderOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProviderOK %s", 200, payload)
 }
 
 func (o *UpdateSamlProviderOK) String() string {
-	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProviderOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProviderOK %s", 200, payload)
 }
 
 func (o *UpdateSamlProviderOK) GetPayload() *models.UpdateSamlProviderResponse {
@@ -158,11 +161,13 @@ func (o *UpdateSamlProviderDefault) Code() int {
 }
 
 func (o *UpdateSamlProviderDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProvider default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProvider default %s", o._statusCode, payload)
 }
 
 func (o *UpdateSamlProviderDefault) String() string {
-	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProvider default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateSamlProvider][%d] updateSamlProvider default %s", o._statusCode, payload)
 }
 
 func (o *UpdateSamlProviderDefault) GetPayload() *models.Error {

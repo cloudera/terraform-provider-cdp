@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CheckDatabaseConnectivityOK) Code() int {
 }
 
 func (o *CheckDatabaseConnectivityOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivityOK %s", 200, payload)
 }
 
 func (o *CheckDatabaseConnectivityOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivityOK %s", 200, payload)
 }
 
 func (o *CheckDatabaseConnectivityOK) GetPayload() *models.CheckDatabaseConnectivityResponse {
@@ -158,11 +161,13 @@ func (o *CheckDatabaseConnectivityDefault) Code() int {
 }
 
 func (o *CheckDatabaseConnectivityDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *CheckDatabaseConnectivityDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkDatabaseConnectivity][%d] checkDatabaseConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *CheckDatabaseConnectivityDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteModelRegistryOK) Code() int {
 }
 
 func (o *DeleteModelRegistryOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistryOK %s", 200, payload)
 }
 
 func (o *DeleteModelRegistryOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistryOK %s", 200, payload)
 }
 
 func (o *DeleteModelRegistryOK) GetPayload() models.DeleteModelRegistryResponse {
@@ -156,11 +159,13 @@ func (o *DeleteModelRegistryDefault) Code() int {
 }
 
 func (o *DeleteModelRegistryDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistry default %s", o._statusCode, payload)
 }
 
 func (o *DeleteModelRegistryDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteModelRegistry][%d] deleteModelRegistry default %s", o._statusCode, payload)
 }
 
 func (o *DeleteModelRegistryDefault) GetPayload() *models.Error {

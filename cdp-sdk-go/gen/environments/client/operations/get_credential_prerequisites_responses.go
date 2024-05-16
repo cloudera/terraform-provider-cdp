@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetCredentialPrerequisitesOK) Code() int {
 }
 
 func (o *GetCredentialPrerequisitesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetCredentialPrerequisitesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetCredentialPrerequisitesOK) GetPayload() *models.GetCredentialPrerequisitesResponse {
@@ -158,11 +161,13 @@ func (o *GetCredentialPrerequisitesDefault) Code() int {
 }
 
 func (o *GetCredentialPrerequisitesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetCredentialPrerequisitesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getCredentialPrerequisites][%d] getCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetCredentialPrerequisitesDefault) GetPayload() *models.Error {

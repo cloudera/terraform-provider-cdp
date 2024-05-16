@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateGroupOK) Code() int {
 }
 
 func (o *UpdateGroupOK) Error() string {
-	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroupOK %s", 200, payload)
 }
 
 func (o *UpdateGroupOK) String() string {
-	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroupOK %s", 200, payload)
 }
 
 func (o *UpdateGroupOK) GetPayload() *models.UpdateGroupResponse {
@@ -158,11 +161,13 @@ func (o *UpdateGroupDefault) Code() int {
 }
 
 func (o *UpdateGroupDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroup default %s", o._statusCode, payload)
 }
 
 func (o *UpdateGroupDefault) String() string {
-	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/updateGroup][%d] updateGroup default %s", o._statusCode, payload)
 }
 
 func (o *UpdateGroupDefault) GetPayload() *models.Error {

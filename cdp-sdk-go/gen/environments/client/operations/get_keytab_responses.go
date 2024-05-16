@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetKeytabOK) Code() int {
 }
 
 func (o *GetKeytabOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytabOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytabOK %s", 200, payload)
 }
 
 func (o *GetKeytabOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytabOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytabOK %s", 200, payload)
 }
 
 func (o *GetKeytabOK) GetPayload() *models.GetKeytabResponse {
@@ -158,11 +161,13 @@ func (o *GetKeytabDefault) Code() int {
 }
 
 func (o *GetKeytabDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytab default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytab default %s", o._statusCode, payload)
 }
 
 func (o *GetKeytabDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytab default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getKeytab][%d] getKeytab default %s", o._statusCode, payload)
 }
 
 func (o *GetKeytabDefault) GetPayload() *models.Error {

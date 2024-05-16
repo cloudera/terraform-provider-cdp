@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CheckEnvironmentConnectivityOK) Code() int {
 }
 
 func (o *CheckEnvironmentConnectivityOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivityOK %s", 200, payload)
 }
 
 func (o *CheckEnvironmentConnectivityOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivityOK %s", 200, payload)
 }
 
 func (o *CheckEnvironmentConnectivityOK) GetPayload() *models.CheckEnvironmentConnectivityResponse {
@@ -158,11 +161,13 @@ func (o *CheckEnvironmentConnectivityDefault) Code() int {
 }
 
 func (o *CheckEnvironmentConnectivityDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *CheckEnvironmentConnectivityDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkEnvironmentConnectivity][%d] checkEnvironmentConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *CheckEnvironmentConnectivityDefault) GetPayload() *models.Error {

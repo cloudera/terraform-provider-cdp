@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateProxyConfigOK) Code() int {
 }
 
 func (o *CreateProxyConfigOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfigOK %s", 200, payload)
 }
 
 func (o *CreateProxyConfigOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfigOK %s", 200, payload)
 }
 
 func (o *CreateProxyConfigOK) GetPayload() *models.CreateProxyConfigResponse {
@@ -158,11 +161,13 @@ func (o *CreateProxyConfigDefault) Code() int {
 }
 
 func (o *CreateProxyConfigDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfig default %s", o._statusCode, payload)
 }
 
 func (o *CreateProxyConfigDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createProxyConfig][%d] createProxyConfig default %s", o._statusCode, payload)
 }
 
 func (o *CreateProxyConfigDefault) GetPayload() *models.Error {

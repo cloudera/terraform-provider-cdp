@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeClientConnectivityOK) Code() int {
 }
 
 func (o *DescribeClientConnectivityOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivityOK %s", 200, payload)
 }
 
 func (o *DescribeClientConnectivityOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivityOK %s", 200, payload)
 }
 
 func (o *DescribeClientConnectivityOK) GetPayload() *models.DescribeClientConnectivityResponse {
@@ -158,11 +161,13 @@ func (o *DescribeClientConnectivityDefault) Code() int {
 }
 
 func (o *DescribeClientConnectivityDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *DescribeClientConnectivityDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/describeClientConnectivity][%d] describeClientConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *DescribeClientConnectivityDefault) GetPayload() *models.Error {

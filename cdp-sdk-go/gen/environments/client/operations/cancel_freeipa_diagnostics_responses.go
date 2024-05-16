@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CancelFreeipaDiagnosticsOK) Code() int {
 }
 
 func (o *CancelFreeipaDiagnosticsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnosticsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnosticsOK %s", 200, payload)
 }
 
 func (o *CancelFreeipaDiagnosticsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnosticsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnosticsOK %s", 200, payload)
 }
 
 func (o *CancelFreeipaDiagnosticsOK) GetPayload() models.CancelFreeipaDiagnosticsResponse {
@@ -156,11 +159,13 @@ func (o *CancelFreeipaDiagnosticsDefault) Code() int {
 }
 
 func (o *CancelFreeipaDiagnosticsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnostics default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnostics default %s", o._statusCode, payload)
 }
 
 func (o *CancelFreeipaDiagnosticsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnostics default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/cancelFreeipaDiagnostics][%d] cancelFreeipaDiagnostics default %s", o._statusCode, payload)
 }
 
 func (o *CancelFreeipaDiagnosticsDefault) GetPayload() *models.Error {

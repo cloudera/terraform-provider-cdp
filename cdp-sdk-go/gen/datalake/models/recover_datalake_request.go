@@ -25,7 +25,7 @@ type RecoverDatalakeRequest struct {
 	DatalakeName *string `json:"datalakeName"`
 
 	// The type of the recovery. The default value is RECOVER_WITHOUT_DATA. The recovery always runs with RECOVER_WITH_DATA if the on resize failure.
-	// Enum: [RECOVER_WITH_DATA RECOVER_WITHOUT_DATA]
+	// Enum: ["RECOVER_WITH_DATA","RECOVER_WITHOUT_DATA"]
 	RecoveryType string `json:"recoveryType,omitempty"`
 }
 

@@ -24,7 +24,7 @@ type ConfigBlockResp struct {
 	Content *ConfigContentResp `json:"content,omitempty"`
 
 	// Format of ConfigBlock.
-	// Enum: [HADOOP_XML PROPERTIES TEXT JSON BINARY ENV FLAGFILE]
+	// Enum: ["HADOOP_XML","PROPERTIES","TEXT","JSON","BINARY","ENV","FLAGFILE"]
 	Format string `json:"format,omitempty"`
 
 	// ID of the ConfigBlock. Unique within an ApplicationConfig.

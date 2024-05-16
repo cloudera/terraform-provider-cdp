@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetLatestWorkspaceVersionOK) Code() int {
 }
 
 func (o *GetLatestWorkspaceVersionOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersionOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersionOK %s", 200, payload)
 }
 
 func (o *GetLatestWorkspaceVersionOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersionOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersionOK %s", 200, payload)
 }
 
 func (o *GetLatestWorkspaceVersionOK) GetPayload() *models.GetLatestWorkspaceVersionResponse {
@@ -158,11 +161,13 @@ func (o *GetLatestWorkspaceVersionDefault) Code() int {
 }
 
 func (o *GetLatestWorkspaceVersionDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersion default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersion default %s", o._statusCode, payload)
 }
 
 func (o *GetLatestWorkspaceVersionDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersion default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getLatestWorkspaceVersion][%d] getLatestWorkspaceVersion default %s", o._statusCode, payload)
 }
 
 func (o *GetLatestWorkspaceVersionDefault) GetPayload() *models.Error {

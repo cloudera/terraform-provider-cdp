@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAWSGovCloudEnvironmentOK) Code() int {
 }
 
 func (o *CreateAWSGovCloudEnvironmentOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreateAWSGovCloudEnvironmentOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironmentOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironmentOK %s", 200, payload)
 }
 
 func (o *CreateAWSGovCloudEnvironmentOK) GetPayload() *models.CreateAWSGovCloudEnvironmentResponse {
@@ -158,11 +161,13 @@ func (o *CreateAWSGovCloudEnvironmentDefault) Code() int {
 }
 
 func (o *CreateAWSGovCloudEnvironmentDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSGovCloudEnvironmentDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironment default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSGovCloudEnvironment][%d] createAWSGovCloudEnvironment default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSGovCloudEnvironmentDefault) GetPayload() *models.Error {

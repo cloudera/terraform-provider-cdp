@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetDatalakeLogDescriptorsOK) Code() int {
 }
 
 func (o *GetDatalakeLogDescriptorsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptorsOK %s", 200, payload)
 }
 
 func (o *GetDatalakeLogDescriptorsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptorsOK %s", 200, payload)
 }
 
 func (o *GetDatalakeLogDescriptorsOK) GetPayload() *models.GetDatalakeLogDescriptorsResponse {
@@ -158,11 +161,13 @@ func (o *GetDatalakeLogDescriptorsDefault) Code() int {
 }
 
 func (o *GetDatalakeLogDescriptorsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptors default %s", o._statusCode, payload)
 }
 
 func (o *GetDatalakeLogDescriptorsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getDatalakeLogDescriptors][%d] getDatalakeLogDescriptors default %s", o._statusCode, payload)
 }
 
 func (o *GetDatalakeLogDescriptorsDefault) GetPayload() *models.Error {

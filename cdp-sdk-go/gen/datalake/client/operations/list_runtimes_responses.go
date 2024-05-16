@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListRuntimesOK) Code() int {
 }
 
 func (o *ListRuntimesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimesOK %s", 200, payload)
 }
 
 func (o *ListRuntimesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimesOK %s", 200, payload)
 }
 
 func (o *ListRuntimesOK) GetPayload() *models.ListRuntimesResponse {
@@ -158,11 +161,13 @@ func (o *ListRuntimesDefault) Code() int {
 }
 
 func (o *ListRuntimesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimes default %s", o._statusCode, payload)
 }
 
 func (o *ListRuntimesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/listRuntimes][%d] listRuntimes default %s", o._statusCode, payload)
 }
 
 func (o *ListRuntimesDefault) GetPayload() *models.Error {

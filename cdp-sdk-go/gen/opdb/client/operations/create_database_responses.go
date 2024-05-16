@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateDatabaseOK) Code() int {
 }
 
 func (o *CreateDatabaseOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabaseOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabaseOK %s", 200, payload)
 }
 
 func (o *CreateDatabaseOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabaseOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabaseOK %s", 200, payload)
 }
 
 func (o *CreateDatabaseOK) GetPayload() *models.CreateDatabaseResponse {
@@ -158,11 +161,13 @@ func (o *CreateDatabaseDefault) Code() int {
 }
 
 func (o *CreateDatabaseDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabase default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabase default %s", o._statusCode, payload)
 }
 
 func (o *CreateDatabaseDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabase default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/createDatabase][%d] createDatabase default %s", o._statusCode, payload)
 }
 
 func (o *CreateDatabaseDefault) GetPayload() *models.Error {

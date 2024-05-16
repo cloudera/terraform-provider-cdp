@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UnassignGroupResourceRoleOK) Code() int {
 }
 
 func (o *UnassignGroupResourceRoleOK) Error() string {
-	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRoleOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRoleOK %s", 200, payload)
 }
 
 func (o *UnassignGroupResourceRoleOK) String() string {
-	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRoleOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRoleOK %s", 200, payload)
 }
 
 func (o *UnassignGroupResourceRoleOK) GetPayload() models.UnassignGroupResourceRoleResponse {
@@ -156,11 +159,13 @@ func (o *UnassignGroupResourceRoleDefault) Code() int {
 }
 
 func (o *UnassignGroupResourceRoleDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRole default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRole default %s", o._statusCode, payload)
 }
 
 func (o *UnassignGroupResourceRoleDefault) String() string {
-	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRole default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignGroupResourceRole][%d] unassignGroupResourceRole default %s", o._statusCode, payload)
 }
 
 func (o *UnassignGroupResourceRoleDefault) GetPayload() *models.Error {

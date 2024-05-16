@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateUserOK) Code() int {
 }
 
 func (o *CreateUserOK) Error() string {
-	return fmt.Sprintf("[POST /iam/createUser][%d] createUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUser][%d] createUserOK %s", 200, payload)
 }
 
 func (o *CreateUserOK) String() string {
-	return fmt.Sprintf("[POST /iam/createUser][%d] createUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUser][%d] createUserOK %s", 200, payload)
 }
 
 func (o *CreateUserOK) GetPayload() *models.CreateUserResponse {
@@ -158,11 +161,13 @@ func (o *CreateUserDefault) Code() int {
 }
 
 func (o *CreateUserDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/createUser][%d] createUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUser][%d] createUser default %s", o._statusCode, payload)
 }
 
 func (o *CreateUserDefault) String() string {
-	return fmt.Sprintf("[POST /iam/createUser][%d] createUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUser][%d] createUser default %s", o._statusCode, payload)
 }
 
 func (o *CreateUserDefault) GetPayload() *models.Error {

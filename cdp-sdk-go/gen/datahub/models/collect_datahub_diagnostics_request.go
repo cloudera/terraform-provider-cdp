@@ -37,7 +37,7 @@ type CollectDatahubDiagnosticsRequest struct {
 
 	// Destination of the diagnostics collection (Support, Own cloud storage, Engineering or collect only on the nodes)
 	// Required: true
-	// Enum: [SUPPORT CLOUD_STORAGE ENG LOCAL]
+	// Enum: ["SUPPORT","CLOUD_STORAGE","ENG","LOCAL"]
 	Destination *string `json:"destination"`
 
 	// Date timestamp - collect files only for diagnostics that has lower created timestamp value than this.

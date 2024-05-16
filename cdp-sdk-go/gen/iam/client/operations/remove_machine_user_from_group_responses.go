@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RemoveMachineUserFromGroupOK) Code() int {
 }
 
 func (o *RemoveMachineUserFromGroupOK) Error() string {
-	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroupOK %s", 200, payload)
 }
 
 func (o *RemoveMachineUserFromGroupOK) String() string {
-	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroupOK %s", 200, payload)
 }
 
 func (o *RemoveMachineUserFromGroupOK) GetPayload() models.RemoveMachineUserFromGroupResponse {
@@ -156,11 +159,13 @@ func (o *RemoveMachineUserFromGroupDefault) Code() int {
 }
 
 func (o *RemoveMachineUserFromGroupDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroup default %s", o._statusCode, payload)
 }
 
 func (o *RemoveMachineUserFromGroupDefault) String() string {
-	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeMachineUserFromGroup][%d] removeMachineUserFromGroup default %s", o._statusCode, payload)
 }
 
 func (o *RemoveMachineUserFromGroupDefault) GetPayload() *models.Error {

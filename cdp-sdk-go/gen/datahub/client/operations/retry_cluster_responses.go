@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RetryClusterOK) Code() int {
 }
 
 func (o *RetryClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryClusterOK %s", 200, payload)
 }
 
 func (o *RetryClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryClusterOK %s", 200, payload)
 }
 
 func (o *RetryClusterOK) GetPayload() models.RetryClusterResponse {
@@ -156,11 +159,13 @@ func (o *RetryClusterDefault) Code() int {
 }
 
 func (o *RetryClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryCluster default %s", o._statusCode, payload)
 }
 
 func (o *RetryClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/retryCluster][%d] retryCluster default %s", o._statusCode, payload)
 }
 
 func (o *RetryClusterDefault) GetPayload() *models.Error {

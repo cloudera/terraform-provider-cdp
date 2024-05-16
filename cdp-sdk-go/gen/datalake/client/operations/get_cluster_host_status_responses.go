@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetClusterHostStatusOK) Code() int {
 }
 
 func (o *GetClusterHostStatusOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatusOK %s", 200, payload)
 }
 
 func (o *GetClusterHostStatusOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatusOK %s", 200, payload)
 }
 
 func (o *GetClusterHostStatusOK) GetPayload() *models.GetClusterHostStatusResponse {
@@ -158,11 +161,13 @@ func (o *GetClusterHostStatusDefault) Code() int {
 }
 
 func (o *GetClusterHostStatusDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetClusterHostStatusDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/getClusterHostStatus][%d] getClusterHostStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetClusterHostStatusDefault) GetPayload() *models.Error {

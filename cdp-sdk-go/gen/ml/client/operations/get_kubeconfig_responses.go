@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetKubeconfigOK) Code() int {
 }
 
 func (o *GetKubeconfigOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfigOK %s", 200, payload)
 }
 
 func (o *GetKubeconfigOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfigOK %s", 200, payload)
 }
 
 func (o *GetKubeconfigOK) GetPayload() *models.GetKubeconfigResponse {
@@ -158,11 +161,13 @@ func (o *GetKubeconfigDefault) Code() int {
 }
 
 func (o *GetKubeconfigDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfig default %s", o._statusCode, payload)
 }
 
 func (o *GetKubeconfigDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/getKubeconfig][%d] getKubeconfig default %s", o._statusCode, payload)
 }
 
 func (o *GetKubeconfigDefault) GetPayload() *models.Error {

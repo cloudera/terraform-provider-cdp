@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetFreeipaStatusOK) Code() int {
 }
 
 func (o *GetFreeipaStatusOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatusOK %s", 200, payload)
 }
 
 func (o *GetFreeipaStatusOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatusOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatusOK %s", 200, payload)
 }
 
 func (o *GetFreeipaStatusOK) GetPayload() *models.GetFreeipaStatusResponse {
@@ -158,11 +161,13 @@ func (o *GetFreeipaStatusDefault) Code() int {
 }
 
 func (o *GetFreeipaStatusDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetFreeipaStatusDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatus default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getFreeipaStatus][%d] getFreeipaStatus default %s", o._statusCode, payload)
 }
 
 func (o *GetFreeipaStatusDefault) GetPayload() *models.Error {

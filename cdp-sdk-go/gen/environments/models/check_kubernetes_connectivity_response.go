@@ -25,7 +25,7 @@ type CheckKubernetesConnectivityResponse struct {
 
 	// Status of Kubernetes cluster. Also indicates connectivity.
 	// Required: true
-	// Enum: [SUCCESS FAILURE]
+	// Enum: ["SUCCESS","FAILURE"]
 	Status *string `json:"status"`
 }
 

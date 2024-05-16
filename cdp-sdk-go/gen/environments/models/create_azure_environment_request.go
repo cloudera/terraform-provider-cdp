@@ -55,8 +55,11 @@ type CreateAzureEnvironmentRequest struct {
 	// URL of the key which will be used to encrypt the Azure Managed Disks, if entitlement has been granted.
 	EncryptionKeyURL string `json:"encryptionKeyUrl,omitempty"`
 
+	// User managed identity for encryption.
+	EncryptionUserManagedIdentity string `json:"encryptionUserManagedIdentity,omitempty"`
+
 	// The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VNet.
-	// Enum: [PUBLIC PRIVATE]
+	// Enum: ["PUBLIC","PRIVATE"]
 	EndpointAccessGatewayScheme string `json:"endpointAccessGatewayScheme,omitempty"`
 
 	// The subnets to use for endpoint access gateway.
@@ -113,7 +116,7 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	UsePublicIP *bool `json:"usePublicIp"`
 
-	// User managed identity for encryption.
+	// User managed identity for encryption. (deprecated)
 	UserManagedIdentity string `json:"userManagedIdentity,omitempty"`
 
 	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateScimAccessTokenOK) Code() int {
 }
 
 func (o *CreateScimAccessTokenOK) Error() string {
-	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessTokenOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessTokenOK %s", 200, payload)
 }
 
 func (o *CreateScimAccessTokenOK) String() string {
-	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessTokenOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessTokenOK %s", 200, payload)
 }
 
 func (o *CreateScimAccessTokenOK) GetPayload() *models.CreateScimAccessTokenResponse {
@@ -158,11 +161,13 @@ func (o *CreateScimAccessTokenDefault) Code() int {
 }
 
 func (o *CreateScimAccessTokenDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessToken default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessToken default %s", o._statusCode, payload)
 }
 
 func (o *CreateScimAccessTokenDefault) String() string {
-	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessToken default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createScimAccessToken][%d] createScimAccessToken default %s", o._statusCode, payload)
 }
 
 func (o *CreateScimAccessTokenDefault) GetPayload() *models.Error {

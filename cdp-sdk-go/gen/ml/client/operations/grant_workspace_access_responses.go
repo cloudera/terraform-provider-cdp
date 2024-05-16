@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GrantWorkspaceAccessOK) Code() int {
 }
 
 func (o *GrantWorkspaceAccessOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccessOK %s", 200, payload)
 }
 
 func (o *GrantWorkspaceAccessOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccessOK %s", 200, payload)
 }
 
 func (o *GrantWorkspaceAccessOK) GetPayload() *models.GrantWorkspaceAccessResponse {
@@ -158,11 +161,13 @@ func (o *GrantWorkspaceAccessDefault) Code() int {
 }
 
 func (o *GrantWorkspaceAccessDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccess default %s", o._statusCode, payload)
 }
 
 func (o *GrantWorkspaceAccessDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/grantWorkspaceAccess][%d] grantWorkspaceAccess default %s", o._statusCode, payload)
 }
 
 func (o *GrantWorkspaceAccessDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListModelRegistryAccessOK) Code() int {
 }
 
 func (o *ListModelRegistryAccessOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccessOK %s", 200, payload)
 }
 
 func (o *ListModelRegistryAccessOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccessOK %s", 200, payload)
 }
 
 func (o *ListModelRegistryAccessOK) GetPayload() *models.ListModelRegistryAccessResponse {
@@ -158,11 +161,13 @@ func (o *ListModelRegistryAccessDefault) Code() int {
 }
 
 func (o *ListModelRegistryAccessDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccess default %s", o._statusCode, payload)
 }
 
 func (o *ListModelRegistryAccessDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/listModelRegistryAccess][%d] listModelRegistryAccess default %s", o._statusCode, payload)
 }
 
 func (o *ListModelRegistryAccessDefault) GetPayload() *models.Error {

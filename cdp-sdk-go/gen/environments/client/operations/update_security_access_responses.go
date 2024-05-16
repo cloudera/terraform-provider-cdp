@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateSecurityAccessOK) Code() int {
 }
 
 func (o *UpdateSecurityAccessOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccessOK %s", 200, payload)
 }
 
 func (o *UpdateSecurityAccessOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccessOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccessOK %s", 200, payload)
 }
 
 func (o *UpdateSecurityAccessOK) GetPayload() *models.UpdateSecurityAccessResponse {
@@ -158,11 +161,13 @@ func (o *UpdateSecurityAccessDefault) Code() int {
 }
 
 func (o *UpdateSecurityAccessDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccess default %s", o._statusCode, payload)
 }
 
 func (o *UpdateSecurityAccessDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccess default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateSecurityAccess][%d] updateSecurityAccess default %s", o._statusCode, payload)
 }
 
 func (o *UpdateSecurityAccessDefault) GetPayload() *models.Error {

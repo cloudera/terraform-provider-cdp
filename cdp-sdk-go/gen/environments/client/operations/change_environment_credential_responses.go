@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ChangeEnvironmentCredentialOK) Code() int {
 }
 
 func (o *ChangeEnvironmentCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredentialOK %s", 200, payload)
 }
 
 func (o *ChangeEnvironmentCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredentialOK %s", 200, payload)
 }
 
 func (o *ChangeEnvironmentCredentialOK) GetPayload() *models.ChangeEnvironmentCredentialResponse {
@@ -158,11 +161,13 @@ func (o *ChangeEnvironmentCredentialDefault) Code() int {
 }
 
 func (o *ChangeEnvironmentCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredential default %s", o._statusCode, payload)
 }
 
 func (o *ChangeEnvironmentCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/changeEnvironmentCredential][%d] changeEnvironmentCredential default %s", o._statusCode, payload)
 }
 
 func (o *ChangeEnvironmentCredentialDefault) GetPayload() *models.Error {

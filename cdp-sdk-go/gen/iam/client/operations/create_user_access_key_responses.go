@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateUserAccessKeyOK) Code() int {
 }
 
 func (o *CreateUserAccessKeyOK) Error() string {
-	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKeyOK %s", 200, payload)
 }
 
 func (o *CreateUserAccessKeyOK) String() string {
-	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKeyOK %s", 200, payload)
 }
 
 func (o *CreateUserAccessKeyOK) GetPayload() *models.CreateUserAccessKeyResponse {
@@ -158,11 +161,13 @@ func (o *CreateUserAccessKeyDefault) Code() int {
 }
 
 func (o *CreateUserAccessKeyDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKey default %s", o._statusCode, payload)
 }
 
 func (o *CreateUserAccessKeyDefault) String() string {
-	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/createUserAccessKey][%d] createUserAccessKey default %s", o._statusCode, payload)
 }
 
 func (o *CreateUserAccessKeyDefault) GetPayload() *models.Error {

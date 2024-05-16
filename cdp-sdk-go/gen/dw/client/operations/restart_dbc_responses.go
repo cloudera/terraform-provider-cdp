@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RestartDbcOK) Code() int {
 }
 
 func (o *RestartDbcOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbcOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbcOK %s", 200, payload)
 }
 
 func (o *RestartDbcOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbcOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbcOK %s", 200, payload)
 }
 
 func (o *RestartDbcOK) GetPayload() models.RestartDbcResponse {
@@ -156,11 +159,13 @@ func (o *RestartDbcDefault) Code() int {
 }
 
 func (o *RestartDbcDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbc default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbc default %s", o._statusCode, payload)
 }
 
 func (o *RestartDbcDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbc default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartDbc][%d] restartDbc default %s", o._statusCode, payload)
 }
 
 func (o *RestartDbcDefault) GetPayload() *models.Error {

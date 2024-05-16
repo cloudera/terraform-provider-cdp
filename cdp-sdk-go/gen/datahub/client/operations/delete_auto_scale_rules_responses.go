@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteAutoScaleRulesOK) Code() int {
 }
 
 func (o *DeleteAutoScaleRulesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRulesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRulesOK %s", 200, payload)
 }
 
 func (o *DeleteAutoScaleRulesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRulesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRulesOK %s", 200, payload)
 }
 
 func (o *DeleteAutoScaleRulesOK) GetPayload() models.DeleteAutoScaleRulesResponse {
@@ -156,11 +159,13 @@ func (o *DeleteAutoScaleRulesDefault) Code() int {
 }
 
 func (o *DeleteAutoScaleRulesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRules default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRules default %s", o._statusCode, payload)
 }
 
 func (o *DeleteAutoScaleRulesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRules default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteAutoScaleRules][%d] deleteAutoScaleRules default %s", o._statusCode, payload)
 }
 
 func (o *DeleteAutoScaleRulesDefault) GetPayload() *models.Error {

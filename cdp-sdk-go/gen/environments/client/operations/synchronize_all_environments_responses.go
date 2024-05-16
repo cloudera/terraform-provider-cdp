@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SynchronizeAllEnvironmentsOK) Code() int {
 }
 
 func (o *SynchronizeAllEnvironmentsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironmentsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironmentsOK %s", 200, payload)
 }
 
 func (o *SynchronizeAllEnvironmentsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironmentsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironmentsOK %s", 200, payload)
 }
 
 func (o *SynchronizeAllEnvironmentsOK) GetPayload() models.SynchronizeAllEnvironmentsResponse {
@@ -156,11 +159,13 @@ func (o *SynchronizeAllEnvironmentsDefault) Code() int {
 }
 
 func (o *SynchronizeAllEnvironmentsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironments default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironments default %s", o._statusCode, payload)
 }
 
 func (o *SynchronizeAllEnvironmentsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironments default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/synchronizeAllEnvironments][%d] synchronizeAllEnvironments default %s", o._statusCode, payload)
 }
 
 func (o *SynchronizeAllEnvironmentsDefault) GetPayload() *models.Error {

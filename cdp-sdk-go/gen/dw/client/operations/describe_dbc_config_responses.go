@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeDbcConfigOK) Code() int {
 }
 
 func (o *DescribeDbcConfigOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfigOK %s", 200, payload)
 }
 
 func (o *DescribeDbcConfigOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfigOK %s", 200, payload)
 }
 
 func (o *DescribeDbcConfigOK) GetPayload() *models.DescribeDbcConfigResponse {
@@ -158,11 +161,13 @@ func (o *DescribeDbcConfigDefault) Code() int {
 }
 
 func (o *DescribeDbcConfigDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfig default %s", o._statusCode, payload)
 }
 
 func (o *DescribeDbcConfigDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeDbcConfig][%d] describeDbcConfig default %s", o._statusCode, payload)
 }
 
 func (o *DescribeDbcConfigDefault) GetPayload() *models.Error {

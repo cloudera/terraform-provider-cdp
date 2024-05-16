@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateAzureCredentialOK) Code() int {
 }
 
 func (o *UpdateAzureCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredentialOK %s", 200, payload)
 }
 
 func (o *UpdateAzureCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredentialOK %s", 200, payload)
 }
 
 func (o *UpdateAzureCredentialOK) GetPayload() *models.UpdateAzureCredentialResponse {
@@ -158,11 +161,13 @@ func (o *UpdateAzureCredentialDefault) Code() int {
 }
 
 func (o *UpdateAzureCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredential default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAzureCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureCredential][%d] updateAzureCredential default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAzureCredentialDefault) GetPayload() *models.Error {

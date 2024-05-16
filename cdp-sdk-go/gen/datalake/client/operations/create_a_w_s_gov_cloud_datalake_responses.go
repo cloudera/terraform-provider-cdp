@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAWSGovCloudDatalakeOK) Code() int {
 }
 
 func (o *CreateAWSGovCloudDatalakeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalakeOK %s", 200, payload)
 }
 
 func (o *CreateAWSGovCloudDatalakeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalakeOK %s", 200, payload)
 }
 
 func (o *CreateAWSGovCloudDatalakeOK) GetPayload() *models.CreateAWSGovCloudDatalakeResponse {
@@ -158,11 +161,13 @@ func (o *CreateAWSGovCloudDatalakeDefault) Code() int {
 }
 
 func (o *CreateAWSGovCloudDatalakeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalake default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSGovCloudDatalakeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAWSGovCloudDatalake][%d] createAWSGovCloudDatalake default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSGovCloudDatalakeDefault) GetPayload() *models.Error {

@@ -24,11 +24,11 @@ type UpscaleFreeipaResponse struct {
 	OperationID string `json:"operationId,omitempty"`
 
 	// The original FreeIPA availability type.
-	// Enum: [NON_HA TWO_NODE_BASED]
+	// Enum: ["NON_HA","TWO_NODE_BASED"]
 	OriginalAvailabilityType string `json:"originalAvailabilityType,omitempty"`
 
 	// The target FreeIPA availability type.
-	// Enum: [HA]
+	// Enum: ["HA"]
 	TargetAvailabilityType string `json:"targetAvailabilityType,omitempty"`
 }
 

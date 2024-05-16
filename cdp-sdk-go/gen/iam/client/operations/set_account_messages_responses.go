@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetAccountMessagesOK) Code() int {
 }
 
 func (o *SetAccountMessagesOK) Error() string {
-	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessagesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessagesOK %s", 200, payload)
 }
 
 func (o *SetAccountMessagesOK) String() string {
-	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessagesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessagesOK %s", 200, payload)
 }
 
 func (o *SetAccountMessagesOK) GetPayload() models.SetAccountMessagesResponse {
@@ -156,11 +159,13 @@ func (o *SetAccountMessagesDefault) Code() int {
 }
 
 func (o *SetAccountMessagesDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessages default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessages default %s", o._statusCode, payload)
 }
 
 func (o *SetAccountMessagesDefault) String() string {
-	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessages default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/setAccountMessages][%d] setAccountMessages default %s", o._statusCode, payload)
 }
 
 func (o *SetAccountMessagesDefault) GetPayload() *models.Error {

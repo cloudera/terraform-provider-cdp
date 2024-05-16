@@ -22,7 +22,7 @@ type GetEnvironmentUserSyncStateResponse struct {
 
 	// The user sync state of the environment.
 	// Required: true
-	// Enum: [UP_TO_DATE STALE SYNC_IN_PROGRESS SYNC_FAILED]
+	// Enum: ["UP_TO_DATE","STALE","SYNC_IN_PROGRESS","SYNC_FAILED"]
 	State *string `json:"state"`
 
 	// Operation Id for the latest user sync operation, if any, run for this environment.

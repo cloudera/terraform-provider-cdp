@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeModelRegistryOK) Code() int {
 }
 
 func (o *DescribeModelRegistryOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistryOK %s", 200, payload)
 }
 
 func (o *DescribeModelRegistryOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistryOK %s", 200, payload)
 }
 
 func (o *DescribeModelRegistryOK) GetPayload() *models.DescribeModelRegistryResponse {
@@ -158,11 +161,13 @@ func (o *DescribeModelRegistryDefault) Code() int {
 }
 
 func (o *DescribeModelRegistryDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistry default %s", o._statusCode, payload)
 }
 
 func (o *DescribeModelRegistryDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistry default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/describeModelRegistry][%d] describeModelRegistry default %s", o._statusCode, payload)
 }
 
 func (o *DescribeModelRegistryDefault) GetPayload() *models.Error {

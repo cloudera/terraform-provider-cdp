@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListSupportedEnvironmentsOK) Code() int {
 }
 
 func (o *ListSupportedEnvironmentsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironmentsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironmentsOK %s", 200, payload)
 }
 
 func (o *ListSupportedEnvironmentsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironmentsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironmentsOK %s", 200, payload)
 }
 
 func (o *ListSupportedEnvironmentsOK) GetPayload() *models.ListSupportedEnvironmentsResponse {
@@ -158,11 +161,13 @@ func (o *ListSupportedEnvironmentsDefault) Code() int {
 }
 
 func (o *ListSupportedEnvironmentsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironments default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironments default %s", o._statusCode, payload)
 }
 
 func (o *ListSupportedEnvironmentsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironments default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listSupportedEnvironments][%d] listSupportedEnvironments default %s", o._statusCode, payload)
 }
 
 func (o *ListSupportedEnvironmentsDefault) GetPayload() *models.Error {

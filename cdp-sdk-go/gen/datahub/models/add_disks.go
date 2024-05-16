@@ -22,7 +22,7 @@ type AddDisks struct {
 
 	// Usage for the requested disks.
 	// Required: true
-	// Enum: [GENERAL DATABASE]
+	// Enum: ["GENERAL","DATABASE"]
 	CloudVolumeUsageType *string `json:"cloudVolumeUsageType"`
 
 	// Number of disks to add on all the instances in a group.

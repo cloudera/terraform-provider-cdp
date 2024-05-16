@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListScalingEventsOK) Code() int {
 }
 
 func (o *ListScalingEventsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEventsOK %s", 200, payload)
 }
 
 func (o *ListScalingEventsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEventsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEventsOK %s", 200, payload)
 }
 
 func (o *ListScalingEventsOK) GetPayload() *models.ListScalingEventsResponse {
@@ -158,11 +161,13 @@ func (o *ListScalingEventsDefault) Code() int {
 }
 
 func (o *ListScalingEventsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListScalingEventsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEvents default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listScalingEvents][%d] listScalingEvents default %s", o._statusCode, payload)
 }
 
 func (o *ListScalingEventsDefault) GetPayload() *models.Error {

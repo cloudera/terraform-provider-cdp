@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListCoprocessorsOK) Code() int {
 }
 
 func (o *ListCoprocessorsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessorsOK %s", 200, payload)
 }
 
 func (o *ListCoprocessorsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessorsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessorsOK %s", 200, payload)
 }
 
 func (o *ListCoprocessorsOK) GetPayload() *models.ListCoprocessorsResponse {
@@ -158,11 +161,13 @@ func (o *ListCoprocessorsDefault) Code() int {
 }
 
 func (o *ListCoprocessorsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessors default %s", o._statusCode, payload)
 }
 
 func (o *ListCoprocessorsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessors default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/listCoprocessors][%d] listCoprocessors default %s", o._statusCode, payload)
 }
 
 func (o *ListCoprocessorsDefault) GetPayload() *models.Error {

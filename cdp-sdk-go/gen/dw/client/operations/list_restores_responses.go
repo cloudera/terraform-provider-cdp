@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListRestoresOK) Code() int {
 }
 
 func (o *ListRestoresOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestoresOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestoresOK %s", 200, payload)
 }
 
 func (o *ListRestoresOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestoresOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestoresOK %s", 200, payload)
 }
 
 func (o *ListRestoresOK) GetPayload() *models.ListRestoresResponse {
@@ -158,11 +161,13 @@ func (o *ListRestoresDefault) Code() int {
 }
 
 func (o *ListRestoresDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestores default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestores default %s", o._statusCode, payload)
 }
 
 func (o *ListRestoresDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestores default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listRestores][%d] listRestores default %s", o._statusCode, payload)
 }
 
 func (o *ListRestoresDefault) GetPayload() *models.Error {

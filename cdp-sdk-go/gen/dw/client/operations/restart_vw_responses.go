@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RestartVwOK) Code() int {
 }
 
 func (o *RestartVwOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVwOK %s", 200, payload)
 }
 
 func (o *RestartVwOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVwOK %s", 200, payload)
 }
 
 func (o *RestartVwOK) GetPayload() models.RestartVwResponse {
@@ -156,11 +159,13 @@ func (o *RestartVwDefault) Code() int {
 }
 
 func (o *RestartVwDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVw default %s", o._statusCode, payload)
 }
 
 func (o *RestartVwDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/restartVw][%d] restartVw default %s", o._statusCode, payload)
 }
 
 func (o *RestartVwDefault) GetPayload() *models.Error {

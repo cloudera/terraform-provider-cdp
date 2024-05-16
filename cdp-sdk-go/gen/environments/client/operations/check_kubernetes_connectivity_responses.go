@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CheckKubernetesConnectivityOK) Code() int {
 }
 
 func (o *CheckKubernetesConnectivityOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivityOK %s", 200, payload)
 }
 
 func (o *CheckKubernetesConnectivityOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivityOK %s", 200, payload)
 }
 
 func (o *CheckKubernetesConnectivityOK) GetPayload() *models.CheckKubernetesConnectivityResponse {
@@ -158,11 +161,13 @@ func (o *CheckKubernetesConnectivityDefault) Code() int {
 }
 
 func (o *CheckKubernetesConnectivityDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *CheckKubernetesConnectivityDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/checkKubernetesConnectivity][%d] checkKubernetesConnectivity default %s", o._statusCode, payload)
 }
 
 func (o *CheckKubernetesConnectivityDefault) GetPayload() *models.Error {

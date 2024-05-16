@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *HealthCheckOK) Code() int {
 }
 
 func (o *HealthCheckOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheckOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheckOK %s", 200, payload)
 }
 
 func (o *HealthCheckOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheckOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheckOK %s", 200, payload)
 }
 
 func (o *HealthCheckOK) GetPayload() *models.HealthCheckResponse {
@@ -158,11 +161,13 @@ func (o *HealthCheckDefault) Code() int {
 }
 
 func (o *HealthCheckDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheck default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheck default %s", o._statusCode, payload)
 }
 
 func (o *HealthCheckDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheck default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/healthCheck][%d] healthCheck default %s", o._statusCode, payload)
 }
 
 func (o *HealthCheckDefault) GetPayload() *models.Error {

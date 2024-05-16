@@ -42,7 +42,7 @@ type AzureActivationOptions struct {
 	LogAnalyticsWorkspaceID string `json:"logAnalyticsWorkspaceId,omitempty"`
 
 	// Network outbound type. This setting controls the egress traffic for cluster nodes in Azure Kubernetes Service. Please refer to the following AKS documentation on the Azure portal. https://learn.microsoft.com/en-us/azure/aks/egress-outboundtype, https://learn.microsoft.com/en-us/azure/aks/nat-gateway
-	// Enum: [LoadBalancer UserAssignedNATGateway UserDefinedRouting]
+	// Enum: ["LoadBalancer","UserAssignedNATGateway","UserDefinedRouting"]
 	OutboundType string `json:"outboundType,omitempty"`
 
 	// Private DNS zone AKS resource ID.

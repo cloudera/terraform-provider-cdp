@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SuspendVwOK) Code() int {
 }
 
 func (o *SuspendVwOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVwOK %s", 200, payload)
 }
 
 func (o *SuspendVwOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVwOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVwOK %s", 200, payload)
 }
 
 func (o *SuspendVwOK) GetPayload() models.SuspendVwResponse {
@@ -156,11 +159,13 @@ func (o *SuspendVwDefault) Code() int {
 }
 
 func (o *SuspendVwDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVw default %s", o._statusCode, payload)
 }
 
 func (o *SuspendVwDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVw default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/suspendVw][%d] suspendVw default %s", o._statusCode, payload)
 }
 
 func (o *SuspendVwDefault) GetPayload() *models.Error {

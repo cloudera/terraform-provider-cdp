@@ -24,7 +24,7 @@ type EnvValidation struct {
 	Message string `json:"message,omitempty"`
 
 	// The level of validation severity.
-	// Enum: [INFO WARNING ERROR]
+	// Enum: ["INFO","WARNING","ERROR"]
 	Severity string `json:"severity,omitempty"`
 }
 

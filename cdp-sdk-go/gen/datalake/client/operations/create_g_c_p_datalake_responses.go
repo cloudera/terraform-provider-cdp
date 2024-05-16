@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateGCPDatalakeOK) Code() int {
 }
 
 func (o *CreateGCPDatalakeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalakeOK %s", 200, payload)
 }
 
 func (o *CreateGCPDatalakeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalakeOK %s", 200, payload)
 }
 
 func (o *CreateGCPDatalakeOK) GetPayload() *models.CreateGCPDatalakeResponse {
@@ -158,11 +161,13 @@ func (o *CreateGCPDatalakeDefault) Code() int {
 }
 
 func (o *CreateGCPDatalakeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalake default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPDatalakeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createGCPDatalake][%d] createGCPDatalake default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPDatalakeDefault) GetPayload() *models.Error {

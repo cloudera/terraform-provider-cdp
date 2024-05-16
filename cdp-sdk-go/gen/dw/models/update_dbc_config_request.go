@@ -27,7 +27,7 @@ type UpdateDbcConfigRequest struct {
 
 	// Database Catalog configuration component to update.
 	// Required: true
-	// Enum: [DasEventProcessor DatabusProducer HueQueryProcessor Metastore]
+	// Enum: ["DasEventProcessor","DatabusProducer","HueQueryProcessor","Metastore"]
 	Component *string `json:"component"`
 
 	// ID of the Database Catalog.

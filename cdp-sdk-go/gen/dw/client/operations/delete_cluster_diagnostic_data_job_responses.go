@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteClusterDiagnosticDataJobOK) Code() int {
 }
 
 func (o *DeleteClusterDiagnosticDataJobOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *DeleteClusterDiagnosticDataJobOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJobOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJobOK %s", 200, payload)
 }
 
 func (o *DeleteClusterDiagnosticDataJobOK) GetPayload() models.DeleteClusterDiagnosticDataJobResponse {
@@ -156,11 +159,13 @@ func (o *DeleteClusterDiagnosticDataJobDefault) Code() int {
 }
 
 func (o *DeleteClusterDiagnosticDataJobDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *DeleteClusterDiagnosticDataJobDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJob default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/deleteClusterDiagnosticDataJob][%d] deleteClusterDiagnosticDataJob default %s", o._statusCode, payload)
 }
 
 func (o *DeleteClusterDiagnosticDataJobDefault) GetPayload() *models.Error {

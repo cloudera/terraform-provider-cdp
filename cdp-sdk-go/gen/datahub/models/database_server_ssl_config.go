@@ -21,7 +21,7 @@ import (
 type DatabaseServerSslConfig struct {
 
 	// SSL certificate type
-	// Enum: [CLOUD_PROVIDER_OWNED BRING_YOUR_OWN NONE]
+	// Enum: ["CLOUD_PROVIDER_OWNED","BRING_YOUR_OWN","NONE"]
 	SslCertificateType string `json:"sslCertificateType,omitempty"`
 
 	// Set of SSL certificates for the actual database server
@@ -29,7 +29,7 @@ type DatabaseServerSslConfig struct {
 	SslCertificates []string `json:"sslCertificates"`
 
 	// SSL enforcement mode for the actual database server
-	// Enum: [ENABLED DISABLED]
+	// Enum: ["ENABLED","DISABLED"]
 	SslMode string `json:"sslMode,omitempty"`
 }
 

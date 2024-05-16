@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateCustomConfigurationsOK) Code() int {
 }
 
 func (o *CreateCustomConfigurationsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurationsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurationsOK %s", 200, payload)
 }
 
 func (o *CreateCustomConfigurationsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurationsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurationsOK %s", 200, payload)
 }
 
 func (o *CreateCustomConfigurationsOK) GetPayload() *models.CreateCustomConfigurationsResponse {
@@ -158,11 +161,13 @@ func (o *CreateCustomConfigurationsDefault) Code() int {
 }
 
 func (o *CreateCustomConfigurationsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurations default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurations default %s", o._statusCode, payload)
 }
 
 func (o *CreateCustomConfigurationsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurations default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createCustomConfigurations][%d] createCustomConfigurations default %s", o._statusCode, payload)
 }
 
 func (o *CreateCustomConfigurationsDefault) GetPayload() *models.Error {

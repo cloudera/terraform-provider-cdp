@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAzureDatalakeOK) Code() int {
 }
 
 func (o *CreateAzureDatalakeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalakeOK %s", 200, payload)
 }
 
 func (o *CreateAzureDatalakeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalakeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalakeOK %s", 200, payload)
 }
 
 func (o *CreateAzureDatalakeOK) GetPayload() *models.CreateAzureDatalakeResponse {
@@ -158,11 +161,13 @@ func (o *CreateAzureDatalakeDefault) Code() int {
 }
 
 func (o *CreateAzureDatalakeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalake default %s", o._statusCode, payload)
 }
 
 func (o *CreateAzureDatalakeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalake default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/createAzureDatalake][%d] createAzureDatalake default %s", o._statusCode, payload)
 }
 
 func (o *CreateAzureDatalakeDefault) GetPayload() *models.Error {

@@ -22,7 +22,7 @@ type GetAuditCredentialPrerequisitesRequest struct {
 
 	// The kind of cloud platform.
 	// Required: true
-	// Enum: [AWS AZURE GCP]
+	// Enum: ["AWS","AZURE","GCP"]
 	CloudPlatform *string `json:"cloudPlatform"`
 }
 

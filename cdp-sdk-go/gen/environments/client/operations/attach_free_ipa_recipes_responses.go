@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *AttachFreeIpaRecipesOK) Code() int {
 }
 
 func (o *AttachFreeIpaRecipesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipesOK %s", 200, payload)
 }
 
 func (o *AttachFreeIpaRecipesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipesOK %s", 200, payload)
 }
 
 func (o *AttachFreeIpaRecipesOK) GetPayload() models.AttachFreeIpaRecipesResponse {
@@ -156,11 +159,13 @@ func (o *AttachFreeIpaRecipesDefault) Code() int {
 }
 
 func (o *AttachFreeIpaRecipesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipes default %s", o._statusCode, payload)
 }
 
 func (o *AttachFreeIpaRecipesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/attachFreeIpaRecipes][%d] attachFreeIpaRecipes default %s", o._statusCode, payload)
 }
 
 func (o *AttachFreeIpaRecipesDefault) GetPayload() *models.Error {

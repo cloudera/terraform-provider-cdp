@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetPasswordOK) Code() int {
 }
 
 func (o *SetPasswordOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPasswordOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPasswordOK %s", 200, payload)
 }
 
 func (o *SetPasswordOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPasswordOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPasswordOK %s", 200, payload)
 }
 
 func (o *SetPasswordOK) GetPayload() *models.SetPasswordResponse {
@@ -158,11 +161,13 @@ func (o *SetPasswordDefault) Code() int {
 }
 
 func (o *SetPasswordDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPassword default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPassword default %s", o._statusCode, payload)
 }
 
 func (o *SetPasswordDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPassword default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setPassword][%d] setPassword default %s", o._statusCode, payload)
 }
 
 func (o *SetPasswordDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateHbaseConfigurationOK) Code() int {
 }
 
 func (o *UpdateHbaseConfigurationOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfigurationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfigurationOK %s", 200, payload)
 }
 
 func (o *UpdateHbaseConfigurationOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfigurationOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfigurationOK %s", 200, payload)
 }
 
 func (o *UpdateHbaseConfigurationOK) GetPayload() *models.UpdateHbaseConfigurationResponse {
@@ -158,11 +161,13 @@ func (o *UpdateHbaseConfigurationDefault) Code() int {
 }
 
 func (o *UpdateHbaseConfigurationDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfiguration default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfiguration default %s", o._statusCode, payload)
 }
 
 func (o *UpdateHbaseConfigurationDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfiguration default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/updateHbaseConfiguration][%d] updateHbaseConfiguration default %s", o._statusCode, payload)
 }
 
 func (o *UpdateHbaseConfigurationDefault) GetPayload() *models.Error {

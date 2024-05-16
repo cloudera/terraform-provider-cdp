@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetAccessKeyOK) Code() int {
 }
 
 func (o *GetAccessKeyOK) Error() string {
-	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKeyOK %s", 200, payload)
 }
 
 func (o *GetAccessKeyOK) String() string {
-	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKeyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKeyOK %s", 200, payload)
 }
 
 func (o *GetAccessKeyOK) GetPayload() *models.GetAccessKeyResponse {
@@ -158,11 +161,13 @@ func (o *GetAccessKeyDefault) Code() int {
 }
 
 func (o *GetAccessKeyDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKey default %s", o._statusCode, payload)
 }
 
 func (o *GetAccessKeyDefault) String() string {
-	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKey default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/getAccessKey][%d] getAccessKey default %s", o._statusCode, payload)
 }
 
 func (o *GetAccessKeyDefault) GetPayload() *models.Error {

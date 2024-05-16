@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *StopClusterOK) Code() int {
 }
 
 func (o *StopClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopClusterOK %s", 200, payload)
 }
 
 func (o *StopClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopClusterOK %s", 200, payload)
 }
 
 func (o *StopClusterOK) GetPayload() models.StopClusterResponse {
@@ -156,11 +159,13 @@ func (o *StopClusterDefault) Code() int {
 }
 
 func (o *StopClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopCluster default %s", o._statusCode, payload)
 }
 
 func (o *StopClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopCluster default %s", o._statusCode, payload)
 }
 
 func (o *StopClusterDefault) GetPayload() *models.Error {

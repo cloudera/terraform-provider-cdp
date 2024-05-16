@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetAuditCredentialPrerequisitesOK) Code() int {
 }
 
 func (o *GetAuditCredentialPrerequisitesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetAuditCredentialPrerequisitesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisitesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisitesOK %s", 200, payload)
 }
 
 func (o *GetAuditCredentialPrerequisitesOK) GetPayload() *models.GetAuditCredentialPrerequisitesResponse {
@@ -158,11 +161,13 @@ func (o *GetAuditCredentialPrerequisitesDefault) Code() int {
 }
 
 func (o *GetAuditCredentialPrerequisitesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetAuditCredentialPrerequisitesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisites default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getAuditCredentialPrerequisites][%d] getAuditCredentialPrerequisites default %s", o._statusCode, payload)
 }
 
 func (o *GetAuditCredentialPrerequisitesDefault) GetPayload() *models.Error {

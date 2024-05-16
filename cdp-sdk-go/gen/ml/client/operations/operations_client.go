@@ -7,12 +7,38 @@ package operations
 
 import (
 	"github.com/go-openapi/runtime"
+	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
 func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
+}
+
+// New creates a new operations API client with basic auth credentials.
+// It takes the following parameters:
+// - host: http host (github.com).
+// - basePath: any base path for the API client ("/v1", "/v3").
+// - scheme: http scheme ("http", "https").
+// - user: user for basic authentication header.
+// - password: password for basic authentication header.
+func NewClientWithBasicAuth(host, basePath, scheme, user, password string) ClientService {
+	transport := httptransport.New(host, basePath, []string{scheme})
+	transport.DefaultAuthentication = httptransport.BasicAuth(user, password)
+	return &Client{transport: transport, formats: strfmt.Default}
+}
+
+// New creates a new operations API client with a bearer token for authentication.
+// It takes the following parameters:
+// - host: http host (github.com).
+// - basePath: any base path for the API client ("/v1", "/v3").
+// - scheme: http scheme ("http", "https").
+// - bearerToken: bearer token for Bearer authentication header.
+func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) ClientService {
+	transport := httptransport.New(host, basePath, []string{scheme})
+	transport.DefaultAuthentication = httptransport.BearerToken(bearerToken)
+	return &Client{transport: transport, formats: strfmt.Default}
 }
 
 /*
@@ -23,12 +49,14 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
-// ClientOption is the option for Client methods
+// ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
 // ClientService is the interface for Client methods
 type ClientService interface {
 	BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error)
+
+	CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error)
 
 	CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error)
 
@@ -38,9 +66,13 @@ type ClientService interface {
 
 	DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error)
 
+	DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error)
+
 	DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error)
 
 	DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error)
+
+	DescribeMlServingApp(params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error)
 
 	DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error)
 
@@ -54,11 +86,19 @@ type ClientService interface {
 
 	GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
 
+	GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error)
+
 	GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error)
+
+	GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error)
 
 	GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error)
 
 	GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error)
+
+	ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error)
+
+	ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error)
 
 	ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error)
 
@@ -74,6 +114,8 @@ type ClientService interface {
 
 	ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error)
 
+	ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error)
+
 	ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error)
 
 	RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error)
@@ -83,6 +125,8 @@ type ClientService interface {
 	RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error)
 
 	ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error)
+
+	RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error)
 
 	RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error)
 
@@ -135,6 +179,45 @@ func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*BackupWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateMlServingApp creates a cloudera machine learning serving app
+
+Provision a Kubernetes cluster and install the Cloudera Machine Learning application in it.
+*/
+func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateMlServingAppParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createMlServingApp",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/createMlServingApp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateMlServingAppReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateMlServingAppOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateMlServingAppDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -295,6 +378,45 @@ func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...
 }
 
 /*
+DeleteMlServingApp deletes cloudera machine learning serving app
+
+Gracefully deletes the CML Serve App.
+*/
+func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteMlServingAppParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteMlServingApp",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/deleteMlServingApp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteMlServingAppReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteMlServingAppOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteMlServingAppDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 DeleteModelRegistry deletes a model registry
 
 Delete a model registry.
@@ -369,6 +491,45 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DeleteWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeMlServingApp describes cloudera machine learning serving app
+
+Describe Cloudera Machine Learning Serving App.
+*/
+func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeMlServingAppParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeMlServingApp",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/describeMlServingApp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeMlServingAppReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeMlServingAppOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeMlServingAppDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -607,6 +768,45 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 }
 
 /*
+GetMlServingAppKubeconfig returns kubeconfig for ml serving app
+
+Gets the Kubeconfig of the Ml Serving cluster.
+*/
+func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetMlServingAppKubeconfigParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getMlServingAppKubeconfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/getMlServingAppKubeconfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetMlServingAppKubeconfigReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetMlServingAppKubeconfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetMlServingAppKubeconfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetModelRegistryKubeconfig gets model registry kubeconfig returns kube config for model registry
 
 Gets the Kubeconfig of the model registry cluster.
@@ -642,6 +842,45 @@ func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigPa
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*GetModelRegistryKubeconfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GrantMlServingAppAccess grants access to cloudera machine learning model serving app
+
+Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning Model Serving App.
+*/
+func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGrantMlServingAppAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "grantMlServingAppAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/grantMlServingAppAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GrantMlServingAppAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GrantMlServingAppAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GrantMlServingAppAccessDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -720,6 +959,84 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts .
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*GrantWorkspaceAccessDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListMlServingAppAccess lists member access for cloudera machine learning model serving app
+
+Lists users that can perform Kubernetes operations on a Cloudera Machine Learning Model Serving App
+*/
+func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListMlServingAppAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listMlServingAppAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listMlServingAppAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListMlServingAppAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListMlServingAppAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListMlServingAppAccessDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListMlServingApps lists all cloudera machine learning serving apps
+
+List all Cloudera Machine Learning Serving Apps.
+*/
+func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListMlServingAppsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listMlServingApps",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listMlServingApps",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListMlServingAppsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListMlServingAppsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListMlServingAppsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -997,6 +1314,45 @@ func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts
 }
 
 /*
+ModifyMlServingApp modifies a cloudera machine learning serving app s cluster instance group
+
+Modify a Cloudera Machine Learning Serving App's cluster instance group.
+*/
+func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewModifyMlServingAppParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "modifyMlServingApp",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/modifyMlServingApp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ModifyMlServingAppReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ModifyMlServingAppOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ModifyMlServingAppDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ModifyWorkspaceLoadBalancer modifies cloudera machine learning workspace loadbalancer
 
 Modify a Cloudera Machine Learning workspace loadbalancer.
@@ -1188,6 +1544,45 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ResumeWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RevokeMlServingAppAccess revokes access to cloudera machine learning model serving app
+
+Revokes an AWS user to perform Kubernetes operations on a Cloudera Machine Learning Model Serving App.
+*/
+func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRevokeMlServingAppAccessParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "revokeMlServingAppAccess",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/revokeMlServingAppAccess",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RevokeMlServingAppAccessReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RevokeMlServingAppAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RevokeMlServingAppAccessDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

@@ -29,7 +29,7 @@ type CreateAzureDatalakeRequest struct {
 	CustomInstanceGroups []*SdxInstanceGroupRequest `json:"customInstanceGroups"`
 
 	// The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
-	// Enum: [FLEXIBLE_SERVER SINGLE_SERVER]
+	// Enum: ["FLEXIBLE_SERVER","SINGLE_SERVER"]
 	DatabaseType string `json:"databaseType,omitempty"`
 
 	// The datalake name. This name must be unique, must have between 5 and 100 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.

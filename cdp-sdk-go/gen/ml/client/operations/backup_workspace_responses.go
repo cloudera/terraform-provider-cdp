@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *BackupWorkspaceOK) Code() int {
 }
 
 func (o *BackupWorkspaceOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspaceOK %s", 200, payload)
 }
 
 func (o *BackupWorkspaceOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspaceOK %s", 200, payload)
 }
 
 func (o *BackupWorkspaceOK) GetPayload() *models.BackupWorkspaceResponse {
@@ -158,11 +161,13 @@ func (o *BackupWorkspaceDefault) Code() int {
 }
 
 func (o *BackupWorkspaceDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *BackupWorkspaceDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/backupWorkspace][%d] backupWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *BackupWorkspaceDefault) GetPayload() *models.Error {

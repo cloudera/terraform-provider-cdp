@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DescribeRestoreOK) Code() int {
 }
 
 func (o *DescribeRestoreOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestoreOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestoreOK %s", 200, payload)
 }
 
 func (o *DescribeRestoreOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestoreOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestoreOK %s", 200, payload)
 }
 
 func (o *DescribeRestoreOK) GetPayload() *models.DescribeRestoreResponse {
@@ -158,11 +161,13 @@ func (o *DescribeRestoreDefault) Code() int {
 }
 
 func (o *DescribeRestoreDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestore default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestore default %s", o._statusCode, payload)
 }
 
 func (o *DescribeRestoreDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestore default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/describeRestore][%d] describeRestore default %s", o._statusCode, payload)
 }
 
 func (o *DescribeRestoreDefault) GetPayload() *models.Error {

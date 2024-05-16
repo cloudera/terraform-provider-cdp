@@ -26,7 +26,7 @@ type UpscaleFreeipaRequest struct {
 
 	// The target FreeIPA availability type.
 	// Required: true
-	// Enum: [HA]
+	// Enum: ["HA"]
 	TargetAvailabilityType *string `json:"targetAvailabilityType"`
 }
 

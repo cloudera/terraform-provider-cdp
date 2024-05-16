@@ -32,7 +32,7 @@ type UpdateDbcRequest struct {
 	DbcID *string `json:"dbcId"`
 
 	// Set Metastore container memory size. If not provided, small will apply.
-	// Enum: [small medium large]
+	// Enum: ["small","medium","large"]
 	MemorySize string `json:"memorySize,omitempty"`
 }
 

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ValidateAwsCloudStorageOK) Code() int {
 }
 
 func (o *ValidateAwsCloudStorageOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorageOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorageOK %s", 200, payload)
 }
 
 func (o *ValidateAwsCloudStorageOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorageOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorageOK %s", 200, payload)
 }
 
 func (o *ValidateAwsCloudStorageOK) GetPayload() *models.ValidateAwsCloudStorageResponse {
@@ -158,11 +161,13 @@ func (o *ValidateAwsCloudStorageDefault) Code() int {
 }
 
 func (o *ValidateAwsCloudStorageDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorage default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorage default %s", o._statusCode, payload)
 }
 
 func (o *ValidateAwsCloudStorageDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorage default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/validateAwsCloudStorage][%d] validateAwsCloudStorage default %s", o._statusCode, payload)
 }
 
 func (o *ValidateAwsCloudStorageDefault) GetPayload() *models.Error {

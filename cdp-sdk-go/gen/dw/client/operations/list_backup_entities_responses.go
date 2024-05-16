@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListBackupEntitiesOK) Code() int {
 }
 
 func (o *ListBackupEntitiesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntitiesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntitiesOK %s", 200, payload)
 }
 
 func (o *ListBackupEntitiesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntitiesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntitiesOK %s", 200, payload)
 }
 
 func (o *ListBackupEntitiesOK) GetPayload() *models.ListBackupEntitiesResponse {
@@ -158,11 +161,13 @@ func (o *ListBackupEntitiesDefault) Code() int {
 }
 
 func (o *ListBackupEntitiesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntities default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntities default %s", o._statusCode, payload)
 }
 
 func (o *ListBackupEntitiesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntities default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/listBackupEntities][%d] listBackupEntities default %s", o._statusCode, payload)
 }
 
 func (o *ListBackupEntitiesDefault) GetPayload() *models.Error {

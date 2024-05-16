@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RetryFreeipaOK) Code() int {
 }
 
 func (o *RetryFreeipaOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipaOK %s", 200, payload)
 }
 
 func (o *RetryFreeipaOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipaOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipaOK %s", 200, payload)
 }
 
 func (o *RetryFreeipaOK) GetPayload() models.RetryFreeipaResponse {
@@ -156,11 +159,13 @@ func (o *RetryFreeipaDefault) Code() int {
 }
 
 func (o *RetryFreeipaDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *RetryFreeipaDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipa default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipa default %s", o._statusCode, payload)
 }
 
 func (o *RetryFreeipaDefault) GetPayload() *models.Error {

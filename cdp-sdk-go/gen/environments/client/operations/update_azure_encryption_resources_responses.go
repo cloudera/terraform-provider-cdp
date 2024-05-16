@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UpdateAzureEncryptionResourcesOK) Code() int {
 }
 
 func (o *UpdateAzureEncryptionResourcesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResourcesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResourcesOK %s", 200, payload)
 }
 
 func (o *UpdateAzureEncryptionResourcesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResourcesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResourcesOK %s", 200, payload)
 }
 
 func (o *UpdateAzureEncryptionResourcesOK) GetPayload() *models.UpdateAzureEncryptionResourcesResponse {
@@ -158,11 +161,13 @@ func (o *UpdateAzureEncryptionResourcesDefault) Code() int {
 }
 
 func (o *UpdateAzureEncryptionResourcesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResources default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResources default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAzureEncryptionResourcesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResources default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/updateAzureEncryptionResources][%d] updateAzureEncryptionResources default %s", o._statusCode, payload)
 }
 
 func (o *UpdateAzureEncryptionResourcesDefault) GetPayload() *models.Error {

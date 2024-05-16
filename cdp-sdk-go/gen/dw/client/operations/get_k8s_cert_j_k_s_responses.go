@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetK8sCertJKSOK) Code() int {
 }
 
 func (o *GetK8sCertJKSOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKSOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKSOK %s", 200, payload)
 }
 
 func (o *GetK8sCertJKSOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKSOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKSOK %s", 200, payload)
 }
 
 func (o *GetK8sCertJKSOK) GetPayload() *models.GetK8sCertJKSResponse {
@@ -158,11 +161,13 @@ func (o *GetK8sCertJKSDefault) Code() int {
 }
 
 func (o *GetK8sCertJKSDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKS default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKS default %s", o._statusCode, payload)
 }
 
 func (o *GetK8sCertJKSDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKS default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getK8sCertJKS][%d] getK8sCertJKS default %s", o._statusCode, payload)
 }
 
 func (o *GetK8sCertJKSDefault) GetPayload() *models.Error {

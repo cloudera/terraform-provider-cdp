@@ -22,7 +22,7 @@ type SetEndpointAccessGatewayRequest struct {
 
 	// The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC / Vnet.
 	// Required: true
-	// Enum: [PUBLIC PRIVATE]
+	// Enum: ["PUBLIC","PRIVATE"]
 	EndpointAccessGatewayScheme *string `json:"endpointAccessGatewayScheme"`
 
 	// The subnets to use for endpoint access gateway.

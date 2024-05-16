@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ResumeWorkspaceOK) Code() int {
 }
 
 func (o *ResumeWorkspaceOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspaceOK %s", 200, payload)
 }
 
 func (o *ResumeWorkspaceOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspaceOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspaceOK %s", 200, payload)
 }
 
 func (o *ResumeWorkspaceOK) GetPayload() models.ResumeWorkspaceResponse {
@@ -156,11 +159,13 @@ func (o *ResumeWorkspaceDefault) Code() int {
 }
 
 func (o *ResumeWorkspaceDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *ResumeWorkspaceDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspace default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/resumeWorkspace][%d] resumeWorkspace default %s", o._statusCode, payload)
 }
 
 func (o *ResumeWorkspaceDefault) GetPayload() *models.Error {

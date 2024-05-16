@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateGCPClusterOK) Code() int {
 }
 
 func (o *CreateGCPClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPClusterOK %s", 200, payload)
 }
 
 func (o *CreateGCPClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPClusterOK %s", 200, payload)
 }
 
 func (o *CreateGCPClusterOK) GetPayload() *models.CreateGCPClusterResponse {
@@ -158,11 +161,13 @@ func (o *CreateGCPClusterDefault) Code() int {
 }
 
 func (o *CreateGCPClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createGCPCluster][%d] createGCPCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateGCPClusterDefault) GetPayload() *models.Error {

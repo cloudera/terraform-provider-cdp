@@ -46,7 +46,7 @@ type UpdateVwRequest struct {
 	QueryIsolationOptions *QueryIsolationOptionsRequest `json:"queryIsolationOptions,omitempty"`
 
 	// Name of configuration template to use.
-	// Enum: [xsmall small medium large]
+	// Enum: ["xsmall","small","medium","large"]
 	Template string `json:"template,omitempty"`
 
 	// ID of the Virtual Warehouse.

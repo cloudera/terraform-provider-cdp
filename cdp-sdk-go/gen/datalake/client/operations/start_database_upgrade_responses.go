@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *StartDatabaseUpgradeOK) Code() int {
 }
 
 func (o *StartDatabaseUpgradeOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgradeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgradeOK %s", 200, payload)
 }
 
 func (o *StartDatabaseUpgradeOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgradeOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgradeOK %s", 200, payload)
 }
 
 func (o *StartDatabaseUpgradeOK) GetPayload() *models.StartDatabaseUpgradeResponse {
@@ -158,11 +161,13 @@ func (o *StartDatabaseUpgradeDefault) Code() int {
 }
 
 func (o *StartDatabaseUpgradeDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgrade default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgrade default %s", o._statusCode, payload)
 }
 
 func (o *StartDatabaseUpgradeDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgrade default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datalake/startDatabaseUpgrade][%d] startDatabaseUpgrade default %s", o._statusCode, payload)
 }
 
 func (o *StartDatabaseUpgradeDefault) GetPayload() *models.Error {

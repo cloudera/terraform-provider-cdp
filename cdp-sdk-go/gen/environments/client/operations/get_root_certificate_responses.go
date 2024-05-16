@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetRootCertificateOK) Code() int {
 }
 
 func (o *GetRootCertificateOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificateOK %s", 200, payload)
 }
 
 func (o *GetRootCertificateOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificateOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificateOK %s", 200, payload)
 }
 
 func (o *GetRootCertificateOK) GetPayload() *models.GetRootCertificateResponse {
@@ -158,11 +161,13 @@ func (o *GetRootCertificateDefault) Code() int {
 }
 
 func (o *GetRootCertificateDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificate default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificate default %s", o._statusCode, payload)
 }
 
 func (o *GetRootCertificateDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificate default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/getRootCertificate][%d] getRootCertificate default %s", o._statusCode, payload)
 }
 
 func (o *GetRootCertificateDefault) GetPayload() *models.Error {

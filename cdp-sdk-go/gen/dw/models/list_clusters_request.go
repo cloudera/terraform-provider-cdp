@@ -21,7 +21,7 @@ import (
 type ListClustersRequest struct {
 
 	// Filter returned clusters by hosting platform.
-	// Enum: [AWS AZURE]
+	// Enum: ["AWS","AZURE"]
 	CloudPlatform string `json:"cloudPlatform,omitempty"`
 
 	// Filter returned clusters by cluster ID.
@@ -34,7 +34,7 @@ type ListClustersRequest struct {
 	Name string `json:"name,omitempty"`
 
 	// Filter returned clusters by cluster status.
-	// Enum: [Creating Created Accepted Starting Running Stopping Stopped Updating PreUpdate PreUpgrade Restarting Deleting Upgrading Waiting Error Failed]
+	// Enum: ["Creating","Created","Accepted","Starting","Running","Stopping","Stopped","Updating","PreUpdate","PreUpgrade","Restarting","Deleting","Upgrading","Waiting","Error","Failed"]
 	Status string `json:"status,omitempty"`
 }
 

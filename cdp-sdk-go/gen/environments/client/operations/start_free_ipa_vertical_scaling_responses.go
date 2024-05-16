@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *StartFreeIpaVerticalScalingOK) Code() int {
 }
 
 func (o *StartFreeIpaVerticalScalingOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScalingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScalingOK %s", 200, payload)
 }
 
 func (o *StartFreeIpaVerticalScalingOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScalingOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScalingOK %s", 200, payload)
 }
 
 func (o *StartFreeIpaVerticalScalingOK) GetPayload() *models.StartFreeIpaVerticalScalingResponse {
@@ -158,11 +161,13 @@ func (o *StartFreeIpaVerticalScalingDefault) Code() int {
 }
 
 func (o *StartFreeIpaVerticalScalingDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScaling default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScaling default %s", o._statusCode, payload)
 }
 
 func (o *StartFreeIpaVerticalScalingDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScaling default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/startFreeIpaVerticalScaling][%d] startFreeIpaVerticalScaling default %s", o._statusCode, payload)
 }
 
 func (o *StartFreeIpaVerticalScalingDefault) GetPayload() *models.Error {

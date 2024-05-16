@@ -27,7 +27,7 @@ type Network struct {
 	Azure *NetworkAzureParams `json:"azure,omitempty"`
 
 	// The scheme for the endpoint gateway. PUBLIC indicates an external endpoint that can be accessed over the Internet.
-	// Enum: [PUBLIC PRIVATE]
+	// Enum: ["PUBLIC","PRIVATE"]
 	EndpointAccessGatewayScheme string `json:"endpointAccessGatewayScheme,omitempty"`
 
 	// The subnets to use for endpoint access gateway.

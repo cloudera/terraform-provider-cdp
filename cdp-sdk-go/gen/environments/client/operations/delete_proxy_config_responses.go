@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteProxyConfigOK) Code() int {
 }
 
 func (o *DeleteProxyConfigOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfigOK %s", 200, payload)
 }
 
 func (o *DeleteProxyConfigOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfigOK %s", 200, payload)
 }
 
 func (o *DeleteProxyConfigOK) GetPayload() models.DeleteProxyConfigResponse {
@@ -156,11 +159,13 @@ func (o *DeleteProxyConfigDefault) Code() int {
 }
 
 func (o *DeleteProxyConfigDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfig default %s", o._statusCode, payload)
 }
 
 func (o *DeleteProxyConfigDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/deleteProxyConfig][%d] deleteProxyConfig default %s", o._statusCode, payload)
 }
 
 func (o *DeleteProxyConfigDefault) GetPayload() *models.Error {

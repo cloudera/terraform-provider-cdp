@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAWSCredentialOK) Code() int {
 }
 
 func (o *CreateAWSCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredentialOK %s", 200, payload)
 }
 
 func (o *CreateAWSCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredentialOK %s", 200, payload)
 }
 
 func (o *CreateAWSCredentialOK) GetPayload() *models.CreateAWSCredentialResponse {
@@ -158,11 +161,13 @@ func (o *CreateAWSCredentialDefault) Code() int {
 }
 
 func (o *CreateAWSCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredential default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/createAWSCredential][%d] createAWSCredential default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSCredentialDefault) GetPayload() *models.Error {

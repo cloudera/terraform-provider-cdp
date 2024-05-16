@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *AssignAzureCloudIdentityOK) Code() int {
 }
 
 func (o *AssignAzureCloudIdentityOK) Error() string {
-	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *AssignAzureCloudIdentityOK) String() string {
-	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *AssignAzureCloudIdentityOK) GetPayload() models.AssignAzureCloudIdentityResponse {
@@ -156,11 +159,13 @@ func (o *AssignAzureCloudIdentityDefault) Code() int {
 }
 
 func (o *AssignAzureCloudIdentityDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *AssignAzureCloudIdentityDefault) String() string {
-	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/assignAzureCloudIdentity][%d] assignAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *AssignAzureCloudIdentityDefault) GetPayload() *models.Error {

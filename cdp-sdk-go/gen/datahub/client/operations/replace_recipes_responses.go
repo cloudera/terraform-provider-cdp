@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ReplaceRecipesOK) Code() int {
 }
 
 func (o *ReplaceRecipesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipesOK %s", 200, payload)
 }
 
 func (o *ReplaceRecipesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipesOK %s", 200, payload)
 }
 
 func (o *ReplaceRecipesOK) GetPayload() *models.ReplaceRecipesResponse {
@@ -158,11 +161,13 @@ func (o *ReplaceRecipesDefault) Code() int {
 }
 
 func (o *ReplaceRecipesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipes default %s", o._statusCode, payload)
 }
 
 func (o *ReplaceRecipesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipes default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/replaceRecipes][%d] replaceRecipes default %s", o._statusCode, payload)
 }
 
 func (o *ReplaceRecipesDefault) GetPayload() *models.Error {

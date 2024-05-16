@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UnassignAzureCloudIdentityOK) Code() int {
 }
 
 func (o *UnassignAzureCloudIdentityOK) Error() string {
-	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *UnassignAzureCloudIdentityOK) String() string {
-	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentityOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentityOK %s", 200, payload)
 }
 
 func (o *UnassignAzureCloudIdentityOK) GetPayload() models.UnassignAzureCloudIdentityResponse {
@@ -156,11 +159,13 @@ func (o *UnassignAzureCloudIdentityDefault) Code() int {
 }
 
 func (o *UnassignAzureCloudIdentityDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *UnassignAzureCloudIdentityDefault) String() string {
-	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentity default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unassignAzureCloudIdentity][%d] unassignAzureCloudIdentity default %s", o._statusCode, payload)
 }
 
 func (o *UnassignAzureCloudIdentityDefault) GetPayload() *models.Error {

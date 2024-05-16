@@ -28,7 +28,7 @@ type StartDatabaseUpgradeRequest struct {
 	Force bool `json:"force,omitempty"`
 
 	// The database engine major version to upgrade to.
-	// Enum: [VERSION_11 VERSION_14]
+	// Enum: ["VERSION_11","VERSION_14"]
 	TargetVersion string `json:"targetVersion,omitempty"`
 }
 

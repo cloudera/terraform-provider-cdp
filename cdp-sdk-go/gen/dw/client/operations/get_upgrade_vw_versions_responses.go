@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *GetUpgradeVwVersionsOK) Code() int {
 }
 
 func (o *GetUpgradeVwVersionsOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersionsOK %s", 200, payload)
 }
 
 func (o *GetUpgradeVwVersionsOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersionsOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersionsOK %s", 200, payload)
 }
 
 func (o *GetUpgradeVwVersionsOK) GetPayload() *models.GetUpgradeVwVersionsResponse {
@@ -158,11 +161,13 @@ func (o *GetUpgradeVwVersionsDefault) Code() int {
 }
 
 func (o *GetUpgradeVwVersionsDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersions default %s", o._statusCode, payload)
 }
 
 func (o *GetUpgradeVwVersionsDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersions default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/getUpgradeVwVersions][%d] getUpgradeVwVersions default %s", o._statusCode, payload)
 }
 
 func (o *GetUpgradeVwVersionsDefault) GetPayload() *models.Error {

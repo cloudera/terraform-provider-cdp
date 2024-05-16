@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *UnsetWorkloadPasswordPolicyOK) Code() int {
 }
 
 func (o *UnsetWorkloadPasswordPolicyOK) Error() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicyOK %s", 200, payload)
 }
 
 func (o *UnsetWorkloadPasswordPolicyOK) String() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicyOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicyOK %s", 200, payload)
 }
 
 func (o *UnsetWorkloadPasswordPolicyOK) GetPayload() models.UnsetWorkloadPasswordPolicyResponse {
@@ -156,11 +159,13 @@ func (o *UnsetWorkloadPasswordPolicyDefault) Code() int {
 }
 
 func (o *UnsetWorkloadPasswordPolicyDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicy default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicy default %s", o._statusCode, payload)
 }
 
 func (o *UnsetWorkloadPasswordPolicyDefault) String() string {
-	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicy default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/unsetWorkloadPasswordPolicy][%d] unsetWorkloadPasswordPolicy default %s", o._statusCode, payload)
 }
 
 func (o *UnsetWorkloadPasswordPolicyDefault) GetPayload() *models.Error {

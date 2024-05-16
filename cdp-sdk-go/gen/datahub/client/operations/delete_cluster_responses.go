@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteClusterOK) Code() int {
 }
 
 func (o *DeleteClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteClusterOK %s", 200, payload)
 }
 
 func (o *DeleteClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteClusterOK %s", 200, payload)
 }
 
 func (o *DeleteClusterOK) GetPayload() models.DeleteClusterResponse {
@@ -156,11 +159,13 @@ func (o *DeleteClusterDefault) Code() int {
 }
 
 func (o *DeleteClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteCluster default %s", o._statusCode, payload)
 }
 
 func (o *DeleteClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteCluster default %s", o._statusCode, payload)
 }
 
 func (o *DeleteClusterDefault) GetPayload() *models.Error {

@@ -27,7 +27,7 @@ type CustomRegistryOptions struct {
 	Password string `json:"password,omitempty"`
 
 	// Custom registry type.
-	// Enum: [ACR ECR Docker]
+	// Enum: ["ACR","ECR","Docker"]
 	RegistryType string `json:"registryType,omitempty"`
 
 	// URL of the custom image repository.

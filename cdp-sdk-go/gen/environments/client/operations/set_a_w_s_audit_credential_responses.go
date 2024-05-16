@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SetAWSAuditCredentialOK) Code() int {
 }
 
 func (o *SetAWSAuditCredentialOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredentialOK %s", 200, payload)
 }
 
 func (o *SetAWSAuditCredentialOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredentialOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredentialOK %s", 200, payload)
 }
 
 func (o *SetAWSAuditCredentialOK) GetPayload() *models.SetAWSAuditCredentialResponse {
@@ -158,11 +161,13 @@ func (o *SetAWSAuditCredentialDefault) Code() int {
 }
 
 func (o *SetAWSAuditCredentialDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *SetAWSAuditCredentialDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredential default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/setAWSAuditCredential][%d] setAWSAuditCredential default %s", o._statusCode, payload)
 }
 
 func (o *SetAWSAuditCredentialDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteBackupOK) Code() int {
 }
 
 func (o *DeleteBackupOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackupOK %s", 200, payload)
 }
 
 func (o *DeleteBackupOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackupOK %s", 200, payload)
 }
 
 func (o *DeleteBackupOK) GetPayload() *models.DeleteBackupResponse {
@@ -158,11 +161,13 @@ func (o *DeleteBackupDefault) Code() int {
 }
 
 func (o *DeleteBackupDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackup default %s", o._statusCode, payload)
 }
 
 func (o *DeleteBackupDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteBackup][%d] deleteBackup default %s", o._statusCode, payload)
 }
 
 func (o *DeleteBackupDefault) GetPayload() *models.Error {

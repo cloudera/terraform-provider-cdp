@@ -36,7 +36,7 @@ type CreateDbcDiagnosticDataJobRequest struct {
 
 	// Destination of the diagnostics collection.
 	// Required: true
-	// Enum: [UPLOAD_TO_CLOUDERA DOWNLOAD]
+	// Enum: ["UPLOAD_TO_CLOUDERA","DOWNLOAD"]
 	Destination *string `json:"destination"`
 
 	// Database Catalog diagnostic options. If not provided, everything will be included in the Diagnostic Data.

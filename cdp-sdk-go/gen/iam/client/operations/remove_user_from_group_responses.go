@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RemoveUserFromGroupOK) Code() int {
 }
 
 func (o *RemoveUserFromGroupOK) Error() string {
-	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroupOK %s", 200, payload)
 }
 
 func (o *RemoveUserFromGroupOK) String() string {
-	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroupOK %s", 200, payload)
 }
 
 func (o *RemoveUserFromGroupOK) GetPayload() models.RemoveUserFromGroupResponse {
@@ -156,11 +159,13 @@ func (o *RemoveUserFromGroupDefault) Code() int {
 }
 
 func (o *RemoveUserFromGroupDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroup default %s", o._statusCode, payload)
 }
 
 func (o *RemoveUserFromGroupDefault) String() string {
-	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/removeUserFromGroup][%d] removeUserFromGroup default %s", o._statusCode, payload)
 }
 
 func (o *RemoveUserFromGroupDefault) GetPayload() *models.Error {

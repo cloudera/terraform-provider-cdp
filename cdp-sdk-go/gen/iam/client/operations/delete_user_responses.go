@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteUserOK) Code() int {
 }
 
 func (o *DeleteUserOK) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUserOK %s", 200, payload)
 }
 
 func (o *DeleteUserOK) String() string {
-	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUserOK %s", 200, payload)
 }
 
 func (o *DeleteUserOK) GetPayload() *models.DeleteUserResponse {
@@ -158,11 +161,13 @@ func (o *DeleteUserDefault) Code() int {
 }
 
 func (o *DeleteUserDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUser default %s", o._statusCode, payload)
 }
 
 func (o *DeleteUserDefault) String() string {
-	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteUser][%d] deleteUser default %s", o._statusCode, payload)
 }
 
 func (o *DeleteUserDefault) GetPayload() *models.Error {

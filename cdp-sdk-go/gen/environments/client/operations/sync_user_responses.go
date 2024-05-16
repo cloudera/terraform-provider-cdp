@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *SyncUserOK) Code() int {
 }
 
 func (o *SyncUserOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUserOK %s", 200, payload)
 }
 
 func (o *SyncUserOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUserOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUserOK %s", 200, payload)
 }
 
 func (o *SyncUserOK) GetPayload() *models.SyncUserResponse {
@@ -158,11 +161,13 @@ func (o *SyncUserDefault) Code() int {
 }
 
 func (o *SyncUserDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUser default %s", o._statusCode, payload)
 }
 
 func (o *SyncUserDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUser default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/syncUser][%d] syncUser default %s", o._statusCode, payload)
 }
 
 func (o *SyncUserDefault) GetPayload() *models.Error {

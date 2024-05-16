@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RefreshModelRegistryConfigmapOK) Code() int {
 }
 
 func (o *RefreshModelRegistryConfigmapOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmapOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmapOK %s", 200, payload)
 }
 
 func (o *RefreshModelRegistryConfigmapOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmapOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmapOK %s", 200, payload)
 }
 
 func (o *RefreshModelRegistryConfigmapOK) GetPayload() models.RefreshModelRegistryConfigmapResponse {
@@ -156,11 +159,13 @@ func (o *RefreshModelRegistryConfigmapDefault) Code() int {
 }
 
 func (o *RefreshModelRegistryConfigmapDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmap default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmap default %s", o._statusCode, payload)
 }
 
 func (o *RefreshModelRegistryConfigmapDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmap default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/refreshModelRegistryConfigmap][%d] refreshModelRegistryConfigmap default %s", o._statusCode, payload)
 }
 
 func (o *RefreshModelRegistryConfigmapDefault) GetPayload() *models.Error {

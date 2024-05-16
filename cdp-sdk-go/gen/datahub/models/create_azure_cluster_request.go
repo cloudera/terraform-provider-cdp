@@ -39,7 +39,7 @@ type CreateAzureClusterRequest struct {
 	CustomConfigurationsName string `json:"customConfigurationsName,omitempty"`
 
 	// The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
-	// Enum: [FLEXIBLE_SERVER SINGLE_SERVER]
+	// Enum: ["FLEXIBLE_SERVER","SINGLE_SERVER"]
 	DatabaseType string `json:"databaseType,omitempty"`
 
 	// Database type for datahub. Currently supported values: NONE, NON_HA, HA

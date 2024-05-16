@@ -45,7 +45,7 @@ type AutoscalingOptionsCreateRequest struct {
 	ImpalaExecutorGroupSets *ImpalaExecutorGroupSetsCreateRequest `json:"impalaExecutorGroupSets,omitempty"`
 
 	// DEPRECATED in favor of the top level impalaHASettings object. Set High Availability mode. If not provided the default will apply. This value is disregarded for Hive.
-	// Enum: [ACTIVE_PASSIVE ACTIVE_ACTIVE DISABLED]
+	// Enum: ["ACTIVE_PASSIVE","ACTIVE_ACTIVE","DISABLED"]
 	ImpalaHighAvailabilityMode string `json:"impalaHighAvailabilityMode,omitempty"`
 
 	// DEPRECATED in favor of the top level impalaHASettings object. Number of the active coordinators.
@@ -65,9 +65,6 @@ type AutoscalingOptionsCreateRequest struct {
 
 	// Minimum number of available compute groups.
 	MinClusters *int32 `json:"minClusters,omitempty"`
-
-	// DEPRECATED - Name of the pod configuration.
-	PodConfigName string `json:"podConfigName,omitempty"`
 }
 
 // Validate validates this autoscaling options create request

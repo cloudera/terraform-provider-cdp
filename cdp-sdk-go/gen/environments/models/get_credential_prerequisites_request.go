@@ -22,7 +22,7 @@ type GetCredentialPrerequisitesRequest struct {
 
 	// The kind of cloud platform.
 	// Required: true
-	// Enum: [AWS AZURE]
+	// Enum: ["AWS","AZURE"]
 	CloudPlatform *string `json:"cloudPlatform"`
 }
 

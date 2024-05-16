@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *StartInstancesOK) Code() int {
 }
 
 func (o *StartInstancesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstancesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstancesOK %s", 200, payload)
 }
 
 func (o *StartInstancesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstancesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstancesOK %s", 200, payload)
 }
 
 func (o *StartInstancesOK) GetPayload() models.StartInstancesResponse {
@@ -156,11 +159,13 @@ func (o *StartInstancesDefault) Code() int {
 }
 
 func (o *StartInstancesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstances default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstances default %s", o._statusCode, payload)
 }
 
 func (o *StartInstancesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstances default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/startInstances][%d] startInstances default %s", o._statusCode, payload)
 }
 
 func (o *StartInstancesDefault) GetPayload() *models.Error {

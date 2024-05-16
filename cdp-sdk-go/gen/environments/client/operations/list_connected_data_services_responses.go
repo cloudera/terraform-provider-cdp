@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListConnectedDataServicesOK) Code() int {
 }
 
 func (o *ListConnectedDataServicesOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServicesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServicesOK %s", 200, payload)
 }
 
 func (o *ListConnectedDataServicesOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServicesOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServicesOK %s", 200, payload)
 }
 
 func (o *ListConnectedDataServicesOK) GetPayload() *models.ListConnectedDataServicesResponse {
@@ -158,11 +161,13 @@ func (o *ListConnectedDataServicesDefault) Code() int {
 }
 
 func (o *ListConnectedDataServicesDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServices default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServices default %s", o._statusCode, payload)
 }
 
 func (o *ListConnectedDataServicesDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServices default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/environments2/listConnectedDataServices][%d] listConnectedDataServices default %s", o._statusCode, payload)
 }
 
 func (o *ListConnectedDataServicesDefault) GetPayload() *models.Error {

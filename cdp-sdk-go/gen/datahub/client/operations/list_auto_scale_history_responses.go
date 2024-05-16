@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ListAutoScaleHistoryOK) Code() int {
 }
 
 func (o *ListAutoScaleHistoryOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistoryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistoryOK %s", 200, payload)
 }
 
 func (o *ListAutoScaleHistoryOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistoryOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistoryOK %s", 200, payload)
 }
 
 func (o *ListAutoScaleHistoryOK) GetPayload() *models.ListAutoScaleHistoryResponse {
@@ -158,11 +161,13 @@ func (o *ListAutoScaleHistoryDefault) Code() int {
 }
 
 func (o *ListAutoScaleHistoryDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistory default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistory default %s", o._statusCode, payload)
 }
 
 func (o *ListAutoScaleHistoryDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistory default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/listAutoScaleHistory][%d] listAutoScaleHistory default %s", o._statusCode, payload)
 }
 
 func (o *ListAutoScaleHistoryDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *ResumeClusterOK) Code() int {
 }
 
 func (o *ResumeClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeClusterOK %s", 200, payload)
 }
 
 func (o *ResumeClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeClusterOK %s", 200, payload)
 }
 
 func (o *ResumeClusterOK) GetPayload() *models.ResumeClusterResponse {
@@ -158,11 +161,13 @@ func (o *ResumeClusterDefault) Code() int {
 }
 
 func (o *ResumeClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeCluster default %s", o._statusCode, payload)
 }
 
 func (o *ResumeClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/dw/resumeCluster][%d] resumeCluster default %s", o._statusCode, payload)
 }
 
 func (o *ResumeClusterDefault) GetPayload() *models.Error {

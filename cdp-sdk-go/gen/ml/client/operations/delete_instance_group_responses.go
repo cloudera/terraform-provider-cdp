@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteInstanceGroupOK) Code() int {
 }
 
 func (o *DeleteInstanceGroupOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroupOK %s", 200, payload)
 }
 
 func (o *DeleteInstanceGroupOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroupOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroupOK %s", 200, payload)
 }
 
 func (o *DeleteInstanceGroupOK) GetPayload() models.DeleteInstanceGroupResponse {
@@ -156,11 +159,13 @@ func (o *DeleteInstanceGroupDefault) Code() int {
 }
 
 func (o *DeleteInstanceGroupDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroup default %s", o._statusCode, payload)
 }
 
 func (o *DeleteInstanceGroupDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroup default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/ml/deleteInstanceGroup][%d] deleteInstanceGroup default %s", o._statusCode, payload)
 }
 
 func (o *DeleteInstanceGroupDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *DeleteScimAccessTokenOK) Code() int {
 }
 
 func (o *DeleteScimAccessTokenOK) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessTokenOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessTokenOK %s", 200, payload)
 }
 
 func (o *DeleteScimAccessTokenOK) String() string {
-	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessTokenOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessTokenOK %s", 200, payload)
 }
 
 func (o *DeleteScimAccessTokenOK) GetPayload() models.DeleteScimAccessTokenResponse {
@@ -156,11 +159,13 @@ func (o *DeleteScimAccessTokenDefault) Code() int {
 }
 
 func (o *DeleteScimAccessTokenDefault) Error() string {
-	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessToken default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessToken default %s", o._statusCode, payload)
 }
 
 func (o *DeleteScimAccessTokenDefault) String() string {
-	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessToken default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /iam/deleteScimAccessToken][%d] deleteScimAccessToken default %s", o._statusCode, payload)
 }
 
 func (o *DeleteScimAccessTokenDefault) GetPayload() *models.Error {

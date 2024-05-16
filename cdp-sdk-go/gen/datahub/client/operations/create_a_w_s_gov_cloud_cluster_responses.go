@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *CreateAWSGovCloudClusterOK) Code() int {
 }
 
 func (o *CreateAWSGovCloudClusterOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudClusterOK %s", 200, payload)
 }
 
 func (o *CreateAWSGovCloudClusterOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudClusterOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudClusterOK %s", 200, payload)
 }
 
 func (o *CreateAWSGovCloudClusterOK) GetPayload() *models.CreateAWSGovCloudClusterResponse {
@@ -158,11 +161,13 @@ func (o *CreateAWSGovCloudClusterDefault) Code() int {
 }
 
 func (o *CreateAWSGovCloudClusterDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSGovCloudClusterDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudCluster default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/datahub/createAWSGovCloudCluster][%d] createAWSGovCloudCluster default %s", o._statusCode, payload)
 }
 
 func (o *CreateAWSGovCloudClusterDefault) GetPayload() *models.Error {

@@ -6,6 +6,7 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -86,11 +87,13 @@ func (o *RemoveCoprocessorOK) Code() int {
 }
 
 func (o *RemoveCoprocessorOK) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessorOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessorOK %s", 200, payload)
 }
 
 func (o *RemoveCoprocessorOK) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessorOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessorOK %s", 200, payload)
 }
 
 func (o *RemoveCoprocessorOK) GetPayload() *models.RemoveCoprocessorResponse {
@@ -158,11 +161,13 @@ func (o *RemoveCoprocessorDefault) Code() int {
 }
 
 func (o *RemoveCoprocessorDefault) Error() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessor default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessor default %s", o._statusCode, payload)
 }
 
 func (o *RemoveCoprocessorDefault) String() string {
-	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessor default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[POST /api/v1/opdb/removeCoprocessor][%d] removeCoprocessor default %s", o._statusCode, payload)
 }
 
 func (o *RemoveCoprocessorDefault) GetPayload() *models.Error {
