@@ -19,7 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func TestFromSimplestModelToRequestBasicFields(t *testing.T) {
+func TestFromSimplestModelToDatabaseRequestBasicFields(t *testing.T) {
 	input := databaseResourceModel{
 		DatabaseName: types.StringValue("someName"),
 		Environment:  types.StringValue("someEnvironment"),
@@ -38,7 +38,7 @@ func TestFromSimplestModelToRequestBasicFields(t *testing.T) {
 	test.CompareBools(got.EnableRegionCanary, false, t)
 }
 
-func TestFromModelToRequestMoreFields(t *testing.T) {
+func TestFromModelToDatabaseRequestMoreFields(t *testing.T) {
 	input := databaseResourceModel{
 		DatabaseName:      types.StringValue("someName"),
 		Environment:       types.StringValue("someEnvironment"),
@@ -249,4 +249,26 @@ func TestCreateRecipes(t *testing.T) {
 	test.CompareStringValueSlices(got[0].Names, a.Names.Elements(), t)
 	test.CompareStrings(string(*got[1].InstanceGroup), b.InstanceGroup.ValueString(), t)
 	test.CompareStringValueSlices(got[1].Names, b.Names.Elements(), t)
+}
+
+func TestVolumeEncryptions(t *testing.T) {
+	var volumeEncryptions []VolumeEncryption
+
+	a := VolumeEncryption{
+		EncryptionKey: types.StringValue("k1"),
+		InstanceGroup: types.StringValue("i1"),
+	}
+	b := VolumeEncryption{
+		EncryptionKey: types.StringValue("k2"),
+		InstanceGroup: types.StringValue("i2"),
+	}
+	volumeEncryptions = append(volumeEncryptions, a)
+	volumeEncryptions = append(volumeEncryptions, b)
+
+	got := createVolumeEncryptions(context.TODO(), volumeEncryptions)
+
+	test.CompareStrings(string(*got[0].InstanceGroup), a.InstanceGroup.ValueString(), t)
+	test.CompareStrings(string(*got[0].EncryptionKey), a.EncryptionKey.ValueString(), t)
+	test.CompareStrings(string(*got[1].InstanceGroup), b.InstanceGroup.ValueString(), t)
+	test.CompareStrings(string(*got[1].EncryptionKey), b.EncryptionKey.ValueString(), t)
 }

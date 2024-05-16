@@ -41,9 +41,10 @@ type databaseResourceModel struct {
 	Image           *Image     `tfsdk:"image"`
 	EnableGrafana   types.Bool `tfsdk:"enable_grafana"`
 
-	CustomUserTags     []KeyValuePair `tfsdk:"custom_user_tags"`
-	EnableRegionCanary types.Bool     `tfsdk:"enable_region_canary"`
-	Recipes            []Recipe       `tfsdk:"recipes"`
+	CustomUserTags     []KeyValuePair     `tfsdk:"custom_user_tags"`
+	EnableRegionCanary types.Bool         `tfsdk:"enable_region_canary"`
+	Recipes            []Recipe           `tfsdk:"recipes"`
+	VolumeEncryptions  []VolumeEncryption `tfsdk:"volume_encryptions"`
 }
 
 type AutoScalingParametersStruct struct {
@@ -79,5 +80,10 @@ type KeyValuePair struct {
 
 type Recipe struct {
 	Names         types.Set    `tfsdk:"names"`
+	InstanceGroup types.String `tfsdk:"instance_group"`
+}
+
+type VolumeEncryption struct {
+	EncryptionKey types.String `tfsdk:"encryption_key"`
 	InstanceGroup types.String `tfsdk:"instance_group"`
 }

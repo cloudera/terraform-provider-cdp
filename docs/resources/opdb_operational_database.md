@@ -149,6 +149,17 @@ resource "cdp_opdb_operational_database" "opdb-detailed-example" {
   ]
   storage_location = "s3a://<value>/"
 
+  volume_encryptions = [
+    {
+      encryption_key = "<value>",
+      instance_group = "<value>"
+    },
+    {
+      encryption_key = "<value>",
+      instance_group = "<value>"
+    }
+  ]
+
 }
 ```
 
@@ -184,6 +195,7 @@ It is also possible to change Catalog name for the image.
 - `storage_location` (String) Storage Location for OPDB. It is only available in the BETA api.
 - `storage_type` (String) Storage type for clusters, CLOUD_WITH_EPHEMERAL, CLOUD or HDFS
 - `subnet_id` (String) ID of the subnet to deploy to
+- `volume_encryptions` (Attributes Set) Specifies encryption key to encrypt volume for instance group. It is currently supported for AWS cloud provider only. It is only available in the BETA api. (see [below for nested schema](#nestedatt--volume_encryptions))
 
 ### Read-Only
 
@@ -251,3 +263,12 @@ Required:
 
 - `instance_group` (String) The name of the designated instance group.
 - `names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
+
+
+<a id="nestedatt--volume_encryptions"></a>
+### Nested Schema for `volume_encryptions`
+
+Required:
+
+- `encryption_key` (String) Encryption key to encrypt volume.
+- `instance_group` (String) The name of the designated instance group.
