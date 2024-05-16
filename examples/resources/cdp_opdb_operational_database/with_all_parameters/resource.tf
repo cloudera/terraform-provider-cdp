@@ -97,4 +97,15 @@ resource "cdp_opdb_operational_database" "opdb-detailed-example" {
   ]
   storage_location = "s3a://<value>/"
 
+  volume_encryptions = [
+    {
+      encryption_key = "<value>",
+      instance_group = "<value>"
+    },
+    {
+      encryption_key = "<value>",
+      instance_group = "<value>"
+    }
+  ]
+
 }

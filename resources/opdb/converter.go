@@ -59,6 +59,8 @@ func fromModelToDatabaseRequest(model databaseResourceModel, ctx context.Context
 	req.Recipes = createRecipes(ctx, model.Recipes)
 	req.StorageLocation = model.StorageLocation.ValueString()
 
+	req.VolumeEncryptions = createVolumeEncryptions(ctx, model.VolumeEncryptions)
+
 	tflog.Debug(ctx, fmt.Sprintf("Conversion from databaseResourceModel to CreateDatabaseRequest has finished with request: %+v.", req))
 	return &req
 }
@@ -133,7 +135,7 @@ func createKeyValuePair(keyValuePair KeyValuePair) *opdbmodels.KeyValuePair {
 func createRecipes(ctx context.Context, recipes []Recipe) []*opdbmodels.CustomRecipe {
 	var recipeList []*opdbmodels.CustomRecipe
 	for _, vrs := range recipes {
-		tflog.Debug(ctx, fmt.Sprintf("Converting KeyValuePair: %+v.", vrs))
+		tflog.Debug(ctx, fmt.Sprintf("Converting Recipe: %+v.", vrs))
 		recipeList = append(recipeList, createRecipe(vrs))
 	}
 	return recipeList
@@ -143,6 +145,22 @@ func createRecipe(customRecipe Recipe) *opdbmodels.CustomRecipe {
 	return &opdbmodels.CustomRecipe{
 		InstanceGroup: opdbmodels.NewInstanceGroupType(opdbmodels.InstanceGroupType(customRecipe.InstanceGroup.ValueString())),
 		Names:         utils.FromSetValueToStringList(customRecipe.Names),
+	}
+}
+
+func createVolumeEncryptions(ctx context.Context, recipes []VolumeEncryption) []*opdbmodels.VolumeEncryption {
+	var volumeEncryptionList []*opdbmodels.VolumeEncryption
+	for _, vrs := range recipes {
+		tflog.Debug(ctx, fmt.Sprintf("Converting VolumeEncryption: %+v.", vrs))
+		volumeEncryptionList = append(volumeEncryptionList, createVolumeEncryption(vrs))
+	}
+	return volumeEncryptionList
+}
+
+func createVolumeEncryption(volumeEncryption VolumeEncryption) *opdbmodels.VolumeEncryption {
+	return &opdbmodels.VolumeEncryption{
+		EncryptionKey: volumeEncryption.EncryptionKey.ValueStringPointer(),
+		InstanceGroup: opdbmodels.NewInstanceGroupType(opdbmodels.InstanceGroupType(volumeEncryption.InstanceGroup.ValueString())),
 	}
 }
 

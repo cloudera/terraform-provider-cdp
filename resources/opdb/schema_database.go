@@ -270,6 +270,25 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				},
 			},
 		},
+		"volume_encryptions": schema.SetNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Specifies encryption key to encrypt volume for instance group. It is currently supported for AWS cloud provider only. It is only available in the BETA api.",
+			PlanModifiers: []planmodifier.Set{
+				setplanmodifier.RequiresReplace(),
+			},
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: map[string]schema.Attribute{
+					"encryption_key": schema.StringAttribute{
+						MarkdownDescription: "Encryption key to encrypt volume.",
+						Required:            true,
+					},
+					"instance_group": schema.StringAttribute{
+						MarkdownDescription: "The name of the designated instance group.",
+						Required:            true,
+					},
+				},
+			},
+		},
 	})
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Creates an Operational DataBase.",
