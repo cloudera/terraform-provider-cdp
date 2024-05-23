@@ -16,7 +16,7 @@ description: |-
 #
 # This file is licensed under the Apache License Version 2.0 (the "License").
 # You may not use this file except in compliance with the License.
-# You may obtain a copy of the License at http =//www.apache.org/licenses/LICENSE-2.0.
+# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
 #
 # This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
 # OF ANY KIND, either express or implied. Refer to the License for the specific
@@ -40,18 +40,18 @@ resource "cdp_ml_workspace" "example" {
     ],
     environment_name = var.environment_name
   }
-  
-  disable_tls                    = false
-  use_public_load_balancer       = false
-  private_cluster                = false
-  
-  enable_monitoring              = true
-  enable_governance              = false
-  enable_model_metrics           = true
-  
+
+  disable_tls              = false
+  use_public_load_balancer = false
+  private_cluster          = false
+
+  enable_monitoring    = true
+  enable_governance    = false
+  enable_model_metrics = true
+
   whitelist_authorized_ip_ranges = false
-  
-  skip_validation                = false
+
+  skip_validation = false
 }
 ```
 
