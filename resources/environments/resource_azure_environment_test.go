@@ -35,8 +35,9 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 				"crn": tftypes.String,
 				"polling_options": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
-						"async":           tftypes.Bool,
-						"polling_timeout": tftypes.Number,
+						"async":                  tftypes.Bool,
+						"polling_timeout":        tftypes.Number,
+						"call_failure_threshold": tftypes.Number,
 					},
 				},
 				"status_reason": tftypes.String,
@@ -112,12 +113,14 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			"crn": tftypes.NewValue(tftypes.String, ""),
 			"polling_options": tftypes.NewValue(tftypes.Object{
 				AttributeTypes: map[string]tftypes.Type{
-					"async":           tftypes.Bool,
-					"polling_timeout": tftypes.Number,
+					"async":                  tftypes.Bool,
+					"polling_timeout":        tftypes.Number,
+					"call_failure_threshold": tftypes.Number,
 				},
 			}, map[string]tftypes.Value{
-				"async":           tftypes.NewValue(tftypes.Bool, false),
-				"polling_timeout": tftypes.NewValue(tftypes.Number, 100),
+				"async":                  tftypes.NewValue(tftypes.Bool, false),
+				"polling_timeout":        tftypes.NewValue(tftypes.Number, 100),
+				"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
 			}),
 			"status_reason": tftypes.NewValue(tftypes.String, ""),
 			"tags": tftypes.NewValue(tftypes.Map{

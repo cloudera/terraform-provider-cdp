@@ -100,6 +100,24 @@ func CalculateTimeoutOrDefault(ctx context.Context, options *PollingOptions, fal
 	return &timeout, nil
 }
 
+func CalculateCallFailureThresholdOrDefault(ctx context.Context, options *PollingOptions, fallback int) (int, error) {
+	tflog.Debug(ctx, fmt.Sprintf("About to calculate call failure threshold using the desired threshold (%+v) and the given fallback threshold (%+v)", options, fallback))
+	var threshold int
+	if options != nil && !options.CallFailureThreshold.IsNull() {
+		threshold = int(options.CallFailureThreshold.ValueInt64())
+	} else {
+		tflog.Debug(ctx, "No desired call failure threshold is given, the fallback value will be used.")
+		threshold = fallback
+	}
+	if threshold <= 0 {
+		msg := "no meaningful threshold value can be calculated based on the given parameters, thus operation shall fail immediately"
+		tflog.Warn(ctx, msg)
+		return 0, fmt.Errorf(msg)
+	}
+	tflog.Debug(ctx, fmt.Sprintf("The following call failure threshold calculated: %+v", threshold))
+	return threshold, nil
+}
+
 func ToBaseTypesStringMap(in map[string]string) map[string]types.String {
 	res := map[string]types.String{}
 	for k, v := range in {

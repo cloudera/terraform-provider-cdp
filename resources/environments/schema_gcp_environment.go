@@ -52,6 +52,12 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 						Computed:            true,
 						Optional:            true,
 					},
+					"call_failure_threshold": schema.Int64Attribute{
+						MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+						Default:             int64default.StaticInt64(3),
+						Computed:            true,
+						Optional:            true,
+					},
 				},
 			},
 			"credential_name": schema.StringAttribute{

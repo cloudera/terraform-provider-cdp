@@ -84,7 +84,7 @@ func isEnvNotFoundError(err error) bool {
 
 func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse, options *utils.PollingOptions,
 	stateSaverCb func(*environmentsmodels.Environment)) (*environmentsmodels.Environment, error) {
-	if err := waitForEnvironmentToBeAvailable(id, timeoutOneHour, client.Environments, ctx, options, stateSaverCb); err != nil {
+	if err := waitForEnvironmentToBeAvailable(id, timeoutOneHour, callFailureThreshold, client.Environments, ctx, options, stateSaverCb); err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
 		return nil, err
 	}

@@ -12,6 +12,7 @@ package datahub
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
@@ -27,10 +28,15 @@ func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx contex
 	tflog.Info(ctx, fmt.Sprintf("About to poll cluster (name: %s) creation (polling [delay: %s, timeout: %s, interval :%s]).",
 		datahubName, pollingDelay, pollingTimeout, pollingInterval))
 	status := ""
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
-	if err != nil {
-		return "", err
+	timeout, timeoutErr := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
+	if timeoutErr != nil {
+		return "", timeoutErr
 	}
+	failureThreshold, failureThresholdErr := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThreshold)
+	if failureThresholdErr != nil {
+		return "", failureThresholdErr
+	}
+	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending:                   []string{},
 		Target:                    []string{"AVAILABLE"},
@@ -44,11 +50,18 @@ func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx contex
 			if err != nil {
 				if isNotFoundError(err) {
 					tflog.Debug(ctx, fmt.Sprintf("Recoverable error describing cluster: %s", err))
+					callFailedCount = 0
 					return nil, "", nil
 				}
-				tflog.Debug(ctx, fmt.Sprintf("Error describing cluster: %s", err))
+				callFailedCount++
+				if callFailedCount <= failureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing cluster with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					return nil, "", nil
+				}
+				tflog.Error(ctx, fmt.Sprintf("Error describing cluster (due to: %s) and call failure threshold limit exceeded.", err))
 				return nil, "", err
 			}
+			callFailedCount = 0
 			tflog.Debug(ctx, fmt.Sprintf("Described cluster: %s", resp.GetPayload().Cluster.Status))
 			intf, st, e := checkIfClusterCreationFailed(resp)
 			tflog.Debug(ctx, fmt.Sprintf("Updating returning status from '%s' to '%s'", status, st))
@@ -56,8 +69,8 @@ func waitForToBeAvailable(datahubName string, client *client.Datahub, ctx contex
 			return intf, st, e
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
-	return status, err
+	_, timeoutErr = stateConf.WaitForStateContext(ctx)
+	return status, timeoutErr
 }
 
 func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.Context, options *utils.PollingOptions) error {
@@ -76,7 +89,8 @@ func waitForToBeDeleted(datahubName string, client *client.Datahub, ctx context.
 			resp, err := describeWithRecover(datahubName, client, ctx)
 			if err != nil {
 				tflog.Debug(ctx, fmt.Sprintf("Error describing cluster: %s", err))
-				if envErr, ok := err.(*operations.DescribeClusterDefault); ok {
+				var envErr *operations.DescribeClusterDefault
+				if errors.As(err, &envErr) {
 					if cdp.IsDatahubError(envErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}
