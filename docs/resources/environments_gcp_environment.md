@@ -174,6 +174,7 @@ Optional:
 Optional:
 
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
+- `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
 
 

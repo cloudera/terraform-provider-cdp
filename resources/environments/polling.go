@@ -12,7 +12,9 @@ package environments
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"log"
 	"time"
 
@@ -52,13 +54,14 @@ func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 		Timeout:      *timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
-			log.Printf("About to describe environment")
+			tflog.Debug(ctx, fmt.Sprintf("About to describe environment: %s", environmentName))
 			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
-				log.Printf("Error describing environment: %s", err)
-				if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
+				tflog.Warn(ctx, fmt.Sprintf("Error describing environment: %s", err))
+				var envErr *operations.DescribeEnvironmentDefault
+				if errors.As(err, &envErr) {
 					if isEnvNotFoundError(envErr) {
 						return nil, "", nil
 					}
@@ -69,7 +72,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 				log.Printf("Described environment. No environment.")
 				return nil, "", nil
 			}
-			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
+			tflog.Info(ctx, fmt.Sprintf("Described environment's status: %s", *resp.GetPayload().Environment.Status))
 			return checkResponseStatusForError(resp)
 		},
 	}
@@ -78,12 +81,17 @@ func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 	return err
 }
 
-func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout time.Duration, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions,
+func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout time.Duration, callFailureThresholdDefault int, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions,
 	stateSaverCb func(*environmentsmodels.Environment)) error {
 	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, fallbackTimeout)
 	if err != nil {
 		return err
 	}
+	callFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, pollingOptions, callFailureThresholdDefault)
+	if failureThresholdError != nil {
+		return failureThresholdError
+	}
+	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"CREATION_INITIATED",
 			"NETWORK_CREATION_IN_PROGRESS",
@@ -97,7 +105,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 		Timeout:      *timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
-			log.Printf("[DEBUG] About to describe environment %s", environmentName)
+			tflog.Debug(ctx, fmt.Sprintf("About to describe environment %s", environmentName))
 			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
@@ -106,14 +114,21 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 				// consistency. We return an empty state to retry.
 
 				if isEnvNotFoundError(err) {
-					log.Printf("[DEBUG] Recoverable error describing environment: %s", err)
+					tflog.Debug(ctx, fmt.Sprintf("Recoverable error describing environment: %s", err))
+					callFailedCount = 0
 					return nil, "", nil
 				}
-				log.Printf("Error describing environment: %s", err)
+				callFailedCount++
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing environment with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					return nil, "", nil
+				}
+				tflog.Error(ctx, fmt.Sprintf("Error describing environment (due to: %s) and call failure threshold limit exceeded.", err))
 				return nil, "", err
 			}
+			callFailedCount = 0
 			stateSaverCb(resp.Payload.Environment)
-			log.Printf("Described environment's status: %s", *resp.GetPayload().Environment.Status)
+			tflog.Info(ctx, fmt.Sprintf("Described environment's status: %s", *resp.GetPayload().Environment.Status))
 			return checkResponseStatusForError(resp)
 		},
 	}

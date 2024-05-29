@@ -51,6 +51,12 @@ var awsDatalakeResourceSchema = schema.Schema{
 					Computed:            true,
 					Optional:            true,
 				},
+				"call_failure_threshold": schema.Int64Attribute{
+					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+					Default:             int64default.StaticInt64(3),
+					Computed:            true,
+					Optional:            true,
+				},
 			},
 		},
 		"instance_profile": schema.StringAttribute{

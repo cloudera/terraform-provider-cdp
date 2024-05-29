@@ -1,4 +1,4 @@
-// Copyright 2023 Cloudera. All Rights Reserved.
+// Copyright 2024 Cloudera. All Rights Reserved.
 //
 // This file is licensed under the Apache License Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -8,14 +8,6 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package datahub
+package datalake
 
-import "time"
-
-const internalServerErrorRetryQuantity = 4
-const pollingInterval = 10 * time.Second
-const pollingTimeout = 1 * time.Hour
-const pollingDelay = 5 * time.Second
 const callFailureThreshold = 3
-
-var failedStatusKeywords = []string{"FAILED", "DELETED"}

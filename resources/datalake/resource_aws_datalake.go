@@ -140,7 +140,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 			diags = resp.State.Set(ctx, state)
 			resp.Diagnostics.Append(diags...)
 		}
-		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, callFailureThreshold, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 			return
 		}
@@ -164,12 +164,17 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 }
 
-func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, client *client.Datalake, options *utils.PollingOptions,
+func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, callFailureThresholdDefault int, client *client.Datalake, options *utils.PollingOptions,
 	stateSaverCb func(*datalakemodels.DatalakeDetails)) error {
 	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackPollingTimeout)
 	if err != nil {
 		return err
 	}
+	callFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThresholdDefault)
+	if failureThresholdError != nil {
+		return failureThresholdError
+	}
+	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"REQUESTED", "WAIT_FOR_ENVIRONMENT", "ENVIRONMENT_CREATED", "STACK_CREATION_IN_PROGRESS",
 			"STACK_CREATION_FINISHED", "EXTERNAL_DATABASE_CREATION_IN_PROGRESS", "EXTERNAL_DATABASE_CREATED",
@@ -184,9 +189,15 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallba
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 			resp, err := client.Operations.DescribeDatalake(params)
 			if err != nil {
-				log.Printf("Error describing datalake: %s", err)
+				callFailedCount++
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing datalake with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					return nil, "", nil
+				}
+				tflog.Error(ctx, fmt.Sprintf("Error describing datalake (due to: %s) and call failure threshold limit exceeded.", err))
 				return nil, "", err
 			}
+			callFailedCount = 0
 			stateSaverCb(resp.Payload.Datalake)
 			log.Printf("Described datalake: %s", resp.GetPayload().Datalake.Status)
 			return checkResponseStatusForError(resp)
