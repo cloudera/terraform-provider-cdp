@@ -13,6 +13,7 @@ package cdp
 import (
 	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
+	declient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/client"
 	dwclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client"
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	iamclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
@@ -28,6 +29,7 @@ type Client struct {
 	Datahub      *datahubclient.Datahub
 	Iam          *iamclient.Iam
 	Ml           *mlclient.Ml
+	De           *declient.De
 	Dw           *dwclient.Dw
 }
 
@@ -65,6 +67,11 @@ func NewClient(config *Config) (*Client, error) {
 		return nil, err
 	}
 
+	deClient, err := NewDeClient(config)
+	if err != nil {
+		return nil, err
+	}
+
 	dwClient, err := NewDwClient(config)
 	if err != nil {
 		return nil, err
@@ -78,6 +85,7 @@ func NewClient(config *Config) (*Client, error) {
 		Opdb:         opdbClient,
 		Iam:          iamClient,
 		Ml:           mlClient,
+		De:           deClient,
 		Dw:           dwClient,
 	}, nil
 }
@@ -152,6 +160,18 @@ func NewMlClient(config *Config) (*mlclient.Ml, error) {
 		return nil, err
 	}
 	return mlclient.New(transport, nil), nil
+}
+
+func NewDeClient(config *Config) (*declient.De, error) {
+	apiEndpoint, err := config.GetEndpoint("de", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
+	if err != nil {
+		return nil, err
+	}
+	return declient.New(transport, nil), nil
 }
 
 func NewDwClient(config *Config) (*dwclient.Dw, error) {

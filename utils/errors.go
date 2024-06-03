@@ -17,6 +17,7 @@ import (
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
+	demodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	mlmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
@@ -62,6 +63,22 @@ type MlErrorPayload interface {
 func AddMlDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(MlErrorPayload); ok && d.GetPayload() != nil {
+		msg = d.GetPayload().Message
+	}
+	caser := cases.Title(language.English)
+	diagnostics.AddError(
+		caser.String(errMsg),
+		"Failed to "+errMsg+", unexpected error: "+msg,
+	)
+}
+
+type DeErrorPayload interface {
+	GetPayload() *demodels.Error
+}
+
+func AddDeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
+	msg := err.Error()
+	if d, ok := err.(DeErrorPayload); ok && d.GetPayload() != nil {
 		msg = d.GetPayload().Message
 	}
 	caser := cases.Title(language.English)
