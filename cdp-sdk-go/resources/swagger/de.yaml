@@ -1,0 +1,1646 @@
+swagger: '2.0'
+x-endpoint-name: de
+x-products: CDP
+x-form-factors: public,private
+x-cdp-releases: PUBLIC
+x-audit: true
+info:
+  version: 0.9.113 (BETA)
+  title: Cloudera Data Engineering
+  license:
+    name: Apache 2.0
+  description: Create and manage Cloudera Data Engineering Services.
+  termsOfService: https://www.cloudera.com/legal/commercial-terms-and-conditions.html
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /api/v1/de/createBackup:
+    post:
+      summary: Backup Cloudera Data Engineering(CDE) Service
+      description: Initiates service backup and returns a backup ID, which can be used for log retrieval, restoration, deletion, and backup cancellation. Service backup includes the definition of the Service and its Virtual Clusters along with Virtual Clusters contents (jobs, resources, and credentials).
+      operationId: createBackup
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateBackupRequest'
+      responses:
+        200:
+          description: Response object for Create Backup command.
+          schema:
+            $ref: '#/definitions/CreateBackupResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/cancelBackup:
+    post:
+      summary: Cancel Cloudera Data Engineering(CDE) Service Backup
+      description: Cancel a currently running backup operation using the associated backup ID. The operation must be in a 'pending' state.
+      operationId: cancelBackup
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CancelBackupRequest'
+      responses:
+        200:
+          description: Response object for Cancel Backup command.
+          schema:
+            $ref: '#/definitions/CancelBackupResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/deleteBackup:
+    post:
+      summary: Delete Cloudera Data Engineering(CDE) Service Backup
+      description: Delete a backup using the associated backup ID.
+      operationId: deleteBackup
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteBackupRequest'
+      responses:
+        200:
+          description: Response object for Delete Backup command.
+          schema:
+            $ref: '#/definitions/DeleteBackupResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/describeBackup:
+    post:
+      summary: Describe Cloudera Data Engineering(CDE) Service Backup
+      description: Describe a backup using the associated backup ID.
+      operationId: describeBackup
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DescribeBackupRequest'
+      responses:
+        200:
+          description: Response object for Describe Backup command.
+          schema:
+            $ref: '#/definitions/DescribeBackupResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/getBackupLogs:
+    post:
+      summary: Retrieve Cloudera Data Engineering(CDE) Service Backup Logs
+      description: Retrieve backup logs using the associated backup ID.
+      operationId: getBackupLogs
+      x-paging-default-max-items: 50
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetBackupLogsRequest'
+      responses:
+        200:
+          description: Response object for Get Backup Logs command.
+          schema:
+            $ref: '#/definitions/GetBackupLogsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/getServiceInitLogs:
+    post:
+      summary: Retrieve Cloudera Data Engineering(CDE) Service Initialization Logs
+      description: Retrieve service initialization logs, if any.
+      operationId: getServiceInitLogs
+      x-paging-default-max-items: 50
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetServiceInitLogsRequest'
+      responses:
+        200:
+          description: Response object for Get Service Init Logs command.
+          schema:
+            $ref: '#/definitions/GetServiceInitLogsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/listBackups:
+    post:
+      summary: List Cloudera Data Engineering(CDE) Service Backups
+      description: List all service backups.
+      operationId: listBackups
+      x-paging-default-max-items: 10
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListBackupsRequest'
+      responses:
+        200:
+          description: Response object for List Backups command.
+          schema:
+            $ref: '#/definitions/ListBackupsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/restoreService:
+    post:
+      summary: Restore Cloudera Data Engineering(CDE) Service
+      description: Initiates the service restoration process and returns the ID of the service being restored.
+      operationId: restoreService
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RestoreServiceRequest'
+      responses:
+        200:
+          description: Response object for Restore Service command.
+          schema:
+            $ref: '#/definitions/RestoreServiceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/createVc:
+    post:
+      summary: Create Virtual Cluster
+      description: Creates a virtual cluster and returns creation response.
+      operationId: createVc
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateVcRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateVcResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/deleteVc:
+    post:
+      summary: Delete Virtual Cluster
+      description: Deletes a virtual cluster and returns deletion response.
+      operationId: deleteVc
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteVcRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DeleteVcResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/updateVc:
+    post:
+      summary: Update Cloudera Data Engineering (CDE) Virtual Cluster
+      description: Updates Cloudera Data Engineering (CDE) Virtual Cluster and returns details of updated CDE service.
+      operationId: updateVc
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateVcRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateVcResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/describeService:
+    post:
+      summary: Describe Cloudera Data Engineering(CDE) Service
+      description: Returns details of CDE service.
+      operationId: describeService
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DescribeServiceRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DescribeServiceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/describeVc:
+    post:
+      summary: Describe Virtual Cluster
+      description: Returns a description for the specified virtual cluster.
+      operationId: describeVc
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DescribeVcRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DescribeVcResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/disableService:
+    post:
+      summary: Disable Cloudera Data Engineering(CDE) Service
+      description: Returns delete response.
+      operationId: disableService
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DisableServiceRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DisableServiceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/enableService:
+    post:
+      summary: Enable Cloudera Data Engineering(CDE) Service
+      description: Returns enabling response.
+      operationId: enableService
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EnableServiceRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/EnableServiceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/updateService:
+    post:
+      summary: Update Cloudera Data Engineering (CDE) Service
+      description: Returns update response consisting of operation ID that can be used to log update events.
+      operationId: updateService
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateServiceRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateServiceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/getKubeconfig:
+    post:
+      summary: Get Kubeconfig for the CDE service
+      description: Returns kubeconfig.
+      operationId: getKubeconfig
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetKubeconfigRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetKubeconfigResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/listServices:
+    post:
+      summary: List Cloudera Data Engineering(CDE) Services
+      description: Returns list of cde services.
+      operationId: listServices
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListServicesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListServicesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/listVcs:
+    post:
+      summary: List Virtual Clusters
+      description: Returns a list of virtual clusters for a given CDE service.
+      operationId: listVcs
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListVcsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListVcsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    description: An object returned on an error.
+    properties:
+      code:
+        type: string
+        description: The error code.
+      message:
+        type: string
+        description: The error message.
+  ServiceSummary:
+    type: object
+    description: Summary of a CDE service.
+    required:
+      - name
+      - clusterId
+      - environmentName
+      - status
+    properties:
+      name:
+        type: string
+        description: Name of the CDE Service.
+      clusterId:
+        type: string
+        description: Cluster Id of the CDE Service.
+      environmentName:
+        type: string
+        description: CDP Environment Name.
+      status:
+        type: string
+        description: Status of the CDE service.
+      creatorEmail:
+        type: string
+        description: Email Address of the CDE creator.
+      enablingTime:
+        type: string
+        description: Timestamp of service enabling.
+  ServiceDescription:
+    type: object
+    description: Detailed description of a CDE service.
+    required:
+      - name
+      - clusterId
+      - environmentName
+    properties:
+      name:
+        type: string
+        description: Name of the CDE Service.
+      clusterId:
+        type: string
+        description: Cluster Id of the CDE Service.
+      environmentName:
+        type: string
+        description: CDP Environment Name.
+      environmentCrn:
+        type: string
+        description: CRN of the environment.
+      tenantId:
+        type: string
+        description: CDP tenant ID.
+      resources:
+        description: Resources details of CDE Service.
+        $ref: '#/definitions/ServiceResources'
+      status:
+        type: string
+        description: Status of the CDE service.
+      creatorEmail:
+        type: string
+        description: Email address of the creator of the CDE service.
+      creatorCrn:
+        type: string
+        description: CRN of the creator.
+      enablingTime:
+        type: string
+        description: Timestamp of service enabling.
+      clusterFqdn:
+        type: string
+        description: FQDN of the CDE service.
+      cloudPlatform:
+        type: string
+        description: The cloud platform where the CDE service is enabled.
+      dataLakeFileSystems:
+        type: string
+        description: The Data lake file system.
+      logLocation:
+        type: string
+        description: Location for the log files of jobs.
+      backupLocation:
+        type: string
+        description: Base location for the service backup archives.
+      dataLakeAtlasUIEndpoint:
+        type: string
+        description: Endpoint of Data Lake Atlas.
+      chartValueOverrides:
+        type: array
+        items:
+          $ref: '#/definitions/ChartValueOverridesResponse'
+        description: Chart overrides for the Virtual Cluster.
+      whitelistIps:
+        type: string
+        description: List of CIDRs that would be allowed to access kubernetes master API server.
+      loadbalancerAllowlist:
+        type: string
+        description: Comma-separated CIDRs that would be allowed to access the load balancer.
+      subnets:
+        type: string
+        description: List of Subnet IDs of the CDP subnets used by the kubernetes worker node.
+      privateClusterEnabled:
+        type: boolean
+        description: If true, the CDE service was created with fully private Azure services (AKS, MySQL, etc.).
+      publicEndpointEnabled:
+        type: boolean
+        description: If true, the CDE endpoint was created in a publicly accessible subnet.
+      networkOutboundType:
+        type: string
+        description: Network outbound type. Currently 'udr' is the only supported.
+      previousVersionDeployed:
+        type: boolean
+        description: The "true" value indicates that the previous version of the CDE service was requested to be deployed.
+      workloadAnalyticsEnabled:
+        type: boolean
+        description: If true, diagnostic information about job and query execution is sent to Cloudera Workload Manager.
+      ssdUsed:
+        type: boolean
+        description: If true, SSD would have been be used for workload filesystem.
+  ServiceResources:
+    type: object
+    description: Object to store resources for a CDE service.
+    properties:
+      instance_type:
+        type: string
+        description: Instance type of the CDE service.
+      min_instances:
+        type: string
+        description: Minimum Instances for the CDE service.
+      max_instances:
+        type: string
+        description: Maximum instances for the CDE service.
+      initial_instances:
+        type: string
+        description: Initial instances for the CDE service.
+      min_spot_instances:
+        type: string
+        description: Minimum number of spot instances for the CDE service.
+      max_spot_instances:
+        type: string
+        description: Maximum Number of Spot instances.
+      initial_spot_instances:
+        type: string
+        description: Initial Spot Instances for the CDE Service.
+      root_vol_size:
+        type: string
+        description: Root Volume Size.
+      cpuRequests:
+        type: string
+        description: CPU Requests for the entire CDE service quota.
+        x-form-factors: private
+      memoryRequests:
+        type: string
+        description: Memory requests for the entire CDE service quota, eg. 100Gi.
+        x-form-factors: private
+      gpuRequests:
+        type: string
+        description: GPU requests for the entire CDE service quota.
+        x-form-factors: private
+      resourcePool:
+        type: string
+        description: Resource Pool for the CDE service.
+        x-form-factors: private
+  VcSummary:
+    type: object
+    description: CDE virtual cluster summary.
+    required:
+      - vcId
+      - vcName
+      - clusterId
+    properties:
+      vcId:
+        type: string
+        description: Virtual Cluster ID.
+      vcName:
+        type: string
+        description: Name of the CDE Virtual Cluster.
+      clusterId:
+        type: string
+        description: Cluster ID of the CDE service that contains the virtual cluster.
+      status:
+        type: string
+        description: Status of the Virtual Cluster.
+      VcUiUrl:
+        type: string
+        description: Url for the Virtual Cluster UI.
+      creatorEmail:
+        type: string
+        description: Email Address of the Creator.
+      creatorName:
+        type: string
+        description: Name of the Creator.
+  VcDescription:
+    type: object
+    description: CDE virtual cluster summary.
+    required:
+      - vcId
+      - vcName
+      - clusterId
+    properties:
+      vcId:
+        type: string
+        description: Virtual Cluster ID.
+      vcName:
+        type: string
+        description: Name of the CDE Virtual Cluster.
+      clusterId:
+        type: string
+        description: Cluster ID of the CDE service that contains the Virtual Cluster.
+      status:
+        type: string
+        description: Status of the Virtual Cluster.
+      resources:
+        description: Resources details of CDE Service.
+        $ref: '#/definitions/VcResources'
+      creatorEmail:
+        type: string
+        description: Email address of the creator of Virtual Cluster.
+      creatorID:
+        type: string
+        description: ID of the creator of Virtual Cluster.
+      creatorName:
+        type: string
+        description: Name of the creator of the Virtual Cluster.
+      vcApiUrl:
+        type: string
+        description: Url for the Virtual Cluster APIs.
+      VcUiUrl:
+        type: string
+        description: URL of the CDE Virtual Cluster UI.
+      historyServerUrl:
+        type: string
+        description: Spark History Server URL for the Virtual Cluster.
+      livyServerUrl:
+        type: string
+        description: Livy Server URL for the Virtual Cluster.
+      safariUrl:
+        type: string
+        description: Safari URL for the Virtual Cluster.
+      creationTime:
+        type: string
+        description: Time of creation of the virtual Cluster.
+      sparkVersion:
+        type: string
+        description: Spark version for the virtual cluster.
+      chartValueOverrides:
+        type: array
+        items:
+          $ref: '#/definitions/ChartValueOverridesResponse'
+        description: Chart overrides for the Virtual Cluster.
+      accessControl:
+        description: Access control object for the Virtual Cluster.
+        $ref: '#/definitions/AccessControlResponse'
+      smtpConfig:
+        description: SMTP Configurations for Airflow Email Alerts.
+        $ref: '#/definitions/SmtpConfigResponse'
+      vcTier:
+        type: string
+        description: Tier of the Virtual Cluster.
+  VcResources:
+    type: object
+    properties:
+      cpuRequests:
+        type: string
+        description: The CPU requests for VC for running spark jobs.
+      memRequests:
+        type: string
+        description: The Memory requests for VC for running spark jobs.
+      actualCpuRequests:
+        type: string
+        description: Actual CPU request for the VC. This accounts for other dex apps(eg. livy, airflow), that run in the virtual cluster.
+      actualMemoryRequests:
+        type: string
+        description: Actual Memory request for the VC. This accounts for other dex apps(eg. livy, airflow), that run in the virtual cluster.
+      gpuRequests:
+        type: string
+        description: GPU requests for autoscaling.
+        x-form-factors: private
+      guaranteedCpuRequests:
+        type: string
+        description: Guaranteed CPU requests for an Elastic Virtual Cluster.
+        x-form-factors: private
+      guaranteedMemoryRequests:
+        type: string
+        description: Guaranteed Memory requests for an Elastic Virtual Cluster - eg. 30Gi.
+        x-form-factors: private
+      guaranteedGpuRequests:
+        type: string
+        description: Guaranteed GPU requests for an Elastic Virtual Cluster.
+        x-form-factors: private
+    description: Object to store resources for a CDE service
+  ChartValueOverridesRequest:
+    type: object
+    properties:
+      chartName:
+        type: string
+        description: Name of the chart that has to be overridden, for eg- "dex-app", "dex-base".
+      overrides:
+        type: string
+        description: Space separated key-value pairs for overriding chart values. The key and the value must be separated using a colon(:) For eg- "airflow.enabled:true safari.enabled:true".
+    description: Object containing chart value overrides for enabling a CDE service or creation of virtual clusters.
+  ChartValueOverridesResponse:
+    type: object
+    properties:
+      chartName:
+        type: string
+        description: Name of the chart that has to be overridden, for eg- "dex-app", "dex-base".
+      overrides:
+        type: string
+        description: Space separated key value-pairs for overriding chart values. The key and the value must be separated using a colon(:) For eg- "airflow.enabled:true safari.enabled:true".
+    description: Response object containing chart value overrides.
+  SmtpConfigRequest:
+    type: object
+    description: SMTP config request object.
+    required:
+      - email
+      - host
+    properties:
+      email:
+        type: string
+        description: Sender's email address.
+      host:
+        type: string
+        description: SMTP host.
+      username:
+        type: string
+        description: SMTP username.
+      password:
+        type: string
+        description: SMTP password.
+        x-sensitive: true
+      port:
+        type: integer
+        format: int32
+        default: 25
+        description: SMTP port.
+      startTls:
+        type: boolean
+        default: true
+        description: Use SMTP STARTTLS command to encrypt the mail.
+      ssl:
+        type: boolean
+        default: false
+        description: Use SSL to secure the connection to the email server.
+  SmtpConfigResponse:
+    type: object
+    description: SMTP config response object
+    required:
+      - email
+      - host
+    properties:
+      email:
+        type: string
+        description: Sender's email address.
+      host:
+        type: string
+        description: SMTP host.
+      username:
+        type: string
+        description: SMTP username.
+      port:
+        type: integer
+        format: int32
+        default: 25
+        description: SMTP port.
+      startTls:
+        type: boolean
+        default: true
+        description: Use SMTP STARTTLS command to encrypt the mail.
+      ssl:
+        type: boolean
+        default: false
+        description: Use SSL to secure the connection to the email server.
+  AccessControlResponse:
+    type: object
+    description: Response object containing access control information for a Virtual Cluster.
+    properties:
+      users:
+        description: Workload usernames of CDP users granted access to the Virtual Cluster.
+        type: array
+        items:
+          type: string
+      fullAccessUsers:
+        description: Users with full access.
+        type: array
+        items:
+          type: string
+      fullAccessGroups:
+        description: Groups with full access.
+        type: array
+        items:
+          type: string
+      viewOnlyUsers:
+        description: Users with view only access.
+        type: array
+        items:
+          type: string
+      viewOnlyGroups:
+        description: Groups with view only access.
+        type: array
+        items:
+          type: string
+  ListServicesRequest:
+    type: object
+    description: Request object for ListServices method.
+    properties:
+      removeDeleted:
+        type: boolean
+        default: false
+        description: Filter out deleted CDE services from the list.
+  EnableServiceRequest:
+    type: object
+    description: Request object for Enable Service method.
+    required:
+      - name
+      - env
+      - instanceType
+      - minimumInstances
+      - maximumInstances
+    properties:
+      name:
+        type: string
+        description: Name of the CDE Service.
+      env:
+        type: string
+        description: CDP environment where cde service should be enabled.
+      instanceType:
+        type: string
+        description: Instance type of the cluster for CDE Service.
+      minimumInstances:
+        type: integer
+        format: int32
+        description: Minimum Instances for the CDE Service.
+      maximumInstances:
+        type: integer
+        format: int32
+        description: Maximum Instances for the CDE Service.
+      minimumSpotInstances:
+        type: integer
+        format: int32
+        description: Minimum Spot instances for the CDE Service.
+      maximumSpotInstances:
+        type: integer
+        format: int32
+        description: Maximum Spot Instances for the CDE Service.
+      initialInstances:
+        type: integer
+        format: int32
+        description: Initial Instances when the service is enabled.
+      initialSpotInstances:
+        type: integer
+        format: int32
+        description: Initial spot Instances when the service is enabled.
+      rootVolumeSize:
+        type: integer
+        format: int32
+        description: EBS volume size in GB.
+      enablePublicEndpoint:
+        type: boolean
+        default: false
+        description: Creates a CDE endpoint (Load Balancer) in a publicly accessible subnet. If set false, the endpoint will be created in a private subnet and you will need to setup access to the endpoint manually in your cloud account.
+      deployPreviousVersion:
+        type: boolean
+        default: false
+        description: If set to "true", the previous version of the CDE service will be deployed.
+      enableWorkloadAnalytics:
+        type: boolean
+        default: false
+        description: If set false, diagnostic information about job and query execution is sent to Cloudera Workload Manager. Anonymization can be configured under Environments / Shared Resources / Telemetry. Refer documentation for more info at https://docs.cloudera.com/workload-manager/cloud/index.html.
+      useSsd:
+        type: boolean
+        description: Instance local storage (SSD) would be used for the workload filesystem (Example - spark local directory). In case the workload requires more space than what's available in the instance storage, please use an instance type with sufficient instance local storage or choose an instance type without SSD and configure the EBS volume size. Currently supported only for aws services.
+      chartValueOverrides:
+        type: array
+        items:
+          $ref: '#/definitions/ChartValueOverridesRequest'
+        description: Chart overrides for enabling a service.
+      whitelistIps:
+        type: array
+        items:
+          type: string
+        description: List of CIDRs that would be allowed to access kubernetes master API server.
+      loadbalancerAllowlist:
+        type: array
+        items:
+          type: string
+        description: List of CIDRs that would be allowed to access the load balancer.
+      tags:
+        type: object
+        description: User defined labels that tag all provisioned cloud resources.
+        additionalProperties:
+          type: string
+          description: User defined labels that tag all provisioned cloud resources.
+      skipValidation:
+        type: boolean
+        description: Skip Validation check.
+        default: false
+      enablePrivateNetwork:
+        type: boolean
+        description: Create a fully private CDE instance on either Amazon or Azure. This includes services such as Kubernetes, MySQL, etc. For Azure, this will also enable virtual network (VNet) access via private endpoints and private link.
+      subnets:
+        type: array
+        items:
+          type: string
+        description: List of Subnet IDs of CDP subnets to use for the kubernetes worker node.
+      customAzureFilesConfigs:
+        $ref: '#/definitions/CustomAzureFilesConfigs'
+        description: CDE uses a default public File Shares storage provisioned by AKS. Enable this option to use your own public/private File Shares.
+      networkOutboundType:
+        type: string
+        enum:
+          - UDR
+        description: Network outbound type. Currently 'udr' is the only supported.
+      cpuRequests:
+        x-form-factors: private
+        type: string
+        description: CPU Requests for the entire CDE service quota.
+      memoryRequests:
+        x-form-factors: private
+        type: string
+        description: Memory requests for the entire CDE service quota, eg. 100Gi.
+      gpuRequests:
+        x-form-factors: private
+        type: string
+        description: GPU requests for the entire CDE service quota.
+      resourcePool:
+        x-form-factors: private
+        type: string
+        description: Resource Pool for the CDE service.
+      nfsStorageClass:
+        x-form-factors: private
+        type: string
+        description: NFS Storage class to override the default storage class in private cloud.
+  CustomAzureFilesConfigs:
+    type: object
+    description: Override Azure Files Configs.
+    required:
+      - storageAccountName
+      - resourceGroup
+    properties:
+      storageAccountName:
+        type: string
+        description: Azure Storage Account of the File Share.
+      resourceGroup:
+        type: string
+        description: Resource Group of the Storage Account.
+      azureFilesFQDN:
+        type: string
+        description: Azure File Share's server address. Defaults to '<storageaccount>.file.core.windows.net'.
+  EnableServiceResponse:
+    type: object
+    description: Response object for EnableService request.
+    properties:
+      service:
+        description: Service details of the created service.
+        $ref: '#/definitions/ServiceDescription'
+  UpdateServiceRequest:
+    type: object
+    description: Request object for UpdateService method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster ID of the service to update.
+      minimumInstances:
+        type: integer
+        format: int32
+        description: Minimum number of instances for the CDE service.
+      maximumInstances:
+        type: integer
+        format: int32
+        description: Maximum number of instances for the CDE service.
+      minimumSpotInstances:
+        type: integer
+        format: int32
+        description: Minimum number of spot instances for the CDE service.
+      maximumSpotInstances:
+        type: integer
+        format: int32
+        description: Maximum number of spot instances for the CDE service.
+      whitelistIps:
+        type: array
+        items:
+          type: string
+        description: List of CIDRs that would be allowed to access kubernetes master API server.
+      loadbalancerAllowlist:
+        type: array
+        items:
+          type: string
+        description: List of CIDRs that would be allowed to access the load balancer.
+      cpuRequests:
+        x-form-factors: private
+        type: string
+        description: CPU Requests for the entire CDE service quota.
+      memoryRequests:
+        x-form-factors: private
+        type: string
+        description: Memory requests for the entire CDE service quota, eg. 100Gi.
+      gpuRequests:
+        x-form-factors: private
+        type: string
+        description: GPU requests for the entire CDE service quota.
+  UpdateServiceResponse:
+    type: object
+    description: Response object for UpdateService request.
+    properties:
+      operationId:
+        type: string
+        description: Deprecated. The operation ID of the update request.
+        x-deprecated: true
+      status:
+        type: string
+        description: Status of update.
+  ListServicesResponse:
+    type: object
+    description: Response object for ListServices method.
+    properties:
+      services:
+        type: array
+        items:
+          $ref: '#/definitions/ServiceSummary'
+        description: List of services.
+  DescribeServiceRequest:
+    type: object
+    description: Request object for DescribeService method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster id of the service to be described.
+  DescribeServiceResponse:
+    type: object
+    description: Response object for DescribeService method.
+    properties:
+      service:
+        description: Description of the service
+        $ref: '#/definitions/ServiceDescription'
+  DisableServiceRequest:
+    type: object
+    description: DisableService request object.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: cluster Id of the service to disable.
+      force:
+        type: boolean
+        default: false
+        description: Force disable cde service.
+  DisableServiceResponse:
+    type: object
+    description: DisableService response object.
+    properties:
+      status:
+        type: string
+        description: Status of deletion
+  GetKubeconfigRequest:
+    type: object
+    description: GetKubeconfig request object.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: cluster id of the cde service.
+  GetKubeconfigResponse:
+    type: object
+    description: GetKubeconfig response object.
+    properties:
+      kubeconfig:
+        type: string
+        description: kubeconfig for the cluster.
+  ListVcsRequest:
+    type: object
+    description: ListVcs request object.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster id of the service.
+  ListVcsResponse:
+    type: object
+    description: ListVcs response object.
+    properties:
+      vcs:
+        type: array
+        items:
+          $ref: '#/definitions/VcSummary'
+        description: List of virtual clusters.
+  DescribeVcRequest:
+    type: object
+    description: DescribeVc request object.
+    required:
+      - clusterId
+      - vcId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster id of the CDE service where vc was created.
+      vcId:
+        type: string
+        description: Virtual cluster id.
+  DescribeVcResponse:
+    type: object
+    description: DescribeVc response object.
+    properties:
+      vc:
+        description: Description of the virtual cluster.
+        $ref: '#/definitions/VcDescription'
+  CreateVcRequest:
+    type: object
+    description: Request object for CreateVc method.
+    required:
+      - name
+      - clusterId
+      - cpuRequests
+      - memoryRequests
+    properties:
+      name:
+        type: string
+        description: Name of the virtual cluster.
+      clusterId:
+        type: string
+        description: Cluster id of the CDE service where virtual cluster has to be created.
+      cpuRequests:
+        type: string
+        description: Cpu requests for autoscaling.
+      memoryRequests:
+        type: string
+        description: Memory requests for autoscaling - eg. 30Gi.
+      gpuRequests:
+        x-form-factors: private
+        type: string
+        description: GPU requests for autoscaling.
+      guaranteedCpuRequests:
+        x-form-factors: private
+        type: string
+        description: Guaranteed CPU requests for an Elastic Virtual Cluster.
+      guaranteedMemoryRequests:
+        x-form-factors: private
+        type: string
+        description: Guaranteed Memory requests for an Elastic Virtual Cluster - eg. 30Gi.
+      guaranteedGpuRequests:
+        x-form-factors: private
+        type: string
+        description: Guaranteed GPU requests for an Elastic Virtual Cluster.
+      chartValueOverrides:
+        type: array
+        items:
+          $ref: '#/definitions/ChartValueOverridesRequest'
+        description: Chart overrides for creating a virtual cluster.
+      smtpConfigs:
+        $ref: '#/definitions/SmtpConfigRequest'
+        description: SMTP Configurations for Airflow Email Alerts.
+      runtimeSpotComponent:
+        type: string
+        description: Used to describe where the Driver and the Executors would run. By default the Driver would run on on-demand instances and the Executors on spot instances. Setting it to ALL will run both the Driver and the Executors on spot instances whereas setting it to NONE should run both the Driver and the Executor on on-demand instances. Currently applicable for aws services only. Use this option only on services with spot instances enabled.
+        enum:
+          - ALL
+          - NONE
+      sparkVersion:
+        type: string
+        description: Spark version for the virtual cluster. Currently supported spark versions are SPARK2(deprecated), SPARK3 and SPARK3_3. This feature is only supported in CDE-1.7.0 and beyond. SPARK3_3 is supported in CDE-1.19 and beyond.
+        enum:
+          - SPARK2
+          - SPARK2_4
+          - SPARK3
+          - SPARK3_0
+          - SPARK3_1
+          - SPARK3_2
+          - SPARK3_3
+      vcTier:
+        type: string
+        description: Tier of the virtual cluster. Currently supported tiers are CORE and ALLP. CORE tiered virtual cluster enables operational deployment via batch jobs. ALLP virtual clusters are all-purpose virtual clusters supporting both operational batch jobs and interactive sessions. This feature is only supported in CDE-1.19.0 and beyond.
+        enum:
+          - ALLP
+          - CORE
+      aclUsers:
+        description: Comma-separated Workload usernames of CDP users to be granted access to the Virtual Cluster.
+        type: string
+      fullAccessUsers:
+        description: Users with full access.
+        type: array
+        items:
+          type: string
+      fullAccessGroups:
+        description: Groups with full access.
+        type: array
+        items:
+          type: string
+      viewOnlyUsers:
+        description: Users with view only access.
+        type: array
+        items:
+          type: string
+      viewOnlyGroups:
+        description: Groups with view only access.
+        type: array
+        items:
+          type: string
+  CreateVcResponse:
+    type: object
+    description: Response object for CreateVc method.
+    properties:
+      Vc:
+        description: Created Virtual Cluster
+        $ref: '#/definitions/VcDescription'
+  DeleteVcRequest:
+    type: object
+    description: Request object for DeleteVc method.
+    required:
+      - clusterId
+      - vcId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster id of the CDE service where virtual cluster was enabled.
+      vcId:
+        type: string
+        description: Virtual cluster id
+  DeleteVcResponse:
+    type: object
+    description: Response object for DeleteVc method.
+    properties:
+      status:
+        type: string
+        description: status of virtual cluster deletion.
+  UpdateVcRequest:
+    type: object
+    description: Request object for updateVc method.
+    required:
+      - clusterId
+      - vcId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster ID of the CDE service where Virtual Cluster was enabled.
+      vcId:
+        type: string
+        description: Virtual Cluster ID
+      aclUsers:
+        description: Comma-separated Workload usernames of CDP users to be granted access to the Virtual Cluster.
+        type: string
+      fullAccessUsers:
+        description: Users with full access.
+        type: array
+        items:
+          type: string
+      fullAccessGroups:
+        description: Groups with full access.
+        type: array
+        items:
+          type: string
+      viewOnlyUsers:
+        description: Users with view only access.
+        type: array
+        items:
+          type: string
+      viewOnlyGroups:
+        description: Groups with view only access.
+        type: array
+        items:
+          type: string
+  UpdateVcResponse:
+    type: object
+    description: Response object for updateVc method.
+    properties:
+      Vc:
+        description: Updated Virtual Cluster.
+        $ref: '#/definitions/VcDescription'
+  CreateBackupRequest:
+    type: object
+    description: Request object for Create Backup command.
+    required:
+      - serviceId
+    properties:
+      serviceId:
+        type: string
+        description: Service ID of the service to backup.
+      description:
+        type: string
+        description: Backup description.
+      backupPath:
+        type: string
+        description: Backup file relative path. The path should not include file name, and be relative to the service backup location. The service backup location can be found in the service description obtained via the 'describe-service' command.
+      includeVc:
+        type: boolean
+        default: true
+        description: Whether to backup service virtual clusters. By default, virtual clusters are backed up.
+      timeout:
+        type: integer
+        format: int32
+        description: Backup operation timeout in seconds.
+      backupVcContentOptions:
+        $ref: '#/definitions/BackupContentOptions'
+        description: Backup virtual cluster content options.
+  BackupContentOptions:
+    type: object
+    description: Backup virtual cluster content options.
+    properties:
+      includeJobs:
+        type: boolean
+        default: true
+        description: Whether to backup jobs. By default, jobs are backed up.
+      includeJobResources:
+        type: boolean
+        default: true
+        description: Whether to backup job resources. By default, job resources are backed up.
+      includeResources:
+        type: boolean
+        default: true
+        description: Whether to backup resources. By default, resources are backed up.
+      includeResourceCredentials:
+        type: boolean
+        default: true
+        description: Whether to backup resource credentials. By default, resource credentials are backed up.
+      includeCredentials:
+        type: boolean
+        default: true
+        description: Whether to backup credentials. By default, credentials are backed up.
+      includeCredentialSecrets:
+        type: boolean
+        default: true
+        description: Whether to backup credential secrets. Secrets are obfuscated while storing. By default, credential secrets are backed up.
+      jobFilter:
+        type: array
+        items:
+          type: string
+        description: Filter jobs for backup using 'fieldname(operator)argument' syntax. Here, 'fieldname' is one of the job fields (e.g. name, type, etc.), and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'name(eq)SparkPi'. This will only take effect if jobs are backed up, as controlled by the 'includeJobs' option.
+      resourceFilter:
+        type: array
+        items:
+          type: string
+        description: Filter resources for backup using 'fieldname(operator)argument' syntax. Here, 'fieldname' is one of the resource fields (e.g. name, type, status, etc.), and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'name(eq)test-resource'. This will only take effect if resources are backed up, as controlled by the 'includeResources' option.
+      credentialFilter:
+        type: array
+        items:
+          type: string
+        description: Filter credentials for backup using 'fieldname(operator)argument' syntax. Here, 'fieldname' is one of the credential fields (e.g. name, type, etc.), and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'name(eq)test-credential'. This will only take effect if credentials are backed up, as controlled by the 'includeCredentials' option.
+      validateArchive:
+        type: boolean
+        default: false
+        description: Whether to validate backup archive. By default, backup archive is not validated.
+  CreateBackupResponse:
+    type: object
+    description: Response object for Create Backup command.
+    required:
+      - backupID
+    properties:
+      backupID:
+        type: integer
+        format: int64
+        description: Backup ID, which can be used for log retrieval, restoration, deletion, and backup cancellation.
+  CancelBackupRequest:
+    type: object
+    description: Request object for Cancel Backup command.
+    required:
+      - backupID
+    properties:
+      backupID:
+        type: integer
+        format: int64
+        description: The ID of the backup to cancel.
+  CancelBackupResponse:
+    type: object
+    description: Response object for Cancel Backup command.
+  DeleteBackupRequest:
+    type: object
+    description: Request object for Delete Backup command.
+    required:
+      - backupID
+    properties:
+      backupID:
+        type: integer
+        format: int64
+        description: The ID of the backup to delete.
+  DeleteBackupResponse:
+    type: object
+    description: Response object for Delete Backup command.
+  DescribeBackupRequest:
+    type: object
+    description: Request object for Describe Backup command.
+    required:
+      - backupID
+    properties:
+      backupID:
+        type: integer
+        format: int64
+        description: The ID of the backup to describe.
+  DescribeBackupResponse:
+    type: object
+    description: Response object for Describe Backup command.
+    required:
+      - backup
+    properties:
+      backup:
+        $ref: '#/definitions/Backup'
+        description: Service backup.
+  Backup:
+    type: object
+    description: Service backup object.
+    required:
+      - id
+      - serviceID
+      - serviceName
+      - serviceVersion
+      - environmentName
+      - environmentCrn
+      - creator
+      - creatorCrn
+      - cloudPlatform
+      - status
+      - created
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Backup ID.
+      serviceID:
+        type: string
+        description: Service ID of a backed-up CDE service.
+      serviceName:
+        type: string
+        description: Name of a backed-up CDE service.
+      serviceVersion:
+        type: string
+        description: Version of a backed-up CDE service.
+      environmentName:
+        type: string
+        description: Name of CDP environment with which a backed-up CDE service was associated.
+      environmentCrn:
+        type: string
+        description: CRN of CDP environment with which a backed-up CDE service was associated.
+      creator:
+        type: string
+        description: The workload name of the user who created this backup.
+      creatorCrn:
+        type: string
+        description: CRN of of the user who created this backup.
+      cloudPlatform:
+        type: string
+        description: The cloud platform where a backed-up CDE service was enabled.
+      status:
+        type: string
+        description: Backup status.
+      created:
+        type: string
+        description: The time when the backup was created.
+      description:
+        type: string
+        description: Backup description.
+      errorMessage:
+        type: string
+        description: Error message, only set when there is an error.
+      archiveBasePath:
+        type: string
+        description: The path to the base location where the backups are stored.
+      archiveLocation:
+        type: string
+        description: Archive location under the base path.
+  GetBackupLogsRequest:
+    type: object
+    description: Request object for Get Backup Logs command.
+    required:
+      - backupID
+    properties:
+      backupID:
+        type: integer
+        format: int64
+        description: The ID of the backup.
+      pageSize:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+        x-paging-page-size: true
+        description: The size of each page.
+      startingToken:
+        type: string
+        x-paging-input-token: true
+        description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+  GetBackupLogsResponse:
+    type: object
+    description: Response object for the Get Backup Logs command.
+    required:
+      - logs
+    properties:
+      logs:
+        type: array
+        description: Contains the logs of the backup operation.
+        items:
+          type: string
+        x-paging-result: true
+        x-skip-logging: true
+      nextToken:
+        type: string
+        x-paging-output-token: true
+        description: The token to use when requesting the next set of results. If there are no additional results, the string is empty.
+  GetServiceInitLogsRequest:
+    type: object
+    description: Request object for Get Service Init Logs command.
+    required:
+      - serviceID
+    properties:
+      serviceID:
+        type: string
+        description: The service ID of the service.
+      pageSize:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+        x-paging-page-size: true
+        description: The size of each page.
+      startingToken:
+        type: string
+        x-paging-input-token: true
+        description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+  GetServiceInitLogsResponse:
+    type: object
+    description: Response object for the Get Service Init Logs command.
+    required:
+      - logs
+    properties:
+      logs:
+        type: array
+        description: Contains the logs of the service initialization operation.
+        items:
+          type: string
+        x-paging-result: true
+        x-skip-logging: true
+      nextToken:
+        type: string
+        x-paging-output-token: true
+        description: The token to use when requesting the next set of results. If there are no additional results, the string is empty.
+  ListBackupsRequest:
+    type: object
+    description: Request object for List Backups command.
+    properties:
+      order:
+        $ref: '#/definitions/Order'
+        description: Whether ordering is ascending ('ASC') or descending ('DESC'), default 'DESC'.
+      orderBy:
+        type: string
+        default: id
+        description: The 'fieldname' to order by, default "id". Here 'fieldname' is one of ('id', 'clusterID', 'cdeVersion', 'environment', 'environmentCrn', 'created', 'status').
+      filter:
+        type: array
+        items:
+          type: string
+        description: Filter backups using 'fieldname(operator)argument' syntax. Here 'fieldname' is one of ('id', 'clusterID', 'cdeVersion', 'environment', 'environmentCrn', 'created', 'status') and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'status(eq)failed'.
+      pageSize:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+        x-paging-page-size: true
+        description: The size of each page.
+      startingToken:
+        type: string
+        x-paging-input-token: true
+        description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+  ListBackupsResponse:
+    type: object
+    description: Response object for List Backups command.
+    required:
+      - backups
+    properties:
+      backups:
+        type: array
+        items:
+          $ref: '#/definitions/Backup'
+        x-paging-result: true
+        description: The backups.
+      nextToken:
+        type: string
+        x-paging-output-token: true
+        description: The token to use when requesting the next set of results. If there are no additional results, the string is empty.
+  Order:
+    type: string
+    description: Order.
+    enum:
+      - ASC
+      - DESC
+  RestoreServiceRequest:
+    type: object
+    description: Request object for Restore Service command.
+    required:
+      - backupID
+      - environmentCrn
+    properties:
+      backupID:
+        type: integer
+        format: int64
+        description: The ID of the backup to restore from.
+      environmentCrn:
+        type: string
+        description: CRN of the CDP environment with which a restored CDE service will be associated. Currently, CDE service can be restored only to the same CDP environment, with which a backed-up service was associated.
+      serviceId:
+        type: string
+        description: Specify the restored service ID. If not specified, the service ID from the backup will be reused.
+      serviceName:
+        type: string
+        description: Specify the restored service name. If not specified, the service name from the backup will be reused.
+  RestoreServiceResponse:
+    type: object
+    description: Response object for Restore Service command.
+    required:
+      - serviceID
+    properties:
+      serviceID:
+        type: string
+        description: The ID of the service being restored.
