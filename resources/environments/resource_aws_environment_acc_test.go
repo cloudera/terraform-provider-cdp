@@ -17,14 +17,15 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/cdpacctest"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const (
@@ -146,6 +147,9 @@ func testAccAwsEnvironmentConfig(credName string, envParams *awsEnvironmentTestP
 		create_service_endpoints = false
 		tags = {
 		  "made-with": "CDP Terraform Provider"
+		}
+		polling_options = {
+		  async = false
 		}
 	  }
 `, envParams.Name, credName, envParams.Region, envParams.PublicKeyId, envParams.InstanceProfile, envParams.StorageLocationBase, envParams.VpcId, envParams.SubnetIds)
