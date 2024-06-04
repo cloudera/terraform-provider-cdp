@@ -134,7 +134,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
+	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
 			datalakeDetailsToAwsDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, state)
@@ -432,7 +432,7 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 		return
 	}
 
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
+	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
 		if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datalake")
 			return

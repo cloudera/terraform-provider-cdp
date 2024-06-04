@@ -62,7 +62,7 @@ func deleteEnvironmentWithDiagnosticHandle(environmentName string, ctx context.C
 		return err
 	}
 
-	if pollingOptions == nil || pollingOptions.Async.ValueBool() {
+	if pollingOptions != nil && pollingOptions.Async.ValueBool() {
 		return nil
 	}
 	err = waitForEnvironmentToBeDeleted(environmentName, timeoutOneHour, client.Environments, ctx, pollingOptions)
