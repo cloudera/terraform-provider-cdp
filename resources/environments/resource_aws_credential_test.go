@@ -110,7 +110,7 @@ func testAccAwsCredentialConfig(rName string, roleArn string) string {
 	return fmt.Sprintf(`
 resource "cdp_environments_aws_credential" "test" {
   credential_name = %[1]q
-  role_arn        = %[2]s
+  role_arn        = %[2]q
 }
 `, rName, roleArn)
 }
@@ -119,7 +119,7 @@ func testAccAwsCredentialConfigWithDescription(rName string, roleArn string, des
 	return fmt.Sprintf(`
 resource "cdp_environments_aws_credential" "test" {
   credential_name = %[1]q
-  role_arn        = %[2]s
+  role_arn        = %[2]q
   description     = %[3]q
 }
 `, rName, roleArn, description)

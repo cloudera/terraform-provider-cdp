@@ -226,7 +226,7 @@ func testAccCheckAwsDataLakeDestroy(s *terraform.State) error {
 		})
 		_, err := cdpClient.Datalake.Operations.DescribeDatalake(params)
 		if err != nil {
-			if dlErr, ok := err.(*operations.DescribeDatabaseServerDefault); ok {
+			if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 				if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 					return nil
 				}

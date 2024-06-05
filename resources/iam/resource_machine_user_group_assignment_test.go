@@ -40,7 +40,8 @@ func TestAccIamMachineUserGroupAssignment_basic(t *testing.T) {
 					testAccIamMachineUserConfig(rName),
 					testAccIamMachineUserGroupAssignmentConfig(rName, grName)),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "name", rName),
+					resource.TestCheckResourceAttr(resourceName, "machine_user", rName),
+					resource.TestCheckResourceAttr(resourceName, "group", grName),
 					resource.TestCheckResourceAttr(resourceName, "id", rName+"_"+grName),
 					testAccCheckIamMachineUserGroupAssignmentExists(rName, grName, &credential),
 				),
