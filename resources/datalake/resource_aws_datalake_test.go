@@ -195,7 +195,7 @@ resource "cdp_environments_id_broker_mappings" "test-idbm" {
 	set_empty_mappings = true
 	}
 	
-resource "cdp_datalake_aws_datalake" "test-dl" {
+resource "cdp_datalake_aws_datalake" "test_dl" {
 	datalake_name = %[3]q
 	environment_name = cdp_environments_aws_environment.test_env.environment_name
 	instance_profile = %[4]q
