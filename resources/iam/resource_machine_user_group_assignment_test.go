@@ -52,9 +52,13 @@ func TestAccIamMachineUserGroupAssignment_basic(t *testing.T) {
 
 func testAccIamMachineUserGroupAssignmentConfig(rName string, grName string) string {
 	return fmt.Sprintf(`
+resource "cdp_iam_group" "test_group" {
+	group_name = %[2]q
+}
+
 resource "cdp_iam_machine_user_group_assignment" "test" {
   machine_user = %[1]q
-  group = %[2]q
+  group = cdp_iam_group.test_group.group_name
 }
 `, rName, grName)
 }
