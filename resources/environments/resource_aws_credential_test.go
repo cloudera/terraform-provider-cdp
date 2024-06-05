@@ -13,6 +13,7 @@ package environments_test
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
@@ -41,9 +42,7 @@ func TestAccAwsCredential_basic(t *testing.T) {
 			{
 				Config: utils.Concat(
 					cdpacctest.TestAccCdpProviderConfig(),
-					cdpacctest.TestAccAwsProviderConfig(),
-					testAccAwsCrossAccountRoleConfig(rName),
-					testAccAwsCredentialConfig(rName, "aws_iam_role.cdp_cross_account_role.arn")),
+					testAccAwsCredentialConfig(rName, os.Getenv(AwsXAccRoleArn))),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "id", rName),
 					resource.TestCheckResourceAttr(resourceName, "credential_name", rName),
@@ -83,9 +82,7 @@ func TestAccAwsCredential_withDescription(t *testing.T) {
 			{
 				Config: utils.Concat(
 					cdpacctest.TestAccCdpProviderConfig(),
-					cdpacctest.TestAccAwsProviderConfig(),
-					testAccAwsCrossAccountRoleConfig(rName),
-					testAccAwsCredentialConfigWithDescription(rName, "aws_iam_role.cdp_cross_account_role.arn", rName)),
+					testAccAwsCredentialConfigWithDescription(rName, os.Getenv(AwsXAccRoleArn), rName)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "id", rName),
 					resource.TestCheckResourceAttr(resourceName, "credential_name", rName),
@@ -126,53 +123,6 @@ resource "cdp_environments_aws_credential" "test" {
   description     = %[3]q
 }
 `, rName, roleArn, description)
-}
-
-func testAccAwsCrossAccountRoleConfig(rName string) string {
-	return fmt.Sprintf(`
-data "cdp_environments_aws_credential_prerequisites" "credential_prerequisites" {}
-
-# TODO: Replace this with minimal policy?
-data "http" "cdp_cross_account_account_policy_doc" {
-  url = "https://raw.githubusercontent.com/hortonworks/cloudbreak/master/cloud-aws-common/src/main/resources/definitions/aws-cb-policy.json"
-}
-
-data "aws_iam_policy_document" "cdp_cross_account_assume_role_policy_doc" {
-  version = "2012-10-17"
-
-  statement {
-    actions = ["sts:AssumeRole"]
-    effect  = "Allow"
-
-    principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.cdp_environments_aws_credential_prerequisites.credential_prerequisites.account_id}:root"]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "sts:ExternalId"
-
-      values = ["${data.cdp_environments_aws_credential_prerequisites.credential_prerequisites.external_id}"]
-    }
-  }
-}
-
-resource "aws_iam_policy" "cdp_cross_account_policy" {
-  name = %[1]q
-  policy = data.http.cdp_cross_account_account_policy_doc.response_body
-}
-
-resource "aws_iam_role" "cdp_cross_account_role" {
-  name = %[1]q
-  assume_role_policy = data.aws_iam_policy_document.cdp_cross_account_assume_role_policy_doc.json
-}
-
-resource "aws_iam_role_policy_attachment" "cdp_cross_account_policy_attachment" {
-  role = aws_iam_role.cdp_cross_account_role.name
-  policy_arn = aws_iam_policy.cdp_cross_account_policy.arn
-}
-`, rName)
 }
 
 // testAccCheckAwsCredentialExists queries the API and retrieves the matching AwsCredential via the passed in pointer.
