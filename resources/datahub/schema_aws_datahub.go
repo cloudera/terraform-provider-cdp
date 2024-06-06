@@ -13,11 +13,8 @@ package datahub
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -31,9 +28,6 @@ func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 		"cluster_template": schema.StringAttribute{
 			MarkdownDescription: "The name of the cluster template.",
 			Optional:            true,
-			Validators: []validator.String{
-				stringvalidator.AlsoRequires(path.MatchRelative().AtParent().AtName("instance_group")),
-			},
 		},
 		"cluster_definition": schema.StringAttribute{
 			MarkdownDescription: "The name of the cluster definition.",
