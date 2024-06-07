@@ -12,7 +12,7 @@ package dw
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type hiveVwResourceModel struct {
+type hiveResourceModel struct {
 	ID          types.String `tfsdk:"id"`
 	ClusterID   types.String `tfsdk:"cluster_id"`
 	DbCatalogID types.String `tfsdk:"database_catalog_id"`
