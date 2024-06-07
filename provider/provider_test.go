@@ -13,6 +13,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw"
 	"os"
 	"reflect"
 	"regexp"
@@ -632,6 +633,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		opdb.NewDatabaseResource,
 		ml.NewWorkspaceResource,
 		de.NewServiceResource,
+		dw.NewHiveResource,
 	}
 
 	provider := CdpProvider{testVersion}
