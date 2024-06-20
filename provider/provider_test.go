@@ -13,7 +13,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"github.com/cloudera/terraform-provider-cdp/resources/dw"
 	"os"
 	"reflect"
 	"regexp"
@@ -31,6 +30,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	"github.com/cloudera/terraform-provider-cdp/resources/de"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/ml"
