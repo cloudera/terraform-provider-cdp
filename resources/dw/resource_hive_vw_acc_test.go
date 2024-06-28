@@ -13,16 +13,17 @@ package dw_test
 import (
 	"context"
 	"fmt"
+	"os"
+	"strings"
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/cdpacctest"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
-	"os"
-	"strings"
-	"sync"
-	"testing"
 )
 
 type hiveTestParameters struct {
@@ -31,20 +32,14 @@ type hiveTestParameters struct {
 	DatabaseCatalogID string
 }
 
-var (
-	preCheckOnce sync.Once
-)
-
 func HivePreCheck(t *testing.T) {
-	preCheckOnce.Do(func() {
-		errMsg := "AWS Terraform acceptance testing requires environment variable %s to be set"
-		if _, ok := os.LookupEnv("CDW_CLUSTER_ID"); !ok {
-			t.Fatalf(errMsg, "CDW_CLUSTER_ID")
-		}
-		if _, ok := os.LookupEnv("CDW_DATABASE_CATALOG_ID"); !ok {
-			t.Fatalf(errMsg, "CDW_DATABASE_CATALOG_ID")
-		}
-	})
+	errMsg := "AWS Terraform acceptance testing requires environment variable %s to be set"
+	if _, ok := os.LookupEnv("CDW_CLUSTER_ID"); !ok {
+		t.Fatalf(errMsg, "CDW_CLUSTER_ID")
+	}
+	if _, ok := os.LookupEnv("CDW_DATABASE_CATALOG_ID"); !ok {
+		t.Fatalf(errMsg, "CDW_DATABASE_CATALOG_ID")
+	}
 }
 
 func TestAccHive_basic(t *testing.T) {
@@ -81,12 +76,12 @@ func TestAccHive_basic(t *testing.T) {
 
 func testAccHiveBasicConfig(params hiveTestParameters) string {
 	return fmt.Sprintf(`
-resource "cdp_vw_hive" "test_hive" {
-  cluster_id = %[1]q
-  database_catalog_id = %[2]q
-  name = %[3]q
-}
-`, params.ClusterID, params.DatabaseCatalogID, params.Name)
+		resource "cdp_vw_hive" "test_hive" {
+		  cluster_id = %[1]q
+		  database_catalog_id = %[2]q
+		  name = %[3]q
+		}
+	`, params.ClusterID, params.DatabaseCatalogID, params.Name)
 }
 
 func testCheckHiveDestroy(s *terraform.State) error {
