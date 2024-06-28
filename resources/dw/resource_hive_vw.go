@@ -12,13 +12,15 @@ package dw
 
 import (
 	"context"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 type hiveResource struct {
@@ -92,24 +94,17 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	plan.ID = types.StringValue(hive.Vw.ID)
 	plan.DbCatalogID = types.StringValue(hive.Vw.DbcID)
 	plan.Name = types.StringValue(hive.Vw.Name)
-	// TODO why is this not accepted with error: An unexpected error was encountered trying to convert tftypes.Value into dw.hiveResourceModel. This is always an error in the provider. Please report the following to the provider developer:
-	//plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 
 	// Set state to fully populated data
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
 }
 
 func (r *hiveResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	//TODO implement me
 	tflog.Warn(ctx, "Read operation is not implemented yet.")
 }
 
 func (r *hiveResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	//TODO implement me
 	tflog.Warn(ctx, "Update operation is not implemented yet.")
 }
 
