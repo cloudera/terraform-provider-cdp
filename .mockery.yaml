@@ -26,3 +26,8 @@ packages:
       ClientService:
         config:
           mockname: "MockIam{{.InterfaceName}}"
+  github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations:
+    interfaces:
+      ClientService:
+        config:
+          mockname: "MockDw{{.InterfaceName}}"

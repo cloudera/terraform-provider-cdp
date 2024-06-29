@@ -19,6 +19,7 @@ import (
 
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/de"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/ml"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
@@ -246,6 +247,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		opdb.NewDatabaseResource,
 		ml.NewWorkspaceResource,
 		de.NewServiceResource,
+		dw.NewHiveResource,
 	}
 }
 
