@@ -133,7 +133,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 			resp.Diagnostics.Append(diags...)
 		}
 		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, callFailureThreshold, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
-			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
+			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 			return
 		}
 	}
