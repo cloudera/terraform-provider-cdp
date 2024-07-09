@@ -612,6 +612,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		environments.NewAwsCredentialResource,
 		environments.NewAwsEnvironmentResource,
 		environments.NewIDBrokerMappingsResource,
+		environments.NewUserSyncResource,
 		environments.NewAzureCredentialResource,
 		environments.NewAzureEnvironmentResource,
 		environments.NewGcpEnvironmentResource,
