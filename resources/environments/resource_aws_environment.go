@@ -204,7 +204,7 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 		}
 		var sgIDsknox types.Set
 		if model.SecurityAccess != nil && !model.SecurityAccess.SecurityGroupIDsForKnox.IsUnknown() {
-			sgIDsknox = model.SecurityAccess.DefaultSecurityGroupIDs
+			sgIDsknox = model.SecurityAccess.SecurityGroupIDsForKnox
 		}
 		model.SecurityAccess = &SecurityAccess{
 			Cidr:                    types.StringValue(env.SecurityAccess.Cidr),
