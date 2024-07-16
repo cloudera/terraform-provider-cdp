@@ -27,29 +27,19 @@ type awsDatalakeResourceModel struct {
 
 	CertificateExpirationState types.String `tfsdk:"certificate_expiration_state"`
 
-	ClouderaManager types.Object `tfsdk:"cloudera_manager"`
-
 	CreationDate types.String `tfsdk:"creation_date"`
 
 	Crn types.String `tfsdk:"crn"`
 
-	CustomInstanceGroups []*awsDatalakeInstanceGroup `tfsdk:"custom_instance_groups"`
-
 	DatalakeName types.String `tfsdk:"datalake_name"`
 
 	EnableRangerRaz types.Bool `tfsdk:"enable_ranger_raz"`
-
-	Endpoints types.Set `tfsdk:"endpoints"`
 
 	EnvironmentCrn types.String `tfsdk:"environment_crn"`
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
 	Image *awsDatalakeImage `tfsdk:"image"`
-
-	InstanceGroups types.Set `tfsdk:"instance_groups"`
-
-	ProductVersions types.Set `tfsdk:"product_versions"`
 
 	JavaVersion types.Int64 `tfsdk:"java_version"`
 
@@ -66,12 +56,6 @@ type awsDatalakeResourceModel struct {
 	StatusReason types.String `tfsdk:"status_reason"`
 
 	Tags types.Map `tfsdk:"tags"`
-}
-
-type awsDatalakeInstanceGroup struct {
-	InstanceType types.String `tfsdk:"instance_type"`
-
-	Name types.String `tfsdk:"name"`
 }
 
 type awsDatalakeImage struct {
@@ -114,32 +98,4 @@ type instance struct {
 	State types.String `tfsdk:"state"`
 
 	StatusReason types.String `tfsdk:"status_reason"`
-}
-
-type clouderaManagerDetails struct {
-	ClouderaManagerRepositoryURL types.String `tfsdk:"cloudera_manager_repository_url"`
-
-	ClouderaManagerServerURL types.String `tfsdk:"cloudera_manager_server_url"`
-
-	Version types.String `tfsdk:"version"`
-}
-
-type endpoint struct {
-	DisplayName types.String `tfsdk:"display_name"`
-
-	KnoxService types.String `tfsdk:"knox_service"`
-
-	Mode types.String `tfsdk:"mode"`
-
-	Open types.Bool `tfsdk:"open"`
-
-	ServiceName types.String `tfsdk:"service_name"`
-
-	ServiceURL types.String `tfsdk:"service_url"`
-}
-
-type productVersion struct {
-	Name types.String `tfsdk:"name"`
-
-	Version types.String `tfsdk:"version"`
 }

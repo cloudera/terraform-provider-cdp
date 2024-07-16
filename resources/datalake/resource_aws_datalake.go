@@ -61,13 +61,6 @@ func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) 
 		InstanceProfile:       model.InstanceProfile.ValueStringPointer(),
 		StorageBucketLocation: model.StorageLocationBase.ValueStringPointer(),
 	}
-	req.CustomInstanceGroups = make([]*datalakemodels.SdxInstanceGroupRequest, len(model.CustomInstanceGroups))
-	for i, v := range model.CustomInstanceGroups {
-		req.CustomInstanceGroups[i] = &datalakemodels.SdxInstanceGroupRequest{
-			InstanceType: v.InstanceType.ValueString(),
-			Name:         v.Name.ValueStringPointer(),
-		}
-	}
 	req.DatalakeName = model.DatalakeName.ValueStringPointer()
 	req.EnableRangerRaz = model.EnableRangerRaz.ValueBool()
 	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
@@ -270,49 +263,11 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 	if resp.AwsConfiguration != nil {
 		model.InstanceProfile = types.StringValue(resp.AwsConfiguration.InstanceProfile)
 	}
-	if resp.ClouderaManager != nil {
-		var cmDiags diag.Diagnostics
-		model.ClouderaManager, cmDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
-			"cloudera_manager_repository_url": types.StringType,
-			"cloudera_manager_server_url":     types.StringType,
-			"version":                         types.StringType,
-		}, &clouderaManagerDetails{
-			ClouderaManagerRepositoryURL: types.StringPointerValue(resp.ClouderaManager.ClouderaManagerRepositoryURL),
-			ClouderaManagerServerURL:     types.StringValue(resp.ClouderaManager.ClouderaManagerServerURL),
-			Version:                      types.StringPointerValue(resp.ClouderaManager.Version),
-		})
-		diags.Append(cmDiags...)
-	}
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
 	model.PollingOptions = pollingOptions
-	if resp.Endpoints != nil {
-		endpoints := make([]*endpoint, len(resp.Endpoints.Endpoints))
-		for i, v := range resp.Endpoints.Endpoints {
-			endpoints[i] = &endpoint{
-				DisplayName: types.StringPointerValue(v.DisplayName),
-				KnoxService: types.StringPointerValue(v.KnoxService),
-				Mode:        types.StringPointerValue(v.Mode),
-				Open:        types.BoolPointerValue(v.Open),
-				ServiceName: types.StringPointerValue(v.ServiceName),
-				ServiceURL:  types.StringPointerValue(v.ServiceURL),
-			}
-		}
-		var epDiags diag.Diagnostics
-		model.Endpoints, epDiags = types.SetValueFrom(ctx, types.ObjectType{
-			AttrTypes: map[string]attr.Type{
-				"display_name": types.StringType,
-				"knox_service": types.StringType,
-				"mode":         types.StringType,
-				"open":         types.BoolType,
-				"service_name": types.StringType,
-				"service_url":  types.StringType,
-			},
-		}, endpoints)
-		diags.Append(epDiags...)
-	}
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
 	for i, v := range resp.InstanceGroups {
@@ -355,44 +310,6 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 		}, instances)
 		diags.Append(instDiags...)
 	}
-	var igDiags diag.Diagnostics
-	model.InstanceGroups, igDiags = types.SetValueFrom(ctx, types.ObjectType{
-		AttrTypes: map[string]attr.Type{
-			"instances": types.SetType{
-				ElemType: types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"discovery_fqdn":    types.StringType,
-						"id":                types.StringType,
-						"instance_group":    types.StringType,
-						"instance_status":   types.StringType,
-						"instance_type_val": types.StringType,
-						"private_ip":        types.StringType,
-						"public_ip":         types.StringType,
-						"ssh_port":          types.Int64Type,
-						"state":             types.StringType,
-						"status_reason":     types.StringType,
-					},
-				},
-			},
-			"name": types.StringType,
-		},
-	}, instanceGroups)
-	diags.Append(igDiags...)
-	productVersions := make([]*productVersion, len(resp.ProductVersions))
-	for i, v := range resp.ProductVersions {
-		productVersions[i] = &productVersion{
-			Name:    types.StringPointerValue(v.Name),
-			Version: types.StringPointerValue(v.Version),
-		}
-	}
-	var pvDiags diag.Diagnostics
-	model.ProductVersions, pvDiags = types.SetValueFrom(ctx, types.ObjectType{
-		AttrTypes: map[string]attr.Type{
-			"name":    types.StringType,
-			"version": types.StringType,
-		},
-	}, productVersions)
-	diags.Append(pvDiags...)
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)

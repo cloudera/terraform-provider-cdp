@@ -30,13 +30,6 @@ func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datala
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
 	model.PollingOptions = pollingOptions
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
-	productVersions := make([]*productVersion, len(resp.ProductVersions))
-	for i, v := range resp.ProductVersions {
-		productVersions[i] = &productVersion{
-			Name:    types.StringPointerValue(v.Name),
-			Version: types.StringPointerValue(v.Version),
-		}
-	}
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
@@ -48,13 +41,6 @@ func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) 
 		req.CloudProviderConfiguration = &datalakemodels.GCPConfigurationRequest{
 			ServiceAccountEmail: model.CloudProviderConfiguration.ServiceAccountEmail.ValueStringPointer(),
 			StorageLocation:     model.CloudProviderConfiguration.StorageLocation.ValueStringPointer(),
-		}
-	}
-	req.CustomInstanceGroups = make([]*datalakemodels.SdxInstanceGroupRequest, len(model.CustomInstanceGroups))
-	for i, v := range model.CustomInstanceGroups {
-		req.CustomInstanceGroups[i] = &datalakemodels.SdxInstanceGroupRequest{
-			InstanceType: v.InstanceType.ValueString(),
-			Name:         v.Name.ValueStringPointer(),
 		}
 	}
 	req.DatalakeName = model.DatalakeName.ValueStringPointer()

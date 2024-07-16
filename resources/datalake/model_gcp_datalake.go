@@ -27,8 +27,6 @@ type gcpDatalakeResourceModel struct {
 
 	Crn types.String `tfsdk:"crn"`
 
-	CustomInstanceGroups []*gcpDatalakeInstanceGroup `tfsdk:"custom_instance_groups"`
-
 	DatalakeName types.String `tfsdk:"datalake_name"`
 
 	EnableRangerRaz types.Bool `tfsdk:"enable_ranger_raz"`
@@ -59,12 +57,6 @@ type gcpDatalakeResourceModel struct {
 type gcpConfiguration struct {
 	ServiceAccountEmail types.String `tfsdk:"service_account_email"`
 	StorageLocation     types.String `tfsdk:"storage_location"`
-}
-
-type gcpDatalakeInstanceGroup struct {
-	InstanceType types.String `tfsdk:"instance_type"`
-
-	Name types.String `tfsdk:"name"`
 }
 
 type gcpDatalakeImage struct {
