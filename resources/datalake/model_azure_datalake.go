@@ -27,8 +27,6 @@ type azureDatalakeResourceModel struct {
 
 	CertificateExpirationState types.String `tfsdk:"certificate_expiration_state"`
 
-	ClouderaManager types.Object `tfsdk:"cloudera_manager"`
-
 	CreationDate types.String `tfsdk:"creation_date"`
 
 	Crn types.String `tfsdk:"crn"`
@@ -37,17 +35,11 @@ type azureDatalakeResourceModel struct {
 
 	EnableRangerRaz types.Bool `tfsdk:"enable_ranger_raz"`
 
-	Endpoints types.Set `tfsdk:"endpoints"`
-
 	EnvironmentCrn types.String `tfsdk:"environment_crn"`
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
 	Image *azureDatalakeImage `tfsdk:"image"`
-
-	InstanceGroups types.Set `tfsdk:"instance_groups"`
-
-	ProductVersions types.Set `tfsdk:"product_versions"`
 
 	JavaVersion types.Int64 `tfsdk:"java_version"`
 

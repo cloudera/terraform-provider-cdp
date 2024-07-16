@@ -12,9 +12,10 @@ package datalake
 
 import (
 	"context"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"testing"
 )
 
 func TestCommonSchemaElementsExist(t *testing.T) {
@@ -23,13 +24,6 @@ func TestCommonSchemaElementsExist(t *testing.T) {
 
 func TestGcpSpecificElements(t *testing.T) {
 	cases := []TestCaseStructure{
-		{
-			name:             "'custom_instance_groups' should exist",
-			field:            "custom_instance_groups",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.SetNestedAttribute{},
-		},
 		{
 			name:             "cloud_provider_configuration should exist",
 			field:            "cloud_provider_configuration",

@@ -12,6 +12,7 @@ package datalake
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 
@@ -22,19 +23,6 @@ func (r *gcpDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest
 	attr := map[string]schema.Attribute{}
 	utils.Append(attr, generalAttributes)
 	utils.Append(attr, map[string]schema.Attribute{
-		"custom_instance_groups": schema.SetNestedAttribute{
-			Optional: true,
-			NestedObject: schema.NestedAttributeObject{
-				Attributes: map[string]schema.Attribute{
-					"instance_type": schema.StringAttribute{
-						Optional: true,
-					},
-					"name": schema.StringAttribute{
-						Required: true,
-					},
-				},
-			},
-		},
 		"cloud_provider_configuration": schema.SingleNestedAttribute{
 			Required: true,
 			Attributes: map[string]schema.Attribute{
