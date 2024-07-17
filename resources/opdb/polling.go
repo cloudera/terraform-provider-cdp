@@ -12,6 +12,7 @@ package opdb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
@@ -31,6 +32,11 @@ func waitForToBeAvailable(dataBaseName string, environmentName string, client *c
 	if err != nil {
 		return "", err
 	}
+	failureThreshold, failureThresholdErr := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThreshold)
+	if failureThresholdErr != nil {
+		return "", failureThresholdErr
+	}
+	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending:                   []string{},
 		Target:                    []string{"AVAILABLE"},
@@ -44,11 +50,18 @@ func waitForToBeAvailable(dataBaseName string, environmentName string, client *c
 			if err != nil {
 				if isNotFoundError(err) {
 					tflog.Debug(ctx, fmt.Sprintf("Recoverable error describing Database: %s", err))
+					callFailedCount = 0
 					return nil, "", nil
 				}
-				tflog.Debug(ctx, fmt.Sprintf("Error describing Database: %s", err))
+				callFailedCount++
+				if callFailedCount <= failureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing cluster with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					return nil, "", nil
+				}
+				tflog.Error(ctx, fmt.Sprintf("Error describing Database (due to: %s) and call failure threshold limit exceeded.", err))
 				return nil, "", err
 			}
+			callFailedCount = 0
 			tflog.Debug(ctx, fmt.Sprintf("Described Database: %s", resp.GetPayload().DatabaseDetails.Status))
 			intf, st, e := checkIfDatabaseCreationFailed(resp)
 			tflog.Debug(ctx, fmt.Sprintf("Updating returning status from '%s' to '%s'", status, st))
@@ -76,7 +89,8 @@ func waitForToBeDeleted(dataBaseName string, environmentName string, client *cli
 			resp, err := describeWithRecover(dataBaseName, environmentName, client, ctx)
 			if err != nil {
 				tflog.Debug(ctx, fmt.Sprintf("Error describing Database: %s", err))
-				if envErr, ok := err.(*operations.DescribeDatabaseDefault); ok {
+				var envErr *operations.DescribeDatabaseDefault
+				if errors.As(err, &envErr) {
 					if cdp.IsDatabaseError(envErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}
