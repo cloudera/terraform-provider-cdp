@@ -76,18 +76,21 @@ func (r *databaseResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
-	tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
-	data.Status = types.StringValue(status)
-	diags = resp.State.Set(ctx, data)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-	if err != nil {
-		tflog.Debug(ctx, fmt.Sprintf("Cluster creation has ended up in error: %s", err.Error()))
-		utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "create Database")
-		return
+	if !(data.PollingOptions != nil && data.PollingOptions.Async.ValueBool()) {
+		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
+		tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
+		data.Status = types.StringValue(status)
+		diags = resp.State.Set(ctx, data)
+		resp.Diagnostics.Append(diags...)
+
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		if err != nil {
+			tflog.Debug(ctx, fmt.Sprintf("Cluster creation has ended up in error: %s", err.Error()))
+			utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "create Database")
+			return
+		}
 	}
 }
 
@@ -177,18 +180,21 @@ func (r *databaseResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
-	tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
-	data.Status = types.StringValue(status)
-	diags = resp.State.Set(ctx, data)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-	if err != nil {
-		tflog.Debug(ctx, fmt.Sprintf("Cluster update has ended up in error: %s", err.Error()))
-		utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "update Database")
-		return
+	if !(data.PollingOptions != nil && data.PollingOptions.Async.ValueBool()) {
+		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
+		tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
+		data.Status = types.StringValue(status)
+		diags = resp.State.Set(ctx, data)
+		resp.Diagnostics.Append(diags...)
+
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		if err != nil {
+			tflog.Debug(ctx, fmt.Sprintf("Cluster update has ended up in error: %s", err.Error()))
+			utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "update Database")
+			return
+		}
 	}
 }
 
@@ -215,9 +221,12 @@ func (r *databaseResource) Delete(ctx context.Context, req resource.DeleteReques
 		return
 	}
 
-	err = waitForToBeDeleted(state.DatabaseName.ValueString(), state.Environment.ValueString(), r.client.Opdb, ctx, state.PollingOptions)
-	if err != nil {
-		utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "delete database")
-		return
+	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
+		err = waitForToBeDeleted(state.DatabaseName.ValueString(), state.Environment.ValueString(), r.client.Opdb, ctx, state.PollingOptions)
+
+		if err != nil {
+			utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "delete database")
+			return
+		}
 	}
 }

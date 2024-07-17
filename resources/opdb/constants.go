@@ -16,5 +16,6 @@ const internalServerErrorRetryQuantity = 4
 const pollingInterval = 30 * time.Second
 const pollingTimeout = 2 * time.Hour
 const pollingDelay = 15 * time.Second
+const callFailureThreshold = 3
 
 var failedStatusKeywords = []string{"FAILED", "DELETE_FAILED", "MISSING", "CREATE_FAILED", "DELETED"}
