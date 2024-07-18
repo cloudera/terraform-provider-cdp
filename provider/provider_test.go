@@ -21,16 +21,16 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-
-	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	"github.com/cloudera/terraform-provider-cdp/resources/de"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw"
+	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/ml"
@@ -635,6 +635,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		ml.NewWorkspaceResource,
 		de.NewServiceResource,
 		dw.NewHiveResource,
+		dwaws.NewDwClusterResource,
 	}
 
 	provider := CdpProvider{testVersion}

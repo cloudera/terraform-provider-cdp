@@ -17,13 +17,6 @@ import (
 	"runtime"
 	"strconv"
 
-	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
-	"github.com/cloudera/terraform-provider-cdp/resources/de"
-	"github.com/cloudera/terraform-provider-cdp/resources/dw"
-	"github.com/cloudera/terraform-provider-cdp/resources/iam"
-	"github.com/cloudera/terraform-provider-cdp/resources/ml"
-	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
-
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -33,8 +26,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
+	"github.com/cloudera/terraform-provider-cdp/resources/de"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw"
+	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
+	"github.com/cloudera/terraform-provider-cdp/resources/iam"
+	"github.com/cloudera/terraform-provider-cdp/resources/ml"
+	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -249,6 +249,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		ml.NewWorkspaceResource,
 		de.NewServiceResource,
 		dw.NewHiveResource,
+		dwaws.NewDwClusterResource,
 	}
 }
 
