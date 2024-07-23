@@ -24,14 +24,44 @@ import (
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
+const authFailMsg = "authentication failure, no access key provided or the key is no longer valid"
+
+var NonRetryableErrorCodes = [...]int{403}
+
+func IsNonRetryableError(code int) bool {
+	for _, nonRetryableCode := range NonRetryableErrorCodes {
+		if nonRetryableCode == code {
+			return true
+		}
+	}
+	return false
+}
+
+func IsRetryableError(code int) bool {
+	return !IsNonRetryableError(code)
+}
+
 type EnvironmentErrorPayload interface {
 	GetPayload() *environmentsmodels.Error
+}
+
+func decorateEnvironmentUnauthorizedErrorIfMessageNotExists(err *environmentsmodels.Error) *environmentsmodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &environmentsmodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
 }
 
 func AddEnvironmentDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(EnvironmentErrorPayload); ok && d.GetPayload() != nil {
-		msg = d.GetPayload().Message
+		if d.GetPayload().Code == "401" {
+			msg = decorateEnvironmentUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
 	}
 	caser := cases.Title(language.English)
 	diagnostics.AddError(
@@ -44,10 +74,23 @@ type IamErrorPayload interface {
 	GetPayload() *iammodels.Error
 }
 
+func decorateIamUnauthorizedErrorIfMessageNotExists(err *iammodels.Error) *iammodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &iammodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
+}
+
 func AddIamDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(IamErrorPayload); ok && d.GetPayload() != nil {
-		msg = d.GetPayload().Message
+		if d.GetPayload().Code == "401" {
+			msg = decorateIamUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
 	}
 	caser := cases.Title(language.English)
 	diagnostics.AddError(
@@ -60,10 +103,23 @@ type MlErrorPayload interface {
 	GetPayload() *mlmodels.Error
 }
 
+func decorateMlUnauthorizedErrorIfMessageNotExists(err *mlmodels.Error) *mlmodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &mlmodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
+}
+
 func AddMlDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(MlErrorPayload); ok && d.GetPayload() != nil {
-		msg = d.GetPayload().Message
+		if d.GetPayload().Code == "401" {
+			msg = decorateMlUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
 	}
 	caser := cases.Title(language.English)
 	diagnostics.AddError(
@@ -76,10 +132,23 @@ type DeErrorPayload interface {
 	GetPayload() *demodels.Error
 }
 
+func decorateDeUnauthorizedErrorIfMessageNotExists(err *demodels.Error) *demodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &demodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
+}
+
 func AddDeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DeErrorPayload); ok && d.GetPayload() != nil {
-		msg = d.GetPayload().Message
+		if d.GetPayload().Code == "401" {
+			msg = decorateDeUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
 	}
 	caser := cases.Title(language.English)
 	diagnostics.AddError(
@@ -92,10 +161,23 @@ type DatalakeErrorPayload interface {
 	GetPayload() *datalakemodels.Error
 }
 
+func decorateDatalakeUnauthorizedErrorIfMessageNotExists(err *datalakemodels.Error) *datalakemodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &datalakemodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
+}
+
 func AddDatalakeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DatalakeErrorPayload); ok && d.GetPayload() != nil {
-		msg = d.GetPayload().Message
+		if d.GetPayload().Code == "401" {
+			msg = decorateDatalakeUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
 	}
 	caser := cases.Title(language.English)
 	diagnostics.AddError(
@@ -108,10 +190,23 @@ type DatahubErrorPayload interface {
 	GetPayload() *datahubmodels.Error
 }
 
+func decorateDatahubUnauthorizedErrorIfMessageNotExists(err *datahubmodels.Error) *datahubmodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &datahubmodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
+}
+
 func AddDatahubDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
-		msg = d.GetPayload().Message
+		if d.GetPayload().Code == "401" {
+			msg = decorateDatahubUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
 	}
 	caser := cases.Title(language.English)
 	diagnostics.AddError(
@@ -124,10 +219,23 @@ type DatabaseErrorPayload interface {
 	GetPayload() *opdbmodels.Error
 }
 
+func decorateDatabaseUnauthorizedErrorIfMessageNotExists(err *opdbmodels.Error) *opdbmodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &opdbmodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
+}
+
 func AddDatabaseDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DatabaseErrorPayload); ok && d.GetPayload() != nil {
-		msg = d.GetPayload().Message
+		if d.GetPayload().Code == "401" {
+			msg = decorateDatabaseUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
 	}
 	caser := cases.Title(language.English)
 	diagnostics.AddError(

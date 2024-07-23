@@ -20,7 +20,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 )
@@ -57,31 +56,6 @@ func GetCdpClientForDataSource(req datasource.ConfigureRequest, resp *datasource
 	return client
 }
 
-func GetMapFromSingleItemList(d *schema.ResourceData, name string) (map[string]interface{}, error) {
-	if l := d.Get(name).([]interface{}); len(l) == 1 && l[0] != nil {
-		return l[0].(map[string]interface{}), nil
-	}
-	return nil, fmt.Errorf("error getting %s", name)
-}
-
-func GetMapFromSingleItemListInMap(d map[string]interface{}, name string) (map[string]interface{}, error) {
-	if l := d[name].([]interface{}); len(l) == 1 && l[0] != nil {
-		return l[0].(map[string]interface{}), nil
-	}
-	return nil, fmt.Errorf("error getting %s", name)
-}
-
-func ToStringList(configured []interface{}) []string {
-	vs := make([]string, 0, len(configured))
-	for _, v := range configured {
-		val, ok := v.(string)
-		if ok && val != "" {
-			vs = append(vs, v.(string))
-		}
-	}
-	return vs
-}
-
 func CalculateTimeoutOrDefault(ctx context.Context, options *PollingOptions, fallback time.Duration) (*time.Duration, error) {
 	tflog.Debug(ctx, fmt.Sprintf("About to calculate polling timeout using the desired timeout (%+v) and the given fallback timeout (%+v)", options, fallback))
 	var timeout time.Duration
@@ -116,14 +90,6 @@ func CalculateCallFailureThresholdOrDefault(ctx context.Context, options *Pollin
 	}
 	tflog.Debug(ctx, fmt.Sprintf("The following call failure threshold calculated: %+v", threshold))
 	return threshold, nil
-}
-
-func ToBaseTypesStringMap(in map[string]string) map[string]types.String {
-	res := map[string]types.String{}
-	for k, v := range in {
-		res[k] = types.StringValue(v)
-	}
-	return res
 }
 
 func FromListValueToStringList(tl types.List) []string {
