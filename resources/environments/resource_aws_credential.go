@@ -14,10 +14,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -25,6 +21,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -121,7 +122,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 		responseOk, err := client.Operations.CreateAWSCredential(params)
 		if err != nil {
 			if envErr, ok := err.(*operations.CreateAWSCredentialDefault); ok {
-				if envErr.Code() == 403 {
+				if utils.IsRetryableError(envErr.Code()) {
 					return retry.RetryableError(err)
 				}
 			}
