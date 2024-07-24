@@ -23,3 +23,6 @@ terraform-provider-cdp
 
 # Ignore the dist directory
 dist/
+
+# Ignore deadcode check output that is produced by the deadcode-check.sh script
+deadcode-output.txt
