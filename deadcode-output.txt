@@ -1,0 +1,2 @@
+utils/slice.go:26:6: unreachable func: TestPublicFunctionToBeFail
+utils/slice.go:30:6: unreachable func: testPrivateFunctionToBeFail

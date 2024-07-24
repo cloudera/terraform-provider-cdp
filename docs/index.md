@@ -32,8 +32,7 @@ terraform {
   }
 }
 
-provider "cdp" {
-}
+provider "cdp" {}
 
 resource "cdp_environments_aws_credential" "example" {
   name        = "example-cdp-aws-credential"
