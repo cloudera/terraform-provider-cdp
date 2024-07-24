@@ -10,7 +10,10 @@
 
 package utils
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestContainsAsSubstring(t *testing.T) {
 	type input struct {
@@ -116,4 +119,17 @@ func TestContainsEitherSubstring(t *testing.T) {
 			}
 		})
 	}
+}
+
+func ContainsEitherSubstring(slice []string, elements []string) bool {
+	if len(slice) > 0 && len(elements) > 0 {
+		for _, e := range slice {
+			for _, substring := range elements {
+				if strings.Contains(e, substring) {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }

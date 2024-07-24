@@ -22,16 +22,3 @@ func ContainsAsSubstring(slice []string, element string) bool {
 	}
 	return false
 }
-
-func ContainsEitherSubstring(slice []string, elements []string) bool {
-	if len(slice) > 0 && len(elements) > 0 {
-		for _, e := range slice {
-			for _, substring := range elements {
-				if strings.Contains(e, substring) {
-					return true
-				}
-			}
-		}
-	}
-	return false
-}
