@@ -9,6 +9,15 @@ description: |-
 
 {{ .Description | trimspace }}
 
+### About syncing users to environments
+Changes in CDP User Management are enforced immediately in the Management Console, but are not automatically propagated to all workload environments. Therefore, creates, deletes and updates of users, machine users, groups as well as role, resource role and group assignments of users will only be effective for data access and services once these have been synchronized with environments.
+This is possible via UI and CLI. This resource allows users to control the sync behaviour also via Terraform.
+
+### How should this resource be used
+When this resource is created, the provider will initiate the https://cloudera.github.io/cdp-dev-docs/cli-docs/environments/sync-all-users.html command, syncing all users to the environment specified in the resources's environment_name attribute. The create method of this resource will implement a polling, so the resource creation will only be completed, when the sync has successfully finished.
+When a machine user, user-group or user-role assignment resource has been updated (due to password rotation, group membership or role assignment changes), the "environment_user_sync" resource needs to be re-created. This can be enforced by explicitly setting up a dependency relationship between this sync resource and the machines user, etc resources using the "replace_triggered_by" (see https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#replace_triggered_by). Using this ensures that whenever a machine user resource changes, Terraform also triggers the replacement / re-creation of the user_sync resource, effectively triggering a complete user sync to the specified environment.
+This approach allows a fine-grain control of the sync operation.
+
 {{ if .HasExample -}}
 ## Example Usage
 
