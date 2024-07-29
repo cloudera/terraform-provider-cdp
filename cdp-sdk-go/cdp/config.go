@@ -89,7 +89,7 @@ func NewConfig() *Config {
 	}
 }
 
-func (config *Config) loadConfig() error {
+func (config *Config) LoadConfig() error {
 	if config.BaseApiPath == "" {
 		config.BaseApiPath = defaultBaseApiPath
 	}

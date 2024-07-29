@@ -90,7 +90,7 @@ func TestGetCredentialsNotFound(t *testing.T) {
 		Profile:         profile,
 		CredentialsFile: path,
 	}
-	err := emptyConfig.loadConfig()
+	err := emptyConfig.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -118,7 +118,7 @@ func TestGetCdpCredentials(t *testing.T) {
 			AccessKeyId: "value-from-config",
 			PrivateKey:  "value-from-config"},
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -164,9 +164,9 @@ func TestLoadConfigFileNotFound(t *testing.T) {
 		ConfigFile: "testdata/non-existent-file",
 	}
 	// should silently ignore non existent files
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
-		t.Errorf("Unexpected error from loadConfig()")
+		t.Errorf("Unexpected error from LoadConfig()")
 	}
 }
 
@@ -176,7 +176,7 @@ func TestLoadConfigFile(t *testing.T) {
 	config := Config{
 		ConfigFile: "testdata/test-config",
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -193,7 +193,7 @@ func TestLoadConfigFileFromEnv(t *testing.T) {
 	config := Config{
 		ConfigFile: "testdata/test-config",
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -210,7 +210,7 @@ func TestGetCdpProfileCaseSensitivity(t *testing.T) {
 		ConfigFile: "testdata/test-config",
 		Profile:    "UPPER_CASE_PROFILE",
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -256,7 +256,7 @@ func TestGetCdpRegionFromConfigFile(t *testing.T) {
 		Profile:    "foo",
 		ConfigFile: "testdata/test-config",
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -281,7 +281,7 @@ func TestGetEndpointsWithProfile(t *testing.T) {
 		Profile:    "foo",
 		ConfigFile: "testdata/test-config",
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -307,7 +307,7 @@ func TestGetEndpointsWithRegionInProfile(t *testing.T) {
 		Profile:    "bar",
 		ConfigFile: "testdata/test-config",
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -333,7 +333,7 @@ func TestDefaultEndpoints(t *testing.T) {
 		ConfigFile: "testdata/test-config",
 		Profile:    "non-existing",
 	}
-	err := config.loadConfig()
+	err := config.LoadConfig()
 	if err != nil {
 		t.Fatal(err)
 	}
