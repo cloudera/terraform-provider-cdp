@@ -12,6 +12,7 @@ package iam
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -41,6 +42,10 @@ func (r *machineUserResourceRoleAssignmentResource) Metadata(_ context.Context, 
 	resp.TypeName = req.ProviderTypeName + "_iam_machine_user_resource_role_assignment"
 }
 
+func (r *machineUserResourceRoleAssignmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
 func (r *machineUserResourceRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data machineUserResourceRoleAssignmentResourceModel
 
@@ -57,13 +62,18 @@ func (r *machineUserResourceRoleAssignmentResource) Create(ctx context.Context, 
 			ResourceRoleCrn: data.ResourceRoleCrn.ValueStringPointer(),
 		})
 
-	_, err := r.client.Iam.Operations.AssignMachineUserResourceRole(request) // void method, does not have any return value
+	responseOk, err := r.client.Iam.Operations.AssignMachineUserResourceRole(request)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "assign Machine User Resource Role")
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	if responseOk.Payload != nil {
+		data.Id = types.StringValue(data.MachineUser.ValueString() + "_" + data.ResourceCrn.ValueString() + "_" + data.ResourceRoleCrn.ValueString())
+
+		// Save data into Terraform state
+		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	}
 }
 
 func (r *machineUserResourceRoleAssignmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -84,7 +94,7 @@ func (r *machineUserResourceRoleAssignmentResource) Read(ctx context.Context, re
 
 	hasAssignedResourceRole := false
 	for _, asgn := range machineUser.Payload.ResourceAssignments {
-		if asgn.ResourceCrn == data.ResourceCrn.ValueStringPointer() && asgn.ResourceRoleCrn == data.ResourceRoleCrn.ValueStringPointer() {
+		if *asgn.ResourceCrn == data.ResourceCrn.ValueString() && *asgn.ResourceRoleCrn == data.ResourceRoleCrn.ValueString() {
 			resp.State.Set(ctx, &data)
 			hasAssignedResourceRole = true
 			break

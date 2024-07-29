@@ -12,6 +12,7 @@ package iam
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -41,6 +42,10 @@ func (r *machineUserRoleAssignmentResource) Metadata(_ context.Context, req reso
 	resp.TypeName = req.ProviderTypeName + "_iam_machine_user_role_assignment"
 }
 
+func (r *machineUserRoleAssignmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
 func (r *machineUserRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data machineUserRoleAssignmentResourceModel
 
@@ -56,13 +61,18 @@ func (r *machineUserRoleAssignmentResource) Create(ctx context.Context, req reso
 			Role:            data.Role.ValueStringPointer(),
 		})
 
-	_, err := r.client.Iam.Operations.AssignMachineUserRole(request) // void method, does not have any return value
+	responseOk, err := r.client.Iam.Operations.AssignMachineUserRole(request)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "assign Machine User Role")
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	if responseOk.Payload != nil {
+		data.Id = types.StringValue(data.MachineUser.ValueString() + "_" + data.Role.ValueString())
+
+		// Save data into Terraform state
+		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	}
 }
 
 func (r *machineUserRoleAssignmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {

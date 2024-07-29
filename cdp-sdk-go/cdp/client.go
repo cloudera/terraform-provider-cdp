@@ -34,7 +34,7 @@ type Client struct {
 }
 
 func NewClient(config *Config) (*Client, error) {
-	if err := config.loadConfig(); err != nil {
+	if err := config.LoadConfig(); err != nil {
 		return nil, err
 	}
 

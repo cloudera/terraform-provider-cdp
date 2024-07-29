@@ -15,6 +15,6 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type machineUserResourceRoleAssignmentResourceModel struct {
 	Id              types.String `tfsdk:"id"`
 	MachineUser     types.String `tfsdk:"machine_user"`
-	ResourceCrn     types.String `tfsdk:"resource_role_crn"`
+	ResourceCrn     types.String `tfsdk:"resource_crn"`
 	ResourceRoleCrn types.String `tfsdk:"resource_role_crn"`
 }

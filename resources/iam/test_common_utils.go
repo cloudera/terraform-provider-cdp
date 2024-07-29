@@ -11,6 +11,7 @@
 package iam
 
 import (
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"testing"
 )
@@ -35,4 +36,12 @@ func PerformSchemaValidationForResource(t *testing.T, test SchemaTestCaseStructu
 			t.Errorf("The '%s' filed's >computed< property should be: %t", test.field, test.computed)
 		}
 	})
+}
+
+func GetCdpRegionFromConfig() (string, error) {
+	config := cdp.NewConfig()
+	if err := config.LoadConfig(); err != nil {
+		return "", err
+	}
+	return config.GetCdpRegion()
 }
