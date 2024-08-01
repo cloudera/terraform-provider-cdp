@@ -9,7 +9,7 @@
 # permissions and limitations governing your use of the file.
 
 resource "cdp_vw_hive" "example" {
-  cluster_id = var.cluster_id
-  database_catalog_id   = var.database_catalog_id
-  name = var.name
+  cluster_id          = var.cluster_id
+  database_catalog_id = var.database_catalog_id
+  name                = var.name
 }

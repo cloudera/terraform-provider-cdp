@@ -15,20 +15,21 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/cloudera/terraform-provider-cdp/cdpacctest"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 func TestAccIamMachineUserGroupAssignment_basic(t *testing.T) {
 	rName := acctest.RandomWithPrefix(cdpacctest.ResourcePrefix)
 	grName := acctest.RandomWithPrefix(cdpacctest.ResourcePrefix)
 	resourceName := "cdp_iam_machine_user_group_assignment.test"
-	var credential models.ListGroupsForMachineUserResponse
+	var machineUserGroupAssignment models.ListGroupsForMachineUserResponse
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { cdpacctest.PreCheck(t) },
 		ProtoV6ProviderFactories: cdpacctest.TestAccProtoV6ProviderFactories,
@@ -37,13 +38,12 @@ func TestAccIamMachineUserGroupAssignment_basic(t *testing.T) {
 			{
 				Config: utils.Concat(
 					cdpacctest.TestAccCdpProviderConfig(),
-					testAccIamMachineUserConfig(rName),
 					testAccIamMachineUserGroupAssignmentConfig(rName, grName)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "machine_user", rName),
 					resource.TestCheckResourceAttr(resourceName, "group", grName),
 					resource.TestCheckResourceAttr(resourceName, "id", rName+"_"+grName),
-					testAccCheckIamMachineUserGroupAssignmentExists(rName, grName, &credential),
+					testAccCheckIamMachineUserGroupAssignmentExists(rName, grName, &machineUserGroupAssignment),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -53,19 +53,24 @@ func TestAccIamMachineUserGroupAssignment_basic(t *testing.T) {
 
 func testAccIamMachineUserGroupAssignmentConfig(rName string, grName string) string {
 	return fmt.Sprintf(`
+
+resource "cdp_iam_machine_user" "test" {
+  name = %[1]q
+}
+
 resource "cdp_iam_group" "test_group" {
 	group_name = %[2]q
 }
 
 resource "cdp_iam_machine_user_group_assignment" "test" {
-  machine_user = %[1]q
+  machine_user = cdp_iam_machine_user.test.name
   group = cdp_iam_group.test_group.group_name
 }
 `, rName, grName)
 }
 
 // testAccCheckIamMachineUserGroupAssignmentExists queries the API and retrieves the matching IamMachineUserGroupAssignment via the passed in pointer.
-func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string, mu *models.ListGroupsForMachineUserResponse) resource.TestCheckFunc {
+func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string, _ *models.ListGroupsForMachineUserResponse) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
