@@ -12,15 +12,15 @@ package iam
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 var _ resource.Resource = (*machineUserResource)(nil)
@@ -55,14 +55,14 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	client := r.client.Iam
+	iamClient := r.client.Iam
 
 	params := operations.NewCreateMachineUserParamsWithContext(ctx)
 	params.WithInput(&models.CreateMachineUserRequest{
 		MachineUserName: data.Name.ValueStringPointer(),
 	})
 
-	responseOk, err := client.Operations.CreateMachineUser(params)
+	responseOk, err := iamClient.Operations.CreateMachineUser(params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "create Machine User")
 		return
@@ -73,7 +73,7 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 		muRespToModel(ctx, mu, &data)
 
 		if !data.WorkloadPassword.IsNull() {
-			err = setWorkloadPassword(ctx, client, data.Id.ValueString(), data.WorkloadPassword.ValueStringPointer(), &resp.Diagnostics)
+			err = setWorkloadPassword(ctx, iamClient, data.Id.ValueString(), data.WorkloadPassword.ValueStringPointer(), &resp.Diagnostics)
 			if err != nil {
 				utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "create Machine User")
 				return
@@ -106,14 +106,14 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 		return
 	}
 
-	client := r.client.Iam
+	iamClient := r.client.Iam
 
 	params := operations.NewListMachineUsersParamsWithContext(ctx)
 	params.WithInput(&models.ListMachineUsersRequest{
 		MachineUserNames: []string{data.Name.ValueString()},
 	})
 
-	responseOk, err := client.Operations.ListMachineUsers(params)
+	responseOk, err := iamClient.Operations.ListMachineUsers(params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read Machine User")
 		if d, ok := err.(*operations.ListMachineUsersDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
@@ -152,8 +152,8 @@ func (r *machineUserResource) Update(ctx context.Context, req resource.UpdateReq
 		return
 	}
 
-	client := r.client.Iam
-	err := setWorkloadPassword(ctx, client, data.Id.ValueString(), data.WorkloadPassword.ValueStringPointer(), &resp.Diagnostics)
+	iamClient := r.client.Iam
+	err := setWorkloadPassword(ctx, iamClient, data.Id.ValueString(), data.WorkloadPassword.ValueStringPointer(), &resp.Diagnostics)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "update Machine User")
 		return
@@ -176,14 +176,14 @@ func (r *machineUserResource) Delete(ctx context.Context, req resource.DeleteReq
 	}
 
 	// Delete API call logic
-	client := r.client.Iam
+	iamClient := r.client.Iam
 
 	params := operations.NewDeleteMachineUserParamsWithContext(ctx)
 	params.WithInput(&models.DeleteMachineUserRequest{
 		MachineUserName: data.Name.ValueStringPointer(),
 	})
 
-	_, err := client.Operations.DeleteMachineUser(params)
+	_, err := iamClient.Operations.DeleteMachineUser(params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "delete Machine User")
 		return
