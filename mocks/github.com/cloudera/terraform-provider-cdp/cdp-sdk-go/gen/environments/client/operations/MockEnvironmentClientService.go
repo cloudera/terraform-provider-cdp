@@ -2576,6 +2576,79 @@ func (_c *MockEnvironmentClientService_GetFreeipaStatus_Call) RunAndReturn(run f
 	return _c
 }
 
+// GetFreeipaUpgradeOptions provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) GetFreeipaUpgradeOptions(params *operations.GetFreeipaUpgradeOptionsParams, opts ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetFreeipaUpgradeOptions")
+	}
+
+	var r0 *operations.GetFreeipaUpgradeOptionsOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.GetFreeipaUpgradeOptionsParams, ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.GetFreeipaUpgradeOptionsParams, ...operations.ClientOption) *operations.GetFreeipaUpgradeOptionsOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetFreeipaUpgradeOptionsOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.GetFreeipaUpgradeOptionsParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFreeipaUpgradeOptions'
+type MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call struct {
+	*mock.Call
+}
+
+// GetFreeipaUpgradeOptions is a helper method to define mock.On call
+//   - params *operations.GetFreeipaUpgradeOptionsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetFreeipaUpgradeOptions(params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call {
+	return &MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call{Call: _e.mock.On("GetFreeipaUpgradeOptions",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call) Run(run func(params *operations.GetFreeipaUpgradeOptionsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.GetFreeipaUpgradeOptionsParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call) Return(_a0 *operations.GetFreeipaUpgradeOptionsOK, _a1 error) *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call) RunAndReturn(run func(*operations.GetFreeipaUpgradeOptionsParams, ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error)) *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetGovCloudAuditCredentialPrerequisites provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) GetGovCloudAuditCredentialPrerequisites(params *operations.GetGovCloudAuditCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetGovCloudAuditCredentialPrerequisitesOK, error) {
 	_va := make([]interface{}, len(opts))

@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.113 (BETA)
+  version: 0.9.117 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -1688,6 +1688,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpgradeFreeipaResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/getFreeipaUpgradeOptions:
+    post:
+      summary: Get available images for FreeIPA upgrade.
+      description: Get available images for FreeIPA upgrade. If catalog is defined use the catalog as image source.
+      operationId: getFreeipaUpgradeOptions
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetFreeipaUpgradeOptionsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetFreeipaUpgradeOptionsResponse'
         default:
           description: The default response on an error.
           schema:
@@ -3486,7 +3507,7 @@ definitions:
     properties:
       environmentName:
         type: string
-        description: The names or CRN of the environment.
+        description: The names or CRN of the environment. In case of hybrid environments this can be only CRN.
   DescribeEnvironmentResponse:
     type: object
     description: Response object for a describe environment request.
@@ -5014,6 +5035,13 @@ definitions:
       password:
         type: string
         description: The proxy password.
+      inboundProxyCidr:
+        type: array
+        items:
+          type: string
+          x-hidden: true
+          x-hidden-reason: IN_DEVELOPMENT
+        description: Allow these CIDR for Inbound communication.
   CreateProxyConfigRequest:
     type: object
     description: Request object for a create proxy config request.
@@ -5838,6 +5866,33 @@ definitions:
       operationId:
         description: UUID of the request for this operation. This ID can be used for geting status on the operation.
         type: string
+  GetFreeipaUpgradeOptionsRequest:
+    type: object
+    description: The request object for retrieving FreeIPA upgrade candidates.
+    required:
+      - environment
+    properties:
+      environment:
+        type: string
+        description: The name or the CRN of the environment.
+      catalog:
+        type: string
+        description: The URL of the source image catalog. If not specify this option we'll use image catalog of the current image.
+      allowMajorOsUpgrade:
+        type: boolean
+        description: Allows the upgrade to a subsequent major OS version in the series.
+  GetFreeipaUpgradeOptionsResponse:
+    type: object
+    description: The response object with available FreeIPA upgrade candidates.
+    properties:
+      images:
+        type: array
+        description: The list of the upgrade candidates.
+        items:
+          $ref: '#/definitions/ImageInfoResponse'
+      currentImage:
+        description: The current image.
+        $ref: '#/definitions/ImageInfoResponse'
   UpscaleFreeipaRequest:
     type: object
     description: The request object for FreeIPA upscale.

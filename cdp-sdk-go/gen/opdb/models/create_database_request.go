@@ -26,7 +26,10 @@ type CreateDatabaseRequest struct {
 	// Parameters to configure the AutoScaling
 	AutoScalingParameters *AutoScalingParameters `json:"autoScalingParameters,omitempty"`
 
-	// Uses provided compute cluster for Kubernetes clusters instead of creating a new one.
+	// Utilizes the existing compute cluster with the provided CRN instead of creating a new one.
+	ComputeClusterCrn string `json:"computeClusterCrn,omitempty"`
+
+	// Uses provided compute cluster for Kubernetes clusters instead of creating a new one. Deprecated, use `computeClusterCrn` instead.
 	ComputeClusterID string `json:"computeClusterId,omitempty"`
 
 	// Optional tags to apply to launched infrastructure resources

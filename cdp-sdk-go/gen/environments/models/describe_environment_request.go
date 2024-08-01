@@ -19,7 +19,7 @@ import (
 // swagger:model DescribeEnvironmentRequest
 type DescribeEnvironmentRequest struct {
 
-	// The names or CRN of the environment.
+	// The names or CRN of the environment. In case of hybrid environments this can be only CRN.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 }

@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -16,6 +17,9 @@ import (
 //
 // swagger:model ServiceResources
 type ServiceResources struct {
+
+	// Resource details for the nodes used in All Purpose Virtual Clusters.
+	AllPurposeInstanceGroupDetails *AllPurposeInstanceGroupDetailsResponse `json:"allPurposeInstanceGroupDetails,omitempty"`
 
 	// CPU Requests for the entire CDE service quota.
 	CPURequests string `json:"cpuRequests,omitempty"`
@@ -56,11 +60,69 @@ type ServiceResources struct {
 
 // Validate validates this service resources
 func (m *ServiceResources) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateAllPurposeInstanceGroupDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this service resources based on context it is used
+func (m *ServiceResources) validateAllPurposeInstanceGroupDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.AllPurposeInstanceGroupDetails) { // not required
+		return nil
+	}
+
+	if m.AllPurposeInstanceGroupDetails != nil {
+		if err := m.AllPurposeInstanceGroupDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("allPurposeInstanceGroupDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("allPurposeInstanceGroupDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this service resources based on the context it is used
 func (m *ServiceResources) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAllPurposeInstanceGroupDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ServiceResources) contextValidateAllPurposeInstanceGroupDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AllPurposeInstanceGroupDetails != nil {
+
+		if swag.IsZero(m.AllPurposeInstanceGroupDetails) { // not required
+			return nil
+		}
+
+		if err := m.AllPurposeInstanceGroupDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("allPurposeInstanceGroupDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("allPurposeInstanceGroupDetails")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

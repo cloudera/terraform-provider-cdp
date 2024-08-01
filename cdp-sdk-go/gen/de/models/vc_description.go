@@ -57,6 +57,9 @@ type VcDescription struct {
 	// Safari URL for the Virtual Cluster.
 	SafariURL string `json:"safariUrl,omitempty"`
 
+	// Default timeout for Sessions.
+	SessionTimeout string `json:"sessionTimeout,omitempty"`
+
 	// SMTP Configurations for Airflow Email Alerts.
 	SMTPConfig *SMTPConfigResponse `json:"smtpConfig,omitempty"`
 

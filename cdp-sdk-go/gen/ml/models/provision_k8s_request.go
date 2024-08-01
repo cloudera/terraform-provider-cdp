@@ -15,7 +15,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// ProvisionK8sRequest Request object for workspace provision.
+// ProvisionK8sRequest Request object for workspace provision. Required in public cloud.
 //
 // swagger:model ProvisionK8sRequest
 type ProvisionK8sRequest struct {

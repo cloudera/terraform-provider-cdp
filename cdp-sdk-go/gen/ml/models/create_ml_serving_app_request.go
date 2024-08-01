@@ -23,6 +23,10 @@ type CreateMlServingAppRequest struct {
 	// Required: true
 	AppName *string `json:"appName"`
 
+	// The cluster CRN of an existing cluster that the AI inference App will use.
+	// Required: true
+	ClusterCrn *string `json:"clusterCrn"`
+
 	// The boolean flag to disable TLS setup for MlServingApp. By default, the TLS is enabled.
 	DisableTLS bool `json:"disableTLS,omitempty"`
 
@@ -30,9 +34,12 @@ type CreateMlServingAppRequest struct {
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
 
-	// Whether to create a private cluster.
+	// The whitelist of IPs for load balancer.
+	LoadBalancerIPWhitelists []string `json:"loadBalancerIPWhitelists"`
+
+	// The version of ML workload app to install.
 	// Required: true
-	IsPrivateCluster *bool `json:"isPrivateCluster"`
+	MlservingVersion *string `json:"mlservingVersion"`
 
 	// The request for Kubernetes cluster provisioning. Required in public cloud.
 	ProvisionK8sRequest *MlServingProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
@@ -52,11 +59,15 @@ func (m *CreateMlServingAppRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateClusterCrn(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateEnvironmentCrn(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateIsPrivateCluster(formats); err != nil {
+	if err := m.validateMlservingVersion(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -79,6 +90,15 @@ func (m *CreateMlServingAppRequest) validateAppName(formats strfmt.Registry) err
 	return nil
 }
 
+func (m *CreateMlServingAppRequest) validateClusterCrn(formats strfmt.Registry) error {
+
+	if err := validate.Required("clusterCrn", "body", m.ClusterCrn); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *CreateMlServingAppRequest) validateEnvironmentCrn(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
@@ -88,9 +108,9 @@ func (m *CreateMlServingAppRequest) validateEnvironmentCrn(formats strfmt.Regist
 	return nil
 }
 
-func (m *CreateMlServingAppRequest) validateIsPrivateCluster(formats strfmt.Registry) error {
+func (m *CreateMlServingAppRequest) validateMlservingVersion(formats strfmt.Registry) error {
 
-	if err := validate.Required("isPrivateCluster", "body", m.IsPrivateCluster); err != nil {
+	if err := validate.Required("mlservingVersion", "body", m.MlservingVersion); err != nil {
 		return err
 	}
 

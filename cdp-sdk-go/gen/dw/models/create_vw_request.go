@@ -38,11 +38,17 @@ type CreateVwRequest struct {
 	// Required: true
 	DbcID *string `json:"dbcId"`
 
+	// Provides EBS gp3 volume as temporary storage space for Hive LLAP cache, and improves query performance. Configurable only at Virtual Warehouse creation. Using EBS volumes incurs additional costs.
+	EbsLLAPSpillGB int32 `json:"ebsLLAPSpillGB,omitempty"`
+
 	// Enable Unified Analytics. In the case of Hive Virtual Warehouses, this cannot be provided, because this value is inferred. In the case of Impala, this can be set. Passing --query-isolation-options will be considered only if this flag is set to true. If Unified Analytics is enabled then the "enableShutdownOfCoordinator" in --impala-ha-settings is explicitly disabled (ignored) and should not be provided, furthermore the "highAvailabilityMode" in --impala-ha-settings cannot be set to ACTIVE_ACTIVE.
 	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
 
 	// DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` Default: `LDAP` if not specified
 	HiveAuthenticationMode *string `json:"hiveAuthenticationMode,omitempty"`
+
+	// Set Hive Server High Availability mode in Private Cloud: * `DISABLED` (default) - Disables Hive Server high availability. * `ACTIVE_PASSIVE` - Runs two Hive Server instances, one active and one passive. Hive session failover is not supported in this setup.
+	HiveServerHaMode *string `json:"hiveServerHaMode,omitempty"`
 
 	// version of the Virtual Warehouse.
 	ImageVersion string `json:"imageVersion,omitempty"`

@@ -824,6 +824,79 @@ func (_c *MockDwClientService_CreatePrivateCluster_Call) RunAndReturn(run func(*
 	return _c
 }
 
+// CreateResourceTemplate provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) CreateResourceTemplate(params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateResourceTemplate")
+	}
+
+	var r0 *operations.CreateResourceTemplateOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.CreateResourceTemplateParams, ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.CreateResourceTemplateParams, ...operations.ClientOption) *operations.CreateResourceTemplateOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateResourceTemplateOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.CreateResourceTemplateParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_CreateResourceTemplate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateResourceTemplate'
+type MockDwClientService_CreateResourceTemplate_Call struct {
+	*mock.Call
+}
+
+// CreateResourceTemplate is a helper method to define mock.On call
+//   - params *operations.CreateResourceTemplateParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateResourceTemplate(params interface{}, opts ...interface{}) *MockDwClientService_CreateResourceTemplate_Call {
+	return &MockDwClientService_CreateResourceTemplate_Call{Call: _e.mock.On("CreateResourceTemplate",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateResourceTemplate_Call) Run(run func(params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_CreateResourceTemplate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.CreateResourceTemplateParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateResourceTemplate_Call) Return(_a0 *operations.CreateResourceTemplateOK, _a1 error) *MockDwClientService_CreateResourceTemplate_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateResourceTemplate_Call) RunAndReturn(run func(*operations.CreateResourceTemplateParams, ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error)) *MockDwClientService_CreateResourceTemplate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateVw provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) CreateVw(params *operations.CreateVwParams, opts ...operations.ClientOption) (*operations.CreateVwOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -1404,6 +1477,79 @@ func (_c *MockDwClientService_DeleteDbcDiagnosticDataJob_Call) Return(_a0 *opera
 }
 
 func (_c *MockDwClientService_DeleteDbcDiagnosticDataJob_Call) RunAndReturn(run func(*operations.DeleteDbcDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DeleteDbcDiagnosticDataJobOK, error)) *MockDwClientService_DeleteDbcDiagnosticDataJob_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteResourceTemplate provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) DeleteResourceTemplate(params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteResourceTemplate")
+	}
+
+	var r0 *operations.DeleteResourceTemplateOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.DeleteResourceTemplateParams, ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.DeleteResourceTemplateParams, ...operations.ClientOption) *operations.DeleteResourceTemplateOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteResourceTemplateOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.DeleteResourceTemplateParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_DeleteResourceTemplate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteResourceTemplate'
+type MockDwClientService_DeleteResourceTemplate_Call struct {
+	*mock.Call
+}
+
+// DeleteResourceTemplate is a helper method to define mock.On call
+//   - params *operations.DeleteResourceTemplateParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteResourceTemplate(params interface{}, opts ...interface{}) *MockDwClientService_DeleteResourceTemplate_Call {
+	return &MockDwClientService_DeleteResourceTemplate_Call{Call: _e.mock.On("DeleteResourceTemplate",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteResourceTemplate_Call) Run(run func(params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteResourceTemplate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.DeleteResourceTemplateParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteResourceTemplate_Call) Return(_a0 *operations.DeleteResourceTemplateOK, _a1 error) *MockDwClientService_DeleteResourceTemplate_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteResourceTemplate_Call) RunAndReturn(run func(*operations.DeleteResourceTemplateParams, ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error)) *MockDwClientService_DeleteResourceTemplate_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4109,6 +4255,79 @@ func (_c *MockDwClientService_ListLatestVersions_Call) RunAndReturn(run func(*op
 	return _c
 }
 
+// ListResourceTemplates provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) ListResourceTemplates(params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListResourceTemplates")
+	}
+
+	var r0 *operations.ListResourceTemplatesOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.ListResourceTemplatesParams, ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.ListResourceTemplatesParams, ...operations.ClientOption) *operations.ListResourceTemplatesOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListResourceTemplatesOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.ListResourceTemplatesParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_ListResourceTemplates_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListResourceTemplates'
+type MockDwClientService_ListResourceTemplates_Call struct {
+	*mock.Call
+}
+
+// ListResourceTemplates is a helper method to define mock.On call
+//   - params *operations.ListResourceTemplatesParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListResourceTemplates(params interface{}, opts ...interface{}) *MockDwClientService_ListResourceTemplates_Call {
+	return &MockDwClientService_ListResourceTemplates_Call{Call: _e.mock.On("ListResourceTemplates",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListResourceTemplates_Call) Run(run func(params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption)) *MockDwClientService_ListResourceTemplates_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.ListResourceTemplatesParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListResourceTemplates_Call) Return(_a0 *operations.ListResourceTemplatesOK, _a1 error) *MockDwClientService_ListResourceTemplates_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_ListResourceTemplates_Call) RunAndReturn(run func(*operations.ListResourceTemplatesParams, ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error)) *MockDwClientService_ListResourceTemplates_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListRestores provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) ListRestores(params *operations.ListRestoresParams, opts ...operations.ClientOption) (*operations.ListRestoresOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -5963,6 +6182,79 @@ func (_c *MockDwClientService_UpdatePrivateCluster_Call) Return(_a0 *operations.
 }
 
 func (_c *MockDwClientService_UpdatePrivateCluster_Call) RunAndReturn(run func(*operations.UpdatePrivateClusterParams, ...operations.ClientOption) (*operations.UpdatePrivateClusterOK, error)) *MockDwClientService_UpdatePrivateCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateResourceTemplate provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) UpdateResourceTemplate(params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateResourceTemplate")
+	}
+
+	var r0 *operations.UpdateResourceTemplateOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateResourceTemplateParams, ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateResourceTemplateParams, ...operations.ClientOption) *operations.UpdateResourceTemplateOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateResourceTemplateOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateResourceTemplateParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_UpdateResourceTemplate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateResourceTemplate'
+type MockDwClientService_UpdateResourceTemplate_Call struct {
+	*mock.Call
+}
+
+// UpdateResourceTemplate is a helper method to define mock.On call
+//   - params *operations.UpdateResourceTemplateParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateResourceTemplate(params interface{}, opts ...interface{}) *MockDwClientService_UpdateResourceTemplate_Call {
+	return &MockDwClientService_UpdateResourceTemplate_Call{Call: _e.mock.On("UpdateResourceTemplate",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateResourceTemplate_Call) Run(run func(params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateResourceTemplate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateResourceTemplateParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateResourceTemplate_Call) Return(_a0 *operations.UpdateResourceTemplateOK, _a1 error) *MockDwClientService_UpdateResourceTemplate_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateResourceTemplate_Call) RunAndReturn(run func(*operations.UpdateResourceTemplateParams, ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error)) *MockDwClientService_UpdateResourceTemplate_Call {
 	_c.Call.Return(run)
 	return _c
 }

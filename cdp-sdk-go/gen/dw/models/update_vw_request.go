@@ -33,6 +33,9 @@ type UpdateVwRequest struct {
 	// DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` If not set then the authentication mode will not be changed during update.
 	HiveAuthenticationMode *string `json:"hiveAuthenticationMode,omitempty"`
 
+	// If specified, modifies Hive Server High Availability mode in Private Cloud: * `DISABLED` - Disables Hive Server high availability. * `ACTIVE_PASSIVE` - Runs two Hive Server instances, one active and one passive. Hive session failover is not supported in this setup.
+	HiveServerHaMode *string `json:"hiveServerHaMode,omitempty"`
+
 	// High Availability settings update for the Impala Virtual Warehouse.
 	ImpalaHaSettings *ImpalaHASettingsUpdateRequest `json:"impalaHaSettings,omitempty"`
 
@@ -44,6 +47,9 @@ type UpdateVwRequest struct {
 
 	// Query isolation settings for Hive Virtual Warehouses.
 	QueryIsolationOptions *QueryIsolationOptionsRequest `json:"queryIsolationOptions,omitempty"`
+
+	// Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.
+	ResourcePool string `json:"resourcePool,omitempty"`
 
 	// Name of configuration template to use.
 	// Enum: ["xsmall","small","medium","large"]

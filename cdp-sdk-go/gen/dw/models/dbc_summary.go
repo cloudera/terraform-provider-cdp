@@ -41,6 +41,9 @@ type DbcSummary struct {
 	// The name of the Resource Pool the Database Catalog is in.
 	ResourcePool string `json:"resourcePool,omitempty"`
 
+	// The actual resources used by the Database Catalog.
+	Resources map[string]ApplicationResources `json:"resources,omitempty"`
+
 	// Status of the Database Catalog. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.
 	Status string `json:"status,omitempty"`
 
@@ -58,6 +61,10 @@ func (m *DbcSummary) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCreator(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateResources(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -102,6 +109,32 @@ func (m *DbcSummary) validateCreator(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *DbcSummary) validateResources(formats strfmt.Registry) error {
+	if swag.IsZero(m.Resources) { // not required
+		return nil
+	}
+
+	for k := range m.Resources {
+
+		if err := validate.Required("resources"+"."+k, "body", m.Resources[k]); err != nil {
+			return err
+		}
+		if val, ok := m.Resources[k]; ok {
+			if err := val.Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resources" + "." + k)
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resources" + "." + k)
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *DbcSummary) validateStatusChangedAt(formats strfmt.Registry) error {
 	if swag.IsZero(m.StatusChangedAt) { // not required
 		return nil
@@ -119,6 +152,10 @@ func (m *DbcSummary) ContextValidate(ctx context.Context, formats strfmt.Registr
 	var res []error
 
 	if err := m.contextValidateCreator(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResources(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -144,6 +181,21 @@ func (m *DbcSummary) contextValidateCreator(ctx context.Context, formats strfmt.
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *DbcSummary) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range m.Resources {
+
+		if val, ok := m.Resources[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	return nil

@@ -21,6 +21,30 @@ import (
 // swagger:model EnableServiceRequest
 type EnableServiceRequest struct {
 
+	// Initial Instances when the service is enabled for the All Purpose Instance Group.
+	AllPurposeInitialInstances int32 `json:"allPurposeInitialInstances,omitempty"`
+
+	// Initial spot Instances when the service is enabled for the All Purpose Instance Group.
+	AllPurposeInitialSpotInstances int32 `json:"allPurposeInitialSpotInstances,omitempty"`
+
+	// Instance type of the cluster for CDE Service for the All Purpose Instance Group.
+	AllPurposeInstanceType string `json:"allPurposeInstanceType,omitempty"`
+
+	// Maximum Instances for the CDE Service for the All Purpose Instance Group.
+	AllPurposeMaximumInstances int32 `json:"allPurposeMaximumInstances,omitempty"`
+
+	// Maximum Spot Instances for the CDE Service for the All Purpose Instance Group.
+	AllPurposeMaximumSpotInstances int32 `json:"allPurposeMaximumSpotInstances,omitempty"`
+
+	// Minimum Instances for the CDE Service for the All Purpose Instance Group.
+	AllPurposeMinimumInstances int32 `json:"allPurposeMinimumInstances,omitempty"`
+
+	// Minimum Spot instances for the CDE Service for the All Purpose Instance Group.
+	AllPurposeMinimumSpotInstances int32 `json:"allPurposeMinimumSpotInstances,omitempty"`
+
+	// EBS volume size in GB for the All Purpose Instance Group.
+	AllPurposeRootVolumeSize int32 `json:"allPurposeRootVolumeSize,omitempty"`
+
 	// Chart overrides for enabling a service.
 	ChartValueOverrides []*ChartValueOverridesRequest `json:"chartValueOverrides"`
 

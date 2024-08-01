@@ -19,6 +19,9 @@ import (
 // swagger:model CreatePrivateClusterRequest
 type CreatePrivateClusterRequest struct {
 
+	// A certificate and private key pair belonging together for mutual SSL handshake when Database Catalog (aka DBC) connects to the metastore database.
+	DbClientCredentials *KeyPairCredentials `json:"dbClientCredentials,omitempty"`
+
 	// The name of the HUE database. Not required for embedded databases.
 	DbHue string `json:"dbHue,omitempty"`
 
@@ -49,6 +52,10 @@ type CreatePrivateClusterRequest struct {
 func (m *CreatePrivateClusterRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateDbClientCredentials(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateEnvironmentCrn(formats); err != nil {
 		res = append(res, err)
 	}
@@ -56,6 +63,25 @@ func (m *CreatePrivateClusterRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreatePrivateClusterRequest) validateDbClientCredentials(formats strfmt.Registry) error {
+	if swag.IsZero(m.DbClientCredentials) { // not required
+		return nil
+	}
+
+	if m.DbClientCredentials != nil {
+		if err := m.DbClientCredentials.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dbClientCredentials")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dbClientCredentials")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -68,8 +94,38 @@ func (m *CreatePrivateClusterRequest) validateEnvironmentCrn(formats strfmt.Regi
 	return nil
 }
 
-// ContextValidate validates this create private cluster request based on context it is used
+// ContextValidate validate this create private cluster request based on the context it is used
 func (m *CreatePrivateClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDbClientCredentials(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CreatePrivateClusterRequest) contextValidateDbClientCredentials(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DbClientCredentials != nil {
+
+		if swag.IsZero(m.DbClientCredentials) { // not required
+			return nil
+		}
+
+		if err := m.DbClientCredentials.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dbClientCredentials")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dbClientCredentials")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

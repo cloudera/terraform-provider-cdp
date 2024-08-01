@@ -65,11 +65,14 @@ type CreateVcRequest struct {
 	// Enum: ["ALL","NONE"]
 	RuntimeSpotComponent string `json:"runtimeSpotComponent,omitempty"`
 
+	// Set a default timeout for your sessions. The default option is 8 hours. This option can be overridden when creating a new session.
+	SessionTimeout string `json:"sessionTimeout,omitempty"`
+
 	// SMTP Configurations for Airflow Email Alerts.
 	SMTPConfigs *SMTPConfigRequest `json:"smtpConfigs,omitempty"`
 
-	// Spark version for the virtual cluster. Currently supported spark versions are SPARK2(deprecated), SPARK3 and SPARK3_3. This feature is only supported in CDE-1.7.0 and beyond. SPARK3_3 is supported in CDE-1.19 and beyond.
-	// Enum: ["SPARK2","SPARK2_4","SPARK3","SPARK3_0","SPARK3_1","SPARK3_2","SPARK3_3"]
+	// Spark version for the virtual cluster. Currently supported Spark versions are SPARK2(deprecated), SPARK3, SPARK3_3 and SPARK3_5. This feature is only supported in CDE-1.7.0 and later. SPARK3_3 is supported in CDE-1.19 and later. SPARK3_5 is supported in CDE-1.21 and later.
+	// Enum: ["SPARK2","SPARK2_4","SPARK3","SPARK3_0","SPARK3_1","SPARK3_2","SPARK3_3","SPARK3_5"]
 	SparkVersion string `json:"sparkVersion,omitempty"`
 
 	// Tier of the virtual cluster. Currently supported tiers are CORE and ALLP. CORE tiered virtual cluster enables operational deployment via batch jobs. ALLP virtual clusters are all-purpose virtual clusters supporting both operational batch jobs and interactive sessions. This feature is only supported in CDE-1.19.0 and beyond.
@@ -256,7 +259,7 @@ var createVcRequestTypeSparkVersionPropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["SPARK2","SPARK2_4","SPARK3","SPARK3_0","SPARK3_1","SPARK3_2","SPARK3_3"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["SPARK2","SPARK2_4","SPARK3","SPARK3_0","SPARK3_1","SPARK3_2","SPARK3_3","SPARK3_5"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -286,6 +289,9 @@ const (
 
 	// CreateVcRequestSparkVersionSPARK33 captures enum value "SPARK3_3"
 	CreateVcRequestSparkVersionSPARK33 string = "SPARK3_3"
+
+	// CreateVcRequestSparkVersionSPARK35 captures enum value "SPARK3_5"
+	CreateVcRequestSparkVersionSPARK35 string = "SPARK3_5"
 )
 
 // prop value enum
