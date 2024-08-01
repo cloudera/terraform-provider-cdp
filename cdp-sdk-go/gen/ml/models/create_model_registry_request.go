@@ -19,6 +19,9 @@ import (
 // swagger:model CreateModelRegistryRequest
 type CreateModelRegistryRequest struct {
 
+	// The whitelist of CIDR blocks which can access the API server.
+	AuthorizedIPRanges []string `json:"authorizedIPRanges"`
+
 	// The CRN of the backup that this model registry is created from.
 	BackupCrn string `json:"backupCrn,omitempty"`
 
@@ -63,6 +66,9 @@ type CreateModelRegistryRequest struct {
 
 	// The boolean flag to request a public load balancer. By default, a private load balancer is used.
 	UsePublicLoadBalancer bool `json:"usePublicLoadBalancer,omitempty"`
+
+	// Whether to whitelist only authorizedIPRanges given or all public IPs
+	WhitelistAuthorizedIPRanges bool `json:"whitelistAuthorizedIPRanges,omitempty"`
 }
 
 // Validate validates this create model registry request

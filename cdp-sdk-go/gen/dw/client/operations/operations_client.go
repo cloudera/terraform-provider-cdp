@@ -76,6 +76,8 @@ type ClientService interface {
 
 	CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error)
 
+	CreateResourceTemplate(params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error)
+
 	CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error)
 
 	CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error)
@@ -91,6 +93,8 @@ type ClientService interface {
 	DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error)
 
 	DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error)
+
+	DeleteResourceTemplate(params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error)
 
 	DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error)
 
@@ -166,6 +170,8 @@ type ClientService interface {
 
 	ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error)
 
+	ListResourceTemplates(params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error)
+
 	ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error)
 
 	ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
@@ -215,6 +221,8 @@ type ClientService interface {
 	UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error)
 
 	UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error)
+
+	UpdateResourceTemplate(params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error)
 
 	UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error)
 
@@ -665,6 +673,45 @@ func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts .
 }
 
 /*
+CreateResourceTemplate creates a resource allocation template
+
+This command's purpose is to facilitate the creation of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command.
+*/
+func (a *Client) CreateResourceTemplate(params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateResourceTemplateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createResourceTemplate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createResourceTemplate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateResourceTemplateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateResourceTemplateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateResourceTemplateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 CreateVw creates a virtual warehouse
 
 Create a Virtual Warehouse.
@@ -973,6 +1020,45 @@ func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobPa
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DeleteDbcDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteResourceTemplate deletes a resource allocation template
+
+This command's purpose is to facilitate the delete of resource templates in CDW.
+*/
+func (a *Client) DeleteResourceTemplate(params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteResourceTemplateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteResourceTemplate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteResourceTemplate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteResourceTemplateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteResourceTemplateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteResourceTemplateDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2420,6 +2506,45 @@ func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...Cl
 }
 
 /*
+ListResourceTemplates gets default resource allocation templates
+
+This command provides a predefined set of available resource configuration in CDW. Users allowed to tailor these default CPU and Memory settings according their needs using the 'update-resource'  command. Setting up these values correctly is crucial when creating a Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object has to be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field respectively, in order to specify the chosen resource allocation size. Please note, the 'default' fields in the response denotes default supplied value if the 'template' not specified in the create commands. These templates are versioned, so users are able to roll-back to a particular version. Existing resources not affected by roll-back. Learn more about each of the resource allocations with the 'describe-resource' command.
+*/
+func (a *Client) ListResourceTemplates(params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListResourceTemplatesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listResourceTemplates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listResourceTemplates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListResourceTemplatesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListResourceTemplatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListResourceTemplatesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListRestores lists restores
 
 Lists restores associated with the data warehouse.
@@ -3391,6 +3516,45 @@ func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts .
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdatePrivateClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateResourceTemplate updates a resource allocation template
+
+This command's purpose is to facilitate the update of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command.
+*/
+func (a *Client) UpdateResourceTemplate(params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateResourceTemplateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateResourceTemplate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateResourceTemplate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateResourceTemplateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateResourceTemplateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateResourceTemplateDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

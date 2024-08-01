@@ -34,6 +34,9 @@ type UpdatePrivateClusterRequest struct {
 
 	// Cluster description.
 	Description string `json:"description,omitempty"`
+
+	// Used to set the resource pool of the Private Cloud Data Services clusters that are not enrolled for quota management.
+	ResourcePool string `json:"resourcePool,omitempty"`
 }
 
 // Validate validates this update private cluster request

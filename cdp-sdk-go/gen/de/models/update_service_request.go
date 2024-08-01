@@ -19,6 +19,18 @@ import (
 // swagger:model UpdateServiceRequest
 type UpdateServiceRequest struct {
 
+	// Maximum number of instances for the CDE service for the All Purpose Instance Group.
+	AllPurposeMaximumInstances int32 `json:"allPurposeMaximumInstances,omitempty"`
+
+	// Maximum number of spot instances for the CDE service for the All Purpose Instance Group.
+	AllPurposeMaximumSpotInstances int32 `json:"allPurposeMaximumSpotInstances,omitempty"`
+
+	// Minimum number of instances for the CDE service for the All Purpose Instance Group.
+	AllPurposeMinimumInstances int32 `json:"allPurposeMinimumInstances,omitempty"`
+
+	// Minimum number of spot instances for the CDE service for the All Purpose Instance Group.
+	AllPurposeMinimumSpotInstances int32 `json:"allPurposeMinimumSpotInstances,omitempty"`
+
 	// Cluster ID of the service to update.
 	// Required: true
 	ClusterID *string `json:"clusterId"`

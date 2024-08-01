@@ -28,6 +28,9 @@ type KubernetesCluster struct {
 	// The base domain for this cluster.
 	BaseDomain string `json:"baseDomain,omitempty"`
 
+	// The cluster CRN of an existing cluster that the AI inference App will use.
+	ClusterCrn string `json:"clusterCrn,omitempty"`
+
 	// The name of the Kubernetes cluster.
 	ClusterName string `json:"clusterName,omitempty"`
 

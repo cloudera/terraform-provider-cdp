@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.113 (BETA)
+  version: 0.9.117 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -1572,9 +1572,9 @@ definitions:
     properties:
       datalakeName:
         type: string
-        description: The datalake name. This name must be unique, must have between 5 and 100 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
+        description: The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
         minLength: 5
-        maxLength: 100
+        maxLength: 40
       environmentName:
         type: string
         description: The environment name or CRN.
@@ -1701,9 +1701,9 @@ definitions:
     properties:
       datalakeName:
         type: string
-        description: The datalake name. This name must be unique, must have between 5 and 100 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
+        description: The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
         minLength: 5
-        maxLength: 100
+        maxLength: 40
       environmentName:
         type: string
         description: The environment name or CRN.
@@ -1777,9 +1777,9 @@ definitions:
     properties:
       datalakeName:
         type: string
-        description: The datalake name. This name must be unique, must have between 5 and 100 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
+        description: The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
         minLength: 5
-        maxLength: 100
+        maxLength: 40
       environmentName:
         type: string
         description: The environment name or CRN.

@@ -26,6 +26,12 @@ type AutoScalingConfig struct {
 	// The maximum percentage threshold for the CPU utilization of the worker nodes. The CPU utilization is obtained from the Cloudera Manager metric 'cpu_percent' across worker nodes. Set 100 or more to disable the CPU metrics.
 	MaxCPUUtilization int32 `json:"maxCpuUtilization,omitempty"`
 
+	// The maximum percentage of HDFS utilization for the database before the scaling is triggered.
+	MaxHdfsUsagePercentage int32 `json:"maxHdfsUsagePercentage,omitempty"`
+
+	// The maximum number of regions per region server.
+	MaxRegionsPerRegionServer int32 `json:"maxRegionsPerRegionServer,omitempty"`
+
 	// Maximum number of worker nodes as per this metrics can be scaled up to.
 	MaxWorkersForDatabase int32 `json:"maxWorkersForDatabase,omitempty"`
 

@@ -30,6 +30,9 @@ type ProxyConfig struct {
 	// Required: true
 	Host *string `json:"host"`
 
+	// Allow these CIDR for Inbound communication.
+	InboundProxyCidr []string `json:"inboundProxyCidr"`
+
 	// Comma-separated list of 'CIDR', '[.]host[:port]' (can be a subdomain as well) and 'IP[:port]' entries that should not be proxied. Wildcards are not accepted. For example .cloudera.com,192.168.1.1
 	NoProxyHosts string `json:"noProxyHosts,omitempty"`
 

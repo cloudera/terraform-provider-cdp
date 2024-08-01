@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// DescribeServerSettingItemRequiresUpdate Indicates an update requirement for the change to take effect. `ENVIRONMENT` - Means that the environments need to be updated/recreated for the setting change to take effect. `DBC` - Means that the Database Catalogs need an update/recreation. `VW` - Means that the Virtual Warehouses need the update/recreation. `VIZ` - Means that the Dataviz need the update/recreation.
+// DescribeServerSettingItemRequiresUpdate Indicates an update requirement for the change to take effect. `ENVIRONMENT` - Means that the environments need to be updated/recreated for the setting change to take effect. `DBC` - Means that the Database Catalogs need an update/recreation. `IMPALA` - Means that the Impala Virtual Warehouses need the update/recreation. `HIVE` - Means that the Hive Virtual Warehouses need the update/recreation. `TRINO` - Means that the Trino Virtual Warehouses need the update/recreation. `VIZ` - Means that the Dataviz need the update/recreation. `CDW_HUE` - Means that the CDW Hues need an update/recreation.
 //
 // swagger:model DescribeServerSettingItemRequiresUpdate
 type DescribeServerSettingItemRequiresUpdate string
@@ -36,11 +36,20 @@ const (
 	// DescribeServerSettingItemRequiresUpdateDBC captures enum value "DBC"
 	DescribeServerSettingItemRequiresUpdateDBC DescribeServerSettingItemRequiresUpdate = "DBC"
 
-	// DescribeServerSettingItemRequiresUpdateVW captures enum value "VW"
-	DescribeServerSettingItemRequiresUpdateVW DescribeServerSettingItemRequiresUpdate = "VW"
+	// DescribeServerSettingItemRequiresUpdateIMPALA captures enum value "IMPALA"
+	DescribeServerSettingItemRequiresUpdateIMPALA DescribeServerSettingItemRequiresUpdate = "IMPALA"
+
+	// DescribeServerSettingItemRequiresUpdateHIVE captures enum value "HIVE"
+	DescribeServerSettingItemRequiresUpdateHIVE DescribeServerSettingItemRequiresUpdate = "HIVE"
+
+	// DescribeServerSettingItemRequiresUpdateTRINO captures enum value "TRINO"
+	DescribeServerSettingItemRequiresUpdateTRINO DescribeServerSettingItemRequiresUpdate = "TRINO"
 
 	// DescribeServerSettingItemRequiresUpdateVIZ captures enum value "VIZ"
 	DescribeServerSettingItemRequiresUpdateVIZ DescribeServerSettingItemRequiresUpdate = "VIZ"
+
+	// DescribeServerSettingItemRequiresUpdateCDWHUE captures enum value "CDW_HUE"
+	DescribeServerSettingItemRequiresUpdateCDWHUE DescribeServerSettingItemRequiresUpdate = "CDW_HUE"
 )
 
 // for schema
@@ -48,7 +57,7 @@ var describeServerSettingItemRequiresUpdateEnum []interface{}
 
 func init() {
 	var res []DescribeServerSettingItemRequiresUpdate
-	if err := json.Unmarshal([]byte(`["ENVIRONMENT","DBC","VW","VIZ"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["ENVIRONMENT","DBC","IMPALA","HIVE","TRINO","VIZ","CDW_HUE"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

@@ -27,9 +27,9 @@ type CreateAWSDatalakeRequest struct {
 	// Configure custom properties on an instance group level.
 	CustomInstanceGroups []*SdxInstanceGroupRequest `json:"customInstanceGroups"`
 
-	// The datalake name. This name must be unique, must have between 5 and 100 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
+	// The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
 	// Required: true
-	// Max Length: 100
+	// Max Length: 40
 	// Min Length: 5
 	DatalakeName *string `json:"datalakeName"`
 
@@ -163,7 +163,7 @@ func (m *CreateAWSDatalakeRequest) validateDatalakeName(formats strfmt.Registry)
 		return err
 	}
 
-	if err := validate.MaxLength("datalakeName", "body", *m.DatalakeName, 100); err != nil {
+	if err := validate.MaxLength("datalakeName", "body", *m.DatalakeName, 40); err != nil {
 		return err
 	}
 

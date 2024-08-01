@@ -48,6 +48,9 @@ type VwSummary struct {
 	// ID of Database Catalog that the Virtual Warehouse is attached to.
 	DbcID string `json:"dbcId,omitempty"`
 
+	// Provides EBS gp3 volume as temporary storage space for Hive LLAP cache, and improves query performance. Configurable only at Virtual Warehouse creation. Using EBS volumes incurs additional costs.
+	EbsLLAPSpillGB int32 `json:"ebsLLAPSpillGB,omitempty"`
+
 	// Denotes whether the Unified Analytics is enabled.
 	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
 
@@ -56,6 +59,9 @@ type VwSummary struct {
 
 	// DEPRECATED - Authentication mode used by Hive Server: * `LDAP` * `KERBEROS`
 	HiveAuthenticationMode *string `json:"hiveAuthenticationMode,omitempty"`
+
+	// Hive Server High Availability mode in Private Cloud: * `DISABLED` - Hive Server high availability is disabled. * `ACTIVE_PASSIVE` - Hive Server high availability is enabled with one active and one passive instances. Hive session failover is not supported in this setup.
+	HiveServerHaMode *string `json:"hiveServerHaMode,omitempty"`
 
 	// The ID of the Virtual Warehouse.
 	ID string `json:"id,omitempty"`
@@ -89,6 +95,9 @@ type VwSummary struct {
 
 	// The name of the Resource Pool the Virtual Warehouse is in.
 	ResourcePool string `json:"resourcePool,omitempty"`
+
+	// The actual resources used by the Virtual Warehouse.
+	Resources map[string]ApplicationResources `json:"resources,omitempty"`
 
 	// Status of the Virtual Warehouse. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.
 	Status string `json:"status,omitempty"`
@@ -147,6 +156,10 @@ func (m *VwSummary) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateReplicaStatus(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateResources(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -336,6 +349,32 @@ func (m *VwSummary) validateReplicaStatus(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *VwSummary) validateResources(formats strfmt.Registry) error {
+	if swag.IsZero(m.Resources) { // not required
+		return nil
+	}
+
+	for k := range m.Resources {
+
+		if err := validate.Required("resources"+"."+k, "body", m.Resources[k]); err != nil {
+			return err
+		}
+		if val, ok := m.Resources[k]; ok {
+			if err := val.Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resources" + "." + k)
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resources" + "." + k)
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *VwSummary) validateStatusChangedAt(formats strfmt.Registry) error {
 	if swag.IsZero(m.StatusChangedAt) { // not required
 		return nil
@@ -443,6 +482,10 @@ func (m *VwSummary) ContextValidate(ctx context.Context, formats strfmt.Registry
 	}
 
 	if err := m.contextValidateReplicaStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResources(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -627,6 +670,21 @@ func (m *VwSummary) contextValidateReplicaStatus(ctx context.Context, formats st
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *VwSummary) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range m.Resources {
+
+		if val, ok := m.Resources[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	return nil

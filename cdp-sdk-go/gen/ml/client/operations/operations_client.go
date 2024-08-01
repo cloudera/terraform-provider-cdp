@@ -136,6 +136,8 @@ type ClientService interface {
 
 	SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error)
 
+	UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error)
+
 	UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error)
 
 	UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error)
@@ -1739,6 +1741,45 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...Client
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SuspendWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeMlServingApp upgrades a cloudera machine learning serving app
+
+Upgrades a Cloudera Machine Learning Serving App to the latest available version.
+*/
+func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeMlServingAppParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeMlServingApp",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/upgradeMlServingApp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeMlServingAppReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeMlServingAppOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeMlServingAppDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
