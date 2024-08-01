@@ -160,6 +160,11 @@ var instanceGroupSchemaAttributes = map[string]schema.Attribute{
 					ElementType:         types.StringType,
 					Optional:            true,
 				},
+				"availability_zones": schema.SetAttribute{
+					MarkdownDescription: "The set of availability zones that are going to be used for cluster creation on the given instance group.",
+					ElementType:         types.StringType,
+					Optional:            true,
+				},
 				"attached_volume_configuration": schema.ListNestedAttribute{
 					Required:            true,
 					MarkdownDescription: "Configuration regarding the attached volume to the specific instance group.",
