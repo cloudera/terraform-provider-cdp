@@ -187,7 +187,7 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 	tflog.Debug(ctx, fmt.Sprintf("%d instance group found in the input model.", len(model.InstanceGroup)))
 	for _, group := range model.InstanceGroup {
 		tflog.Debug(ctx, fmt.Sprintf("Converting InstanceGroupRequest: %+v.", group))
-		var volReqs []*datahubmodels.AttachedVolumeRequest
+		volReqs := make([]*datahubmodels.AttachedVolumeRequest, 0)
 		tflog.Debug(ctx, fmt.Sprintf("%d attached volume request found in the input model.", len(model.InstanceGroup)))
 		for _, vrs := range group.AttachedVolumeConfiguration {
 			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
