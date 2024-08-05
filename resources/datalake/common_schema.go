@@ -88,7 +88,7 @@ var generalAttributes = map[string]schema.Attribute{
 	"image": schema.SingleNestedAttribute{
 		Optional: true,
 		Attributes: map[string]schema.Attribute{
-			"catalog": schema.StringAttribute{
+			"catalog_name": schema.StringAttribute{
 				Optional: true,
 			},
 			"id": schema.StringAttribute{
