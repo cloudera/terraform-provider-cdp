@@ -33,12 +33,12 @@ type hiveTestParameters struct {
 }
 
 func HivePreCheck(t *testing.T) {
-	errMsg := "AWS Terraform acceptance testing requires environment variable %s to be set"
+	errMsg := "AWS CDW Hive Terraform acceptance testing requires environment variable %s to be set"
 	if _, ok := os.LookupEnv("CDW_CLUSTER_ID"); !ok {
-		t.Fatalf(errMsg, "CDW_CLUSTER_ID")
+		t.Skipf(errMsg, "CDW_CLUSTER_ID")
 	}
 	if _, ok := os.LookupEnv("CDW_DATABASE_CATALOG_ID"); !ok {
-		t.Fatalf(errMsg, "CDW_DATABASE_CATALOG_ID")
+		t.Skipf(errMsg, "CDW_DATABASE_CATALOG_ID")
 	}
 }
 
