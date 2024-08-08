@@ -25,79 +25,79 @@ Creates an Azure Data hub cluster.
 resource "cdp_datahub_azure_cluster" "azure-cluster" {
   name               = "<value>"
   environment        = "<value>"
-  cluster_template   = "7.2.15 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
-  cluster_definition = "7.2.15 - Data Engineering for Azure"
+  cluster_template   = "7.2.18 - Data Engineering: Apache Spark, Apache Hive, Apache Oozie"
+  cluster_definition = "7.2.18 - Data Engineering for Azure"
   /* The below section kept here as a working example if one would like to use the cluster creation w/o the usage of the cluster definition
 
-  /*instance_group = [
+  instance_group = [
     {
-      node_count = 0
-      instance_group_name = "gateway"
-      instance_group_type = "CORE"
-      instance_type = "m5.2xlarge"
-      root_volume_size = 100
-      attached_volume_configuration = [
-        {
-          volume_size = 100
-          volume_count = 1
-          volume_type = "gp3"
-        }
-      ]
-      recovery_mode = "MANUAL"
-      volume_encryption = {
-        encryption = false
-      }
-      recipes = []
-    },
-    {
-      node_count = 1
-      instance_group_name = "master"
-      instance_group_type = "GATEWAY"
-      instance_type = "m5.4xlarge"
-      root_volume_size = 100
-      attached_volume_configuration = [
-        {
-          volume_size = 100
-          volume_count = 1
-          volume_type = "gp3"
-        }
-      ]
-      recovery_mode = "MANUAL"
-      volume_encryption = {
-        encryption = false
-      }
-      recipes = []
-    },
-    {
-      node_count = 3
+      node_count          = 3
       instance_group_name = "worker"
       instance_group_type = "CORE"
-      instance_type = "r5d.2xlarge"
-      root_volume_size = 100
+      instance_type       = "Standard_D16s_v3"
+      root_volume_size    = 200
       attached_volume_configuration = [
         {
-          volume_size = 300
+          volume_size  = 100
           volume_count = 1
-          volume_type = "gp3"
+          volume_type  = "StandardSSD_LRS"
         }
       ]
+      volume_encryption = {
+        encryption = false
+      }
       recovery_mode = "MANUAL"
+      recipes       = []
+    },
+    {
+      node_count          = 1
+      instance_group_name = "master"
+      instance_group_type = "GATEWAY"
+      instance_type       = "Standard_D16s_v3"
+      root_volume_size    = 200
+      attached_volume_configuration = [
+        {
+          volume_size  = 100
+          volume_count = 1
+          volume_type  = "StandardSSD_LRS"
+        }
+      ]
+      volume_encryption = {
+        encryption = false
+      }
+      recovery_mode = "MANUAL"
+      recipes       = []
+    },
+    {
+      node_count                    = 1
+      instance_group_name           = "compute"
+      instance_group_type           = "CORE"
+      instance_type                 = "Standard_D16s_v3"
+      root_volume_size              = 100
+      recovery_mode                 = "MANUAL"
+      attached_volume_configuration = [
+        {
+          volume_size  = 100
+          volume_count = 1
+          volume_type  = "StandardSSD_LRS"
+        }
+      ]
       volume_encryption = {
         encryption = false
       }
       recipes = []
     },
     {
-      node_count = 3
-      instance_group_name = "compute"
+      node_count          = 0
+      instance_group_name = "gateway"
       instance_group_type = "CORE"
-      instance_type = "r5d.2xlarge"
-      root_volume_size = 100
+      instance_type       = "Standard_D8s_v3"
+      root_volume_size    = 200
       attached_volume_configuration = [
         {
-          volume_size = 300
+          volume_size  = 300
           volume_count = 1
-          volume_type = "ephemeral"
+          volume_type  = "StandardSSD_LRS"
         }
       ]
       recovery_mode = "MANUAL"
@@ -172,10 +172,6 @@ output "volume_type" {
 
 output "recovery_mode" {
   value = cdp_datahub_azure_cluster.azure-cluster.instance_group[*].recovery_mode
-}
-
-output "volume_encryption" {
-  value = cdp_datahub_azure_cluster.azure-cluster.instance_group[*].volume_encryption
 }
 
 output "encryption" {

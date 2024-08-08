@@ -24,29 +24,29 @@ Creates an AWS Data Warehouse cluster.
 # permissions and limitations governing your use of the file.
 
 resource "cdp_dw_aws_cluster" "example" {
-  crn  = cdp_datalake_aws_datalake.example.crn
-  name = "<value>"
-  cluster_id = "<value>"
+  crn                              = cdp_datalake_aws_datalake.example.crn
+  name                             = "<value>"
+  cluster_id                       = "<value>"
   node_role_cdw_managed_policy_arn = "<value>"
-  database_backup_retention_days = 7
+  database_backup_retention_days   = 7
   custom_registry_options = {
-    registry_type = "ECR"
+    registry_type  = "ECR"
     repository_url = "<value>"
   }
   custom_subdomain = ""
   network_settings = {
-    worker_subnet_ids = ["<value>", "<value>", "<value>"]
-    load_balancer_subnet_ids = ["<value>", "<value>", "<value>"]
-    use_overlay_network = false
+    worker_subnet_ids                     = ["<value>", "<value>", "<value>"]
+    load_balancer_subnet_ids              = ["<value>", "<value>", "<value>"]
+    use_overlay_network                   = false
     whitelist_k8s_cluster_access_ip_cidrs = ["0.0.0.0/0"]
-    whitelist_workload_access_ip_cidrs = ["0.0.0.0/0"]
-    use_private_load_balancer = true
-    use_public_worker_node = false
+    whitelist_workload_access_ip_cidrs    = ["0.0.0.0/0"]
+    use_private_load_balancer             = true
+    use_public_worker_node                = false
   }
   instance_settings = {
-    custom_ami_id = ""
-    enable_spot_instances = false
-    compute_instance_types = ["<value>"]
+    custom_ami_id             = ""
+    enable_spot_instances     = false
+    compute_instance_types    = ["<value>"]
     additional_instance_types = ["<value>"]
   }
 }

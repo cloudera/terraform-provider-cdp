@@ -84,7 +84,6 @@ output "recipes" {
 
 ### Optional
 
-- `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `enable_ranger_raz` (Boolean)
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)
@@ -98,28 +97,12 @@ output "recipes" {
 ### Read-Only
 
 - `certificate_expiration_state` (String)
-- `cloudera_manager` (Attributes) (see [below for nested schema](#nestedatt--cloudera_manager))
 - `creation_date` (String)
 - `crn` (String)
-- `endpoints` (Attributes Set) (see [below for nested schema](#nestedatt--endpoints))
 - `environment_crn` (String)
 - `id` (String) The ID of this resource.
-- `instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--instance_groups))
-- `product_versions` (Attributes Set) (see [below for nested schema](#nestedatt--product_versions))
 - `status` (String)
 - `status_reason` (String)
-
-<a id="nestedatt--custom_instance_groups"></a>
-### Nested Schema for `custom_instance_groups`
-
-Required:
-
-- `name` (String)
-
-Optional:
-
-- `instance_type` (String)
-
 
 <a id="nestedatt--image"></a>
 ### Nested Schema for `image`
@@ -151,61 +134,3 @@ Required:
 
 - `instance_group_name` (String) The name of the designated instance group.
 - `recipe_names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
-
-
-<a id="nestedatt--cloudera_manager"></a>
-### Nested Schema for `cloudera_manager`
-
-Read-Only:
-
-- `cloudera_manager_repository_url` (String)
-- `cloudera_manager_server_url` (String)
-- `version` (String)
-
-
-<a id="nestedatt--endpoints"></a>
-### Nested Schema for `endpoints`
-
-Read-Only:
-
-- `display_name` (String)
-- `knox_service` (String)
-- `mode` (String)
-- `open` (Boolean)
-- `service_name` (String)
-- `service_url` (String)
-
-
-<a id="nestedatt--instance_groups"></a>
-### Nested Schema for `instance_groups`
-
-Read-Only:
-
-- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--instance_groups--instances))
-- `name` (String)
-
-<a id="nestedatt--instance_groups--instances"></a>
-### Nested Schema for `instance_groups.instances`
-
-Read-Only:
-
-- `discovery_fqdn` (String)
-- `id` (String)
-- `instance_group` (String)
-- `instance_status` (String)
-- `instance_type_val` (String)
-- `private_ip` (String)
-- `public_ip` (String)
-- `ssh_port` (Number)
-- `state` (String)
-- `status_reason` (String)
-
-
-
-<a id="nestedatt--product_versions"></a>
-### Nested Schema for `product_versions`
-
-Read-Only:
-
-- `name` (String)
-- `version` (String)

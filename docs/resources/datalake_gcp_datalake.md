@@ -59,7 +59,6 @@ output "storage_location" {
 
 ### Optional
 
-- `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `enable_ranger_raz` (Boolean)
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)
@@ -88,18 +87,6 @@ Required:
 - `storage_location` (String)
 
 
-<a id="nestedatt--custom_instance_groups"></a>
-### Nested Schema for `custom_instance_groups`
-
-Required:
-
-- `name` (String)
-
-Optional:
-
-- `instance_type` (String)
-
-
 <a id="nestedatt--image"></a>
 ### Nested Schema for `image`
 
@@ -109,7 +96,7 @@ Required:
 
 Optional:
 
-- `catalog` (String)
+- `catalog_name` (String)
 - `os` (String)
 
 
