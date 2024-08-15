@@ -26,8 +26,13 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.Duration, client *client.Environments, ctx context.Context, options *utils.PollingOptions) error {
+func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.Duration, callFailureThresholdDefault int, client *client.Environments, ctx context.Context, options *utils.PollingOptions) error {
 	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackTimeout)
+	callFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThresholdDefault)
+	if failureThresholdError != nil {
+		return failureThresholdError
+	}
+	callFailedCount := 0
 	if err != nil {
 		return err
 	}
@@ -66,6 +71,12 @@ func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 						return nil, "", nil
 					}
 				}
+				callFailedCount++
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing environment with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					return nil, "", nil
+				}
+				tflog.Error(ctx, fmt.Sprintf("Error describing environment (due to: %s) and call failure threshold limit exceeded.", err))
 				return nil, "", err
 			}
 			if resp.GetPayload().Environment == nil {

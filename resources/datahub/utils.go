@@ -37,3 +37,10 @@ func isInternalServerError(err error) bool {
 	}
 	return false
 }
+
+func isTimeoutError(err error) bool {
+	if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
+		return d.GetPayload().Code == "TIMEOUT"
+	}
+	return false
+}
