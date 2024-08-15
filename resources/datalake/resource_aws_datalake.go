@@ -362,6 +362,11 @@ func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, fallba
 	if err != nil {
 		return err
 	}
+	failureThreshold, failureThresholdErr := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThreshold)
+	if failureThresholdErr != nil {
+		return failureThresholdErr
+	}
+	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"DELETE_REQUESTED", "STACK_DELETION_IN_PROGRESS", "STACK_DELETED", "EXTERNAL_DATABASE_DELETION_IN_PROGRESS", "DELETED"},
 		Target:  []string{},
@@ -375,6 +380,11 @@ func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, fallba
 					if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}
+				}
+				callFailedCount++
+				if callFailedCount <= failureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing datalake with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					return nil, "", nil
 				}
 				return nil, "", err
 			}

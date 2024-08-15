@@ -114,7 +114,7 @@ func describeWithRecover(clusterName string, client *client.Datahub, ctx context
 	resp, err := client.Operations.DescribeCluster(operations.NewDescribeClusterParamsWithContext(ctx).WithInput(&datahubmodels.DescribeClusterRequest{ClusterName: &clusterName}))
 	for i := 0; i < internalServerErrorRetryQuantity; i++ {
 		if err != nil {
-			if isInternalServerError(err) {
+			if isInternalServerError(err) || isTimeoutError(err) {
 				tflog.Debug(ctx, fmt.Sprintf("Cluster describe came back with internal server error. "+
 					"About to (#%d.) re-attempt to describe cluster '%s'.", i+1, clusterName))
 				resp, err = client.Operations.DescribeCluster(operations.NewDescribeClusterParamsWithContext(ctx).WithInput(&datahubmodels.DescribeClusterRequest{ClusterName: &clusterName}))
