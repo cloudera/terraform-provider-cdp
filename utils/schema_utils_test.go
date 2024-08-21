@@ -46,7 +46,7 @@ func TestWithNoErrorAndAction(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			Append(test.target, test.source)
 
-			if test.target != nil && len(test.target) > 0 {
+			if len(test.target) > 0 {
 				t.Errorf("Target got extended eventhough it should've left untouched.")
 			}
 		})
