@@ -157,7 +157,7 @@ func SchemaContainsCommonElements(t *testing.T, providerSpecificSchema map[strin
 	for _, test := range commonElementCaseSet {
 		t.Run(test.name, func(t *testing.T) {
 			if providerSpecificSchema[test.field] == nil {
-				t.Errorf("The following field does not exists, however it should: " + test.field)
+				t.Errorf("The following field does not exists, however it should: %s", test.field)
 				t.FailNow()
 			}
 			if providerSpecificSchema[test.field].IsRequired() != test.shouldBeRequired {

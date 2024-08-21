@@ -40,7 +40,7 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
 		var igRecipes []string
-		if group.Recipes != nil && len(group.Recipes) > 0 {
+		if len(group.Recipes) > 0 {
 			for _, recipe := range group.Recipes {
 				igRecipes = append(igRecipes, recipe.ValueString())
 			}
@@ -121,7 +121,7 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
 		var igRecipes []string
-		if group.Recipes != nil && len(group.Recipes) > 0 {
+		if len(group.Recipes) > 0 {
 			for _, recipe := range group.Recipes {
 				igRecipes = append(igRecipes, recipe.ValueString())
 			}
@@ -194,13 +194,13 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
 		var igRecipes []string
-		if group.Recipes != nil && len(group.Recipes) > 0 {
+		if len(group.Recipes) > 0 {
 			for _, recipe := range group.Recipes {
 				igRecipes = append(igRecipes, recipe.ValueString())
 			}
 		}
 		var azs []string
-		if group.AvailabilityZones != nil && len(group.AvailabilityZones) > 0 {
+		if len(group.AvailabilityZones) > 0 {
 			for _, az := range group.AvailabilityZones {
 				azs = append(azs, az.ValueString())
 			}

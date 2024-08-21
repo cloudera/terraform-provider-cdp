@@ -207,7 +207,7 @@ func TestSchemaContainsElements(t *testing.T) {
 func performValidation(t *testing.T, test SchemaTestCaseStructure, attr schema.Attribute) {
 	t.Run(test.name, func(t *testing.T) {
 		if attr == nil {
-			t.Errorf("The following field does not exists, however it should: " + test.field)
+			t.Errorf("The following field does not exists, however it should: %s", test.field)
 			t.FailNow()
 		}
 		if attr.IsRequired() != test.shouldBeRequired {

@@ -68,7 +68,7 @@ func CalculateTimeoutOrDefault(ctx context.Context, options *PollingOptions, fal
 	if timeout.Minutes() <= 0 {
 		msg := "no meaningful timeout value can be calculated based on the given parameters, thus operation shall fail immediately"
 		tflog.Warn(ctx, msg)
-		return nil, fmt.Errorf(msg)
+		return nil, fmt.Errorf("%s", msg)
 	}
 	tflog.Info(ctx, fmt.Sprintf("The following polling timeout calculated: %+v", timeout))
 	return &timeout, nil
@@ -86,7 +86,7 @@ func CalculateCallFailureThresholdOrDefault(ctx context.Context, options *Pollin
 	if threshold <= 0 {
 		msg := "no meaningful threshold value can be calculated based on the given parameters, thus operation shall fail immediately"
 		tflog.Warn(ctx, msg)
-		return 0, fmt.Errorf(msg)
+		return 0, fmt.Errorf("%s", msg)
 	}
 	tflog.Debug(ctx, fmt.Sprintf("The following call failure threshold calculated: %+v", threshold))
 	return threshold, nil

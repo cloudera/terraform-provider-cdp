@@ -117,7 +117,7 @@ func SchemaContainsCommonElements(t *testing.T, providerSpecificSchema map[strin
 func PerformValidation(t *testing.T, test TestCaseStructure, attr schema.Attribute) {
 	t.Run(test.name, func(t *testing.T) {
 		if attr == nil {
-			t.Errorf("The following field does not exists, however it should: " + test.field)
+			t.Errorf("The following field does not exists, however it should: %s", test.field)
 			t.FailNow()
 		}
 		if attr.IsRequired() != test.shouldBeRequired {

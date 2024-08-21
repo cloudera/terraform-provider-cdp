@@ -59,7 +59,7 @@ func TestAzureSpecificElements(t *testing.T) {
 	for _, test := range cases {
 		t.Run(test.name, func(t *testing.T) {
 			if underTestAttributes[test.field] == nil {
-				t.Errorf("The following field does not exists, however it should: " + test.field)
+				t.Errorf("The following field does not exists, however it should: %s", test.field)
 				t.FailNow()
 			}
 			if underTestAttributes[test.field].IsRequired() != test.shouldBeRequired {
