@@ -11,6 +11,8 @@
 package aws
 
 import (
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
@@ -45,12 +47,14 @@ type resourceModel struct {
 	Name                        types.String           `tfsdk:"name"`
 	ClusterID                   types.String           `tfsdk:"cluster_id"`
 	LastUpdated                 types.String           `tfsdk:"last_updated"`
+	Status                      types.String           `tfsdk:"status"`
 	NodeRoleCDWManagedPolicyArn types.String           `tfsdk:"node_role_cdw_managed_policy_arn"`
 	DatabaseBackupRetentionDays types.Int64            `tfsdk:"database_backup_retention_days"`
 	CustomRegistryOptions       *customRegistryOptions `tfsdk:"custom_registry_options"`
 	CustomSubdomain             types.String           `tfsdk:"custom_subdomain"`
 	NetworkSettings             *networkResourceModel  `tfsdk:"network_settings"`
 	InstanceSettings            *instanceResourceModel `tfsdk:"instance_settings"`
+	PollingOptions              *utils.PollingOptions  `tfsdk:"polling_options"`
 }
 
 func (p *resourceModel) convertToCreateAwsClusterRequest() *models.CreateAwsClusterRequest {
@@ -105,10 +109,16 @@ func (p *resourceModel) getAdditionalInstanceTypes() []string {
 func (p *resourceModel) getCustomRegistryOptions() *models.CustomRegistryOptions {
 	if cro := p.CustomRegistryOptions; cro != nil {
 		return &models.CustomRegistryOptions{
-			DisableImageVerification: true, // option will be deprecated, we should disallow image verification
-			RegistryType:             p.CustomRegistryOptions.RegistryType.ValueString(),
-			RepositoryURL:            p.CustomRegistryOptions.RepositoryURL.ValueString(),
+			RegistryType:  p.CustomRegistryOptions.RegistryType.ValueString(),
+			RepositoryURL: p.CustomRegistryOptions.RepositoryURL.ValueString(),
 		}
 	}
 	return nil
+}
+
+func (p *resourceModel) getPollingTimeout() time.Duration {
+	if p.PollingOptions != nil {
+		return time.Duration(p.PollingOptions.PollingTimeout.ValueInt64()) * time.Minute
+	}
+	return 40 * time.Minute
 }

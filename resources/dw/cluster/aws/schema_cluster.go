@@ -13,6 +13,8 @@ package aws
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -43,8 +45,12 @@ var dwClusterSchema = schema.Schema{
 			MarkdownDescription: "The id of the cluster.",
 		},
 		"last_updated": schema.StringAttribute{
-			Description: "Timestamp of the last Terraform update of the order.",
-			Computed:    true,
+			Computed:            true,
+			MarkdownDescription: "Timestamp of the last Terraform update of the order.",
+		},
+		"status": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "The status of the cluster.",
 		},
 		"node_role_cdw_managed_policy_arn": schema.StringAttribute{
 			Optional:            true,
@@ -78,6 +84,33 @@ var dwClusterSchema = schema.Schema{
 		"instance_settings": schema.SingleNestedAttribute{
 			Optional:   true,
 			Attributes: instanceSettings,
+		},
+		"polling_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"async": schema.BoolAttribute{
+					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
+					PlanModifiers: []planmodifier.Bool{
+						boolplanmodifier.UseStateForUnknown(),
+					},
+				},
+				"polling_timeout": schema.Int64Attribute{
+					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+					Default:             int64default.StaticInt64(40),
+					Computed:            true,
+					Optional:            true,
+				},
+				"call_failure_threshold": schema.Int64Attribute{
+					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+					Default:             int64default.StaticInt64(3),
+					Computed:            true,
+					Optional:            true,
+				},
+			},
 		},
 	},
 }
