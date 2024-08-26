@@ -113,7 +113,7 @@ Required:
 
 Optional:
 
-- `catalog` (String)
+- `catalog_name` (String)
 - `os` (String)
 
 
