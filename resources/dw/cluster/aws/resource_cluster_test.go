@@ -19,6 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -59,8 +61,12 @@ var testDwClusterSchema = schema.Schema{
 			MarkdownDescription: "The id of the cluster.",
 		},
 		"last_updated": schema.StringAttribute{
-			Description: "Timestamp of the last Terraform update of the order.",
-			Computed:    true,
+			Computed:            true,
+			MarkdownDescription: "Timestamp of the last Terraform update of the order.",
+		},
+		"status": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "The status of the cluster.",
 		},
 		"node_role_cdw_managed_policy_arn": schema.StringAttribute{
 			Optional:            true,
@@ -149,6 +155,33 @@ var testDwClusterSchema = schema.Schema{
 				},
 			},
 		},
+		"polling_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"async": schema.BoolAttribute{
+					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
+					PlanModifiers: []planmodifier.Bool{
+						boolplanmodifier.UseStateForUnknown(),
+					},
+				},
+				"polling_timeout": schema.Int64Attribute{
+					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+					Default:             int64default.StaticInt64(40),
+					Computed:            true,
+					Optional:            true,
+				},
+				"call_failure_threshold": schema.Int64Attribute{
+					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+					Default:             int64default.StaticInt64(3),
+					Computed:            true,
+					Optional:            true,
+				},
+			},
+		},
 	},
 }
 
@@ -174,6 +207,7 @@ func createRawClusterResource() tftypes.Value {
 				"name":                             tftypes.String,
 				"cluster_id":                       tftypes.String,
 				"last_updated":                     tftypes.String,
+				"status":                           tftypes.String,
 				"node_role_cdw_managed_policy_arn": tftypes.String,
 				"database_backup_retention_days":   tftypes.Number,
 				"custom_registry_options": tftypes.Object{
@@ -202,12 +236,20 @@ func createRawClusterResource() tftypes.Value {
 						"additional_instance_types": tftypes.List{ElementType: tftypes.String},
 					},
 				},
+				"polling_options": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"async":                  tftypes.Bool,
+						"polling_timeout":        tftypes.Number,
+						"call_failure_threshold": tftypes.Number,
+					},
+				},
 			}}, map[string]tftypes.Value{
-			"id":                               tftypes.NewValue(tftypes.String, ""),
+			"id":                               tftypes.NewValue(tftypes.String, "id"),
 			"crn":                              tftypes.NewValue(tftypes.String, "crn"),
-			"name":                             tftypes.NewValue(tftypes.String, ""),
-			"cluster_id":                       tftypes.NewValue(tftypes.String, ""),
+			"name":                             tftypes.NewValue(tftypes.String, "name"),
+			"cluster_id":                       tftypes.NewValue(tftypes.String, "id"),
 			"last_updated":                     tftypes.NewValue(tftypes.String, ""),
+			"status":                           tftypes.NewValue(tftypes.String, "Accepted"),
 			"node_role_cdw_managed_policy_arn": tftypes.NewValue(tftypes.String, ""),
 			"database_backup_retention_days":   tftypes.NewValue(tftypes.Number, 0),
 			"custom_registry_options": tftypes.NewValue(tftypes.Object{
@@ -254,8 +296,8 @@ func createRawClusterResource() tftypes.Value {
 					"whitelist_workload_access_ip_cidrs": tftypes.NewValue(tftypes.List{ElementType: tftypes.String},
 						[]tftypes.Value{
 							tftypes.NewValue(tftypes.String, "cidr-4"),
-							tftypes.NewValue(tftypes.String, "cidr-2"),
-							tftypes.NewValue(tftypes.String, "cidr-3"),
+							tftypes.NewValue(tftypes.String, "cidr-5"),
+							tftypes.NewValue(tftypes.String, "cidr-6"),
 						}),
 					"use_private_load_balancer": tftypes.NewValue(tftypes.Bool, true),
 					"use_public_worker_node":    tftypes.NewValue(tftypes.Bool, false),
@@ -275,6 +317,17 @@ func createRawClusterResource() tftypes.Value {
 					"additional_instance_types": tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
 				},
 			),
+			"polling_options": tftypes.NewValue(
+				tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"async":                  tftypes.Bool,
+						"polling_timeout":        tftypes.Number,
+						"call_failure_threshold": tftypes.Number,
+					}}, map[string]tftypes.Value{
+					"async":                  tftypes.NewValue(tftypes.Bool, false),
+					"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
+					"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+				}),
 		})
 }
 
@@ -383,7 +436,7 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_CreationError() {
 	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating data warehouse aws cluster")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating Data Warehouse AWS cluster")
 	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not create cluster")
 }
 
@@ -412,7 +465,7 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_DescribeError() {
 	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating data warehouse aws cluster")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating Data Warehouse AWS cluster")
 	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not describe cluster")
 }
 
@@ -454,6 +507,51 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_ReturnsError() {
 	// Function under test
 	dwApi.Delete(ctx, req, resp)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error deleting data warehouse aws cluster")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error deleting Data Warehouse AWS cluster")
 	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not delete cluster")
+}
+
+func (suite *DwClusterTestSuite) TestStateRefresh_Success() {
+	ctx := context.TODO()
+	client := new(mocks.MockDwClientService)
+	client.On("DescribeCluster", mock.Anything).Return(
+		&operations.DescribeClusterOK{
+			Payload: &models.DescribeClusterResponse{
+				Cluster: &models.ClusterSummaryResponse{
+					Status: "Running",
+				},
+			},
+		},
+		nil)
+	dwApi := NewDwApi(client)
+
+	clusterID := "cluster-id"
+	callFailedCount := 0
+	callFailureThreshold := 3
+
+	// Function under test
+	refresh := dwApi.stateRefresh(ctx, &clusterID, &callFailedCount, callFailureThreshold)
+	_, status, err := refresh()
+	suite.NoError(err)
+	suite.Equal("Running", status)
+}
+
+func (suite *DwClusterTestSuite) TestStateRefresh_FailureThresholdReached() {
+	ctx := context.TODO()
+	client := new(mocks.MockDwClientService)
+	client.On("DescribeCluster", mock.Anything).Return(
+		&operations.DescribeClusterOK{}, fmt.Errorf("unknown error"))
+	dwApi := NewDwApi(client)
+
+	clusterID := "cluster-id"
+	callFailedCount := 0
+	callFailureThreshold := 3
+
+	// Function under test
+	refresh := dwApi.stateRefresh(ctx, &clusterID, &callFailedCount, callFailureThreshold)
+	var err error
+	for i := 0; i <= callFailureThreshold; i++ {
+		_, _, err = refresh()
+	}
+	suite.Error(err, "unknown error")
 }
