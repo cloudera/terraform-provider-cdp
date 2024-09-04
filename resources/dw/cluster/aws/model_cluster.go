@@ -122,3 +122,10 @@ func (p *resourceModel) getPollingTimeout() time.Duration {
 	}
 	return 40 * time.Minute
 }
+
+func (p *resourceModel) getCallFailureThreshold() int {
+	if p.PollingOptions != nil {
+		return int(p.PollingOptions.CallFailureThreshold.ValueInt64())
+	}
+	return 3
+}

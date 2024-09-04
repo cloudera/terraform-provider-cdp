@@ -65,3 +65,8 @@ func (s *DwClusterModelTestSuite) TestGetPollingTimeout() {
 	timeout := s.rm.getPollingTimeout()
 	s.Equal(90*time.Minute, timeout)
 }
+
+func (s *DwClusterModelTestSuite) TestGetCallFailureThreshold() {
+	out := s.rm.getCallFailureThreshold()
+	s.Equal(3, out)
+}
