@@ -105,7 +105,7 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	if plan.PollingOptions.Async.ValueBool() {
+	if !(plan.PollingOptions != nil && plan.PollingOptions.Async.ValueBool()) {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
@@ -113,7 +113,7 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 			Delay:        30 * time.Second,
 			Timeout:      plan.getPollingTimeout(),
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, int(plan.PollingOptions.CallFailureThreshold.ValueInt64())),
+			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, plan.getCallFailureThreshold()),
 		}
 		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
@@ -162,7 +162,7 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
-	if state.PollingOptions.Async.ValueBool() {
+	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Deleting", "Running"},
@@ -170,11 +170,11 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 			Delay:        30 * time.Second,
 			Timeout:      state.getPollingTimeout(),
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, int(state.PollingOptions.CallFailureThreshold.ValueInt64())),
+			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, state.getCallFailureThreshold()),
 		}
 		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
-				"Esrror waiting for Data Warehouse AWS cluster",
+				"Error waiting for Data Warehouse AWS cluster",
 				"Could not delete cluster, unexpected error: "+err.Error(),
 			)
 			return

@@ -324,7 +324,7 @@ func createRawClusterResource() tftypes.Value {
 						"polling_timeout":        tftypes.Number,
 						"call_failure_threshold": tftypes.Number,
 					}}, map[string]tftypes.Value{
-					"async":                  tftypes.NewValue(tftypes.Bool, false),
+					"async":                  tftypes.NewValue(tftypes.Bool, true),
 					"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
 					"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
 				}),
