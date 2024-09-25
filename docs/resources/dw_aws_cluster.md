@@ -79,6 +79,7 @@ output "name" {
 - `database_backup_retention_days` (Number) The number of days to retain database backups.
 - `instance_settings` (Attributes) (see [below for nested schema](#nestedatt--instance_settings))
 - `node_role_cdw_managed_policy_arn` (String) The managed policy ARN to be attached to the created node instance role.
+- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 
 ### Read-Only
 
@@ -86,6 +87,7 @@ output "name" {
 - `id` (String) The ID of this resource.
 - `last_updated` (String) Timestamp of the last Terraform update of the order.
 - `name` (String) The name of the cluster matches the environment name.
+- `status` (String) The status of the cluster.
 
 <a id="nestedatt--network_settings"></a>
 ### Nested Schema for `network_settings`
@@ -122,5 +124,15 @@ Optional:
 - `compute_instance_types` (List of String) The compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed.
 - `custom_ami_id` (String) The custom AMI ID to use for worker nodes.
 - `enable_spot_instances` (Boolean) Whether to use spot instances for worker nodes.
+
+
+<a id="nestedatt--polling_options"></a>
+### Nested Schema for `polling_options`
+
+Optional:
+
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
+- `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
+- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
 
 

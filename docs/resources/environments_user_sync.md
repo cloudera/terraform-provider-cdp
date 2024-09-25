@@ -33,6 +33,9 @@ This approach allows a fine-grain control of the sync operation.
 
 resource "cdp_environments_user_sync" "example-user_sync" {
   environment_names = ["example-cdp-environment-1", "example-cdp-environment-2"]
+  polling_options = {
+    async = true
+  }
 }
 ```
 
@@ -42,7 +45,17 @@ resource "cdp_environments_user_sync" "example-user_sync" {
 ### Optional
 
 - `environment_names` (Set of String) List of environments to be synced. If not present, all environments will be synced.
+- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+<a id="nestedatt--polling_options"></a>
+### Nested Schema for `polling_options`
+
+Optional:
+
+- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
+- `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
+- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
