@@ -106,7 +106,7 @@ var awsDatalakeResourceSchema = schema.Schema{
 					Optional: true,
 				},
 				"id": schema.StringAttribute{
-					Required: true,
+					Optional: true,
 				},
 				"os": schema.StringAttribute{
 					Optional: true,
