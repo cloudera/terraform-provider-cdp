@@ -96,13 +96,10 @@ output "recipes" {
 <a id="nestedatt--image"></a>
 ### Nested Schema for `image`
 
-Required:
-
-- `id` (String)
-
 Optional:
 
 - `catalog_name` (String)
+- `id` (String)
 - `os` (String)
 
 

@@ -92,7 +92,7 @@ var generalAttributes = map[string]schema.Attribute{
 				Optional: true,
 			},
 			"id": schema.StringAttribute{
-				Required: true,
+				Optional: true,
 			},
 			"os": schema.StringAttribute{
 				Optional: true,
