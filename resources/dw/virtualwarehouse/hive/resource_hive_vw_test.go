@@ -8,11 +8,14 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package dw
+package hive
 
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"testing"
 
 	"github.com/go-openapi/runtime"
@@ -58,6 +61,41 @@ var testHiveSchema = schema.Schema{
 			Required:            true,
 			MarkdownDescription: "The name of the Hive Virtual Warehouse.",
 		},
+		"last_updated": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "Timestamp of the last Terraform update of the order.",
+		},
+		"status": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "The status of the database catalog.",
+		},
+		"polling_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"async": schema.BoolAttribute{
+					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
+					PlanModifiers: []planmodifier.Bool{
+						boolplanmodifier.UseStateForUnknown(),
+					},
+				},
+				"polling_timeout": schema.Int64Attribute{
+					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+					Default:             int64default.StaticInt64(40),
+					Computed:            true,
+					Optional:            true,
+				},
+				"call_failure_threshold": schema.Int64Attribute{
+					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+					Default:             int64default.StaticInt64(3),
+					Computed:            true,
+					Optional:            true,
+				},
+			},
+		},
 	},
 }
 
@@ -82,12 +120,34 @@ func createRawHiveResource() tftypes.Value {
 				"cluster_id":          tftypes.String,
 				"database_catalog_id": tftypes.String,
 				"name":                tftypes.String,
+				"last_updated":        tftypes.String,
+				"status":              tftypes.String,
+				"polling_options": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"async":                  tftypes.Bool,
+						"polling_timeout":        tftypes.Number,
+						"call_failure_threshold": tftypes.Number,
+					},
+				},
 			}},
 		map[string]tftypes.Value{
 			"id":                  tftypes.NewValue(tftypes.String, ""),
 			"cluster_id":          tftypes.NewValue(tftypes.String, "cluster-id"),
 			"database_catalog_id": tftypes.NewValue(tftypes.String, "database-catalog-id"),
 			"name":                tftypes.NewValue(tftypes.String, ""),
+			"last_updated":        tftypes.NewValue(tftypes.String, ""),
+			"status":              tftypes.NewValue(tftypes.String, "Running"),
+			"polling_options": tftypes.NewValue(
+				tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"async":                  tftypes.Bool,
+						"polling_timeout":        tftypes.Number,
+						"call_failure_threshold": tftypes.Number,
+					}}, map[string]tftypes.Value{
+					"async":                  tftypes.NewValue(tftypes.Bool, true),
+					"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
+					"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+				}),
 		})
 }
 
@@ -164,11 +224,11 @@ func (suite *HiveTestSuite) TestHiveCreate_Success() {
 
 	// Function under test
 	dwApi.Create(ctx, req, resp)
-	var result hiveResourceModel
+	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.False(resp.Diagnostics.HasError())
 	suite.Equal("test-id", result.ID.ValueString())
-	suite.Equal("database-catalog-id", result.DbCatalogID.ValueString())
+	suite.Equal("database-catalog-id", result.DatabaseCatalogID.ValueString())
 	suite.Equal("cluster-id", result.ClusterID.ValueString())
 	suite.Equal("test-name", result.Name.ValueString())
 }
@@ -195,7 +255,7 @@ func (suite *HiveTestSuite) TestHiveCreate_CreationError() {
 
 	// Function under test
 	dwApi.Create(ctx, req, resp)
-	var result hiveResourceModel
+	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
 	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating hive virtual warehouse")
@@ -224,7 +284,7 @@ func (suite *HiveTestSuite) TestHiveCreate_DescribeError() {
 
 	// Function under test
 	dwApi.Create(ctx, req, resp)
-	var result hiveResourceModel
+	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
 	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating hive virtual warehouse")
@@ -269,4 +329,52 @@ func (suite *HiveTestSuite) TestHiveDeletion_ReturnsError() {
 	// Function under test
 	dwApi.Delete(ctx, req, resp)
 	suite.True(resp.Diagnostics.HasError())
+}
+
+func (suite *HiveTestSuite) TestStateRefresh_Success() {
+	ctx := context.TODO()
+	client := new(mocks.MockDwClientService)
+	client.On("DescribeVw", mock.Anything).Return(
+		&operations.DescribeVwOK{
+			Payload: &models.DescribeVwResponse{
+				Vw: &models.VwSummary{
+					ID:     "hive-id",
+					Status: "Running",
+				},
+			},
+		},
+		nil)
+	dwApi := NewDwApi(client)
+
+	clusterID := "cluster-id"
+	vwID := "hive-id"
+	callFailedCount := 0
+	callFailureThreshold := 3
+
+	// Function under test
+	refresh := dwApi.stateRefresh(ctx, &clusterID, &vwID, &callFailedCount, callFailureThreshold)
+	_, status, err := refresh()
+	suite.NoError(err)
+	suite.Equal("Running", status)
+}
+
+func (suite *HiveTestSuite) TestStateRefresh_FailureThresholdReached() {
+	ctx := context.TODO()
+	client := new(mocks.MockDwClientService)
+	client.On("DescribeVw", mock.Anything).Return(
+		&operations.DescribeVwOK{}, fmt.Errorf("unknown error"))
+	dwApi := NewDwApi(client)
+
+	clusterID := "cluster-id"
+	vwID := "hive-id"
+	callFailedCount := 0
+	callFailureThreshold := 3
+
+	// Function under test
+	refresh := dwApi.stateRefresh(ctx, &clusterID, &vwID, &callFailedCount, callFailureThreshold)
+	var err error
+	for i := 0; i <= callFailureThreshold; i++ {
+		_, _, err = refresh()
+	}
+	suite.Error(err, "unknown error")
 }

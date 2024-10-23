@@ -8,10 +8,14 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package dw
+package hive
 
 import (
 	"context"
+	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -50,7 +54,7 @@ func (r *hiveResource) Schema(_ context.Context, _ resource.SchemaRequest, resp 
 
 func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	// Retrieve values from plan
-	var plan hiveResourceModel
+	var plan resourceModel
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -62,7 +66,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 		WithInput(&models.CreateVwRequest{
 			Name:      plan.Name.ValueStringPointer(),
 			ClusterID: plan.ClusterID.ValueStringPointer(),
-			DbcID:     plan.DbCatalogID.ValueStringPointer(),
+			DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
 			VwType:    models.VwTypeHive.Pointer(),
 		})
 
@@ -77,8 +81,29 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 
 	payload := response.GetPayload()
+	clusterID := plan.ClusterID.ValueStringPointer()
+	vwID := &payload.VwID
+
+	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+		callFailedCount := 0
+		stateConf := &retry.StateChangeConf{
+			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
+			Target:       []string{"Running"},
+			Delay:        30 * time.Second,
+			Timeout:      plan.getPollingTimeout(),
+			PollInterval: 30 * time.Second,
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, plan.getCallFailureThreshold()),
+		}
+		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
+			resp.Diagnostics.AddError(
+				"Error waiting for Data Warehouse hive virtual warehouse",
+				"Could not create hive, unexpected error: "+err.Error(),
+			)
+			return
+		}
+	}
 	desc := operations.NewDescribeVwParamsWithContext(ctx).
-		WithInput(&models.DescribeVwRequest{VwID: &payload.VwID, ClusterID: plan.ClusterID.ValueStringPointer()})
+		WithInput(&models.DescribeVwRequest{VwID: vwID, ClusterID: clusterID})
 	describe, err := r.client.Dw.Operations.DescribeVw(desc)
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -89,13 +114,11 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 
 	hive := describe.GetPayload()
-
-	// Map response body to schema and populate Computed attribute values
 	plan.ID = types.StringValue(hive.Vw.ID)
-	plan.DbCatalogID = types.StringValue(hive.Vw.DbcID)
+	plan.DatabaseCatalogID = types.StringValue(hive.Vw.DbcID)
 	plan.Name = types.StringValue(hive.Vw.Name)
-
-	// Set state to fully populated data
+	plan.Status = types.StringValue(hive.Vw.Status)
+	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }
@@ -109,26 +132,75 @@ func (r *hiveResource) Update(ctx context.Context, req resource.UpdateRequest, r
 }
 
 func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state hiveResourceModel
+	var state resourceModel
 
-	// Read Terraform prior state into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
+	clusterID := state.ClusterID.ValueStringPointer()
+	vwID := state.ID.ValueStringPointer()
 	op := operations.NewDeleteVwParamsWithContext(ctx).
 		WithInput(&models.DeleteVwRequest{
-			ClusterID: state.ClusterID.ValueStringPointer(),
-			VwID:      state.ID.ValueStringPointer(),
+			ClusterID: clusterID,
+			VwID:      vwID,
 		})
 
 	if _, err := r.client.Dw.Operations.DeleteVw(op); err != nil {
+		if strings.Contains(err.Error(), "Virtual Warehouse not found") {
+			return
+		}
 		resp.Diagnostics.AddError(
 			"Error deleting Hive Virtual Warehouse",
 			"Could not delete Hive Virtual Warehouse, unexpected error: "+err.Error(),
 		)
 		return
+	}
+
+	if opts := state.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+		callFailedCount := 0
+		stateConf := &retry.StateChangeConf{
+			Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
+			Target:       []string{"Deleted"}, // This is not an actual state, we added it to fake the state change
+			Delay:        30 * time.Second,
+			Timeout:      state.getPollingTimeout(),
+			PollInterval: 30 * time.Second,
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, state.getCallFailureThreshold()),
+		}
+		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
+			resp.Diagnostics.AddError(
+				"Error waiting for Data Warehouse Hive Virtual Warehouse",
+				"Could not delete hive, unexpected error: "+err.Error(),
+			)
+			return
+		}
+	}
+}
+
+func (r *hiveResource) stateRefresh(ctx context.Context, clusterID *string, vwID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
+	return func() (any, string, error) {
+		tflog.Debug(ctx, "About to describe hive")
+		params := operations.NewDescribeVwParamsWithContext(ctx).
+			WithInput(&models.DescribeVwRequest{ClusterID: clusterID, VwID: vwID})
+		resp, err := r.client.Dw.Operations.DescribeVw(params)
+		if err != nil {
+			if strings.Contains(err.Error(), "Virtual Warehouse not found") {
+				return &models.DescribeVwResponse{}, "Deleted", nil
+			}
+			*callFailedCount++
+			if *callFailedCount <= callFailureThreshold {
+				tflog.Warn(ctx, fmt.Sprintf("could not describe Data Warehouse Hive Virtual Warehouse "+
+					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+				return nil, "", nil
+			}
+			tflog.Error(ctx, fmt.Sprintf("error describing Data Warehouse Hive Virtual Warehouse due to [%s] "+
+				"failure threshold limit exceeded.", err.Error()))
+			return nil, "", err
+		}
+		*callFailedCount = 0
+		vw := resp.GetPayload()
+		tflog.Debug(ctx, fmt.Sprintf("Described Hive %s with status %s", vw.Vw.ID, vw.Vw.Status))
+		return vw, vw.Vw.Status, nil
 	}
 }
