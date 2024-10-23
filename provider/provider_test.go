@@ -29,9 +29,9 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	"github.com/cloudera/terraform-provider-cdp/resources/de"
-	"github.com/cloudera/terraform-provider-cdp/resources/dw"
 	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
 	dwdatabasecatalog "github.com/cloudera/terraform-provider-cdp/resources/dw/databasecatalog"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/hive"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/ml"
@@ -635,7 +635,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		opdb.NewDatabaseResource,
 		ml.NewWorkspaceResource,
 		de.NewServiceResource,
-		dw.NewHiveResource,
+		hive.NewHiveResource,
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 	}

@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package dw_test
+package hive_test
 
 import (
 	"context"
@@ -67,8 +67,6 @@ func TestAccHive_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("cdp_vw_hive.test_hive", "database_catalog_id", params.DatabaseCatalogID),
 				),
 			},
-			// TODO ImportState testing
-			// TODO Update and Read testing
 			// Delete testing automatically occurs in TestCase
 		},
 	})
@@ -100,7 +98,7 @@ func testCheckHiveDestroy(s *terraform.State) error {
 
 		_, err := cdpClient.Dw.Operations.DescribeVw(params)
 		if err != nil {
-			if strings.Contains(err.Error(), "404") {
+			if strings.Contains(err.Error(), "Virtual Warehouse not found") {
 				continue
 			}
 			return err
