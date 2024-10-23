@@ -31,6 +31,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/de"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw"
 	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
+	dwdatabasecatalog "github.com/cloudera/terraform-provider-cdp/resources/dw/databasecatalog"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/ml"
@@ -636,6 +637,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		de.NewServiceResource,
 		dw.NewHiveResource,
 		dwaws.NewDwClusterResource,
+		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 	}
 
 	provider := CdpProvider{testVersion}
