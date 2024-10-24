@@ -19,6 +19,8 @@ import (
 type gcpEnvironmentResourceModel struct {
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
+	Cascading types.Bool `tfsdk:"cascading_delete"`
+
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 
 	CredentialName types.String `tfsdk:"credential_name"`

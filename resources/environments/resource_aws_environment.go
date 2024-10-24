@@ -133,7 +133,7 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), ctx, r.client, resp, state.PollingOptions); err != nil {
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.Cascading.ValueBool(), ctx, r.client, resp, state.PollingOptions); err != nil {
 		return
 	}
 }
