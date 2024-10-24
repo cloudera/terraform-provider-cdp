@@ -12,13 +12,12 @@ package cdp
 
 import (
 	"context"
-	"net/http"
-	"regexp"
-	"testing"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
+	"net/http"
+	"regexp"
+	"testing"
 )
 
 var (
@@ -35,7 +34,7 @@ type mockRoundTripper struct {
 
 func (t *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	t.req = req
-	return nil, errors.NotImplemented("mock")
+	return nil, errors.New(http.StatusTooManyRequests, "mock")
 }
 
 func getTestOperation() *runtime.ClientOperation {

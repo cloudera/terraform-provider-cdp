@@ -19,10 +19,32 @@ import (
 	"github.com/go-openapi/runtime/client"
 )
 
-var prefixTrim = []string{"http://", "https://"}
+var (
+	prefixTrim = []string{"http://", "https://"}
+)
+
+const (
+	defaultLinearBackoffStep = 2
+)
 
 type ClientTransport struct {
 	Runtime *client.Runtime
+}
+
+type DelegatingRoundTripper struct {
+	delegate http.RoundTripper
+}
+
+type LoggingRoundTripper struct {
+	DelegatingRoundTripper
+	logger Logger
+}
+
+// RequestHeadersRoundTripper sets the User-Agent and other custom headers
+// see https://github.com/go-swagger/go-swagger/blob/701e7f3ee85df9d47fcf639dd7a279f7ab6d94d7/docs/faq/faq_client.md?plain=1#L28
+type RequestHeadersRoundTripper struct {
+	DelegatingRoundTripper
+	headers map[string]string
 }
 
 func (t *ClientTransport) Submit(operation *runtime.ClientOperation) (interface{}, error) {
@@ -39,7 +61,11 @@ func getDefaultTransport(config *Config) (http.RoundTripper, error) {
 		return nil, err
 	}
 
-	return &http.Transport{Proxy: http.ProxyFromEnvironment, TLSClientConfig: cfg}, nil
+	retryableTransport := &RetryableTransport{
+		transport: &http.Transport{Proxy: http.ProxyFromEnvironment, TLSClientConfig: cfg},
+	}
+
+	return retryableTransport, nil
 }
 
 func buildClientTransportWithDefaultHttpTransport(config *Config, endpoint string) (*ClientTransport, error) {
@@ -106,15 +132,6 @@ func buildRequestHeadersRoundTripper(config *Config, delegate http.RoundTripper)
 	return reqHeadersRT
 }
 
-type DelegatingRoundTripper struct {
-	delegate http.RoundTripper
-}
-
-type LoggingRoundTripper struct {
-	DelegatingRoundTripper
-	logger Logger
-}
-
 func (t *LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	startTime := time.Now()
 	resp, err := t.delegate.RoundTrip(req)
@@ -127,13 +144,6 @@ func (t *LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, erro
 	}
 
 	return resp, err
-}
-
-// RequestHeadersRoundTripper sets the User-Agent and other custom headers
-// see https://github.com/go-swagger/go-swagger/blob/701e7f3ee85df9d47fcf639dd7a279f7ab6d94d7/docs/faq/faq_client.md?plain=1#L28
-type RequestHeadersRoundTripper struct {
-	DelegatingRoundTripper
-	headers map[string]string
 }
 
 func (r *RequestHeadersRoundTripper) AddHeader(key, value string) {
