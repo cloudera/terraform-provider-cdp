@@ -349,12 +349,11 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 		return
 	}
 
-	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
-		if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
-			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datalake")
-			return
-		}
+	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datalake")
+		return
 	}
+
 }
 
 func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, datalake *client.Datalake, options *utils.PollingOptions) error {
