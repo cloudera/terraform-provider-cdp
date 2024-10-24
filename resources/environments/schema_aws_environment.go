@@ -144,6 +144,10 @@ var AwsEnvironmentSchema = schema.Schema{
 		"environment_name": schema.StringAttribute{
 			Required: true,
 		},
+		"cascading_delete": schema.BoolAttribute{
+			Optional: true,
+			Default:  booldefault.StaticBool(true),
+		},
 		"freeipa": FreeIpaSchema,
 		"log_storage": schema.SingleNestedAttribute{
 			Required: true,

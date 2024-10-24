@@ -41,6 +41,8 @@ type azureEnvironmentResourceModel struct {
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
+	Cascading types.Bool `tfsdk:"cascading_delete"`
+
 	ExistingNetworkParams types.Object `tfsdk:"existing_network_params"`
 
 	FreeIpa types.Object `tfsdk:"freeipa"`

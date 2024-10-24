@@ -33,6 +33,10 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 				MarkdownDescription: "The name of the environment. Must contain only lowercase letters, numbers and hyphens.",
 				Required:            true,
 			},
+			"cascading_delete": schema.BoolAttribute{
+				Optional: true,
+				Default:  booldefault.StaticBool(true),
+			},
 			"polling_options": schema.SingleNestedAttribute{
 				MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 				Optional:            true,
