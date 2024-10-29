@@ -17,6 +17,10 @@ workspace.xml
 # Coverage related report file(s)
 coverage.*
 
+#test result xml file
+report.xml
+index.html
+
 # Ignore the binary
 terraform-provider-cdp
 !terraform-provider-cdp/
