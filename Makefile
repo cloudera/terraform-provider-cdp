@@ -29,7 +29,7 @@ test-with-coverage: generate fmt vet
 
 # Run terraform provider acceptance tests
 testacc:
-	TF_ACC=1 TF_LOG=DEBUG go test ./... $(GO_FLAGS) $(TESTARGS) -run '^TestAcc.*$\' -count=1 -parallel=4 -timeout 90m -v
+	TF_ACC=1 TF_LOG=DEBUG gotestsum --format pkgname --junitfile report.xml -- -failfast -race -coverprofile=coverage.out ./... -run '^TestAcc.*$\' -count=1 -parallel=4 -timeout 90m -v
 
 # Build main binary
 main: build
