@@ -11,8 +11,6 @@
 package hive
 
 import (
-	"time"
-
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -28,17 +26,6 @@ type resourceModel struct {
 	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
 }
 
-// TODO these are the same everywhere, abstract this
-func (p *resourceModel) getPollingTimeout() time.Duration {
-	if p.PollingOptions != nil {
-		return time.Duration(p.PollingOptions.PollingTimeout.ValueInt64()) * time.Minute
-	}
-	return 40 * time.Minute
-}
-
-func (p *resourceModel) getCallFailureThreshold() int {
-	if p.PollingOptions != nil {
-		return int(p.PollingOptions.CallFailureThreshold.ValueInt64())
-	}
-	return 3
+func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
+	return p.PollingOptions
 }

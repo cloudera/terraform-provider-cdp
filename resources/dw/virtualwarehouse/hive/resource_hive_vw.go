@@ -13,13 +13,13 @@ package hive
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
@@ -90,9 +90,9 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
 			Target:       []string{"Running"},
 			Delay:        30 * time.Second,
-			Timeout:      plan.getPollingTimeout(),
+			Timeout:      utils.GetPollingTimeout(&plan, 20*time.Minute),
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, plan.getCallFailureThreshold()),
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&plan, 3)),
 		}
 		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
@@ -164,9 +164,9 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 			Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
 			Target:       []string{"Deleted"}, // This is not an actual state, we added it to fake the state change
 			Delay:        30 * time.Second,
-			Timeout:      state.getPollingTimeout(),
+			Timeout:      utils.GetPollingTimeout(&state, 20*time.Minute),
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, state.getCallFailureThreshold()),
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&state, 3)),
 		}
 		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
