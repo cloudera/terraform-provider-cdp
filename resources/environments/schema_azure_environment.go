@@ -121,6 +121,7 @@ var AzureEnvironmentSchema = schema.Schema{
 		},
 		"cascading_delete": schema.BoolAttribute{
 			Optional: true,
+			Computed: true,
 			Default:  booldefault.StaticBool(true),
 		},
 		"existing_network_params": schema.SingleNestedAttribute{
