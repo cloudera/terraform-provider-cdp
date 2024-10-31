@@ -15,11 +15,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-log/tflog"
-
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 )
@@ -129,4 +128,38 @@ func Int64To32Pointer(in types.Int64) *int32 {
 	n64 := in.ValueInt64()
 	var n2 = int32(n64)
 	return &n2
+}
+
+type HasPollingOptions interface {
+	GetPollingOptions() *PollingOptions
+}
+
+// GetPollingTimeout returns the polling timeout from the given polling options or the fallback value. In case a negative
+// value is given, it will be treated as one minute.
+func GetPollingTimeout[T HasPollingOptions](p T, fallback time.Duration) time.Duration {
+	var timeout time.Duration
+	if opts := p.GetPollingOptions(); opts != nil && !opts.PollingTimeout.IsNull() {
+		timeout = time.Duration(p.GetPollingOptions().PollingTimeout.ValueInt64()) * time.Minute
+	} else {
+		timeout = fallback
+	}
+	if timeout.Seconds() <= 0 {
+		return time.Minute
+	}
+	return timeout
+}
+
+// GetCallFailureThreshold returns the call failure threshold from the given polling options or the fallback value.
+// In case a negative value is given, it will be treated as zero.
+func GetCallFailureThreshold[T HasPollingOptions](p T, fallback int) int {
+	var threshold int
+	if opts := p.GetPollingOptions(); opts != nil && !opts.CallFailureThreshold.IsNull() {
+		threshold = int(p.GetPollingOptions().CallFailureThreshold.ValueInt64())
+	} else {
+		threshold = fallback
+	}
+	if threshold <= 0 {
+		return 0
+	}
+	return threshold
 }

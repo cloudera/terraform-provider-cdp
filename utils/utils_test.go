@@ -12,9 +12,11 @@ package utils
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"testing"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -191,6 +193,140 @@ func TestCalculateCallFailureThresholdOrDefault(t *testing.T) {
 				t.Errorf("CalculateCallFailureThresholdOrDefault() got = %v, expected %v", got, tt.want)
 				return
 			}
+		})
+	}
+}
+
+type TestPollingOptions struct {
+	PollingOptions *PollingOptions
+}
+
+func (p *TestPollingOptions) GetPollingOptions() *PollingOptions {
+	return p.PollingOptions
+}
+
+func TestGetPollingTimeout(t *testing.T) {
+	type args struct {
+		p        HasPollingOptions
+		fallback time.Duration
+	}
+	tests := []struct {
+		description string
+		args        args
+		want        time.Duration
+	}{
+		{
+			description: "Test when PollingOptions is nil and fallback is given then fallback should come back.",
+			args: args{
+				p:        &TestPollingOptions{},
+				fallback: 90 * time.Minute,
+			},
+			want: 90 * time.Minute,
+		},
+		{
+			description: "Test when PollingOptions is nil and fallback is not given then 1 minute should come back.",
+			args: args{
+				p:        &TestPollingOptions{},
+				fallback: 0,
+			},
+			want: time.Minute,
+		},
+		{
+			description: "Test when PollingOptions is given but PollingTimeout is nil and fallback is given then fallback should come back.",
+			args: args{
+				p:        &TestPollingOptions{PollingOptions: &PollingOptions{}},
+				fallback: 90 * time.Minute,
+			},
+			want: 90 * time.Minute,
+		},
+		{
+			description: "Test when PollingOptions is given but PollingTimeout is nil and fallback is not given then 1 minute should come back.",
+			args: args{
+				p:        &TestPollingOptions{PollingOptions: &PollingOptions{}},
+				fallback: 0,
+			},
+			want: time.Minute,
+		},
+		{
+			description: "Test when PollingOptions is given and PollingTimeout is given then its value should come back.",
+			args: args{
+				p:        &TestPollingOptions{PollingOptions: &PollingOptions{PollingTimeout: types.Int64Value(60)}},
+				fallback: 90 * time.Minute,
+			},
+			want: 60 * time.Minute,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.description, func(t *testing.T) {
+			got := GetPollingTimeout(tt.args.p, tt.args.fallback)
+			assert.Equal(t, got, tt.want)
+		})
+	}
+}
+
+func TestGetCallFailureThreshold(t *testing.T) {
+	type args struct {
+		p        HasPollingOptions
+		fallback int
+	}
+	tests := []struct {
+		description string
+		args        args
+		want        int
+	}{
+		{
+			description: "Test when PollingOptions is nil and fallback is given then fallback should come back.",
+			args: args{
+				p:        &TestPollingOptions{},
+				fallback: 3,
+			},
+			want: 3,
+		},
+		{
+			description: "Test when PollingOptions is nil and fallback is not given then 0 should come back.",
+			args: args{
+				p:        &TestPollingOptions{},
+				fallback: 0,
+			},
+			want: 0,
+		},
+		{
+			description: "Test when PollingOptions is given but CallFailureThreshold is nil and fallback is given then fallback should come back.",
+			args: args{
+				p:        &TestPollingOptions{PollingOptions: &PollingOptions{}},
+				fallback: 3,
+			},
+			want: 3,
+		},
+		{
+			description: "Test when PollingOptions is given but CallFailureThreshold is nil and fallback is not given then 0 should come back.",
+			args: args{
+				p:        &TestPollingOptions{PollingOptions: &PollingOptions{}},
+				fallback: 0,
+			},
+			want: 0,
+		},
+		{
+			description: "Test when PollingOptions is given and CallFailureThreshold is given then its value should come back.",
+			args: args{
+				p:        &TestPollingOptions{PollingOptions: &PollingOptions{CallFailureThreshold: types.Int64Value(5)}},
+				fallback: 3,
+			},
+			want: 5,
+		},
+		{
+			description: "Test when PollingOptions is nil and fallback is a negative int then 0 should come back.",
+			args: args{
+				p:        &TestPollingOptions{},
+				fallback: -2,
+			},
+			want: 0,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.description, func(t *testing.T) {
+			got := GetCallFailureThreshold(tt.args.p, tt.args.fallback)
+			assert.Equal(t, got, tt.want)
 		})
 	}
 }
