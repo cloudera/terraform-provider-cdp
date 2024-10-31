@@ -146,6 +146,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		},
 		"cascading_delete": schema.BoolAttribute{
 			Optional: true,
+			Computed: true,
 			Default:  booldefault.StaticBool(true),
 		},
 		"freeipa": FreeIpaSchema,

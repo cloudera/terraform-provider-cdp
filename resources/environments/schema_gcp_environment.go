@@ -35,6 +35,7 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 			},
 			"cascading_delete": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
 				Default:  booldefault.StaticBool(true),
 			},
 			"polling_options": schema.SingleNestedAttribute{
