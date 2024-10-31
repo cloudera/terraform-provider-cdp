@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package aws_test
+package dw
 
 import (
 	"context"
@@ -132,7 +132,9 @@ func TestAccCluster_basic(t *testing.T) {
 					testAccAwsCredentialBasicConfig(credName, os.Getenv(AwsXAccRoleArn)),
 					testAccAwsEnvironmentConfig(&envParams),
 					testAccAwsDataLakeConfig(&dlParams),
-					testAccAwsClusterBasicConfig(&envParams)),
+					testAccAwsClusterBasicConfig(&envParams),
+					testAccDwCatalog(),
+					testAccHiveVirtualWarehouse()),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "name", envParams.Name),
 					resource.TestCheckResourceAttr(resourceName, "status", "Accepted"),
@@ -224,6 +226,24 @@ func testAccAwsClusterBasicConfig(params *awsEnvironmentTestParameters) string {
           depends_on = [ cdp_datalake_aws_datalake.test_dl_dw_aws ]
 		}
 	`, params.SubnetIds)
+}
+
+func testAccDwCatalog() string {
+	return `
+		resource "cdp_dw_database_catalog" "test_catalog" {
+			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+		}
+	`
+}
+
+func testAccHiveVirtualWarehouse() string {
+	return `
+		resource "cdp_vw_hive" "test_hive" {
+			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
+			name = "tf-test-hive"
+		}
+	`
 }
 
 func testCheckClusterDestroy(s *terraform.State) error {
