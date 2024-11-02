@@ -11,6 +11,7 @@
 package cdpacctest
 
 import (
+	"encoding/base64"
 	"fmt"
 	"math/rand"
 	"os"
@@ -22,8 +23,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	environmentoperations "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/provider"
 )
 
@@ -49,6 +53,11 @@ var (
 		"http": {
 			Source:            "hashicorp/http",
 			VersionConstraint: "~> 3.4",
+		},
+	}
+	TimeExternalProvider = map[string]resource.ExternalProvider{
+		"time": {
+			Source: "hashicorp/time",
 		},
 	}
 
@@ -96,11 +105,25 @@ provider "cdp" {
 `
 }
 
-func TestAccAwsProviderConfig() string {
-	return `
-provider "aws" {
+type AwsProvider struct {
+	profile string
+	region  string
 }
-`
+
+func NewAwsProvider(profile, region string) *AwsProvider {
+	return &AwsProvider{
+		profile: profile,
+		region:  region,
+	}
+}
+
+func TestAccAwsProviderConfig(p *AwsProvider) string {
+	return fmt.Sprintf(`
+		provider "aws" {
+		  profile = %[1]q
+		  region  = %[2]q
+		}
+`, p.profile, p.region)
 }
 
 // CheckCrn Checks whether the value is set and is a properly formatted CRN
@@ -126,4 +149,104 @@ func GetCdpClientForAccTest() *cdp.Client {
 		}
 	})
 	return cdpClient
+}
+
+type AwsAccountCredentials struct {
+	name          string
+	accountID     string
+	externalID    string
+	defaultPolicy string
+}
+
+func NewAwsAccountCredentials(name string) *AwsAccountCredentials {
+	return &AwsAccountCredentials{
+		name: name,
+	}
+}
+
+func getEnvironmentPrerequisites(t *testing.T, cloudPlatform string) *environmentsmodels.GetCredentialPrerequisitesResponse {
+	client := GetCdpClientForAccTest()
+	response, err := client.Environments.
+		Operations.
+		GetCredentialPrerequisites(
+			environmentoperations.NewGetCredentialPrerequisitesParams().
+				WithInput(&environmentsmodels.GetCredentialPrerequisitesRequest{
+					CloudPlatform: &cloudPlatform,
+				}),
+		)
+	assert.Nil(t, err)
+	payload := response.GetPayload()
+	assert.NotNil(t, payload)
+	return payload
+}
+
+func (a *AwsAccountCredentials) WithPolicy(t *testing.T) *AwsAccountCredentials {
+	payload := getEnvironmentPrerequisites(t, "AWS")
+	assert.NotNil(t, payload)
+	decodedBytes, err := base64.StdEncoding.DecodeString(*payload.Aws.PolicyJSON)
+	assert.Nil(t, err)
+	a.defaultPolicy = string(decodedBytes)
+	return a
+}
+
+func (a *AwsAccountCredentials) WithExternalID(t *testing.T) *AwsAccountCredentials {
+	payload := getEnvironmentPrerequisites(t, "AWS")
+	assert.NotNil(t, payload)
+	a.externalID = *payload.Aws.ExternalID
+	return a
+}
+
+func (a *AwsAccountCredentials) WithAccountID(t *testing.T) *AwsAccountCredentials {
+	payload := getEnvironmentPrerequisites(t, "AWS")
+	assert.NotNil(t, payload)
+	a.accountID = payload.AccountID
+	return a
+}
+
+func CreateDefaultRoleAndPolicy(p *AwsAccountCredentials) string {
+	return fmt.Sprintf(`
+		resource "aws_iam_role" "cdp_test_role" {
+		  name = "%[1]s-role"
+		
+		  assume_role_policy = <<EOF
+		{
+			"Version": "2012-10-17",
+			"Statement": [
+				{
+					"Sid": "Statement1",
+					"Effect": "Allow",
+					"Principal": {
+						"AWS": "arn:aws:iam::%[2]s:root"
+					},
+					"Action": "sts:AssumeRole",
+					"Condition": {
+						"StringEquals": {
+							"sts:ExternalId": %[3]q
+						}
+					}
+				}
+			]
+		}
+		EOF
+		
+		  tags = {
+			owner = "cdw-terraform-test@cloudera.com"
+		  }
+		}
+
+		resource "aws_iam_policy" "cdp_test_policy" {
+		  name        = "%[1]s-policy"
+		  description = "DefaultCBPolicy for CDP, replace the static file with a CLI call"
+		
+		  policy = <<EOF
+		  %[4]s
+		EOF
+		}
+
+		resource "aws_iam_policy_attachment" "test-attach" {
+		  name       = "test_attachment"
+		  roles      = [aws_iam_role.cdp_test_role.name]
+		  policy_arn = aws_iam_policy.cdp_test_policy.arn
+		}
+		`, p.name, p.accountID, p.externalID, p.defaultPolicy)
 }
