@@ -242,7 +242,11 @@ func (r *azureEnvironmentResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.Cascading.ValueBool(), ctx, r.client, resp, state.PollingOptions); err != nil {
+	cascading := state.Cascading.ValueBool()
+	if state.Cascading.IsNull() {
+		cascading = true
+	}
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, ctx, r.client, resp, state.PollingOptions); err != nil {
 		return
 	}
 }
