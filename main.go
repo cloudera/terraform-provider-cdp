@@ -15,8 +15,9 @@ import (
 	"flag"
 	"log"
 
-	"github.com/cloudera/terraform-provider-cdp/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+
+	"github.com/cloudera/terraform-provider-cdp/provider"
 )
 
 var (

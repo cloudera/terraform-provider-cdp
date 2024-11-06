@@ -12,12 +12,13 @@ package cdp
 
 import (
 	"context"
-	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
 	"net/http"
 	"regexp"
 	"testing"
+
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 )
 
 var (

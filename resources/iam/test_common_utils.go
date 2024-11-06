@@ -11,8 +11,9 @@
 package iam
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 )

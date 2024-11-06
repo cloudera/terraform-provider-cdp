@@ -14,9 +14,10 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudera/terraform-provider-cdp/utils/test"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
 func TestFromSimplestModelToDatabaseRequestBasicFields(t *testing.T) {

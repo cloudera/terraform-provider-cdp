@@ -11,9 +11,8 @@
 package ml
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
-
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var workspaceSchema = schema.Schema{

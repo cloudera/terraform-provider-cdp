@@ -18,7 +18,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"

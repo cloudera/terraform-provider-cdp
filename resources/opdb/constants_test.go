@@ -10,8 +10,10 @@
 
 package opdb
 
-import "reflect"
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestFailedStatusKeywords(t *testing.T) {
 	expected := [5]string{"FAILED", "DELETE_FAILED", "MISSING", "CREATE_FAILED", "DELETED"}

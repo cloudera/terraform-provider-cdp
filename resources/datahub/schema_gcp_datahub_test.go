@@ -12,7 +12,6 @@ package datahub
 
 import (
 	"context"
-
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"

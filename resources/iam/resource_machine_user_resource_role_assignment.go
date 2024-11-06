@@ -12,11 +12,10 @@ package iam
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-framework/types"
-
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"

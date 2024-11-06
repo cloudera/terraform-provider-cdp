@@ -17,14 +17,15 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/cloudera/terraform-provider-cdp/cdpacctest"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const (

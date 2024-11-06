@@ -12,9 +12,10 @@ package datahub
 
 import (
 	"context"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"testing"
 )
 
 func TestAwsSchemaContainsCommonElements(t *testing.T) {

@@ -13,9 +13,10 @@ package iam
 import (
 	"context"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 func muRespToModel(ctx context.Context, mu *models.MachineUser, data *machineUserResourceModel) {
