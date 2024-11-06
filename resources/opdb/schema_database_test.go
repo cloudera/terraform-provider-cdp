@@ -12,9 +12,10 @@ package opdb
 
 import (
 	"context"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"testing"
 )
 
 func TestSchemaContainsCommonElements(t *testing.T) {

@@ -18,12 +18,13 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/pkg/errors"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/provider"
 )
 
 const (

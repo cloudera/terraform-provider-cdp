@@ -13,11 +13,12 @@ package opdb
 import (
 	"context"
 	"fmt"
-	"github.com/cloudera/terraform-provider-cdp/utils"
+
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func fromModelToDatabaseRequest(model databaseResourceModel, ctx context.Context) *opdbmodels.CreateDatabaseRequest {

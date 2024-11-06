@@ -15,17 +15,18 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	mocks "github.com/cloudera/terraform-provider-cdp/mocks/github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	"github.com/go-openapi/runtime"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	mocks "github.com/cloudera/terraform-provider-cdp/mocks/github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 )
 
 type MockOperations struct {

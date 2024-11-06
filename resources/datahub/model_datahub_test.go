@@ -11,8 +11,9 @@
 package datahub
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 func TestForceDeleteRequestedForAws(t *testing.T) {

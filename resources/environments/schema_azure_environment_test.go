@@ -11,8 +11,9 @@
 package environments
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
 var schemaElements = []SchemaTestCaseStructure{

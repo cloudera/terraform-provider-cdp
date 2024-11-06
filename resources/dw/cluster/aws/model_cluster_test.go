@@ -12,12 +12,14 @@ package aws
 
 import (
 	"context"
-	models2 "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
+	"testing"
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/stretchr/testify/suite"
-	"testing"
-	"time"
+
+	models2 "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 type DwClusterModelTestSuite struct {

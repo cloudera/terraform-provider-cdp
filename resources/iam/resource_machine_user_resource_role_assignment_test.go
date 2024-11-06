@@ -13,16 +13,17 @@ package iam_test
 import (
 	"context"
 	"fmt"
-	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/cloudera/terraform-provider-cdp/cdpacctest"
+	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 func TestAccIamMachineUserResourceRoleAssignment_basic(t *testing.T) {

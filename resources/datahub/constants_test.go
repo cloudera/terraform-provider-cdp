@@ -10,8 +10,10 @@
 
 package datahub
 
-import "reflect"
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestFailedStatusKeywords(t *testing.T) {
 	expected := [2]string{"FAILED", "DELETED"}

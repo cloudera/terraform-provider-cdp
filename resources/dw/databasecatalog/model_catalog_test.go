@@ -12,11 +12,12 @@ package databasecatalog
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/stretchr/testify/suite"
-	"testing"
-	"time"
 )
 
 type DwDatabaseCatalogModelTestSuite struct {

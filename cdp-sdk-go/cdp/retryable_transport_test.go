@@ -13,11 +13,12 @@ package cdp
 import (
 	"bytes"
 	"fmt"
-	"github.com/jarcoal/httpmock"
 	"io"
 	"net/http"
 	"os"
 	"testing"
+
+	"github.com/jarcoal/httpmock"
 )
 
 const (

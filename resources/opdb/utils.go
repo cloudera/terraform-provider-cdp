@@ -13,9 +13,10 @@ package opdb
 import (
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/utils"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 func checkIfDatabaseCreationFailed(resp *operations.DescribeDatabaseOK) (interface{}, string, error) {

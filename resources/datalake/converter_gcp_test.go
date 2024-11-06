@@ -11,8 +11,9 @@
 package datalake
 
 import (
-	"github.com/go-openapi/strfmt"
 	"testing"
+
+	"github.com/go-openapi/strfmt"
 
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )

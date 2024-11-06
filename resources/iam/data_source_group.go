@@ -12,10 +12,12 @@ package iam
 
 import (
 	"context"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/utils"
+
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 // Ensure the implementation satisfies the expected interfaces.

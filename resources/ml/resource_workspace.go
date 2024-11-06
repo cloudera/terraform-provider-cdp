@@ -14,15 +14,16 @@ import (
 	"context"
 	"errors"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client/operations"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/client/operations"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var _ resource.Resource = (*workspaceResource)(nil)

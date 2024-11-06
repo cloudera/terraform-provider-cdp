@@ -13,15 +13,16 @@ package environments
 import (
 	"context"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var (

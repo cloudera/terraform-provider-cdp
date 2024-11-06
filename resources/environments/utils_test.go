@@ -11,10 +11,11 @@
 package environments
 
 import (
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"golang.org/x/net/context"
-	"testing"
 )
 
 func TestConvertTagsWhenInputIsNil(t *testing.T) {

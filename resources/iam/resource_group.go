@@ -12,11 +12,7 @@ package iam
 
 import (
 	"context"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
-	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -25,6 +21,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
+	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var (

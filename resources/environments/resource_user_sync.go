@@ -15,11 +15,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -32,6 +27,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var (

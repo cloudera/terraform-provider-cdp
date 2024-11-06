@@ -41,6 +41,10 @@ build: generate fmt vet
 lint:
 	golangci-lint run
 
+# See https://golangci-lint.run/
+fix:
+	golangci-lint run --fix
+
 install: main
 	go install .
 

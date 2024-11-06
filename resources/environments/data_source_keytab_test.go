@@ -13,14 +13,15 @@ package environments
 import (
 	"context"
 	"errors"
+	"strings"
+	"testing"
+
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"strings"
-	"testing"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"

@@ -13,10 +13,10 @@ package environments
 import (
 	"context"
 	"encoding/base64"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"

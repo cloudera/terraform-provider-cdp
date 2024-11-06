@@ -13,11 +13,12 @@ package environments
 import (
 	"context"
 
-	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *types.Object, ctx context.Context) *diag.Diagnostics {

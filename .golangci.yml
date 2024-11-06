@@ -1,0 +1,34 @@
+---
+run:
+  tests: true
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - gci
+
+linters-settings:
+  gci:
+    sections:
+      - standard # Standard section: captures all standard packages.
+      - default # Default section: contains all imports that could not be matched to another section type.
+      - prefix(github.com/cloudera/terraform-provider-cdp) # Custom section: groups all imports with the specified Prefix.
+      - blank # Blank section: contains all blank imports. This section is not present unless explicitly enabled.
+      - dot # Dot section: contains all dot imports. This section is not present unless explicitly enabled.
+    # Skip generated files.
+    # Default: true
+    skip-generated: true
+
+output:
+  format: colored-line-number
+  print-issued-lines: false
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
