@@ -52,6 +52,8 @@ output "crn" {
 ### Optional
 
 - `description` (String)
+- `skip_org_policy_decisions` (Boolean) Whether to skip organizational policy decision checks or not.
+- `verify_permissions` (Boolean) Whether to verify permissions upon saving or not.
 
 ### Read-Only
 

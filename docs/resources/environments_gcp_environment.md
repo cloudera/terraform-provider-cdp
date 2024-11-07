@@ -87,6 +87,7 @@ output "shared_project_id" {
 ### Optional
 
 - `availability_zones` (List of String) The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
+- `cascading_delete` (Boolean)
 - `description` (String) A description of the environment.
 - `enable_tunnel` (Boolean) Whether to enable SSH tunneling for the environment.
 - `encryption_key` (String) Key Resource ID of the customer managed encryption key to encrypt GCP resources.

@@ -68,6 +68,7 @@ output "crn" {
 
 ### Optional
 
+- `cascading_delete` (Boolean)
 - `create_private_subnets` (Boolean)
 - `create_service_endpoints` (Boolean)
 - `description` (String)
