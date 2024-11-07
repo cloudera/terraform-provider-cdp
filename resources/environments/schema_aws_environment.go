@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -37,6 +38,7 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"crn": schema.StringAttribute{
+			Optional: true,
 			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
@@ -227,6 +229,9 @@ var AwsEnvironmentSchema = schema.Schema{
 					Optional:    true,
 					ElementType: types.StringType,
 				},
+				"gateway_node_security_group_id": schema.StringAttribute{
+					Optional: true,
+				},
 			},
 		},
 		"status": schema.StringAttribute{
@@ -245,6 +250,9 @@ var AwsEnvironmentSchema = schema.Schema{
 			Optional:    true,
 			Computed:    true,
 			ElementType: types.StringType,
+			PlanModifiers: []planmodifier.Set{
+				setplanmodifier.UseStateForUnknown(),
+			},
 		},
 		"tags": schema.MapAttribute{
 			Optional:    true,

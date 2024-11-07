@@ -60,6 +60,7 @@ var FreeIpaSchema = schema.SingleNestedAttribute{
 		},
 		"instances": schema.SetNestedAttribute{
 			Computed: true,
+			Optional: true,
 			PlanModifiers: []planmodifier.Set{
 				setplanmodifier.UseStateForUnknown(),
 			},
