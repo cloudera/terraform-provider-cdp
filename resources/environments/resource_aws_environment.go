@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -123,7 +124,65 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 }
 
 func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan awsEnvironmentResourceModel
+	planDiags := req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(planDiags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
+	var state awsEnvironmentResourceModel
+	stateDiags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(stateDiags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	if state.EncryptionKeyArn != plan.EncryptionKeyArn {
+		if err := updateAwsDiskEncryptionParameters(ctx, r.client.Environments, plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update disk encryption parameters")
+			return
+		}
+		state.EncryptionKeyArn = plan.EncryptionKeyArn
+	}
+	if plan.Authentication != nil && (plan.Authentication != state.Authentication) {
+		if err := updateSshKey(ctx, r.client.Environments, plan.Authentication, plan.EnvironmentName.ValueStringPointer()); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update SSH key")
+			return
+		}
+		state.Authentication = plan.Authentication
+	}
+	if !reflect.DeepEqual(utils.FromSetValueToStringList(plan.SubnetIds), utils.FromSetValueToStringList(state.SubnetIds)) ||
+		!reflect.DeepEqual(plan.EndpointAccessGatewaySubnetIds, state.EndpointAccessGatewaySubnetIds) {
+		if err := updateSubnet(ctx, r.client.Environments, plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
+			return
+		}
+		state.SubnetIds = plan.SubnetIds
+		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
+	}
+	if plan.SecurityAccess != nil && (plan.SecurityAccess != state.SecurityAccess) {
+		if err := updateSecurityAccess(ctx, r.client.Environments, plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update security access")
+			return
+		}
+		state.SecurityAccess = plan.SecurityAccess
+	}
+	if !plan.Tags.IsNull() && !reflect.DeepEqual(plan.Tags, state.Tags) {
+		if err := updateTags(ctx, r.client.Environments, plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update tags")
+			return
+		}
+		state.Tags = plan.Tags
+	}
+	if plan.ProxyConfigName != state.ProxyConfigName {
+		if err := updateProxyConfig(ctx, r.client.Environments, plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update proxy config")
+			return
+		}
+		state.ProxyConfigName = plan.ProxyConfigName
+	}
+	resp.State.Set(ctx, state)
 }
 
 func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -211,11 +270,12 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 			sgIDsknox = model.SecurityAccess.SecurityGroupIDsForKnox
 		}
 		model.SecurityAccess = &SecurityAccess{
-			Cidr:                    types.StringValue(env.SecurityAccess.Cidr),
-			DefaultSecurityGroupID:  types.StringValue(env.SecurityAccess.DefaultSecurityGroupID),
-			DefaultSecurityGroupIDs: dsgIDs,
-			SecurityGroupIDForKnox:  types.StringValue(env.SecurityAccess.SecurityGroupIDForKnox),
-			SecurityGroupIDsForKnox: sgIDsknox,
+			Cidr:                       types.StringValue(env.SecurityAccess.Cidr),
+			DefaultSecurityGroupID:     types.StringValue(env.SecurityAccess.DefaultSecurityGroupID),
+			DefaultSecurityGroupIDs:    dsgIDs,
+			SecurityGroupIDForKnox:     types.StringValue(env.SecurityAccess.SecurityGroupIDForKnox),
+			SecurityGroupIDsForKnox:    sgIDsknox,
+			GatewayNodeSecurityGroupID: model.SecurityAccess.GatewayNodeSecurityGroupID,
 		}
 	}
 	model.Status = types.StringPointerValue(env.Status)
