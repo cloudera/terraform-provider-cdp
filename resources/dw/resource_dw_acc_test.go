@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package aws_test
+package dw
 
 import (
 	"context"
@@ -21,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/cdpacctest"
@@ -28,6 +29,7 @@ import (
 )
 
 const (
+	AwsProfile             = "ACCEPTANCETEST_AWS_PROFILE"
 	AwsXAccRoleArn         = "ACCEPTANCETEST_AWS_X_ACC_ROLE_ARN"
 	AwsRegion              = "ACCEPTANCETEST_AWS_REGION"
 	AwsPublicKeyId         = "ACCEPTANCETEST_AWS_PUBLIC_KEY_ID"
@@ -62,6 +64,9 @@ type awsDataLakeTestParameters struct {
 
 func AwsDataLakePreCheck(t *testing.T) {
 	errMsg := "AWS CDW Terraform acceptance testing requires environment variable %s to be set"
+	if _, ok := os.LookupEnv(AwsProfile); !ok {
+		t.Fatalf(errMsg, AwsProfile)
+	}
 	if _, ok := os.LookupEnv(AwsXAccRoleArn); !ok {
 		t.Fatalf(errMsg, AwsXAccRoleArn)
 	}
@@ -97,8 +102,30 @@ func AwsDataLakePreCheck(t *testing.T) {
 	}
 }
 
-func TestAccCluster_basic(t *testing.T) {
+func PreCheck(t *testing.T) {
+	if _, ok := os.LookupEnv(AwsProfile); !ok {
+		t.Skipf("Terraform acceptance testing requires environment variable %s to be set", AwsProfile)
+	}
+
+	if os.Getenv(cdp.CdpProfileEnvVar) == "" && os.Getenv(cdp.CdpAccessKeyIdEnvVar) == "" {
+		t.Skipf("Terraform acceptance testing requires either %s or %s environment variables to be set", cdp.CdpProfileEnvVar, cdp.CdpAccessKeyIdEnvVar)
+	}
+
+	if os.Getenv(cdp.CdpAccessKeyIdEnvVar) != "" {
+		if _, ok := os.LookupEnv(cdp.CdpPrivateKeyEnvVar); !ok {
+			t.Skipf("Environment variable %s should be set together with %s", cdp.CdpPrivateKeyEnvVar, cdp.CdpAccessKeyIdEnvVar)
+		}
+	}
+}
+
+func TestAccDwCluster_Basic(t *testing.T) {
+	PreCheck(t)
 	credName := acctest.RandomWithPrefix(cdpacctest.ResourcePrefix)
+	awsProvider := cdpacctest.NewAwsProvider(os.Getenv(AwsProfile), os.Getenv(AwsRegion))
+	accountParams := cdpacctest.NewAwsAccountCredentials(cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix)).
+		WithAccountID(t).
+		WithExternalID(t).
+		WithPolicy(t)
 	envParams := awsEnvironmentTestParameters{
 		Name:                cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
 		Region:              os.Getenv(AwsRegion),
@@ -123,16 +150,23 @@ func TestAccCluster_basic(t *testing.T) {
 			AwsDataLakePreCheck(t)
 		},
 		ProtoV6ProviderFactories: cdpacctest.TestAccProtoV6ProviderFactories,
-		CheckDestroy:             testCheckClusterDestroy,
+		ExternalProviders: cdpacctest.ConcatExternalProviders(
+			cdpacctest.AwsExternalProvider,
+			cdpacctest.TimeExternalProvider,
+		),
+		CheckDestroy: testCheckClusterDestroy,
 		Steps: []resource.TestStep{
 			// Create and Read testing
 			{
 				Config: utils.Concat(
-					cdpacctest.TestAccCdpProviderConfig(),
-					testAccAwsCredentialBasicConfig(credName, os.Getenv(AwsXAccRoleArn)),
+					cdpacctest.CreateDefaultRoleAndPolicy(accountParams),
+					cdpacctest.TestAccAwsProviderConfig(awsProvider),
+					testAccAwsCredentialBasicConfig(credName),
 					testAccAwsEnvironmentConfig(&envParams),
 					testAccAwsDataLakeConfig(&dlParams),
-					testAccAwsClusterBasicConfig(&envParams)),
+					testAccAwsClusterBasicConfig(&envParams),
+					testAccDwCatalog(),
+					testAccHiveVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-hive"))),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "name", envParams.Name),
 					resource.TestCheckResourceAttr(resourceName, "status", "Accepted"),
@@ -143,12 +177,21 @@ func TestAccCluster_basic(t *testing.T) {
 	})
 }
 
-func testAccAwsCredentialBasicConfig(name string, roleArn string) string {
+func testAccAwsCredentialBasicConfig(name string) string {
+	// Wait for the IAM policy attachment to be created before creating the credential, after a couple of seconds,
+	// the CDP credential creation fails, the privileges are not yet available.
 	return fmt.Sprintf(`
+		resource "time_sleep" "wait_10_seconds" {
+		  depends_on = [aws_iam_policy_attachment.test-attach]
+		  create_duration = "10s"
+		}
+		
 		resource "cdp_environments_aws_credential" "test_cred" {
-		  credential_name = %[1]q
-		  role_arn        = %[2]q
-		}`, name, roleArn)
+		  credential_name = "%[1]s-cred"
+		  role_arn        = aws_iam_role.cdp_test_role.arn
+		  depends_on = [time_sleep.wait_10_seconds]
+		}
+`, name)
 }
 
 func testAccAwsEnvironmentConfig(envParams *awsEnvironmentTestParameters) string {
@@ -224,6 +267,24 @@ func testAccAwsClusterBasicConfig(params *awsEnvironmentTestParameters) string {
           depends_on = [ cdp_datalake_aws_datalake.test_dl_dw_aws ]
 		}
 	`, params.SubnetIds)
+}
+
+func testAccDwCatalog() string {
+	return `
+		resource "cdp_dw_database_catalog" "test_catalog" {
+			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+		}
+	`
+}
+
+func testAccHiveVirtualWarehouse(name string) string {
+	return fmt.Sprintf(`
+		resource "cdp_vw_hive" "test_hive" {
+			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
+			name = %[1]q
+		}
+	`, name)
 }
 
 func testCheckClusterDestroy(s *terraform.State) error {
