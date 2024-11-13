@@ -79,6 +79,7 @@ output "crn" {
 
 ### Optional
 
+- `cascading_delete` (Boolean)
 - `create_private_endpoints` (Boolean)
 - `description` (String)
 - `enable_outbound_load_balancer` (Boolean)

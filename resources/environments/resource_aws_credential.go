@@ -12,17 +12,17 @@ package environments
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -42,58 +42,12 @@ type awsCredentialResource struct {
 	client *cdp.Client
 }
 
-type awsCredentialResourceModel struct {
-	ID             types.String `tfsdk:"id"`
-	CredentialName types.String `tfsdk:"credential_name"`
-	RoleArn        types.String `tfsdk:"role_arn"`
-	Crn            types.String `tfsdk:"crn"`
-	Description    types.String `tfsdk:"description"`
-}
-
 func NewAwsCredentialResource() resource.Resource {
 	return &awsCredentialResource{}
 }
 
 func (r *awsCredentialResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_aws_credential"
-}
-
-func (r *awsCredentialResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "The AWS credential is used for authorization to provision resources such as compute instances within your cloud provider account.",
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
-			"credential_name": schema.StringAttribute{
-				Required: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-			},
-			"role_arn": schema.StringAttribute{
-				Required: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-			},
-			"description": schema.StringAttribute{
-				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-			},
-			"crn": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
-		},
-	}
 }
 
 func (r *awsCredentialResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -135,6 +89,17 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Credential")
 		return
+	}
+
+	// AWS credential creation does not support a couple of fields to be set during creation but can be
+	// updated afterward thus if they are set in the plan, we need to update the credential right away
+	if credentialNeedsToBeUpdatedAfterCreation(plan) {
+		tflog.Debug(ctx, "Updating AWS credential required due to plan configuration")
+		updateErr := r.updateCredential(ctx, client, plan)
+		if updateErr != nil {
+			utils.AddEnvironmentDiagnosticsError(updateErr, &resp.Diagnostics, "update AWS Credential")
+			return
+		}
 	}
 
 	// Save plan into Terraform state
@@ -201,7 +166,22 @@ func FindCredentialByName(ctx context.Context, cdpClient *cdp.Client, credential
 }
 
 func (r *awsCredentialResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	// There is no UpdateAWSCredential API in CDP.
+	var plan awsCredentialResourceModel
+	diags := req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client := r.client.Environments
+
+	err := r.updateCredential(ctx, client, plan)
+
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update AWS Credential")
+		return
+	}
+	resp.State.Set(ctx, plan)
 }
 
 func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -225,4 +205,33 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 
 func (r *awsCredentialResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+func (r *awsCredentialResource) updateCredential(ctx context.Context, client *environmentsclient.Environments, plan awsCredentialResourceModel) error {
+	params := operations.NewUpdateAwsCredentialParamsWithContext(ctx)
+	params.WithInput(&environmentsmodels.UpdateAwsCredentialRequest{
+		RoleArn:                plan.RoleArn.ValueStringPointer(),
+		Description:            plan.Description.ValueString(),
+		CredentialName:         plan.CredentialName.ValueStringPointer(),
+		VerifyPermissions:      plan.VerifyPermissions.ValueBoolPointer(),
+		SkipOrgPolicyDecisions: plan.SkipOrgPolicyDecisions.ValueBoolPointer(),
+	})
+	return retry.RetryContext(ctx, credentialCreateRetryDuration, func() *retry.RetryError {
+		tflog.Debug(ctx, "Updating AWS credential")
+		_, err := client.Operations.UpdateAwsCredential(params)
+		if err != nil {
+			var envErr *operations.UpdateAwsCredentialDefault
+			if errors.As(err, &envErr) {
+				if utils.IsRetryableError(envErr.Code()) {
+					return retry.RetryableError(err)
+				}
+			}
+			return retry.NonRetryableError(err)
+		}
+		return nil
+	})
+}
+
+func credentialNeedsToBeUpdatedAfterCreation(plan awsCredentialResourceModel) bool {
+	return (!plan.SkipOrgPolicyDecisions.IsNull() && plan.SkipOrgPolicyDecisions.ValueBool()) || (!plan.VerifyPermissions.IsNull() || plan.VerifyPermissions.ValueBool())
 }

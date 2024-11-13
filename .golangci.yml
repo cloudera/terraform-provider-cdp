@@ -27,7 +27,7 @@ linters-settings:
 
 output:
   format: colored-line-number
-  print-issued-lines: false
+  print-issued-lines: true
 
 issues:
   max-issues-per-linter: 0
