@@ -17,10 +17,10 @@ import (
 // swagger:model GrantMlServingAppAccessRequest
 type GrantMlServingAppAccessRequest struct {
 
-	// The cloud provider user id, such as ARN, which will be granted access to the Model Serving App's Kubernetes cluster.
+	// The cloud provider user id, such as ARN, which will be granted access to the Cloudera AI Inference Service Kubernetes cluster.
 	Identifier string `json:"identifier,omitempty"`
 
-	// The CRN of the Model Serving App to grant access to.
+	// The CRN of the Cloudera AI Inference Service instance to which access is to be granted.
 	ResourceCrn string `json:"resourceCrn,omitempty"`
 }
 

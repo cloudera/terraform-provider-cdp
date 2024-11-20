@@ -63,6 +63,9 @@ type VcDescription struct {
 	// SMTP Configurations for Airflow Email Alerts.
 	SMTPConfig *SMTPConfigResponse `json:"smtpConfig,omitempty"`
 
+	// Spark configs that will be applied to all the spark jobs inside a virtual cluster.
+	SparkConfigs map[string]string `json:"sparkConfigs,omitempty"`
+
 	// Spark version for the virtual cluster.
 	SparkVersion string `json:"sparkVersion,omitempty"`
 

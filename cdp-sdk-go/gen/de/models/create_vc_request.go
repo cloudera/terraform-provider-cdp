@@ -71,6 +71,9 @@ type CreateVcRequest struct {
 	// SMTP Configurations for Airflow Email Alerts.
 	SMTPConfigs *SMTPConfigRequest `json:"smtpConfigs,omitempty"`
 
+	// Spark configs that will be applied to all the spark jobs inside a virtual cluster.
+	SparkConfigs map[string]string `json:"sparkConfigs,omitempty"`
+
 	// Spark version for the virtual cluster. Currently supported Spark versions are SPARK2(deprecated), SPARK3, SPARK3_3 and SPARK3_5. This feature is only supported in CDE-1.7.0 and later. SPARK3_3 is supported in CDE-1.19 and later. SPARK3_5 is supported in CDE-1.21 and later.
 	// Enum: ["SPARK2","SPARK2_4","SPARK3","SPARK3_0","SPARK3_1","SPARK3_2","SPARK3_3","SPARK3_5"]
 	SparkVersion string `json:"sparkVersion,omitempty"`

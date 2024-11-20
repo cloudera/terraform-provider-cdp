@@ -39,6 +39,9 @@ type UpdateVwRequest struct {
 	// High Availability settings update for the Impala Virtual Warehouse.
 	ImpalaHaSettings *ImpalaHASettingsUpdateRequest `json:"impalaHaSettings,omitempty"`
 
+	// Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
+	ImpalaQueryLog *bool `json:"impalaQueryLog,omitempty"`
+
 	// Nodes per compute cluster. If specified, forces 'template' to be 'custom'
 	NodeCount int32 `json:"nodeCount,omitempty"`
 
@@ -51,7 +54,7 @@ type UpdateVwRequest struct {
 	// Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.
 	ResourcePool string `json:"resourcePool,omitempty"`
 
-	// Name of configuration template to use.
+	// DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.
 	// Enum: ["xsmall","small","medium","large"]
 	Template string `json:"template,omitempty"`
 

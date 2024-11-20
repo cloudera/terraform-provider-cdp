@@ -20,7 +20,7 @@ import (
 // swagger:model ClusterSummaryResponse
 type ClusterSummaryResponse struct {
 
-	// Additional (fallback) instance types listed in their priority order. They are used instead of the primary compute instance type in case it is unavailable. Since additional instance types are not supported for Azure, this is always empty for it.
+	// DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They are used instead of the primary compute instance type in case it is unavailable. Since additional instance types are not supported for Azure, this is always empty for it.
 	AdditionalInstanceTypes []string `json:"additionalInstanceTypes"`
 
 	// Response object of AWS related cluster options.
@@ -32,7 +32,7 @@ type ClusterSummaryResponse struct {
 	// The cloud platform of the environment that was used to create this cluster.
 	CloudPlatform string `json:"cloudPlatform,omitempty"`
 
-	// Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.
+	// NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.
 	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
 
 	// Creation date of cluster.
@@ -47,6 +47,9 @@ type ClusterSummaryResponse struct {
 
 	// Cluster description.
 	Description string `json:"description,omitempty"`
+
+	// Denotes whether the private load balancer is enabled for the cluster.
+	EnablePrivateLoadBalancer *bool `json:"enablePrivateLoadBalancer,omitempty"`
 
 	// Denotes whether the spot instances have been enabled for the cluster. This value is only available for AWS and Azure clusters.
 	EnableSpotInstances bool `json:"enableSpotInstances,omitempty"`
@@ -63,10 +66,10 @@ type ClusterSummaryResponse struct {
 	// Name of the cluster (same as the name of the environment).
 	Name string `json:"name,omitempty"`
 
-	// Number of additional reserved nodes for executors and coordinators to use during autoscaling.
+	// DEPRECATED - will be removed in future releases. Number of additional reserved nodes for executors and coordinators to use during autoscaling.
 	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
 
-	// Number of additional reserved nodes for other services in the cluster.
+	// DEPRECATED - will be removed in future releases. Number of additional reserved nodes for other services in the cluster.
 	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
 
 	// The name of the Resource Pool the cluster is in.
@@ -74,6 +77,12 @@ type ClusterSummaryResponse struct {
 
 	// Status of the cluster. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.
 	Status string `json:"status,omitempty"`
+
+	// Denotes whether the overlay network is being used for the cluster.
+	UseOverlayNetwork *bool `json:"useOverlayNetwork,omitempty"`
+
+	// The version of the deployed CDW cluster.
+	Version string `json:"version,omitempty"`
 
 	// List of IP address CIDRs to whitelist for kubernetes cluster access.
 	WhitelistK8sClusterAccessIPCIDRs string `json:"whitelistK8sClusterAccessIpCIDRs,omitempty"`

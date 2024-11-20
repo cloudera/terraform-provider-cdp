@@ -48,6 +48,9 @@ type ValidateAzureCloudStorageRequest struct {
 	// Required: true
 	RangerAuditRole *string `json:"rangerAuditRole"`
 
+	// Ranger RAZ role.
+	RangerCloudAccessAuthorizerRole string `json:"rangerCloudAccessAuthorizerRole,omitempty"`
+
 	// Azure secure flag.
 	Secure bool `json:"secure,omitempty"`
 

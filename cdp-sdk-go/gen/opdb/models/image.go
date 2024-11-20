@@ -8,10 +8,8 @@ package models
 import (
 	"context"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // Image Details of an Image.
@@ -20,47 +18,14 @@ import (
 type Image struct {
 
 	// Catalog name for the image.
-	// Required: true
-	Catalog *string `json:"catalog"`
+	Catalog string `json:"catalog,omitempty"`
 
 	// Image ID for the database.
-	// Required: true
-	ID *string `json:"id"`
+	ID string `json:"id,omitempty"`
 }
 
 // Validate validates this image
 func (m *Image) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateCatalog(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *Image) validateCatalog(formats strfmt.Registry) error {
-
-	if err := validate.Required("catalog", "body", m.Catalog); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *Image) validateID(formats strfmt.Registry) error {
-
-	if err := validate.Required("id", "body", m.ID); err != nil {
-		return err
-	}
-
 	return nil
 }
 

@@ -34,7 +34,7 @@ type CreateDataVisualizationRequest struct {
 	// Required: true
 	Name *string `json:"name"`
 
-	// The template size for the Cloudera Data Visualization.
+	// DEPRECATED: Use resourceTemplate parameter instead that will be made available in the upcoming release. The template size for the Cloudera Data Visualization.
 	TemplateName string `json:"templateName,omitempty"`
 }
 

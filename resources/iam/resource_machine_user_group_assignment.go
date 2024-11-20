@@ -13,6 +13,7 @@ package iam
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -23,7 +24,10 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-var _ resource.Resource = (*machineUserGroupAssignmentResource)(nil)
+var (
+	_ resource.ResourceWithConfigure   = (*machineUserGroupAssignmentResource)(nil)
+	_ resource.ResourceWithImportState = (*machineUserGroupAssignmentResource)(nil)
+)
 
 func NewMachineUserGroupAssignmentResource() resource.Resource {
 	return &machineUserGroupAssignmentResource{}
@@ -31,6 +35,10 @@ func NewMachineUserGroupAssignmentResource() resource.Resource {
 
 type machineUserGroupAssignmentResource struct {
 	client *cdp.Client
+}
+
+func (r *machineUserGroupAssignmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *machineUserGroupAssignmentResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

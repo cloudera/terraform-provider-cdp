@@ -15,16 +15,16 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// AuditEvents AuditEvents contains all the audit events for a given workspace crn.
+// AuditEvents AuditEvents contains all the audit events for a given workbench crn.
 //
 // swagger:model AuditEvents
 type AuditEvents struct {
 
-	// AuditEvent belong to the workspace crn.
+	// AuditEvent belong to the workbench crn.
 	// Required: true
 	Events []*AuditEvent `json:"events"`
 
-	// Workspace crn unique for the set of audit events.
+	// workbench crn unique for the set of audit events.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

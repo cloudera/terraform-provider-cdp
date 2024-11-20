@@ -12,15 +12,15 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// RevokeMlServingAppAccessRequest Request object for the RevokeMlServingApp method.
+// RevokeMlServingAppAccessRequest Request object for the RevokeMlServingAppAccess method.
 //
 // swagger:model RevokeMlServingAppAccessRequest
 type RevokeMlServingAppAccessRequest struct {
 
-	// The cloud provider user id, such as ARN, which will be granted access to the Model Serving App's Kubernetes cluster.
+	// The cloud provider user ID, such as ARN, from which access to the Cloudera AI Inference Service Kubernetes cluster needs to be revoked.
 	Identifier string `json:"identifier,omitempty"`
 
-	// The CRN of the Model Serving App to grant access to.
+	// The CRN of the Cloudera AI Inference Service instance to revoke access.
 	ResourceCrn string `json:"resourceCrn,omitempty"`
 }
 

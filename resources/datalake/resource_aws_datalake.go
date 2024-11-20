@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -32,11 +33,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &awsDatalakeResource{}
+	_ resource.ResourceWithConfigure   = &awsDatalakeResource{}
+	_ resource.ResourceWithImportState = &awsDatalakeResource{}
 )
 
 type awsDatalakeResource struct {
 	client *cdp.Client
+}
+
+func (r *awsDatalakeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewAwsDatalakeResource() resource.Resource {
@@ -329,10 +335,14 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 		return
 	}
 
+	dlName := state.DatalakeName.ValueString()
+	if len(dlName) == 0 {
+		dlName = state.ID.ValueString()
+	}
 	client := r.client.Datalake
 	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
 	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
-		DatalakeName: state.DatalakeName.ValueStringPointer(),
+		DatalakeName: &dlName,
 		Force:        false,
 	})
 	_, err := client.Operations.DeleteDatalake(params)

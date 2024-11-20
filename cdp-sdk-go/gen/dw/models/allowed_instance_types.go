@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -22,15 +23,127 @@ type AllowedInstanceTypes struct {
 
 	// Default value for the compute instance type usage. This setting is Cluster-wide.
 	Default []string `json:"default"`
+
+	// Allowed instance types for Hive Virtual Warehouses.
+	Hive *AllowedInstanceTypesWithDefault `json:"hive,omitempty"`
+
+	// Allowed instance types for Impala Virtual Warehouses.
+	Impala *AllowedInstanceTypesWithDefault `json:"impala,omitempty"`
 }
 
 // Validate validates this allowed instance types
 func (m *AllowedInstanceTypes) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateHive(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImpala(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this allowed instance types based on context it is used
+func (m *AllowedInstanceTypes) validateHive(formats strfmt.Registry) error {
+	if swag.IsZero(m.Hive) { // not required
+		return nil
+	}
+
+	if m.Hive != nil {
+		if err := m.Hive.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hive")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hive")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *AllowedInstanceTypes) validateImpala(formats strfmt.Registry) error {
+	if swag.IsZero(m.Impala) { // not required
+		return nil
+	}
+
+	if m.Impala != nil {
+		if err := m.Impala.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impala")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impala")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this allowed instance types based on the context it is used
 func (m *AllowedInstanceTypes) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateHive(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImpala(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AllowedInstanceTypes) contextValidateHive(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Hive != nil {
+
+		if swag.IsZero(m.Hive) { // not required
+			return nil
+		}
+
+		if err := m.Hive.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hive")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hive")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *AllowedInstanceTypes) contextValidateImpala(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Impala != nil {
+
+		if swag.IsZero(m.Impala) { // not required
+			return nil
+		}
+
+		if err := m.Impala.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("impala")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("impala")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

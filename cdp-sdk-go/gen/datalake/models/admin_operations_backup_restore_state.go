@@ -19,6 +19,9 @@ import (
 // swagger:model AdminOperationsBackupRestoreState
 type AdminOperationsBackupRestoreState struct {
 
+	// Run the dry run validation in the backup/restore precheck
+	DryRunValidation *BackupRestoreOperationStatus `json:"dryRunValidation,omitempty"`
+
 	// Validate storage permissions before running a backup/restore.
 	// Required: true
 	PrecheckStoragePermission *BackupRestoreOperationStatus `json:"precheckStoragePermission"`
@@ -40,6 +43,10 @@ type AdminOperationsBackupRestoreState struct {
 func (m *AdminOperationsBackupRestoreState) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateDryRunValidation(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validatePrecheckStoragePermission(formats); err != nil {
 		res = append(res, err)
 	}
@@ -59,6 +66,25 @@ func (m *AdminOperationsBackupRestoreState) Validate(formats strfmt.Registry) er
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *AdminOperationsBackupRestoreState) validateDryRunValidation(formats strfmt.Registry) error {
+	if swag.IsZero(m.DryRunValidation) { // not required
+		return nil
+	}
+
+	if m.DryRunValidation != nil {
+		if err := m.DryRunValidation.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dryRunValidation")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dryRunValidation")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -146,6 +172,10 @@ func (m *AdminOperationsBackupRestoreState) validateStopServices(formats strfmt.
 func (m *AdminOperationsBackupRestoreState) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDryRunValidation(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidatePrecheckStoragePermission(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -165,6 +195,27 @@ func (m *AdminOperationsBackupRestoreState) ContextValidate(ctx context.Context,
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *AdminOperationsBackupRestoreState) contextValidateDryRunValidation(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DryRunValidation != nil {
+
+		if swag.IsZero(m.DryRunValidation) { // not required
+			return nil
+		}
+
+		if err := m.DryRunValidation.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dryRunValidation")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dryRunValidation")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

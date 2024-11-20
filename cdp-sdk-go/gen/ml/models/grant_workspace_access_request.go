@@ -20,16 +20,16 @@ type GrantWorkspaceAccessRequest struct {
 	// The aws user ARN to grant access to the corresponding EKS cluster. (Deprecated: Use identifier instead).
 	Arn string `json:"arn,omitempty"`
 
-	// The environment that the workspace is a member of.
+	// The environment that the workbench is a member of.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// The cloud provider user id which will be granted access to the workspace's Kubernetes cluster.
+	// The cloud provider user id which will be granted access to the workbench's Kubernetes cluster.
 	Identifier string `json:"identifier,omitempty"`
 
-	// The CRN of the workspace to grant access to. If CRN is specified only the CRN is used for identifying the workspace, environment and name arguments are ignored.
+	// The CRN of the workbench to grant access to. If CRN is specified only the CRN is used for identifying the workbench, environment and name arguments are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 
-	// The name of the workspace to grant access to.
+	// The name of the workbench to grant access to.
 	WorkspaceName string `json:"workspaceName,omitempty"`
 }
 

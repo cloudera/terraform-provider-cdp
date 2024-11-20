@@ -14,6 +14,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -24,7 +25,10 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-var _ resource.Resource = (*machineUserResource)(nil)
+var (
+	_ resource.ResourceWithConfigure   = (*machineUserResource)(nil)
+	_ resource.ResourceWithImportState = (*machineUserResource)(nil)
+)
 
 func NewMachineUserResource() resource.Resource {
 	return &machineUserResource{}
@@ -32,6 +36,10 @@ func NewMachineUserResource() resource.Resource {
 
 type machineUserResource struct {
 	client *cdp.Client
+}
+
+func (r *machineUserResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *machineUserResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

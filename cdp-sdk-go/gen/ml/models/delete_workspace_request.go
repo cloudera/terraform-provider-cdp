@@ -19,20 +19,20 @@ import (
 // swagger:model DeleteWorkspaceRequest
 type DeleteWorkspaceRequest struct {
 
-	// The environment for the workspace to delete.
+	// The environment for the workbench to delete.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// Force delete a workspace even if errors occur during deletion. Force delete removes the guarantee that resources in your cloud account will be cleaned up.
+	// Force delete a workbench even if errors occur during deletion. Force delete removes the guarantee that resources in your cloud account will be cleaned up.
 	// Required: true
 	Force *bool `json:"force"`
 
-	// The remove storage flag indicates weather to keep the backing workspace filesystem storage or remove it during delete.
+	// The remove storage flag indicates weather to keep the backing workbench filesystem storage or remove it during delete.
 	RemoveStorage bool `json:"removeStorage,omitempty"`
 
-	// The CRN of the workspace to delete. If CRN is specified only the CRN is used for identifying the workspace, environment and name arguments are ignored.
+	// The CRN of the workbench to delete. If CRN is specified only the CRN is used for identifying the workbench, environment and name arguments are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 
-	// The name of the workspace to delete.
+	// The name of the workbench to delete.
 	WorkspaceName string `json:"workspaceName,omitempty"`
 }
 

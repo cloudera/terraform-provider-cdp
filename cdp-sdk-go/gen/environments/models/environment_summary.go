@@ -23,6 +23,9 @@ type EnvironmentSummary struct {
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
 
+	// Compute clusters enabled
+	ComputeClusterEnabled bool `json:"computeClusterEnabled,omitempty"`
+
 	// Creation date
 	// Format: date-time
 	Created strfmt.DateTime `json:"created,omitempty"`

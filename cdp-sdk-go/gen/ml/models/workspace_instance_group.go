@@ -15,10 +15,16 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// WorkspaceInstanceGroup Instance group information to show in workspace details.
+// WorkspaceInstanceGroup Instance group information to show in workbench details.
 //
 // swagger:model WorkspaceInstanceGroup
 type WorkspaceInstanceGroup struct {
+
+	// Number of CPUs attached to this instance type.
+	CPU string `json:"cpu,omitempty"`
+
+	// Number of GPUs attached to this instance type.
+	Gpu string `json:"gpu,omitempty"`
 
 	// The initial number of instance node.
 	// Required: true
@@ -40,11 +46,14 @@ type WorkspaceInstanceGroup struct {
 	// Required: true
 	MaxInstances *int32 `json:"maxInstances"`
 
+	// Memory in GiB attached to this instance type.
+	Memory string `json:"memory,omitempty"`
+
 	// The minimum number of instances that can be deployed to this instance group. If the value is 0, the group might be empty.
 	// Required: true
 	MinInstances *int32 `json:"minInstances"`
 
-	// Tags are key/value pairs that are applied to all tag-able resources deployed in the workspace's cloud environment.
+	// Tags are key/value pairs that are applied to all tag-able resources deployed in the workbench's cloud environment.
 	// Required: true
 	Tags []*Tag `json:"tags"`
 }

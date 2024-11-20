@@ -19,7 +19,7 @@ import (
 // swagger:model ListWorkspacesResponse
 type ListWorkspacesResponse struct {
 
-	// The list of workspaces.
+	// The list of workbenches.
 	Workspaces []*WorkspaceSummary `json:"workspaces"`
 }
 

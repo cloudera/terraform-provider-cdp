@@ -14,6 +14,7 @@ import (
 	"context"
 	"encoding/base64"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -26,11 +27,16 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ resource.Resource = &gcpCredentialResource{}
+	_ resource.ResourceWithConfigure   = &gcpCredentialResource{}
+	_ resource.ResourceWithImportState = &gcpCredentialResource{}
 )
 
 type gcpCredentialResource struct {
 	client *cdp.Client
+}
+
+func (r *gcpCredentialResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewGcpCredentialResource() resource.Resource {

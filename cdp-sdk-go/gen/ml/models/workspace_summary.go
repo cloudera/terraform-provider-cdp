@@ -15,30 +15,30 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// WorkspaceSummary A Cloudera Machine Learning workspace which includes the deployed configuration details.
+// WorkspaceSummary A Cloudera AI workbench which includes the deployed configuration details.
 //
 // swagger:model WorkspaceSummary
 type WorkspaceSummary struct {
 
-	// The Backup Metadata for the workspace.
+	// The Backup Metadata for the workbench.
 	BackupMetadata *BackupMetadata `json:"backupMetadata,omitempty"`
 
-	// The cloud platform of the environment that was used to create this workspace.
+	// The cloud platform of the environment that was used to create this workbench.
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
 
-	// The Cluster ID for the workspace.
+	// The Cluster ID for the workbench.
 	ClusterID string `json:"clusterID,omitempty"`
 
-	// Creation date of workspace.
+	// Creation date of workbench.
 	// Format: date-time
 	CreationDate strfmt.DateTime `json:"creationDate,omitempty"`
 
-	// The CRN of the creator of the workspace.
+	// The CRN of the creator of the workbench.
 	// Required: true
 	CreatorCrn *string `json:"creatorCrn"`
 
-	// The CRN of the workspace.
+	// The CRN of the workbench.
 	// Required: true
 	Crn *string `json:"crn"`
 
@@ -46,40 +46,40 @@ type WorkspaceSummary struct {
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
 
-	// The name of the workspace's environment.
+	// The name of the workbench's environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// Failure message from the most recent failure that has occurred during workspace provisioning.
+	// Failure message from the most recent failure that has occurred during workbench provisioning.
 	FailureMessage string `json:"failureMessage,omitempty"`
 
-	// A filesystem ID referencing the filesystem that was created on the cloud provider environment that this workspace uses.
+	// A filesystem ID referencing the filesystem that was created on the cloud provider environment that this workbench uses.
 	// Required: true
 	FilesystemID *string `json:"filesystemID"`
 
-	// The health info information of the workspace.
+	// The health info information of the workbench.
 	HealthInfoLists []*HealthInfo `json:"healthInfoLists"`
 
-	// Indicates if HTTPs communication was enabled on this workspace when provisioned.
+	// Indicates if HTTPs communication was enabled on this workbench when provisioned.
 	// Required: true
 	HTTPSEnabled *bool `json:"httpsEnabled"`
 
-	// The name of the workspace.
+	// The name of the workbench.
 	// Required: true
 	InstanceName *string `json:"instanceName"`
 
-	// The workspace's current status.
+	// The workbench's current status.
 	// Required: true
 	InstanceStatus *string `json:"instanceStatus"`
 
-	// URL of the workspace's user interface.
+	// URL of the workbench's user interface.
 	// Required: true
 	InstanceURL *string `json:"instanceUrl"`
 
 	// The value to indicate if the cluster is private or not.
 	IsPrivate bool `json:"isPrivate,omitempty"`
 
-	// The value to indicate if the workspace is restored one or not
+	// The value to indicate if the workbench is restored one or not
 	IsRestored bool `json:"isRestored,omitempty"`
 
 	// The Kubernetes cluster name.
@@ -89,17 +89,17 @@ type WorkspaceSummary struct {
 	// The whitelist of IPs for load balancer.
 	LoadBalancerIPWhitelists []string `json:"loadBalancerIPWhitelists"`
 
-	// If usage monitoring is enabled or not on this workspace.
+	// If usage monitoring is enabled or not on this workbench.
 	// Required: true
 	MonitoringEnabled *bool `json:"monitoringEnabled"`
 
 	// NFS Version of the filesystem.
 	NfsVersion string `json:"nfsVersion,omitempty"`
 
-	// The upgrade state contains the workspace upgrade information.
+	// The upgrade state contains the workbench upgrade information.
 	UpgradeState *UpgradeState `json:"upgradeState,omitempty"`
 
-	// The version of Cloudera Machine Learning that was installed on the workspace.
+	// The version of Cloudera AI that was installed on the workbench.
 	// Required: true
 	Version *string `json:"version"`
 }

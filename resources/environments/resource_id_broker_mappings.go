@@ -15,6 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
@@ -32,8 +33,9 @@ import (
 )
 
 var (
-	_             resource.Resource = &idBrokerMappingsResource{}
-	emptyMappings                   = true
+	_             resource.ResourceWithConfigure   = &idBrokerMappingsResource{}
+	_             resource.ResourceWithImportState = &idBrokerMappingsResource{}
+	emptyMappings                                  = true
 )
 
 var IDBrokerMappingSchema = schema.Schema{
@@ -95,6 +97,10 @@ var IDBrokerMappingSchema = schema.Schema{
 
 type idBrokerMappingsResource struct {
 	client *cdp.Client
+}
+
+func (r *idBrokerMappingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewIDBrokerMappingsResource() resource.Resource {

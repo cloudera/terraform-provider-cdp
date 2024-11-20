@@ -17,7 +17,7 @@ import (
 // swagger:model CreateMlServingAppResponse
 type CreateMlServingAppResponse struct {
 
-	// The CRN of the App created.
+	// The CRN of the Cloudera AI Inference Service created.
 	AppCrn string `json:"appCrn,omitempty"`
 }
 

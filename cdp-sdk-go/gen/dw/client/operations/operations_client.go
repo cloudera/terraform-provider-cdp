@@ -232,8 +232,6 @@ type ClientService interface {
 
 	UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error)
 
-	UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error)
-
 	UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error)
 
 	UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error)
@@ -3711,45 +3709,6 @@ func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOpti
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateVwConfigDefault)
-	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
-}
-
-/*
-UpgradeCluster upgrades the cloudera data warehouse cluster
-
-Upgrade the Cloudera Data Warehouse cluster to the latest supported version. Expect downtime during the upgrade and refrain issuing queries. You can check the current status of the cluster with the describe-cluster command.
-*/
-func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewUpgradeClusterParams()
-	}
-	op := &runtime.ClientOperation{
-		ID:                 "upgradeCluster",
-		Method:             "POST",
-		PathPattern:        "/api/v1/dw/upgradeCluster",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"https"},
-		Params:             params,
-		Reader:             &UpgradeClusterReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*UpgradeClusterOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	unexpectedSuccess := result.(*UpgradeClusterDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

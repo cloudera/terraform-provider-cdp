@@ -19,23 +19,23 @@ import (
 // swagger:model ModifyClusterInstanceGroupRequest
 type ModifyClusterInstanceGroupRequest struct {
 
-	// The name of the instance group of the workspace cluster to modify.
+	// The name of the instance group of the workbench cluster to modify.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
 
-	// The desired instance type of the workspace cluster instance group.
+	// The desired instance type of the workbench cluster instance group.
 	// Required: true
 	InstanceType *string `json:"instanceType"`
 
-	// The desired autoscaling min of the workspace cluster instance group.
+	// The desired autoscaling min of the workbench cluster instance group.
 	// Required: true
 	Max *int32 `json:"max"`
 
-	// The desired autoscaling min of the workspace cluster instance group.
+	// The desired autoscaling min of the workbench cluster instance group.
 	// Required: true
 	Min *int32 `json:"min"`
 
-	// The CRN of the workspace cluster to modify.
+	// The CRN of the workbench cluster to modify.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

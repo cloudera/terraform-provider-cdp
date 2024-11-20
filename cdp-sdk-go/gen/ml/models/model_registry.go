@@ -32,6 +32,9 @@ type ModelRegistry struct {
 	// The domain of the model registry
 	Domain string `json:"domain,omitempty"`
 
+	// To indicate if the model registry standalone API endpoint is publicly accessible or not.
+	EndpointPublicAccess bool `json:"endpointPublicAccess,omitempty"`
+
 	// The environment CRN of model registry.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 
@@ -59,10 +62,13 @@ type ModelRegistry struct {
 	// The status of model registry.
 	Status string `json:"status,omitempty"`
 
-	// Deprecated. WorkSpace CRN. This field is no longer used.
+	// The version of the model registry.
+	Version string `json:"version,omitempty"`
+
+	// Deprecated. workbench CRN. This field is no longer used.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 
-	// Deprecated, please refer to serviceName. Workspace name.
+	// Deprecated, please refer to serviceName. workbench name.
 	WorkspaceName string `json:"workspaceName,omitempty"`
 }
 

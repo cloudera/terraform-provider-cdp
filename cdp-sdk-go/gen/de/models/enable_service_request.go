@@ -45,6 +45,12 @@ type EnableServiceRequest struct {
 	// EBS volume size in GB for the All Purpose Instance Group.
 	AllPurposeRootVolumeSize int32 `json:"allPurposeRootVolumeSize,omitempty"`
 
+	// Resource ID of the custom private DNS zone associated with the Azure database.
+	AzureDatabasePrivateDNSZoneID string `json:"azureDatabasePrivateDNSZoneId,omitempty"`
+
+	// Resource ID of custom private DNS zone for Azure storage account.
+	AzureFilesharePrivateDNSZoneID string `json:"azureFilesharePrivateDNSZoneId,omitempty"`
+
 	// Chart overrides for enabling a service.
 	ChartValueOverrides []*ChartValueOverridesRequest `json:"chartValueOverrides"`
 

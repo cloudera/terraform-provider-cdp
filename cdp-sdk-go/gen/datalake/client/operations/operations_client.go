@@ -62,6 +62,8 @@ type ClientService interface {
 
 	CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error)
 
+	CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error)
+
 	CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
 
 	CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error)
@@ -94,6 +96,8 @@ type ClientService interface {
 
 	ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error)
 
+	ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error)
+
 	ListDatalakes(params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error)
 
 	ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error)
@@ -112,6 +116,8 @@ type ClientService interface {
 
 	ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error)
 
+	RestartDatalakeInstances(params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error)
+
 	RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error)
 
 	RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error)
@@ -120,9 +126,13 @@ type ClientService interface {
 
 	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
 
+	RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error)
+
 	RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
 
 	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error)
 
 	ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error)
 
@@ -306,6 +316,45 @@ func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsPara
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*CancelDatalakeDiagnosticsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CancelRestore cancels the restore that was performed
+
+Cancels a currently running restore operation. The operation must be in a STARTED or IN_PROGRESS state.
+*/
+func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCancelRestoreParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cancelRestore",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/cancelRestore",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CancelRestoreReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CancelRestoreOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CancelRestoreDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -934,6 +983,45 @@ func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, 
 }
 
 /*
+ListDatalakeSecretTypes lists all datalake related secret types
+
+Lists Datalake related secret types for Datalake instances.
+*/
+func (a *Client) ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDatalakeSecretTypesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDatalakeSecretTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/listDatalakeSecretTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDatalakeSecretTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDatalakeSecretTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDatalakeSecretTypesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListDatalakes lists datalakes
 
 Lists datalakes.
@@ -1285,6 +1373,45 @@ func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOpti
 }
 
 /*
+RestartDatalakeInstances restarts instances of a datalake on cloud provider
+
+Restarts instances of a datalake on Cloud provider.
+*/
+func (a *Client) RestartDatalakeInstances(params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRestartDatalakeInstancesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "restartDatalakeInstances",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/restartDatalakeInstances",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RestartDatalakeInstancesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RestartDatalakeInstancesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RestartDatalakeInstancesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 RestoreDatalake restores the datalake from backup taken
 
 Restore the datalake from a backup that was taken. Backup to be used for restore is identified based on the information provided in the restore request. BackupId and BackupName are mutually exclusive. Only one of them can be provided. If both are provided, BackupId takes precedence.
@@ -1441,6 +1568,45 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 }
 
 /*
+RotateDbCertificate rotates database ssl certificate for a specific data lake
+
+Rotates database ssl certificate for a specific Data Lake.
+*/
+func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateDbCertificateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateDbCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/rotateDbCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateDbCertificateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateDbCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateDbCertificateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 RotatePrivateCertificates rotates private certificates on the datalake s hosts
 
 Rotates private certificates on the datalake's hosts.
@@ -1515,6 +1681,45 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotateSecrets rotates secrets for a specific datalake
+
+Rotates secrets for a specific Datalake based on what secret types are specified.
+*/
+func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateSecretsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateSecrets",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/rotateSecrets",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateSecretsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateSecretsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateSecretsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

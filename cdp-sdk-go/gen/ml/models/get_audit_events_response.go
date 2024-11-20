@@ -14,12 +14,12 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// GetAuditEventsResponse GetAuditEventsResponse containes all the audit events for a given workspace crn.
+// GetAuditEventsResponse GetAuditEventsResponse containes all the audit events for a given workbench crn.
 //
 // swagger:model GetAuditEventsResponse
 type GetAuditEventsResponse struct {
 
-	// Contains all the audit events for a given workspace crn.
+	// Contains all the audit events for a given workbench crn.
 	// Required: true
 	AuditEvents *AuditEvents `json:"auditEvents"`
 }

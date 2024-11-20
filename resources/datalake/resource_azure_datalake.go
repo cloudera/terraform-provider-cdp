@@ -16,6 +16,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -28,11 +29,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &azureDatalakeResource{}
+	_ resource.ResourceWithConfigure   = &azureDatalakeResource{}
+	_ resource.ResourceWithImportState = &azureDatalakeResource{}
 )
 
 type azureDatalakeResource struct {
 	client *cdp.Client
+}
+
+func (r *azureDatalakeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewAzureDatalakeResource() resource.Resource {
@@ -177,8 +183,12 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 
 	client := r.client.Datalake
 
+	dlName := state.DatalakeName.ValueString()
+	if len(dlName) == 0 {
+		dlName = state.ID.ValueString()
+	}
 	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
-	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
+	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &dlName})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {

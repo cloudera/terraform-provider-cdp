@@ -12,7 +12,7 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// BackupWorkspaceResponse The response object for workspace backup.
+// BackupWorkspaceResponse The response object for Cloudera AI workbench backup.
 //
 // swagger:model BackupWorkspaceResponse
 type BackupWorkspaceResponse struct {

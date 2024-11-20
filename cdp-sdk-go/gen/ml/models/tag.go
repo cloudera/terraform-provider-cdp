@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// Tag Contains a single tag entry associated with a workspace.
+// Tag Contains a single tag entry associated with a workbench.
 //
 // swagger:model Tag
 type Tag struct {

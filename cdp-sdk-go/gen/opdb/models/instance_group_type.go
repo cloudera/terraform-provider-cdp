@@ -16,7 +16,7 @@ import (
 
 // InstanceGroupType InstanceGroup Type.
 //
-//	`WORKER` - WORKER value of the InstanceGroup name. `LEADER` - LEADER value of the InstanceGroup name. `MASTER` - MASTER value of the InstanceGroup name. `GATEWAY` - GATEWAY value of the InstanceGroup name. `STRONGMETA` - STRONGMETA value of the InstanceGroup name. `EDGE` - EDGE value of the InstanceGroup name.
+//	`WORKER` - WORKER value of the InstanceGroup name. `LEADER` - LEADER value of the InstanceGroup name. `MASTER` - MASTER value of the InstanceGroup name. `GATEWAY` - GATEWAY value of the InstanceGroup name. `STRONGMETA` - STRONGMETA value of the InstanceGroup name. `EDGE` - EDGE value of the InstanceGroup name. `COMPUTE` - COMPUTE value of the InstanceGroup name. `RESTWORKER` - RESTWORKER value of the InstanceGroup name.
 //
 // swagger:model InstanceGroupType
 type InstanceGroupType string

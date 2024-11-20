@@ -12,12 +12,12 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// RefreshModelRegistryConfigmapRequest Request for refreshing workspace's model registry configmap.
+// RefreshModelRegistryConfigmapRequest Request for refreshing workbench's model registry configmap.
 //
 // swagger:model RefreshModelRegistryConfigmapRequest
 type RefreshModelRegistryConfigmapRequest struct {
 
-	// Workspace CRN.
+	// workbench CRN.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 }
 

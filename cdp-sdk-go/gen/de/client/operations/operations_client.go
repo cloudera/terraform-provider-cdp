@@ -80,6 +80,8 @@ type ClientService interface {
 
 	GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error)
 
+	GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error)
+
 	ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error)
 
 	ListServices(params *ListServicesParams, opts ...ClientOption) (*ListServicesOK, error)
@@ -91,6 +93,8 @@ type ClientService interface {
 	UpdateService(params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error)
 
 	UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*UpdateVcOK, error)
+
+	UpgradeService(params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -603,6 +607,45 @@ func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...Cl
 }
 
 /*
+GetUpgradeStatus gets c d e service upgrade status
+
+The current status of the CDE Service upgrade. If all the steps are completed allStepsCompleted would be true. After a particular step triggered by upgrade-service is completed nextStep would point to the next step to take.
+*/
+func (a *Client) GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetUpgradeStatusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getUpgradeStatus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/de/getUpgradeStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetUpgradeStatusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetUpgradeStatusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetUpgradeStatusDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListBackups lists cloudera data engineering c d e service backups
 
 List all service backups.
@@ -833,6 +876,45 @@ func (a *Client) UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*Update
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateVcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeService triggers a particular step prepare backup upgrade resume of the upgrade framework
+
+Trigger a particular step (prepare, backup, upgrade, resume) of the multi-step upgrade process. Use get-upgrade-status to know what is the next step to take.
+*/
+func (a *Client) UpgradeService(params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeServiceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeService",
+		Method:             "POST",
+		PathPattern:        "/api/v1/de/upgradeService",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeServiceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeServiceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeServiceDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

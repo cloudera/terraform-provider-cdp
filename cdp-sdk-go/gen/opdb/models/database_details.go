@@ -55,14 +55,23 @@ type DatabaseDetails struct {
 	// Environment name
 	EnvironmentName string `json:"environmentName,omitempty"`
 
+	// Number of gateway nodes for the database.
+	GatewayNodesCount int32 `json:"gatewayNodesCount,omitempty"`
+
 	// Hue endpoint
 	HueEndpoint string `json:"hueEndpoint,omitempty"`
 
 	// Internal cluster name for this database
 	InternalName string `json:"internalName,omitempty"`
 
+	// The version of java on the cluster.
+	JavaVersion string `json:"javaVersion,omitempty"`
+
 	// The number of strong meta servers for this database. Requires the COD_STRONG_META_SERVERS entitlement.
 	NumStrongMetaServers int32 `json:"numStrongMetaServers,omitempty"`
+
+	// Number of REST Worker nodes for the database.
+	RestworkerNodesCount int32 `json:"restworkerNodesCount,omitempty"`
 
 	// The predetermined size of the cluster.
 	ScaleType ScaleType `json:"scaleType,omitempty"`

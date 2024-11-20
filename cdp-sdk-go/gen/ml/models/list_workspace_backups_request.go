@@ -18,16 +18,16 @@ import (
 // swagger:model ListWorkspaceBackupsRequest
 type ListWorkspaceBackupsRequest struct {
 
-	// The environment for the workspace to list backups for.
+	// The environment for the workbench to list backups for.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
 	// Additional query options to enhance/mutate the API response.
 	QueryOptions *ListWorkspaceBackupsQueryOptions `json:"queryOptions,omitempty"`
 
-	// The CRN of the workspace to list backups for. If this field is specified, environmentName and workspaceName are ignored.
+	// The CRN of the workbench to list backups for. If this field is specified, environmentName and workspaceName are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 
-	// The name of the workspace to list backups for.
+	// The name of the workbench to list backups for.
 	WorkspaceName string `json:"workspaceName,omitempty"`
 }
 

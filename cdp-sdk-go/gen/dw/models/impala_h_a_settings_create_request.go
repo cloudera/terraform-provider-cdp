@@ -24,6 +24,9 @@ type ImpalaHASettingsCreateRequest struct {
 	// Enables a shutdown of the coordinator. If Unified Analytics is enabled, then this setting is explicitly disabled (ignored) and should not be provided.
 	EnableShutdownOfCoordinator bool `json:"enableShutdownOfCoordinator,omitempty"`
 
+	// Enables a backup instance for Impala Statestore to ensure high availability.
+	EnableStatestoreHighAvailability bool `json:"enableStatestoreHighAvailability,omitempty"`
+
 	// Set High Availability mode. If not provided, the default will apply. DISABLED - Disables Impala coordinator and Database Catalog high availability. ACTIVE_PASSIVE - Runs multiple coordinators (one active, one passive) and Database Catalogs (one active, one passive). ACTIVE_ACTIVE - Runs multiple coordinators (both active) and Database Catalogs (one active, one passive). If Unified Analytics is enabled, then this cannot be set to ACTIVE_ACTIVE.
 	HighAvailabilityMode ImpalaHighAvailabilityMode `json:"highAvailabilityMode,omitempty"`
 

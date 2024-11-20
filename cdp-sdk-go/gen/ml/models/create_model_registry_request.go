@@ -61,7 +61,7 @@ type CreateModelRegistryRequest struct {
 	// Skip pre-flight validations if requested.
 	SkipValidation bool `json:"skipValidation,omitempty"`
 
-	// The list of subnets used for the load balancer that CML creates.
+	// The list of subnets used for the load balancer that Cloudera AI creates.
 	SubnetsForLoadBalancers []string `json:"subnetsForLoadBalancers"`
 
 	// The boolean flag to request a public load balancer. By default, a private load balancer is used.

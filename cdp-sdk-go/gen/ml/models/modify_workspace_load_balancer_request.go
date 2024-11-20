@@ -23,7 +23,7 @@ type ModifyWorkspaceLoadBalancerRequest struct {
 	// Required: true
 	LoadBalancerIPAllowLists []string `json:"loadBalancerIPAllowLists"`
 
-	// The CRN of the workspace cluster to modify.
+	// The CRN of the workbench cluster to modify.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

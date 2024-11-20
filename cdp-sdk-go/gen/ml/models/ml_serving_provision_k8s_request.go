@@ -15,7 +15,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// MlServingProvisionK8sRequest Request object for CML Serving App cluster provision.
+// MlServingProvisionK8sRequest Request object for provisioning Cloudera AI Inference Service instance groups.
 //
 // swagger:model MlServingProvisionK8sRequest
 type MlServingProvisionK8sRequest struct {

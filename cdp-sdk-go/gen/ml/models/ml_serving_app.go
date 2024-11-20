@@ -14,53 +14,56 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// MlServingApp The Cloudera Machine Learning Serving App
+// MlServingApp The Cloudera AI Inference Service instance.
 //
 // swagger:model MlServingApp
 type MlServingApp struct {
 
-	// The CRN of the App.
+	// The CRN of the Cloudera AI Inference Service instance.
 	AppCrn string `json:"appCrn,omitempty"`
 
-	// The name of the App.
+	// The name of the Cloudera AI Inference Service instance.
 	AppName string `json:"appName,omitempty"`
 
-	// The cloud platform of the environment that was used to create this app.
+	// The cloud platform of the environment that was used to create this instance.
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
 
 	// The Kubernetes cluster information.
 	Cluster *KubernetesCluster `json:"cluster,omitempty"`
 
-	// Creation date of workspace.
+	// Creation date of Cloudera AI Inference Service instance.
 	// Format: date-time
 	CreationDate strfmt.DateTime `json:"creationDate,omitempty"`
 
-	// The CRN of the environment used by App.
+	// The CRN of the environment.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 
-	// The name of the environment used by App.
+	// The name of the environment.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
 	// Indicates if HTTPs communication was enabled on this application when it was provisioned.
 	HTTPSEnabled bool `json:"httpsEnabled,omitempty"`
 
-	// Is this App installed on a private cluster.
+	// Is this service installed on a private cluster.
 	IsPrivateCluster bool `json:"isPrivateCluster,omitempty"`
 
-	// The version of Cloudera Machine Learning Serving software this App is running.
+	// The Cloudera AI Inference Service version running on this instance.
 	MlServingVersion string `json:"mlServingVersion,omitempty"`
 
-	// The namespace used the App.
+	// The namespace used for this service.
 	Namespace string `json:"namespace,omitempty"`
 
-	// The email of the user who created the App.
+	// The email of the user who created this service.
 	OwnerEmail string `json:"ownerEmail,omitempty"`
 
-	// The status of the MlServingApp
+	// The status of the Cloudera AI Inference Service instance.
 	Status string `json:"status,omitempty"`
 
-	// Indicates if this MlServingApp uses a public load balancer
+	// The list of subnets used for the load balancer.
+	SubnetsForLoadBalancers []string `json:"subnetsForLoadBalancers"`
+
+	// Indicates if this Cloudera AI Inference Service instance uses a public load balancer.
 	UsePublicLoadBalancer bool `json:"usePublicLoadBalancer,omitempty"`
 }
 

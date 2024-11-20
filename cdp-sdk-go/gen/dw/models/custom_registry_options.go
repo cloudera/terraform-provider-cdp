@@ -15,26 +15,17 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// CustomRegistryOptions Options for custom ACR, ECR, or Docker registry.
+// CustomRegistryOptions Options for custom ACR, ECR registry.
 //
 // swagger:model CustomRegistryOptions
 type CustomRegistryOptions struct {
 
-	// Disable image verification.
-	DisableImageVerification bool `json:"disableImageVerification,omitempty"`
-
-	// Password for custom registry access (required only for Docker type).
-	Password string `json:"password,omitempty"`
-
 	// Custom registry type.
-	// Enum: ["ACR","ECR","Docker"]
+	// Enum: ["ACR","ECR"]
 	RegistryType string `json:"registryType,omitempty"`
 
 	// URL of the custom image repository.
 	RepositoryURL string `json:"repositoryUrl,omitempty"`
-
-	// Username for custom registry access (required only for Docker type).
-	UserName string `json:"userName,omitempty"`
 }
 
 // Validate validates this custom registry options
@@ -55,7 +46,7 @@ var customRegistryOptionsTypeRegistryTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["ACR","ECR","Docker"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["ACR","ECR"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -70,9 +61,6 @@ const (
 
 	// CustomRegistryOptionsRegistryTypeECR captures enum value "ECR"
 	CustomRegistryOptionsRegistryTypeECR string = "ECR"
-
-	// CustomRegistryOptionsRegistryTypeDocker captures enum value "Docker"
-	CustomRegistryOptionsRegistryTypeDocker string = "Docker"
 )
 
 // prop value enum

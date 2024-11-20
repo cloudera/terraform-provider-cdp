@@ -29,6 +29,10 @@ type Credential struct {
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
 
+	// Creation date
+	// Format: date-time
+	Created strfmt.DateTime `json:"created,omitempty"`
+
 	// The name of the credential.
 	// Required: true
 	CredentialName *string `json:"credentialName"`
@@ -57,6 +61,10 @@ func (m *Credential) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCloudPlatform(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCreated(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -119,6 +127,18 @@ func (m *Credential) validateAzureCredentialProperties(formats strfmt.Registry) 
 func (m *Credential) validateCloudPlatform(formats strfmt.Registry) error {
 
 	if err := validate.Required("cloudPlatform", "body", m.CloudPlatform); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Credential) validateCreated(formats strfmt.Registry) error {
+	if swag.IsZero(m.Created) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("created", "body", "date-time", m.Created.String(), formats); err != nil {
 		return err
 	}
 

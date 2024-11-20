@@ -17,13 +17,13 @@ import (
 // swagger:model DescribeWorkspaceRequest
 type DescribeWorkspaceRequest struct {
 
-	// The environment for the workspace to describe.
+	// The environment for the workbench to describe.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// The CRN of the workspace to describe. If CRN is specified only the CRN is used for identifying the workspace, environment and name arguments are ignored.
+	// The CRN of the workbench to describe. If CRN is specified only the CRN is used for identifying the workbench, environment and name arguments are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 
-	// The name of the workspace to describe.
+	// The name of the workbench to describe.
 	WorkspaceName string `json:"workspaceName,omitempty"`
 }
 

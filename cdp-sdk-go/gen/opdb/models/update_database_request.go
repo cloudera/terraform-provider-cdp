@@ -33,8 +33,14 @@ type UpdateDatabaseRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Sets the desired number of REST Worker nodes for the database. A positive, non-zero number is required. Requires the COD_RESTWORKERS entitlement.
+	NumDesiredRestworkerNodes int32 `json:"numDesiredRestworkerNodes,omitempty"`
+
 	// The desired number of strong meta servers for this database. A positive, non-zero number is required. Use removeStrongMetaServers to remove strong meta servers entirely. Requires the COD_STRONG_META_SERVERS entitlement.
 	NumDesiredStrongMetaServers int32 `json:"numDesiredStrongMetaServers,omitempty"`
+
+	// Removes any REST Worker nodes provisioned for this database. Requires the COD_RESTWORKERS entitlement.
+	RemoveRestworkerNodes bool `json:"removeRestworkerNodes,omitempty"`
 
 	// Removes any strong meta servers provisioned for this database. Requires the COD_STRONG_META_SERVERS entitlement.
 	RemoveStrongMetaServers bool `json:"removeStrongMetaServers,omitempty"`

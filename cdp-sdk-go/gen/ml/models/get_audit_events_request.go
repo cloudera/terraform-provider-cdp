@@ -12,12 +12,12 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// GetAuditEventsRequest GetAuditEventsRequest to get all audit events for a given workspace crn.
+// GetAuditEventsRequest GetAuditEventsRequest to get all audit events for a given workbench crn.
 //
 // swagger:model GetAuditEventsRequest
 type GetAuditEventsRequest struct {
 
-	// Resource crn for which audit events to be fetched. Resource can be workspace or model registry.
+	// Resource crn for which audit events to be fetched. Resource can be workbench or model registry.
 	ResourceCrn string `json:"resourceCrn,omitempty"`
 
 	// Deprecated, please begin to use Resource crn, as this will soon be unsupported.

@@ -14,6 +14,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -24,11 +25,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &gcpDatalakeResource{}
+	_ resource.ResourceWithConfigure   = &gcpDatalakeResource{}
+	_ resource.ResourceWithImportState = &gcpDatalakeResource{}
 )
 
 type gcpDatalakeResource struct {
 	client *cdp.Client
+}
+
+func (r *gcpDatalakeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewGcpDatalakeResource() resource.Resource {
@@ -111,8 +117,12 @@ func (r *gcpDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 
 	client := r.client.Datalake
 
+	dlName := state.DatalakeName.ValueString()
+	if len(dlName) == 0 {
+		dlName = state.ID.ValueString()
+	}
 	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
-	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
+	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &dlName})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {

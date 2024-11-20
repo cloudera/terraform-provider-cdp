@@ -19,7 +19,7 @@ import (
 // swagger:model UpgradeMlServingAppRequest
 type UpgradeMlServingAppRequest struct {
 
-	// The serving app CRN.
+	// The Cloudera AI Inference Service CRN.
 	// Required: true
 	AppCrn *string `json:"appCrn"`
 }

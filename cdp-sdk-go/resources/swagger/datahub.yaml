@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.117 (BETA)
+  version: 0.9.124 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -417,6 +417,48 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/RepairClusterResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/restartClusterInstances:
+    post:
+      summary: Restarts instances of a cluster on Cloud provider.
+      description: Restarts instances of a cluster on Cloud provider.
+      operationId: restartClusterInstances
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RestartClusterInstancesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RestartClusterInstancesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/rotateDbCertificate:
+    post:
+      summary: Rotates database ssl certificate for a specific Data Hub
+      description: Rotates database ssl certificate for a specific Data Hub
+      operationId: rotateDbCertificate
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RotateDbCertificateRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RotateDbCertificateResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1052,6 +1094,48 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datahub/rotateSecrets:
+    post:
+      summary: Rotates secrets for a specific datahub
+      description: Rotates secrets for a specific datahub based on what secret types are specified.
+      operationId: rotateSecrets
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RotateSecretsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RotateSecretsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/listDatahubSecretTypes:
+    post:
+      summary: Lists all Datahub related secret types.
+      description: Lists Datahub related secret types for Datahub instances.
+      operationId: listDatahubSecretTypes
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListDatahubSecretTypesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListDatahubSecretTypesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/datahub/rotateAutoTlsCertificates:
     post:
       summary: Rotate autotls certificates on the datahub's hosts
@@ -1650,7 +1734,7 @@ definitions:
           - DATABASE
   ModifyDisks:
     type: object
-    description: Attached volume configuration.
+    description: Root or additional volume properties to modify.
     required:
       - size
     properties:
@@ -3056,6 +3140,18 @@ definitions:
       healthSummary:
         type: string
         description: The host health summary.
+  RotateDbCertificateRequest:
+    type: object
+    description: Request object to rotate ssl certificate a datahub.
+    required:
+      - datahubName
+    properties:
+      datahubName:
+        type: string
+        description: The name or CRN of the datahub.
+  RotateDbCertificateResponse:
+    type: object
+    description: Response object to rotate ssl certificate a datahub.
   RepairInstancesRequest:
     type: object
     description: Details for repair instances.
@@ -3137,6 +3233,24 @@ definitions:
   RepairClusterResponse:
     type: object
     description: Response object for repair cluster request.
+  RestartClusterInstancesRequest:
+    type: object
+    description: Request object for restart cluster instances request.
+    required:
+      - cluster
+      - instances
+    properties:
+      cluster:
+        type: string
+        description: The name or CRN of the cluster.
+      instances:
+        type: array
+        items:
+          type: string
+        description: List of instance ids.
+  RestartClusterInstancesResponse:
+    type: object
+    description: Response object for restart cluster instances request.
   SyncClusterRequest:
     type: object
     description: Request object for sync cluster request.
@@ -4423,6 +4537,54 @@ definitions:
         type: integer
         format: int32
         description: Progress percentage of the operation.
+  RotateSecretsRequest:
+    type: object
+    description: Request object for starting secret rotation for datahub.
+    required:
+      - datahub
+      - secretTypes
+    properties:
+      datahub:
+        type: string
+        description: The datahub CRN where we wish to rotate secrets.
+      secretTypes:
+        type: array
+        items:
+          type: string
+        description: The list of secrets that need replacement.
+  RotateSecretsResponse:
+    type: object
+    description: Response object for rotating secrets.
+  ListDatahubSecretTypesRequest:
+    type: object
+    description: Request for listing possible secret values for Datahub.
+    required:
+      - datahub
+    properties:
+      datahub:
+        type: string
+        description: The Datahub CRN where we wish to get the rotatable secrets.
+  ListDatahubSecretTypesResponse:
+    type: object
+    description: Response object for showing the secret types and descriptions.
+    required:
+      - datahubSecretTypes
+    properties:
+      datahubSecretTypes:
+        type: array
+        items:
+          $ref: '#/definitions/SecretTypeResponse'
+        description: The list of secret types supported by Datahub.
+  SecretTypeResponse:
+    type: object
+    description: Response object for showing the secret types and descriptions
+    properties:
+      secretType:
+        type: string
+        description: The type of secret that can be used with the rotate-secrets command.
+      description:
+        type: string
+        description: The description of the secret type.
   RotateAutoTlsCertificatesRequest:
     type: object
     description: Request object to rotate autotls certificates on datahub's hosts, deprecated.

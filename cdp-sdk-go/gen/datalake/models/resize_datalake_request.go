@@ -37,10 +37,16 @@ type ResizeDatalakeRequest struct {
 	// Whether to deploy a new datalake in a multi-availability zone way.
 	MultiAz *bool `json:"multiAz,omitempty"`
 
+	// Skips the validation steps that run prior to the resize. If this option is not provided, the validations are performed by default. If skip-validation and validation-only are used together an error is thrown.
+	SkipValidation bool `json:"skipValidation,omitempty"`
+
 	// The target size for the datalake. The resize target size can be MEDIUM_DUTY or ENTERPRISE. If the runtime version >= 7.2.17 target size is ENTERPRISE. If not, the target size is MEDIUM_DUTY.
 	// Required: true
 	// Enum: ["MEDIUM_DUTY_HA","ENTERPRISE"]
 	TargetSize *string `json:"targetSize"`
+
+	// Runs only the validation steps and then returns. If this option is not provided, the resize is performed as normal by default. If skip-validation and validation-only are used together an error is thrown.
+	ValidationOnly bool `json:"validationOnly,omitempty"`
 }
 
 // Validate validates this resize datalake request

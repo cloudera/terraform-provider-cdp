@@ -14,12 +14,12 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// GetMlServingAppKubeconfigResponse Response object for the GetMlServingKubeconfig method.
+// GetMlServingAppKubeconfigResponse Response object for the GetMlServingAppKubeconfig method.
 //
 // swagger:model GetMlServingAppKubeconfigResponse
 type GetMlServingAppKubeconfigResponse struct {
 
-	// The list of users that have access.
+	// The kubeconfig of the Cloudera AI Inference Kubernetes cluster.
 	// Required: true
 	Kubeconfig *string `json:"kubeconfig"`
 }

@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -31,9 +32,14 @@ type hiveResource struct {
 	client *cdp.Client
 }
 
+func (r *hiveResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
 var (
-	_ resource.Resource              = (*hiveResource)(nil)
-	_ resource.ResourceWithConfigure = (*hiveResource)(nil)
+	_ resource.Resource                = (*hiveResource)(nil)
+	_ resource.ResourceWithConfigure   = (*hiveResource)(nil)
+	_ resource.ResourceWithImportState = (*hiveResource)(nil)
 )
 
 func NewHiveResource() resource.Resource {

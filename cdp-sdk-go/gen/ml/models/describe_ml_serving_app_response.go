@@ -18,7 +18,7 @@ import (
 // swagger:model DescribeMlServingAppResponse
 type DescribeMlServingAppResponse struct {
 
-	// The Cloudera Machine Learning Serving App
+	// The Cloudera AI Inference Service instance.
 	App *MlServingApp `json:"app,omitempty"`
 }
 

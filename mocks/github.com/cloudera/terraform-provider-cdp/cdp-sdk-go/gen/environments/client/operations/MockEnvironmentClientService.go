@@ -3233,6 +3233,152 @@ func (_c *MockEnvironmentClientService_GetRootCertificate_Call) RunAndReturn(run
 	return _c
 }
 
+// InitializeAWSComputeCluster provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) InitializeAWSComputeCluster(params *operations.InitializeAWSComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAWSComputeClusterOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InitializeAWSComputeCluster")
+	}
+
+	var r0 *operations.InitializeAWSComputeClusterOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.InitializeAWSComputeClusterParams, ...operations.ClientOption) (*operations.InitializeAWSComputeClusterOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.InitializeAWSComputeClusterParams, ...operations.ClientOption) *operations.InitializeAWSComputeClusterOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.InitializeAWSComputeClusterOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.InitializeAWSComputeClusterParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_InitializeAWSComputeCluster_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InitializeAWSComputeCluster'
+type MockEnvironmentClientService_InitializeAWSComputeCluster_Call struct {
+	*mock.Call
+}
+
+// InitializeAWSComputeCluster is a helper method to define mock.On call
+//   - params *operations.InitializeAWSComputeClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) InitializeAWSComputeCluster(params interface{}, opts ...interface{}) *MockEnvironmentClientService_InitializeAWSComputeCluster_Call {
+	return &MockEnvironmentClientService_InitializeAWSComputeCluster_Call{Call: _e.mock.On("InitializeAWSComputeCluster",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_InitializeAWSComputeCluster_Call) Run(run func(params *operations.InitializeAWSComputeClusterParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_InitializeAWSComputeCluster_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.InitializeAWSComputeClusterParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAWSComputeCluster_Call) Return(_a0 *operations.InitializeAWSComputeClusterOK, _a1 error) *MockEnvironmentClientService_InitializeAWSComputeCluster_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAWSComputeCluster_Call) RunAndReturn(run func(*operations.InitializeAWSComputeClusterParams, ...operations.ClientOption) (*operations.InitializeAWSComputeClusterOK, error)) *MockEnvironmentClientService_InitializeAWSComputeCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// InitializeAzureComputeCluster provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) InitializeAzureComputeCluster(params *operations.InitializeAzureComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InitializeAzureComputeCluster")
+	}
+
+	var r0 *operations.InitializeAzureComputeClusterOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.InitializeAzureComputeClusterParams, ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.InitializeAzureComputeClusterParams, ...operations.ClientOption) *operations.InitializeAzureComputeClusterOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.InitializeAzureComputeClusterOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.InitializeAzureComputeClusterParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_InitializeAzureComputeCluster_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InitializeAzureComputeCluster'
+type MockEnvironmentClientService_InitializeAzureComputeCluster_Call struct {
+	*mock.Call
+}
+
+// InitializeAzureComputeCluster is a helper method to define mock.On call
+//   - params *operations.InitializeAzureComputeClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) InitializeAzureComputeCluster(params interface{}, opts ...interface{}) *MockEnvironmentClientService_InitializeAzureComputeCluster_Call {
+	return &MockEnvironmentClientService_InitializeAzureComputeCluster_Call{Call: _e.mock.On("InitializeAzureComputeCluster",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_InitializeAzureComputeCluster_Call) Run(run func(params *operations.InitializeAzureComputeClusterParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_InitializeAzureComputeCluster_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.InitializeAzureComputeClusterParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAzureComputeCluster_Call) Return(_a0 *operations.InitializeAzureComputeClusterOK, _a1 error) *MockEnvironmentClientService_InitializeAzureComputeCluster_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAzureComputeCluster_Call) RunAndReturn(run func(*operations.InitializeAzureComputeClusterParams, ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error)) *MockEnvironmentClientService_InitializeAzureComputeCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListAuditCredentials provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) ListAuditCredentials(params *operations.ListAuditCredentialsParams, opts ...operations.ClientOption) (*operations.ListAuditCredentialsOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -3598,6 +3744,79 @@ func (_c *MockEnvironmentClientService_ListFreeipaDiagnostics_Call) RunAndReturn
 	return _c
 }
 
+// ListFreeipaSecretTypes provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) ListFreeipaSecretTypes(params *operations.ListFreeipaSecretTypesParams, opts ...operations.ClientOption) (*operations.ListFreeipaSecretTypesOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListFreeipaSecretTypes")
+	}
+
+	var r0 *operations.ListFreeipaSecretTypesOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.ListFreeipaSecretTypesParams, ...operations.ClientOption) (*operations.ListFreeipaSecretTypesOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.ListFreeipaSecretTypesParams, ...operations.ClientOption) *operations.ListFreeipaSecretTypesOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListFreeipaSecretTypesOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.ListFreeipaSecretTypesParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListFreeipaSecretTypes_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListFreeipaSecretTypes'
+type MockEnvironmentClientService_ListFreeipaSecretTypes_Call struct {
+	*mock.Call
+}
+
+// ListFreeipaSecretTypes is a helper method to define mock.On call
+//   - params *operations.ListFreeipaSecretTypesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListFreeipaSecretTypes(params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListFreeipaSecretTypes_Call {
+	return &MockEnvironmentClientService_ListFreeipaSecretTypes_Call{Call: _e.mock.On("ListFreeipaSecretTypes",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaSecretTypes_Call) Run(run func(params *operations.ListFreeipaSecretTypesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListFreeipaSecretTypes_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.ListFreeipaSecretTypesParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaSecretTypes_Call) Return(_a0 *operations.ListFreeipaSecretTypesOK, _a1 error) *MockEnvironmentClientService_ListFreeipaSecretTypes_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaSecretTypes_Call) RunAndReturn(run func(*operations.ListFreeipaSecretTypesParams, ...operations.ClientOption) (*operations.ListFreeipaSecretTypesOK, error)) *MockEnvironmentClientService_ListFreeipaSecretTypes_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListProxyConfigs provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) ListProxyConfigs(params *operations.ListProxyConfigsParams, opts ...operations.ClientOption) (*operations.ListProxyConfigsOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -3667,6 +3886,79 @@ func (_c *MockEnvironmentClientService_ListProxyConfigs_Call) Return(_a0 *operat
 }
 
 func (_c *MockEnvironmentClientService_ListProxyConfigs_Call) RunAndReturn(run func(*operations.ListProxyConfigsParams, ...operations.ClientOption) (*operations.ListProxyConfigsOK, error)) *MockEnvironmentClientService_ListProxyConfigs_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RebuildFreeipa provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) RebuildFreeipa(params *operations.RebuildFreeipaParams, opts ...operations.ClientOption) (*operations.RebuildFreeipaOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RebuildFreeipa")
+	}
+
+	var r0 *operations.RebuildFreeipaOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.RebuildFreeipaParams, ...operations.ClientOption) (*operations.RebuildFreeipaOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.RebuildFreeipaParams, ...operations.ClientOption) *operations.RebuildFreeipaOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RebuildFreeipaOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.RebuildFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RebuildFreeipa_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RebuildFreeipa'
+type MockEnvironmentClientService_RebuildFreeipa_Call struct {
+	*mock.Call
+}
+
+// RebuildFreeipa is a helper method to define mock.On call
+//   - params *operations.RebuildFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RebuildFreeipa(params interface{}, opts ...interface{}) *MockEnvironmentClientService_RebuildFreeipa_Call {
+	return &MockEnvironmentClientService_RebuildFreeipa_Call{Call: _e.mock.On("RebuildFreeipa",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RebuildFreeipa_Call) Run(run func(params *operations.RebuildFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RebuildFreeipa_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.RebuildFreeipaParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RebuildFreeipa_Call) Return(_a0 *operations.RebuildFreeipaOK, _a1 error) *MockEnvironmentClientService_RebuildFreeipa_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RebuildFreeipa_Call) RunAndReturn(run func(*operations.RebuildFreeipaParams, ...operations.ClientOption) (*operations.RebuildFreeipaOK, error)) *MockEnvironmentClientService_RebuildFreeipa_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3813,6 +4105,79 @@ func (_c *MockEnvironmentClientService_RetryFreeipa_Call) Return(_a0 *operations
 }
 
 func (_c *MockEnvironmentClientService_RetryFreeipa_Call) RunAndReturn(run func(*operations.RetryFreeipaParams, ...operations.ClientOption) (*operations.RetryFreeipaOK, error)) *MockEnvironmentClientService_RetryFreeipa_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RotateFreeipaSecrets provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) RotateFreeipaSecrets(params *operations.RotateFreeipaSecretsParams, opts ...operations.ClientOption) (*operations.RotateFreeipaSecretsOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RotateFreeipaSecrets")
+	}
+
+	var r0 *operations.RotateFreeipaSecretsOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.RotateFreeipaSecretsParams, ...operations.ClientOption) (*operations.RotateFreeipaSecretsOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.RotateFreeipaSecretsParams, ...operations.ClientOption) *operations.RotateFreeipaSecretsOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RotateFreeipaSecretsOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.RotateFreeipaSecretsParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RotateFreeipaSecrets_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RotateFreeipaSecrets'
+type MockEnvironmentClientService_RotateFreeipaSecrets_Call struct {
+	*mock.Call
+}
+
+// RotateFreeipaSecrets is a helper method to define mock.On call
+//   - params *operations.RotateFreeipaSecretsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RotateFreeipaSecrets(params interface{}, opts ...interface{}) *MockEnvironmentClientService_RotateFreeipaSecrets_Call {
+	return &MockEnvironmentClientService_RotateFreeipaSecrets_Call{Call: _e.mock.On("RotateFreeipaSecrets",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RotateFreeipaSecrets_Call) Run(run func(params *operations.RotateFreeipaSecretsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RotateFreeipaSecrets_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.RotateFreeipaSecretsParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RotateFreeipaSecrets_Call) Return(_a0 *operations.RotateFreeipaSecretsOK, _a1 error) *MockEnvironmentClientService_RotateFreeipaSecrets_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RotateFreeipaSecrets_Call) RunAndReturn(run func(*operations.RotateFreeipaSecretsParams, ...operations.ClientOption) (*operations.RotateFreeipaSecretsOK, error)) *MockEnvironmentClientService_RotateFreeipaSecrets_Call {
 	_c.Call.Return(run)
 	return _c
 }

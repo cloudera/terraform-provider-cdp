@@ -35,7 +35,10 @@ type BackupDetail struct {
 	// The CRN of the creator.
 	CreatorCrn string `json:"creatorCrn,omitempty"`
 
-	// The version of the backed-up workspace at the time of backup.
+	// Status whether the backup is cross namespace enabled.
+	IsCrossNsBackup bool `json:"isCrossNsBackup,omitempty"`
+
+	// The version of the backed-up workbench at the time of backup.
 	WorkspaceVersionAtBackup string `json:"workspaceVersionAtBackup,omitempty"`
 }
 

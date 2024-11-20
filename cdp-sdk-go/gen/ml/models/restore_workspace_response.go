@@ -17,7 +17,7 @@ import (
 // swagger:model RestoreWorkspaceResponse
 type RestoreWorkspaceResponse struct {
 
-	// The CRN of the Cloudera Machine Learning workspace being provisioned.
+	// The CRN of the Cloudera AI workbench being provisioned.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 }
 
