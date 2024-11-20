@@ -13,6 +13,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/impala"
 	"os"
 	"runtime"
 	"strconv"
@@ -250,6 +251,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		ml.NewWorkspaceResource,
 		de.NewServiceResource,
 		hive.NewHiveResource,
+		impala.NewImpalaResource,
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 	}
