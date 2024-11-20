@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.117 (BETA)
+  version: 0.9.124 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -377,7 +377,6 @@ paths:
             $ref: '#/definitions/Error'
   /api/v1/dw/createAwsCluster:
     post:
-      x-no-compatibility-guarantee: true
       x-mutating: true
       summary: Create an AWS cluster in the Cloudera Data Warehouse.
       description: Create an AWS cluster in the Cloudera Data Warehouse environment with the provided settings.
@@ -399,7 +398,6 @@ paths:
             $ref: '#/definitions/Error'
   /api/v1/dw/createAzureCluster:
     post:
-      x-no-compatibility-guarantee: true
       x-mutating: true
       summary: Create an Azure cluster in the Cloudera Data Warehouse.
       description: Create an Azure cluster in the Cloudera Data Warehouse environment with the provided settings.
@@ -545,27 +543,6 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpdatePrivateClusterResponse'
-        default:
-          description: The default response on an error.
-          schema:
-            $ref: '#/definitions/Error'
-  /api/v1/dw/upgradeCluster:
-    post:
-      x-mutating: true
-      summary: Upgrade the Cloudera Data Warehouse cluster.
-      description: Upgrade the Cloudera Data Warehouse cluster to the latest supported version. Expect downtime during the upgrade and refrain issuing queries. You can check the current status of the cluster with the describe-cluster command.
-      operationId: upgradeCluster
-      parameters:
-        - name: input
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/UpgradeClusterRequest'
-      responses:
-        200:
-          description: Expected response to a valid request.
-          schema:
-            $ref: '#/definitions/UpgradeClusterResponse'
         default:
           description: The default response on an error.
           schema:
@@ -2163,6 +2140,27 @@ definitions:
         description: Allowed values for the instance type. This setting is Cluster-wide.
         items:
           type: string
+      hive:
+        x-form-factors: public
+        description: Allowed instance types for Hive Virtual Warehouses.
+        $ref: '#/definitions/AllowedInstanceTypesWithDefault'
+      impala:
+        x-form-factors: public
+        description: Allowed instance types for Impala Virtual Warehouses.
+        $ref: '#/definitions/AllowedInstanceTypesWithDefault'
+  AllowedInstanceTypesWithDefault:
+    x-form-factors: public
+    type: object
+    description: Allowed Virtual Warehouse compute instance types and their defaults.
+    properties:
+      default:
+        type: string
+        description: Default value for the compute instance type usage. This instance type will be used in the 'create-vw' command's 'instance-type' field in case it has to be customized. The default value also depends on the cloud platform of the Cluster (AWS/Azure).
+      allowed:
+        type: array
+        description: Allowed values for the compute instance type usage. One of these values can be used in the 'create-vw' command's 'instance-type' field .
+        items:
+          type: string
   DescribeServerSettingRequest:
     type: object
     description: Request object for the describeServerSetting method.
@@ -2367,16 +2365,18 @@ definitions:
         x-entitlement: CDW_STORAGE_ROLES
       reservedComputeNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
       reservedSharedServicesNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
       customRegistryOptions:
-        description: Options for custom ACR/ECR/Docker registries.
+        description: Options for custom ACR/ECR registries.
         $ref: '#/definitions/CustomRegistryOptions'
       awsOptions:
         description: Options for activating an AWS environment.
@@ -2436,16 +2436,18 @@ definitions:
         default: false
       reservedComputeNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
       reservedSharedServicesNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
       customRegistryOptions:
-        description: Options for custom ACR/ECR/Docker registries.
+        description: Options for custom ACR/ECR registries.
         $ref: '#/definitions/CustomRegistryOptions'
       customSubdomain:
         type: string
@@ -2477,12 +2479,13 @@ definitions:
         type: array
         items:
           type: string
-        description: AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
+        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
       additionalInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.
+        description: 'DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.'
   CreateAzureClusterRequest:
     type: object
     description: Request object for the createAzureCluster method.
@@ -2523,16 +2526,18 @@ definitions:
         description: Set up load balancer with private IP address. An internal load balancer gets created. Make sure there is connectivity between your client network and the network VNet where CDW environment is deployed.
       reservedComputeNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
       reservedSharedServicesNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
       customRegistryOptions:
-        description: Options for custom ACR/ECR/Docker registries.
+        description: Options for custom ACR/ECR registries.
         $ref: '#/definitions/CustomRegistryOptions'
       customSubdomain:
         type: string
@@ -2548,7 +2553,7 @@ definitions:
         type: array
         items:
           type: string
-        description: Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.
+        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
       logAnalyticsWorkspaceId:
         type: string
         description: Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
@@ -2559,10 +2564,19 @@ definitions:
           - LoadBalancer
           - UserAssignedNATGateway
           - UserDefinedRouting
+      aksPodCIDR:
+        type: string
+        description: Pod CIDR required for Azure CNI networking. Please refer to the following Azure documentation, https://docs.microsoft.com/en-us/azure/aks/azure-cni-overlay.
       enablePrivateSQL:
         type: boolean
         description: Enables private SQL for the cluster deployment.
         default: false
+      privateSQLSubnetName:
+        type: string
+        description: Name of the delegated subnet where the private SQL should be deployed.
+      privateDNSZoneSQL:
+        type: string
+        description: Private DNS zone ID for the PostgreSQL server.
       privateDNSZoneAKS:
         type: string
         description: Private DNS zone AKS resource ID.
@@ -2727,28 +2741,18 @@ definitions:
         description: The description of the plan.
   CustomRegistryOptions:
     type: object
-    description: Options for custom ACR, ECR, or Docker registry.
+    description: Options for custom ACR, ECR registry.
     properties:
       registryType:
         enum:
           - ACR
           - ECR
-          - Docker
         type: string
         description: Custom registry type.
       repositoryUrl:
         type: string
         description: URL of the custom image repository.
         x-no-paramfile: true
-      userName:
-        type: string
-        description: Username for custom registry access (required only for Docker type).
-      password:
-        type: string
-        description: Password for custom registry access (required only for Docker type).
-      disableImageVerification:
-        type: boolean
-        description: Disable image verification.
   AwsActivationOptions:
     type: object
     description: Options for activating an AWS environment.
@@ -2784,12 +2788,13 @@ definitions:
         type: array
         items:
           type: string
-        description: AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
+        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
       additionalInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.
+        description: 'DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.'
   AzureActivationOptions:
     type: object
     description: Options for activating an Azure environment.
@@ -2811,7 +2816,7 @@ definitions:
         type: array
         items:
           type: string
-        description: Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.
+        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
       logAnalyticsWorkspaceId:
         type: string
         description: Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
@@ -2822,10 +2827,19 @@ definitions:
           - LoadBalancer
           - UserAssignedNATGateway
           - UserDefinedRouting
+      aksPodCIDR:
+        type: string
+        description: Pod CIDR required for Azure CNI networking. Please refer to the following Azure documentation, https://docs.microsoft.com/en-us/azure/aks/azure-cni-overlay.
       enablePrivateSQL:
         type: boolean
         description: Enables private SQL for the cluster deployment.
         default: false
+      privateSQLSubnetName:
+        type: string
+        description: Name of the delegated subnet where the private SQL should be deployed.
+      privateDNSZoneSQL:
+        type: string
+        description: Private DNS zone ID for the PostgreSQL server.
       privateDNSZoneAKS:
         type: string
         description: Private DNS zone AKS resource ID.
@@ -2913,31 +2927,6 @@ definitions:
   DeleteClusterResponse:
     type: object
     description: Response object for the deleteCluster method.
-  UpgradeClusterRequest:
-    type: object
-    description: Request object for the upgradeCluster method.
-    required:
-      - clusterId
-    properties:
-      clusterId:
-        type: string
-        description: The ID of the cluster to upgrade.
-  UpgradeClusterResponse:
-    type: object
-    description: Response object for the upgradeCluster method.
-    properties:
-      status:
-        type: string
-        description: 'The upgrade status. Possible values are: Upgrading, Error, Failed.'
-      message:
-        type: string
-        description: Detailed explanation of the status.
-      timedOut:
-        type: boolean
-        description: True if the upgrade timed out, false or omitted otherwise.
-      serviceUnhealthy:
-        type: boolean
-        description: True, if the service is in unhealthy state, false or omitted otherwise.
   UpdateClusterRequest:
     type: object
     description: Request object for the updateCluster method.
@@ -3199,7 +3188,8 @@ definitions:
         x-form-factors: public
       templateName:
         type: string
-        description: The template size for the Cloudera Data Visualization.
+        description: 'DEPRECATED: Use resourceTemplate parameter instead that will be made available in the upcoming release. The template size for the Cloudera Data Visualization.'
+        x-deprecated: true
   CreateDataVisualizationResponse:
     type: object
     description: Response object for the createDataVisualization method.
@@ -4018,6 +4008,9 @@ definitions:
       enableCatalogHighAvailability:
         type: boolean
         description: Enables a backup instance for Impala catalog to ensure high availability.
+      enableStatestoreHighAvailability:
+        type: boolean
+        description: Enables a backup instance for Impala Statestore to ensure high availability.
   AutoscalingOptionsUpdateRequest:
     type: object
     description: Auto-scaling configuration for a Virtual Warehouse. Provide those values only that you want to update.
@@ -4169,6 +4162,9 @@ definitions:
       enableCatalogHighAvailability:
         type: boolean
         description: Denotes whether a backup instance for Impala catalog is enabled.
+      enableStatestoreHighAvailability:
+        type: boolean
+        description: Denotes whether a backup instance for Impala Statestore is enabled.
   ImpalaHighAvailabilityMode:
     type: string
     enum:
@@ -4248,6 +4244,10 @@ definitions:
       name:
         type: string
         description: Name of the Virtual Warehouse.
+      instanceType:
+        x-form-factors: public
+        type: string
+        description: Instance type for this Virtual Warehouse. To learn what instance types are allowed to be used for a Hive or an Impala Virtual Warehouse, please use the 'describe-allowed-instance-types' command. The command output will list the usable instance types in its 'hive' and 'impala' fields accordingly.
       imageVersion:
         type: string
         description: version of the Virtual Warehouse.
@@ -4255,7 +4255,8 @@ definitions:
         x-form-factors: public
       template:
         type: string
-        description: Name of configuration template to use.
+        description: 'DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.'
+        x-deprecated: true
         enum:
           - xsmall
           - small
@@ -4306,6 +4307,10 @@ definitions:
         type: boolean
         default: false
         description: Value of 'true' automatically configures the Virtual Warehouse to support JWTs issues by the CDP JWT token provider.  Value of 'false' does not enable JWT auth on the Virtual Warehouse.  If this field is not specified, it defaults to 'false'.
+      impalaQueryLog:
+        type: boolean
+        x-form-factors: public
+        description: Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
       ebsLLAPSpillGB:
         type: integer
         format: int32
@@ -4525,6 +4530,9 @@ definitions:
       outboundType:
         type: string
         description: The current outbound type setting.
+      aksPodCIDR:
+        type: string
+        description: Pod CIDR setting for Azure CNI networking.
       logAnalyticsWorkspaceId:
         type: string
         description: Workspace ID for Azure log analytics.
@@ -4532,6 +4540,26 @@ definitions:
         x-omitempty: false
         type: string
         description: AKS VNet integration subnet name. If it's an empty string, then VNet integration is disabled.
+      privateSQLSubnetName:
+        type: string
+        description: Name of the delegated subnet where the private SQL should be deployed.
+      privateDNSZoneSQL:
+        type: string
+        description: Private DNS zone ID for the PostgreSQL server.
+      enablePrivateSQL:
+        type: boolean
+        default: false
+        description: Denotes whether the private SQL is enabled for the cluster.
+      privateDNSZoneAKS:
+        type: string
+        description: The resource ID of the private DNS zone for the AKS cluster.
+      enablePrivateAKS:
+        type: boolean
+        default: false
+        description: Denotes whether the AKS cluster is in private mode.
+      userAssignedManagedIdentity:
+        type: string
+        description: The resource ID of the managed identity used by the AKS cluster.
   RestartVwRequest:
     type: object
     description: Request object for the restartVw method.
@@ -4893,30 +4921,36 @@ definitions:
       cloudPlatform:
         type: string
         description: The cloud platform of the environment that was used to create this cluster.
+      version:
+        type: string
+        description: The version of the deployed CDW cluster.
       enableSpotInstances:
         x-form-factors: public
         type: boolean
         description: Denotes whether the spot instances have been enabled for the cluster. This value is only available for AWS and Azure clusters.
       reservedComputeNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Number of additional reserved nodes for executors and coordinators to use during autoscaling.
+        description: DEPRECATED - will be removed in future releases. Number of additional reserved nodes for executors and coordinators to use during autoscaling.
       reservedSharedServicesNodes:
         x-entitlement: CDW_CLUSTER_OVERPROVISIONER
+        x-deprecated: true
         type: integer
         format: int32
-        description: Number of additional reserved nodes for other services in the cluster.
+        description: DEPRECATED - will be removed in future releases. Number of additional reserved nodes for other services in the cluster.
       computeInstanceTypes:
         type: array
         items:
           type: string
-        description: Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.
+        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.'
       additionalInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: Additional (fallback) instance types listed in their priority order. They are used instead of the primary compute instance type in case it is unavailable. Since additional instance types are not supported for Azure, this is always empty for it.
+        description: 'DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They are used instead of the primary compute instance type in case it is unavailable. Since additional instance types are not supported for Azure, this is always empty for it.'
       awsOptions:
         $ref: '#/definitions/AwsOptionsResponse'
         description: Response object of AWS related cluster options.
@@ -4934,6 +4968,14 @@ definitions:
       whitelistWorkloadAccessIpCIDRs:
         type: string
         description: List of IP address CIDRs to whitelist for workload access.
+      useOverlayNetwork:
+        type: boolean
+        default: false
+        description: Denotes whether the overlay network is being used for the cluster.
+      enablePrivateLoadBalancer:
+        type: boolean
+        default: false
+        description: Denotes whether the private load balancer is enabled for the cluster.
       resourcePool:
         type: string
         description: The name of the Resource Pool the cluster is in.
@@ -5036,6 +5078,10 @@ definitions:
       vwType:
         description: The type of the Virtual Warehouse.
         $ref: '#/definitions/VwType'
+      instanceType:
+        x-form-factors: public
+        type: string
+        description: The underlying instance type for this Virtual Warehouse.
       dbcId:
         type: string
         description: ID of Database Catalog that the Virtual Warehouse is attached to.
@@ -5157,6 +5203,10 @@ definitions:
           provider:
             type: string
             description: If JWT auth is enabled on the Virtual Warehouse, describes the type of provider.  If set to "CDP", then the CDP JWT auth provider is configured.  If set to "CUSTOM", then another JWT provider is configured.  If empty or missing, then JWT auth is not enabled on this Virtual Warehouse.
+      impalaQueryLog:
+        type: boolean
+        x-form-factors: public
+        description: Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
       tags:
         type: array
         description: Tags associated with the resources.
@@ -5416,7 +5466,8 @@ definitions:
         description: ID of the Virtual Warehouse.
       template:
         type: string
-        description: Name of configuration template to use.
+        description: 'DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.'
+        x-deprecated: true
         enum:
           - xsmall
           - small
@@ -5449,6 +5500,11 @@ definitions:
         type: boolean
         x-nullable: true
         description: Value of 'true' automatically configures the Virtual Warehouse to support JWTs issues by the CDP JWT token provider.  Value of 'false' does not enable JWT auth on the Virtual Warehouse.  If this field is not specified, it defaults to 'false'.
+      impalaQueryLog:
+        x-nullable: true
+        type: boolean
+        x-form-factors: public
+        description: Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
       resourcePool:
         type: string
         description: Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.
@@ -5606,17 +5662,6 @@ definitions:
       id:
         type: string
         description: ID of the ConfigBlock. Unique within an ApplicationConfig.
-      format:
-        type: string
-        description: Format of ConfigBlock.
-        enum:
-          - HADOOP_XML
-          - PROPERTIES
-          - TEXT
-          - JSON
-          - BINARY
-          - ENV
-          - FLAGFILE
       content:
         description: Contents of a ConfigBlock.
         $ref: '#/definitions/ConfigContentResp'
@@ -5625,23 +5670,11 @@ definitions:
     description: A piece of configuration stored in the same place (e.g. same file or environment variables).
     required:
       - id
-      - format
       - content
     properties:
       id:
         type: string
         description: ID of the ConfigBlock. Unique within an ApplicationConfig.
-      format:
-        type: string
-        description: Format of ConfigBlock.
-        enum:
-          - HADOOP_XML
-          - PROPERTIES
-          - TEXT
-          - JSON
-          - BINARY
-          - ENV
-          - FLAGFILE
       content:
         description: Contents of a ConfigBlock.
         $ref: '#/definitions/ConfigContentReq'

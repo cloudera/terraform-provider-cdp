@@ -17,13 +17,13 @@ import (
 // swagger:model ListWorkspaceAccessRequest
 type ListWorkspaceAccessRequest struct {
 
-	// The environment that the workspace is a member of.
+	// The environment that the workbench is a member of.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// The CRN of the workspace to list access. If CRN is specified only the CRN is used for identifying the workspace, environment and name arguments are ignored.
+	// The CRN of the workbench to list access. If CRN is specified only the CRN is used for identifying the workbench, environment and name arguments are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 
-	// The name of the workspace to list access.
+	// The name of the workbench to list access.
 	WorkspaceName string `json:"workspaceName,omitempty"`
 }
 

@@ -142,6 +142,10 @@ type ClientService interface {
 
 	GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error)
 
+	InitializeAWSComputeCluster(params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error)
+
+	InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error)
+
 	ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error)
 
 	ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error)
@@ -152,11 +156,17 @@ type ClientService interface {
 
 	ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error)
 
+	ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error)
+
 	ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error)
+
+	RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error)
 
 	RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error)
 
 	RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error)
+
+	RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error)
 
 	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
 
@@ -1962,6 +1972,84 @@ func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...Cl
 }
 
 /*
+InitializeAWSComputeCluster initializes compute cluster for a w s environment
+
+Initialize compute cluster for AWS environment.
+*/
+func (a *Client) InitializeAWSComputeCluster(params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewInitializeAWSComputeClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "initializeAWSComputeCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/initializeAWSComputeCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &InitializeAWSComputeClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*InitializeAWSComputeClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*InitializeAWSComputeClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+InitializeAzureComputeCluster initializes compute cluster for azure environment
+
+Initialize compute cluster for Azure environment.
+*/
+func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewInitializeAzureComputeClusterParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "initializeAzureComputeCluster",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/initializeAzureComputeCluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &InitializeAzureComputeClusterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*InitializeAzureComputeClusterOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*InitializeAzureComputeClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListAuditCredentials lists audit credentials
 
 Lists audit credentials.
@@ -2157,6 +2245,45 @@ func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, op
 }
 
 /*
+ListFreeipaSecretTypes lists all free IP a related secret types
+
+Lists FreeIPA related secret types for FreeIPA instances.
+*/
+func (a *Client) ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListFreeipaSecretTypesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listFreeipaSecretTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listFreeipaSecretTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListFreeipaSecretTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListFreeipaSecretTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListFreeipaSecretTypesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListProxyConfigs lists proxy configs
 
 Lists proxy configs.
@@ -2192,6 +2319,45 @@ func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...Client
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListProxyConfigsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RebuildFreeipa recreates free IP a in case of disaster
+
+If FreeIPA backups are available and all of the FreeIPA nodes are lost, this command recreates FreeIPA from scratch and restores backup.
+*/
+func (a *Client) RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRebuildFreeipaParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rebuildFreeipa",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/rebuildFreeipa",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RebuildFreeipaReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RebuildFreeipaOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RebuildFreeipaDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2270,6 +2436,45 @@ func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*RetryFreeipaDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotateFreeipaSecrets rotates free IP a related secret for free IP a instances
+
+Rotate FreeIPA related secrets for FreeIPA instances.
+*/
+func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateFreeipaSecretsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateFreeipaSecrets",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/rotateFreeipaSecrets",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateFreeipaSecretsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateFreeipaSecretsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateFreeipaSecretsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

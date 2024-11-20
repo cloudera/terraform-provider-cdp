@@ -59,6 +59,12 @@ type CreateVwRequest struct {
 	// Impala specific options. It cannot be provided for Virtual Warehouse types other than Impala.
 	ImpalaOptions *ImpalaOptionsCreateRequest `json:"impalaOptions,omitempty"`
 
+	// Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
+	ImpalaQueryLog bool `json:"impalaQueryLog,omitempty"`
+
+	// Instance type for this Virtual Warehouse. To learn what instance types are allowed to be used for a Hive or an Impala Virtual Warehouse, please use the 'describe-allowed-instance-types' command. The command output will list the usable instance types in its 'hive' and 'impala' fields accordingly.
+	InstanceType string `json:"instanceType,omitempty"`
+
 	// Name of the Virtual Warehouse.
 	// Required: true
 	Name *string `json:"name"`
@@ -78,7 +84,7 @@ type CreateVwRequest struct {
 	// Tags associated with the resources.
 	Tags []*TagRequest `json:"tags"`
 
-	// Name of configuration template to use.
+	// DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.
 	// Enum: ["xsmall","small","medium","large"]
 	Template string `json:"template,omitempty"`
 

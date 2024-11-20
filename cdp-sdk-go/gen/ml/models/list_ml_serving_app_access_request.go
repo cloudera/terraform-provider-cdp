@@ -17,7 +17,7 @@ import (
 // swagger:model ListMlServingAppAccessRequest
 type ListMlServingAppAccessRequest struct {
 
-	// The CRN of the Model Serving App to list access.
+	// The CRN of the Cloudera AI Inference Service to list access.
 	ResourceCrn string `json:"resourceCrn,omitempty"`
 }
 

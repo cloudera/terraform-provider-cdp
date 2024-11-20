@@ -112,8 +112,8 @@ func createAttachedStorageForWorkers(attachedStorageForWorkers AttachedStorageFo
 
 func createImage(image Image, ctx context.Context) *opdbmodels.Image {
 	return &opdbmodels.Image{
-		ID:      image.ID.ValueStringPointer(),
-		Catalog: image.Catalog.ValueStringPointer(),
+		ID:      image.ID.ValueString(),
+		Catalog: image.Catalog.ValueString(),
 	}
 }
 

@@ -72,6 +72,12 @@ type VwSummary struct {
 	// Current Impala settings.
 	ImpalaOptions *ImpalaOptionsResponse `json:"impalaOptions,omitempty"`
 
+	// Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
+	ImpalaQueryLog bool `json:"impalaQueryLog,omitempty"`
+
+	// The underlying instance type for this Virtual Warehouse.
+	InstanceType string `json:"instanceType,omitempty"`
+
 	// jwt auth
 	JwtAuth *VwSummaryJwtAuth `json:"jwtAuth,omitempty"`
 

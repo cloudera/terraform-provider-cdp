@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -25,11 +26,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &gcpDatahubResource{}
+	_ resource.ResourceWithConfigure   = &gcpDatahubResource{}
+	_ resource.ResourceWithImportState = &gcpDatahubResource{}
 )
 
 type gcpDatahubResource struct {
 	client *cdp.Client
+}
+
+func (r *gcpDatahubResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewGcpDatahubResource() resource.Resource {
@@ -98,9 +104,13 @@ func (r *gcpDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
+	clusterName := state.Name.ValueString()
+	if len(clusterName) == 0 {
+		clusterName = state.ID.ValueString()
+	}
 	params := operations.NewDescribeClusterParamsWithContext(ctx)
 	params.WithInput(&datahubmodels.DescribeClusterRequest{
-		ClusterName: state.Name.ValueStringPointer(),
+		ClusterName: &clusterName,
 	})
 
 	result, err := r.client.Datahub.Operations.DescribeCluster(params)

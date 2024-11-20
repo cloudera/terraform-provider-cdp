@@ -25,7 +25,7 @@ type CreateClusterRequest struct {
 	// Options for activating an Azure environment.
 	AzureOptions *AzureActivationOptions `json:"azureOptions,omitempty"`
 
-	// Options for custom ACR/ECR/Docker registries.
+	// Options for custom ACR/ECR registries.
 	CustomRegistryOptions *CustomRegistryOptions `json:"customRegistryOptions,omitempty"`
 
 	// Custom environment subdomain. Overrides the environment subdomain using a customized domain either in the old subdomain format like ENV_ID.dw or the new format like dw-ENV_NAME.
@@ -44,10 +44,10 @@ type CreateClusterRequest struct {
 	// Options for activating a Private Cloud environment.
 	PrivateCloudOptions *PrivateCloudActivationOptions `json:"privateCloudOptions,omitempty"`
 
-	// Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
 	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
 
-	// Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
 	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
 
 	// The Resource Pool of the cluster.

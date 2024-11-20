@@ -20,10 +20,13 @@ import (
 // swagger:model AzureActivationOptions
 type AzureActivationOptions struct {
 
+	// Pod CIDR required for Azure CNI networking. Please refer to the following Azure documentation, https://docs.microsoft.com/en-us/azure/aks/azure-cni-overlay.
+	AksPodCIDR string `json:"aksPodCIDR,omitempty"`
+
 	// Enable AKS VNet Azure Virtual Network (VNet) integration by specifying the delegated subnet name. An Azure Kubernetes Service (AKS) cluster configured with API Server VNet Integration projects the API server endpoint directly into a delegated subnet in the VNet where AKS is deployed. API Server VNet Integration enables network communication between the API server and the cluster nodes without requiring a private link or tunnel.
 	AksVNetIntegrationSubnetName string `json:"aksVNetIntegrationSubnetName,omitempty"`
 
-	// Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.
+	// NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.
 	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
 
 	// Enables Azure Availability Zones for the cluster deployment.
@@ -47,6 +50,12 @@ type AzureActivationOptions struct {
 
 	// Private DNS zone AKS resource ID.
 	PrivateDNSZoneAKS string `json:"privateDNSZoneAKS,omitempty"`
+
+	// Private DNS zone ID for the PostgreSQL server.
+	PrivateDNSZoneSQL string `json:"privateDNSZoneSQL,omitempty"`
+
+	// Name of the delegated subnet where the private SQL should be deployed.
+	PrivateSQLSubnetName string `json:"privateSQLSubnetName,omitempty"`
 
 	// ID of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
 	SubnetID string `json:"subnetId,omitempty"`

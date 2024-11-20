@@ -17,16 +17,16 @@ import (
 // swagger:model UpgradeWorkspaceRequest
 type UpgradeWorkspaceRequest struct {
 
-	// The environment of the workspace.
+	// The environment of the workbench.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// The version of workspace to upgrade to.
+	// The version of workbench to upgrade to.
 	MlVersion string `json:"mlVersion,omitempty"`
 
-	// The CRN of the workspace. If CRN is specified only the CRN is used for identifying the workspace, environment and name arguments are ignored.
+	// The CRN of the workbench. If CRN is specified only the CRN is used for identifying the workbench, environment and name arguments are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 
-	// The name of the workspace.
+	// The name of the workbench.
 	WorkspaceName string `json:"workspaceName,omitempty"`
 }
 

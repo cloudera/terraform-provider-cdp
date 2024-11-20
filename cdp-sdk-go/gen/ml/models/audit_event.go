@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// AuditEvent Audit event descibes an performed or performing in a given workspace.
+// AuditEvent Audit event descibes an performed or performing in a given workbench.
 //
 // swagger:model AuditEvent
 type AuditEvent struct {
@@ -36,7 +36,7 @@ type AuditEvent struct {
 	// Required: true
 	UserCrn *string `json:"userCrn"`
 
-	// Workspace crn where the event observed.
+	// workbench crn where the event observed.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

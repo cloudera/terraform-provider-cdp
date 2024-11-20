@@ -8,8 +8,10 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // DeleteMlServingAppRequest Request object for the DeleteMlServingApp method.
@@ -17,21 +19,31 @@ import (
 // swagger:model DeleteMlServingAppRequest
 type DeleteMlServingAppRequest struct {
 
-	// The CRN Of the App to delete.
-	AppCrn string `json:"appCrn,omitempty"`
-
-	// The name of the App. If this is supplied and appCrn is not supplied, either environmentCrn or environmentName is required.
-	AppName string `json:"appName,omitempty"`
-
-	// The CRN of the environment associated with this App. If appName is supplied and appCrn is not supplied, either environmentCrn or environmentName is required.
-	EnvironmentCrn string `json:"environmentCrn,omitempty"`
-
-	// The name of the environment associated with this App. If appName is supplied and appCrn is not supplied, either environmentCrn or environmentName is required.
-	EnvironmentName string `json:"environmentName,omitempty"`
+	// The CRN of the Cloudera AI Inference Service to be deleted.
+	// Required: true
+	AppCrn *string `json:"appCrn"`
 }
 
 // Validate validates this delete ml serving app request
 func (m *DeleteMlServingAppRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateAppCrn(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DeleteMlServingAppRequest) validateAppCrn(formats strfmt.Registry) error {
+
+	if err := validate.Required("appCrn", "body", m.AppCrn); err != nil {
+		return err
+	}
+
 	return nil
 }
 

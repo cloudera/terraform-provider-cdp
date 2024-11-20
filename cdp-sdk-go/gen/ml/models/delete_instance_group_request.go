@@ -19,11 +19,11 @@ import (
 // swagger:model DeleteInstanceGroupRequest
 type DeleteInstanceGroupRequest struct {
 
-	// The instance group that we want to delete from the workspace.
+	// The instance group that we want to delete from the workbench.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
 
-	// The CRN of the workspace from which instance group is to be deleted.
+	// The CRN of the workbench from which instance group is to be deleted.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

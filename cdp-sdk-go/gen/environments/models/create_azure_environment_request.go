@@ -24,6 +24,9 @@ type CreateAzureEnvironmentRequest struct {
 	// The zones of the environment in the given region.
 	AvailabilityZones []string `json:"availabilityZones"`
 
+	// The Externalized k8s configuration create request for the environment.
+	ComputeClusterConfiguration *AzureComputeClusterConfigurationRequest `json:"computeClusterConfiguration,omitempty"`
+
 	// When this is enabled, then Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. When this is disabled, then Azure Service Endpoints will be created. The default value is disabled.
 	CreatePrivateEndpoints bool `json:"createPrivateEndpoints,omitempty"`
 
@@ -39,6 +42,9 @@ type CreateAzureEnvironmentRequest struct {
 
 	// An description of the environment.
 	Description string `json:"description,omitempty"`
+
+	// Enable compute clusters for environment
+	EnableComputeCluster bool `json:"enableComputeCluster,omitempty"`
 
 	// Whether or not outbound load balancers should be created for Azure environments. The default behavior is to not create the outbound load balancer.
 	EnableOutboundLoadBalancer bool `json:"enableOutboundLoadBalancer,omitempty"`
@@ -127,6 +133,10 @@ type CreateAzureEnvironmentRequest struct {
 func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateComputeClusterConfiguration(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCredentialName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -190,6 +200,25 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) validateComputeClusterConfiguration(formats strfmt.Registry) error {
+	if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+		return nil
+	}
+
+	if m.ComputeClusterConfiguration != nil {
+		if err := m.ComputeClusterConfiguration.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("computeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("computeClusterConfiguration")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -464,6 +493,10 @@ func (m *CreateAzureEnvironmentRequest) validateUsePublicIP(formats strfmt.Regis
 func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateComputeClusterConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateCustomDockerRegistry(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -503,6 +536,27 @@ func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, for
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateComputeClusterConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ComputeClusterConfiguration != nil {
+
+		if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+			return nil
+		}
+
+		if err := m.ComputeClusterConfiguration.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("computeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("computeClusterConfiguration")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

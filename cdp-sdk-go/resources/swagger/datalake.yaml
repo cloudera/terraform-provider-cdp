@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.117 (BETA)
+  version: 0.9.124 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -293,6 +293,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datalake/restartDatalakeInstances:
+    post:
+      summary: Restarts instances of a datalake on Cloud provider.
+      description: Restarts instances of a datalake on Cloud provider.
+      operationId: restartDatalakeInstances
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RestartDatalakeInstancesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RestartDatalakeInstancesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/datalake/getClusterServiceStatus:
     post:
       summary: Get cluster service status.
@@ -568,6 +589,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datalake/cancelRestore:
+    post:
+      summary: Cancels the restore that was performed.
+      description: Cancels a currently running restore operation. The operation must be in a STARTED or IN_PROGRESS state.
+      operationId: cancelRestore
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CancelRestoreRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CancelRestoreResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/datalake/replaceRecipes:
     post:
       summary: Replaces recipes for the given instance groups.
@@ -585,6 +627,69 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/ReplaceRecipesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/rotateSecrets:
+    post:
+      summary: Rotates secrets for a specific Datalake
+      description: Rotates secrets for a specific Datalake based on what secret types are specified.
+      operationId: rotateSecrets
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RotateSecretsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RotateSecretsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/rotateDbCertificate:
+    post:
+      summary: Rotates database ssl certificate for a specific Data Lake
+      description: Rotates database ssl certificate for a specific Data Lake.
+      operationId: rotateDbCertificate
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RotateDbCertificateRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RotateDbCertificateResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/listDatalakeSecretTypes:
+    post:
+      summary: Lists all Datalake related secret types.
+      description: Lists Datalake related secret types for Datalake instances.
+      operationId: listDatalakeSecretTypes
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListDatalakeSecretTypesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListDatalakeSecretTypesResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1949,6 +2054,24 @@ definitions:
         items:
           type: string
         description: List of instance ids.
+  RestartDatalakeInstancesRequest:
+    type: object
+    description: Request object for restart datalake instances request.
+    required:
+      - datalakeName
+      - instances
+    properties:
+      datalakeName:
+        type: string
+        description: The name or CRN of the datalake.
+      instances:
+        type: array
+        items:
+          type: string
+        description: List of instance ids.
+  RestartDatalakeInstancesResponse:
+    type: object
+    description: Response object for restart datalake instances request.
   GetClusterServiceStatusRequest:
     type: object
     description: Request object to get service status.
@@ -2044,6 +2167,18 @@ definitions:
     type: object
     description: Response object of starting a datalake, deprecated.
     x-deprecated: true
+  RotateDbCertificateRequest:
+    type: object
+    description: Request object to rotate ssl certificate a datalake.
+    required:
+      - datalakeName
+    properties:
+      datalakeName:
+        type: string
+        description: The name or CRN of the datalake.
+  RotateDbCertificateResponse:
+    type: object
+    description: Response object to rotate ssl certificate a datalake.
   StopDatalakeRequest:
     type: object
     description: Request object to stop a datalake, deprecated.
@@ -2412,6 +2547,28 @@ definitions:
       result:
         type: string
         description: Result of the cancel backup request. It can contain a description of the current process state or guidelines to a customer on the next steps.
+  CancelRestoreRequest:
+    type: object
+    description: Details of the restore that has to be cancelled.
+    required:
+      - restoreId
+    properties:
+      restoreId:
+        type: string
+        description: Restore-id that identifies the restore to be cancelled.
+      force:
+        type: boolean
+        default: false
+        description: Mark the operation as cancelled regardless of the progress.
+  CancelRestoreResponse:
+    type: object
+    description: Response to restore invalidation request.
+    required:
+      - result
+    properties:
+      result:
+        type: string
+        description: Result of the invalidation request.
   DatalakeBackup:
     type: object
     description: Backup object with details of backup performed.
@@ -2499,6 +2656,9 @@ definitions:
       rangerAuditCollectionValidation:
         $ref: '#/definitions/BackupRestoreOperationStatus'
         description: Run the ranger audit collection validation in the backup precheck.
+      dryRunValidation:
+        $ref: '#/definitions/BackupRestoreOperationStatus'
+        description: Run the dry run validation in the backup/restore precheck
   HbaseBackupRestoreState:
     type: object
     description: The state of each HBase backup/restore operation.
@@ -3183,6 +3343,9 @@ definitions:
       instanceProfile:
         description: AWS instance profile.
         type: string
+      rangerCloudAccessAuthorizerRole:
+        description: Ranger RAZ role.
+        type: string
   ValidateAwsCloudStorageResponse:
     type: object
     description: AWS cloud storage validation response.
@@ -3234,6 +3397,9 @@ definitions:
       secure:
         description: Azure secure flag.
         type: boolean
+      rangerCloudAccessAuthorizerRole:
+        description: Ranger RAZ role.
+        type: string
   ValidateAzureCloudStorageResponse:
     type: object
     description: Azure cloud storage validation response.
@@ -3277,6 +3443,12 @@ definitions:
       customDatabaseComputeStorage:
         $ref: '#/definitions/CustomDatabaseComputeStorage'
         description: Any custom database properties to override defaults.
+      skipValidation:
+        type: boolean
+        description: Skips the validation steps that run prior to the resize. If this option is not provided, the validations are performed by default. If skip-validation and validation-only are used together an error is thrown.
+      validationOnly:
+        type: boolean
+        description: Runs only the validation steps and then returns. If this option is not provided, the resize is performed as normal by default. If skip-validation and validation-only are used together an error is thrown.
   ResizeDatalakeResponse:
     type: object
     description: Datalake resize response.
@@ -3369,6 +3541,55 @@ definitions:
         description: The list of recipes, which will be detached from the cluster.
         items:
           $ref: '#/definitions/InstanceGroupRecipeResponse'
+  RotateSecretsRequest:
+    type: object
+    description: Request object for starting secret rotation for datalake.
+    required:
+      - datalake
+      - secretTypes
+    properties:
+      datalake:
+        type: string
+        description: The datalake name or CRN where we wish to rotate secrets.
+      secretTypes:
+        type: array
+        items:
+          type: string
+        description: The list of secrets that need replacement.
+  RotateSecretsResponse:
+    type: object
+    description: Response object for rotating secrets.
+  ListDatalakeSecretTypesRequest:
+    type: object
+    description: Request for listing possible secret values for Datalake.
+    required:
+      - datalake
+    properties:
+      datalake:
+        type: string
+        description: The Datalake CRN where we wish to get the rotatable secrets.
+  ListDatalakeSecretTypesResponse:
+    type: object
+    description: Response object for showing the secret types and descriptions.
+    required:
+      - datalakeSecretTypes
+    properties:
+      datalakeSecretTypes:
+        type: array
+        items:
+          $ref: '#/definitions/SecretTypeResponse'
+        description: The list of secret types supported by Datalake.
+  SecretTypeResponse:
+    x-mutating: false
+    type: object
+    description: Response object for showing the secret types and descriptions
+    properties:
+      secretType:
+        type: string
+        description: The type of secret that can be used with the rotate-secrets command.
+      description:
+        type: string
+        description: The description of the secret type.
   InstanceGroupRecipeRequest:
     type: object
     description: Represents an instance group - recipe pair (by names) request.

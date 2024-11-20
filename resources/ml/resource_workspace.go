@@ -15,6 +15,7 @@ import (
 	"errors"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -26,7 +27,10 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-var _ resource.Resource = (*workspaceResource)(nil)
+var (
+	_ resource.ResourceWithConfigure   = (*workspaceResource)(nil)
+	_ resource.ResourceWithImportState = (*workspaceResource)(nil)
+)
 
 func NewWorkspaceResource() resource.Resource {
 	return &workspaceResource{}
@@ -34,6 +38,10 @@ func NewWorkspaceResource() resource.Resource {
 
 type workspaceResource struct {
 	client *cdp.Client
+}
+
+func (r *workspaceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *workspaceResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

@@ -19,7 +19,7 @@ import (
 // swagger:model GetLatestWorkspaceVersionResponse
 type GetLatestWorkspaceVersionResponse struct {
 
-	// The latest version of a workspace that is used when deploying Cloudera Machine Learning workspaces.
+	// The latest version of a workbench that is used when deploying Cloudera AI workbenches.
 	// Required: true
 	Version *string `json:"version"`
 }

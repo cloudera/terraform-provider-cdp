@@ -15,12 +15,12 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// ProvisionK8sRequest Request object for workspace provision. Required in public cloud.
+// ProvisionK8sRequest Request object for workbench provision. Required in public cloud.
 //
 // swagger:model ProvisionK8sRequest
 type ProvisionK8sRequest struct {
 
-	// The name of the environment for the workspace to create.
+	// The name of the environment for the workbench to create.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 

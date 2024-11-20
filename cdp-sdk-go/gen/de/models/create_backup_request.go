@@ -28,6 +28,9 @@ type CreateBackupRequest struct {
 	// Backup description.
 	Description string `json:"description,omitempty"`
 
+	// Whether to ignore validation errors and proceed with the backup forcefully. By default, the backup operation is not forced.
+	Force *bool `json:"force,omitempty"`
+
 	// Whether to backup service virtual clusters. By default, virtual clusters are backed up.
 	IncludeVc *bool `json:"includeVc,omitempty"`
 

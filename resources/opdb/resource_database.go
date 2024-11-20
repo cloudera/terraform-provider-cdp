@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -25,11 +26,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &databaseResource{}
+	_ resource.ResourceWithConfigure   = &databaseResource{}
+	_ resource.ResourceWithImportState = &databaseResource{}
 )
 
 type databaseResource struct {
 	client *cdp.Client
+}
+
+func (r *databaseResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewDatabaseResource() resource.Resource {

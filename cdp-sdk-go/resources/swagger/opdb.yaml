@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.117 (BETA)
+  version: 0.9.124 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -708,7 +708,7 @@ definitions:
         description: Value
   InstanceGroupType:
     type: string
-    description: "InstanceGroup Type.\n `WORKER` - WORKER value of the InstanceGroup name. `LEADER` - LEADER value of the InstanceGroup name. `MASTER` - MASTER value of the InstanceGroup name. `GATEWAY` - GATEWAY value of the InstanceGroup name. `STRONGMETA` - STRONGMETA value of the InstanceGroup name. `EDGE` - EDGE value of the InstanceGroup name."
+    description: "InstanceGroup Type.\n `WORKER` - WORKER value of the InstanceGroup name. `LEADER` - LEADER value of the InstanceGroup name. `MASTER` - MASTER value of the InstanceGroup name. `GATEWAY` - GATEWAY value of the InstanceGroup name. `STRONGMETA` - STRONGMETA value of the InstanceGroup name. `EDGE` - EDGE value of the InstanceGroup name. `COMPUTE` - COMPUTE value of the InstanceGroup name. `RESTWORKER` - RESTWORKER value of the InstanceGroup name."
     enum:
       - WORKER
       - LEADER
@@ -827,9 +827,42 @@ definitions:
         items:
           $ref: '#/definitions/VolumeEncryption'
         description: Specifies encryption key to encrypt volume for instance group. It is currently supported for AWS cloud provider only.
+      gatewayNodesCount:
+        type: integer
+        format: int32
+        description: Number of gateway nodes to be created for the database. When multiple gateway nodes are present Knox works in HA mode. A positive, non-zero number is required. The default value is 1. Requires the COD_RESTWORKERS entitlement.
+      restworkerNodesCount:
+        type: integer
+        format: int32
+        description: Number of REST Worker nodes to be created for the database. A positive, non-zero number is required. The default value is 0. Requires the COD_RESTWORKERS entitlement.
       computeClusterCrn:
         type: string
         description: Utilizes the existing compute cluster with the provided CRN instead of creating a new one.
+      customInstanceTypes:
+        description: Provide custom VM instance types for master, worker, gateway, leader, edge and compute groups.
+        $ref: '#/definitions/CustomInstanceTypes'
+  CustomInstanceTypes:
+    type: object
+    description: Custom VM Instance Types.
+    properties:
+      masterType:
+        type: string
+        description: Master VM Instance Type.
+      workerType:
+        type: string
+        description: Worker VM Instance Type.
+      gatewayType:
+        type: string
+        description: Gateway VM Instance Type.
+      leaderType:
+        type: string
+        description: Leader VM Instance Type.
+      edgeType:
+        type: string
+        description: Edge VM Instance Type.
+      computeType:
+        type: string
+        description: Compute VM Instance Type.
   VolumeType:
     type: string
     description: "Volume Type.\n `HDD` - Hard disk drives (HDD) volume type. Default is HDD. `SSD` - Solid disk drives (SSD) volume type. `LOCAL_SSD` - Local SSD volume type."
@@ -863,7 +896,7 @@ definitions:
       - HEAVY
   StorageType:
     type: string
-    description: "Storage type for clusters.\n `CLOUD_WITH_EPHEMERAL` - Cloud with ephemeral storage. `CLOUD` - Cloud storage without ephemeral storage. `HDFS` - HDFS storage."
+    description: "Storage type for clusters.\n `CLOUD_WITH_EPHEMERAL` - Cloud with ephemeral storage. `CLOUD` - Cloud storage without ephemeral storage. `HDFS` - HDFS storage. `CLOUD_WITH_EPHEMERAL_DATATIERING` - Cloud with Ephemeral Storage and Datatiering."
     enum:
       - CLOUD_WITH_EPHEMERAL
       - CLOUD
@@ -897,6 +930,13 @@ definitions:
       verticalScale:
         description: Vertical Scale request for database.
         $ref: '#/definitions/GroupType'
+      numDesiredRestworkerNodes:
+        type: integer
+        format: int32
+        description: Sets the desired number of REST Worker nodes for the database. A positive, non-zero number is required. Requires the COD_RESTWORKERS entitlement.
+      removeRestworkerNodes:
+        type: boolean
+        description: Removes any REST Worker nodes provisioned for this database. Requires the COD_RESTWORKERS entitlement.
   AutoScalingParameters:
     type: object
     description: A Parameters to configure AutoScaling
@@ -936,7 +976,7 @@ definitions:
       maxCpuUtilization:
         type: integer
         format: int32
-        description: The maximum percentage threshold for the CPU utilization of the worker nodes. The CPU utilization is obtained from the Cloudera Manager metric 'cpu_percent' across worker nodes. Set 100 or more to disable the CPU metrics.
+        description: This configuration is effective when compute nodes are enabled. The maximum percentage threshold for the CPU utilization of nodes. The CPU utilization is obtained from the Cloudera Manager metric 'cpu_percent' across worker and compute nodes. Set 100 or more to disable the CPU metrics.
       maxComputeNodesForDatabase:
         type: integer
         format: int32
@@ -1009,6 +1049,10 @@ definitions:
   UpdateDatabaseResponse:
     type: object
     description: A response to database update request
+    properties:
+      status:
+        type: string
+        description: Status of whether the update was successful or not.
   ConfigurationType:
     type: string
     description: "Type of an HBase configuration.\n `SERVICE` - Service level configuration. `MASTER` - Configuration for the Master nodes. `REGIONSERVER` - Configuration for the RegionServer nodes. `STRONGMETA` - Configuration for the StrongMeta RegionServer nodes. `GATEWAY` - Configuration for the Gateway nodes."
@@ -1278,6 +1322,17 @@ definitions:
         type: integer
         format: int32
         description: Total number of compute nodes in the database (including stopped nodes).
+      javaVersion:
+        type: string
+        description: The version of java on the cluster.
+      gatewayNodesCount:
+        type: integer
+        format: int32
+        description: Number of gateway nodes for the database.
+      restworkerNodesCount:
+        type: integer
+        format: int32
+        description: Number of REST Worker nodes for the database.
   StorageDetailsForWorker:
     type: object
     description: Storage details for the worker node for AWS, Azure, and GCP cloud providers.
@@ -2223,9 +2278,6 @@ definitions:
   Image:
     type: object
     description: Details of an Image.
-    required:
-      - id
-      - catalog
     properties:
       id:
         type: string

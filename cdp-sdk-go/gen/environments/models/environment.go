@@ -22,8 +22,14 @@ type Environment struct {
 	// SSH key for accessing cluster node instances.
 	Authentication *Authentication `json:"authentication,omitempty"`
 
+	// The Externalized AWS k8s configuration for the environment.
+	AwsComputeClusterConfiguration *AWSComputeClusterConfiguration `json:"awsComputeClusterConfiguration,omitempty"`
+
 	// aws details
 	AwsDetails *EnvironmentAwsDetails `json:"awsDetails,omitempty"`
+
+	// The Externalized Azure k8s configuration for the environment.
+	AzureComputeClusterConfiguration *AzureComputeClusterConfiguration `json:"azureComputeClusterConfiguration,omitempty"`
 
 	// Storage configuration for backup.
 	BackupStorage *BackupStorage `json:"backupStorage,omitempty"`
@@ -31,6 +37,9 @@ type Environment struct {
 	// Cloud platform of the environment.
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
+
+	// Compute clusters enabled
+	ComputeClusterEnabled bool `json:"computeClusterEnabled,omitempty"`
 
 	// Creation date
 	// Format: date-time
@@ -115,7 +124,15 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateAwsComputeClusterConfiguration(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateAwsDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAzureComputeClusterConfiguration(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -216,6 +233,25 @@ func (m *Environment) validateAuthentication(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Environment) validateAwsComputeClusterConfiguration(formats strfmt.Registry) error {
+	if swag.IsZero(m.AwsComputeClusterConfiguration) { // not required
+		return nil
+	}
+
+	if m.AwsComputeClusterConfiguration != nil {
+		if err := m.AwsComputeClusterConfiguration.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsComputeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsComputeClusterConfiguration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
 	if swag.IsZero(m.AwsDetails) { // not required
 		return nil
@@ -227,6 +263,25 @@ func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
 				return ve.ValidateName("awsDetails")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("awsDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) validateAzureComputeClusterConfiguration(formats strfmt.Registry) error {
+	if swag.IsZero(m.AzureComputeClusterConfiguration) { // not required
+		return nil
+	}
+
+	if m.AzureComputeClusterConfiguration != nil {
+		if err := m.AzureComputeClusterConfiguration.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureComputeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureComputeClusterConfiguration")
 			}
 			return err
 		}
@@ -518,7 +573,15 @@ func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Regist
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateAwsComputeClusterConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateAwsDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAzureComputeClusterConfiguration(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -593,6 +656,27 @@ func (m *Environment) contextValidateAuthentication(ctx context.Context, formats
 	return nil
 }
 
+func (m *Environment) contextValidateAwsComputeClusterConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AwsComputeClusterConfiguration != nil {
+
+		if swag.IsZero(m.AwsComputeClusterConfiguration) { // not required
+			return nil
+		}
+
+		if err := m.AwsComputeClusterConfiguration.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsComputeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsComputeClusterConfiguration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Environment) contextValidateAwsDetails(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.AwsDetails != nil {
@@ -606,6 +690,27 @@ func (m *Environment) contextValidateAwsDetails(ctx context.Context, formats str
 				return ve.ValidateName("awsDetails")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("awsDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateAzureComputeClusterConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AzureComputeClusterConfiguration != nil {
+
+		if swag.IsZero(m.AzureComputeClusterConfiguration) { // not required
+			return nil
+		}
+
+		if err := m.AzureComputeClusterConfiguration.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureComputeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureComputeClusterConfiguration")
 			}
 			return err
 		}

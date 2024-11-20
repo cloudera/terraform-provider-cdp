@@ -54,6 +54,10 @@ type ClientOption func(*runtime.ClientOperation)
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error)
+
+	AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error)
+
 	BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error)
 
 	CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error)
@@ -65,6 +69,8 @@ type ClientService interface {
 	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
 
 	DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error)
+
+	DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error)
 
 	DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error)
 
@@ -96,6 +102,8 @@ type ClientService interface {
 
 	GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error)
 
+	ListInstanceTypeConfiguration(params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error)
+
 	ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error)
 
 	ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error)
@@ -103,6 +111,8 @@ type ClientService interface {
 	ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error)
 
 	ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error)
+
+	ListRelevantInstances(params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error)
 
 	ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error)
 
@@ -146,9 +156,87 @@ type ClientService interface {
 }
 
 /*
-BackupWorkspace backups a workspace
+AddInstanceGroups adds new cloudera a i workbench cluster instance groups
 
-Backup a workspace.
+Add new Cloudera AI workbench cluster instance groups.
+*/
+func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAddInstanceGroupsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "addInstanceGroups",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/addInstanceGroups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AddInstanceGroupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AddInstanceGroupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AddInstanceGroupsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+AddInstanceGroupsMlServingApp adds instance group to an existing cloudera a i inference service instance
+
+Add instance group to an existing Cloudera AI Inference Service instance.
+*/
+func (a *Client) AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewAddInstanceGroupsMlServingAppParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "addInstanceGroupsMlServingApp",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/addInstanceGroupsMlServingApp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AddInstanceGroupsMlServingAppReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*AddInstanceGroupsMlServingAppOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*AddInstanceGroupsMlServingAppDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+BackupWorkspace backups a cloudera a i workbench
+
+Backup a Cloudera AI workbench.
 */
 func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -185,9 +273,9 @@ func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOp
 }
 
 /*
-CreateMlServingApp creates a cloudera machine learning serving app
+CreateMlServingApp deploys cloudera a i inference service into an existing kubernetes cluster
 
-Provision a Kubernetes cluster and install the Cloudera Machine Learning application in it.
+Deploys Cloudera AI Inference Service into an existing Kubernetes cluster.
 */
 func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error) {
 	// TODO: Validate the params before sending
@@ -226,7 +314,7 @@ func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...Cl
 /*
 CreateModelRegistry creates a new model registry
 
-Create a new model registry by creating a new workspace and install model registry on it.
+Create a new model registry by creating a new workbench and install model registry on it.
 */
 func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error) {
 	// TODO: Validate the params before sending
@@ -263,9 +351,9 @@ func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...
 }
 
 /*
-CreateWorkspace creates a cloudera machine learning workspace
+CreateWorkspace creates a cloudera a i workbench
 
-Provision a Kubernetes cluster and install the Cloudera Machine Learning application in it.
+Provision a Kubernetes cluster and install the Cloudera AI application in it.
 */
 func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -304,7 +392,7 @@ func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOp
 /*
 DeleteBackup deletes a backup snapshot
 
-Deletes a Cloudera Machine Learning workspace backup.
+Deletes a Cloudera AI workbench backup.
 */
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
 	// TODO: Validate the params before sending
@@ -343,7 +431,7 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 /*
 DeleteInstanceGroup deletes an instance group from the cluster
 
-Deletes an instance group from a Cloudera Machine Learning workspace.
+Deletes an instance group from a Cloudera AI workbench.
 */
 func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error) {
 	// TODO: Validate the params before sending
@@ -380,9 +468,48 @@ func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...
 }
 
 /*
-DeleteMlServingApp deletes cloudera machine learning serving app
+DeleteInstanceGroupMlServingApp deletes an instance group from a cloudera a i inference service instance
 
-Gracefully deletes the CML Serve App.
+Deletes an instance group from a Cloudera AI Inference Service instance.
+*/
+func (a *Client) DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteInstanceGroupMlServingAppParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteInstanceGroupMlServingApp",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/deleteInstanceGroupMlServingApp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteInstanceGroupMlServingAppReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteInstanceGroupMlServingAppOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteInstanceGroupMlServingAppDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteMlServingApp deletes cloudera a i inference service instance
+
+Gracefully deletes the Cloudera AI Inference Service instance without deleting the cluster.
 */
 func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error) {
 	// TODO: Validate the params before sending
@@ -458,9 +585,9 @@ func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...
 }
 
 /*
-DeleteWorkspace deletes cloudera machine learning workspace
+DeleteWorkspace deletes cloudera a i workbench
 
-Deletes a Cloudera Machine Learning workspace.
+Deletes a Cloudera AI workbench.
 */
 func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -497,9 +624,9 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOp
 }
 
 /*
-DescribeMlServingApp describes cloudera machine learning serving app
+DescribeMlServingApp describes cloudera a i inference service instance
 
-Describe Cloudera Machine Learning Serving App.
+Describe Cloudera AI Inference Service instance.
 */
 func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error) {
 	// TODO: Validate the params before sending
@@ -536,9 +663,9 @@ func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts .
 }
 
 /*
-DescribeModelRegistry describes cloudera machine learning model registry
+DescribeModelRegistry describes cloudera a i model registry
 
-Describes a Cloudera Machine Learning Model Registry.
+Describes a Cloudera AI Model Registry.
 */
 func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error) {
 	// TODO: Validate the params before sending
@@ -575,9 +702,9 @@ func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts
 }
 
 /*
-DescribeWorkspace describes cloudera machine learning workspace
+DescribeWorkspace describes cloudera a i workbench
 
-Describes a Cloudera Machine Learning workspace.
+Describes a Cloudera AI workbench.
 */
 func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -614,9 +741,9 @@ func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...Clie
 }
 
 /*
-GetAuditEvents gets all the events belong to a workspace crn
+GetAuditEvents gets all the events belong to a workbench crn
 
-Gets all the events belong to a workspace crn.
+Gets all the events belong to a workbench crn.
 */
 func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error) {
 	// TODO: Validate the params before sending
@@ -653,9 +780,9 @@ func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOpti
 }
 
 /*
-GetKubeconfig lists workspace access cloudera machine learning workspace
+GetKubeconfig lists workspace access cloudera a i workbench
 
-Lists users that can perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
 	// TODO: Validate the params before sending
@@ -692,9 +819,9 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 }
 
 /*
-GetLatestWorkspaceVersion gets latest workspace version cloudera machine learning workspace
+GetLatestWorkspaceVersion gets latest workspace version cloudera a i workbench
 
-Retrieves the latest version that Cloudera Machine Learning deploys to workspaces.
+Retrieves the latest version that Cloudera AI deploys to workbenches.
 */
 func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error) {
 	// TODO: Validate the params before sending
@@ -770,9 +897,9 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 }
 
 /*
-GetMlServingAppKubeconfig returns kubeconfig for ml serving app
+GetMlServingAppKubeconfig returns kubeconfig for a cloudera a i inference service kubernetes cluster
 
-Gets the Kubeconfig of the Ml Serving cluster.
+Gets the Kubeconfig of the Cloudera AI Inference Service kubernetes cluster.
 */
 func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error) {
 	// TODO: Validate the params before sending
@@ -848,9 +975,9 @@ func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigPa
 }
 
 /*
-GrantMlServingAppAccess grants access to cloudera machine learning model serving app
+GrantMlServingAppAccess grants admin access to a cloudera a i inference service cluster
 
-Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning Model Serving App.
+Grants an AWS user permissions to perform Kubernetes operations on a Cloudera AI Inference Service cluster.
 */
 func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -887,9 +1014,9 @@ func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, 
 }
 
 /*
-GrantModelRegistryAccess grants model registry access cloudera machine learning model registry
+GrantModelRegistryAccess grants model registry access cloudera a i model registry
 
-Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning model registry via EKS.
+Grants an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS.
 */
 func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -926,9 +1053,9 @@ func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams
 }
 
 /*
-GrantWorkspaceAccess grants workspace access cloudera machine learning workspace
+GrantWorkspaceAccess grants workspace access cloudera a i workbench
 
-Grants an AWS user to perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+Grants an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -965,9 +1092,48 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts .
 }
 
 /*
-ListMlServingAppAccess lists member access for cloudera machine learning model serving app
+ListInstanceTypeConfiguration lists the instance configuration for a given instance type
 
-Lists users that can perform Kubernetes operations on a Cloudera Machine Learning Model Serving App
+List of instances.
+*/
+func (a *Client) ListInstanceTypeConfiguration(params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListInstanceTypeConfigurationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listInstanceTypeConfiguration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listInstanceTypeConfiguration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListInstanceTypeConfigurationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListInstanceTypeConfigurationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListInstanceTypeConfigurationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListMlServingAppAccess lists members that have kubernetes access to a cloudera a i inference service cluster
+
+Lists users that can perform Kubernetes operations on a Cloudera AI Inference Service cluster.
 */
 func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -1004,9 +1170,9 @@ func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, op
 }
 
 /*
-ListMlServingApps lists all cloudera machine learning serving apps
+ListMlServingApps lists all cloudera a i inference service instances
 
-List all Cloudera Machine Learning Serving Apps.
+List all Cloudera AI Inference Service instances.
 */
 func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error) {
 	// TODO: Validate the params before sending
@@ -1082,9 +1248,9 @@ func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...
 }
 
 /*
-ListModelRegistryAccess lists workspace access cloudera machine learning model registry
+ListModelRegistryAccess lists workspace access cloudera a i model registry
 
-Lists users that can perform Kubernetes operations on a Cloudera Machine Learning model registry via EKS.
+Lists users that can perform Kubernetes operations on a Cloudera AI model registry via EKS.
 */
 func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -1121,9 +1287,48 @@ func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, 
 }
 
 /*
-ListWorkspaceAccess lists workspace access cloudera machine learning workspace
+ListRelevantInstances lists the instance types for cloudera a i workbench creation that have the requested resource
 
-Lists users that can perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+List of relevant instance type for Cloudera AI workbench creation.
+*/
+func (a *Client) ListRelevantInstances(params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListRelevantInstancesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listRelevantInstances",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/listRelevantInstances",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListRelevantInstancesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListRelevantInstancesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListRelevantInstancesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListWorkspaceAccess lists workspace access cloudera a i workbench
+
+Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -1160,9 +1365,9 @@ func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...
 }
 
 /*
-ListWorkspaceBackups lists backup snapshots of a workspace
+ListWorkspaceBackups lists backup snapshots of a workbench
 
-List backup snapshots of a workspace.
+List backup snapshots of a workbench.
 */
 func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error) {
 	// TODO: Validate the params before sending
@@ -1199,9 +1404,9 @@ func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts .
 }
 
 /*
-ListWorkspaces lists cloudera machine learning workspaces
+ListWorkspaces lists cloudera a i workbenches
 
-List Cloudera Machine Learning workspaces.
+List Cloudera AI workbenches.
 */
 func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error) {
 	// TODO: Validate the params before sending
@@ -1238,9 +1443,9 @@ func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOpti
 }
 
 /*
-ModifyClusterInstanceGroup modifies cloudera machine learning workspace cluster instance group
+ModifyClusterInstanceGroup modifies cloudera a i workbench cluster instance group
 
-Modify a Cloudera Machine Learning workspace cluster instance group.
+Modify a Cloudera AI workbench cluster instance group.
 */
 func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error) {
 	// TODO: Validate the params before sending
@@ -1277,9 +1482,9 @@ func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupPa
 }
 
 /*
-ModifyClusterSecurity modifies cloudera machine learning workspace cluster security
+ModifyClusterSecurity modifies cloudera a i workbench cluster security
 
-Modify a Cloudera Machine Learning workspace cluster security.
+Modify a Cloudera AI workbench cluster security.
 */
 func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error) {
 	// TODO: Validate the params before sending
@@ -1316,9 +1521,9 @@ func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts
 }
 
 /*
-ModifyMlServingApp modifies a cloudera machine learning serving app s cluster instance group
+ModifyMlServingApp modifies instance groups for a cloudera a i inference service cluster
 
-Modify a Cloudera Machine Learning Serving App's cluster instance group.
+Modify instance groups for a Cloudera AI Inference Service cluster.
 */
 func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error) {
 	// TODO: Validate the params before sending
@@ -1355,9 +1560,9 @@ func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...Cl
 }
 
 /*
-ModifyWorkspaceLoadBalancer modifies cloudera machine learning workspace loadbalancer
+ModifyWorkspaceLoadBalancer modifies cloudera a i workbench loadbalancer
 
-Modify a Cloudera Machine Learning workspace loadbalancer.
+Modify a Cloudera AI workbench loadbalancer.
 */
 func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error) {
 	// TODO: Validate the params before sending
@@ -1394,9 +1599,9 @@ func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancer
 }
 
 /*
-RefreshModelRegistryConfigmap refreshes the model registry configmap of the workspace
+RefreshModelRegistryConfigmap refreshes the model registry configmap of the workbench
 
-Refreshes the model registry configmap of the workspace from the control plane.
+Refreshes the model registry configmap of the workbench from the control plane.
 */
 func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error) {
 	// TODO: Validate the params before sending
@@ -1472,9 +1677,9 @@ func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellation
 }
 
 /*
-RestoreWorkspace restores a cloudera machine learning workspace
+RestoreWorkspace restores a cloudera a i workbench
 
-Create a new workspace based on an existing workspace backup snapshot.
+Create a new workbench based on an existing workbench backup snapshot.
 */
 func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -1511,9 +1716,9 @@ func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...Client
 }
 
 /*
-ResumeWorkspace resumes cloudera machine learning workspace
+ResumeWorkspace resumes cloudera a i workbench
 
-Resume a Cloudera Machine Learnings workspace.
+Resume a Cloudera Machine Learnings workbench.
 */
 func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -1550,9 +1755,9 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOp
 }
 
 /*
-RevokeMlServingAppAccess revokes access to cloudera machine learning model serving app
+RevokeMlServingAppAccess revokes access to a cloudera a i inference service cluster
 
-Revokes an AWS user to perform Kubernetes operations on a Cloudera Machine Learning Model Serving App.
+Revokes an AWS user permissions on a Cloudera AI Inference Service cluster.
 */
 func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -1589,9 +1794,9 @@ func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams
 }
 
 /*
-RevokeModelRegistryAccess revokes model registry access cloudera machine learning model registry
+RevokeModelRegistryAccess revokes model registry access cloudera a i model registry
 
-Revokes an AWS user to perform Kubernetes operations on a Cloudera Machine Learning model registry via EKS.
+Revokes an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS.
 */
 func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -1628,9 +1833,9 @@ func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessPara
 }
 
 /*
-RevokeWorkspaceAccess revokes workspace access cloudera machine learning workspace
+RevokeWorkspaceAccess revokes workspace access cloudera a i workbench
 
-Revokes an AWS user to perform Kubernetes operations on a Cloudera Machine Learning workspace via EKS.
+Revokes an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -1706,9 +1911,9 @@ func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgra
 }
 
 /*
-SuspendWorkspace suspends cloudera machine learning workspace
+SuspendWorkspace suspends cloudera a i workbench
 
-Suspend a Cloudera Machine Learning workspace.
+Suspend a Cloudera AI workbench.
 */
 func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -1745,9 +1950,9 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...Client
 }
 
 /*
-UpgradeMlServingApp upgrades a cloudera machine learning serving app
+UpgradeMlServingApp upgrades a cloudera a i inference service instance
 
-Upgrades a Cloudera Machine Learning Serving App to the latest available version.
+Upgrade a Cloudera AI Inference Service instance to the latest available version.
 */
 func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error) {
 	// TODO: Validate the params before sending
@@ -1823,9 +2028,9 @@ func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts .
 }
 
 /*
-UpgradeWorkspace upgrades cloudera machine learning workspace
+UpgradeWorkspace upgrades cloudera a i workbench
 
-Upgrades a Cloudera Machine Learning workspace to the latest available version.
+Upgrades a Cloudera AI workbench to the latest available version.
 */
 func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error) {
 	// TODO: Validate the params before sending

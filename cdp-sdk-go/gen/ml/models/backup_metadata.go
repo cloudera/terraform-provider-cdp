@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// BackupMetadata Backup metadata response object for the workspace summary.
+// BackupMetadata Backup metadata response object for the workbench summary.
 //
 // swagger:model BackupMetadata
 type BackupMetadata struct {
@@ -22,7 +22,7 @@ type BackupMetadata struct {
 	// The backup vault name.
 	BackupVaultName string `json:"backupVaultName,omitempty"`
 
-	// Whether successful backups are available for the workspace.
+	// Whether successful backups are available for the workbench.
 	IsSuccessfulBackupAvailable bool `json:"isSuccessfulBackupAvailable,omitempty"`
 
 	// The status of the last backup initiated.

@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -30,9 +31,14 @@ type dwDatabaseCatalogResource struct {
 	client *cdp.Client
 }
 
+func (r *dwDatabaseCatalogResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
 var (
-	_ resource.Resource              = (*dwDatabaseCatalogResource)(nil)
-	_ resource.ResourceWithConfigure = (*dwDatabaseCatalogResource)(nil)
+	_ resource.Resource                = (*dwDatabaseCatalogResource)(nil)
+	_ resource.ResourceWithConfigure   = (*dwDatabaseCatalogResource)(nil)
+	_ resource.ResourceWithImportState = (*dwDatabaseCatalogResource)(nil)
 )
 
 func NewDwDatabaseCatalogResource() resource.Resource {

@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// ModifyDisks Attached volume configuration.
+// ModifyDisks Root or additional volume properties to modify.
 //
 // swagger:model ModifyDisks
 type ModifyDisks struct {

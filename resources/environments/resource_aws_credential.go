@@ -140,7 +140,9 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	} else {
 		state.Description = types.StringNull()
 	}
-	state.RoleArn = types.StringValue(c.AwsCredentialProperties.RoleArn)
+	if c.AwsCredentialProperties != nil {
+		state.RoleArn = types.StringValue(c.AwsCredentialProperties.RoleArn)
+	}
 
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)

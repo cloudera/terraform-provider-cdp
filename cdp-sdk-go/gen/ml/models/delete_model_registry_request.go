@@ -17,7 +17,7 @@ import (
 // swagger:model DeleteModelRegistryRequest
 type DeleteModelRegistryRequest struct {
 
-	// Force delete a model registry workspace even if errors occur during deletion. Force delete removes the guarantee that resources in your cloud account will be cleaned up. By default, force is set to false.
+	// Force delete a model registry workbench even if errors occur during deletion. Force delete removes the guarantee that resources in your cloud account will be cleaned up. By default, force is set to false.
 	Force bool `json:"force,omitempty"`
 
 	// Deprecated, please use modelRegistryCrn. The environment CRN of the model registry.
@@ -26,7 +26,7 @@ type DeleteModelRegistryRequest struct {
 	// CRN of the model registry to be deleted.
 	ModelRegistryCrn string `json:"modelRegistryCrn,omitempty"`
 
-	// Deprecated. The workspace CRN of the model registry (Public cloud only).
+	// Deprecated. The workbench CRN of the model registry (Public cloud only).
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 }
 

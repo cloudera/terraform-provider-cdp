@@ -15,6 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -26,11 +27,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &azureEnvironmentResource{}
+	_ resource.ResourceWithConfigure   = &azureEnvironmentResource{}
+	_ resource.ResourceWithImportState = &azureEnvironmentResource{}
 )
 
 type azureEnvironmentResource struct {
 	client *cdp.Client
+}
+
+func (r *azureEnvironmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewAzureEnvironmentResource() resource.Resource {
@@ -110,7 +116,11 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
+	envName := state.EnvironmentName.ValueString()
+	if len(envName) == 0 {
+		envName = state.ID.ValueString()
+	}
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(envName, state.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
 	if err != nil {
 		return
 	}

@@ -12,12 +12,12 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// GetMlServingAppKubeconfigRequest Request object for the GetMlServingKubeconfig method.
+// GetMlServingAppKubeconfigRequest Request object for the GetMlServingAppKubeconfig method.
 //
 // swagger:model GetMlServingAppKubeconfigRequest
 type GetMlServingAppKubeconfigRequest struct {
 
-	// The CRN of the app to list access.
+	// The CRN of the Cloudera AI Inference Service instance for retrieving the kubeconfig.
 	AppCrn string `json:"appCrn,omitempty"`
 }
 

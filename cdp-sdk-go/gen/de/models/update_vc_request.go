@@ -26,11 +26,17 @@ type UpdateVcRequest struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
+	// Discard the Spark configs inside a VC.
+	DiscardSparkConfigs *bool `json:"discardSparkConfigs,omitempty"`
+
 	// Groups with full access.
 	FullAccessGroups []string `json:"fullAccessGroups"`
 
 	// Users with full access.
 	FullAccessUsers []string `json:"fullAccessUsers"`
+
+	// Spark configs that will be applied to all the spark jobs inside a virtual cluster.
+	SparkConfigs map[string]string `json:"sparkConfigs,omitempty"`
 
 	// Virtual Cluster ID
 	// Required: true

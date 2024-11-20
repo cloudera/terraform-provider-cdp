@@ -134,6 +134,8 @@ type ClientService interface {
 
 	ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error)
 
+	ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, opts ...ClientOption) (*ListDatahubSecretTypesOK, error)
+
 	ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error)
 
 	ListScalingActivities(params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error)
@@ -148,13 +150,19 @@ type ClientService interface {
 
 	ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error)
 
+	RestartClusterInstances(params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error)
+
 	RetryCluster(params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error)
 
 	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
 
+	RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error)
+
 	RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
 
 	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error)
 
 	ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error)
 
@@ -1750,6 +1758,45 @@ func (a *Client) ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, op
 }
 
 /*
+ListDatahubSecretTypes lists all datahub related secret types
+
+Lists Datahub related secret types for Datahub instances.
+*/
+func (a *Client) ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, opts ...ClientOption) (*ListDatahubSecretTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListDatahubSecretTypesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listDatahubSecretTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/listDatahubSecretTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDatahubSecretTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListDatahubSecretTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListDatahubSecretTypesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListRecipes lists recipes a recipe is a script that runs on all nodes of a specified instance group
 
 Lists recipes. A recipe is a script that runs on all nodes of a specified instance group.
@@ -2023,6 +2070,45 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 }
 
 /*
+RestartClusterInstances restarts instances of a cluster on cloud provider
+
+Restarts instances of a cluster on Cloud provider.
+*/
+func (a *Client) RestartClusterInstances(params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRestartClusterInstancesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "restartClusterInstances",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/restartClusterInstances",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RestartClusterInstancesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RestartClusterInstancesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RestartClusterInstancesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 RetryCluster retries creation of a failed workload cluster
 
 When stack provisioning or cluster creation fails, retryCluster allows you to resume the process from the last failed step.
@@ -2101,6 +2187,45 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 }
 
 /*
+RotateDbCertificate rotates database ssl certificate for a specific data hub
+
+Rotates database ssl certificate for a specific Data Hub
+*/
+func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateDbCertificateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateDbCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/rotateDbCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateDbCertificateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateDbCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateDbCertificateDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 RotatePrivateCertificates rotates private certificates on the hosts of datahub
 
 Rotates private certificates on the hosts of Datahub.
@@ -2175,6 +2300,45 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RotateSecrets rotates secrets for a specific datahub
+
+Rotates secrets for a specific datahub based on what secret types are specified.
+*/
+func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRotateSecretsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rotateSecrets",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/rotateSecrets",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RotateSecretsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RotateSecretsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RotateSecretsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

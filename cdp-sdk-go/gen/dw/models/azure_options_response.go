@@ -17,11 +17,20 @@ import (
 // swagger:model AzureOptionsResponse
 type AzureOptionsResponse struct {
 
+	// Pod CIDR setting for Azure CNI networking.
+	AksPodCIDR string `json:"aksPodCIDR,omitempty"`
+
 	// AKS VNet integration subnet name. If it's an empty string, then VNet integration is disabled.
 	AksVNetIntegrationSubnetName string `json:"aksVNetIntegrationSubnetName"`
 
 	// Denotes whther the Azure Availability Zones for the cluster is enabled or not.
 	EnableAZ *bool `json:"enableAZ,omitempty"`
+
+	// Denotes whether the AKS cluster is in private mode.
+	EnablePrivateAKS *bool `json:"enablePrivateAKS,omitempty"`
+
+	// Denotes whether the private SQL is enabled for the cluster.
+	EnablePrivateSQL *bool `json:"enablePrivateSQL,omitempty"`
 
 	// Workspace ID for Azure log analytics.
 	LogAnalyticsWorkspaceID string `json:"logAnalyticsWorkspaceId,omitempty"`
@@ -29,8 +38,20 @@ type AzureOptionsResponse struct {
 	// The current outbound type setting.
 	OutboundType string `json:"outboundType,omitempty"`
 
+	// The resource ID of the private DNS zone for the AKS cluster.
+	PrivateDNSZoneAKS string `json:"privateDNSZoneAKS,omitempty"`
+
+	// Private DNS zone ID for the PostgreSQL server.
+	PrivateDNSZoneSQL string `json:"privateDNSZoneSQL,omitempty"`
+
+	// Name of the delegated subnet where the private SQL should be deployed.
+	PrivateSQLSubnetName string `json:"privateSQLSubnetName,omitempty"`
+
 	// ID of Azure subnet where the cluster is deployed.
 	SubnetID string `json:"subnetId,omitempty"`
+
+	// The resource ID of the managed identity used by the AKS cluster.
+	UserAssignedManagedIdentity string `json:"userAssignedManagedIdentity,omitempty"`
 }
 
 // Validate validates this azure options response

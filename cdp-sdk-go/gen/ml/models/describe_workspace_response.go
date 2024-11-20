@@ -19,7 +19,7 @@ import (
 // swagger:model DescribeWorkspaceResponse
 type DescribeWorkspaceResponse struct {
 
-	// The workspace.
+	// The workbench.
 	// Required: true
 	Workspace *Workspace `json:"workspace"`
 }

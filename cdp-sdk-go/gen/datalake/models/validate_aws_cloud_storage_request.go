@@ -43,6 +43,9 @@ type ValidateAwsCloudStorageRequest struct {
 	// Required: true
 	RangerAuditRole *string `json:"rangerAuditRole"`
 
+	// Ranger RAZ role.
+	RangerCloudAccessAuthorizerRole string `json:"rangerCloudAccessAuthorizerRole,omitempty"`
+
 	// AWS S3 storage bucket base location.
 	// Required: true
 	StorageLocation *string `json:"storageLocation"`

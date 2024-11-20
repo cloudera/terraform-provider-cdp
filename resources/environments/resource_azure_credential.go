@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -26,11 +27,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &azureCredentialResource{}
+	_ resource.ResourceWithConfigure   = &azureCredentialResource{}
+	_ resource.ResourceWithImportState = &azureCredentialResource{}
 )
 
 type azureCredentialResource struct {
 	client *cdp.Client
+}
+
+func (r *azureCredentialResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 type AppBased struct {
@@ -192,8 +198,10 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	state.ID = types.StringPointerValue(c.Crn)
 	state.CredentialName = types.StringPointerValue(c.CredentialName)
 	state.Crn = types.StringPointerValue(c.Crn)
-	state.AppBased.ApplicationID = types.StringValue(c.AzureCredentialProperties.AppID)
-	state.SubscriptionID = types.StringValue(c.AzureCredentialProperties.SubscriptionID)
+	if c.AzureCredentialProperties != nil {
+		state.AppBased.ApplicationID = types.StringValue(c.AzureCredentialProperties.AppID)
+		state.SubscriptionID = types.StringValue(c.AzureCredentialProperties.SubscriptionID)
+	}
 
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)

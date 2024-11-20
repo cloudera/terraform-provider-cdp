@@ -32,6 +32,9 @@ type CreateDatabaseRequest struct {
 	// Uses provided compute cluster for Kubernetes clusters instead of creating a new one. Deprecated, use `computeClusterCrn` instead.
 	ComputeClusterID string `json:"computeClusterId,omitempty"`
 
+	// Provide custom VM instance types for master, worker, gateway, leader, edge and compute groups.
+	CustomInstanceTypes *CustomInstanceTypes `json:"customInstanceTypes,omitempty"`
+
 	// Optional tags to apply to launched infrastructure resources
 	CustomUserTags []*KeyValuePair `json:"customUserTags"`
 
@@ -61,6 +64,9 @@ type CreateDatabaseRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Number of gateway nodes to be created for the database. When multiple gateway nodes are present Knox works in HA mode. A positive, non-zero number is required. The default value is 1. Requires the COD_RESTWORKERS entitlement.
+	GatewayNodesCount int32 `json:"gatewayNodesCount,omitempty"`
+
 	// Image details for the database.
 	Image *Image `json:"image,omitempty"`
 
@@ -72,6 +78,9 @@ type CreateDatabaseRequest struct {
 
 	// Custom recipes for the database.
 	Recipes []*CustomRecipe `json:"recipes"`
+
+	// Number of REST Worker nodes to be created for the database. A positive, non-zero number is required. The default value is 0. Requires the COD_RESTWORKERS entitlement.
+	RestworkerNodesCount int32 `json:"restworkerNodesCount,omitempty"`
 
 	// Root volume size in GiB.
 	RootVolumeSize int32 `json:"rootVolumeSize,omitempty"`
@@ -101,6 +110,10 @@ func (m *CreateDatabaseRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateAutoScalingParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCustomInstanceTypes(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -172,6 +185,25 @@ func (m *CreateDatabaseRequest) validateAutoScalingParameters(formats strfmt.Reg
 				return ve.ValidateName("autoScalingParameters")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("autoScalingParameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateDatabaseRequest) validateCustomInstanceTypes(formats strfmt.Registry) error {
+	if swag.IsZero(m.CustomInstanceTypes) { // not required
+		return nil
+	}
+
+	if m.CustomInstanceTypes != nil {
+		if err := m.CustomInstanceTypes.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customInstanceTypes")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customInstanceTypes")
 			}
 			return err
 		}
@@ -341,6 +373,10 @@ func (m *CreateDatabaseRequest) ContextValidate(ctx context.Context, formats str
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateCustomInstanceTypes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateCustomUserTags(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -405,6 +441,27 @@ func (m *CreateDatabaseRequest) contextValidateAutoScalingParameters(ctx context
 				return ve.ValidateName("autoScalingParameters")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("autoScalingParameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateDatabaseRequest) contextValidateCustomInstanceTypes(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CustomInstanceTypes != nil {
+
+		if swag.IsZero(m.CustomInstanceTypes) { // not required
+			return nil
+		}
+
+		if err := m.CustomInstanceTypes.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("customInstanceTypes")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("customInstanceTypes")
 			}
 			return err
 		}

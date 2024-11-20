@@ -19,33 +19,32 @@ import (
 // swagger:model CreateMlServingAppRequest
 type CreateMlServingAppRequest struct {
 
-	// The name of the App to create.
+	// The name of the Cloudera AI Inference Service to be created.
 	// Required: true
 	AppName *string `json:"appName"`
 
-	// The cluster CRN of an existing cluster that the AI inference App will use.
+	// The cluster CRN of an existing cluster where Cloudera AI Inference Service instance will be deployed.
 	// Required: true
 	ClusterCrn *string `json:"clusterCrn"`
 
-	// The boolean flag to disable TLS setup for MlServingApp. By default, the TLS is enabled.
-	DisableTLS bool `json:"disableTLS,omitempty"`
-
-	// The environment CRN for the App.
+	// The environment CRN.
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
 
 	// The whitelist of IPs for load balancer.
 	LoadBalancerIPWhitelists []string `json:"loadBalancerIPWhitelists"`
 
-	// The version of ML workload app to install.
-	// Required: true
-	MlservingVersion *string `json:"mlservingVersion"`
-
 	// The request for Kubernetes cluster provisioning. Required in public cloud.
 	ProvisionK8sRequest *MlServingProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
 
 	// Skip pre-flight validations if requested.
 	SkipValidation bool `json:"skipValidation,omitempty"`
+
+	// The static subdomain to be used for the Cloudera AI Inference Service instance.
+	StaticSubdomain string `json:"staticSubdomain,omitempty"`
+
+	// The list of subnets to be used for the load balancer.
+	SubnetsForLoadBalancers []string `json:"subnetsForLoadBalancers"`
 
 	// The boolean flag to request a public load balancer. By default, a private load balancer is used.
 	UsePublicLoadBalancer bool `json:"usePublicLoadBalancer,omitempty"`
@@ -64,10 +63,6 @@ func (m *CreateMlServingAppRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateEnvironmentCrn(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateMlservingVersion(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -102,15 +97,6 @@ func (m *CreateMlServingAppRequest) validateClusterCrn(formats strfmt.Registry) 
 func (m *CreateMlServingAppRequest) validateEnvironmentCrn(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *CreateMlServingAppRequest) validateMlservingVersion(formats strfmt.Registry) error {
-
-	if err := validate.Required("mlservingVersion", "body", m.MlservingVersion); err != nil {
 		return err
 	}
 

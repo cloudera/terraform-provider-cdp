@@ -19,7 +19,7 @@ import (
 // swagger:model SuspendWorkspaceRequest
 type SuspendWorkspaceRequest struct {
 
-	// The CRN of the workspace to suspend.
+	// The CRN of the workbench to suspend.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

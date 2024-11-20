@@ -53,7 +53,7 @@ UpdateDatabaseOK describes a response with status code 200, with default header 
 Expected response to a valid request.
 */
 type UpdateDatabaseOK struct {
-	Payload models.UpdateDatabaseResponse
+	Payload *models.UpdateDatabaseResponse
 }
 
 // IsSuccess returns true when this update database o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *UpdateDatabaseOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/opdb/updateDatabase][%d] updateDatabaseOK %s", 200, payload)
 }
 
-func (o *UpdateDatabaseOK) GetPayload() models.UpdateDatabaseResponse {
+func (o *UpdateDatabaseOK) GetPayload() *models.UpdateDatabaseResponse {
 	return o.Payload
 }
 
 func (o *UpdateDatabaseOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.UpdateDatabaseResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

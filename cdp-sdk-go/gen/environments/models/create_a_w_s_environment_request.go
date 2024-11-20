@@ -25,6 +25,9 @@ type CreateAWSEnvironmentRequest struct {
 	// Required: true
 	Authentication *AuthenticationRequest `json:"authentication"`
 
+	// The Externalized k8s configuration create request for the environment
+	ComputeClusterConfiguration *AWSComputeClusterConfigurationRequest `json:"computeClusterConfiguration,omitempty"`
+
 	// Whether to create private subnets or not.
 	CreatePrivateSubnets bool `json:"createPrivateSubnets,omitempty"`
 
@@ -40,6 +43,9 @@ type CreateAWSEnvironmentRequest struct {
 
 	// An description of the environment.
 	Description string `json:"description,omitempty"`
+
+	// Enable compute clusters for environment
+	EnableComputeCluster bool `json:"enableComputeCluster,omitempty"`
 
 	// Whether to enable SSH tunneling for the environment.
 	EnableTunnel *bool `json:"enableTunnel,omitempty"`
@@ -110,6 +116,10 @@ func (m *CreateAWSEnvironmentRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateComputeClusterConfiguration(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCredentialName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -172,6 +182,25 @@ func (m *CreateAWSEnvironmentRequest) validateAuthentication(formats strfmt.Regi
 				return ve.ValidateName("authentication")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("authentication")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAWSEnvironmentRequest) validateComputeClusterConfiguration(formats strfmt.Registry) error {
+	if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+		return nil
+	}
+
+	if m.ComputeClusterConfiguration != nil {
+		if err := m.ComputeClusterConfiguration.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("computeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("computeClusterConfiguration")
 			}
 			return err
 		}
@@ -392,6 +421,10 @@ func (m *CreateAWSEnvironmentRequest) ContextValidate(ctx context.Context, forma
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateComputeClusterConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateCustomDockerRegistry(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -431,6 +464,27 @@ func (m *CreateAWSEnvironmentRequest) contextValidateAuthentication(ctx context.
 				return ve.ValidateName("authentication")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("authentication")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAWSEnvironmentRequest) contextValidateComputeClusterConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ComputeClusterConfiguration != nil {
+
+		if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+			return nil
+		}
+
+		if err := m.ComputeClusterConfiguration.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("computeClusterConfiguration")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("computeClusterConfiguration")
 			}
 			return err
 		}

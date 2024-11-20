@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// BackupWorkspaceRequest The request object for workspace backup.
+// BackupWorkspaceRequest The request object for Cloudera AI workbench backup.
 //
 // swagger:model BackupWorkspaceRequest
 type BackupWorkspaceRequest struct {
@@ -29,7 +29,7 @@ type BackupWorkspaceRequest struct {
 	// Skip pre-flight validations if requested.
 	SkipValidation bool `json:"skipValidation,omitempty"`
 
-	// CRN of the workspace to backup.
+	// CRN of the workbench to backup.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

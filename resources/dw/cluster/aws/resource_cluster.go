@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -31,9 +32,14 @@ type dwClusterResource struct {
 	client *cdp.Client
 }
 
+func (r *dwClusterResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
 var (
-	_ resource.Resource              = (*dwClusterResource)(nil)
-	_ resource.ResourceWithConfigure = (*dwClusterResource)(nil)
+	_ resource.Resource                = (*dwClusterResource)(nil)
+	_ resource.ResourceWithConfigure   = (*dwClusterResource)(nil)
+	_ resource.ResourceWithImportState = (*dwClusterResource)(nil)
 )
 
 func NewDwClusterResource() resource.Resource {

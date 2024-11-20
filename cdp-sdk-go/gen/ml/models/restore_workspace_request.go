@@ -21,7 +21,7 @@ type RestoreWorkspaceRequest struct {
 	// The CRN of the backup snapshot to used for restoring.
 	BackupCrn string `json:"backupCrn,omitempty"`
 
-	// The parameters required for a new Cloudera Machine Learning workspace.
+	// The parameters required for a new Cloudera AI workbench.
 	NewWorkspaceParameters *CreateWorkspaceRequest `json:"newWorkspaceParameters,omitempty"`
 
 	// The timeout to restore the backup snapshots, in minutes.

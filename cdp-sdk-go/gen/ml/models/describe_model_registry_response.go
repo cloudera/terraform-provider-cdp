@@ -19,7 +19,7 @@ import (
 // swagger:model DescribeModelRegistryResponse
 type DescribeModelRegistryResponse struct {
 
-	// The workspace.
+	// The registry.
 	// Required: true
 	ModelRegistry *ModelRegistry `json:"modelRegistry"`
 }

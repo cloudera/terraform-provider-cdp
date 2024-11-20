@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -23,11 +24,16 @@ import (
 )
 
 var (
-	_ resource.Resource = &gcpEnvironmentResource{}
+	_ resource.ResourceWithConfigure   = &gcpEnvironmentResource{}
+	_ resource.ResourceWithImportState = &gcpEnvironmentResource{}
 )
 
 type gcpEnvironmentResource struct {
 	client *cdp.Client
+}
+
+func (r *gcpEnvironmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func NewGcpEnvironmentResource() resource.Resource {
@@ -104,7 +110,11 @@ func (r *gcpEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), state.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
+	envName := state.EnvironmentName.ValueString()
+	if len(envName) == 0 {
+		envName = state.ID.ValueString()
+	}
+	descEnvResp, err := describeEnvironmentWithDiagnosticHandle(envName, state.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
 	if err != nil {
 		return
 	}

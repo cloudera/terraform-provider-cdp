@@ -24,6 +24,9 @@ type ImpalaHASettingsOptionsResponse struct {
 	// Whether a shutdown of the coordinator is enabled.
 	EnableShutdownOfCoordinator bool `json:"enableShutdownOfCoordinator,omitempty"`
 
+	// Denotes whether a backup instance for Impala Statestore is enabled.
+	EnableStatestoreHighAvailability bool `json:"enableStatestoreHighAvailability,omitempty"`
+
 	// High Availability mode. DISABLED - Impala coordinator and Database Catalog high availability is disabled. ACTIVE_PASSIVE - Multiple coordinators (one active, one passive) and Database Catalogs (one active, one passive) are run. ACTIVE_ACTIVE - Multiple coordinators (both active) and Database Catalogs (one active, one passive) are run.
 	HighAvailabilityMode ImpalaHighAvailabilityMode `json:"highAvailabilityMode,omitempty"`
 

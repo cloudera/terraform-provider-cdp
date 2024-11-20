@@ -12,7 +12,7 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// UpgradeState Response object for the workspace summary.
+// UpgradeState Response object for the workbench summary.
 //
 // swagger:model UpgradeState
 type UpgradeState struct {
@@ -20,7 +20,7 @@ type UpgradeState struct {
 	// The reason for the current state.
 	Reason string `json:"reason,omitempty"`
 
-	// The current upgrade state of the workspace.
+	// The current upgrade state of the workbench.
 	State string `json:"state,omitempty"`
 }
 

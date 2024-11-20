@@ -19,7 +19,7 @@ import (
 // swagger:model ResumeWorkspaceRequest
 type ResumeWorkspaceRequest struct {
 
-	// The CRN of the workspace to resume.
+	// The CRN of the workbench to resume.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`
 }

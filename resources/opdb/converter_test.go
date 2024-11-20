@@ -201,8 +201,8 @@ func TestCreateImage(t *testing.T) {
 
 	got := createImage(image, context.TODO())
 
-	test.CompareStrings(*got.ID, image.ID.ValueString(), t)
-	test.CompareStrings(*got.Catalog, image.Catalog.ValueString(), t)
+	test.CompareStrings(got.ID, image.ID.ValueString(), t)
+	test.CompareStrings(got.Catalog, image.Catalog.ValueString(), t)
 }
 
 func TestCreateCustomUserTags(t *testing.T) {

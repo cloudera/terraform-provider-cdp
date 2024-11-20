@@ -26,10 +26,10 @@ type CreateWorkspaceRequest struct {
 	// Toggle for cdsw migration preflight validation
 	CdswMigrationMode string `json:"cdswMigrationMode,omitempty"`
 
-	// The boolean flag to disable TLS setup for workspace. By default, the TLS is enabled.
+	// The boolean flag to disable TLS setup for workbench. By default, the TLS is enabled.
 	DisableTLS bool `json:"disableTLS,omitempty"`
 
-	// Enables Cloudera Machine Learning governance by integrating with Cloudera Atlas. By default, this flag is disabled.
+	// Enables Cloudera AI governance by integrating with Cloudera Atlas. By default, this flag is disabled.
 	EnableGovernance bool `json:"enableGovernance,omitempty"`
 
 	// Enables the model metrics service for exporting metrics for models to a metrics store.
@@ -38,7 +38,7 @@ type CreateWorkspaceRequest struct {
 	// The boolean flag is used to enable monitoring. By default, monitoring is disabled.
 	EnableMonitoring bool `json:"enableMonitoring,omitempty"`
 
-	// The environment for the workspace to create.
+	// The environment for the workbench to create.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
@@ -57,22 +57,22 @@ type CreateWorkspaceRequest struct {
 	// The NFS Protocol version of the NFS server we are using for Azure and Private Cloud.
 	NfsVersion string `json:"nfsVersion,omitempty"`
 
-	// Outbound Types provided for the workspace.
+	// Outbound Types provided for the workbench.
 	OutboundTypes []OutboundTypes `json:"outboundTypes"`
 
 	// Whether to create a private cluster.
 	PrivateCluster bool `json:"privateCluster,omitempty"`
 
-	// The request for Kubernetes workspace provision. Required in public cloud.
+	// The request for Kubernetes workbench provision. Required in public cloud.
 	ProvisionK8sRequest *ProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
 
 	// Skip pre-flight validations if requested.
 	SkipValidation bool `json:"skipValidation,omitempty"`
 
-	// The static subdomain to be used for the workspace.
+	// The static subdomain to be used for the workbench.
 	StaticSubdomain string `json:"staticSubdomain,omitempty"`
 
-	// The list of subnets used for the load balancer that CML creates.
+	// The list of subnets used for the load balancer that Cloudera AI creates.
 	SubnetsForLoadBalancers []string `json:"subnetsForLoadBalancers"`
 
 	// The boolean flag to request public load balancer. By default, private load balancer is used.
@@ -81,7 +81,7 @@ type CreateWorkspaceRequest struct {
 	// Whether to whitelist only 'authorizedIPRanges' given or all public IPs.
 	WhitelistAuthorizedIPRanges bool `json:"whitelistAuthorizedIPRanges,omitempty"`
 
-	// The name of the workspace to create.
+	// The name of the workbench to create.
 	// Required: true
 	WorkspaceName *string `json:"workspaceName"`
 }

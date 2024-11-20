@@ -17,7 +17,7 @@ import (
 // swagger:model ListWorkspaceBackupsQueryOptions
 type ListWorkspaceBackupsQueryOptions struct {
 
-	// When set to true, will return the metadata of the environment where the backed-up workspace is/was present.
+	// When set to true, will return the metadata of the environment where the backed-up workbench is/was present.
 	ExpandEnvironmentMetadata bool `json:"expandEnvironmentMetadata,omitempty"`
 }
 

@@ -13,6 +13,7 @@ package iam
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -23,7 +24,10 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-var _ resource.Resource = (*machineUserRoleAssignmentResource)(nil)
+var (
+	_ resource.ResourceWithConfigure   = (*machineUserRoleAssignmentResource)(nil)
+	_ resource.ResourceWithImportState = (*machineUserRoleAssignmentResource)(nil)
+)
 
 func NewMachineUserRoleAssignmentResource() resource.Resource {
 	return &machineUserRoleAssignmentResource{}
@@ -31,6 +35,10 @@ func NewMachineUserRoleAssignmentResource() resource.Resource {
 
 type machineUserRoleAssignmentResource struct {
 	client *cdp.Client
+}
+
+func (r *machineUserRoleAssignmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *machineUserRoleAssignmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {

@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// ProvisionTag Contains a single tag entry that will be configured on cloud resources associated with a workspace.
+// ProvisionTag Contains a single tag entry that will be configured on cloud resources associated with a workbench.
 //
 // swagger:model ProvisionTag
 type ProvisionTag struct {

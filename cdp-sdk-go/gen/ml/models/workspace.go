@@ -15,7 +15,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// Workspace A ML workspace, which includes the cluster and storage.
+// Workspace A ML workbench, which includes the cluster and storage.
 //
 // swagger:model Workspace
 type Workspace struct {
@@ -23,28 +23,28 @@ type Workspace struct {
 	// The whitelist of CIDR blocks which can access the API server.
 	AuthorizedIPRanges []string `json:"authorizedIPRanges"`
 
-	// The Backup MetaData for this Workspace
+	// The Backup MetaData for this workbench
 	BackupMetadata *BackupMetadata `json:"backupMetadata,omitempty"`
 
-	// The cloud platform of the environment that was used to create this workspace.
+	// The cloud platform of the environment that was used to create this workbench.
 	// Required: true
 	CloudPlatform *string `json:"cloudPlatform"`
 
 	// The basedomain of the cluster.
 	ClusterBaseDomain string `json:"clusterBaseDomain,omitempty"`
 
-	// The Cluster ID for the workspace.
+	// The Cluster ID for the workbench.
 	ClusterID string `json:"clusterID,omitempty"`
 
-	// Creation date of workspace.
+	// Creation date of workbench.
 	// Format: date-time
 	CreationDate strfmt.DateTime `json:"creationDate,omitempty"`
 
-	// The CRN of the creator of the workspace.
+	// The CRN of the creator of the workbench.
 	// Required: true
 	CreatorCrn *string `json:"creatorCrn"`
 
-	// The CRN of the workspace.
+	// The CRN of the workbench.
 	// Required: true
 	Crn *string `json:"crn"`
 
@@ -56,21 +56,21 @@ type Workspace struct {
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
 
-	// The name of the workspace's environment.
+	// The name of the workbench's environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// Failure message from the most recent failure that has occurred during workspace provisioning.
+	// Failure message from the most recent failure that has occurred during workbench provisioning.
 	FailureMessage string `json:"failureMessage,omitempty"`
 
-	// filesystemID used by the workspace
+	// filesystemID used by the workbench
 	// Required: true
 	FilesystemID *string `json:"filesystemID"`
 
 	// Whether governance is enabled.
 	GovernanceEnabled bool `json:"governanceEnabled,omitempty"`
 
-	// The health info information of the workspace.
+	// The health info information of the workbench.
 	HealthInfoLists []*HealthInfo `json:"healthInfoLists"`
 
 	// To Display if Https is enabled or not.
@@ -81,22 +81,22 @@ type Workspace struct {
 	// Required: true
 	InstanceGroups []*WorkspaceInstanceGroup `json:"instanceGroups"`
 
-	// The name of the workspace.
+	// The name of the workbench.
 	// Required: true
 	InstanceName *string `json:"instanceName"`
 
-	// The workspace's current status.
+	// The workbench's current status.
 	// Required: true
 	InstanceStatus *string `json:"instanceStatus"`
 
-	// URL of the workspace's user interface.
+	// URL of the workbench's user interface.
 	// Required: true
 	InstanceURL *string `json:"instanceUrl"`
 
 	// The value to indicate if the cluster is private or not.
 	IsPrivate bool `json:"isPrivate,omitempty"`
 
-	// The value to indicate if the workspace is restored one or not
+	// The value to indicate if the workbench is restored one or not
 	IsRestored bool `json:"isRestored,omitempty"`
 
 	// The Kubernetes cluster name.
@@ -109,27 +109,27 @@ type Workspace struct {
 	// Whether model metrics is enabled.
 	ModelMetricsEnabled bool `json:"modelMetricsEnabled,omitempty"`
 
-	// If usage monitoring is enabled or not on this workspace.
+	// If usage monitoring is enabled or not on this workbench.
 	// Required: true
 	MonitoringEnabled *bool `json:"monitoringEnabled"`
 
 	// NFS Version of the filesystem.
 	NfsVersion string `json:"nfsVersion,omitempty"`
 
-	// The subnets of the workspace.
+	// The subnets of the workbench.
 	Subnets []string `json:"subnets"`
 
-	// The list of subnets used for the load balancer that CML creates.
+	// The list of subnets used for the load balancer that Cloudera AI creates.
 	SubnetsForLoadBalancers []string `json:"subnetsForLoadBalancers"`
 
-	// Tags provided by the user at the time of workspace creation.
+	// Tags provided by the user at the time of workbench creation.
 	// Required: true
 	Tags []*Tag `json:"tags"`
 
-	// The upgrade state contains the workspace upgrade information.
+	// The upgrade state contains the workbench upgrade information.
 	UpgradeState *UpgradeState `json:"upgradeState,omitempty"`
 
-	// The version of Cloudera Machine Learning that was installed on the workspace.
+	// The version of Cloudera AI that was installed on the workbench.
 	// Required: true
 	Version *string `json:"version"`
 

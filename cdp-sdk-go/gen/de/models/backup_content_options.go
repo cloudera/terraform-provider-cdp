@@ -29,6 +29,9 @@ type BackupContentOptions struct {
 	// Whether to backup job resources. By default, job resources are backed up.
 	IncludeJobResources *bool `json:"includeJobResources,omitempty"`
 
+	// Whether to backup job runs. By default, job runs are backed up.
+	IncludeJobRuns *bool `json:"includeJobRuns,omitempty"`
+
 	// Whether to backup jobs. By default, jobs are backed up.
 	IncludeJobs *bool `json:"includeJobs,omitempty"`
 

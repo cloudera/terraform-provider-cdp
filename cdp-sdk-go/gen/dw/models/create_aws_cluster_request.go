@@ -19,16 +19,16 @@ import (
 // swagger:model CreateAwsClusterRequest
 type CreateAwsClusterRequest struct {
 
-	// Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.
+	// DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.
 	AdditionalInstanceTypes []string `json:"additionalInstanceTypes"`
 
-	// AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
+	// NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
 	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
 
 	// Custom AMI ID.
 	CustomAmiID string `json:"customAmiId,omitempty"`
 
-	// Options for custom ACR/ECR/Docker registries.
+	// Options for custom ACR/ECR registries.
 	CustomRegistryOptions *CustomRegistryOptions `json:"customRegistryOptions,omitempty"`
 
 	// Custom environment subdomain. Overrides the environment subdomain using a customized domain either in the old subdomain format like ENV_ID.dw or the new format like dw-ENV_NAME.
@@ -56,10 +56,10 @@ type CreateAwsClusterRequest struct {
 	// Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
 	ReducedPermissionMode bool `json:"reducedPermissionMode,omitempty"`
 
-	// Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
+	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
 	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
 
-	// Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
+	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
 	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
 
 	// Using an overlay network will save IP addresses in the VPC by using a private IP address range for Pods in the cluster.
