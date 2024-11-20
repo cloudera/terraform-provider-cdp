@@ -100,4 +100,6 @@ type SecurityAccess struct {
 	SecurityGroupIDForKnox types.String `tfsdk:"security_group_id_for_knox"`
 
 	SecurityGroupIDsForKnox types.Set `tfsdk:"security_group_ids_for_knox"`
+
+	GatewayNodeSecurityGroupID types.String `tfsdk:"gateway_node_security_group_id"`
 }
