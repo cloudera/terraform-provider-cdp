@@ -112,6 +112,8 @@ func testAccAwsCredentialConfig(rName string, roleArn string) string {
 resource "cdp_environments_aws_credential" "test" {
   credential_name = %[1]q
   role_arn        = %[2]q
+  skip_org_policy_decisions = false
+  verify_permissions = false
 }
 `, rName, roleArn)
 }
@@ -122,6 +124,8 @@ resource "cdp_environments_aws_credential" "test" {
   credential_name = %[1]q
   role_arn        = %[2]q
   description     = %[3]q
+  skip_org_policy_decisions = false
+  verify_permissions = false
 }
 `, rName, roleArn, description)
 }
