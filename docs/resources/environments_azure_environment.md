@@ -95,7 +95,6 @@ output "crn" {
 - `new_network_params` (Attributes) (see [below for nested schema](#nestedatt--new_network_params))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
-- `report_deployment_logs` (Boolean)
 - `resource_group_name` (String)
 - `tags` (Map of String)
 - `workload_analytics` (Boolean)
@@ -104,6 +103,7 @@ output "crn" {
 
 - `crn` (String)
 - `id` (String) The ID of this resource.
+- `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String)
 - `status_reason` (String)
 

@@ -169,9 +169,10 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 				},
 			},
 			"report_deployment_logs": schema.BoolAttribute{
-				MarkdownDescription: "When true, this will report additional diagnostic information back to Cloudera.",
-				Optional:            true,
+				// report_deployment_logs is a deprecated field and should not be used
+				MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
 				Computed:            true,
+				Default:             booldefault.StaticBool(false),
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},

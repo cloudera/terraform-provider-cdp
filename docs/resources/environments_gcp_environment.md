@@ -96,7 +96,6 @@ output "shared_project_id" {
 - `log_storage` (Attributes) GCP storage configuration for cluster and audit logs. (see [below for nested schema](#nestedatt--log_storage))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String) Name of the proxy config to use for the environment.
-- `report_deployment_logs` (Boolean) When true, this will report additional diagnostic information back to Cloudera.
 - `security_access` (Attributes) Firewall rules for FreeIPA, Data Lake and Data Hub deployment. (see [below for nested schema](#nestedatt--security_access))
 - `tags` (Map of String) Tags that can be attached to GCP resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.
 - `workload_analytics` (Boolean) When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
@@ -105,6 +104,7 @@ output "shared_project_id" {
 
 - `crn` (String) The CRN of the environment resource.
 - `id` (String) The ID of this resource.
+- `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String) The last known status for the environment.
 - `status_reason` (String) The last known detailed status reason for the environment.
 

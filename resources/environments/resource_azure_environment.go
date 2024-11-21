@@ -37,11 +37,11 @@ func NewAzureEnvironmentResource() resource.Resource {
 	return &azureEnvironmentResource{}
 }
 
-func (r *azureEnvironmentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *azureEnvironmentResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_azure_environment"
 }
 
-func (r *azureEnvironmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *azureEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = AzureEnvironmentSchema
 }
 
@@ -198,7 +198,6 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 	if env.ProxyConfig != nil {
 		model.ProxyConfigName = types.StringPointerValue(env.ProxyConfig.ProxyConfigName)
 	}
-	model.ReportDeploymentLogs = types.BoolValue(env.ReportDeploymentLogs)
 	if env.SecurityAccess != nil {
 		var dsgIDs types.Set
 		if model.SecurityAccess == nil || model.SecurityAccess.DefaultSecurityGroupIDs.IsUnknown() {
@@ -230,7 +229,7 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
 }
 
-func (r *azureEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *azureEnvironmentResource) Update(_ context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
 
 }
 
