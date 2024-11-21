@@ -36,17 +36,51 @@ resource "cdp_dw_vw_hive" "example" {
 
 - `cluster_id` (String) The id of the CDW Cluster which the Hive Virtual Warehouse is attached to.
 - `database_catalog_id` (String) The id of the Database Catalog which the Hive Virtual Warehouse is attached to.
+- `image_version` (String) The version of the Hive Virtual Warehouse image.
 - `name` (String) The name of the Hive Virtual Warehouse.
 
 ### Optional
 
+- `autoscaling` (Attributes) Autoscaling related configuration options that could specify various values that will be used during CDW resource creation. (see [below for nested schema](#nestedatt--autoscaling))
+- `aws_options` (Attributes) AWS related configuration options that could specify various values that will be used during CDW resource creation. (see [below for nested schema](#nestedatt--aws_options))
+- `enable_sso` (Boolean) Enable SSO for the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
+- `ldap_groups` (List of String) LDAP group names to be enabled for auth.
+- `node_count` (Number) Nodes per compute cluster. If specified, forces ‘template’ to be ‘custom’.
+- `platform_jwt_auth` (Boolean) Value of ‘true’ automatically configures the Virtual Warehouse to support JWTs issued by the CDP JWT token provider. Value of ‘false’ does not enable JWT auth on the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `query_isolation_options` (Attributes) Query isolation related configuration options. (see [below for nested schema](#nestedatt--query_isolation_options))
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
 - `last_updated` (String) Timestamp of the last Terraform update of the order.
 - `status` (String) The status of the database catalog.
+
+<a id="nestedatt--autoscaling"></a>
+### Nested Schema for `autoscaling`
+
+Required:
+
+- `auto_suspend_timeout_seconds` (Number) The time in seconds after which the compute group should be suspended.
+- `disable_auto_suspend` (Boolean) Boolean value that specifies if auto-suspend should be disabled.
+- `max_clusters` (Number) Maximum number of available compute groups.
+- `min_clusters` (Number) Minimum number of available compute groups.
+
+Optional:
+
+- `hive_desired_free_capacity` (Number) Set Desired free capacity. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.
+- `hive_scale_wait_time_seconds` (Number) Set wait time before a scale event happens. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.
+
+
+<a id="nestedatt--aws_options"></a>
+### Nested Schema for `aws_options`
+
+Optional:
+
+- `availability_zone` (String) This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets.
+- `ebs_llap_spill_gb` (Number) This feature works only for AWS cluster type. The size of the EBS volume in GB to be used for LLAP spill storage. If not specified, defaults to no extra spill disk.
+- `tags` (List of String) This feature works only for AWS cluster type. Tags to be applied to the underlying compute nodes.
+
 
 <a id="nestedatt--polling_options"></a>
 ### Nested Schema for `polling_options`
@@ -56,3 +90,14 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--query_isolation_options"></a>
+### Nested Schema for `query_isolation_options`
+
+Optional:
+
+- `max_nodes_per_query` (Number) Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
+- `max_queries` (Number) Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
+
+
