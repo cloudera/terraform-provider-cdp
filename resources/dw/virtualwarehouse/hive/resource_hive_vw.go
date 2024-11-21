@@ -51,7 +51,7 @@ func (r *hiveResource) Configure(_ context.Context, req resource.ConfigureReques
 }
 
 func (r *hiveResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_vw_hive"
+	resp.TypeName = req.ProviderTypeName + "_dw_vw_hive"
 }
 
 func (r *hiveResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {

@@ -64,9 +64,9 @@ func TestAccHive_basic(t *testing.T) {
 					cdpacctest.TestAccCdpProviderConfig(),
 					testAccHiveBasicConfig(params)),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("cdp_vw_hive.test_hive", "name", params.Name),
-					resource.TestCheckResourceAttr("cdp_vw_hive.test_hive", "cluster_id", params.ClusterID),
-					resource.TestCheckResourceAttr("cdp_vw_hive.test_hive", "database_catalog_id", params.DatabaseCatalogID),
+					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "name", params.Name),
+					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "cluster_id", params.ClusterID),
+					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "database_catalog_id", params.DatabaseCatalogID),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -76,7 +76,7 @@ func TestAccHive_basic(t *testing.T) {
 
 func testAccHiveBasicConfig(params hiveTestParameters) string {
 	return fmt.Sprintf(`
-		resource "cdp_vw_hive" "test_hive" {
+		resource "cdp_dw_vw_hive" "test_hive" {
 		  cluster_id = %[1]q
 		  database_catalog_id = %[2]q
 		  name = %[3]q
@@ -86,7 +86,7 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 
 func testCheckHiveDestroy(s *terraform.State) error {
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cdp_vw_hive" {
+		if rs.Type != "cdp_dw_vw_hive" {
 			continue
 		}
 

@@ -23,11 +23,11 @@ The AWS credential is used for authorization to provision resources such as comp
 # permissions and limitations governing your use of the file.
 
 resource "cdp_environments_aws_credential" "example" {
-  credential_name = "example-cdp-aws-credential"
-  role_arn        = "arn:aws:iam::11111111111:role/example-cross-account-role"
-  description     = "Example AWS Credentials"
+  credential_name           = "example-cdp-aws-credential"
+  role_arn                  = "arn:aws:iam::11111111111:role/example-cross-account-role"
+  description               = "Example AWS Credentials"
   skip_org_policy_decisions = false
-  verify_permissions = false
+  verify_permissions        = false
 }
 
 output "credential_name" {
