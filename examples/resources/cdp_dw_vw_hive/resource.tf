@@ -8,7 +8,7 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
-resource "cdp_vw_hive" "example" {
+resource "cdp_dw_vw_hive" "example" {
   cluster_id          = var.cluster_id
   database_catalog_id = var.database_catalog_id
   name                = var.name

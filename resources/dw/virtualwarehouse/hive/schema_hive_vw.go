@@ -20,6 +20,7 @@ import (
 )
 
 var hiveSchema = schema.Schema{
+	MarkdownDescription: "A Hive Virtual Warehouse is service which is able to run big SQL queries.",
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
 			Computed: true,

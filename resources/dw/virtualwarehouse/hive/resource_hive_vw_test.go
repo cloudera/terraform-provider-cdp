@@ -36,6 +36,7 @@ import (
 )
 
 var testHiveSchema = schema.Schema{
+	MarkdownDescription: "A Hive Virtual Warehouse is service which is able to run big SQL queries.",
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
 			Computed: true,
@@ -174,10 +175,10 @@ func (suite *HiveTestSuite) TestHiveMetadata() {
 	// Function under test
 	dwApi.Metadata(
 		context.TODO(),
-		resource.MetadataRequest{ProviderTypeName: "dw"},
+		resource.MetadataRequest{ProviderTypeName: "cdp"},
 		&resp,
 	)
-	suite.Equal("dw_vw_hive", resp.TypeName)
+	suite.Equal("cdp_dw_vw_hive", resp.TypeName)
 }
 
 func (suite *HiveTestSuite) TestHiveSchema() {

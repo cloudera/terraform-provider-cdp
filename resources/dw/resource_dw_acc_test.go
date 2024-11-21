@@ -279,7 +279,7 @@ func testAccDwCatalog() string {
 
 func testAccHiveVirtualWarehouse(name string) string {
 	return fmt.Sprintf(`
-		resource "cdp_vw_hive" "test_hive" {
+		resource "cdp_dw_vw_hive" "test_hive" {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
 			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
 			name = %[1]q
