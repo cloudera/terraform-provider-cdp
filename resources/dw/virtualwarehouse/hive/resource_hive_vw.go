@@ -69,12 +69,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 
 	// Generate API request body from plan
 	vw := operations.NewCreateVwParamsWithContext(ctx).
-		WithInput(&models.CreateVwRequest{
-			Name:      plan.Name.ValueStringPointer(),
-			ClusterID: plan.ClusterID.ValueStringPointer(),
-			DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
-			VwType:    models.VwTypeHive.Pointer(),
-		})
+		WithInput(plan.convertToCreateVwRequest())
 
 	// Create new virtual warehouse
 	response, err := r.client.Dw.Operations.CreateVw(vw)

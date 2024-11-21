@@ -13,19 +13,135 @@ package hive
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
+type autoscaling struct {
+	MinClusters               types.Int64 `tfsdk:"min_clusters"`
+	MaxClusters               types.Int64 `tfsdk:"max_clusters"`
+	DisableAutoSuspend        types.Bool  `tfsdk:"disable_auto_suspend"`
+	AutoSuspendTimeoutSeconds types.Int64 `tfsdk:"auto_suspend_timeout_seconds"`
+	HiveScaleWaitTimeSeconds  types.Int64 `tfsdk:"hive_scale_wait_time_seconds"`
+	HiveDesiredFreeCapacity   types.Int64 `tfsdk:"hive_desired_free_capacity"`
+}
+
+type awsOptions struct {
+	AvailabilityZone types.String    `tfsdk:"availability_zone"`
+	EbsLLAPSpillGb   types.Int64     `tfsdk:"ebs_llap_spill_gb"`
+	Tags             *[]resourceTags `tfsdk:"tags"`
+}
+
+type queryIsolationOptions struct {
+	MaxQueries       types.Int64 `tfsdk:"max_queries"`
+	MaxNodesPerQuery types.Int64 `tfsdk:"max_nodes_per_query"`
+}
+
+type resourceTags struct {
+	Key   types.String `tfsdk:"key"`
+	Value types.String `tfsdk:"value"`
+}
+
 type resourceModel struct {
-	ID                types.String          `tfsdk:"id"`
-	ClusterID         types.String          `tfsdk:"cluster_id"`
-	DatabaseCatalogID types.String          `tfsdk:"database_catalog_id"`
-	Name              types.String          `tfsdk:"name"`
-	LastUpdated       types.String          `tfsdk:"last_updated"`
-	Status            types.String          `tfsdk:"status"`
-	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
+	ID                    types.String           `tfsdk:"id"`
+	ClusterID             types.String           `tfsdk:"cluster_id"`
+	DatabaseCatalogID     types.String           `tfsdk:"database_catalog_id"`
+	Name                  types.String           `tfsdk:"name"`
+	ImageVersion          types.String           `tfsdk:"image_version"`
+	NodeCount             types.Int64            `tfsdk:"node_count"`
+	PlatformJwtAuth       types.Bool             `tfsdk:"platform_jwt_auth"`
+	LdapGroups            types.List             `tfsdk:"ldap_groups"`
+	EnableSSO             types.Bool             `tfsdk:"enable_sso"`
+	Autoscaling           *autoscaling           `tfsdk:"autoscaling"`
+	AwsOptions            *awsOptions            `tfsdk:"aws_options"`
+	QueryIsolationOptions *queryIsolationOptions `tfsdk:"query_isolation_options"`
+	LastUpdated           types.String           `tfsdk:"last_updated"`
+	Status                types.String           `tfsdk:"status"`
+	PollingOptions        *utils.PollingOptions  `tfsdk:"polling_options"`
 }
 
 func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
 	return p.PollingOptions
+}
+
+func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
+	return &models.CreateVwRequest{
+		ClusterID:             p.ClusterID.ValueStringPointer(),
+		DbcID:                 p.DatabaseCatalogID.ValueStringPointer(),
+		EbsLLAPSpillGB:        p.getEbsLLAPSpillGB(),
+		HiveServerHaMode:      nil, // Private Cloud only option
+		ImageVersion:          p.ImageVersion.String(),
+		Name:                  p.Name.ValueStringPointer(),
+		NodeCount:             utils.Int64To32(p.NodeCount),
+		PlatformJwtAuth:       p.PlatformJwtAuth.ValueBoolPointer(),
+		QueryIsolationOptions: p.getQueryIsolationOptions(),
+		Autoscaling:           p.getAutoscaling(),
+		AvailabilityZone:      p.getAvailabilityZone(),
+		Tags:                  p.getTags(),
+		Config:                p.getServiceConfig(),
+	}
+}
+
+func (p *resourceModel) getServiceConfig() *models.ServiceConfigReq {
+	return &models.ServiceConfigReq{
+		ApplicationConfigs: nil,
+		CommonConfigs:      nil,
+		EnableSSO:          p.EnableSSO.ValueBool(),
+		LdapGroups:         utils.FromListValueToStringList(p.LdapGroups),
+	}
+}
+
+func (p *resourceModel) getTags() []*models.TagRequest {
+	if p.AwsOptions.Tags == nil {
+		return nil
+	}
+	tags := make([]*models.TagRequest, len(*p.AwsOptions.Tags))
+	for _, tag := range *p.AwsOptions.Tags {
+		if tag.Key.IsNull() || tag.Value.IsNull() {
+			continue
+		}
+		tags = append(tags, &models.TagRequest{
+			Key:   tag.Key.ValueStringPointer(),
+			Value: tag.Value.ValueStringPointer(),
+		})
+	}
+	return tags
+}
+
+func (p *resourceModel) getQueryIsolationOptions() *models.QueryIsolationOptionsRequest {
+	if p.QueryIsolationOptions == nil {
+		return nil
+	}
+	return &models.QueryIsolationOptionsRequest{
+		MaxQueries:       utils.Int64To32(p.QueryIsolationOptions.MaxQueries),
+		MaxNodesPerQuery: utils.Int64To32(p.QueryIsolationOptions.MaxNodesPerQuery),
+	}
+}
+
+func (p *resourceModel) getAvailabilityZone() string {
+	if p.AwsOptions == nil {
+		return ""
+	}
+	return p.AwsOptions.AvailabilityZone.ValueString()
+}
+
+func (p *resourceModel) getEbsLLAPSpillGB() int32 {
+	if p.AwsOptions == nil {
+		return 0
+	}
+	return utils.Int64To32(p.AwsOptions.EbsLLAPSpillGb)
+}
+
+func (p *resourceModel) getAutoscaling() *models.AutoscalingOptionsCreateRequest {
+	if p.Autoscaling == nil {
+		return nil
+	}
+	return &models.AutoscalingOptionsCreateRequest{
+		MinClusters:               utils.Int64To32Pointer(p.Autoscaling.MinClusters),
+		MaxClusters:               utils.Int64To32Pointer(p.Autoscaling.MaxClusters),
+		DisableAutoSuspend:        p.Autoscaling.DisableAutoSuspend.ValueBool(),
+		AutoSuspendTimeoutSeconds: utils.Int64To32(p.Autoscaling.AutoSuspendTimeoutSeconds),
+		HiveScaleWaitTimeSeconds:  utils.Int64To32(p.Autoscaling.HiveScaleWaitTimeSeconds),
+		HiveDesiredFreeCapacity:   utils.Int64To32(p.Autoscaling.HiveDesiredFreeCapacity),
+	}
 }
