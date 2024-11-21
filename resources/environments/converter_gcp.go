@@ -34,12 +34,11 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 			SharedProjectID: model.ExistingNetworkParams.SharedProjectId.ValueString(),
 			SubnetNames:     utils.FromListValueToStringList(model.ExistingNetworkParams.SubnetNames),
 		},
-		ProxyConfigName:      model.ProxyConfigName.ValueString(),
-		PublicKey:            model.PublicKey.ValueStringPointer(),
-		Region:               model.Region.ValueStringPointer(),
-		ReportDeploymentLogs: model.ReportDeploymentLogs.ValueBool(),
-		UsePublicIP:          model.UsePublicIp.ValueBoolPointer(),
-		WorkloadAnalytics:    model.WorkloadAnalytics.ValueBool(),
+		ProxyConfigName:   model.ProxyConfigName.ValueString(),
+		PublicKey:         model.PublicKey.ValueStringPointer(),
+		Region:            model.Region.ValueStringPointer(),
+		UsePublicIP:       model.UsePublicIp.ValueBoolPointer(),
+		WorkloadAnalytics: model.WorkloadAnalytics.ValueBool(),
 	}
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
 		trans, _ := FreeIpaModelToRequest(&model.FreeIpa, ctx)
@@ -127,7 +126,6 @@ func toGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 		model.ProxyConfigName = types.StringPointerValue(env.ProxyConfig.ProxyConfigName)
 	}
 	model.Region = types.StringPointerValue(env.Region)
-	model.ReportDeploymentLogs = types.BoolValue(env.ReportDeploymentLogs)
 	tflog.Info(ctx, "about to convert security access.")
 	if env.SecurityAccess != nil && len(env.SecurityAccess.SecurityGroupIDForKnox) > 0 && len(env.SecurityAccess.DefaultSecurityGroupID) > 0 {
 		model.SecurityAccess = &GcpSecurityAccess{

@@ -202,8 +202,10 @@ var AzureEnvironmentSchema = schema.Schema{
 			Required: true,
 		},
 		"report_deployment_logs": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
+			// report_deployment_logs is a deprecated field and should not be used
+			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
@@ -351,7 +353,6 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.ProxyConfigName = model.ProxyConfigName.ValueString()
 	req.PublicKey = model.PublicKey.ValueStringPointer()
 	req.Region = model.Region.ValueStringPointer()
-	req.ReportDeploymentLogs = model.ReportDeploymentLogs.ValueBool()
 	req.ResourceGroupName = model.ResourceGroupName.ValueString()
 	req.SecurityAccess = &environmentsmodels.SecurityAccessRequest{
 		Cidr:                    model.SecurityAccess.Cidr.ValueString(),

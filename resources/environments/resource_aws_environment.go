@@ -132,8 +132,7 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	}
 }
 
-func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-
+func (r *awsEnvironmentResource) Update(_ context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
 }
 
 func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -210,7 +209,6 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 		model.ProxyConfigName = types.StringPointerValue(env.ProxyConfig.ProxyConfigName)
 	}
 	model.Region = types.StringPointerValue(env.Region)
-	model.ReportDeploymentLogs = types.BoolValue(env.ReportDeploymentLogs)
 	if env.SecurityAccess != nil {
 		var dsgIDs types.Set
 		if model.SecurityAccess != nil && !model.SecurityAccess.DefaultSecurityGroupIDs.IsUnknown() {

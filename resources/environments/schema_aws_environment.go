@@ -171,8 +171,10 @@ var AwsEnvironmentSchema = schema.Schema{
 			Required: true,
 		},
 		"report_deployment_logs": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
+			// report_deployment_logs is a deprecated field and should not be used
+			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
@@ -314,7 +316,6 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	}
 	res.ProxyConfigName = model.ProxyConfigName.ValueString()
 	res.Region = model.Region.ValueStringPointer()
-	res.ReportDeploymentLogs = model.ReportDeploymentLogs.ValueBool()
 	res.S3GuardTableName = model.S3GuardTableName.ValueString()
 	res.SecurityAccess = &environmentsmodels.SecurityAccessRequest{
 		Cidr:                    model.SecurityAccess.Cidr.ValueString(),
