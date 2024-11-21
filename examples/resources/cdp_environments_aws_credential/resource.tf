@@ -12,6 +12,8 @@ resource "cdp_environments_aws_credential" "example" {
   credential_name = "example-cdp-aws-credential"
   role_arn        = "arn:aws:iam::11111111111:role/example-cross-account-role"
   description     = "Example AWS Credentials"
+  skip_org_policy_decisions = false
+  verify_permissions = false
 }
 
 output "credential_name" {
@@ -24,4 +26,12 @@ output "role_arn" {
 
 output "crn" {
   value = cdp_environments_aws_credential.example.crn
+}
+
+output "skip_org_policy_decisions" {
+  value = cdp_environments_aws_credential.example.skip_org_policy_decisions
+}
+
+output "verify_permissions" {
+  value = cdp_environments_aws_credential.example.verify_permissions
 }
