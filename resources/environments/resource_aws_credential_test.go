@@ -50,6 +50,8 @@ func TestAccAwsCredential_basic(t *testing.T) {
 					resource.TestCheckResourceAttrWith(resourceName, "crn", cdpacctest.CheckCrn),
 					testAccCheckAwsCredentialExists(resourceName, &credential),
 					testAccCheckAwsCredentialValues(&credential, rName, ""),
+					resource.TestCheckResourceAttr(resourceName, "skip_org_policy_decisions", "false"),
+					resource.TestCheckResourceAttr(resourceName, "verify_permissions", "false"),
 					resource.TestCheckResourceAttrWith(resourceName, "role_arn", func(value string) error {
 						return utils.CheckStringEquals("AwsCredentialProperties.RoleArn", credential.AwsCredentialProperties.RoleArn, value)
 					}),
@@ -57,9 +59,10 @@ func TestAccAwsCredential_basic(t *testing.T) {
 			},
 			// ImportState testing
 			{
-				ResourceName:      resourceName,
-				ImportState:       true,
-				ImportStateVerify: true,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ResourceName:            resourceName,
+				ImportStateVerifyIgnore: []string{"skip_org_policy_decisions", "verify_permissions"}, // this ignore has to be taken out once the CB-27933 got finished
 			},
 			// Delete testing automatically occurs in TestCase
 		},
@@ -91,6 +94,8 @@ func TestAccAwsCredential_withDescription(t *testing.T) {
 					resource.TestCheckResourceAttrWith(resourceName, "crn", cdpacctest.CheckCrn),
 					testAccCheckAwsCredentialExists(resourceName, &credential),
 					testAccCheckAwsCredentialValues(&credential, rName, rName),
+					resource.TestCheckResourceAttr(resourceName, "skip_org_policy_decisions", "false"),
+					resource.TestCheckResourceAttr(resourceName, "verify_permissions", "false"),
 					resource.TestCheckResourceAttrWith(resourceName, "role_arn", func(value string) error {
 						return utils.CheckStringEquals("AwsCredentialProperties.RoleArn", credential.AwsCredentialProperties.RoleArn, value)
 					}),
@@ -98,9 +103,10 @@ func TestAccAwsCredential_withDescription(t *testing.T) {
 			},
 			// ImportState testing
 			{
-				ResourceName:      resourceName,
-				ImportState:       true,
-				ImportStateVerify: true,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ResourceName:            resourceName,
+				ImportStateVerifyIgnore: []string{"skip_org_policy_decisions", "verify_permissions"}, // this ignore has to be taken out once the CB-27933 got finished
 			},
 			// Delete testing automatically occurs in TestCase
 		},
