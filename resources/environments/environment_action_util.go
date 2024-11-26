@@ -20,6 +20,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -102,6 +103,34 @@ func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *c
 			return nil, err
 		}
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
+		return nil, err
+	}
+	return descEnvResp.GetPayload().Environment, nil
+}
+
+func waitForStartEnvironmentWithDiagnosticHandle(ctx context.Context, client *environmentsclient.Environments, id string, envName string, resp *resource.UpdateResponse, options *utils.PollingOptions,
+	stateSaverCb func(*environmentsmodels.Environment)) (*environmentsmodels.Environment, error) {
+	if err := waitForEnvironmentToBeAvailable(id, timeoutOneHour, callFailureThreshold, client, ctx, options, stateSaverCb); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "starting Environment failed")
+		return nil, err
+	}
+
+	environmentName := envName
+	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
+		EnvironmentName: &environmentName,
+	})
+	descEnvResp, err := client.Operations.DescribeEnvironment(descParams)
+	if err != nil {
+		if isEnvNotFoundError(err) {
+			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")
+			tflog.Warn(ctx, "Environment not found, removing from state", map[string]interface{}{
+				"id": id,
+			})
+			resp.State.RemoveResource(ctx)
+			return nil, err
+		}
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "starting Environment failed")
 		return nil, err
 	}
 	return descEnvResp.GetPayload().Environment, nil

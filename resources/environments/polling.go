@@ -113,7 +113,12 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 			"ENVIRONMENT_RESOURCE_ENCRYPTION_INITIALIZATION_IN_PROGRESS",
 			"ENVIRONMENT_VALIDATION_IN_PROGRESS",
 			"ENVIRONMENT_INITIALIZATION_IN_PROGRESS",
-			"FREEIPA_CREATION_IN_PROGRESS"},
+			"FREEIPA_CREATION_IN_PROGRESS",
+			"START_DATALAKE_STARTED",
+			"START_DATAHUB_STARTED",
+			"START_SYNCHRONIZE_USERS_STARTED",
+			"START_FREEIPA_STARTED",
+			"ENV_STOPPED"},
 		Target:       []string{"AVAILABLE"},
 		Delay:        5 * time.Second,
 		Timeout:      *timeout,
@@ -142,6 +147,56 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 			}
 			callFailedCount = 0
 			stateSaverCb(resp.Payload.Environment)
+			tflog.Info(ctx, fmt.Sprintf("Described environment's status: %s", *resp.GetPayload().Environment.Status))
+			return checkResponseStatusForError(resp)
+		},
+	}
+	_, err = stateConf.WaitForStateContext(ctx)
+
+	return err
+}
+
+func waitForEnvironmentToBeStopped(environmentName string, fallbackTimeout time.Duration, callFailureThresholdDefault int, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions) error {
+	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, fallbackTimeout)
+	if err != nil {
+		return err
+	}
+	callFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, pollingOptions, callFailureThresholdDefault)
+	if failureThresholdError != nil {
+		return failureThresholdError
+	}
+	callFailedCount := 0
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			"STOP_DATAHUB_STARTED",
+			"STOP_DATALAKE_STARTED",
+			"STOP_FREEIPA_STARTED",
+			"VERTICAL_SCALE_ON_FREEIPA_IN_PROGRESS",
+		},
+		Target:       []string{"ENV_STOPPED"},
+		Delay:        5 * time.Second,
+		Timeout:      *timeout,
+		PollInterval: 10 * time.Second,
+		Refresh: func() (interface{}, string, error) {
+			tflog.Debug(ctx, fmt.Sprintf("About to describe environment %s", environmentName))
+			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
+			resp, err := client.Operations.DescribeEnvironment(params)
+			if err != nil {
+				if isEnvNotFoundError(err) {
+					tflog.Debug(ctx, fmt.Sprintf("Recoverable error describing environment: %s", err))
+					callFailedCount = 0
+					return nil, "", nil
+				}
+				callFailedCount++
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing environment with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					return nil, "", nil
+				}
+				tflog.Error(ctx, fmt.Sprintf("Error describing environment (due to: %s) and call failure threshold limit exceeded.", err))
+				return nil, "", err
+			}
+			callFailedCount = 0
 			tflog.Info(ctx, fmt.Sprintf("Described environment's status: %s", *resp.GetPayload().Environment.Status))
 			return checkResponseStatusForError(resp)
 		},
