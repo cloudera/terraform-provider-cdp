@@ -21,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -137,7 +138,7 @@ func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.Update
 	var plan awsEnvironmentResourceModel
 	var state awsEnvironmentResourceModel
 	planDiags := req.Plan.Get(ctx, &plan)
-	stateDiags := req.State.Get(ctx, &state)
+	var stateDiags = req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(planDiags...)
 	resp.Diagnostics.Append(stateDiags...)
 	if resp.Diagnostics.HasError() {
@@ -145,97 +146,12 @@ func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
-	if plan.CredentialName.ValueString() != state.CredentialName.ValueString() {
-		params := operations.NewChangeEnvironmentCredentialParamsWithContext(ctx)
-		params.WithInput(&environmentsmodels.ChangeEnvironmentCredentialRequest{
-			CredentialName:  plan.CredentialName.ValueStringPointer(),
-			EnvironmentName: state.EnvironmentName.ValueStringPointer(),
-		})
-		_, err := r.client.Environments.Operations.ChangeEnvironmentCredential(params)
-		if err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "change AWS Environment credential")
-			return
-		}
-		stateDiags = resp.State.Set(ctx, state)
-		resp.Diagnostics.Append(stateDiags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-	}
+	updateEnvironment(ctx, &plan, &state, r.client.Environments, resp)
+	updateFreeIpa(ctx, &plan, &state, r.client.Environments, resp)
 
-	if state.EncryptionKeyArn != plan.EncryptionKeyArn {
-		if err := updateAwsDiskEncryptionParameters(ctx, r.client.Environments, plan); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update disk encryption parameters")
-			return
-		}
-		state.EncryptionKeyArn = plan.EncryptionKeyArn
-		stateDiags = resp.State.Set(ctx, state)
-		resp.Diagnostics.Append(stateDiags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-	}
-	if plan.Authentication != nil && !reflect.DeepEqual(plan.Authentication, state.Authentication) {
-		if err := updateSshKey(ctx, r.client.Environments, plan.Authentication, plan.EnvironmentName.ValueStringPointer()); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update SSH key")
-			return
-		}
-		state.Authentication = plan.Authentication
-		stateDiags = resp.State.Set(ctx, state)
-		resp.Diagnostics.Append(stateDiags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-	}
-	if !reflect.DeepEqual(utils.FromSetValueToStringList(plan.SubnetIds), utils.FromSetValueToStringList(state.SubnetIds)) ||
-		!reflect.DeepEqual(plan.EndpointAccessGatewaySubnetIds, state.EndpointAccessGatewaySubnetIds) {
-		if err := updateSubnet(ctx, r.client.Environments, plan); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
-			return
-		}
-		state.SubnetIds = plan.SubnetIds
-		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
-		stateDiags = resp.State.Set(ctx, state)
-		resp.Diagnostics.Append(stateDiags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-	}
-	if plan.SecurityAccess != nil && !reflect.DeepEqual(plan.SecurityAccess, state.SecurityAccess) {
-		if err := updateSecurityAccess(ctx, r.client.Environments, plan); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update security access")
-			return
-		}
-		state.SecurityAccess = plan.SecurityAccess
-		stateDiags = resp.State.Set(ctx, state)
-		resp.Diagnostics.Append(stateDiags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-	}
-	if !plan.Tags.IsNull() && !reflect.DeepEqual(plan.Tags, state.Tags) {
-		if err := updateTags(ctx, r.client.Environments, plan); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update tags")
-			return
-		}
-		state.Tags = plan.Tags
-		stateDiags = resp.State.Set(ctx, state)
-		resp.Diagnostics.Append(stateDiags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-	}
-	if plan.ProxyConfigName != state.ProxyConfigName {
-		if err := updateProxyConfig(ctx, r.client.Environments, plan); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update proxy config")
-			return
-		}
-		state.ProxyConfigName = plan.ProxyConfigName
-		stateDiags = resp.State.Set(ctx, state)
-		resp.Diagnostics.Append(stateDiags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
+	stateDiags = resp.State.Set(ctx, state)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 	resp.State.Set(ctx, state)
 }
@@ -343,4 +259,100 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.TunnelType = types.StringValue(string(env.TunnelType))
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
+}
+
+func updateEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.CredentialName.ValueString() != state.CredentialName.ValueString() {
+		params := operations.NewChangeEnvironmentCredentialParamsWithContext(ctx)
+		params.WithInput(&environmentsmodels.ChangeEnvironmentCredentialRequest{
+			CredentialName:  plan.CredentialName.ValueStringPointer(),
+			EnvironmentName: state.EnvironmentName.ValueStringPointer(),
+		})
+		_, err := client.Operations.ChangeEnvironmentCredential(params)
+		if err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "change AWS Environment credential")
+			return resp
+		}
+	}
+
+	if state.EncryptionKeyArn != plan.EncryptionKeyArn {
+		if err := updateAwsDiskEncryptionParameters(ctx, client, *plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update disk encryption parameters")
+			return resp
+		}
+		state.EncryptionKeyArn = plan.EncryptionKeyArn
+	}
+
+	if plan.Authentication != nil && !reflect.DeepEqual(plan.Authentication, state.Authentication) {
+		if err := updateSshKey(ctx, client, plan.Authentication, plan.EnvironmentName.ValueStringPointer()); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update SSH key")
+			return resp
+		}
+		state.Authentication = plan.Authentication
+	}
+
+	if !reflect.DeepEqual(utils.FromSetValueToStringList(plan.SubnetIds), utils.FromSetValueToStringList(state.SubnetIds)) ||
+		!reflect.DeepEqual(plan.EndpointAccessGatewaySubnetIds, state.EndpointAccessGatewaySubnetIds) {
+		if err := updateSubnet(ctx, client, *plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
+			return resp
+		}
+		state.SubnetIds = plan.SubnetIds
+		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
+	}
+
+	if plan.SecurityAccess != nil && !reflect.DeepEqual(plan.SecurityAccess, state.SecurityAccess) {
+		if err := updateSecurityAccess(ctx, client, *plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update security access")
+			return resp
+		}
+		state.SecurityAccess = plan.SecurityAccess
+	}
+
+	if !plan.Tags.IsNull() && !reflect.DeepEqual(plan.Tags, state.Tags) {
+		if err := updateTags(ctx, client, *plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update tags")
+			return resp
+		}
+		state.Tags = plan.Tags
+	}
+
+	if plan.ProxyConfigName != state.ProxyConfigName {
+		if err := updateProxyConfig(ctx, client, *plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update proxy config")
+			return resp
+		}
+		state.ProxyConfigName = plan.ProxyConfigName
+	}
+	return resp
+}
+
+func startEnvironment(ctx context.Context, state *awsEnvironmentResourceModel, resp *resource.UpdateResponse, client *environmentsclient.Environments) error {
+	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
+		stateSaver := func(env *environmentsmodels.Environment) {
+			toAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, describeLogPrefix), state, state.PollingOptions, &resp.Diagnostics)
+		}
+		_, err := waitForStartEnvironmentWithDiagnosticHandle(ctx, client, state.ID.ValueString(), state.EnvironmentName.ValueString(), resp, state.PollingOptions, stateSaver)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func stopAndWaitForEnvironment(ctx context.Context, environment string, pollingOptions *utils.PollingOptions, resp *resource.UpdateResponse, client *environmentsclient.Environments) error {
+	params := operations.NewStopEnvironmentParamsWithContext(ctx)
+	params.WithInput(&environmentsmodels.StopEnvironmentRequest{
+		EnvironmentName: &environment,
+	})
+	_, err := client.Operations.StopEnvironment(params)
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "stop Environment")
+		return err
+	}
+	if err := waitForEnvironmentToBeStopped(environment, timeoutOneHour, callFailureThreshold, client, ctx, pollingOptions); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
+		return err
+	}
+	return nil
 }
