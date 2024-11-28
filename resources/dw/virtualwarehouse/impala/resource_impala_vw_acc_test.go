@@ -64,9 +64,9 @@ func TestAccImpala_basic(t *testing.T) {
 					cdpacctest.TestAccCdpProviderConfig(),
 					testAccImpalaBasicConfig(params)),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("cdp_vw_impala.test_impala", "name", params.Name),
-					resource.TestCheckResourceAttr("cdp_vw_impala.test_impala", "cluster_id", params.ClusterID),
-					resource.TestCheckResourceAttr("cdp_vw_impala.test_impala", "database_catalog_id", params.DatabaseCatalogID),
+					resource.TestCheckResourceAttr("cdp_dw_vw_impala.test_impala", "name", params.Name),
+					resource.TestCheckResourceAttr("cdp_dw_vw_impala.test_impala", "cluster_id", params.ClusterID),
+					resource.TestCheckResourceAttr("cdp_dw_vw_impala.test_impala", "database_catalog_id", params.DatabaseCatalogID),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -76,7 +76,7 @@ func TestAccImpala_basic(t *testing.T) {
 
 func testAccImpalaBasicConfig(params impalaTestParameters) string {
 	return fmt.Sprintf(`
-		resource "cdp_vw_impala" "test_impala" {
+		resource "cdp_dw_vw_impala" "test_impala" {
 		  cluster_id = %[1]q
 		  database_catalog_id = %[2]q
 		  name = %[3]q
@@ -86,7 +86,7 @@ func testAccImpalaBasicConfig(params impalaTestParameters) string {
 
 func testCheckImpalaDestroy(s *terraform.State) error {
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cdp_vw_impala" {
+		if rs.Type != "cdp_dw_vw_impala" {
 			continue
 		}
 

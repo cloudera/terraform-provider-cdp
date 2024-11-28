@@ -1,6 +1,6 @@
 ---
 page_title: "cdp_dw_aws_cluster Resource - terraform-provider-cdp"
-subcategory: ""
+subcategory: "Data Warehouse"
 description: |-
   Creates an AWS Data Warehouse cluster.
 ---

@@ -45,7 +45,7 @@ func (r *impalaResource) Configure(_ context.Context, req resource.ConfigureRequ
 }
 
 func (r *impalaResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_vw_impala"
+	resp.TypeName = req.ProviderTypeName + "_dw_vw_impala"
 }
 
 func (r *impalaResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
