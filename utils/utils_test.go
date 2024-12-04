@@ -330,3 +330,19 @@ func TestGetCallFailureThreshold(t *testing.T) {
 		})
 	}
 }
+
+func TestFromTfStringSliceToStringSliceIfEmpty(t *testing.T) {
+	assert.Equal(t, 0, len(FromTfStringSliceToStringSlice([]types.String{})))
+}
+
+func TestFromTfStringSliceToStringSliceIfNotEmpty(t *testing.T) {
+	val := "someValue"
+	input := []types.String{
+		types.StringValue(val),
+	}
+
+	result := FromTfStringSliceToStringSlice(input)
+
+	assert.Equal(t, len(input), len(result))
+	assert.Equal(t, val, result[0])
+}

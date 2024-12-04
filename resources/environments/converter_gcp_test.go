@@ -66,6 +66,15 @@ func TestToGcpEnvironmentRequestSecurityAccess(t *testing.T) {
 	assert.Equal(t, testObject.SecurityAccess.SecurityGroupIdForKnox.ValueString(), result.SecurityAccess.SecurityGroupIDForKnox)
 }
 
+func TestToGcpEnvironmentRequestAvailabilityZones(t *testing.T) {
+	testObject := createFilledGcpEnvironmentResourceModel()
+
+	result := toGcpEnvironmentRequest(context.TODO(), testObject)
+
+	assert.NotNilf(t, result.AvailabilityZones, "If AvailabilityZones is specified, it is expected to be not nil")
+	assert.Equal(t, 1, len(testObject.AvailabilityZones))
+}
+
 func TestToGcpEnvironmentRequestLogStorage(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
