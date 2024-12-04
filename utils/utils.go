@@ -102,6 +102,14 @@ func FromListValueToStringList(tl types.List) []string {
 	return res
 }
 
+func FromTfStringSliceToStringSlice(tss []types.String) []string {
+	result := make([]string, 0)
+	for _, az := range tss {
+		result = append(result, az.ValueString())
+	}
+	return result
+}
+
 func FromSetValueToStringList(tl types.Set) []string {
 	if tl.IsNull() {
 		return []string{}

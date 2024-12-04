@@ -39,6 +39,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 		Region:            model.Region.ValueStringPointer(),
 		UsePublicIP:       model.UsePublicIp.ValueBoolPointer(),
 		WorkloadAnalytics: model.WorkloadAnalytics.ValueBool(),
+		AvailabilityZones: utils.FromTfStringSliceToStringSlice(model.AvailabilityZones),
 	}
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
 		trans, _ := FreeIpaModelToRequest(&model.FreeIpa, ctx)
