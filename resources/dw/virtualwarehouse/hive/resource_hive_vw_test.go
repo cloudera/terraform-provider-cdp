@@ -24,6 +24,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
@@ -61,6 +62,122 @@ var testHiveSchema = schema.Schema{
 		"name": schema.StringAttribute{
 			Required:            true,
 			MarkdownDescription: "The name of the Hive Virtual Warehouse.",
+		},
+		"image_version": schema.StringAttribute{
+			Optional:            true,
+			Computed:            true,
+			MarkdownDescription: "The version of the Hive Virtual Warehouse image.",
+		},
+		"node_count": schema.Int64Attribute{
+			Optional:            true,
+			MarkdownDescription: "Nodes per compute cluster. If specified, forces ‘template’ to be ‘custom’.",
+		},
+		"platform_jwt_auth": schema.BoolAttribute{
+			Optional:            true,
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+			MarkdownDescription: "Value of ‘true’ automatically configures the Virtual Warehouse to support JWTs issued by the CDP JWT token provider. Value of ‘false’ does not enable JWT auth on the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.",
+		},
+		"ldap_groups": schema.ListAttribute{
+			Optional:            true,
+			ElementType:         types.StringType,
+			MarkdownDescription: "LDAP group names to be enabled for auth.",
+		},
+		"enable_sso": schema.BoolAttribute{
+			Optional:            true,
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+			MarkdownDescription: "Enable SSO for the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.",
+		},
+		"compactor": schema.BoolAttribute{
+			Computed:            true,
+			MarkdownDescription: "Boolean value that describes if the Hive Virtual Warehouse is a compactor.",
+		},
+		"jdbc_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "JDBC URL for the Hive Virtual Warehouse.",
+		},
+		"kerberos_jdbc_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "Kerberos JDBC URL for the Hive Virtual Warehouse.",
+		},
+		"hue_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "Hue URL for the Hive Virtual Warehouse.",
+		},
+		"jwt_connection_string": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "Generic semi-colon delimited list of key-value pairs that contain all necessary information for clients to construct a connection to this Virtual Warehouse using JWTs as the authentication method.",
+		},
+		"jwt_token_gen_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "URL to generate JWT tokens for the Virtual Warehouse by the CDP JWT token provider. Available if platform JWT authentication is enabled.",
+		},
+		"autoscaling": schema.SingleNestedAttribute{
+			MarkdownDescription: "Autoscaling related configuration options that could specify various values that will be used during CDW resource creation.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"min_clusters": schema.Int64Attribute{
+					Required:            true,
+					MarkdownDescription: "Minimum number of available compute groups.",
+				},
+				"max_clusters": schema.Int64Attribute{
+					Required:            true,
+					MarkdownDescription: "Maximum number of available compute groups.",
+				},
+				"disable_auto_suspend": schema.BoolAttribute{
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
+					MarkdownDescription: "Boolean value that specifies if auto-suspend should be disabled.",
+				},
+				"auto_suspend_timeout_seconds": schema.Int64Attribute{
+					Optional:            true,
+					MarkdownDescription: "The time in seconds after which the compute group should be suspended.",
+				},
+				"hive_scale_wait_time_seconds": schema.Int64Attribute{
+					Optional:            true,
+					MarkdownDescription: "Set wait time before a scale event happens. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.",
+				},
+				"hive_desired_free_capacity": schema.Int64Attribute{
+					Optional:            true,
+					MarkdownDescription: "Set Desired free capacity. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.",
+				},
+			},
+		},
+		"aws_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "AWS related configuration options that could specify various values that will be used during CDW resource creation.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"availability_zone": schema.StringAttribute{
+					Optional:            true,
+					Computed:            true,
+					MarkdownDescription: "This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets.",
+				},
+				"ebs_llap_spill_gb": schema.Int64Attribute{
+					Optional:            true,
+					MarkdownDescription: "This feature works only for AWS cluster type. The size of the EBS volume in GB to be used for LLAP spill storage. If not specified, defaults to no extra spill disk.",
+				},
+				"tags": schema.MapAttribute{
+					Optional:            true,
+					ElementType:         types.StringType,
+					MarkdownDescription: "This feature works only for AWS cluster type. Tags to be applied to the underlying compute nodes.",
+				},
+			},
+		},
+		"query_isolation_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Query isolation related configuration options.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"max_queries": schema.Int64Attribute{
+					Optional:            true,
+					MarkdownDescription: "Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.",
+				},
+				"max_nodes_per_query": schema.Int64Attribute{
+					Optional:            true,
+					MarkdownDescription: "Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.",
+				},
+			},
 		},
 		"last_updated": schema.StringAttribute{
 			Computed:            true,
@@ -104,7 +221,7 @@ type MockTransport struct {
 	runtime.ClientTransport
 }
 
-func NewDwApi(client *mocks.MockDwClientService) *hiveResource {
+func newDwApi(client *mocks.MockDwClientService) *hiveResource {
 	return &hiveResource{
 		client: &cdp.Client{
 			Dw: &dwclient.Dw{
@@ -121,8 +238,44 @@ func createRawHiveResource() tftypes.Value {
 				"cluster_id":          tftypes.String,
 				"database_catalog_id": tftypes.String,
 				"name":                tftypes.String,
-				"last_updated":        tftypes.String,
-				"status":              tftypes.String,
+				"image_version":       tftypes.String,
+				"node_count":          tftypes.Number,
+				"platform_jwt_auth":   tftypes.Bool,
+				"ldap_groups": tftypes.List{
+					ElementType: tftypes.String,
+				},
+				"enable_sso":            tftypes.Bool,
+				"compactor":             tftypes.Bool,
+				"jdbc_url":              tftypes.String,
+				"kerberos_jdbc_url":     tftypes.String,
+				"hue_url":               tftypes.String,
+				"jwt_connection_string": tftypes.String,
+				"jwt_token_gen_url":     tftypes.String,
+				"autoscaling": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"min_clusters":                 tftypes.Number,
+						"max_clusters":                 tftypes.Number,
+						"disable_auto_suspend":         tftypes.Bool,
+						"auto_suspend_timeout_seconds": tftypes.Number,
+						"hive_scale_wait_time_seconds": tftypes.Number,
+						"hive_desired_free_capacity":   tftypes.Number,
+					},
+				},
+				"aws_options": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"availability_zone": tftypes.String,
+						"ebs_llap_spill_gb": tftypes.Number,
+						"tags":              tftypes.Map{ElementType: tftypes.String},
+					},
+				},
+				"query_isolation_options": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"max_queries":         tftypes.Number,
+						"max_nodes_per_query": tftypes.Number,
+					},
+				},
+				"last_updated": tftypes.String,
+				"status":       tftypes.String,
 				"polling_options": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"async":                  tftypes.Bool,
@@ -132,12 +285,63 @@ func createRawHiveResource() tftypes.Value {
 				},
 			}},
 		map[string]tftypes.Value{
-			"id":                  tftypes.NewValue(tftypes.String, ""),
-			"cluster_id":          tftypes.NewValue(tftypes.String, "cluster-id"),
-			"database_catalog_id": tftypes.NewValue(tftypes.String, "database-catalog-id"),
-			"name":                tftypes.NewValue(tftypes.String, ""),
-			"last_updated":        tftypes.NewValue(tftypes.String, ""),
-			"status":              tftypes.NewValue(tftypes.String, "Running"),
+			"id":                    tftypes.NewValue(tftypes.String, ""),
+			"cluster_id":            tftypes.NewValue(tftypes.String, "cluster-id"),
+			"database_catalog_id":   tftypes.NewValue(tftypes.String, "database-catalog-id"),
+			"name":                  tftypes.NewValue(tftypes.String, ""),
+			"image_version":         tftypes.NewValue(tftypes.String, ""),
+			"node_count":            tftypes.NewValue(tftypes.Number, 10),
+			"platform_jwt_auth":     tftypes.NewValue(tftypes.Bool, true),
+			"ldap_groups":           tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
+			"enable_sso":            tftypes.NewValue(tftypes.Bool, true),
+			"compactor":             tftypes.NewValue(tftypes.Bool, false),
+			"jdbc_url":              tftypes.NewValue(tftypes.String, ""),
+			"kerberos_jdbc_url":     tftypes.NewValue(tftypes.String, ""),
+			"hue_url":               tftypes.NewValue(tftypes.String, ""),
+			"jwt_connection_string": tftypes.NewValue(tftypes.String, ""),
+			"jwt_token_gen_url":     tftypes.NewValue(tftypes.String, ""),
+			"autoscaling": tftypes.NewValue(
+				tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"min_clusters":                 tftypes.Number,
+						"max_clusters":                 tftypes.Number,
+						"disable_auto_suspend":         tftypes.Bool,
+						"auto_suspend_timeout_seconds": tftypes.Number,
+						"hive_scale_wait_time_seconds": tftypes.Number,
+						"hive_desired_free_capacity":   tftypes.Number,
+					}}, map[string]tftypes.Value{
+					"min_clusters":                 tftypes.NewValue(tftypes.Number, 1),
+					"max_clusters":                 tftypes.NewValue(tftypes.Number, 10),
+					"disable_auto_suspend":         tftypes.NewValue(tftypes.Bool, false),
+					"auto_suspend_timeout_seconds": tftypes.NewValue(tftypes.Number, 60),
+					"hive_scale_wait_time_seconds": tftypes.NewValue(tftypes.Number, 60),
+					"hive_desired_free_capacity":   tftypes.NewValue(tftypes.Number, 10),
+				}),
+			"aws_options": tftypes.NewValue(
+				tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"availability_zone": tftypes.String,
+						"ebs_llap_spill_gb": tftypes.Number,
+						"tags":              tftypes.Map{ElementType: tftypes.String},
+					}}, map[string]tftypes.Value{
+					"availability_zone": tftypes.NewValue(tftypes.String, "us-west-2a"),
+					"ebs_llap_spill_gb": tftypes.NewValue(tftypes.Number, 300),
+					"tags": tftypes.NewValue(tftypes.Map{ElementType: tftypes.String}, map[string]tftypes.Value{
+						"key1":  tftypes.NewValue(tftypes.String, "value1"),
+						"owner": tftypes.NewValue(tftypes.String, "dw-terraform@cloudera.com"),
+					}),
+				}),
+			"query_isolation_options": tftypes.NewValue(
+				tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"max_queries":         tftypes.Number,
+						"max_nodes_per_query": tftypes.Number,
+					}}, map[string]tftypes.Value{
+					"max_queries":         tftypes.NewValue(tftypes.Number, 10),
+					"max_nodes_per_query": tftypes.NewValue(tftypes.Number, 10),
+				}),
+			"last_updated": tftypes.NewValue(tftypes.String, ""),
+			"status":       tftypes.NewValue(tftypes.String, "Running"),
 			"polling_options": tftypes.NewValue(
 				tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
@@ -169,7 +373,7 @@ func (suite *HiveTestSuite) SetupTest() {
 }
 
 func (suite *HiveTestSuite) TestHiveMetadata() {
-	dwApi := NewDwApi(new(mocks.MockDwClientService))
+	dwApi := newDwApi(new(mocks.MockDwClientService))
 	resp := resource.MetadataResponse{}
 
 	// Function under test
@@ -182,7 +386,7 @@ func (suite *HiveTestSuite) TestHiveMetadata() {
 }
 
 func (suite *HiveTestSuite) TestHiveSchema() {
-	dwApi := NewDwApi(new(mocks.MockDwClientService))
+	dwApi := newDwApi(new(mocks.MockDwClientService))
 	resp := resource.SchemaResponse{}
 
 	// Function under test
@@ -199,16 +403,24 @@ func (suite *HiveTestSuite) TestHiveCreate_Success() {
 	expectedDescribeResponse := &operations.DescribeVwOK{
 		Payload: &models.DescribeVwResponse{
 			Vw: &models.VwSummary{
-				ID:     "test-id",
-				DbcID:  "database-catalog-id",
-				Name:   "test-name",
-				VwType: models.VwTypeHive,
+				ID:        "test-id",
+				DbcID:     "database-catalog-id",
+				Name:      "test-name",
+				VwType:    models.VwTypeHive,
+				Compactor: true,
+				Endpoints: &models.VwSummaryEndpoints{
+					HiveJdbc:            "jdbc://hive",
+					HiveKerberosJdbc:    "jdbc://hive",
+					Hue:                 "https://hue",
+					JwtConnectionString: "connection-string",
+					JwtTokenGenURL:      "https://jwt",
+				},
 			}}}
 
 	client := new(mocks.MockDwClientService)
 	client.On("CreateVw", mock.Anything).Return(suite.expectedCreateResponse, nil)
 	client.On("DescribeVw", mock.Anything).Return(expectedDescribeResponse, nil)
-	dwApi := NewDwApi(client)
+	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
 		Plan: tfsdk.Plan{
@@ -239,7 +451,7 @@ func (suite *HiveTestSuite) TestHiveCreate_CreationError() {
 	client := new(mocks.MockDwClientService)
 	client.On("CreateVw", mock.Anything).Return(&operations.CreateVwOK{}, fmt.Errorf("create failed"))
 	client.On("DescribeVw", mock.Anything).Return(&operations.DescribeVwOK{}, nil)
-	dwApi := NewDwApi(client)
+	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
 		Plan: tfsdk.Plan{
@@ -268,7 +480,7 @@ func (suite *HiveTestSuite) TestHiveCreate_DescribeError() {
 	client := new(mocks.MockDwClientService)
 	client.On("CreateVw", mock.Anything).Return(suite.expectedCreateResponse, nil)
 	client.On("DescribeVw", mock.Anything).Return(&operations.DescribeVwOK{}, fmt.Errorf("describe failed"))
-	dwApi := NewDwApi(client)
+	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
 		Plan: tfsdk.Plan{
@@ -296,7 +508,7 @@ func (suite *HiveTestSuite) TestHiveDeletion_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
 	client.On("DeleteVw", mock.Anything).Return(&operations.DeleteVwOK{}, nil)
-	dwApi := NewDwApi(client)
+	dwApi := newDwApi(client)
 
 	req := resource.DeleteRequest{
 		State: tfsdk.State{
@@ -316,7 +528,7 @@ func (suite *HiveTestSuite) TestHiveDeletion_ReturnsError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
 	client.On("DeleteVw", mock.Anything).Return(&operations.DeleteVwOK{}, fmt.Errorf("delete failed"))
-	dwApi := NewDwApi(client)
+	dwApi := newDwApi(client)
 
 	req := resource.DeleteRequest{
 		State: tfsdk.State{
@@ -345,7 +557,7 @@ func (suite *HiveTestSuite) TestStateRefresh_Success() {
 			},
 		},
 		nil)
-	dwApi := NewDwApi(client)
+	dwApi := newDwApi(client)
 
 	clusterID := "cluster-id"
 	vwID := "hive-id"
@@ -364,7 +576,7 @@ func (suite *HiveTestSuite) TestStateRefresh_FailureThresholdReached() {
 	client := new(mocks.MockDwClientService)
 	client.On("DescribeVw", mock.Anything).Return(
 		&operations.DescribeVwOK{}, fmt.Errorf("unknown error"))
-	dwApi := NewDwApi(client)
+	dwApi := newDwApi(client)
 
 	clusterID := "cluster-id"
 	vwID := "hive-id"
