@@ -115,6 +115,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 
 	hive := describe.GetPayload()
+	// TODO move this to a converter or similar
 	plan.ID = types.StringValue(hive.Vw.ID)
 	plan.DatabaseCatalogID = types.StringValue(hive.Vw.DbcID)
 	plan.Name = types.StringValue(hive.Vw.Name)

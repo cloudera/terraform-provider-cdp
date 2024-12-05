@@ -93,6 +93,9 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 		  aws_options = {
 			availability_zone = "us-west-2a"
 			ebs_llap_spill_gb = 300
+			tags = {
+              owner = "cdw-terraform@cloudera.com"
+    	    }
 		  }
 		}
 	`, params.ClusterID, params.DatabaseCatalogID, params.Name)
