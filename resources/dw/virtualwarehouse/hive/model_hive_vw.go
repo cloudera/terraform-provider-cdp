@@ -12,6 +12,7 @@ package hive
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"strings"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -78,9 +79,9 @@ func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
 		QueryIsolationOptions: p.getQueryIsolationOptions(),
 		Autoscaling:           p.getAutoscaling(),
 		AvailabilityZone:      p.getAvailabilityZone(),
-		//Tags:                  p.getTags(),
-		Config: p.getServiceConfig(),
-		VwType: &vwType,
+		Tags:                  p.getTags(),
+		Config:                p.getServiceConfig(),
+		VwType:                &vwType,
 	}
 }
 
@@ -104,12 +105,12 @@ func (p *resourceModel) getTags() []*models.TagRequest {
 	if p.AwsOptions.Tags.IsNull() {
 		return nil
 	}
-	tags := make([]*models.TagRequest, len(p.AwsOptions.Tags.Elements()))
+	var tags []*models.TagRequest
 	for k, v := range p.AwsOptions.Tags.Elements() {
 		if v.IsNull() {
 			continue
 		}
-		value := v.String()
+		value := strings.TrimPrefix(strings.TrimSuffix(v.String(), "\""), "\"")
 		tags = append(tags, &models.TagRequest{
 			Key:   &k,
 			Value: &value,
