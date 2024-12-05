@@ -80,6 +80,20 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 		  cluster_id = %[1]q
 		  database_catalog_id = %[2]q
 		  name = %[3]q
+		  node_count = 2
+		  platform_jwt_auth = true
+		  enable_sso = true
+          autoscaling = {
+			min_clusters = 2
+			max_clusters = 5 // Min: 2, Max: 20. Both values must be a multiple of 2.
+			disable_auto_suspend = false
+			auto_suspend_timeout_seconds = 100
+			hive_scale_wait_time_seconds = 230
+		  }
+		  aws_options = {
+			availability_zone = "us-west-2a"
+			ebs_llap_spill_gb = 300
+		  }
 		}
 	`, params.ClusterID, params.DatabaseCatalogID, params.Name)
 }

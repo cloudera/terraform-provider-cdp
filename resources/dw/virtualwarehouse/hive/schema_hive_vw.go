@@ -48,7 +48,8 @@ var hiveSchema = schema.Schema{
 			MarkdownDescription: "The name of the Hive Virtual Warehouse.",
 		},
 		"image_version": schema.StringAttribute{
-			Required:            true,
+			Optional:            true,
+			Computed:            true,
 			MarkdownDescription: "The version of the Hive Virtual Warehouse image.",
 		},
 		"node_count": schema.Int64Attribute{
@@ -72,6 +73,30 @@ var hiveSchema = schema.Schema{
 			Default:             booldefault.StaticBool(false),
 			MarkdownDescription: "Enable SSO for the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.",
 		},
+		"compactor": schema.BoolAttribute{
+			Computed:            true,
+			MarkdownDescription: "Boolean value that describes if the Hive Virtual Warehouse is a compactor.",
+		},
+		"jdbc_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "JDBC URL for the Hive Virtual Warehouse.",
+		},
+		"kerberos_jdbc_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "Kerberos JDBC URL for the Hive Virtual Warehouse.",
+		},
+		"hue_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "Hue URL for the Hive Virtual Warehouse.",
+		},
+		"jwt_connection_string": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "Generic semi-colon delimited list of key-value pairs that contain all necessary information for clients to construct a connection to this Virtual Warehouse using JWTs as the authentication method.",
+		},
+		"jwt_token_gen_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "URL to generate JWT tokens for the Virtual Warehouse by the CDP JWT token provider. Available if platform JWT authentication is enabled.",
+		},
 		"autoscaling": schema.SingleNestedAttribute{
 			MarkdownDescription: "Autoscaling related configuration options that could specify various values that will be used during CDW resource creation.",
 			Optional:            true,
@@ -85,14 +110,16 @@ var hiveSchema = schema.Schema{
 					MarkdownDescription: "Maximum number of available compute groups.",
 				},
 				"disable_auto_suspend": schema.BoolAttribute{
-					Required:            true,
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
 					MarkdownDescription: "Boolean value that specifies if auto-suspend should be disabled.",
 				},
 				"auto_suspend_timeout_seconds": schema.Int64Attribute{
-					Required:            true,
+					Optional:            true,
 					MarkdownDescription: "The time in seconds after which the compute group should be suspended.",
 				},
-				"hive_scale_wait_time_seconds": schema.Int64Attribute{
+				"hive_scale_wait_time_seconds": schema.Int64Attribute{ // TODO add validation for the options set
 					Optional:            true,
 					MarkdownDescription: "Set wait time before a scale event happens. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.",
 				},
@@ -115,7 +142,7 @@ var hiveSchema = schema.Schema{
 					Optional:            true,
 					MarkdownDescription: "This feature works only for AWS cluster type. The size of the EBS volume in GB to be used for LLAP spill storage. If not specified, defaults to no extra spill disk.",
 				},
-				"tags": schema.ListAttribute{
+				"tags": schema.MapAttribute{
 					Optional:            true,
 					ElementType:         types.StringType,
 					MarkdownDescription: "This feature works only for AWS cluster type. Tags to be applied to the underlying compute nodes.",

@@ -27,19 +27,14 @@ type autoscaling struct {
 }
 
 type awsOptions struct {
-	AvailabilityZone types.String    `tfsdk:"availability_zone"`
-	EbsLLAPSpillGb   types.Int64     `tfsdk:"ebs_llap_spill_gb"`
-	Tags             *[]resourceTags `tfsdk:"tags"`
+	AvailabilityZone types.String `tfsdk:"availability_zone"`
+	EbsLLAPSpillGb   types.Int64  `tfsdk:"ebs_llap_spill_gb"`
+	Tags             types.Map    `tfsdk:"tags"`
 }
 
 type queryIsolationOptions struct {
 	MaxQueries       types.Int64 `tfsdk:"max_queries"`
 	MaxNodesPerQuery types.Int64 `tfsdk:"max_nodes_per_query"`
-}
-
-type resourceTags struct {
-	Key   types.String `tfsdk:"key"`
-	Value types.String `tfsdk:"value"`
 }
 
 type resourceModel struct {
@@ -52,6 +47,12 @@ type resourceModel struct {
 	PlatformJwtAuth       types.Bool             `tfsdk:"platform_jwt_auth"`
 	LdapGroups            types.List             `tfsdk:"ldap_groups"`
 	EnableSSO             types.Bool             `tfsdk:"enable_sso"`
+	Compactor             types.Bool             `tfsdk:"compactor"`
+	JdbcUrl               types.String           `tfsdk:"jdbc_url"`
+	KerberosJdbcUrl       types.String           `tfsdk:"kerberos_jdbc_url"`
+	HueUrl                types.String           `tfsdk:"hue_url"`
+	JwtConnectionString   types.String           `tfsdk:"jwt_connection_string"`
+	JwtTokenGenUrl        types.String           `tfsdk:"jwt_token_gen_url"`
 	Autoscaling           *autoscaling           `tfsdk:"autoscaling"`
 	AwsOptions            *awsOptions            `tfsdk:"aws_options"`
 	QueryIsolationOptions *queryIsolationOptions `tfsdk:"query_isolation_options"`
@@ -65,21 +66,29 @@ func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
 }
 
 func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
+	vwType := models.VwType("hive")
 	return &models.CreateVwRequest{
-		ClusterID:             p.ClusterID.ValueStringPointer(),
-		DbcID:                 p.DatabaseCatalogID.ValueStringPointer(),
-		EbsLLAPSpillGB:        p.getEbsLLAPSpillGB(),
-		HiveServerHaMode:      nil, // Private Cloud only option
-		ImageVersion:          p.ImageVersion.String(),
+		ClusterID:      p.ClusterID.ValueStringPointer(),
+		DbcID:          p.DatabaseCatalogID.ValueStringPointer(),
+		EbsLLAPSpillGB: p.getEbsLLAPSpillGB(),
+		//ImageVersion:          p.getImageVersion(),
 		Name:                  p.Name.ValueStringPointer(),
 		NodeCount:             utils.Int64To32(p.NodeCount),
 		PlatformJwtAuth:       p.PlatformJwtAuth.ValueBoolPointer(),
 		QueryIsolationOptions: p.getQueryIsolationOptions(),
 		Autoscaling:           p.getAutoscaling(),
 		AvailabilityZone:      p.getAvailabilityZone(),
-		Tags:                  p.getTags(),
-		Config:                p.getServiceConfig(),
+		//Tags:                  p.getTags(),
+		Config: p.getServiceConfig(),
+		VwType: &vwType,
 	}
+}
+
+func (p *resourceModel) getImageVersion() string {
+	if p.ImageVersion.IsNull() || p.ImageVersion.String() == "unknown" {
+		return ""
+	}
+	return p.ImageVersion.String()
 }
 
 func (p *resourceModel) getServiceConfig() *models.ServiceConfigReq {
@@ -92,17 +101,18 @@ func (p *resourceModel) getServiceConfig() *models.ServiceConfigReq {
 }
 
 func (p *resourceModel) getTags() []*models.TagRequest {
-	if p.AwsOptions.Tags == nil {
+	if p.AwsOptions.Tags.IsNull() {
 		return nil
 	}
-	tags := make([]*models.TagRequest, len(*p.AwsOptions.Tags))
-	for _, tag := range *p.AwsOptions.Tags {
-		if tag.Key.IsNull() || tag.Value.IsNull() {
+	tags := make([]*models.TagRequest, len(p.AwsOptions.Tags.Elements()))
+	for k, v := range p.AwsOptions.Tags.Elements() {
+		if v.IsNull() {
 			continue
 		}
+		value := v.String()
 		tags = append(tags, &models.TagRequest{
-			Key:   tag.Key.ValueStringPointer(),
-			Value: tag.Value.ValueStringPointer(),
+			Key:   &k,
+			Value: &value,
 		})
 	}
 	return tags
