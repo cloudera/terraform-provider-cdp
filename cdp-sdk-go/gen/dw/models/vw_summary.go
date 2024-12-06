@@ -66,6 +66,9 @@ type VwSummary struct {
 	// The ID of the Virtual Warehouse.
 	ID string `json:"id,omitempty"`
 
+	// Image Version of Virtual Warehouse
+	ImageVersion string `json:"imageVersion,omitempty"`
+
 	// Current Impala High Availability settings.
 	ImpalaHaSettingsOptions *ImpalaHASettingsOptionsResponse `json:"impalaHaSettingsOptions,omitempty"`
 

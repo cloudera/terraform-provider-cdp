@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package hive
+package impala
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -16,7 +16,6 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-// W
 type resourceModel struct {
 	ID                types.String          `tfsdk:"id"`
 	ClusterID         types.String          `tfsdk:"cluster_id"`
@@ -24,6 +23,7 @@ type resourceModel struct {
 	Name              types.String          `tfsdk:"name"`
 	LastUpdated       types.String          `tfsdk:"last_updated"`
 	Status            types.String          `tfsdk:"status"`
+	ImageVersion      types.String          `tfsdk:"image_version"`
 	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
 }
 

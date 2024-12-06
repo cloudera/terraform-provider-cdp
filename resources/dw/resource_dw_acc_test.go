@@ -166,7 +166,8 @@ func TestAccDwCluster_Basic(t *testing.T) {
 					testAccAwsDataLakeConfig(&dlParams),
 					testAccAwsClusterBasicConfig(&envParams),
 					testAccDwCatalog(),
-					testAccHiveVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-hive"))),
+					testAccHiveVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-hive")),
+					testAccImpalaVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-impala"))),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "name", envParams.Name),
 					resource.TestCheckResourceAttr(resourceName, "status", "Accepted"),
@@ -309,4 +310,14 @@ func testCheckClusterDestroy(s *terraform.State) error {
 		}
 	}
 	return nil
+}
+
+func testAccImpalaVirtualWarehouse(name string) string {
+	return fmt.Sprintf(`
+		resource "cdp_dw_vw_impala" "test_impala" {
+			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
+			name = %[1]q
+		}
+	`, name)
 }

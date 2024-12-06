@@ -5088,6 +5088,9 @@ definitions:
       status:
         type: string
         description: 'Status of the Virtual Warehouse. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.'
+      imageVersion:
+        type: string
+        description: Image Version of Virtual Warehouse
       statusChangedAt:
         type: string
         format: date-time
