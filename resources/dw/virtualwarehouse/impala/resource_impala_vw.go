@@ -61,18 +61,25 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
+	vwhCreateRequest := &models.CreateVwRequest{
+		Name:      plan.Name.ValueStringPointer(),
+		ClusterID: plan.ClusterID.ValueStringPointer(),
+		DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
+		VwType:    models.VwTypeImpala.Pointer(),
+	}
+
+	if imageVersion := plan.ImageVersion.ValueString(); imageVersion != "" {
+		vwhCreateRequest.ImageVersion = imageVersion
+	}
+	tflog.Debug(ctx, fmt.Sprintf("Prateek CreateVw request: %+v", vwhCreateRequest))
+
 	// Generate API request body from plan
 	vw := operations.NewCreateVwParamsWithContext(ctx).
-		WithInput(&models.CreateVwRequest{
-			Name:      plan.Name.ValueStringPointer(),
-			ClusterID: plan.ClusterID.ValueStringPointer(),
-			DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
-			VwType:    models.VwTypeImpala.Pointer(),
-		})
+		WithInput(vwhCreateRequest)
 
 	// Create new virtual warehouse
 	response, err := r.client.Dw.Operations.CreateVw(vw)
-	if err != nil {
+	if err != nil || response.GetPayload() == nil {
 		resp.Diagnostics.AddError(
 			"Error creating Impala virtual warehouse",
 			"Could not create Impala, unexpected error: "+err.Error(),
@@ -83,8 +90,10 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 	payload := response.GetPayload()
 	clusterID := plan.ClusterID.ValueStringPointer()
 	vwID := &payload.VwID
+	tflog.Debug(ctx, fmt.Sprintf("CreateVw response: %+v", payload))
 
-	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	opts := plan.PollingOptions
+	if opts == nil || !opts.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
@@ -118,7 +127,9 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 	plan.DatabaseCatalogID = types.StringValue(impala.Vw.DbcID)
 	plan.Name = types.StringValue(impala.Vw.Name)
 	plan.Status = types.StringValue(impala.Vw.Status)
+	plan.ImageVersion = types.StringValue(impala.Vw.ImageVersion)
 	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }

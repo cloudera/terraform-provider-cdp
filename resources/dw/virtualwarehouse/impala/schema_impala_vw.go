@@ -53,6 +53,11 @@ var impalaSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "The status of the database catalog.",
 		},
+		"image_version": schema.StringAttribute{
+			Computed:            true,
+			Optional:            true,
+			MarkdownDescription: "Image version of the impala.",
+		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,

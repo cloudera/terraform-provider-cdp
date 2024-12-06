@@ -32,6 +32,7 @@ type impalaTestParameters struct {
 	Name              string
 	ClusterID         string
 	DatabaseCatalogID string
+	ImageVersion      string
 }
 
 func ImpalaPreCheck(t *testing.T) {
