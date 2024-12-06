@@ -13,11 +13,11 @@ package impala
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
@@ -61,64 +61,42 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
-	// Generate API request body from plan
-	vw := operations.NewCreateVwParamsWithContext(ctx).
-		WithInput(&models.CreateVwRequest{
-			Name:      plan.Name.ValueStringPointer(),
-			ClusterID: plan.ClusterID.ValueStringPointer(),
-			DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
-			VwType:    models.VwTypeImpala.Pointer(),
-		})
+	// Create the VW Request using a helper
+	vwhCreateRequest := createVwRequestFromPlan(&plan)
+	tflog.Debug(ctx, fmt.Sprintf("CreateVw request: %+v", vwhCreateRequest))
 
-	// Create new virtual warehouse
-	response, err := r.client.Dw.Operations.CreateVw(vw)
-	if err != nil {
+	// Make API request to create VW
+	response, err := r.client.Dw.Operations.CreateVw(
+		operations.NewCreateVwParamsWithContext(ctx).WithInput(vwhCreateRequest),
+	)
+	if err != nil || response.GetPayload() == nil {
 		resp.Diagnostics.AddError(
 			"Error creating Impala virtual warehouse",
-			"Could not create Impala, unexpected error: "+err.Error(),
+			fmt.Sprintf("Could not create Impala, unexpected error: %v", err),
+		)
+		return
+	}
+	tflog.Debug(ctx, fmt.Sprintf("CreateVw response: %+v", response.GetPayload()))
+
+	// Wait for the VW to reach Running state
+	if err := r.waitForVwRunning(ctx, &plan, response.GetPayload()); err != nil {
+		resp.Diagnostics.AddError(
+			"Error waiting for Data Warehouse Impala virtual warehouse",
+			fmt.Sprintf("Could not create Impala, unexpected error: %v", err),
 		)
 		return
 	}
 
-	payload := response.GetPayload()
-	clusterID := plan.ClusterID.ValueStringPointer()
-	vwID := &payload.VwID
-
-	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
-		callFailedCount := 0
-		stateConf := &retry.StateChangeConf{
-			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
-			Target:       []string{"Running"},
-			Delay:        30 * time.Second,
-			Timeout:      utils.GetPollingTimeout(&plan, 20*time.Minute),
-			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&plan, 3)),
-		}
-		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
-			resp.Diagnostics.AddError(
-				"Error waiting for Data Warehouse Impala virtual warehouse",
-				"Could not create Impala, unexpected error: "+err.Error(),
-			)
-			return
-		}
-	}
-	desc := operations.NewDescribeVwParamsWithContext(ctx).
-		WithInput(&models.DescribeVwRequest{VwID: vwID, ClusterID: clusterID})
-	describe, err := r.client.Dw.Operations.DescribeVw(desc)
-	if err != nil {
+	// Fetch and map the response to plan using a helper
+	if err := r.populatePlanFromDescribe(ctx, &plan, &response.GetPayload().VwID); err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Impala virtual warehouse",
-			"Could not describe Impala, unexpected error: "+err.Error(),
+			fmt.Sprintf("Could not describe Impala, unexpected error: %v", err),
 		)
 		return
 	}
 
-	impala := describe.GetPayload()
-	plan.ID = types.StringValue(impala.Vw.ID)
-	plan.DatabaseCatalogID = types.StringValue(impala.Vw.DbcID)
-	plan.Name = types.StringValue(impala.Vw.Name)
-	plan.Status = types.StringValue(impala.Vw.Status)
-	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	// Save the updated plan into state
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }
@@ -203,4 +181,58 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 		tflog.Debug(ctx, fmt.Sprintf("Described Impala %s with status %s", vw.Vw.ID, vw.Vw.Status))
 		return vw, vw.Vw.Status, nil
 	}
+}
+
+func createVwRequestFromPlan(plan *resourceModel) *models.CreateVwRequest {
+	req := &models.CreateVwRequest{
+		Name:      plan.Name.ValueStringPointer(),
+		ClusterID: plan.ClusterID.ValueStringPointer(),
+		DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
+		VwType:    models.VwTypeImpala.Pointer(),
+	}
+	if imageVersion := plan.ImageVersion.ValueString(); imageVersion != "" {
+		req.ImageVersion = imageVersion
+	}
+	return req
+}
+
+func (r *impalaResource) waitForVwRunning(ctx context.Context, plan *resourceModel, payload *models.CreateVwResponse) error {
+	clusterID := plan.ClusterID.ValueStringPointer()
+	vwID := &payload.VwID
+
+	opts := plan.PollingOptions
+
+	if opts == nil || !opts.Async.ValueBool() {
+		callFailedCount := 0
+		stateConf := &retry.StateChangeConf{
+			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
+			Target:       []string{"Running"},
+			Delay:        30 * time.Second,
+			Timeout:      utils.GetPollingTimeout(plan, 20*time.Minute),
+			PollInterval: 30 * time.Second,
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(plan, 3)),
+		}
+		_, err := stateConf.WaitForStateContext(ctx)
+		return err
+	}
+	return nil
+}
+
+func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *resourceModel, vwID *string) error {
+	desc := operations.NewDescribeVwParamsWithContext(ctx).
+		WithInput(&models.DescribeVwRequest{VwID: vwID, ClusterID: plan.ClusterID.ValueStringPointer()})
+	describe, err := r.client.Dw.Operations.DescribeVw(desc)
+	if err != nil {
+		return err
+	}
+
+	impala := describe.GetPayload()
+	plan.ID = types.StringValue(impala.Vw.ID)
+	plan.DatabaseCatalogID = types.StringValue(impala.Vw.DbcID)
+	plan.Name = types.StringValue(impala.Vw.Name)
+	plan.Status = types.StringValue(impala.Vw.Status)
+	plan.ImageVersion = types.StringValue(impala.Vw.CdhVersion)
+	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+
+	return nil
 }

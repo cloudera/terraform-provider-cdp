@@ -16,7 +16,6 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-// W
 type resourceModel struct {
 	ID                types.String          `tfsdk:"id"`
 	ClusterID         types.String          `tfsdk:"cluster_id"`
