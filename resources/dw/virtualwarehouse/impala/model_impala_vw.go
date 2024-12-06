@@ -23,6 +23,7 @@ type resourceModel struct {
 	Name              types.String          `tfsdk:"name"`
 	LastUpdated       types.String          `tfsdk:"last_updated"`
 	Status            types.String          `tfsdk:"status"`
+	ImageVersion      types.String          `tfsdk:"image_version"`
 	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
 }
 

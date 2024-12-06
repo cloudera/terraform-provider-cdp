@@ -23,6 +23,7 @@ description: |-
 
 ### Optional
 
+- `image_version` (String) Image version of the impala.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 
 ### Read-Only

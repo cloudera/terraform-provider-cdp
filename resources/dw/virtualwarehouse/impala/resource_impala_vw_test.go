@@ -69,6 +69,11 @@ var testImpalaSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "The status of the database catalog.",
 		},
+		"image_version": schema.StringAttribute{
+			Computed:            true,
+			Optional:            true,
+			MarkdownDescription: "Image version of the impala.",
+		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
@@ -122,6 +127,7 @@ func createRawImpalaResource() tftypes.Value {
 				"name":                tftypes.String,
 				"last_updated":        tftypes.String,
 				"status":              tftypes.String,
+				"image_version":       tftypes.String,
 				"polling_options": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"async":                  tftypes.Bool,
@@ -136,6 +142,7 @@ func createRawImpalaResource() tftypes.Value {
 			"database_catalog_id": tftypes.NewValue(tftypes.String, "database-catalog-id"),
 			"name":                tftypes.NewValue(tftypes.String, ""),
 			"last_updated":        tftypes.NewValue(tftypes.String, ""),
+			"image_version":       tftypes.NewValue(tftypes.String, nil),
 			"status":              tftypes.NewValue(tftypes.String, "Running"),
 			"polling_options": tftypes.NewValue(
 				tftypes.Object{
