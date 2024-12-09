@@ -119,13 +119,17 @@ func (r *impalaResource) Delete(ctx context.Context, req resource.DeleteRequest,
 
 	clusterID := state.ClusterID.ValueStringPointer()
 	vwID := state.ID.ValueStringPointer()
-	op := operations.NewDeleteVwParamsWithContext(ctx).
-		WithInput(&models.DeleteVwRequest{
-			ClusterID: clusterID,
-			VwID:      vwID,
-		})
 
-	if _, err := r.client.Dw.Operations.DeleteVw(op); err != nil {
+	if clusterID == nil || vwID == nil {
+		resp.Diagnostics.AddError(
+			"Invalid State",
+			"ClusterID or Virtual Warehouse ID is missing.",
+		)
+		return
+	}
+
+	err := r.deleteVirtualWarehouse(ctx, clusterID, vwID)
+	if err != nil {
 		if strings.Contains(err.Error(), "Virtual Warehouse not found") {
 			return
 		}
@@ -136,22 +140,16 @@ func (r *impalaResource) Delete(ctx context.Context, req resource.DeleteRequest,
 		return
 	}
 
-	if opts := state.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
-		callFailedCount := 0
-		stateConf := &retry.StateChangeConf{
-			Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
-			Target:       []string{"Deleted"},
-			Delay:        30 * time.Second,
-			Timeout:      utils.GetPollingTimeout(&state, 20*time.Minute),
-			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&state, 3)),
-		}
-		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
+	// Handle polling for not async call
+	pollingOptionsAvailable := state.PollingOptions != nil
+	isSynchronous := pollingOptionsAvailable && !state.PollingOptions.Async.ValueBool()
+	if isSynchronous {
+		err = r.pollForDeletion(ctx, state, clusterID, vwID)
+		if err != nil {
 			resp.Diagnostics.AddError(
-				"Error waiting for Data Warehouse Impala Virtual Warehouse",
-				"Could not delete Impala, unexpected error: "+err.Error(),
+				"Error waiting for Impala Virtual Warehouse deletion",
+				"Could not delete Impala Virtual Warehouse, unexpected error: "+err.Error(),
 			)
-			return
 		}
 	}
 }
@@ -235,4 +233,30 @@ func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *res
 	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 
 	return nil
+}
+
+func (r *impalaResource) deleteVirtualWarehouse(ctx context.Context, clusterID, vwID *string) error {
+	op := operations.NewDeleteVwParamsWithContext(ctx).
+		WithInput(&models.DeleteVwRequest{
+			ClusterID: clusterID,
+			VwID:      vwID,
+		})
+
+	_, err := r.client.Dw.Operations.DeleteVw(op)
+	return err
+}
+
+func (r *impalaResource) pollForDeletion(ctx context.Context, state resourceModel, clusterID, vwID *string) error {
+	callFailedCount := 0
+	stateConf := &retry.StateChangeConf{
+		Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
+		Target:       []string{"Deleted"},
+		Delay:        30 * time.Second,
+		Timeout:      utils.GetPollingTimeout(&state, 20*time.Minute),
+		PollInterval: 30 * time.Second,
+		Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&state, 3)),
+	}
+
+	_, err := stateConf.WaitForStateContext(ctx)
+	return err
 }
