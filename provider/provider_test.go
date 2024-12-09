@@ -13,6 +13,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/impala"
 	"os"
 	"reflect"
 	"regexp"
@@ -636,6 +637,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		ml.NewWorkspaceResource,
 		de.NewServiceResource,
 		hive.NewHiveResource,
+		impala.NewImpalaResource,
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 	}
