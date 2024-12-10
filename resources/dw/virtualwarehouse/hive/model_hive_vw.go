@@ -11,8 +11,10 @@
 package hive
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"strings"
+	"time"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -69,10 +71,10 @@ func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
 func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
 	vwType := models.VwType("hive")
 	return &models.CreateVwRequest{
-		ClusterID:      p.ClusterID.ValueStringPointer(),
-		DbcID:          p.DatabaseCatalogID.ValueStringPointer(),
-		EbsLLAPSpillGB: p.getEbsLLAPSpillGB(),
-		//ImageVersion:          p.getImageVersion(),
+		ClusterID:             p.ClusterID.ValueStringPointer(),
+		DbcID:                 p.DatabaseCatalogID.ValueStringPointer(),
+		EbsLLAPSpillGB:        p.getEbsLLAPSpillGB(),
+		ImageVersion:          p.getImageVersion(),
 		Name:                  p.Name.ValueStringPointer(),
 		NodeCount:             utils.Int64To32(p.NodeCount),
 		PlatformJwtAuth:       p.PlatformJwtAuth.ValueBoolPointer(),
@@ -86,10 +88,10 @@ func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
 }
 
 func (p *resourceModel) getImageVersion() string {
-	if p.ImageVersion.IsNull() || p.ImageVersion.String() == "unknown" {
+	if p.ImageVersion.IsNull() || p.ImageVersion.String() == "<unknown>" {
 		return ""
 	}
-	return p.ImageVersion.String()
+	return strings.TrimPrefix(strings.TrimSuffix(p.ImageVersion.String(), "\""), "\"")
 }
 
 func (p *resourceModel) getServiceConfig() *models.ServiceConfigReq {
@@ -155,4 +157,19 @@ func (p *resourceModel) getAutoscaling() *models.AutoscalingOptionsCreateRequest
 		HiveScaleWaitTimeSeconds:  utils.Int64To32(p.Autoscaling.HiveScaleWaitTimeSeconds),
 		HiveDesiredFreeCapacity:   utils.Int64To32(p.Autoscaling.HiveDesiredFreeCapacity),
 	}
+}
+
+func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwResponse) {
+	p.ID = types.StringValue(resp.Vw.ID)
+	p.DatabaseCatalogID = types.StringValue(resp.Vw.DbcID)
+	p.Name = types.StringValue(resp.Vw.Name)
+	p.Status = types.StringValue(resp.Vw.Status)
+	p.ImageVersion = types.StringValue(resp.Vw.CdhVersion)
+	p.Compactor = types.BoolValue(resp.Vw.Compactor)
+	p.JdbcUrl = types.StringValue(resp.Vw.Endpoints.HiveJdbc)
+	p.KerberosJdbcUrl = types.StringValue(resp.Vw.Endpoints.HiveKerberosJdbc)
+	p.HueUrl = types.StringValue(resp.Vw.Endpoints.Hue)
+	p.JwtConnectionString = types.StringValue(resp.Vw.Endpoints.JwtConnectionString)
+	p.JwtTokenGenUrl = types.StringValue(resp.Vw.Endpoints.JwtTokenGenURL)
+	p.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 }

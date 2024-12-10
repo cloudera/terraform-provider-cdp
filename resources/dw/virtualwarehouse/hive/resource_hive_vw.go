@@ -18,7 +18,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
@@ -59,7 +58,6 @@ func (r *hiveResource) Schema(_ context.Context, _ resource.SchemaRequest, resp 
 }
 
 func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	// Retrieve values from plan
 	var plan resourceModel
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -67,11 +65,9 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	// Generate API request body from plan
 	vw := operations.NewCreateVwParamsWithContext(ctx).
 		WithInput(plan.convertToCreateVwRequest())
 
-	// Create new virtual warehouse
 	response, err := r.client.Dw.Operations.CreateVw(vw)
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -115,19 +111,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 
 	hive := describe.GetPayload()
-	// TODO move this to a converter or similar
-	plan.ID = types.StringValue(hive.Vw.ID)
-	plan.DatabaseCatalogID = types.StringValue(hive.Vw.DbcID)
-	plan.Name = types.StringValue(hive.Vw.Name)
-	plan.Status = types.StringValue(hive.Vw.Status)
-	plan.ImageVersion = types.StringValue(hive.Vw.CdhVersion)
-	plan.Compactor = types.BoolValue(hive.Vw.Compactor)
-	plan.JdbcUrl = types.StringValue(hive.Vw.Endpoints.HiveJdbc)
-	plan.KerberosJdbcUrl = types.StringValue(hive.Vw.Endpoints.HiveKerberosJdbc)
-	plan.HueUrl = types.StringValue(hive.Vw.Endpoints.Hue)
-	plan.JwtConnectionString = types.StringValue(hive.Vw.Endpoints.JwtConnectionString)
-	plan.JwtTokenGenUrl = types.StringValue(hive.Vw.Endpoints.JwtTokenGenURL)
-	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	plan.setFromDescribeVwResponse(hive)
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }
