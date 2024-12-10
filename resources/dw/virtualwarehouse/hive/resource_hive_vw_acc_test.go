@@ -83,9 +83,10 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 		  node_count = 2
 		  platform_jwt_auth = true
 		  enable_sso = true
+		  image_version = "2024.0.19.0-301"
           autoscaling = {
 			min_clusters = 2
-			max_clusters = 5 // Min: 2, Max: 20. Both values must be a multiple of 2.
+			max_clusters = 5
 			disable_auto_suspend = false
 			auto_suspend_timeout_seconds = 100
 			hive_scale_wait_time_seconds = 230

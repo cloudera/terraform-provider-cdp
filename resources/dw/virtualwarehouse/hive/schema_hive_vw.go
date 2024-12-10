@@ -119,7 +119,7 @@ var hiveSchema = schema.Schema{
 					Optional:            true,
 					MarkdownDescription: "The time in seconds after which the compute group should be suspended.",
 				},
-				"hive_scale_wait_time_seconds": schema.Int64Attribute{ // TODO add validation for the options set
+				"hive_scale_wait_time_seconds": schema.Int64Attribute{
 					Optional:            true,
 					MarkdownDescription: "Set wait time before a scale event happens. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.",
 				},
