@@ -80,6 +80,24 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 		  cluster_id = %[1]q
 		  database_catalog_id = %[2]q
 		  name = %[3]q
+		  node_count = 2
+		  platform_jwt_auth = true
+		  enable_sso = true
+		  image_version = "2024.0.19.0-301"
+          autoscaling = {
+			min_clusters = 2
+			max_clusters = 5
+			disable_auto_suspend = false
+			auto_suspend_timeout_seconds = 100
+			hive_scale_wait_time_seconds = 230
+		  }
+		  aws_options = {
+			availability_zone = "us-west-2a"
+			ebs_llap_spill_gb = 300
+			tags = {
+              owner = "cdw-terraform@cloudera.com"
+    	    }
+		  }
 		}
 	`, params.ClusterID, params.DatabaseCatalogID, params.Name)
 }
