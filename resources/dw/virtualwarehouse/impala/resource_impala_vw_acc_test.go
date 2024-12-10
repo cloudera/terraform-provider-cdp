@@ -15,12 +15,12 @@ package impala_test
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"net/http"
 	"os"
 	"strings"
 	"testing"
-
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
@@ -111,15 +111,23 @@ func testCheckImpalaDestroy(s *terraform.State) error {
 	return nil
 }
 
-// Set RUN_IMAGE_VERSION_TESTS to run this test
 func TestAccImpalaImageVersion(t *testing.T) {
 
-	OptionalPreCheck(t, "RUN_IMAGE_VERSION_TESTS")
+	clusterID := os.Getenv("CDW_CLUSTER_ID")
+	if clusterID == "" {
+		t.Fatal("Environment variable CDW_CLUSTER_ID must be set")
+	}
+
+	latestImageVersion, err := fetchLatestImageVersion(clusterID)
+	if err != nil {
+		t.Fatalf("Error fetching latest image version: %v", err)
+	}
+
 	params := impalaTestParameters{
 		Name:              cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
 		ClusterID:         os.Getenv("CDW_CLUSTER_ID"),
 		DatabaseCatalogID: os.Getenv("CDW_DATABASE_CATALOG_ID"),
-		ImageVersion:      "2024.0.19.0-301",
+		ImageVersion:      latestImageVersion,
 	}
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
@@ -145,8 +153,32 @@ func TestAccImpalaImageVersion(t *testing.T) {
 	})
 }
 
-func OptionalPreCheck(t *testing.T, envVar string) {
-	if os.Getenv(envVar) == "" {
-		t.Skipf("Skipping test: environment variable %s is not set", envVar)
+func fetchLatestImageVersion(clusterID string) (string, error) {
+	cdpClient := cdpacctest.GetCdpClientForAccTest()
+
+	params := &operations.ListLatestVersionsParams{
+		Input: &models.ListLatestVersionsRequest{
+			ClusterID: &clusterID,
+		},
+		Context:    context.Background(),
+		HTTPClient: http.DefaultClient,
 	}
+
+	response, err := cdpClient.Dw.Operations.ListLatestVersions(params)
+	if err != nil {
+		return "", fmt.Errorf("failed to fetch versions: %w", err)
+	}
+
+	if len(response.Payload.IDToLatestVersionsMap) == 0 {
+		return "", fmt.Errorf("no versions found for cluster ID: %s", clusterID)
+	}
+
+	versions := response.Payload.IDToLatestVersionsMap
+
+	// Returns only one entry for WH
+	for _, versionInfo := range versions {
+		return versionInfo, nil
+	}
+
+	return "", fmt.Errorf("no versions found for cluster ID: %s", clusterID)
 }
