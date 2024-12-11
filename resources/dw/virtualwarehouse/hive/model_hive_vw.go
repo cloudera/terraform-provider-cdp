@@ -88,7 +88,7 @@ func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
 }
 
 func (p *resourceModel) getImageVersion() string {
-	if p.ImageVersion.IsNull() || p.ImageVersion.String() == "<unknown>" {
+	if p.ImageVersion.IsNull() || p.ImageVersion.IsUnknown() || p.ImageVersion.String() == "<unknown>" {
 		return ""
 	}
 	return strings.TrimPrefix(strings.TrimSuffix(p.ImageVersion.String(), "\""), "\"")

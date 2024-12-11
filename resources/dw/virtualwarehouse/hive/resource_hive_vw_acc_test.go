@@ -67,6 +67,12 @@ func TestAccHive_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "name", params.Name),
 					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "cluster_id", params.ClusterID),
 					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "database_catalog_id", params.DatabaseCatalogID),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "compactor"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jdbc_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "kerberos_jdbc_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "hue_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jwt_connection_string"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jwt_token_gen_url"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -83,7 +89,6 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 		  node_count = 2
 		  platform_jwt_auth = true
 		  enable_sso = true
-		  image_version = "2024.0.19.0-301"
           autoscaling = {
 			min_clusters = 2
 			max_clusters = 5
@@ -97,6 +102,10 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 			tags = {
               owner = "cdw-terraform@cloudera.com"
     	    }
+		  }
+		  query_isolation_options = {
+			max_queries = 100
+			max_nodes_per_query = 10
 		  }
 		}
 	`, params.ClusterID, params.DatabaseCatalogID, params.Name)

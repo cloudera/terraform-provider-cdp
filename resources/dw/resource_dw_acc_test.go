@@ -284,11 +284,11 @@ func testAccHiveVirtualWarehouse(name string) string {
 			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
 			name = %[1]q
 			platform_jwt_auth = true
-            enable_sso = true
-            image_version = "2024.0.19.0-301"
+			enable_sso = true
+			image_version = "2024.0.19.0-301"
 			node_count = 2
-		    autoscaling = {
-              min_clusters = 1
+			autoscaling = {
+			  min_clusters = 1
 			  max_clusters = 3
 			  disable_auto_suspend = false
 			  auto_suspend_timeout_seconds = 100
@@ -298,7 +298,7 @@ func testAccHiveVirtualWarehouse(name string) string {
 			  availability_zone = "us-west-2a"
 			  ebs_llap_spill_gb = 300
 			  tags = {
-			    owner = "cdw-terraform@cloudera.com"
+				owner = "cdw-terraform"
 			  }
 		    }
 		}

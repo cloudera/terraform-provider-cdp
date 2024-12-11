@@ -81,7 +81,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	clusterID := plan.ClusterID.ValueStringPointer()
 	vwID := &payload.VwID
 
-	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
@@ -151,7 +151,7 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	if opts := state.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	if opts := state.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
