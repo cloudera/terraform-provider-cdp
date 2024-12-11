@@ -67,6 +67,12 @@ func TestAccHive_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "name", params.Name),
 					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "cluster_id", params.ClusterID),
 					resource.TestCheckResourceAttr("cdp_dw_vw_hive.test_hive", "database_catalog_id", params.DatabaseCatalogID),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "compactor"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jdbc_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "kerberos_jdbc_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "hue_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jwt_connection_string"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jwt_token_gen_url"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -80,6 +86,27 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 		  cluster_id = %[1]q
 		  database_catalog_id = %[2]q
 		  name = %[3]q
+		  node_count = 2
+		  platform_jwt_auth = true
+		  enable_sso = true
+          autoscaling = {
+			min_clusters = 2
+			max_clusters = 5
+			disable_auto_suspend = false
+			auto_suspend_timeout_seconds = 100
+			hive_scale_wait_time_seconds = 230
+		  }
+		  aws_options = {
+			availability_zone = "us-west-2a"
+			ebs_llap_spill_gb = 300
+			tags = {
+              owner = "cdw-terraform@cloudera.com"
+    	    }
+		  }
+		  query_isolation_options = {
+			max_queries = 100
+			max_nodes_per_query = 10
+		  }
 		}
 	`, params.ClusterID, params.DatabaseCatalogID, params.Name)
 }

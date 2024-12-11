@@ -13,6 +13,7 @@ package utils
 import (
 	"context"
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -133,9 +134,16 @@ func FromMapValueToStringMap(tl types.Map) map[string]string {
 }
 
 func Int64To32Pointer(in types.Int64) *int32 {
+	n32 := Int64To32(in)
+	return &n32
+}
+
+func Int64To32(in types.Int64) int32 {
 	n64 := in.ValueInt64()
-	var n2 = int32(n64)
-	return &n2
+	if n64 >= math.MinInt32 && n64 <= math.MaxInt32 {
+		return int32(n64)
+	}
+	panic(fmt.Sprintf("int64 value %d is out of range for int32", n64))
 }
 
 type HasPollingOptions interface {
