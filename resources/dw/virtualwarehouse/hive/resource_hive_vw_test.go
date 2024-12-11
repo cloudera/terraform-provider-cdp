@@ -16,6 +16,7 @@ import (
 	"testing"
 
 	"github.com/go-openapi/runtime"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -590,4 +591,97 @@ func (suite *HiveTestSuite) TestStateRefresh_FailureThresholdReached() {
 		_, _, err = refresh()
 	}
 	suite.Error(err, "unknown error")
+}
+
+func (suite *HiveTestSuite) TestConvertToCreateVwRequest_All() {
+	plan := resourceModel{
+		ClusterID:         types.StringValue("cluster-id"),
+		DatabaseCatalogID: types.StringValue("database-catalog-id"),
+		Name:              types.StringValue("test-name"),
+		ImageVersion:      types.StringValue("2024.0.19.0-301"),
+		NodeCount:         types.Int64Value(10),
+		PlatformJwtAuth:   types.BoolValue(true),
+		LdapGroups:        types.ListValueMust(types.StringType, []attr.Value{types.StringValue("ldap-group")}),
+		EnableSSO:         types.BoolValue(true),
+		Autoscaling: &autoscaling{
+			MinClusters:               types.Int64Value(1),
+			MaxClusters:               types.Int64Value(10),
+			DisableAutoSuspend:        types.BoolValue(false),
+			AutoSuspendTimeoutSeconds: types.Int64Value(60),
+			HiveScaleWaitTimeSeconds:  types.Int64Value(60),
+			HiveDesiredFreeCapacity:   types.Int64Value(2),
+		},
+		AwsOptions: &awsOptions{
+			AvailabilityZone: types.StringValue("us-west-2a"),
+			EbsLLAPSpillGb:   types.Int64Value(300),
+			Tags:             types.MapValueMust(types.StringType, map[string]attr.Value{"key1": types.StringValue("value1")}),
+		},
+		QueryIsolationOptions: &queryIsolationOptions{
+			MaxQueries:       types.Int64Value(5),
+			MaxNodesPerQuery: types.Int64Value(2),
+		},
+	}
+
+	req := plan.convertToCreateVwRequest()
+	suite.Equal("cluster-id", *req.ClusterID)
+	suite.Equal("database-catalog-id", *req.DbcID)
+	suite.Equal("test-name", *req.Name)
+	suite.Equal("2024.0.19.0-301", req.ImageVersion)
+	suite.Equal(int32(10), req.NodeCount)
+	suite.Equal(true, *req.PlatformJwtAuth)
+	suite.Equal([]string{"ldap-group"}, req.Config.LdapGroups)
+	suite.Equal(true, req.Config.EnableSSO)
+	suite.Equal(int32(1), *req.Autoscaling.MinClusters)
+	suite.Equal(int32(10), *req.Autoscaling.MaxClusters)
+	suite.Equal(false, req.Autoscaling.DisableAutoSuspend)
+	suite.Equal(int32(60), req.Autoscaling.AutoSuspendTimeoutSeconds)
+	suite.Equal(int32(60), req.Autoscaling.HiveScaleWaitTimeSeconds)
+	suite.Equal(int32(2), req.Autoscaling.HiveDesiredFreeCapacity)
+	suite.Equal("us-west-2a", req.AvailabilityZone)
+	suite.Equal(int32(300), req.EbsLLAPSpillGB)
+	suite.Equal("key1", *req.Tags[0].Key)
+	suite.Equal("value1", *req.Tags[0].Value)
+	suite.Equal(int32(5), req.QueryIsolationOptions.MaxQueries)
+	suite.Equal(int32(2), req.QueryIsolationOptions.MaxNodesPerQuery)
+}
+
+func (suite *HiveTestSuite) TestConvertToCreateVwRequest_MissingImageVersion() {
+	plan := resourceModel{
+		ImageVersion: types.StringUnknown(),
+		AwsOptions:   &awsOptions{},
+		Autoscaling:  &autoscaling{},
+	}
+
+	req := plan.convertToCreateVwRequest()
+	suite.Equal("", req.ImageVersion)
+}
+
+func (suite *HiveTestSuite) TestSetFromDescribeVwResponse() {
+	plan := resourceModel{}
+	resp := &models.DescribeVwResponse{
+		Vw: &models.VwSummary{
+			ID:     "test-id",
+			DbcID:  "database-catalog-id",
+			Name:   "test-name",
+			Status: "Running",
+			Endpoints: &models.VwSummaryEndpoints{
+				HiveJdbc:            "jdbc://hive",
+				HiveKerberosJdbc:    "jdbc://hive",
+				Hue:                 "https://hue",
+				JwtConnectionString: "connection-string",
+				JwtTokenGenURL:      "https://jwt",
+			},
+		},
+	}
+
+	plan.setFromDescribeVwResponse(resp)
+	suite.Equal("test-id", plan.ID.ValueString())
+	suite.Equal("database-catalog-id", plan.DatabaseCatalogID.ValueString())
+	suite.Equal("test-name", plan.Name.ValueString())
+	suite.Equal("Running", plan.Status.ValueString())
+	suite.Equal("jdbc://hive", plan.JdbcUrl.ValueString())
+	suite.Equal("jdbc://hive", plan.KerberosJdbcUrl.ValueString())
+	suite.Equal("https://hue", plan.HueUrl.ValueString())
+	suite.Equal("connection-string", plan.JwtConnectionString.ValueString())
+	suite.Equal("https://jwt", plan.JwtTokenGenUrl.ValueString())
 }
