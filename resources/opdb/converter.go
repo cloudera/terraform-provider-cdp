@@ -62,6 +62,8 @@ func fromModelToDatabaseRequest(model databaseResourceModel, ctx context.Context
 
 	req.VolumeEncryptions = createVolumeEncryptions(ctx, model.VolumeEncryptions)
 
+	req.Architecture = opdbmodels.ArchitectureType(model.Architecture.ValueString())
+
 	tflog.Debug(ctx, fmt.Sprintf("Conversion from databaseResourceModel to CreateDatabaseRequest has finished with request: %+v.", req))
 	return &req
 }
@@ -163,6 +165,15 @@ func createVolumeEncryption(volumeEncryption VolumeEncryption) *opdbmodels.Volum
 		EncryptionKey: volumeEncryption.EncryptionKey.ValueStringPointer(),
 		InstanceGroup: opdbmodels.NewInstanceGroupType(opdbmodels.InstanceGroupType(volumeEncryption.InstanceGroup.ValueString())),
 	}
+}
+
+func createArchitecture(ctx context.Context, recipes []VolumeEncryption) []*opdbmodels.VolumeEncryption {
+	var volumeEncryptionList []*opdbmodels.VolumeEncryption
+	for _, vrs := range recipes {
+		tflog.Debug(ctx, fmt.Sprintf("Converting VolumeEncryption: %+v.", vrs))
+		volumeEncryptionList = append(volumeEncryptionList, createVolumeEncryption(vrs))
+	}
+	return volumeEncryptionList
 }
 
 func int64To32Pointer(in types.Int64) *int32 {
