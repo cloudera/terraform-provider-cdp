@@ -45,6 +45,7 @@ type databaseResourceModel struct {
 	EnableRegionCanary types.Bool         `tfsdk:"enable_region_canary"`
 	Recipes            []Recipe           `tfsdk:"recipes"`
 	VolumeEncryptions  []VolumeEncryption `tfsdk:"volume_encryptions"`
+	Architecture       types.String       `tfsdk:"architecture"`
 }
 
 type AutoScalingParametersStruct struct {

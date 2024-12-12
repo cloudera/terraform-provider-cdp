@@ -149,6 +149,8 @@ func getCommonDatabaseDetails(data *databaseResourceModel, databaseDetails *opdb
 
 	data.NumEdgeNodes = types.Int64Value(int64(databaseDetails.DbEdgeNodeCount))
 
+	data.Architecture = types.StringValue(string(databaseDetails.Architecture))
+
 	if len(databaseDetails.StorageDetailsForWorkers) >= 1 {
 		data.AttachedStorageForWorkers = createStorageDetailsForWorkers(databaseDetails.StorageDetailsForWorkers[0])
 	}
