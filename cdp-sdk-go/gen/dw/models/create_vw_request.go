@@ -81,12 +81,12 @@ type CreateVwRequest struct {
 	// The Resource Pool of the Virtual Warehouse.
 	ResourcePool string `json:"resourcePool,omitempty"`
 
+	// Name of T-shirt size to use, which will determine the number of nodes.
+	// Enum: ["xsmall","small","medium","large"]
+	TShirtSize string `json:"tShirtSize,omitempty"`
+
 	// Tags associated with the resources.
 	Tags []*TagRequest `json:"tags"`
-
-	// DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.
-	// Enum: ["xsmall","small","medium","large"]
-	Template string `json:"template,omitempty"`
 
 	// Type of Virtual Warehouse to be created.
 	// Required: true
@@ -129,11 +129,11 @@ func (m *CreateVwRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateTags(formats); err != nil {
+	if err := m.validateTShirtSize(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateTemplate(formats); err != nil {
+	if err := m.validateTags(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -269,6 +269,54 @@ func (m *CreateVwRequest) validateQueryIsolationOptions(formats strfmt.Registry)
 	return nil
 }
 
+var createVwRequestTypeTShirtSizePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["xsmall","small","medium","large"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createVwRequestTypeTShirtSizePropEnum = append(createVwRequestTypeTShirtSizePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateVwRequestTShirtSizeXsmall captures enum value "xsmall"
+	CreateVwRequestTShirtSizeXsmall string = "xsmall"
+
+	// CreateVwRequestTShirtSizeSmall captures enum value "small"
+	CreateVwRequestTShirtSizeSmall string = "small"
+
+	// CreateVwRequestTShirtSizeMedium captures enum value "medium"
+	CreateVwRequestTShirtSizeMedium string = "medium"
+
+	// CreateVwRequestTShirtSizeLarge captures enum value "large"
+	CreateVwRequestTShirtSizeLarge string = "large"
+)
+
+// prop value enum
+func (m *CreateVwRequest) validateTShirtSizeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createVwRequestTypeTShirtSizePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateVwRequest) validateTShirtSize(formats strfmt.Registry) error {
+	if swag.IsZero(m.TShirtSize) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateTShirtSizeEnum("tShirtSize", "body", m.TShirtSize); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *CreateVwRequest) validateTags(formats strfmt.Registry) error {
 	if swag.IsZero(m.Tags) { // not required
 		return nil
@@ -290,54 +338,6 @@ func (m *CreateVwRequest) validateTags(formats strfmt.Registry) error {
 			}
 		}
 
-	}
-
-	return nil
-}
-
-var createVwRequestTypeTemplatePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["xsmall","small","medium","large"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		createVwRequestTypeTemplatePropEnum = append(createVwRequestTypeTemplatePropEnum, v)
-	}
-}
-
-const (
-
-	// CreateVwRequestTemplateXsmall captures enum value "xsmall"
-	CreateVwRequestTemplateXsmall string = "xsmall"
-
-	// CreateVwRequestTemplateSmall captures enum value "small"
-	CreateVwRequestTemplateSmall string = "small"
-
-	// CreateVwRequestTemplateMedium captures enum value "medium"
-	CreateVwRequestTemplateMedium string = "medium"
-
-	// CreateVwRequestTemplateLarge captures enum value "large"
-	CreateVwRequestTemplateLarge string = "large"
-)
-
-// prop value enum
-func (m *CreateVwRequest) validateTemplateEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, createVwRequestTypeTemplatePropEnum, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (m *CreateVwRequest) validateTemplate(formats strfmt.Registry) error {
-	if swag.IsZero(m.Template) { // not required
-		return nil
-	}
-
-	// value enum
-	if err := m.validateTemplateEnum("template", "body", m.Template); err != nil {
-		return err
 	}
 
 	return nil

@@ -3052,7 +3052,7 @@ func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOpti
 /*
 ResumeCluster resumes cloudera data warehouse cluster
 
-Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
+Resume Cloudera Data Warehouse cluster. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS or EKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
 */
 func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error) {
 	// TODO: Validate the params before sending
@@ -3130,7 +3130,7 @@ func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwO
 /*
 SuspendCluster suspends cloudera data warehouse cluster
 
-Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
+Suspend Cloudera Data Warehouse cluster. Suspend cluster requires a "Running" Azure or AWS CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS or EKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
 */
 func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error) {
 	// TODO: Validate the params before sending

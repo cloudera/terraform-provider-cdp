@@ -31,6 +31,9 @@ type Environment struct {
 	// The Externalized Azure k8s configuration for the environment.
 	AzureComputeClusterConfiguration *AzureComputeClusterConfiguration `json:"azureComputeClusterConfiguration,omitempty"`
 
+	// azure details
+	AzureDetails *EnvironmentAzureDetails `json:"azureDetails,omitempty"`
+
 	// Storage configuration for backup.
 	BackupStorage *BackupStorage `json:"backupStorage,omitempty"`
 
@@ -133,6 +136,10 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateAzureComputeClusterConfiguration(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAzureDetails(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -282,6 +289,25 @@ func (m *Environment) validateAzureComputeClusterConfiguration(formats strfmt.Re
 				return ve.ValidateName("azureComputeClusterConfiguration")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("azureComputeClusterConfiguration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) validateAzureDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.AzureDetails) { // not required
+		return nil
+	}
+
+	if m.AzureDetails != nil {
+		if err := m.AzureDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails")
 			}
 			return err
 		}
@@ -585,6 +611,10 @@ func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Regist
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateAzureDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateBackupStorage(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -711,6 +741,27 @@ func (m *Environment) contextValidateAzureComputeClusterConfiguration(ctx contex
 				return ve.ValidateName("azureComputeClusterConfiguration")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("azureComputeClusterConfiguration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateAzureDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AzureDetails != nil {
+
+		if swag.IsZero(m.AzureDetails) { // not required
+			return nil
+		}
+
+		if err := m.AzureDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails")
 			}
 			return err
 		}
@@ -962,7 +1013,7 @@ func (m *Environment) UnmarshalBinary(b []byte) error {
 // swagger:model EnvironmentAwsDetails
 type EnvironmentAwsDetails struct {
 
-	// The name for the DynamoDB table backing S3Guard.
+	// Deprecated. S3Guard was used to ensure consistent S3 updates when S3 was still eventually consistent. With the introduction of Consistent S3, the goal and usage of S3 Guard have become superfluous and defunct.
 	S3GuardTableName string `json:"s3GuardTableName,omitempty"`
 }
 
@@ -987,6 +1038,104 @@ func (m *EnvironmentAwsDetails) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *EnvironmentAwsDetails) UnmarshalBinary(b []byte) error {
 	var res EnvironmentAwsDetails
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// EnvironmentAzureDetails Azure specific environment configuration information.
+//
+// swagger:model EnvironmentAzureDetails
+type EnvironmentAzureDetails struct {
+
+	// Object containing details of encryption parameters for Azure cloud.
+	ResourceEncryptionParameters *AzureResourceEncryptionParameters `json:"resourceEncryptionParameters,omitempty"`
+
+	// Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.
+	ResourceGroupName string `json:"resourceGroupName,omitempty"`
+}
+
+// Validate validates this environment azure details
+func (m *EnvironmentAzureDetails) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateResourceEncryptionParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *EnvironmentAzureDetails) validateResourceEncryptionParameters(formats strfmt.Registry) error {
+	if swag.IsZero(m.ResourceEncryptionParameters) { // not required
+		return nil
+	}
+
+	if m.ResourceEncryptionParameters != nil {
+		if err := m.ResourceEncryptionParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this environment azure details based on the context it is used
+func (m *EnvironmentAzureDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateResourceEncryptionParameters(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *EnvironmentAzureDetails) contextValidateResourceEncryptionParameters(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ResourceEncryptionParameters != nil {
+
+		if swag.IsZero(m.ResourceEncryptionParameters) { // not required
+			return nil
+		}
+
+		if err := m.ResourceEncryptionParameters.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *EnvironmentAzureDetails) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *EnvironmentAzureDetails) UnmarshalBinary(b []byte) error {
+	var res EnvironmentAzureDetails
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

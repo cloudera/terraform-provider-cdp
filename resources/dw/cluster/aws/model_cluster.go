@@ -74,7 +74,6 @@ func (p *resourceModel) convertToCreateAwsClusterRequest() *models.CreateAwsClus
 		EnableSpotInstances:              p.getEnableSpotInstances(),
 		CustomAmiID:                      p.getCustomAmiID(),
 		ComputeInstanceTypes:             p.getComputeInstanceTypes(),
-		AdditionalInstanceTypes:          p.getAdditionalInstanceTypes(),
 	}
 }
 
@@ -95,13 +94,6 @@ func (p *resourceModel) getCustomAmiID() string {
 func (p *resourceModel) getComputeInstanceTypes() []string {
 	if i := p.InstanceSettings; i != nil {
 		return utils.FromListValueToStringList(p.InstanceSettings.ComputeInstanceTypes)
-	}
-	return nil
-}
-
-func (p *resourceModel) getAdditionalInstanceTypes() []string {
-	if i := p.InstanceSettings; i != nil {
-		return utils.FromListValueToStringList(p.InstanceSettings.AdditionalInstanceTypes)
 	}
 	return nil
 }

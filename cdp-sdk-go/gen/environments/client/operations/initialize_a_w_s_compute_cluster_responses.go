@@ -53,7 +53,7 @@ InitializeAWSComputeClusterOK describes a response with status code 200, with de
 Expected response to a valid request.
 */
 type InitializeAWSComputeClusterOK struct {
-	Payload models.InitializeAWSComputeClusterResponse
+	Payload *models.InitializeAWSComputeClusterResponse
 }
 
 // IsSuccess returns true when this initialize a w s compute cluster o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *InitializeAWSComputeClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/initializeAWSComputeCluster][%d] initializeAWSComputeClusterOK %s", 200, payload)
 }
 
-func (o *InitializeAWSComputeClusterOK) GetPayload() models.InitializeAWSComputeClusterResponse {
+func (o *InitializeAWSComputeClusterOK) GetPayload() *models.InitializeAWSComputeClusterResponse {
 	return o.Payload
 }
 
 func (o *InitializeAWSComputeClusterOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.InitializeAWSComputeClusterResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

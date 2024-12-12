@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.124 (BETA)
+  version: 0.9.127 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -84,8 +84,8 @@ paths:
       x-mutating: true
   /api/v1/opdb/createSnapshot:
     post:
-      summary: Creates a snapshot for a specific table
-      description: Returns id state and creation time
+      summary: Creates a snapshot for a specific table.
+      description: Returns id state and creation time.
       operationId: createSnapshot
       parameters:
         - name: input
@@ -105,8 +105,8 @@ paths:
       x-mutating: true
   /api/v1/opdb/deleteSnapshot:
     post:
-      summary: Deletes a snapshot
-      description: Returns state of operation
+      summary: Deletes a snapshot.
+      description: Returns the snapshot that is deleted.
       operationId: deleteSnapshot
       parameters:
         - name: input
@@ -229,6 +229,27 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       x-mutating: true
+  /api/v1/opdb/listCertificates:
+    post:
+      summary: List certificates
+      description: List SHA-1 fingerprints of certificates in Global Trust Store
+      operationId: listCertificates
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListCertificatesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListCertificatesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: false
   /api/v1/opdb/listCoprocessors:
     post:
       summary: Lists coprocessors in a database
@@ -339,7 +360,7 @@ paths:
       x-mutating: false
   /api/v1/opdb/listRestoreSnapshots:
     post:
-      summary: Lists instances when a snapshot was restored to a database
+      summary: Lists instances when a snapshot was restored to a database.
       description: Returns a list of snapshots restored into a database.
       operationId: listRestoreSnapshots
       parameters:
@@ -382,8 +403,8 @@ paths:
       x-mutating: false
   /api/v1/opdb/listSnapshots:
     post:
-      summary: Shows snapshot for a table name in a specific location
-      description: Returns list of snapshot names
+      summary: Shows snapshot for a table name in a specific location.
+      description: Returns list of snapshot names.
       operationId: listSnapshots
       parameters:
         - name: input
@@ -417,6 +438,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/ListSupportedEnvironmentsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: false
+  /api/v1/opdb/listSupportedInstanceTypes:
+    post:
+      summary: Lists instance types supported by COD
+      description: Lists instance types supported by COD.
+      operationId: listSupportedInstanceTypes
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListSupportedInstanceTypesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListSupportedInstanceTypesResponse'
         default:
           description: The default response on an error.
           schema:
@@ -467,8 +509,8 @@ paths:
       x-mutating: true
   /api/v1/opdb/restoreSnapshot:
     post:
-      summary: Restores a snapshot
-      description: Returns state of operation
+      summary: Restores a snapshot.
+      description: Returns the snapshot that was restored.
       operationId: restoreSnapshot
       parameters:
         - name: input
@@ -607,6 +649,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpgradeDatabaseResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: true
+  /api/v1/opdb/uploadCertificate:
+    post:
+      summary: Upload custom certificate
+      description: Upload a custom certificate to Global Trust Store
+      operationId: uploadCertificate
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UploadCertificateRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UploadCertificateResponse'
         default:
           description: The default response on an error.
           schema:
@@ -838,6 +901,9 @@ definitions:
       computeClusterCrn:
         type: string
         description: Utilizes the existing compute cluster with the provided CRN instead of creating a new one.
+      architecture:
+        description: Specifies the Architecture of the cluster nodes.
+        $ref: '#/definitions/ArchitectureType'
       customInstanceTypes:
         description: Provide custom VM instance types for master, worker, gateway, leader, edge and compute groups.
         $ref: '#/definitions/CustomInstanceTypes'
@@ -901,6 +967,12 @@ definitions:
       - CLOUD_WITH_EPHEMERAL
       - CLOUD
       - HDFS
+  ArchitectureType:
+    type: string
+    description: "Architecture type for cluster.\n `X86_64` - X64 CPU Architecture is used for the cluster. `ARM64` - ARM64 CPU Architecture is used for the cluster."
+    enum:
+      - X86_64
+      - ARM64
   UpdateDatabaseRequest:
     type: object
     description: A request to update the database
@@ -937,6 +1009,19 @@ definitions:
       removeRestworkerNodes:
         type: boolean
         description: Removes any REST Worker nodes provisioned for this database. Requires the COD_RESTWORKERS entitlement.
+      switchInstanceType:
+        description: Provide custom VM instance types to switch instance types for instance groups. Requires COD_USE_CUSTOM_INSTANCE_TYPES entitlement.
+        $ref: '#/definitions/CustomInstanceType'
+  CustomInstanceType:
+    type: object
+    description: Parameters to configure custom VM Instance Types.
+    properties:
+      instanceGroup:
+        description: The Instance Group Type.
+        $ref: '#/definitions/InstanceGroupType'
+      instanceType:
+        type: string
+        description: The Custom VM Instance Type.
   AutoScalingParameters:
     type: object
     description: A Parameters to configure AutoScaling
@@ -1333,6 +1418,9 @@ definitions:
         type: integer
         format: int32
         description: Number of REST Worker nodes for the database.
+      architecture:
+        description: Specifies the architecture of the cluster nodes.
+        $ref: '#/definitions/ArchitectureType'
   StorageDetailsForWorker:
     type: object
     description: Storage details for the worker node for AWS, Azure, and GCP cloud providers.
@@ -1348,6 +1436,13 @@ definitions:
       volumeType:
         description: The volume type.
         $ref: '#/definitions/VolumeType'
+  CloudPlatform:
+    type: string
+    description: "Cloud Provider that cluster is exhibited on.\n `AWS` - AWS `AZURE` - Azure `GCP` - GCP"
+    enum:
+      - AWS
+      - AZURE
+      - GCP
   DescribeDatabaseRequest:
     type: object
     description: request to get details of the database in a particular environment
@@ -1379,6 +1474,7 @@ definitions:
       - LOCKED
       - DELETED
       - CORRUPT
+      - DELETING
       - UNKNOWN
   CreateSnapshotRequest:
     type: object
@@ -1392,43 +1488,43 @@ definitions:
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
         description: The name of the database.
       tableName:
         type: string
-        description: fully qualified table name
+        description: The fully qualified table name.
       snapshotName:
         type: string
         description: Snapshot name unique per database.
       snapshotLocation:
         type: string
-        description: Snapshot location URL on object store
+        description: The snapshot location URL on object store.
   CreateSnapshotResponse:
     type: object
     description: Create Snapshot Response.
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
-        description: The name of the database
+        description: The name of the database.
       status:
-        description: Status
+        description: The status of the create snapshot.
         $ref: '#/definitions/SnapshotStatusType'
       creationTime:
         type: integer
         format: int64
-        description: When the snapshot was created
+        description: When the snapshot was created.
       commandID:
         type: integer
         format: int64
-        description: command id
+        description: The submitted Command ID of the create snapshot.
       statusReason:
         type: string
-        description: Reason for the status
+        description: Reason for the status.
   RestoreSnapshotRequest:
     type: object
     description: Restore Snapshot Request.
@@ -1441,55 +1537,55 @@ definitions:
     properties:
       environmentName:
         type: string
-        description: The name of the original environment
+        description: The name of the original environment.
       databaseName:
         type: string
-        description: The name of the original database
+        description: The name of the original database.
       snapshotName:
         type: string
-        description: Snapshot name
+        description: The name of the snapshot.
       targetEnvironmentName:
         type: string
-        description: The name of the target environment where the snapshot should be restored
+        description: The name of the target environment where the snapshot should be restored.
       targetDatabaseName:
         type: string
-        description: The name of the target database where the snapshot should be restored
+        description: The name of the target database where the snapshot should be restored.
   RestoreSnapshotResponse:
     type: object
-    description: Restore Snapshot Response.
+    description: Response object for the RestoreSnapshot method.
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
-        description: The name of the database
+        description: The name of the database.
       snapshotName:
         type: string
-        description: The snapshot name
+        description: The name of the snapshot.
       targetEnvironmentName:
         type: string
-        description: The name of the target environment
+        description: The name of the target environment.
       targetDatabaseName:
         type: string
-        description: The name of the target database
+        description: The name of the target database.
       status:
-        description: Status
+        description: The status of the restore snapshot.
         $ref: '#/definitions/SnapshotStatusType'
       restoreTime:
         type: integer
         format: int64
-        description: When the snapshot restore was started
+        description: The time when the snapshot restore was started.
       commandID:
         type: integer
         format: int64
-        description: Command id
+        description: The submitted Command ID of the restore snapshot.
       statusReason:
         type: string
-        description: Reason for the status
+        description: Reason for the status.
   DeleteSnapshotRequest:
     type: object
-    description: Delete Snapshot Request.
+    description: Request object for the DeleteSnapshot method.
     required:
       - environmentName
       - databaseName
@@ -1497,36 +1593,36 @@ definitions:
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
-        description: The name of the database
+        description: The name of the database.
       snapshotName:
         type: string
-        description: Snapshot name
+        description: The name of the snapshot.
   DeleteSnapshotResponse:
     type: object
-    description: Delete Snapshot Response.
+    description: Response object of the DeleteSnapshot method.
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
-        description: The name of the database
+        description: The name of the database.
       status:
-        description: Status
+        description: The status of the delete snapshot.
         $ref: '#/definitions/SnapshotStatusType'
       commandID:
         type: integer
         format: int64
-        description: command id
+        description: The submitted Command ID of the delete snapshot.
       statusReason:
         type: string
-        description: Reason for the status
+        description: Reason for the status.
       snapshotName:
         type: string
-        description: Snapshot name
+        description: The name of the snapshot.
   Snapshot:
     type: object
     description: An instance of a table's snapshot.
@@ -1536,24 +1632,24 @@ definitions:
     properties:
       tableName:
         type: string
-        description: Table Name
+        description: The table name.
       snapshotName:
         type: string
-        description: Snapshot Name
+        description: The name of the snapshot.
       creationTime:
         type: integer
         format: int64
-        description: Creation Time
+        description: The creation time of the snapshot.
       status:
-        description: Status
+        description: The status of the snapshot.
         $ref: '#/definitions/SnapshotStatusType'
       commandID:
         type: integer
         format: int64
-        description: Command id
+        description: The submitted Command ID of the snapshot.
       snapshotLocation:
         type: string
-        description: Snapshot location
+        description: The location of the snapshot.
       failureReason:
         type: string
         description: Reason for the failure in case of snapshot creation failed.
@@ -1566,25 +1662,25 @@ definitions:
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
-        description: The name of the database
+        description: The name of the database.
       tableName:
         type: string
-        description: Table name
+        description: The table name.
       commandId:
         type: integer
         format: int64
-        description: Command Id
+        description: The submitted Command ID of the snapshots.
       fromCreationTime:
         type: string
         format: date-time
-        description: The starting snapshot creation time to search snapshots (inclusive).
+        description: The creation time of the snapshots to search (inclusive).
       toCreationTime:
         type: string
         format: date-time
-        description: The ending snapshot creation time to search snapshots (inclusive).
+        description: The ending time of the snapshot creation to search (inclusive).
   ListSnapshotsResponse:
     type: object
     description: Show Snapshots Response.
@@ -1594,21 +1690,21 @@ definitions:
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
-        description: The name of the database
+        description: The name of the database.
       snapshots:
         type: array
         items:
           $ref: '#/definitions/Snapshot'
-        description: List of snapshots
+        description: List of snapshots.
       status:
-        description: Status
+        description: The status of the list snapshots.
         $ref: '#/definitions/SnapshotStatusType'
       statusReason:
         type: string
-        description: Reason for the status
+        description: Reason for the status.
   ListRestoreSnapshotsRequest:
     type: object
     description: Show Restore Snapshots Request.
@@ -1618,23 +1714,23 @@ definitions:
     properties:
       environmentName:
         type: string
-        description: The name of the environment
+        description: The name of the environment.
       databaseName:
         type: string
-        description: The name of the database
+        description: The name of the database.
       snapshotName:
         type: string
-        description: Snapshot Name
+        description: The name of the snapshot.
       targetEnvironmentName:
         type: string
-        description: The name of the target environment
+        description: The name of the target environment.
       targetDatabaseName:
         type: string
-        description: The name of the target database
+        description: The name of the target database.
       commandId:
         type: integer
         format: int64
-        description: Command Id
+        description: The submitted Command ID of the snapshot.
       fromRestoreTime:
         type: string
         format: date-time
@@ -1649,24 +1745,24 @@ definitions:
     properties:
       snapshotName:
         type: string
-        description: The snapshot name
+        description: The name of the snapshot.
       targetEnvironmentName:
         type: string
-        description: The name of the target environment
+        description: The name of the target environment.
       targetDatabaseName:
         type: string
-        description: The name of the target database
+        description: The name of the target database.
       status:
-        description: Status
+        description: The status of the restore snapshot.
         $ref: '#/definitions/SnapshotStatusType'
       restoreTime:
         type: integer
         format: int64
-        description: When the snapshot restore was started
+        description: The time when the snapshot restore was started.
       commandID:
         type: integer
         format: int64
-        description: Command id
+        description: The submitted Command ID of the restore snapshot.
       failureReason:
         type: string
         description: Reason for the failure in case of restore snapshot failed.
@@ -2383,4 +2479,98 @@ definitions:
     enum:
       - GATEWAY
       - MASTER
+  ListCertificatesRequest:
+    type: object
+    description: The request of listing SHA-1 fingerprints of certificates in Global Trust Store
+    required:
+      - environment
+      - database
+    properties:
+      environment:
+        type: string
+        description: The name or CRN of the environment.
+      database:
+        type: string
+        description: The name or CRN of the database.
+  ListCertificatesResponse:
+    type: object
+    description: The response of listing fingerprints of certificates in Global Trust Store
+    properties:
+      fingerprints:
+        type: array
+        items:
+          type: string
+        description: List of certificate SHA-1 fingerprints in Global Trust Store
+  UploadCertificateRequest:
+    type: object
+    description: The request of uploading a custom certificate to Global Trust Store
+    required:
+      - environment
+      - database
+      - certificate
+    properties:
+      environment:
+        type: string
+        description: The name or CRN of the environment.
+      database:
+        type: string
+        description: The name or CRN of the database.
+      certificate:
+        type: string
+        description: Custom certificate in PEM format
+        x-sensitive: true
+  UploadCertificateResponse:
+    type: object
+    description: The response of uploading a custom certificate to Global Trust Store
+    properties:
+      fingerprint:
+        type: string
+        description: SHA-1 fingerprint of the newly added certificate
+  ListSupportedInstanceTypesRequest:
+    type: object
+    description: The request for listing supported instance types.
+    required:
+      - cloudPlatform
+      - storageType
+      - scaleType
+    properties:
+      cloudPlatform:
+        description: The name of Cloud Platform.
+        $ref: '#/definitions/CloudPlatform'
+      storageType:
+        description: The Storage Type.
+        $ref: '#/definitions/StorageType'
+      scaleType:
+        description: The Scale Type.
+        $ref: '#/definitions/ScaleType'
+      instanceGroup:
+        description: The Instance Group Type.
+        $ref: '#/definitions/InstanceGroupType'
+      architecture:
+        description: The Architecture.
+        $ref: '#/definitions/ArchitectureType'
+  ListSupportedInstanceTypesResponse:
+    type: object
+    description: The response for listing supported instance types.
+    properties:
+      supportedInstances:
+        type: array
+        items:
+          $ref: '#/definitions/SupportedInstanceTypesList'
+        description: List of supported instance types.
+  SupportedInstanceTypesList:
+    type: object
+    description: Instance Types list for listing supported instance types.
+    properties:
+      instanceGroup:
+        type: string
+        description: The Instance Group Type.
+      defaultInstanceTypes:
+        type: string
+        description: The default instance type.
+      supportedInstanceTypes:
+        type: array
+        items:
+          type: string
+        description: The other instance types supported.
 x-audit: true

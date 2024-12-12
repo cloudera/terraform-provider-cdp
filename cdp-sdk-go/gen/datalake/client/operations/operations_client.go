@@ -138,6 +138,8 @@ type ClientService interface {
 
 	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
 
+	SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error)
+
 	StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
 
 	StartDatalake(params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error)
@@ -1798,6 +1800,45 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*SetCatalogDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetDefaultJavaVersion configures the default java version for the data lake
+
+Configures the default Java version for the Data Lake. This command updates the system's default Java version and will restart both the Cluster Manager and the services.
+*/
+func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSetDefaultJavaVersionParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setDefaultJavaVersion",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/setDefaultJavaVersion",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetDefaultJavaVersionReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SetDefaultJavaVersionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SetDefaultJavaVersionDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

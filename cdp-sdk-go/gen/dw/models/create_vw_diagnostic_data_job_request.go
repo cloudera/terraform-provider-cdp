@@ -42,10 +42,10 @@ type CreateVwDiagnosticDataJobRequest struct {
 	// Forced recreation of the diagnostic job.
 	Force *bool `json:"force,omitempty"`
 
-	// Hive diagnostic options. If not provided, everything will be included into the Diagnostic Data.
+	// DEPRECATED: All logs are included by default
 	HiveDownloadOptions *HiveCreateDiagnosticDataDownloadOptions `json:"hiveDownloadOptions,omitempty"`
 
-	// Impala diagnostic options. If not provided, everything will be included into the Diagnostic Data.
+	// DEPRECATED: All logs are included by default
 	ImpalaDownloadOptions *ImpalaCreateDiagnosticDataDownloadOptions `json:"impalaDownloadOptions,omitempty"`
 
 	// The resulting bundle will contain logs/metrics after the specified start time. If not indicated, then 30 minutes ago from now is taken as the start time.

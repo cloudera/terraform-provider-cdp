@@ -3379,6 +3379,79 @@ func (_c *MockEnvironmentClientService_InitializeAzureComputeCluster_Call) RunAn
 	return _c
 }
 
+// LastSyncStatus provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) LastSyncStatus(params *operations.LastSyncStatusParams, opts ...operations.ClientOption) (*operations.LastSyncStatusOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for LastSyncStatus")
+	}
+
+	var r0 *operations.LastSyncStatusOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.LastSyncStatusParams, ...operations.ClientOption) (*operations.LastSyncStatusOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.LastSyncStatusParams, ...operations.ClientOption) *operations.LastSyncStatusOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.LastSyncStatusOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.LastSyncStatusParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_LastSyncStatus_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'LastSyncStatus'
+type MockEnvironmentClientService_LastSyncStatus_Call struct {
+	*mock.Call
+}
+
+// LastSyncStatus is a helper method to define mock.On call
+//   - params *operations.LastSyncStatusParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) LastSyncStatus(params interface{}, opts ...interface{}) *MockEnvironmentClientService_LastSyncStatus_Call {
+	return &MockEnvironmentClientService_LastSyncStatus_Call{Call: _e.mock.On("LastSyncStatus",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_LastSyncStatus_Call) Run(run func(params *operations.LastSyncStatusParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_LastSyncStatus_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.LastSyncStatusParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_LastSyncStatus_Call) Return(_a0 *operations.LastSyncStatusOK, _a1 error) *MockEnvironmentClientService_LastSyncStatus_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_LastSyncStatus_Call) RunAndReturn(run func(*operations.LastSyncStatusParams, ...operations.ClientOption) (*operations.LastSyncStatusOK, error)) *MockEnvironmentClientService_LastSyncStatus_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListAuditCredentials provides a mock function with given fields: params, opts
 func (_m *MockEnvironmentClientService) ListAuditCredentials(params *operations.ListAuditCredentialsParams, opts ...operations.ClientOption) (*operations.ListAuditCredentialsOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -5087,7 +5160,7 @@ func (_c *MockEnvironmentClientService_SetTransport_Call) Return() *MockEnvironm
 }
 
 func (_c *MockEnvironmentClientService_SetTransport_Call) RunAndReturn(run func(runtime.ClientTransport)) *MockEnvironmentClientService_SetTransport_Call {
-	_c.Call.Return(run)
+	_c.Run(run)
 	return _c
 }
 

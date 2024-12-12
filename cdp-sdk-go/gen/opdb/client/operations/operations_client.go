@@ -74,6 +74,8 @@ type ClientService interface {
 
 	DropDatabase(params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error)
 
+	ListCertificates(params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error)
+
 	ListCoprocessors(params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error)
 
 	ListDatabases(params *ListDatabasesParams, opts ...ClientOption) (*ListDatabasesOK, error)
@@ -92,6 +94,8 @@ type ClientService interface {
 
 	ListSupportedEnvironments(params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error)
 
+	ListSupportedInstanceTypes(params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error)
+
 	PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error)
 
 	RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error)
@@ -109,6 +113,8 @@ type ClientService interface {
 	UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams, opts ...ClientOption) (*UpdateHbaseConfigurationOK, error)
 
 	UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOption) (*UpgradeDatabaseOK, error)
+
+	UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -233,7 +239,7 @@ func (a *Client) CreateDatabase(params *CreateDatabaseParams, opts ...ClientOpti
 /*
 CreateSnapshot creates a snapshot for a specific table
 
-Returns id state and creation time
+Returns id state and creation time.
 */
 func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOption) (*CreateSnapshotOK, error) {
 	// TODO: Validate the params before sending
@@ -272,7 +278,7 @@ func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOpti
 /*
 DeleteSnapshot deletes a snapshot
 
-Returns state of operation
+Returns the snapshot that is deleted.
 */
 func (a *Client) DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOption) (*DeleteSnapshotOK, error) {
 	// TODO: Validate the params before sending
@@ -500,6 +506,45 @@ func (a *Client) DropDatabase(params *DropDatabaseParams, opts ...ClientOption) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DropDatabaseDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListCertificates lists certificates
+
+List SHA-1 fingerprints of certificates in Global Trust Store
+*/
+func (a *Client) ListCertificates(params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListCertificatesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listCertificates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/opdb/listCertificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListCertificatesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListCertificatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListCertificatesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -779,7 +824,7 @@ func (a *Client) ListScalingEvents(params *ListScalingEventsParams, opts ...Clie
 /*
 ListSnapshots shows snapshot for a table name in a specific location
 
-Returns list of snapshot names
+Returns list of snapshot names.
 */
 func (a *Client) ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error) {
 	// TODO: Validate the params before sending
@@ -851,6 +896,45 @@ func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsPara
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListSupportedEnvironmentsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ListSupportedInstanceTypes lists instance types supported by c o d
+
+Lists instance types supported by COD.
+*/
+func (a *Client) ListSupportedInstanceTypes(params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListSupportedInstanceTypesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listSupportedInstanceTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/opdb/listSupportedInstanceTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListSupportedInstanceTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListSupportedInstanceTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListSupportedInstanceTypesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -935,7 +1019,7 @@ func (a *Client) RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...Clie
 /*
 RestoreSnapshot restores a snapshot
 
-Returns state of operation
+Returns the snapshot that was restored.
 */
 func (a *Client) RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOption) (*RestoreSnapshotOK, error) {
 	// TODO: Validate the params before sending
@@ -1202,6 +1286,45 @@ func (a *Client) UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOp
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpgradeDatabaseDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UploadCertificate uploads custom certificate
+
+Upload a custom certificate to Global Trust Store
+*/
+func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUploadCertificateParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "uploadCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/opdb/uploadCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UploadCertificateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UploadCertificateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UploadCertificateDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

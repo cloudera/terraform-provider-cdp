@@ -45,6 +45,9 @@ type UpdateDatabaseRequest struct {
 	// Removes any strong meta servers provisioned for this database. Requires the COD_STRONG_META_SERVERS entitlement.
 	RemoveStrongMetaServers bool `json:"removeStrongMetaServers,omitempty"`
 
+	// Provide custom VM instance types to switch instance types for instance groups. Requires COD_USE_CUSTOM_INSTANCE_TYPES entitlement.
+	SwitchInstanceType *CustomInstanceType `json:"switchInstanceType,omitempty"`
+
 	// Vertical Scale request for database.
 	VerticalScale GroupType `json:"verticalScale,omitempty"`
 }
@@ -62,6 +65,10 @@ func (m *UpdateDatabaseRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateEnvironmentName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSwitchInstanceType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -112,6 +119,25 @@ func (m *UpdateDatabaseRequest) validateEnvironmentName(formats strfmt.Registry)
 	return nil
 }
 
+func (m *UpdateDatabaseRequest) validateSwitchInstanceType(formats strfmt.Registry) error {
+	if swag.IsZero(m.SwitchInstanceType) { // not required
+		return nil
+	}
+
+	if m.SwitchInstanceType != nil {
+		if err := m.SwitchInstanceType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("switchInstanceType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("switchInstanceType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *UpdateDatabaseRequest) validateVerticalScale(formats strfmt.Registry) error {
 	if swag.IsZero(m.VerticalScale) { // not required
 		return nil
@@ -134,6 +160,10 @@ func (m *UpdateDatabaseRequest) ContextValidate(ctx context.Context, formats str
 	var res []error
 
 	if err := m.contextValidateAutoScalingParameters(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSwitchInstanceType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -160,6 +190,27 @@ func (m *UpdateDatabaseRequest) contextValidateAutoScalingParameters(ctx context
 				return ve.ValidateName("autoScalingParameters")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("autoScalingParameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *UpdateDatabaseRequest) contextValidateSwitchInstanceType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SwitchInstanceType != nil {
+
+		if swag.IsZero(m.SwitchInstanceType) { // not required
+			return nil
+		}
+
+		if err := m.SwitchInstanceType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("switchInstanceType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("switchInstanceType")
 			}
 			return err
 		}

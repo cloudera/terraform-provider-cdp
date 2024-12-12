@@ -19,26 +19,26 @@ import (
 // swagger:model Snapshot
 type Snapshot struct {
 
-	// Command id
+	// The submitted Command ID of the snapshot.
 	CommandID int64 `json:"commandID,omitempty"`
 
-	// Creation Time
+	// The creation time of the snapshot.
 	CreationTime int64 `json:"creationTime,omitempty"`
 
 	// Reason for the failure in case of snapshot creation failed.
 	FailureReason string `json:"failureReason,omitempty"`
 
-	// Snapshot location
+	// The location of the snapshot.
 	SnapshotLocation string `json:"snapshotLocation,omitempty"`
 
-	// Snapshot Name
+	// The name of the snapshot.
 	// Required: true
 	SnapshotName *string `json:"snapshotName"`
 
-	// Status
+	// The status of the snapshot.
 	Status SnapshotStatusType `json:"status,omitempty"`
 
-	// Table Name
+	// The table name.
 	// Required: true
 	TableName *string `json:"tableName"`
 }

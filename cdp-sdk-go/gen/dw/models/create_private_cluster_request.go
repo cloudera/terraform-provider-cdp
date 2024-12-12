@@ -41,7 +41,7 @@ type CreatePrivateClusterRequest struct {
 	// The Resource Pool of the cluster.
 	ResourcePool string `json:"resourcePool,omitempty"`
 
-	// The name of the Hive Security Context Constraint.
+	// DEPRECATED: This option will be removed in future releases. Instead of creating a custom Security Context Constraint, we rely on the cluster default. The name of the Hive Security Context Constraint.
 	SecurityContextConstraintName string `json:"securityContextConstraintName,omitempty"`
 
 	// The storage class for the Local Storage Operator.

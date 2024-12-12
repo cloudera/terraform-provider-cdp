@@ -23,11 +23,11 @@ type CreateSnapshotRequest struct {
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
 
-	// The name of the environment
+	// The name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// Snapshot location URL on object store
+	// The snapshot location URL on object store.
 	// Required: true
 	SnapshotLocation *string `json:"snapshotLocation"`
 
@@ -35,7 +35,7 @@ type CreateSnapshotRequest struct {
 	// Required: true
 	SnapshotName *string `json:"snapshotName"`
 
-	// fully qualified table name
+	// The fully qualified table name.
 	// Required: true
 	TableName *string `json:"tableName"`
 }

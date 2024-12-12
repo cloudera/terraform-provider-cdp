@@ -20,9 +20,6 @@ import (
 // swagger:model ClusterSummaryResponse
 type ClusterSummaryResponse struct {
 
-	// DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They are used instead of the primary compute instance type in case it is unavailable. Since additional instance types are not supported for Azure, this is always empty for it.
-	AdditionalInstanceTypes []string `json:"additionalInstanceTypes"`
-
 	// Response object of AWS related cluster options.
 	AwsOptions *AwsOptionsResponse `json:"awsOptions,omitempty"`
 
@@ -65,6 +62,9 @@ type ClusterSummaryResponse struct {
 
 	// Name of the cluster (same as the name of the environment).
 	Name string `json:"name,omitempty"`
+
+	// Support lifecycle details of the given Cluster version (see version field). Learn more at Support lifecycle site: https://www.cloudera.com/services-and-support/support-lifecycle-policy.html.
+	ProductSupport *ClusterSummaryProductSupportResponse `json:"productSupport,omitempty"`
 
 	// DEPRECATED - will be removed in future releases. Number of additional reserved nodes for executors and coordinators to use during autoscaling.
 	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
@@ -112,6 +112,10 @@ func (m *ClusterSummaryResponse) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateExternalBuckets(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateProductSupport(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -216,6 +220,25 @@ func (m *ClusterSummaryResponse) validateExternalBuckets(formats strfmt.Registry
 	return nil
 }
 
+func (m *ClusterSummaryResponse) validateProductSupport(formats strfmt.Registry) error {
+	if swag.IsZero(m.ProductSupport) { // not required
+		return nil
+	}
+
+	if m.ProductSupport != nil {
+		if err := m.ProductSupport.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("productSupport")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("productSupport")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this cluster summary response based on the context it is used
 func (m *ClusterSummaryResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -233,6 +256,10 @@ func (m *ClusterSummaryResponse) ContextValidate(ctx context.Context, formats st
 	}
 
 	if err := m.contextValidateExternalBuckets(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProductSupport(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -325,6 +352,27 @@ func (m *ClusterSummaryResponse) contextValidateExternalBuckets(ctx context.Cont
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *ClusterSummaryResponse) contextValidateProductSupport(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ProductSupport != nil {
+
+		if swag.IsZero(m.ProductSupport) { // not required
+			return nil
+		}
+
+		if err := m.ProductSupport.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("productSupport")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("productSupport")
+			}
+			return err
+		}
 	}
 
 	return nil

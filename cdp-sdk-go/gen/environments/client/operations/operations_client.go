@@ -146,6 +146,8 @@ type ClientService interface {
 
 	InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error)
 
+	LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error)
+
 	ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error)
 
 	ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error)
@@ -2046,6 +2048,45 @@ func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClu
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*InitializeAzureComputeClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+LastSyncStatus returns status of the sync operation for the environment crn
+
+Returns status of the sync operation for the environment based on crn.
+*/
+func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewLastSyncStatusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "lastSyncStatus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/lastSyncStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &LastSyncStatusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*LastSyncStatusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*LastSyncStatusDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

@@ -20,7 +20,7 @@ import (
 // swagger:model AzureComputeClusterConfigurationRequest
 type AzureComputeClusterConfigurationRequest struct {
 
-	// Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster. Default value is 0.0.0.0/0.
+	// Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster.
 	KubeAPIAuthorizedIPRanges []string `json:"kubeApiAuthorizedIpRanges"`
 
 	// Customize cluster egress with defined outbound type in Azure Kubernetes Service.

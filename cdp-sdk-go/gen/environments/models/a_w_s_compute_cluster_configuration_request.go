@@ -17,7 +17,7 @@ import (
 // swagger:model AWSComputeClusterConfigurationRequest
 type AWSComputeClusterConfigurationRequest struct {
 
-	// Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster. Default value is 0.0.0.0/0.
+	// Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster.
 	KubeAPIAuthorizedIPRanges []string `json:"kubeApiAuthorizedIpRanges"`
 
 	// If true, creates private cluster.

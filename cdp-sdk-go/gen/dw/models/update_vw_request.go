@@ -54,9 +54,9 @@ type UpdateVwRequest struct {
 	// Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.
 	ResourcePool string `json:"resourcePool,omitempty"`
 
-	// DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.
+	// Name of T-shirt size to use, which will determine the number of nodes.
 	// Enum: ["xsmall","small","medium","large"]
-	Template string `json:"template,omitempty"`
+	TShirtSize string `json:"tShirtSize,omitempty"`
 
 	// ID of the Virtual Warehouse.
 	// Required: true
@@ -87,7 +87,7 @@ func (m *UpdateVwRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateTemplate(formats); err != nil {
+	if err := m.validateTShirtSize(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -186,7 +186,7 @@ func (m *UpdateVwRequest) validateQueryIsolationOptions(formats strfmt.Registry)
 	return nil
 }
 
-var updateVwRequestTypeTemplatePropEnum []interface{}
+var updateVwRequestTypeTShirtSizePropEnum []interface{}
 
 func init() {
 	var res []string
@@ -194,40 +194,40 @@ func init() {
 		panic(err)
 	}
 	for _, v := range res {
-		updateVwRequestTypeTemplatePropEnum = append(updateVwRequestTypeTemplatePropEnum, v)
+		updateVwRequestTypeTShirtSizePropEnum = append(updateVwRequestTypeTShirtSizePropEnum, v)
 	}
 }
 
 const (
 
-	// UpdateVwRequestTemplateXsmall captures enum value "xsmall"
-	UpdateVwRequestTemplateXsmall string = "xsmall"
+	// UpdateVwRequestTShirtSizeXsmall captures enum value "xsmall"
+	UpdateVwRequestTShirtSizeXsmall string = "xsmall"
 
-	// UpdateVwRequestTemplateSmall captures enum value "small"
-	UpdateVwRequestTemplateSmall string = "small"
+	// UpdateVwRequestTShirtSizeSmall captures enum value "small"
+	UpdateVwRequestTShirtSizeSmall string = "small"
 
-	// UpdateVwRequestTemplateMedium captures enum value "medium"
-	UpdateVwRequestTemplateMedium string = "medium"
+	// UpdateVwRequestTShirtSizeMedium captures enum value "medium"
+	UpdateVwRequestTShirtSizeMedium string = "medium"
 
-	// UpdateVwRequestTemplateLarge captures enum value "large"
-	UpdateVwRequestTemplateLarge string = "large"
+	// UpdateVwRequestTShirtSizeLarge captures enum value "large"
+	UpdateVwRequestTShirtSizeLarge string = "large"
 )
 
 // prop value enum
-func (m *UpdateVwRequest) validateTemplateEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, updateVwRequestTypeTemplatePropEnum, true); err != nil {
+func (m *UpdateVwRequest) validateTShirtSizeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, updateVwRequestTypeTShirtSizePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (m *UpdateVwRequest) validateTemplate(formats strfmt.Registry) error {
-	if swag.IsZero(m.Template) { // not required
+func (m *UpdateVwRequest) validateTShirtSize(formats strfmt.Registry) error {
+	if swag.IsZero(m.TShirtSize) { // not required
 		return nil
 	}
 
 	// value enum
-	if err := m.validateTemplateEnum("template", "body", m.Template); err != nil {
+	if err := m.validateTShirtSizeEnum("tShirtSize", "body", m.TShirtSize); err != nil {
 		return err
 	}
 

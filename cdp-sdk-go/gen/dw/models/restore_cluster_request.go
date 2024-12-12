@@ -23,7 +23,7 @@ type RestoreClusterRequest struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
-	// Dump of configuration received by calling "dump-cluster" command.
+	// Backup data of configuration received by calling "backup-cluster" command.
 	// Required: true
 	Data *string `json:"data"`
 }

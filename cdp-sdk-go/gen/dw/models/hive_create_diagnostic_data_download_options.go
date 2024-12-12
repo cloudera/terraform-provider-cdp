@@ -12,30 +12,30 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// HiveCreateDiagnosticDataDownloadOptions Flags that denote which diagnostics to include for a Hive Virtual Warehouse.
+// HiveCreateDiagnosticDataDownloadOptions DEPRECATED: Included by default, no need to specify
 //
 // swagger:model HiveCreateDiagnosticDataDownloadOptions
 type HiveCreateDiagnosticDataDownloadOptions struct {
 
-	// Include compute resource info.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeComputeResourceInfo *bool `json:"includeComputeResourceInfo,omitempty"`
 
-	// Include the error dump.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeErrordump *bool `json:"includeErrordump,omitempty"`
 
-	// Include the Garbage collector logs.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeGclogs *bool `json:"includeGclogs,omitempty"`
 
-	// Include the heap-dump.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeHeapdump *bool `json:"includeHeapdump,omitempty"`
 
-	// Include the HMS diagnostics.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeHms *bool `json:"includeHms,omitempty"`
 
-	// Include Kubernetes resource info.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeKubernetesResourceInfo *bool `json:"includeKubernetesResourceInfo,omitempty"`
 
-	// Include logs.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeLogs *bool `json:"includeLogs,omitempty"`
 }
 

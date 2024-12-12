@@ -39,7 +39,7 @@ type CreateDbcDiagnosticDataJobRequest struct {
 	// Enum: ["UPLOAD_TO_CLOUDERA","DOWNLOAD"]
 	Destination *string `json:"destination"`
 
-	// Database Catalog diagnostic options. If not provided, everything will be included in the Diagnostic Data.
+	// DEPRECATED: All logs are included by default
 	DownloadOptions *DBCCreateDiagnosticDataDownloadOptions `json:"downloadOptions,omitempty"`
 
 	// The resulting bundle will contain logs/metrics before the specified end time. If not indicated, then the current time is taken as the end time.

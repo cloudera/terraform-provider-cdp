@@ -12,12 +12,12 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// DBCCreateDiagnosticDataDownloadOptions Flags that denote which diagnostics to include for a Database Catalog.
+// DBCCreateDiagnosticDataDownloadOptions DEPRECATED: Included by default, no need to specify
 //
 // swagger:model DBCCreateDiagnosticDataDownloadOptions
 type DBCCreateDiagnosticDataDownloadOptions struct {
 
-	// Include kubernetes resource info.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeKubernetesResourceInfo *bool `json:"includeKubernetesResourceInfo,omitempty"`
 }
 

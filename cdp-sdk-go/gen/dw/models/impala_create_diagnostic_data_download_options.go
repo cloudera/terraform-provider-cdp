@@ -12,27 +12,27 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// ImpalaCreateDiagnosticDataDownloadOptions Flags that denote which diagnostics to include for an Impala Virtual Warehouse.
+// ImpalaCreateDiagnosticDataDownloadOptions DEPRECATED: Included by default, no need to specify
 //
 // swagger:model ImpalaCreateDiagnosticDataDownloadOptions
 type ImpalaCreateDiagnosticDataDownloadOptions struct {
 
-	// Include the HMS diagnostics.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeHms *bool `json:"includeHms,omitempty"`
 
-	// Include kubernetes resource info.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeKubernetesResourceInfo *bool `json:"includeKubernetesResourceInfo,omitempty"`
 
-	// Include the minidump.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeMinidump *bool `json:"includeMinidump,omitempty"`
 
-	// Include the profile.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeProfile *bool `json:"includeProfile,omitempty"`
 
-	// Include the sidecar diagnostics.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeSidecar *bool `json:"includeSidecar,omitempty"`
 
-	// Include the workload diagnostics.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeWorkload *bool `json:"includeWorkload,omitempty"`
 }
 
