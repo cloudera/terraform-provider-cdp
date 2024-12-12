@@ -290,7 +290,6 @@ func modelToCreateWorkspaceRequest(ctx context.Context, data *workspaceResourceM
 		ExistingDatabaseConfig:      exDbCfgReq,
 		ExistingNFS:                 data.ExistingNFS.ValueString(),
 		LoadBalancerIPWhitelists:    utils.FromSetValueToStringList(data.LoadBalancerIPWhitelists),
-		MlVersion:                   data.MlVersion.ValueString(),
 		NfsVersion:                  data.NfsVersion.ValueString(),
 		OutboundTypes:               obTypes,
 		PrivateCluster:              data.PrivateCluster.ValueBool(),

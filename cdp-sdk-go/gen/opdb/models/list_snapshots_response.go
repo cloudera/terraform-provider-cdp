@@ -20,21 +20,21 @@ import (
 // swagger:model ListSnapshotsResponse
 type ListSnapshotsResponse struct {
 
-	// The name of the database
+	// The name of the database.
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
 
-	// The name of the environment
+	// The name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// List of snapshots
+	// List of snapshots.
 	Snapshots []*Snapshot `json:"snapshots"`
 
-	// Status
+	// The status of the list snapshots.
 	Status SnapshotStatusType `json:"status,omitempty"`
 
-	// Reason for the status
+	// Reason for the status.
 	StatusReason string `json:"statusReason,omitempty"`
 }
 

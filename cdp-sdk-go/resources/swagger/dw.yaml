@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.124 (BETA)
+  version: 0.9.127 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -335,7 +335,7 @@ paths:
       x-mutating: true
       x-form-factors: public
       summary: Suspend Cloudera Data Warehouse cluster.
-      description: Suspend Cloudera Data Warehouse cluster. Supported only on Azure. Suspend cluster requires a "Running" Azure CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
+      description: Suspend Cloudera Data Warehouse cluster. Suspend cluster requires a "Running" Azure or AWS CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS or EKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
       operationId: suspendCluster
       parameters:
         - name: input
@@ -358,7 +358,7 @@ paths:
       x-mutating: true
       x-form-factors: public
       summary: Resume Cloudera Data Warehouse cluster.
-      description: Resume Cloudera Data Warehouse cluster. Supported only on Azure. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
+      description: Resume Cloudera Data Warehouse cluster. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS or EKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
       operationId: resumeCluster
       parameters:
         - name: input
@@ -2148,6 +2148,10 @@ definitions:
         x-form-factors: public
         description: Allowed instance types for Impala Virtual Warehouses.
         $ref: '#/definitions/AllowedInstanceTypesWithDefault'
+      trino:
+        x-form-factors: public
+        description: Allowed instance types for Trino Virtual Warehouses.
+        $ref: '#/definitions/AllowedInstanceTypesWithDefault'
   AllowedInstanceTypesWithDefault:
     x-form-factors: public
     type: object
@@ -2480,12 +2484,6 @@ definitions:
         items:
           type: string
         description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
-      additionalInstanceTypes:
-        x-deprecated: true
-        type: array
-        items:
-          type: string
-        description: 'DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.'
   CreateAzureClusterRequest:
     type: object
     description: Request object for the createAzureCluster method.
@@ -2620,8 +2618,9 @@ definitions:
         type: string
         description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
       securityContextConstraintName:
+        x-deprecated: true
         type: string
-        description: The name of the Hive Security Context Constraint.
+        description: 'DEPRECATED: This option will be removed in future releases. Instead of creating a custom Security Context Constraint, we rely on the cluster default. The name of the Hive Security Context Constraint.'
       storageClass:
         type: string
         description: The storage class for the Local Storage Operator.
@@ -2681,7 +2680,7 @@ definitions:
         description: The ID of the cluster.
       data:
         type: string
-        description: Dump of configuration received by calling "dump-cluster" command.
+        description: Backup data of configuration received by calling "backup-cluster" command.
   RestoreClusterResponse:
     type: object
     description: Response object for the restoreCluster method.
@@ -2789,12 +2788,6 @@ definitions:
         items:
           type: string
         description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
-      additionalInstanceTypes:
-        x-deprecated: true
-        type: array
-        items:
-          type: string
-        description: 'DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes. Use describe-allowed-instance-types to see currently supported values and also the default value when nothing is provided for the computeInstanceTypes.'
   AzureActivationOptions:
     type: object
     description: Options for activating an Azure environment.
@@ -2864,17 +2857,20 @@ definitions:
         type: string
         description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
       securityContextConstraintName:
+        x-deprecated: true
         type: string
-        description: The name of the Hive Security Context Constraint.
+        description: 'DEPRECATED: This option will be removed in future releases. Instead of creating a custom Security Context Constraint, we rely on the cluster default. The name of the Hive Security Context Constraint.'
       storageClass:
         type: string
         description: The storage class for the Local Storage Operator.
       dbDas:
+        x-deprecated: true
         type: string
-        description: The name of the DAS database. Not required for embedded databases
+        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the DAS database. Not required for embedded databases.'
       dbHue:
+        x-deprecated: true
         type: string
-        description: The name of the HUE database. Not required for embedded databases.
+        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the HUE database. Not required for embedded databases.'
       dedicatedExecutorNodes:
         type: boolean
         description: Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
@@ -3186,10 +3182,9 @@ definitions:
         type: string
         description: Version of the Cloudera Data Visualization.
         x-form-factors: public
-      templateName:
+      resourceTemplate:
         type: string
-        description: 'DEPRECATED: Use resourceTemplate parameter instead that will be made available in the upcoming release. The template size for the Cloudera Data Visualization.'
-        x-deprecated: true
+        description: The name of the available resource template to use for the Cloudera Data Visualization.
   CreateDataVisualizationResponse:
     type: object
     description: Response object for the createDataVisualization method.
@@ -3312,18 +3307,21 @@ definitions:
         description: 'NOTE: creating Default Database Catalogs is deprecated and explicitly disabled. Denotes if Default Database Catalog creation needed.'
         default: false
       dbMetastore:
+        x-deprecated: true
         type: string
-        description: The name of the Metastore database.
+        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the Metastore database.'
         default: ''
         x-form-factors: private
       dbDas:
+        x-deprecated: true
         type: string
-        description: The name of the DAS database. Not required for embedded databases.
+        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the DAS database. Not required for embedded databases.'
         default: ''
         x-form-factors: private
       dbHue:
+        x-deprecated: true
         type: string
-        description: The name of the HUE database. Not required for embedded databases.
+        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the HUE database. Not required for embedded databases.'
         default: ''
         x-form-factors: private
   CreateClusterDiagnosticDataJobRequest:
@@ -3364,7 +3362,8 @@ definitions:
         default: false
         description: Forced recreation of the diagnostic job.
       downloadOptions:
-        description: Cluster diagnostic options. If not provided, everything will be included in the Diagnostic Data.
+        x-deprecated: true
+        description: 'DEPRECATED: All logs are included by default. No need to specify options'
         $ref: '#/definitions/ClusterCreateDiagnosticDataDownloadOptions'
   CreateClusterDiagnosticDataJobResponse:
     type: object
@@ -3533,7 +3532,8 @@ definitions:
         default: false
         description: Forced recreation of the diagnostic job.
       downloadOptions:
-        description: Database Catalog diagnostic options. If not provided, everything will be included in the Diagnostic Data.
+        x-deprecated: true
+        description: 'DEPRECATED: All logs are included by default'
         $ref: '#/definitions/DBCCreateDiagnosticDataDownloadOptions'
   CreateDbcDiagnosticDataJobResponse:
     type: object
@@ -4253,10 +4253,9 @@ definitions:
         description: version of the Virtual Warehouse.
         default: ''
         x-form-factors: public
-      template:
+      tShirtSize:
         type: string
-        description: 'DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.'
-        x-deprecated: true
+        description: Name of T-shirt size to use, which will determine the number of nodes.
         enum:
           - xsmall
           - small
@@ -4618,10 +4617,12 @@ definitions:
         default: false
         description: Forced recreation of the diagnostic job.
       hiveDownloadOptions:
-        description: Hive diagnostic options. If not provided, everything will be included into the Diagnostic Data.
+        x-deprecated: true
+        description: 'DEPRECATED: All logs are included by default'
         $ref: '#/definitions/HiveCreateDiagnosticDataDownloadOptions'
       impalaDownloadOptions:
-        description: Impala diagnostic options. If not provided, everything will be included into the Diagnostic Data.
+        x-deprecated: true
+        description: 'DEPRECATED: All logs are included by default'
         $ref: '#/definitions/ImpalaCreateDiagnosticDataDownloadOptions'
   CreateVwDiagnosticDataJobResponse:
     type: object
@@ -4791,97 +4792,119 @@ definitions:
         items:
           $ref: '#/definitions/EventResponse'
   HiveCreateDiagnosticDataDownloadOptions:
+    x-deprecated: true
     type: object
-    description: Flags that denote which diagnostics to include for a Hive Virtual Warehouse.
+    description: 'DEPRECATED: Included by default, no need to specify'
     x-form-factors: public
     properties:
       includeHms:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the HMS diagnostics.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeErrordump:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the error dump.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeGclogs:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the Garbage collector logs.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeHeapdump:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the heap-dump.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeLogs:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include logs.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeComputeResourceInfo:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include compute resource info.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeKubernetesResourceInfo:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include Kubernetes resource info.
+        description: 'DEPRECATED: Included by default, no need to specify'
   ImpalaCreateDiagnosticDataDownloadOptions:
+    x-deprecated: true
     type: object
-    description: Flags that denote which diagnostics to include for an Impala Virtual Warehouse.
+    description: 'DEPRECATED: Included by default, no need to specify'
     x-form-factors: public
     properties:
       includeHms:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the HMS diagnostics.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeMinidump:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the minidump.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeProfile:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the profile.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeSidecar:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the sidecar diagnostics.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeWorkload:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include the workload diagnostics.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeKubernetesResourceInfo:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include kubernetes resource info.
+        description: 'DEPRECATED: Included by default, no need to specify'
   DBCCreateDiagnosticDataDownloadOptions:
+    x-deprecated: true
     type: object
-    description: Flags that denote which diagnostics to include for a Database Catalog.
+    description: 'DEPRECATED: Included by default, no need to specify'
     x-form-factors: public
     properties:
       includeKubernetesResourceInfo:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include kubernetes resource info.
+        description: 'DEPRECATED: Included by default, no need to specify'
   ClusterCreateDiagnosticDataDownloadOptions:
     type: object
-    description: Flags that denote which diagnostics to include for the cluster.
     x-form-factors: public
+    x-deprecated: true
+    description: 'DEPRECATED: Included by default, no need to specify'
     properties:
       includeClusterInfo:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include cluster info.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeIstioSystem:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include Istio system.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeSharedServices:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include shared services.
+        description: 'DEPRECATED: Included by default, no need to specify'
       includeKubeSystem:
+        x-deprecated: true
         type: boolean
         default: false
-        description: Include Kube system.
+        description: 'DEPRECATED: Included by default, no need to specify'
   ExternalBucket:
     type: object
     description: External bucket details.
@@ -4924,6 +4947,10 @@ definitions:
       version:
         type: string
         description: The version of the deployed CDW cluster.
+      productSupport:
+        x-form-factors: public,private
+        $ref: '#/definitions/ClusterSummaryProductSupportResponse'
+        description: 'Support lifecycle details of the given Cluster version (see version field). Learn more at Support lifecycle site: https://www.cloudera.com/services-and-support/support-lifecycle-policy.html.'
       enableSpotInstances:
         x-form-factors: public
         type: boolean
@@ -4945,12 +4972,6 @@ definitions:
         items:
           type: string
         description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.'
-      additionalInstanceTypes:
-        x-deprecated: true
-        type: array
-        items:
-          type: string
-        description: 'DEPRECATED: Additional compute instance types will be removed in subsequent releases. Additional (fallback) instance types listed in their priority order. They are used instead of the primary compute instance type in case it is unavailable. Since additional instance types are not supported for Azure, this is always empty for it.'
       awsOptions:
         $ref: '#/definitions/AwsOptionsResponse'
         description: Response object of AWS related cluster options.
@@ -4985,6 +5006,21 @@ definitions:
         description: External buckets attached to the environment.
         items:
           $ref: '#/definitions/ExternalBucket'
+  ClusterSummaryProductSupportResponse:
+    x-form-factors: public,private
+    type: object
+    description: 'Support lifecycle details of the given Cluster version (see version field). Learn more at Support lifecycle site: https://www.cloudera.com/services-and-support/support-lifecycle-policy.html.'
+    properties:
+      status:
+        type: string
+        description: 'Status of the support lifecycle. *COVERED*: The Cluster version has active support. *EXPIRED*: The Cluster version is no-longer supported. *UNKNOWN*: The Cluster version is missing or incorrect.'
+      expiryDate:
+        type: string
+        format: date-time
+        description: Shows the expiration date of the support for this Cluster version.
+      message:
+        type: string
+        description: Message.
   DataVisualizationSummary:
     type: object
     description: A Cloudera Data Visualization.
@@ -5160,6 +5196,9 @@ definitions:
             type: string
             x-form-factors: private
             description: Command to use impala-shell for Impala Virtual Warehouses with Kerberos authentication.
+          trinoCli:
+            type: string
+            description: Command-line client that connects to Trino Virtual Warehouse to execute SQL queries.
           hue:
             type: string
             description: URL of Hue for both Hive and Impala Virtual Warehouses.
@@ -5464,10 +5503,9 @@ definitions:
       vwId:
         type: string
         description: ID of the Virtual Warehouse.
-      template:
+      tShirtSize:
         type: string
-        description: 'DEPRECATED: It will be replaced by the tShirtSize parameter in an upcoming release. Name of configuration template to use.'
-        x-deprecated: true
+        description: Name of T-shirt size to use, which will determine the number of nodes.
         enum:
           - xsmall
           - small
@@ -6918,7 +6956,7 @@ definitions:
     description: Storage related information.
     x-nullable: true
     x-mutating: false
-    x-form-factors: private
+    x-form-factors: private,public
     properties:
       scratch:
         type: string

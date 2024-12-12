@@ -18,22 +18,22 @@ import (
 // swagger:model CreateSnapshotResponse
 type CreateSnapshotResponse struct {
 
-	// command id
+	// The submitted Command ID of the create snapshot.
 	CommandID int64 `json:"commandID,omitempty"`
 
-	// When the snapshot was created
+	// When the snapshot was created.
 	CreationTime int64 `json:"creationTime,omitempty"`
 
-	// The name of the database
+	// The name of the database.
 	DatabaseName string `json:"databaseName,omitempty"`
 
-	// The name of the environment
+	// The name of the environment.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// Status
+	// The status of the create snapshot.
 	Status SnapshotStatusType `json:"status,omitempty"`
 
-	// Reason for the status
+	// Reason for the status.
 	StatusReason string `json:"statusReason,omitempty"`
 }
 

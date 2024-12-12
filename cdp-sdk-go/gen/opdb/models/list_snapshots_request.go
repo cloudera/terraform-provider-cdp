@@ -19,25 +19,25 @@ import (
 // swagger:model ListSnapshotsRequest
 type ListSnapshotsRequest struct {
 
-	// Command Id
+	// The submitted Command ID of the snapshots.
 	CommandID int64 `json:"commandId,omitempty"`
 
-	// The name of the database
+	// The name of the database.
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
 
-	// The name of the environment
+	// The name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// The starting snapshot creation time to search snapshots (inclusive).
+	// The creation time of the snapshots to search (inclusive).
 	// Format: date-time
 	FromCreationTime strfmt.DateTime `json:"fromCreationTime,omitempty"`
 
-	// Table name
+	// The table name.
 	TableName string `json:"tableName,omitempty"`
 
-	// The ending snapshot creation time to search snapshots (inclusive).
+	// The ending time of the snapshot creation to search (inclusive).
 	// Format: date-time
 	ToCreationTime strfmt.DateTime `json:"toCreationTime,omitempty"`
 }

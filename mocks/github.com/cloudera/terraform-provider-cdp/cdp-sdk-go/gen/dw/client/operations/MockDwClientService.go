@@ -5379,7 +5379,7 @@ func (_c *MockDwClientService_SetTransport_Call) Return() *MockDwClientService_S
 }
 
 func (_c *MockDwClientService_SetTransport_Call) RunAndReturn(run func(runtime.ClientTransport)) *MockDwClientService_SetTransport_Call {
-	_c.Call.Return(run)
+	_c.Run(run)
 	return _c
 }
 

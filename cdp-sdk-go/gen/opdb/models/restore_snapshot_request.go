@@ -19,23 +19,23 @@ import (
 // swagger:model RestoreSnapshotRequest
 type RestoreSnapshotRequest struct {
 
-	// The name of the original database
+	// The name of the original database.
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
 
-	// The name of the original environment
+	// The name of the original environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// Snapshot name
+	// The name of the snapshot.
 	// Required: true
 	SnapshotName *string `json:"snapshotName"`
 
-	// The name of the target database where the snapshot should be restored
+	// The name of the target database where the snapshot should be restored.
 	// Required: true
 	TargetDatabaseName *string `json:"targetDatabaseName"`
 
-	// The name of the target environment where the snapshot should be restored
+	// The name of the target environment where the snapshot should be restored.
 	// Required: true
 	TargetEnvironmentName *string `json:"targetEnvironmentName"`
 }

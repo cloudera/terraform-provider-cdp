@@ -14,20 +14,20 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// DeleteSnapshotRequest Delete Snapshot Request.
+// DeleteSnapshotRequest Request object for the DeleteSnapshot method.
 //
 // swagger:model DeleteSnapshotRequest
 type DeleteSnapshotRequest struct {
 
-	// The name of the database
+	// The name of the database.
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
 
-	// The name of the environment
+	// The name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// Snapshot name
+	// The name of the snapshot.
 	// Required: true
 	SnapshotName *string `json:"snapshotName"`
 }

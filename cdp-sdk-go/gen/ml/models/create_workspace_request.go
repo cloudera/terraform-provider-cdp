@@ -51,9 +51,6 @@ type CreateWorkspaceRequest struct {
 	// The whitelist of IPs for load balancer.
 	LoadBalancerIPWhitelists []string `json:"loadBalancerIPWhitelists"`
 
-	// The version of ML workload app to install.
-	MlVersion string `json:"mlVersion,omitempty"`
-
 	// The NFS Protocol version of the NFS server we are using for Azure and Private Cloud.
 	NfsVersion string `json:"nfsVersion,omitempty"`
 

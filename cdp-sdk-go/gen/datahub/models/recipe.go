@@ -36,7 +36,7 @@ type Recipe struct {
 	// Required: true
 	RecipeName *string `json:"recipeName"`
 
-	// The type of recipe. Supported values are : PRE_CLOUDERA_MANAGER_START, PRE_TERMINATION, POST_CLOUDERA_MANAGER_START, POST_CLUSTER_INSTALL.
+	// The type of recipe. Supported values are : PRE_SERVICE_DEPLOYMENT, PRE_TERMINATION, POST_SERVICE_DEPLOYMENT, POST_CLOUDERA_MANAGER_START.
 	Type string `json:"type,omitempty"`
 }
 

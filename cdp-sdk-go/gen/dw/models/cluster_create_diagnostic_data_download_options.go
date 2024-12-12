@@ -12,21 +12,21 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// ClusterCreateDiagnosticDataDownloadOptions Flags that denote which diagnostics to include for the cluster.
+// ClusterCreateDiagnosticDataDownloadOptions DEPRECATED: Included by default, no need to specify
 //
 // swagger:model ClusterCreateDiagnosticDataDownloadOptions
 type ClusterCreateDiagnosticDataDownloadOptions struct {
 
-	// Include cluster info.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeClusterInfo *bool `json:"includeClusterInfo,omitempty"`
 
-	// Include Istio system.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeIstioSystem *bool `json:"includeIstioSystem,omitempty"`
 
-	// Include Kube system.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeKubeSystem *bool `json:"includeKubeSystem,omitempty"`
 
-	// Include shared services.
+	// DEPRECATED: Included by default, no need to specify
 	IncludeSharedServices *bool `json:"includeSharedServices,omitempty"`
 }
 

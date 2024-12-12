@@ -27,7 +27,7 @@ type RestoreServiceRequest struct {
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
 
-	// Specify the restored service ID. If not specified, the service ID from the backup will be reused.
+	// Specify the restored service ID. If not specified, a new service ID will be generated.
 	ServiceID string `json:"serviceId,omitempty"`
 
 	// Specify the restored service name. If not specified, the service name from the backup will be reused.

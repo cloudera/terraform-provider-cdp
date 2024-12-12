@@ -4430,7 +4430,7 @@ func (_c *MockIamClientService_SetTransport_Call) Return() *MockIamClientService
 }
 
 func (_c *MockIamClientService_SetTransport_Call) RunAndReturn(run func(runtime.ClientTransport)) *MockIamClientService_SetTransport_Call {
-	_c.Call.Return(run)
+	_c.Run(run)
 	return _c
 }
 

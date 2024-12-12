@@ -46,6 +46,12 @@ type Credential struct {
 
 	// The credential properties that closely related to those that have been created on GCP.
 	GcpCredentialProperties *GCPCredentialProperties `json:"gcpCredentialProperties,omitempty"`
+
+	// Skips organization policy decisions during cloud storage validation.
+	SkipOrgPolicyDecisions *bool `json:"skipOrgPolicyDecisions,omitempty"`
+
+	// When true, verifies credential permissions.
+	VerifyPermissions *bool `json:"verifyPermissions,omitempty"`
 }
 
 // Validate validates this credential

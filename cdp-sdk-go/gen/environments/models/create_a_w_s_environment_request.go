@@ -87,7 +87,7 @@ type CreateAWSEnvironmentRequest struct {
 	// When true, this will report additional diagnostic information back to Cloudera.
 	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
 
-	// The name for the DynamoDB table backing S3Guard.
+	// Deprecated. S3Guard was used to ensure consistent S3 updates when S3 was still eventually consistent. With the introduction of Consistent S3, the goal and usage of S3 Guard have become superfluous and defunct.
 	S3GuardTableName string `json:"s3GuardTableName,omitempty"`
 
 	// Security control for FreeIPA and Data Lake deployment.

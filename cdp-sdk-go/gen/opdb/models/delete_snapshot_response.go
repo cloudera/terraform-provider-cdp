@@ -13,27 +13,27 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// DeleteSnapshotResponse Delete Snapshot Response.
+// DeleteSnapshotResponse Response object of the DeleteSnapshot method.
 //
 // swagger:model DeleteSnapshotResponse
 type DeleteSnapshotResponse struct {
 
-	// command id
+	// The submitted Command ID of the delete snapshot.
 	CommandID int64 `json:"commandID,omitempty"`
 
-	// The name of the database
+	// The name of the database.
 	DatabaseName string `json:"databaseName,omitempty"`
 
-	// The name of the environment
+	// The name of the environment.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// Snapshot name
+	// The name of the snapshot.
 	SnapshotName string `json:"snapshotName,omitempty"`
 
-	// Status
+	// The status of the delete snapshot.
 	Status SnapshotStatusType `json:"status,omitempty"`
 
-	// Reason for the status
+	// Reason for the status.
 	StatusReason string `json:"statusReason,omitempty"`
 }
 

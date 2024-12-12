@@ -29,6 +29,9 @@ type AllowedInstanceTypes struct {
 
 	// Allowed instance types for Impala Virtual Warehouses.
 	Impala *AllowedInstanceTypesWithDefault `json:"impala,omitempty"`
+
+	// Allowed instance types for Trino Virtual Warehouses.
+	Trino *AllowedInstanceTypesWithDefault `json:"trino,omitempty"`
 }
 
 // Validate validates this allowed instance types
@@ -40,6 +43,10 @@ func (m *AllowedInstanceTypes) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateImpala(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTrino(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -87,6 +94,25 @@ func (m *AllowedInstanceTypes) validateImpala(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *AllowedInstanceTypes) validateTrino(formats strfmt.Registry) error {
+	if swag.IsZero(m.Trino) { // not required
+		return nil
+	}
+
+	if m.Trino != nil {
+		if err := m.Trino.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("trino")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("trino")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this allowed instance types based on the context it is used
 func (m *AllowedInstanceTypes) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -96,6 +122,10 @@ func (m *AllowedInstanceTypes) ContextValidate(ctx context.Context, formats strf
 	}
 
 	if err := m.contextValidateImpala(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTrino(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -139,6 +169,27 @@ func (m *AllowedInstanceTypes) contextValidateImpala(ctx context.Context, format
 				return ve.ValidateName("impala")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("impala")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *AllowedInstanceTypes) contextValidateTrino(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Trino != nil {
+
+		if swag.IsZero(m.Trino) { // not required
+			return nil
+		}
+
+		if err := m.Trino.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("trino")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("trino")
 			}
 			return err
 		}

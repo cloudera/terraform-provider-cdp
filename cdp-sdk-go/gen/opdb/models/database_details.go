@@ -20,6 +20,9 @@ import (
 // swagger:model DatabaseDetails
 type DatabaseDetails struct {
 
+	// Specifies the architecture of the cluster nodes.
+	Architecture ArchitectureType `json:"architecture,omitempty"`
+
 	// The autoscaling config
 	AutoScalingConfig *AutoScalingConfig `json:"autoScalingConfig,omitempty"`
 
@@ -93,6 +96,10 @@ type DatabaseDetails struct {
 func (m *DatabaseDetails) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateArchitecture(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateAutoScalingConfig(formats); err != nil {
 		res = append(res, err)
 	}
@@ -128,6 +135,23 @@ func (m *DatabaseDetails) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *DatabaseDetails) validateArchitecture(formats strfmt.Registry) error {
+	if swag.IsZero(m.Architecture) { // not required
+		return nil
+	}
+
+	if err := m.Architecture.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("architecture")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("architecture")
+		}
+		return err
+	}
+
 	return nil
 }
 
@@ -254,6 +278,10 @@ func (m *DatabaseDetails) validateStorageDetailsForWorkers(formats strfmt.Regist
 func (m *DatabaseDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateArchitecture(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateAutoScalingConfig(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -273,6 +301,24 @@ func (m *DatabaseDetails) ContextValidate(ctx context.Context, formats strfmt.Re
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *DatabaseDetails) contextValidateArchitecture(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Architecture) { // not required
+		return nil
+	}
+
+	if err := m.Architecture.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("architecture")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("architecture")
+		}
+		return err
+	}
+
 	return nil
 }
 

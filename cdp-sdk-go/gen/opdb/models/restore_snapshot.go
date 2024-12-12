@@ -18,25 +18,25 @@ import (
 // swagger:model RestoreSnapshot
 type RestoreSnapshot struct {
 
-	// Command id
+	// The submitted Command ID of the restore snapshot.
 	CommandID int64 `json:"commandID,omitempty"`
 
 	// Reason for the failure in case of restore snapshot failed.
 	FailureReason string `json:"failureReason,omitempty"`
 
-	// When the snapshot restore was started
+	// The time when the snapshot restore was started.
 	RestoreTime int64 `json:"restoreTime,omitempty"`
 
-	// The snapshot name
+	// The name of the snapshot.
 	SnapshotName string `json:"snapshotName,omitempty"`
 
-	// Status
+	// The status of the restore snapshot.
 	Status SnapshotStatusType `json:"status,omitempty"`
 
-	// The name of the target database
+	// The name of the target database.
 	TargetDatabaseName string `json:"targetDatabaseName,omitempty"`
 
-	// The name of the target environment
+	// The name of the target environment.
 	TargetEnvironmentName string `json:"targetEnvironmentName,omitempty"`
 }
 

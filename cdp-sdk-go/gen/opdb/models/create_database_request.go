@@ -20,6 +20,9 @@ import (
 // swagger:model CreateDatabaseRequest
 type CreateDatabaseRequest struct {
 
+	// Specifies the Architecture of the cluster nodes.
+	Architecture ArchitectureType `json:"architecture,omitempty"`
+
 	// Attached storage for the worker nodes for AWS, Azure, and GCP cloud providers.
 	AttachedStorageForWorkers *AttachedStorageForWorkers `json:"attachedStorageForWorkers,omitempty"`
 
@@ -105,6 +108,10 @@ type CreateDatabaseRequest struct {
 func (m *CreateDatabaseRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateArchitecture(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateAttachedStorageForWorkers(formats); err != nil {
 		res = append(res, err)
 	}
@@ -152,6 +159,23 @@ func (m *CreateDatabaseRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateDatabaseRequest) validateArchitecture(formats strfmt.Registry) error {
+	if swag.IsZero(m.Architecture) { // not required
+		return nil
+	}
+
+	if err := m.Architecture.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("architecture")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("architecture")
+		}
+		return err
+	}
+
 	return nil
 }
 
@@ -365,6 +389,10 @@ func (m *CreateDatabaseRequest) validateVolumeEncryptions(formats strfmt.Registr
 func (m *CreateDatabaseRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateArchitecture(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateAttachedStorageForWorkers(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -404,6 +432,24 @@ func (m *CreateDatabaseRequest) ContextValidate(ctx context.Context, formats str
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateDatabaseRequest) contextValidateArchitecture(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Architecture) { // not required
+		return nil
+	}
+
+	if err := m.Architecture.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("architecture")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("architecture")
+		}
+		return err
+	}
+
 	return nil
 }
 

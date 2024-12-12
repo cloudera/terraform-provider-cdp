@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.124 (BETA)
+  version: 0.9.127 (BETA)
   title: Cloudera AI
   license:
     name: Apache 2.0
@@ -1479,9 +1479,6 @@ definitions:
       nfsVersion:
         type: string
         description: The NFS Protocol version of the NFS server we are using for Azure and Private Cloud.
-      mlVersion:
-        type: string
-        description: The version of ML workload app to install.
       enableModelMetrics:
         type: boolean
         description: Enables the model metrics service for exporting metrics for models to a metrics store.
@@ -1615,9 +1612,6 @@ definitions:
       backupStatus:
         type: string
         description: The status of the backup.
-      isCrossNsBackup:
-        type: boolean
-        description: Status whether the backup is cross namespace enabled.
   ListWorkspaceBackupsResponse:
     type: object
     description: Response object for ListWorkspaceBackups method.

@@ -60,7 +60,6 @@ func (s *DwClusterModelTestSuite) TestConvertToCreateAwsClusterRequest() {
 	s.Equal(false, *awsCluster.EnableSpotInstances)
 	s.Equal("", awsCluster.CustomAmiID)
 	s.Equal([]string{}, awsCluster.ComputeInstanceTypes)
-	s.Equal([]string{}, awsCluster.AdditionalInstanceTypes)
 }
 
 func (s *DwClusterModelTestSuite) TestGetPollingTimeout() {

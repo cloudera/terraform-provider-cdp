@@ -19,14 +19,14 @@ import (
 // swagger:model ListRestoreSnapshotsRequest
 type ListRestoreSnapshotsRequest struct {
 
-	// Command Id
+	// The submitted Command ID of the snapshot.
 	CommandID int64 `json:"commandId,omitempty"`
 
-	// The name of the database
+	// The name of the database.
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
 
-	// The name of the environment
+	// The name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
@@ -34,13 +34,13 @@ type ListRestoreSnapshotsRequest struct {
 	// Format: date-time
 	FromRestoreTime strfmt.DateTime `json:"fromRestoreTime,omitempty"`
 
-	// Snapshot Name
+	// The name of the snapshot.
 	SnapshotName string `json:"snapshotName,omitempty"`
 
-	// The name of the target database
+	// The name of the target database.
 	TargetDatabaseName string `json:"targetDatabaseName,omitempty"`
 
-	// The name of the target environment
+	// The name of the target environment.
 	TargetEnvironmentName string `json:"targetEnvironmentName,omitempty"`
 
 	// The ending snapshot restore time to search restore snapshots (inclusive).

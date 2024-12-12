@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.124 (BETA)
+  version: 0.9.127 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -1498,6 +1498,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datahub/setDefaultJavaVersion:
+    post:
+      summary: Configures the default Java version for the Data Hub.
+      description: Configures the default Java version for the Data Hub. This command updates the system's default Java version and will restart both the Cluster Manager and the services.
+      operationId: setDefaultJavaVersion
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SetDefaultJavaVersionRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SetDefaultJavaVersionResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -1952,7 +1973,7 @@ definitions:
         description: The content of the recipe.
       type:
         type: string
-        description: 'The type of recipe. Supported values are : PRE_CLOUDERA_MANAGER_START, PRE_TERMINATION, POST_CLOUDERA_MANAGER_START, POST_CLUSTER_INSTALL.'
+        description: 'The type of recipe. Supported values are : PRE_SERVICE_DEPLOYMENT, PRE_TERMINATION, POST_SERVICE_DEPLOYMENT, POST_CLOUDERA_MANAGER_START.'
       creatorCrn:
         type: string
         description: The CRN of the creator of the recipe.
@@ -1974,7 +1995,7 @@ definitions:
         description: The CRN of the recipe.
       type:
         type: string
-        description: 'The type of recipe. Supported values are : PRE_CLOUDERA_MANAGER_START, PRE_TERMINATION, POST_CLOUDERA_MANAGER_START, POST_CLUSTER_INSTALL.'
+        description: 'The type of recipe. Supported values are : PRE_SERVICE_DEPLOYMENT, PRE_TERMINATION, POST_SERVICE_DEPLOYMENT, POST_CLOUDERA_MANAGER_START.'
       description:
         type: string
         description: The description of the recipe.
@@ -3302,7 +3323,7 @@ definitions:
         description: The content of the recipe.
       type:
         type: string
-        description: 'The type of recipe. Supported values are : PRE_CLOUDERA_MANAGER_START, PRE_TERMINATION, POST_CLOUDERA_MANAGER_START, POST_CLUSTER_INSTALL.'
+        description: 'The type of recipe. Supported values are : PRE_SERVICE_DEPLOYMENT, PRE_TERMINATION, POST_SERVICE_DEPLOYMENT, POST_CLOUDERA_MANAGER_START.'
       description:
         type: string
         description: The description of the recipe. The description can have a maximum of 1000 characters.
@@ -4991,3 +5012,23 @@ definitions:
   UpdateToAwsImdsV1Response:
     type: object
     description: Response object for updating Data Hub to AWS IMDSv1.
+  SetDefaultJavaVersionRequest:
+    type: object
+    description: Request object for setting the default Java version on the Data Hub cluster.
+    required:
+      - clusterCrn
+      - javaVersion
+    properties:
+      clusterCrn:
+        type: string
+        description: The CRN of the Data Hub cluster.
+      javaVersion:
+        type: string
+        description: The Java version to set as default.
+  SetDefaultJavaVersionResponse:
+    type: object
+    description: Response object for setting the default Java version on the Data Hub cluster.
+    properties:
+      operationId:
+        type: string
+        description: The id of the related operation.

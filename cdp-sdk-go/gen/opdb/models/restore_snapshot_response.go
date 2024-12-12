@@ -13,36 +13,36 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// RestoreSnapshotResponse Restore Snapshot Response.
+// RestoreSnapshotResponse Response object for the RestoreSnapshot method.
 //
 // swagger:model RestoreSnapshotResponse
 type RestoreSnapshotResponse struct {
 
-	// Command id
+	// The submitted Command ID of the restore snapshot.
 	CommandID int64 `json:"commandID,omitempty"`
 
-	// The name of the database
+	// The name of the database.
 	DatabaseName string `json:"databaseName,omitempty"`
 
-	// The name of the environment
+	// The name of the environment.
 	EnvironmentName string `json:"environmentName,omitempty"`
 
-	// When the snapshot restore was started
+	// The time when the snapshot restore was started.
 	RestoreTime int64 `json:"restoreTime,omitempty"`
 
-	// The snapshot name
+	// The name of the snapshot.
 	SnapshotName string `json:"snapshotName,omitempty"`
 
-	// Status
+	// The status of the restore snapshot.
 	Status SnapshotStatusType `json:"status,omitempty"`
 
-	// Reason for the status
+	// Reason for the status.
 	StatusReason string `json:"statusReason,omitempty"`
 
-	// The name of the target database
+	// The name of the target database.
 	TargetDatabaseName string `json:"targetDatabaseName,omitempty"`
 
-	// The name of the target environment
+	// The name of the target environment.
 	TargetEnvironmentName string `json:"targetEnvironmentName,omitempty"`
 }
 

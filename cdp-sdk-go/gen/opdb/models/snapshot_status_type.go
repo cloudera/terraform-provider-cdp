@@ -53,6 +53,9 @@ const (
 	// SnapshotStatusTypeCORRUPT captures enum value "CORRUPT"
 	SnapshotStatusTypeCORRUPT SnapshotStatusType = "CORRUPT"
 
+	// SnapshotStatusTypeDELETING captures enum value "DELETING"
+	SnapshotStatusTypeDELETING SnapshotStatusType = "DELETING"
+
 	// SnapshotStatusTypeUNKNOWN captures enum value "UNKNOWN"
 	SnapshotStatusTypeUNKNOWN SnapshotStatusType = "UNKNOWN"
 )
@@ -62,7 +65,7 @@ var snapshotStatusTypeEnum []interface{}
 
 func init() {
 	var res []SnapshotStatusType
-	if err := json.Unmarshal([]byte(`["NEW","IN_PROGRESS","FAILED","SUCCESSFUL","LOCKED","DELETED","CORRUPT","UNKNOWN"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["NEW","IN_PROGRESS","FAILED","SUCCESSFUL","LOCKED","DELETED","CORRUPT","DELETING","UNKNOWN"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

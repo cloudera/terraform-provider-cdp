@@ -830,6 +830,9 @@ type VwSummaryEndpoints struct {
 
 	// Port for clients to use when connecting to the VW.
 	Port int32 `json:"port,omitempty"`
+
+	// Command-line client that connects to Trino Virtual Warehouse to execute SQL queries.
+	TrinoCli string `json:"trinoCli,omitempty"`
 }
 
 // Validate validates this vw summary endpoints
