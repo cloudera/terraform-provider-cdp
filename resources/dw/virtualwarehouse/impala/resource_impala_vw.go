@@ -79,7 +79,7 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 	tflog.Debug(ctx, fmt.Sprintf("CreateVw response: %+v", response.GetPayload()))
 
 	// Wait for the VW to reach Running state
-	if err := r.waitForVwRunning(ctx, &plan, response.GetPayload()); err != nil {
+	if err := r.waitForVwRunning(ctx, &plan, &response.GetPayload().VwID); err != nil {
 		resp.Diagnostics.AddError(
 			"Error waiting for Data Warehouse Impala virtual warehouse",
 			fmt.Sprintf("Could not create Impala, unexpected error: %v", err),
@@ -194,13 +194,10 @@ func createVwRequestFromPlan(plan *resourceModel) *models.CreateVwRequest {
 	return req
 }
 
-func (r *impalaResource) waitForVwRunning(ctx context.Context, plan *resourceModel, payload *models.CreateVwResponse) error {
+func (r *impalaResource) waitForVwRunning(ctx context.Context, plan *resourceModel, vwID *string) error {
 	clusterID := plan.ClusterID.ValueStringPointer()
-	vwID := &payload.VwID
 
-	opts := plan.PollingOptions
-
-	if opts == nil || !opts.Async.ValueBool() {
+	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
@@ -225,14 +222,18 @@ func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *res
 	}
 
 	impala := describe.GetPayload()
-	plan.ID = types.StringValue(impala.Vw.ID)
+	plan.populateFromImpala(impala)
+
+	return nil
+}
+
+func (plan *resourceModel) populateFromImpala(impala *models.DescribeVwResponse) {
+	plan.ID = types.StringValue(impala.Vw.DbcID)
 	plan.DatabaseCatalogID = types.StringValue(impala.Vw.DbcID)
 	plan.Name = types.StringValue(impala.Vw.Name)
 	plan.Status = types.StringValue(impala.Vw.Status)
 	plan.ImageVersion = types.StringValue(impala.Vw.CdhVersion)
 	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
-
-	return nil
 }
 
 func (r *impalaResource) deleteVirtualWarehouse(ctx context.Context, clusterID, vwID *string) error {
