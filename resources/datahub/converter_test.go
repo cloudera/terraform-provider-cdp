@@ -164,6 +164,20 @@ func TestFromModelToRequestClusterDefinition(t *testing.T) {
 	test.CompareStrings(got.ClusterDefinition, input.ClusterDefinition.ValueString(), t)
 }
 
+func TestFromModelToRequestTags(t *testing.T) {
+	tags, _ := types.MapValue(types.StringType, map[string]attr.Value{
+		"key1": types.StringValue("value1"),
+		"key2": types.StringValue("value2"),
+		"key3": types.StringValue("value3"),
+	})
+	input := awsDatahubResourceModel{Tags: tags}
+	got := fromModelToAwsRequest(input, context.TODO())
+
+	test.CompareStrings(*got.Tags[0].Value, input.Tags.Elements()["key1"].(types.String).ValueString(), t)
+	test.CompareStrings(*got.Tags[1].Value, input.Tags.Elements()["key2"].(types.String).ValueString(), t)
+	test.CompareStrings(*got.Tags[2].Value, input.Tags.Elements()["key3"].(types.String).ValueString(), t)
+}
+
 func TestFromModelToGcpRequestBasicFields(t *testing.T) {
 	tags, _ := types.MapValue(types.StringType, map[string]attr.Value{"key": types.StringValue("value")})
 	image, _ := types.ObjectValue(map[string]attr.Type{

@@ -66,10 +66,11 @@ func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) 
 		req.Tags = make([]*datalakemodels.DatalakeResourceGCPTagRequest, len(model.Tags.Elements()))
 		i := 0
 		for k, v := range model.Tags.Elements() {
+			key := k
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
 				req.Tags[i] = &datalakemodels.DatalakeResourceGCPTagRequest{
-					Key:   &k,
+					Key:   &key,
 					Value: val.ValueStringPointer(),
 				}
 			}
