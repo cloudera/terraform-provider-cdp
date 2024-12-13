@@ -73,10 +73,11 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 		req.Tags = make([]*datahubmodels.DatahubResourceTagRequest, len(model.Tags.Elements()))
 		i := 0
 		for k, v := range model.Tags.Elements() {
+			key := k
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
 				req.Tags[i] = &datahubmodels.DatahubResourceTagRequest{
-					Key:   &k,
+					Key:   &key,
 					Value: val.ValueStringPointer(),
 				}
 			}
@@ -161,10 +162,11 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 		req.Tags = make([]*datahubmodels.GCPDatahubResourceTagRequest, len(model.Tags.Elements()))
 		i := 0
 		for k, v := range model.Tags.Elements() {
+			key := k
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
 				req.Tags[i] = &datahubmodels.GCPDatahubResourceTagRequest{
-					Key:   &k,
+					Key:   &key,
 					Value: val.ValueStringPointer(),
 				}
 			}
@@ -242,10 +244,11 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 		req.Tags = make([]*datahubmodels.DatahubResourceTagRequest, len(model.Tags.Elements()))
 		i := 0
 		for k, v := range model.Tags.Elements() {
+			key := k
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
 				req.Tags[i] = &datahubmodels.DatahubResourceTagRequest{
-					Key:   &k,
+					Key:   &key,
 					Value: val.ValueStringPointer(),
 				}
 			}

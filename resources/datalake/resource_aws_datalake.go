@@ -92,10 +92,11 @@ func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) 
 		req.Tags = make([]*datalakemodels.DatalakeResourceTagRequest, len(model.Tags.Elements()))
 		i := 0
 		for k, v := range model.Tags.Elements() {
+			key := k
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
 				req.Tags[i] = &datalakemodels.DatalakeResourceTagRequest{
-					Key:   &k,
+					Key:   &key,
 					Value: val.ValueStringPointer(),
 				}
 			}
