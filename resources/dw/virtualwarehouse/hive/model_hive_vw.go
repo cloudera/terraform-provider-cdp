@@ -20,48 +20,40 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-type autoscaling struct {
-	MinClusters               types.Int64 `tfsdk:"min_clusters"`
-	MaxClusters               types.Int64 `tfsdk:"max_clusters"`
-	DisableAutoSuspend        types.Bool  `tfsdk:"disable_auto_suspend"`
-	AutoSuspendTimeoutSeconds types.Int64 `tfsdk:"auto_suspend_timeout_seconds"`
-	HiveScaleWaitTimeSeconds  types.Int64 `tfsdk:"hive_scale_wait_time_seconds"`
-	HiveDesiredFreeCapacity   types.Int64 `tfsdk:"hive_desired_free_capacity"`
-}
-
 type awsOptions struct {
 	AvailabilityZone types.String `tfsdk:"availability_zone"`
 	EbsLLAPSpillGb   types.Int64  `tfsdk:"ebs_llap_spill_gb"`
 	Tags             types.Map    `tfsdk:"tags"`
 }
 
-type queryIsolationOptions struct {
-	MaxQueries       types.Int64 `tfsdk:"max_queries"`
-	MaxNodesPerQuery types.Int64 `tfsdk:"max_nodes_per_query"`
-}
-
 type resourceModel struct {
-	ID                    types.String           `tfsdk:"id"`
-	ClusterID             types.String           `tfsdk:"cluster_id"`
-	DatabaseCatalogID     types.String           `tfsdk:"database_catalog_id"`
-	Name                  types.String           `tfsdk:"name"`
-	ImageVersion          types.String           `tfsdk:"image_version"`
-	NodeCount             types.Int64            `tfsdk:"node_count"`
-	PlatformJwtAuth       types.Bool             `tfsdk:"platform_jwt_auth"`
-	LdapGroups            types.List             `tfsdk:"ldap_groups"`
-	EnableSSO             types.Bool             `tfsdk:"enable_sso"`
-	Compactor             types.Bool             `tfsdk:"compactor"`
-	JdbcUrl               types.String           `tfsdk:"jdbc_url"`
-	KerberosJdbcUrl       types.String           `tfsdk:"kerberos_jdbc_url"`
-	HueUrl                types.String           `tfsdk:"hue_url"`
-	JwtConnectionString   types.String           `tfsdk:"jwt_connection_string"`
-	JwtTokenGenUrl        types.String           `tfsdk:"jwt_token_gen_url"`
-	Autoscaling           *autoscaling           `tfsdk:"autoscaling"`
-	AwsOptions            *awsOptions            `tfsdk:"aws_options"`
-	QueryIsolationOptions *queryIsolationOptions `tfsdk:"query_isolation_options"`
-	LastUpdated           types.String           `tfsdk:"last_updated"`
-	Status                types.String           `tfsdk:"status"`
-	PollingOptions        *utils.PollingOptions  `tfsdk:"polling_options"`
+	ID                           types.String          `tfsdk:"id"`
+	ClusterID                    types.String          `tfsdk:"cluster_id"`
+	DatabaseCatalogID            types.String          `tfsdk:"database_catalog_id"`
+	Name                         types.String          `tfsdk:"name"`
+	ImageVersion                 types.String          `tfsdk:"image_version"`
+	GroupSize                    types.Int64           `tfsdk:"group_size"`
+	PlatformJwtAuth              types.Bool            `tfsdk:"platform_jwt_auth"`
+	LdapGroups                   types.List            `tfsdk:"ldap_groups"`
+	EnableSSO                    types.Bool            `tfsdk:"enable_sso"`
+	Compactor                    types.Bool            `tfsdk:"compactor"`
+	JdbcUrl                      types.String          `tfsdk:"jdbc_url"`
+	KerberosJdbcUrl              types.String          `tfsdk:"kerberos_jdbc_url"`
+	HueUrl                       types.String          `tfsdk:"hue_url"`
+	JwtConnectionString          types.String          `tfsdk:"jwt_connection_string"`
+	JwtTokenGenUrl               types.String          `tfsdk:"jwt_token_gen_url"`
+	MinGroupCount                types.Int64           `tfsdk:"min_group_count"`
+	MaxGroupCount                types.Int64           `tfsdk:"max_group_count"`
+	DisableAutoSuspend           types.Bool            `tfsdk:"disable_auto_suspend"`
+	AutoSuspendTimeoutSeconds    types.Int64           `tfsdk:"auto_suspend_timeout_seconds"`
+	ScaleWaitTimeSeconds         types.Int64           `tfsdk:"scale_wait_time_seconds"`
+	Headroom                     types.Int64           `tfsdk:"headroom"`
+	MaxConcurrentIsolatedQueries types.Int64           `tfsdk:"max_concurrent_isolated_queries"`
+	MaxNodesPerIsolatedQuery     types.Int64           `tfsdk:"max_nodes_per_isolated_query"`
+	AwsOptions                   *awsOptions           `tfsdk:"aws_options"`
+	LastUpdated                  types.String          `tfsdk:"last_updated"`
+	Status                       types.String          `tfsdk:"status"`
+	PollingOptions               *utils.PollingOptions `tfsdk:"polling_options"`
 }
 
 func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
@@ -76,7 +68,7 @@ func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
 		EbsLLAPSpillGB:        p.getEbsLLAPSpillGB(),
 		ImageVersion:          p.getImageVersion(),
 		Name:                  p.Name.ValueStringPointer(),
-		NodeCount:             utils.Int64To32(p.NodeCount),
+		NodeCount:             utils.Int64To32(p.GroupSize),
 		PlatformJwtAuth:       p.PlatformJwtAuth.ValueBoolPointer(),
 		QueryIsolationOptions: p.getQueryIsolationOptions(),
 		Autoscaling:           p.getAutoscaling(),
@@ -122,12 +114,9 @@ func (p *resourceModel) getTags() []*models.TagRequest {
 }
 
 func (p *resourceModel) getQueryIsolationOptions() *models.QueryIsolationOptionsRequest {
-	if p.QueryIsolationOptions == nil {
-		return nil
-	}
 	return &models.QueryIsolationOptionsRequest{
-		MaxQueries:       utils.Int64To32(p.QueryIsolationOptions.MaxQueries),
-		MaxNodesPerQuery: utils.Int64To32(p.QueryIsolationOptions.MaxNodesPerQuery),
+		MaxQueries:       utils.Int64To32(p.MaxConcurrentIsolatedQueries),
+		MaxNodesPerQuery: utils.Int64To32(p.MaxNodesPerIsolatedQuery),
 	}
 }
 
@@ -146,16 +135,13 @@ func (p *resourceModel) getEbsLLAPSpillGB() int32 {
 }
 
 func (p *resourceModel) getAutoscaling() *models.AutoscalingOptionsCreateRequest {
-	if p.Autoscaling == nil {
-		return nil
-	}
 	return &models.AutoscalingOptionsCreateRequest{
-		MinClusters:               utils.Int64To32Pointer(p.Autoscaling.MinClusters),
-		MaxClusters:               utils.Int64To32Pointer(p.Autoscaling.MaxClusters),
-		DisableAutoSuspend:        p.Autoscaling.DisableAutoSuspend.ValueBool(),
-		AutoSuspendTimeoutSeconds: utils.Int64To32(p.Autoscaling.AutoSuspendTimeoutSeconds),
-		HiveScaleWaitTimeSeconds:  utils.Int64To32(p.Autoscaling.HiveScaleWaitTimeSeconds),
-		HiveDesiredFreeCapacity:   utils.Int64To32(p.Autoscaling.HiveDesiredFreeCapacity),
+		MinClusters:               utils.Int64To32Pointer(p.MinGroupCount),
+		MaxClusters:               utils.Int64To32Pointer(p.MaxGroupCount),
+		DisableAutoSuspend:        p.DisableAutoSuspend.ValueBool(),
+		AutoSuspendTimeoutSeconds: utils.Int64To32(p.AutoSuspendTimeoutSeconds),
+		HiveScaleWaitTimeSeconds:  utils.Int64To32(p.ScaleWaitTimeSeconds),
+		HiveDesiredFreeCapacity:   utils.Int64To32(p.Headroom),
 	}
 }
 

@@ -52,9 +52,9 @@ var hiveSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "The version of the Hive Virtual Warehouse image.",
 		},
-		"node_count": schema.Int64Attribute{
+		"group_size": schema.Int64Attribute{
 			Optional:            true,
-			MarkdownDescription: "Nodes per compute cluster. If specified, forces ‘template’ to be ‘custom’.",
+			MarkdownDescription: "Nodes per compute group. If specified, forces ‘template’ to be ‘custom’.",
 		},
 		"platform_jwt_auth": schema.BoolAttribute{
 			Optional:            true,
@@ -97,37 +97,39 @@ var hiveSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "URL to generate JWT tokens for the Virtual Warehouse by the CDP JWT token provider. Available if platform JWT authentication is enabled.",
 		},
-		"autoscaling": schema.SingleNestedAttribute{
-			MarkdownDescription: "Autoscaling related configuration options that could specify various values that will be used during CDW resource creation.",
+		"min_group_count": schema.Int64Attribute{
+			Required:            true,
+			MarkdownDescription: "Minimum number of available compute groups.",
+		},
+		"max_group_count": schema.Int64Attribute{
+			Required:            true,
+			MarkdownDescription: "Maximum number of available compute groups.",
+		},
+		"disable_auto_suspend": schema.BoolAttribute{
 			Optional:            true,
-			Attributes: map[string]schema.Attribute{
-				"min_clusters": schema.Int64Attribute{
-					Required:            true,
-					MarkdownDescription: "Minimum number of available compute groups.",
-				},
-				"max_clusters": schema.Int64Attribute{
-					Required:            true,
-					MarkdownDescription: "Maximum number of available compute groups.",
-				},
-				"disable_auto_suspend": schema.BoolAttribute{
-					Optional:            true,
-					Computed:            true,
-					Default:             booldefault.StaticBool(false),
-					MarkdownDescription: "Boolean value that specifies if auto-suspend should be disabled.",
-				},
-				"auto_suspend_timeout_seconds": schema.Int64Attribute{
-					Optional:            true,
-					MarkdownDescription: "The time in seconds after which the compute group should be suspended.",
-				},
-				"hive_scale_wait_time_seconds": schema.Int64Attribute{
-					Optional:            true,
-					MarkdownDescription: "Set wait time before a scale event happens. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.",
-				},
-				"hive_desired_free_capacity": schema.Int64Attribute{
-					Optional:            true,
-					MarkdownDescription: "Set Desired free capacity. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.",
-				},
-			},
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+			MarkdownDescription: "Boolean value that specifies if auto-suspend should be disabled.",
+		},
+		"auto_suspend_timeout_seconds": schema.Int64Attribute{
+			Optional:            true,
+			MarkdownDescription: "The time in seconds after which the compute group should be suspended.",
+		},
+		"scale_wait_time_seconds": schema.Int64Attribute{
+			Optional:            true,
+			MarkdownDescription: "Set wait time before a scale event happens. Either “scale_wait_time_in_seconds” or “headroom” can be provided.",
+		},
+		"headroom": schema.Int64Attribute{
+			Optional:            true,
+			MarkdownDescription: "Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs. Either “scale_wait_time_in_seconds” or “headroom” can be provided.",
+		},
+		"max_concurrent_isolated_queries": schema.Int64Attribute{
+			Optional:            true,
+			MarkdownDescription: "Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.",
+		},
+		"max_nodes_per_isolated_query": schema.Int64Attribute{
+			Optional:            true,
+			MarkdownDescription: "Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.",
 		},
 		"aws_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "AWS related configuration options that could specify various values that will be used during CDW resource creation.",
@@ -146,20 +148,6 @@ var hiveSchema = schema.Schema{
 					Optional:            true,
 					ElementType:         types.StringType,
 					MarkdownDescription: "This feature works only for AWS cluster type. Tags to be applied to the underlying compute nodes.",
-				},
-			},
-		},
-		"query_isolation_options": schema.SingleNestedAttribute{
-			MarkdownDescription: "Query isolation related configuration options.",
-			Optional:            true,
-			Attributes: map[string]schema.Attribute{
-				"max_queries": schema.Int64Attribute{
-					Optional:            true,
-					MarkdownDescription: "Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.",
-				},
-				"max_nodes_per_query": schema.Int64Attribute{
-					Optional:            true,
-					MarkdownDescription: "Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.",
 				},
 			},
 		},
