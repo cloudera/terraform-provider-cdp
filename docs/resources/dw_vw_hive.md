@@ -26,18 +26,18 @@ resource "cdp_dw_vw_hive" "example" {
   cluster_id          = "env-id"
   database_catalog_id = "warehouse-id"
   name                = "default-catalog"
-  node_count = 2
+  group_size = 2
   platform_jwt_auth = true
   enable_sso = true
-  image_version = "2024.0.19.0-301"
-  autoscaling = {
-    min_clusters = 1
-    max_clusters = 3
-    disable_auto_suspend = false
-    auto_suspend_timeout_seconds = 100
-    hive_scale_wait_time_seconds = 230
-    hive_desired_free_capacity = 1
-  }
+  image_version = "2024.0.18.4-5"
+  min_group_count = 1
+  max_group_count = 3
+  disable_auto_suspend = false
+  auto_suspend_timeout_seconds = 100
+  scale_wait_time_seconds = 230 // either headroom or scale_wait_time_seconds can be configured
+  headroom = 1
+  max_concurrent_isolated_queries = 5
+  max_nodes_per_isolated_query = 2
   aws_options = {
     availability_zone = "us-west-2a"
     ebs_llap_spill_gb = 300
@@ -45,10 +45,26 @@ resource "cdp_dw_vw_hive" "example" {
       "key1" = "value1"
     }
   }
-  query_isolation_options = {
-    max_queries = 100
-    max_nodes_per_query = 10
-  }
+}
+
+output "jdbc_url" {
+  value = cdp_dw_vw_hive.example.jdbc_url
+}
+
+output "kerberos_jdbc_url" {
+  value = cdp_dw_vw_hive.example.kerberos_jdbc_url
+}
+
+output "hue_url" {
+  value = cdp_dw_vw_hive.example.hue_url
+}
+
+output "jwt_connection_string" {
+  value = cdp_dw_vw_hive.example.jwt_connection_string
+}
+
+output "jwt_token_gen_url" {
+    value = cdp_dw_vw_hive.example.jwt_token_gen_url
 }
 ```
 
@@ -59,19 +75,25 @@ resource "cdp_dw_vw_hive" "example" {
 
 - `cluster_id` (String) The id of the CDW Cluster which the Hive Virtual Warehouse is attached to.
 - `database_catalog_id` (String) The id of the Database Catalog which the Hive Virtual Warehouse is attached to.
+- `group_size` (Number) Nodes per compute group. If specified, forces ‘template’ to be ‘custom’.
+- `max_group_count` (Number) Maximum number of available compute groups.
+- `min_group_count` (Number) Minimum number of available compute groups.
 - `name` (String) The name of the Hive Virtual Warehouse.
 
 ### Optional
 
-- `autoscaling` (Attributes) Autoscaling related configuration options that could specify various values that will be used during CDW resource creation. (see [below for nested schema](#nestedatt--autoscaling))
+- `auto_suspend_timeout_seconds` (Number) The time in seconds after which the compute group should be suspended.
 - `aws_options` (Attributes) AWS related configuration options that could specify various values that will be used during CDW resource creation. (see [below for nested schema](#nestedatt--aws_options))
+- `disable_auto_suspend` (Boolean) Boolean value that specifies if auto-suspend should be disabled.
 - `enable_sso` (Boolean) Enable SSO for the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
+- `headroom` (Number) Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs.
 - `image_version` (String) The version of the Hive Virtual Warehouse image.
 - `ldap_groups` (List of String) LDAP group names to be enabled for auth.
-- `node_count` (Number) Nodes per compute cluster. If specified, forces ‘template’ to be ‘custom’.
+- `max_concurrent_isolated_queries` (Number) Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
+- `max_nodes_per_isolated_query` (Number) Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
 - `platform_jwt_auth` (Boolean) Value of ‘true’ automatically configures the Virtual Warehouse to support JWTs issued by the CDP JWT token provider. Value of ‘false’ does not enable JWT auth on the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
-- `query_isolation_options` (Attributes) Query isolation related configuration options. (see [below for nested schema](#nestedatt--query_isolation_options))
+- `scale_wait_time_seconds` (Number) Set wait time before a scale event happens.
 
 ### Read-Only
 
@@ -84,22 +106,6 @@ resource "cdp_dw_vw_hive" "example" {
 - `kerberos_jdbc_url` (String) Kerberos JDBC URL for the Hive Virtual Warehouse.
 - `last_updated` (String) Timestamp of the last Terraform update of the order.
 - `status` (String) The status of the database catalog.
-
-<a id="nestedatt--autoscaling"></a>
-### Nested Schema for `autoscaling`
-
-Required:
-
-- `max_clusters` (Number) Maximum number of available compute groups.
-- `min_clusters` (Number) Minimum number of available compute groups.
-
-Optional:
-
-- `auto_suspend_timeout_seconds` (Number) The time in seconds after which the compute group should be suspended.
-- `disable_auto_suspend` (Boolean) Boolean value that specifies if auto-suspend should be disabled.
-- `hive_desired_free_capacity` (Number) Set Desired free capacity. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.
-- `hive_scale_wait_time_seconds` (Number) Set wait time before a scale event happens. Either “hiveScaleWaitTimeSeconds” or “hiveDesiredFreeCapacity” can be provided.
-
 
 <a id="nestedatt--aws_options"></a>
 ### Nested Schema for `aws_options`
@@ -119,12 +125,3 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
-
-
-<a id="nestedatt--query_isolation_options"></a>
-### Nested Schema for `query_isolation_options`
-
-Optional:
-
-- `max_nodes_per_query` (Number) Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
-- `max_queries` (Number) Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.

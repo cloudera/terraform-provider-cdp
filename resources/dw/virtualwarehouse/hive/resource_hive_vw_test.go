@@ -17,6 +17,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -70,7 +71,7 @@ var testHiveSchema = schema.Schema{
 			MarkdownDescription: "The version of the Hive Virtual Warehouse image.",
 		},
 		"group_size": schema.Int64Attribute{
-			Optional:            true,
+			Required:            true,
 			MarkdownDescription: "Nodes per compute group. If specified, forces ‘template’ to be ‘custom’.",
 		},
 		"platform_jwt_auth": schema.BoolAttribute{
@@ -134,11 +135,11 @@ var testHiveSchema = schema.Schema{
 		},
 		"scale_wait_time_seconds": schema.Int64Attribute{
 			Optional:            true,
-			MarkdownDescription: "Set wait time before a scale event happens. Either “scale_wait_time_in_seconds” or “headroom” can be provided.",
+			MarkdownDescription: "Set wait time before a scale event happens.",
 		},
 		"headroom": schema.Int64Attribute{
 			Optional:            true,
-			MarkdownDescription: "Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs. Either “scale_wait_time_in_seconds” or “headroom” can be provided.",
+			MarkdownDescription: "Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs.",
 		},
 		"max_concurrent_isolated_queries": schema.Int64Attribute{
 			Optional:            true,
@@ -409,6 +410,31 @@ func (suite *HiveTestSuite) TestHiveCreate_Success() {
 	suite.Equal("test-name", result.Name.ValueString())
 }
 
+func (suite *HiveTestSuite) TestHiveValidate_Headroom_ScaleWaitTime() {
+	ctx := context.TODO()
+	client := new(mocks.MockDwClientService)
+	dwApi := newDwApi(client)
+
+	req := resource.ValidateConfigRequest{
+		Config: tfsdk.Config{
+			Raw:    createRawHiveResource(),
+			Schema: testHiveSchema,
+		},
+	}
+
+	resp := &resource.ValidateConfigResponse{
+		Diagnostics: diag.Diagnostics{},
+	}
+
+	// Function under test
+	validator := dwApi.ConfigValidators(ctx)
+	for _, v := range validator {
+		v.ValidateResource(ctx, req, resp)
+	}
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Invalid Attribute Combination")
+	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "These attributes cannot be configured together: [scale_wait_time_seconds,headroom]")
+}
+
 func (suite *HiveTestSuite) TestHiveCreate_CreationError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
@@ -569,8 +595,8 @@ func (suite *HiveTestSuite) TestConvertToCreateVwRequest_All() {
 		MaxGroupCount:                types.Int64Value(10),
 		DisableAutoSuspend:           types.BoolValue(false),
 		AutoSuspendTimeoutSeconds:    types.Int64Value(60),
-		ScaleWaitTimeSeconds:         types.Int64Value(60),
 		Headroom:                     types.Int64Value(2),
+		ScaleWaitTimeSeconds:         types.Int64Value(60),
 		MaxConcurrentIsolatedQueries: types.Int64Value(5),
 		MaxNodesPerIsolatedQuery:     types.Int64Value(2),
 		AwsOptions: &awsOptions{
@@ -585,16 +611,16 @@ func (suite *HiveTestSuite) TestConvertToCreateVwRequest_All() {
 	suite.Equal("database-catalog-id", *req.DbcID)
 	suite.Equal("test-name", *req.Name)
 	suite.Equal("2024.0.19.0-301", req.ImageVersion)
-	suite.Equal(int32(10), req.NodeCount)
+	suite.Equal(int32(10), req.NodeCount) // group_size
 	suite.Equal(true, *req.PlatformJwtAuth)
 	suite.Equal([]string{"ldap-group"}, req.Config.LdapGroups)
 	suite.Equal(true, req.Config.EnableSSO)
-	suite.Equal(int32(1), *req.Autoscaling.MinClusters)
-	suite.Equal(int32(10), *req.Autoscaling.MaxClusters)
+	suite.Equal(int32(1), *req.Autoscaling.MinClusters)  // min_group_size
+	suite.Equal(int32(10), *req.Autoscaling.MaxClusters) // max_group_size
 	suite.Equal(false, req.Autoscaling.DisableAutoSuspend)
 	suite.Equal(int32(60), req.Autoscaling.AutoSuspendTimeoutSeconds)
-	suite.Equal(int32(60), req.Autoscaling.HiveScaleWaitTimeSeconds)
-	suite.Equal(int32(2), req.Autoscaling.HiveDesiredFreeCapacity)
+	suite.Equal(int32(60), req.Autoscaling.HiveScaleWaitTimeSeconds) // scale_wait_time_seconds
+	suite.Equal(int32(2), req.Autoscaling.HiveDesiredFreeCapacity)   // headroom
 	suite.Equal("us-west-2a", req.AvailabilityZone)
 	suite.Equal(int32(300), req.EbsLLAPSpillGB)
 	suite.Equal("key1", *req.Tags[0].Key)

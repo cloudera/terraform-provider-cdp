@@ -53,7 +53,7 @@ var hiveSchema = schema.Schema{
 			MarkdownDescription: "The version of the Hive Virtual Warehouse image.",
 		},
 		"group_size": schema.Int64Attribute{
-			Optional:            true,
+			Required:            true,
 			MarkdownDescription: "Nodes per compute group. If specified, forces ‘template’ to be ‘custom’.",
 		},
 		"platform_jwt_auth": schema.BoolAttribute{
@@ -117,11 +117,11 @@ var hiveSchema = schema.Schema{
 		},
 		"scale_wait_time_seconds": schema.Int64Attribute{
 			Optional:            true,
-			MarkdownDescription: "Set wait time before a scale event happens. Either “scale_wait_time_in_seconds” or “headroom” can be provided.",
+			MarkdownDescription: "Set wait time before a scale event happens.",
 		},
 		"headroom": schema.Int64Attribute{
 			Optional:            true,
-			MarkdownDescription: "Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs. Either “scale_wait_time_in_seconds” or “headroom” can be provided.",
+			MarkdownDescription: "Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs.",
 		},
 		"max_concurrent_isolated_queries": schema.Int64Attribute{
 			Optional:            true,

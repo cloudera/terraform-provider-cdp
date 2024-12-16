@@ -143,7 +143,6 @@ func TestAccDwCluster_Basic(t *testing.T) {
 		StorageLocationBase: os.Getenv(AwsStorageLocationBase),
 		Runtime:             os.Getenv(AwsRuntime),
 	}
-	resourceName := "cdp_dw_aws_cluster.test_data_warehouse_aws"
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			cdpacctest.PreCheck(t)
@@ -168,8 +167,12 @@ func TestAccDwCluster_Basic(t *testing.T) {
 					testAccDwCatalog(),
 					testAccHiveVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-hive"))),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "name", envParams.Name),
-					resource.TestCheckResourceAttr(resourceName, "status", "Accepted"),
+					resource.TestCheckResourceAttr("cdp_dw_aws_cluster.test_data_warehouse_aws", "name", envParams.Name),
+					resource.TestCheckResourceAttr("cdp_dw_aws_cluster.test_data_warehouse_aws", "status", "Accepted"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "compactor"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jdbc_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "hue_url"),
+					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jwt_token_gen_url"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -283,24 +286,23 @@ func testAccHiveVirtualWarehouse(name string) string {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
 			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
 			name = %[1]q
+			group_size = 2
 			platform_jwt_auth = true
 			enable_sso = true
-			image_version = "2024.0.19.0-301"
-			node_count = 2
-			autoscaling = {
-			  min_clusters = 1
-			  max_clusters = 3
-			  disable_auto_suspend = false
-			  auto_suspend_timeout_seconds = 100
-			  hive_scale_wait_time_seconds = 230
-		    }
-		    aws_options = {
+			min_group_count = 2
+			max_group_count = 5
+			disable_auto_suspend = false
+			auto_suspend_timeout_seconds = 100
+			scale_wait_time_seconds = 230
+			max_concurrent_isolated_queries = 10
+			max_nodes_per_isolated_query = 10
+			aws_options = {
 			  availability_zone = "us-west-2a"
 			  ebs_llap_spill_gb = 300
 			  tags = {
-				owner = "cdw-terraform"
+				owner = "cdw-terraform@cloudera.com"
 			  }
-		    }
+			}
 		}
 	`, name)
 }
