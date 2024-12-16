@@ -156,6 +156,7 @@ func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequ
 				MarkdownDescription: "Whether to enable SSH tunneling for the environment.",
 				Optional:            true,
 				Computed:            true,
+				Default:             booldefault.StaticBool(true),
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},

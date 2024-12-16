@@ -90,6 +90,7 @@ var AzureEnvironmentSchema = schema.Schema{
 		"enable_tunnel": schema.BoolAttribute{
 			Optional: true,
 			Computed: true,
+			Default:  booldefault.StaticBool(true),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
