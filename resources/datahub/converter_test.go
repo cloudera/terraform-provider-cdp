@@ -173,9 +173,13 @@ func TestFromModelToRequestTags(t *testing.T) {
 	input := awsDatahubResourceModel{Tags: tags}
 	got := fromModelToAwsRequest(input, context.TODO())
 
-	test.CompareStrings(*got.Tags[0].Value, input.Tags.Elements()["key1"].(types.String).ValueString(), t)
-	test.CompareStrings(*got.Tags[1].Value, input.Tags.Elements()["key2"].(types.String).ValueString(), t)
-	test.CompareStrings(*got.Tags[2].Value, input.Tags.Elements()["key3"].(types.String).ValueString(), t)
+	expectedKeys := [3]string{"key1", "key2", "key1"}
+	gotKeys := [3]string{*got.Tags[0].Key, *got.Tags[1].Key, *got.Tags[2].Key}
+	test.CompareInts(len(got.Tags), 3, t)
+	test.CompareStringSlices(gotKeys[:], expectedKeys[:])
+	test.CompareStrings(*got.Tags[0].Value, input.Tags.Elements()[*got.Tags[0].Key].(types.String).ValueString(), t)
+	test.CompareStrings(*got.Tags[1].Value, input.Tags.Elements()[*got.Tags[1].Key].(types.String).ValueString(), t)
+	test.CompareStrings(*got.Tags[2].Value, input.Tags.Elements()[*got.Tags[2].Key].(types.String).ValueString(), t)
 }
 
 func TestFromModelToGcpRequestBasicFields(t *testing.T) {
