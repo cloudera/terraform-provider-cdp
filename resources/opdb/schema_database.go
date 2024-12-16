@@ -287,6 +287,15 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				},
 			},
 		},
+		"architecture": schema.StringAttribute{
+			Optional:            true,
+			Computed:            true,
+			MarkdownDescription: "CPU Architecture is used for the cluster",
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+				stringplanmodifier.RequiresReplace(),
+			},
+		},
 	})
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Creates an Operational DataBase.",

@@ -62,6 +62,8 @@ func fromModelToDatabaseRequest(model databaseResourceModel, ctx context.Context
 
 	req.VolumeEncryptions = createVolumeEncryptions(ctx, model.VolumeEncryptions)
 
+	req.Architecture = opdbmodels.ArchitectureType(model.Architecture.ValueString())
+
 	tflog.Debug(ctx, fmt.Sprintf("Conversion from databaseResourceModel to CreateDatabaseRequest has finished with request: %+v.", req))
 	return &req
 }

@@ -108,4 +108,6 @@ resource "cdp_opdb_operational_database" "opdb-detailed-example" {
     }
   ]
 
+  architecture = "X86_64" // valid options are "X86_64", "ARM64"
+
 }

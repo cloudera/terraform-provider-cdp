@@ -160,6 +160,8 @@ resource "cdp_opdb_operational_database" "opdb-detailed-example" {
     }
   ]
 
+  architecture = "X86_64" // valid options are "X86_64", "ARM64"
+
 }
 ```
 
@@ -177,6 +179,7 @@ It is also possible to change Catalog name for the image.
 
 ### Optional
 
+- `architecture` (String) CPU Architecture is used for the cluster
 - `attached_storage_for_workers` (Attributes) Attached storage for the worker nodes for AWS, Azure, and GCP cloud providers. (see [below for nested schema](#nestedatt--attached_storage_for_workers))
 - `auto_scaling_parameters` (Attributes) (see [below for nested schema](#nestedatt--auto_scaling_parameters))
 - `custom_user_tags` (Attributes Set) Optional tags to apply to launched infrastructure resources (see [below for nested schema](#nestedatt--custom_user_tags))

@@ -56,6 +56,7 @@ func TestFromModelToDatabaseRequestMoreFields(t *testing.T) {
 		EnableGrafana:      types.BoolValue(true),
 		EnableRegionCanary: types.BoolValue(true),
 		StorageLocation:    types.StringValue("someStorageLocation"),
+		Architecture:       types.StringValue("ARM64"),
 	}
 	got := fromModelToDatabaseRequest(input, context.TODO())
 
@@ -78,7 +79,7 @@ func TestFromModelToDatabaseRequestMoreFields(t *testing.T) {
 	test.CompareBools(got.EnableRegionCanary, input.EnableRegionCanary.ValueBool(), t)
 
 	test.CompareStrings(got.StorageLocation, input.StorageLocation.ValueString(), t)
-
+	test.CompareStrings(string(got.Architecture), input.Architecture.ValueString(), t)
 }
 
 func TestFromModelToUpdateDatabaseRequestAutoScaling(t *testing.T) {
