@@ -12,4 +12,5 @@ resource "cdp_dw_vw_impala" "impala-terraform" {
   cluster_id          = var.cluster_id
   database_catalog_id = var.database_catalog_id
   name                = var.name
+  image_version       = var.image_version
 }
