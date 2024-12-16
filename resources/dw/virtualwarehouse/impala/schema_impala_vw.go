@@ -20,6 +20,7 @@ import (
 )
 
 var impalaSchema = schema.Schema{
+	MarkdownDescription: "A Impala Virtual Warehouse is service which is able to run low-latency SQL queries.",
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
 			Computed: true,
