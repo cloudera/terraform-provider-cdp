@@ -31,6 +31,13 @@ type resourceModel struct {
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 }
 
-func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
-	return p.PollingOptions
+func (m *resourceModel) GetPollingOptions() *utils.PollingOptions {
+	return m.PollingOptions
+}
+
+func (m *resourceModel) getImageVersion() string {
+	if m.ImageVersion.IsNull() || m.ImageVersion.IsUnknown() || m.ImageVersion.String() == "<unknown>" {
+		return ""
+	}
+	return m.ImageVersion.String()
 }

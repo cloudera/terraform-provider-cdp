@@ -46,9 +46,10 @@ var datavizSchema = schema.Schema{
 			MarkdownDescription: "The version of the Data Visualization.",
 		},
 		"resource_template": schema.StringAttribute{
-			Optional:            true,
-			Computed:            true,
-			MarkdownDescription: "The name of the resource template being used. Available options: reduced, medium, large.",
+			Optional: true,
+			Computed: true,
+			// TODO vcsomor add validation logic to the allowed types
+			MarkdownDescription: "The name of the resource template being used. Available options: reduced, medium, large. Empty means the default resources template will be assigned.",
 		},
 
 		"user_groups": schema.StringAttribute{
@@ -57,8 +58,10 @@ var datavizSchema = schema.Schema{
 		},
 		"admin_groups": schema.StringAttribute{
 			Required:            true,
-			MarkdownDescription: "List of the LDAP groups which can administer this Data Visualization instance.",
+			MarkdownDescription: "List of the LDAP groups which can administer this Data Visualization instance. At least one valid group is required.",
 		},
+
+		// TODO vcsomor add missing Tags to the API
 
 		"last_updated": schema.StringAttribute{
 			Computed:            true,
