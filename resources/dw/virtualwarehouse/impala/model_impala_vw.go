@@ -11,10 +11,15 @@
 package impala
 
 import (
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
+
+const timeZone = time.RFC850
 
 type resourceModel struct {
 	ID                types.String          `tfsdk:"id"`
@@ -25,6 +30,15 @@ type resourceModel struct {
 	Status            types.String          `tfsdk:"status"`
 	ImageVersion      types.String          `tfsdk:"image_version"`
 	PollingOptions    *utils.PollingOptions `tfsdk:"polling_options"`
+}
+
+func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwResponse) {
+	p.ID = types.StringValue(resp.Vw.DbcID)
+	p.DatabaseCatalogID = types.StringValue(resp.Vw.DbcID)
+	p.Name = types.StringValue(resp.Vw.Name)
+	p.Status = types.StringValue(resp.Vw.Status)
+	p.ImageVersion = types.StringValue(resp.Vw.CdhVersion)
+	p.LastUpdated = types.StringValue(time.Now().Format(timeZone))
 }
 
 func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {

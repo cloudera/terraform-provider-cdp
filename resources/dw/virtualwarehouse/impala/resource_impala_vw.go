@@ -17,7 +17,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
@@ -62,7 +61,7 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 	}
 
 	// Create the VW Request using a helper
-	vwhCreateRequest := createVwRequestFromPlan(&plan)
+	vwhCreateRequest := r.createVwRequestFromPlan(&plan)
 	tflog.Debug(ctx, fmt.Sprintf("CreateVw request: %+v", vwhCreateRequest))
 
 	// Make API request to create VW
@@ -141,9 +140,7 @@ func (r *impalaResource) Delete(ctx context.Context, req resource.DeleteRequest,
 	}
 
 	// Handle polling for not async call
-	pollingOptionsAvailable := state.PollingOptions != nil
-	isSynchronous := pollingOptionsAvailable && !state.PollingOptions.Async.ValueBool()
-	if isSynchronous {
+	if opts := state.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		err = r.pollForDeletion(ctx, state, clusterID, vwID)
 		if err != nil {
 			resp.Diagnostics.AddError(
@@ -181,7 +178,7 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 	}
 }
 
-func createVwRequestFromPlan(plan *resourceModel) *models.CreateVwRequest {
+func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.CreateVwRequest {
 	req := &models.CreateVwRequest{
 		Name:      plan.Name.ValueStringPointer(),
 		ClusterID: plan.ClusterID.ValueStringPointer(),
@@ -222,18 +219,9 @@ func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *res
 	}
 
 	impala := describe.GetPayload()
-	plan.populateFromImpala(impala)
+	plan.setFromDescribeVwResponse(impala)
 
 	return nil
-}
-
-func (plan *resourceModel) populateFromImpala(impala *models.DescribeVwResponse) {
-	plan.ID = types.StringValue(impala.Vw.DbcID)
-	plan.DatabaseCatalogID = types.StringValue(impala.Vw.DbcID)
-	plan.Name = types.StringValue(impala.Vw.Name)
-	plan.Status = types.StringValue(impala.Vw.Status)
-	plan.ImageVersion = types.StringValue(impala.Vw.CdhVersion)
-	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 }
 
 func (r *impalaResource) deleteVirtualWarehouse(ctx context.Context, clusterID, vwID *string) error {
