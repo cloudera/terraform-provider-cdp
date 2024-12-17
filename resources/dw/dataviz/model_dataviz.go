@@ -8,12 +8,11 @@
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-package hive
+package dataviz
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
-
 	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 type resourceModel struct {
