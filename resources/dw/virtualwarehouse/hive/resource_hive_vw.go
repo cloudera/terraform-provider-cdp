@@ -16,9 +16,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/resourcevalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
@@ -58,8 +58,16 @@ func (r *hiveResource) Schema(_ context.Context, _ resource.SchemaRequest, resp 
 	resp.Schema = hiveSchema
 }
 
+func (r *hiveResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return []resource.ConfigValidator{
+		resourcevalidator.Conflicting(
+			path.MatchRoot("scale_wait_time_seconds"),
+			path.MatchRoot("headroom"),
+		),
+	}
+}
+
 func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	// Retrieve values from plan
 	var plan resourceModel
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -67,16 +75,14 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	// Generate API request body from plan
+	createReq, diags := plan.convertToCreateVwRequest(ctx)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 	vw := operations.NewCreateVwParamsWithContext(ctx).
-		WithInput(&models.CreateVwRequest{
-			Name:      plan.Name.ValueStringPointer(),
-			ClusterID: plan.ClusterID.ValueStringPointer(),
-			DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
-			VwType:    models.VwTypeHive.Pointer(),
-		})
+		WithInput(createReq)
 
-	// Create new virtual warehouse
 	response, err := r.client.Dw.Operations.CreateVw(vw)
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -90,7 +96,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	clusterID := plan.ClusterID.ValueStringPointer()
 	vwID := &payload.VwID
 
-	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
@@ -120,11 +126,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 
 	hive := describe.GetPayload()
-	plan.ID = types.StringValue(hive.Vw.ID)
-	plan.DatabaseCatalogID = types.StringValue(hive.Vw.DbcID)
-	plan.Name = types.StringValue(hive.Vw.Name)
-	plan.Status = types.StringValue(hive.Vw.Status)
-	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	plan.setFromDescribeVwResponse(hive)
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }
@@ -164,7 +166,7 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	if opts := state.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	if opts := state.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},

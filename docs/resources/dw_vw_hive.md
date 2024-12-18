@@ -22,10 +22,57 @@ A Hive Virtual Warehouse is service which is able to run big SQL queries.
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
+terraform {
+  required_providers {
+    cdp = {
+      source = "cloudera/cdp"
+    }
+  }
+}
+
 resource "cdp_dw_vw_hive" "example" {
-  cluster_id          = var.cluster_id
-  database_catalog_id = var.database_catalog_id
-  name                = var.name
+  cluster_id                      = "env-id"
+  database_catalog_id             = "warehouse-id"
+  name                            = "default-catalog"
+  group_size                      = 2
+  platform_jwt_auth               = true
+  enable_sso                      = true
+  image_version                   = "2024.0.18.4-5"
+  min_group_count                 = 1
+  max_group_count                 = 3
+  disable_auto_suspend            = false
+  auto_suspend_timeout_seconds    = 100
+  scale_wait_time_seconds = 230 // either headroom or scale_wait_time_seconds can be configured
+  headroom                        = 1
+  max_concurrent_isolated_queries = 5
+  max_nodes_per_isolated_query    = 2
+  aws_options = {
+    availability_zone = "us-west-2a"
+    ebs_llap_spill_gb = 300
+    tags = {
+      "key1" = "value1"
+    }
+  }
+}
+
+output "jdbc_url" {
+  value = cdp_dw_vw_hive.example.jdbc_url
+}
+
+output "kerberos_jdbc_url" {
+  value = cdp_dw_vw_hive.example.kerberos_jdbc_url
+}
+
+output "hue_url" {
+  value = cdp_dw_vw_hive.example.hue_url
+}
+
+output "jwt_connection_string" {
+  value = cdp_dw_vw_hive.example.jwt_connection_string
+}
+
+output "jwt_token_gen_url" {
+  value = cdp_dw_vw_hive.example.jwt_token_gen_url
 }
 ```
 
@@ -36,17 +83,47 @@ resource "cdp_dw_vw_hive" "example" {
 
 - `cluster_id` (String) The id of the CDW Cluster which the Hive Virtual Warehouse is attached to.
 - `database_catalog_id` (String) The id of the Database Catalog which the Hive Virtual Warehouse is attached to.
+- `group_size` (Number) Nodes per compute group. If specified, forces ‘template’ to be ‘custom’.
+- `max_group_count` (Number) Maximum number of available compute groups.
+- `min_group_count` (Number) Minimum number of available compute groups.
 - `name` (String) The name of the Hive Virtual Warehouse.
 
 ### Optional
 
+- `auto_suspend_timeout_seconds` (Number) The time in seconds after which the compute group should be suspended.
+- `aws_options` (Attributes) AWS related configuration options that could specify various values that will be used during CDW resource creation. (see [below for nested schema](#nestedatt--aws_options))
+- `disable_auto_suspend` (Boolean) Boolean value that specifies if auto-suspend should be disabled.
+- `enable_sso` (Boolean) Enable SSO for the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
+- `headroom` (Number) Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs.
+- `image_version` (String) The version of the Hive Virtual Warehouse image.
+- `ldap_groups` (List of String) LDAP group names to be enabled to authenticate with.
+- `max_concurrent_isolated_queries` (Number) Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
+- `max_nodes_per_isolated_query` (Number) Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
+- `platform_jwt_auth` (Boolean) Value of ‘true’ automatically configures the Virtual Warehouse to support JWTs issued by the CDP JWT token provider. Value of ‘false’ does not enable JWT auth on the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `scale_wait_time_seconds` (Number) Set wait time before a scale event happens.
 
 ### Read-Only
 
+- `compactor` (Boolean) Boolean value that describes if the Hive Virtual Warehouse is a compactor.
+- `hue_url` (String) Hue URL for the Hive Virtual Warehouse.
 - `id` (String) The ID of this resource.
+- `jdbc_url` (String) JDBC URL for the Hive Virtual Warehouse.
+- `jwt_connection_string` (String) Generic semi-colon delimited list of key-value pairs that contain all necessary information for clients to construct a connection to this Virtual Warehouse using JWTs as the authentication method.
+- `jwt_token_gen_url` (String) URL to generate JWT tokens for the Virtual Warehouse by the CDP JWT token provider. Available if platform JWT authentication is enabled.
+- `kerberos_jdbc_url` (String) Kerberos JDBC URL for the Hive Virtual Warehouse.
 - `last_updated` (String) Timestamp of the last Terraform update of the order.
-- `status` (String) The status of the database catalog.
+- `status` (String) The status of the Hive Virtual Warehouse.
+
+<a id="nestedatt--aws_options"></a>
+### Nested Schema for `aws_options`
+
+Optional:
+
+- `availability_zone` (String) This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets.
+- `ebs_llap_spill_gb` (Number) This feature works only for AWS cluster type. The size of the EBS volume in GB to be used for LLAP spill storage. If not specified, defaults to no extra spill disk.
+- `tags` (Map of String) This feature works only for AWS cluster type. Tags to be applied to the underlying compute nodes.
+
 
 <a id="nestedatt--polling_options"></a>
 ### Nested Schema for `polling_options`
