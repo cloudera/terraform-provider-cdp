@@ -13,6 +13,8 @@ package dataviz
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -50,7 +52,7 @@ func (r *datavizResource) Configure(_ context.Context, req resource.ConfigureReq
 }
 
 func (r *datavizResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_dw_dataviz"
+	resp.TypeName = req.ProviderTypeName + "_dw_data_visualization"
 }
 
 func (r *datavizResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -67,8 +69,7 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 
 	// Create new Data Visualization
-	response, err := r.client.Dw.Operations.CreateDataVisualization(
-		requestFromPlan(ctx, plan))
+	create, err := r.createDataViz(createRequestFromPlan(ctx, plan))
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Data Visualization",
@@ -77,21 +78,12 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
-	payload := response.GetPayload()
 	clusterID := plan.ClusterID.ValueStringPointer()
-	vizID := &payload.DataVisualizationID
+	vizID := &create.GetPayload().DataVisualizationID
 
+	// Wait the desired state
 	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
-		callFailedCount := 0
-		stateConf := &retry.StateChangeConf{
-			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
-			Target:       []string{"Running"},
-			Delay:        30 * time.Second,
-			Timeout:      utils.GetPollingTimeout(&plan, 20*time.Minute),
-			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vizID, &callFailedCount, utils.GetCallFailureThreshold(&plan, 3)),
-		}
-		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
+		if _, err = r.retryStateConf(ctx, setupRetryCfg(clusterID, vizID), &plan).WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
 				"Error waiting for Data Warehouse hive virtual warehouse",
 				"Could not create hive, unexpected error: "+err.Error(),
@@ -99,9 +91,9 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 			return
 		}
 	}
-	desc := operations.NewDescribeDataVisualizationParamsWithContext(ctx).
-		WithInput(&models.DescribeDataVisualizationRequest{DataVisualizationID: vizID, ClusterID: clusterID})
-	describe, err := r.client.Dw.Operations.DescribeDataVisualization(desc)
+
+	// Describe the fresh data
+	describe, err := r.describeDataViz(describeRequest(ctx, clusterID, vizID))
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Data Visualization",
@@ -110,13 +102,20 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
-	viz := describe.GetPayload()
-	plan.ID = types.StringValue(viz.DataVisualization.ID)
-	plan.Name = types.StringValue(viz.DataVisualization.Name)
-	plan.Status = types.StringValue(viz.DataVisualization.Status)
-	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
-	diags = resp.State.Set(ctx, plan)
+	diags = resp.State.Set(
+		ctx,
+		stateFromDataViz(
+			*clusterID,
+			describe.GetPayload().DataVisualization,
+			plan.ResourceTemplate,
+			time.Now(),
+			plan.PollingOptions,
+		),
+	)
 	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
 func (r *datavizResource) Read(ctx context.Context, _ resource.ReadRequest, _ *resource.ReadResponse) {
@@ -127,96 +126,184 @@ func (r *datavizResource) Update(ctx context.Context, _ resource.UpdateRequest, 
 	tflog.Warn(ctx, "Update operation is not implemented yet.")
 }
 
-func (r *datavizResource) Delete(_ context.Context, _ resource.DeleteRequest, _ *resource.DeleteResponse) {
-	//		var state resourceModel
-	//
-	//		resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-	//		if resp.Diagnostics.HasError() {
-	//			return
-	//		}
-	//
-	//		clusterID := state.ClusterID.ValueStringPointer()
-	//		vwID := state.ID.ValueStringPointer()
-	//		op := operations.NewDeleteVwParamsWithContext(ctx).
-	//			WithInput(&models.DeleteVwRequest{
-	//				ClusterID: clusterID,
-	//				VwID:      vwID,
-	//			})
-	//
-	//		if _, err := r.client.Dw.Operations.DeleteVw(op); err != nil {
-	//			if strings.Contains(err.Error(), "Virtual Warehouse not found") {
-	//				return
-	//			}
-	//			resp.Diagnostics.AddError(
-	//				"Error deleting Hive Virtual Warehouse",
-	//				"Could not delete Hive Virtual Warehouse, unexpected error: "+err.Error(),
-	//			)
-	//			return
-	//		}
-	//
-	//		if opts := state.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
-	//			callFailedCount := 0
-	//			stateConf := &retry.StateChangeConf{
-	//				Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
-	//				Target:       []string{"Deleted"}, // This is not an actual state, we added it to fake the state change
-	//				Delay:        30 * time.Second,
-	//				Timeout:      utils.GetPollingTimeout(&state, 20*time.Minute),
-	//				PollInterval: 30 * time.Second,
-	//				Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&state, 3)),
-	//			}
-	//			if _, err := stateConf.WaitForStateContext(ctx); err != nil {
-	//				resp.Diagnostics.AddError(
-	//					"Error waiting for Data Warehouse Hive Virtual Warehouse",
-	//					"Could not delete hive, unexpected error: "+err.Error(),
-	//				)
-	//				return
-	//			}
-	//		}
-}
+func (r *datavizResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state resourceModel
 
-func (r *datavizResource) stateRefresh(context.Context, *string, *string, *int, int) func() (any, string, error) {
-	//func (r *datavizResource) stateRefresh(ctx context.Context, clusterID *string, vwID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
-	return func() (any, string, error) {
-		//tflog.Debug(ctx, "About to describe hive")
-		//params := operations.NewDescribeVwParamsWithContext(ctx).
-		//	WithInput(&models.DescribeVwRequest{ClusterID: clusterID, VwID: vwID})
-		//resp, err := r.client.Dw.Operations.DescribeVw(params)
-		//if err != nil {
-		//	if strings.Contains(err.Error(), "Virtual Warehouse not found") {
-		//		return &models.DescribeVwResponse{}, "Deleted", nil
-		//	}
-		//	*callFailedCount++
-		//	if *callFailedCount <= callFailureThreshold {
-		//		tflog.Warn(ctx, fmt.Sprintf("could not describe Data Warehouse Hive Virtual Warehouse "+
-		//			"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
-		//		return nil, "", nil
-		//	}
-		//	tflog.Error(ctx, fmt.Sprintf("error describing Data Warehouse Hive Virtual Warehouse due to [%s] "+
-		//		"failure threshold limit exceeded.", err.Error()))
-		//	return nil, "", err
-		//}
-		//*callFailedCount = 0
-		//vw := resp.GetPayload()
-		//tflog.Debug(ctx, fmt.Sprintf("Described Hive %s with status %s", vw.Vw.ID, vw.Vw.Status))
-		//return vw, vw.Vw.Status, nil
-		return nil, "", nil
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	clusterID := state.ClusterID.ValueStringPointer()
+	vizID := state.ID.ValueStringPointer()
+
+	if _, err := r.deleteDataViz(deleteRequest(ctx, clusterID, vizID)); err != nil {
+		if strings.Contains(err.Error(), "Data Visualization not found") {
+			return
+		}
+		resp.Diagnostics.AddError(
+			"Error deleting Data Visualization",
+			fmt.Sprintf("Could not delete Data Visualization, unexpected error: %v", err),
+		)
+		return
+	}
+
+	if opts := state.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+		if _, err := r.retryStateConf(ctx, teardownRetryCfg(clusterID, vizID), &state).WaitForStateContext(ctx); err != nil {
+			resp.Diagnostics.AddError(
+				"Error waiting for Data Visualization to delete",
+				fmt.Sprintf("Could not delete Data Visualization, unexpected error: %v", err),
+			)
+			return
+		}
 	}
 }
 
-func requestFromPlan(ctx context.Context, plan resourceModel) *operations.CreateDataVisualizationParams {
-	// Generate API request body from plan
-	input := &models.CreateDataVisualizationRequest{
-		ClusterID: plan.ClusterID.ValueStringPointer(),
-		Name:      plan.Name.ValueStringPointer(),
+func (r *datavizResource) createDataViz(p *operations.CreateDataVisualizationParams) (*operations.CreateDataVisualizationOK, error) {
+	return r.client.Dw.Operations.CreateDataVisualization(p)
+}
 
-		ImageVersion: plan.getImageVersion(),
-		Config: &models.VizConfig{
-			AdminGroups: utils.FromListValueToStringList(plan.AdminGroups),
-			UserGroups:  utils.FromListValueToStringList(plan.UserGroups),
-		},
+func (r *datavizResource) describeDataViz(p *operations.DescribeDataVisualizationParams) (*operations.DescribeDataVisualizationOK, error) {
+	return r.client.Dw.Operations.DescribeDataVisualization(p)
+}
 
-		ResourceTemplate: plan.ResourceTemplate.ValueString(),
-	}
+func (r *datavizResource) deleteDataViz(p *operations.DeleteDataVisualizationParams) (*operations.DeleteDataVisualizationOK, error) {
+	return r.client.Dw.Operations.DeleteDataVisualization(p)
+}
+
+func createRequestFromPlan(ctx context.Context, plan resourceModel) *operations.CreateDataVisualizationParams {
 	return operations.NewCreateDataVisualizationParamsWithContext(ctx).
-		WithInput(input)
+		WithInput(&models.CreateDataVisualizationRequest{
+			ClusterID: plan.ClusterID.ValueStringPointer(),
+			Name:      plan.Name.ValueStringPointer(),
+
+			ImageVersion: plan.getImageVersion(),
+			Config: &models.VizConfig{
+				AdminGroups: utils.FromListValueToStringList(plan.AdminGroups),
+				UserGroups:  utils.FromListValueToStringList(plan.UserGroups),
+			},
+
+			ResourceTemplate: plan.ResourceTemplate.ValueString(),
+		})
+}
+
+func describeRequest(ctx context.Context, clusterID *string, vizID *string) *operations.DescribeDataVisualizationParams {
+	return operations.NewDescribeDataVisualizationParamsWithContext(ctx).
+		WithInput(&models.DescribeDataVisualizationRequest{
+			ClusterID:           clusterID,
+			DataVisualizationID: vizID,
+		})
+}
+
+func deleteRequest(ctx context.Context, clusterID *string, vizID *string) *operations.DeleteDataVisualizationParams {
+	return operations.NewDeleteDataVisualizationParamsWithContext(ctx).
+		WithInput(&models.DeleteDataVisualizationRequest{
+			ClusterID:           clusterID,
+			DataVisualizationID: vizID,
+		})
+}
+
+func (r *datavizResource) retryStateConf(
+	ctx context.Context,
+	cfg *retryStateCfg,
+	po utils.HasPollingOptions,
+) *retry.StateChangeConf {
+	failedCnt := 0
+	return &retry.StateChangeConf{
+		Pending:      cfg.pending,
+		Target:       cfg.target,
+		Delay:        30 * time.Second,
+		Timeout:      utils.GetPollingTimeout(po, 20*time.Minute),
+		PollInterval: 30 * time.Second,
+		Refresh:      r.stateRefresh(ctx, cfg.clusterID, cfg.clusterID, &failedCnt, utils.GetCallFailureThreshold(po, 3)),
+	}
+}
+
+func (r *datavizResource) stateRefresh(ctx context.Context, clusterID *string, vizID *string, failedCnt *int, failureThreshold int) func() (any, string, error) {
+	return func() (any, string, error) {
+		tflog.Debug(ctx, "Describing Data Visualisation")
+
+		resp, err := r.describeDataViz(describeRequest(ctx, clusterID, vizID))
+		if err != nil {
+			if strings.Contains(err.Error(), "Data Visualization not found") {
+				return nil, "Deleted", nil
+			}
+
+			*failedCnt++
+			if *failedCnt <= failureThreshold {
+				tflog.Warn(ctx, fmt.Sprintf("could not describe Data Visualization "+
+					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), failedCnt, failureThreshold))
+				return nil, "", nil
+			}
+			tflog.Error(ctx, fmt.Sprintf("error describing Data Visualization due to [%s] "+
+				"failure threshold limit exceeded.", err.Error()))
+			return nil, "", err
+		}
+
+		*failedCnt = 0
+		dataViz := resp.GetPayload().DataVisualization
+		tflog.Debug(ctx, fmt.Sprintf("Described Data Visualization %s with status %s", dataViz.ID, dataViz.Status))
+		return dataViz, dataViz.Status, nil
+	}
+}
+
+func stateFromDataViz(
+	clusterID string,
+	viz *models.DataVisualizationSummary,
+	template types.String,
+	updated time.Time,
+	pollingOpts *utils.PollingOptions,
+) resourceModel {
+	return resourceModel{
+		ID:        types.StringValue(viz.ID),
+		ClusterID: types.StringValue(clusterID),
+		Name:      types.StringValue(viz.Name),
+
+		ImageVersion:     types.StringValue(viz.ImageVersion),
+		ResourceTemplate: template,
+
+		UserGroups:  stringList(viz.UserGroups),
+		AdminGroups: stringList(viz.AdminGroups),
+
+		LastUpdated: types.StringValue(updated.Format(time.RFC850)),
+		Status:      types.StringValue(viz.Status),
+
+		PollingOptions: pollingOpts,
+	}
+}
+
+func stringList(s []string) types.List {
+	var elems []attr.Value
+	elems = make([]attr.Value, 0, len(s))
+	for _, v := range s {
+		elems = append(elems, types.StringValue(v))
+	}
+	var list types.List
+	list, _ = types.ListValue(types.StringType, elems)
+	return list
+}
+
+type retryStateCfg struct {
+	clusterID *string
+	vizID     *string
+	pending   []string
+	target    []string
+}
+
+func setupRetryCfg(clusterID *string, vizID *string) *retryStateCfg {
+	return &retryStateCfg{
+		clusterID: clusterID,
+		vizID:     vizID,
+		pending:   []string{"Accepted", "Creating", "Created", "Starting"},
+		target:    []string{"Running"},
+	}
+}
+
+func teardownRetryCfg(clusterID *string, vizID *string) *retryStateCfg {
+	return &retryStateCfg{
+		clusterID: clusterID,
+		vizID:     vizID,
+		pending:   []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
+		target:    []string{"Deleted"},
+	}
 }

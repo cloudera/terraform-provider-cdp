@@ -13,6 +13,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw/dataviz"
 	"os"
 	"reflect"
 	"regexp"
@@ -638,6 +639,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		de.NewServiceResource,
 		hive.NewHiveResource,
 		impala.NewImpalaResource,
+		dataviz.NewDataVizResource,
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 	}
