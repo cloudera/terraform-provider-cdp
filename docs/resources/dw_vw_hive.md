@@ -22,22 +22,30 @@ A Hive Virtual Warehouse is service which is able to run big SQL queries.
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
+terraform {
+  required_providers {
+    cdp = {
+      source = "cloudera/cdp"
+    }
+  }
+}
+
 resource "cdp_dw_vw_hive" "example" {
-  cluster_id          = "env-id"
-  database_catalog_id = "warehouse-id"
-  name                = "default-catalog"
-  group_size = 2
-  platform_jwt_auth = true
-  enable_sso = true
-  image_version = "2024.0.18.4-5"
-  min_group_count = 1
-  max_group_count = 3
-  disable_auto_suspend = false
-  auto_suspend_timeout_seconds = 100
+  cluster_id                      = "env-id"
+  database_catalog_id             = "warehouse-id"
+  name                            = "default-catalog"
+  group_size                      = 2
+  platform_jwt_auth               = true
+  enable_sso                      = true
+  image_version                   = "2024.0.18.4-5"
+  min_group_count                 = 1
+  max_group_count                 = 3
+  disable_auto_suspend            = false
+  auto_suspend_timeout_seconds    = 100
   scale_wait_time_seconds = 230 // either headroom or scale_wait_time_seconds can be configured
-  headroom = 1
+  headroom                        = 1
   max_concurrent_isolated_queries = 5
-  max_nodes_per_isolated_query = 2
+  max_nodes_per_isolated_query    = 2
   aws_options = {
     availability_zone = "us-west-2a"
     ebs_llap_spill_gb = 300
@@ -64,7 +72,7 @@ output "jwt_connection_string" {
 }
 
 output "jwt_token_gen_url" {
-    value = cdp_dw_vw_hive.example.jwt_token_gen_url
+  value = cdp_dw_vw_hive.example.jwt_token_gen_url
 }
 ```
 
@@ -88,7 +96,7 @@ output "jwt_token_gen_url" {
 - `enable_sso` (Boolean) Enable SSO for the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
 - `headroom` (Number) Set headroom node count. Nodes will be started in case there are no free nodes left to pick up new jobs.
 - `image_version` (String) The version of the Hive Virtual Warehouse image.
-- `ldap_groups` (List of String) LDAP group names to be enabled for auth.
+- `ldap_groups` (List of String) LDAP group names to be enabled to authenticate with.
 - `max_concurrent_isolated_queries` (Number) Maximum number of concurrent isolated queries. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
 - `max_nodes_per_isolated_query` (Number) Maximum number of nodes per isolated query. If not provided, 0 will be applied. The 0 value means the query isolation functionality will be disabled.
 - `platform_jwt_auth` (Boolean) Value of ‘true’ automatically configures the Virtual Warehouse to support JWTs issued by the CDP JWT token provider. Value of ‘false’ does not enable JWT auth on the Virtual Warehouse. If this field is not specified, it defaults to ‘false’.
@@ -105,7 +113,7 @@ output "jwt_token_gen_url" {
 - `jwt_token_gen_url` (String) URL to generate JWT tokens for the Virtual Warehouse by the CDP JWT token provider. Available if platform JWT authentication is enabled.
 - `kerberos_jdbc_url` (String) Kerberos JDBC URL for the Hive Virtual Warehouse.
 - `last_updated` (String) Timestamp of the last Terraform update of the order.
-- `status` (String) The status of the database catalog.
+- `status` (String) The status of the Hive Virtual Warehouse.
 
 <a id="nestedatt--aws_options"></a>
 ### Nested Schema for `aws_options`

@@ -8,22 +8,30 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
+terraform {
+  required_providers {
+    cdp = {
+      source = "cloudera/cdp"
+    }
+  }
+}
+
 resource "cdp_dw_vw_hive" "example" {
-  cluster_id          = "env-id"
-  database_catalog_id = "warehouse-id"
-  name                = "default-catalog"
-  group_size = 2
-  platform_jwt_auth = true
-  enable_sso = true
-  image_version = "2024.0.18.4-5"
-  min_group_count = 1
-  max_group_count = 3
-  disable_auto_suspend = false
-  auto_suspend_timeout_seconds = 100
+  cluster_id                      = "env-id"
+  database_catalog_id             = "warehouse-id"
+  name                            = "default-catalog"
+  group_size                      = 2
+  platform_jwt_auth               = true
+  enable_sso                      = true
+  image_version                   = "2024.0.18.4-5"
+  min_group_count                 = 1
+  max_group_count                 = 3
+  disable_auto_suspend            = false
+  auto_suspend_timeout_seconds    = 100
   scale_wait_time_seconds = 230 // either headroom or scale_wait_time_seconds can be configured
-  headroom = 1
+  headroom                        = 1
   max_concurrent_isolated_queries = 5
-  max_nodes_per_isolated_query = 2
+  max_nodes_per_isolated_query    = 2
   aws_options = {
     availability_zone = "us-west-2a"
     ebs_llap_spill_gb = 300
@@ -50,5 +58,5 @@ output "jwt_connection_string" {
 }
 
 output "jwt_token_gen_url" {
-    value = cdp_dw_vw_hive.example.jwt_token_gen_url
+  value = cdp_dw_vw_hive.example.jwt_token_gen_url
 }

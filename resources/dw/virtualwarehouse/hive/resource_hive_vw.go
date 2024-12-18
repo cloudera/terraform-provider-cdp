@@ -75,8 +75,13 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
+	createReq, diags := plan.convertToCreateVwRequest(ctx)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 	vw := operations.NewCreateVwParamsWithContext(ctx).
-		WithInput(plan.convertToCreateVwRequest())
+		WithInput(createReq)
 
 	response, err := r.client.Dw.Operations.CreateVw(vw)
 	if err != nil {

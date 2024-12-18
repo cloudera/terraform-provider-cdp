@@ -65,7 +65,7 @@ var hiveSchema = schema.Schema{
 		"ldap_groups": schema.ListAttribute{
 			Optional:            true,
 			ElementType:         types.StringType,
-			MarkdownDescription: "LDAP group names to be enabled for auth.",
+			MarkdownDescription: "LDAP group names to be enabled to authenticate with.",
 		},
 		"enable_sso": schema.BoolAttribute{
 			Optional:            true,
@@ -157,7 +157,7 @@ var hiveSchema = schema.Schema{
 		},
 		"status": schema.StringAttribute{
 			Computed:            true,
-			MarkdownDescription: "The status of the database catalog.",
+			MarkdownDescription: "The status of the Hive Virtual Warehouse.",
 		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",

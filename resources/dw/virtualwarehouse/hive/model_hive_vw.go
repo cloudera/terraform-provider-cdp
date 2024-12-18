@@ -11,9 +11,10 @@
 package hive
 
 import (
-	"strings"
+	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
@@ -60,30 +61,24 @@ func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
 	return p.PollingOptions
 }
 
-func (p *resourceModel) convertToCreateVwRequest() *models.CreateVwRequest {
+func (p *resourceModel) convertToCreateVwRequest(ctx context.Context) (*models.CreateVwRequest, diag.Diagnostics) {
 	vwType := models.VwType("hive")
+	tags, diags := p.getTags(ctx)
 	return &models.CreateVwRequest{
 		ClusterID:             p.ClusterID.ValueStringPointer(),
 		DbcID:                 p.DatabaseCatalogID.ValueStringPointer(),
 		EbsLLAPSpillGB:        p.getEbsLLAPSpillGB(),
-		ImageVersion:          p.getImageVersion(),
+		ImageVersion:          p.ImageVersion.ValueString(),
 		Name:                  p.Name.ValueStringPointer(),
 		NodeCount:             utils.Int64To32(p.GroupSize),
 		PlatformJwtAuth:       p.PlatformJwtAuth.ValueBoolPointer(),
 		QueryIsolationOptions: p.getQueryIsolationOptions(),
 		Autoscaling:           p.getAutoscaling(),
 		AvailabilityZone:      p.getAvailabilityZone(),
-		Tags:                  p.getTags(),
+		Tags:                  tags,
 		Config:                p.getServiceConfig(),
 		VwType:                &vwType,
-	}
-}
-
-func (p *resourceModel) getImageVersion() string {
-	if p.ImageVersion.IsNull() || p.ImageVersion.IsUnknown() || p.ImageVersion.String() == "<unknown>" {
-		return ""
-	}
-	return strings.TrimPrefix(strings.TrimSuffix(p.ImageVersion.String(), "\""), "\"")
+	}, diags
 }
 
 func (p *resourceModel) getServiceConfig() *models.ServiceConfigReq {
@@ -95,22 +90,23 @@ func (p *resourceModel) getServiceConfig() *models.ServiceConfigReq {
 	}
 }
 
-func (p *resourceModel) getTags() []*models.TagRequest {
+func (p *resourceModel) getTags(ctx context.Context) ([]*models.TagRequest, diag.Diagnostics) {
 	if p.AwsOptions.Tags.IsNull() {
-		return nil
+		return nil, diag.Diagnostics{}
 	}
-	var tags []*models.TagRequest
-	for k, v := range p.AwsOptions.Tags.Elements() {
-		if v.IsNull() {
+	tags := make([]*models.TagRequest, 0, len(p.AwsOptions.Tags.Elements()))
+	elements := make(map[string]string, len(p.AwsOptions.Tags.Elements()))
+	diags := p.AwsOptions.Tags.ElementsAs(ctx, &elements, false)
+	for k, v := range elements {
+		if v == "" {
 			continue
 		}
-		value := strings.TrimPrefix(strings.TrimSuffix(v.String(), "\""), "\"")
 		tags = append(tags, &models.TagRequest{
 			Key:   &k,
-			Value: &value,
+			Value: &v,
 		})
 	}
-	return tags
+	return tags, diags
 }
 
 func (p *resourceModel) getQueryIsolationOptions() *models.QueryIsolationOptionsRequest {
@@ -146,6 +142,9 @@ func (p *resourceModel) getAutoscaling() *models.AutoscalingOptionsCreateRequest
 }
 
 func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwResponse) {
+	if resp.Vw == nil {
+		return
+	}
 	p.ID = types.StringValue(resp.Vw.ID)
 	p.DatabaseCatalogID = types.StringValue(resp.Vw.DbcID)
 	p.Name = types.StringValue(resp.Vw.Name)

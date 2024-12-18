@@ -83,7 +83,7 @@ var testHiveSchema = schema.Schema{
 		"ldap_groups": schema.ListAttribute{
 			Optional:            true,
 			ElementType:         types.StringType,
-			MarkdownDescription: "LDAP group names to be enabled for auth.",
+			MarkdownDescription: "LDAP group names to be enabled to authenticate with.",
 		},
 		"enable_sso": schema.BoolAttribute{
 			Optional:            true,
@@ -175,7 +175,7 @@ var testHiveSchema = schema.Schema{
 		},
 		"status": schema.StringAttribute{
 			Computed:            true,
-			MarkdownDescription: "The status of the database catalog.",
+			MarkdownDescription: "The status of the Hive Virtual Warehouse.",
 		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
@@ -582,6 +582,7 @@ func (suite *HiveTestSuite) TestStateRefresh_FailureThresholdReached() {
 }
 
 func (suite *HiveTestSuite) TestConvertToCreateVwRequest_All() {
+	ctx := context.TODO()
 	plan := resourceModel{
 		ClusterID:                    types.StringValue("cluster-id"),
 		DatabaseCatalogID:            types.StringValue("database-catalog-id"),
@@ -606,7 +607,8 @@ func (suite *HiveTestSuite) TestConvertToCreateVwRequest_All() {
 		},
 	}
 
-	req := plan.convertToCreateVwRequest()
+	req, diags := plan.convertToCreateVwRequest(ctx)
+	suite.False(diags.HasError())
 	suite.Equal("cluster-id", *req.ClusterID)
 	suite.Equal("database-catalog-id", *req.DbcID)
 	suite.Equal("test-name", *req.Name)
@@ -630,12 +632,14 @@ func (suite *HiveTestSuite) TestConvertToCreateVwRequest_All() {
 }
 
 func (suite *HiveTestSuite) TestConvertToCreateVwRequest_MissingImageVersion() {
+	ctx := context.TODO()
 	plan := resourceModel{
 		ImageVersion: types.StringUnknown(),
 		AwsOptions:   &awsOptions{},
 	}
 
-	req := plan.convertToCreateVwRequest()
+	req, diags := plan.convertToCreateVwRequest(ctx)
+	suite.False(diags.HasError())
 	suite.Equal("", req.ImageVersion)
 }
 
