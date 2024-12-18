@@ -33,7 +33,7 @@ type resourceModel struct {
 }
 
 func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwResponse) {
-	p.ID = types.StringValue(resp.Vw.DbcID)
+	p.ID = types.StringValue(resp.Vw.ID)
 	p.DatabaseCatalogID = types.StringValue(resp.Vw.DbcID)
 	p.Name = types.StringValue(resp.Vw.Name)
 	p.Status = types.StringValue(resp.Vw.Status)
