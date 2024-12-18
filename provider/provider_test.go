@@ -13,7 +13,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"github.com/cloudera/terraform-provider-cdp/resources/dw/dataviz"
 	"os"
 	"reflect"
 	"regexp"
@@ -32,6 +31,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/de"
 	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
 	dwdatabasecatalog "github.com/cloudera/terraform-provider-cdp/resources/dw/databasecatalog"
+	"github.com/cloudera/terraform-provider-cdp/resources/dw/dataviz"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/hive"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/impala"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"

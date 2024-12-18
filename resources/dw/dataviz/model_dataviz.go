@@ -11,8 +11,9 @@
 package dataviz
 
 import (
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 type resourceModel struct {
