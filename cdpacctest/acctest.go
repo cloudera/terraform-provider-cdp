@@ -106,24 +106,27 @@ provider "cdp" {
 }
 
 type AwsProvider struct {
-	profile string
-	region  string
+	accessKeyID     string
+	secretAccessKey string
+	region          string
 }
 
-func NewAwsProvider(profile, region string) *AwsProvider {
+func NewAwsProvider(accessKeyID, secretAccessKey, region string) *AwsProvider {
 	return &AwsProvider{
-		profile: profile,
-		region:  region,
+		accessKeyID:     accessKeyID,
+		secretAccessKey: secretAccessKey,
+		region:          region,
 	}
 }
 
 func TestAccAwsProviderConfig(p *AwsProvider) string {
 	return fmt.Sprintf(`
 		provider "aws" {
-		  profile = %[1]q
-		  region  = %[2]q
+		  access_key = %[1]q
+		  secret_key = %[2]q
+		  region  = %[3]q
 		}
-`, p.profile, p.region)
+`, p.accessKeyID, p.secretAccessKey, p.region)
 }
 
 // CheckCrn Checks whether the value is set and is a properly formatted CRN

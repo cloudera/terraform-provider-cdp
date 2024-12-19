@@ -29,10 +29,11 @@ import (
 )
 
 const (
-	AwsProfile             = "ACCEPTANCETEST_AWS_PROFILE"
+	AwsAccessKeyID         = "ACCEPTANCETEST_AWS_ACCESS_KEY_ID"
+	AwsSecretAccessKey     = "ACCEPTANCETEST_AWS_SECRET_ACCESS_KEY"
 	AwsXAccRoleArn         = "ACCEPTANCETEST_AWS_X_ACC_ROLE_ARN"
 	AwsRegion              = "ACCEPTANCETEST_AWS_REGION"
-	AwsPublicKeyId         = "ACCEPTANCETEST_AWS_PUBLIC_KEY_ID"
+	AwsPublicKeyID         = "ACCEPTANCETEST_AWS_PUBLIC_KEY_ID"
 	AwsInstanceProfile     = "ACCEPTANCETEST_AWS_INSTANCE_PROFILE"
 	AwsStorageLocationBase = "ACCEPTANCETEST_AWS_STORAGE_LOCATION_BASE"
 	AwsVpcId               = "ACCEPTANCETEST_AWS_VPC_ID"
@@ -64,8 +65,11 @@ type awsDataLakeTestParameters struct {
 
 func AwsDataLakePreCheck(t *testing.T) {
 	errMsg := "AWS CDW Terraform acceptance testing requires environment variable %s to be set"
-	if _, ok := os.LookupEnv(AwsProfile); !ok {
-		t.Fatalf(errMsg, AwsProfile)
+	if _, ok := os.LookupEnv(AwsAccessKeyID); !ok {
+		t.Fatalf(errMsg, AwsAccessKeyID)
+	}
+	if _, ok := os.LookupEnv(AwsSecretAccessKey); !ok {
+		t.Fatalf(errMsg, AwsSecretAccessKey)
 	}
 	if _, ok := os.LookupEnv(AwsXAccRoleArn); !ok {
 		t.Fatalf(errMsg, AwsXAccRoleArn)
@@ -73,8 +77,8 @@ func AwsDataLakePreCheck(t *testing.T) {
 	if _, ok := os.LookupEnv(AwsRegion); !ok {
 		t.Fatalf(errMsg, AwsRegion)
 	}
-	if _, ok := os.LookupEnv(AwsPublicKeyId); !ok {
-		t.Fatalf(errMsg, AwsPublicKeyId)
+	if _, ok := os.LookupEnv(AwsPublicKeyID); !ok {
+		t.Fatalf(errMsg, AwsPublicKeyID)
 	}
 	if _, ok := os.LookupEnv(AwsInstanceProfile); !ok {
 		t.Fatalf(errMsg, AwsInstanceProfile)
@@ -103,8 +107,8 @@ func AwsDataLakePreCheck(t *testing.T) {
 }
 
 func PreCheck(t *testing.T) {
-	if _, ok := os.LookupEnv(AwsProfile); !ok {
-		t.Skipf("Terraform acceptance testing requires environment variable %s to be set", AwsProfile)
+	if _, ok := os.LookupEnv(AwsSecretAccessKey); !ok {
+		t.Skipf("Terraform acceptance testing requires environment variable %s to be set", AwsSecretAccessKey)
 	}
 
 	if os.Getenv(cdp.CdpProfileEnvVar) == "" && os.Getenv(cdp.CdpAccessKeyIdEnvVar) == "" {
@@ -121,7 +125,7 @@ func PreCheck(t *testing.T) {
 func TestAccDwCluster_Basic(t *testing.T) {
 	PreCheck(t)
 	credName := acctest.RandomWithPrefix(cdpacctest.ResourcePrefix)
-	awsProvider := cdpacctest.NewAwsProvider(os.Getenv(AwsProfile), os.Getenv(AwsRegion))
+	awsProvider := cdpacctest.NewAwsProvider(os.Getenv(AwsAccessKeyID), os.Getenv(AwsSecretAccessKey), os.Getenv(AwsRegion))
 	accountParams := cdpacctest.NewAwsAccountCredentials(cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix)).
 		WithAccountID(t).
 		WithExternalID(t).
@@ -129,7 +133,7 @@ func TestAccDwCluster_Basic(t *testing.T) {
 	envParams := awsEnvironmentTestParameters{
 		Name:                cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
 		Region:              os.Getenv(AwsRegion),
-		PublicKeyId:         os.Getenv(AwsPublicKeyId),
+		PublicKeyId:         os.Getenv(AwsPublicKeyID),
 		InstanceProfile:     os.Getenv(AwsInstanceProfile),
 		StorageLocationBase: os.Getenv(AwsStorageLocationBase),
 		VpcId:               os.Getenv(AwsVpcId),
