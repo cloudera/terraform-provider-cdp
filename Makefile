@@ -10,12 +10,15 @@
 
 GO_FLAGS:=""
 TESTARGS:=""
+GOPATH ?= $(shell go env GOPATH)
 
 all: check-go test main
 
 check-go:
-ifndef GOPATH
+ifeq ($(GOPATH),)
 	$(error GOPATH not defined, please define GOPATH. Run "go help gopath" to learn more about GOPATH)
+else
+	@echo "The GOPATH is OK: $(GOPATH)"
 endif
 
 # Run tests
@@ -49,8 +52,8 @@ install: main
 	go install .
 
 # for local development
-install-terraformrc:
-	cp -iv .terraformrc ~/.terraformrc && sed -i -e 's/_USERNAME_/$(USER)/g' ~/.terraformrc
+install-terraformrc: check-go
+	cp -iv .terraformrc ~/.terraformrc && sed -i -e 's%__GOHOME__%${GOPATH}%g' ~/.terraformrc
 
 # Make a release
 release: test testacc docs
