@@ -28,7 +28,7 @@ resource "cdp_dw_vw_hive" "example" {
   max_group_count                 = 3
   disable_auto_suspend            = false
   auto_suspend_timeout_seconds    = 100
-  scale_wait_time_seconds = 230 // either headroom or scale_wait_time_seconds can be configured
+  scale_wait_time_seconds         = 230 // either headroom or scale_wait_time_seconds can be configured
   headroom                        = 1
   max_concurrent_isolated_queries = 5
   max_nodes_per_isolated_query    = 2
