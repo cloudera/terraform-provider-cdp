@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var datavizSchema = schema.Schema{
@@ -52,12 +53,14 @@ var datavizSchema = schema.Schema{
 			MarkdownDescription: "The name of the resource template being used. Available options: reduced, medium, large. Empty means the default resources template will be assigned.",
 		},
 
-		"user_groups": schema.StringAttribute{
+		"user_groups": schema.ListAttribute{
 			Optional:            true,
+			ElementType:         types.StringType,
 			MarkdownDescription: "List of the LDAP groups which have access to this Data Visualization instance.",
 		},
-		"admin_groups": schema.StringAttribute{
+		"admin_groups": schema.ListAttribute{
 			Required:            true,
+			ElementType:         types.StringType,
 			MarkdownDescription: "List of the LDAP groups which can administer this Data Visualization instance. At least one valid group is required.",
 		},
 

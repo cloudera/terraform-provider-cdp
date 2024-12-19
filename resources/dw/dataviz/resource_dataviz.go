@@ -85,8 +85,8 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
 		if _, err = r.retryStateConf(ctx, setupRetryCfg(clusterID, vizID), &plan).WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
-				"Error waiting for Data Warehouse hive virtual warehouse",
-				"Could not create hive, unexpected error: "+err.Error(),
+				"Error waiting for Data Visualization",
+				"Could not create Data Visualization, unexpected error: "+err.Error(),
 			)
 			return
 		}
@@ -113,9 +113,6 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 		),
 	)
 	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
 }
 
 func (r *datavizResource) Read(ctx context.Context, _ resource.ReadRequest, _ *resource.ReadResponse) {
@@ -215,7 +212,7 @@ func (r *datavizResource) retryStateConf(
 		Delay:        30 * time.Second,
 		Timeout:      utils.GetPollingTimeout(po, 20*time.Minute),
 		PollInterval: 30 * time.Second,
-		Refresh:      r.stateRefresh(ctx, cfg.clusterID, cfg.clusterID, &failedCnt, utils.GetCallFailureThreshold(po, 3)),
+		Refresh:      r.stateRefresh(ctx, cfg.clusterID, cfg.vizID, &failedCnt, utils.GetCallFailureThreshold(po, 3)),
 	}
 }
 

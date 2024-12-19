@@ -19,7 +19,7 @@ terraform {
 resource "cdp_dw_data_visualization" "example" {
   cluster_id    = "env-id"
   name          = "data-visualization"
-  image_version = "2024.0.18.4-5"
+  image_version = "7.2.7-b48"
 
   resource_template = "default"
 

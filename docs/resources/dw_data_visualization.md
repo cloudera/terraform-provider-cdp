@@ -33,7 +33,7 @@ terraform {
 resource "cdp_dw_data_visualization" "example" {
   cluster_id    = "env-id"
   name          = "data-visualization"
-  image_version = "2024.0.18.4-5"
+  image_version = "7.2.7-b48"
 
   resource_template = "default"
 
@@ -47,7 +47,7 @@ resource "cdp_dw_data_visualization" "example" {
 
 ### Required
 
-- `admin_groups` (String) List of the LDAP groups which can administer this Data Visualization instance. At least one valid group is required.
+- `admin_groups` (List of String) List of the LDAP groups which can administer this Data Visualization instance. At least one valid group is required.
 - `cluster_id` (String) The id of the CDW Cluster which the Data Visualization is attached to.
 - `name` (String) The name of the Data Visualization.
 
@@ -56,7 +56,7 @@ resource "cdp_dw_data_visualization" "example" {
 - `image_version` (String) The version of the Data Visualization.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `resource_template` (String) The name of the resource template being used. Available options: reduced, medium, large. Empty means the default resources template will be assigned.
-- `user_groups` (String) List of the LDAP groups which have access to this Data Visualization instance.
+- `user_groups` (List of String) List of the LDAP groups which have access to this Data Visualization instance.
 
 ### Read-Only
 
