@@ -135,7 +135,7 @@ func (r *datavizResource) Delete(ctx context.Context, req resource.DeleteRequest
 	vizID := state.ID.ValueStringPointer()
 
 	if _, err := r.deleteDataViz(deleteRequest(ctx, clusterID, vizID)); err != nil {
-		if strings.Contains(err.Error(), "Data Visualization not found") {
+		if strings.Contains(err.Error(), "unable to get viz-webapp") {
 			return
 		}
 		resp.Diagnostics.AddError(
@@ -174,7 +174,7 @@ func createRequestFromPlan(ctx context.Context, plan resourceModel) *operations.
 			ClusterID: plan.ClusterID.ValueStringPointer(),
 			Name:      plan.Name.ValueStringPointer(),
 
-			ImageVersion: plan.getImageVersion(),
+			ImageVersion: plan.ImageVersion.ValueString(),
 			Config: &models.VizConfig{
 				AdminGroups: utils.FromListValueToStringList(plan.AdminGroups),
 				UserGroups:  utils.FromListValueToStringList(plan.UserGroups),
@@ -222,6 +222,14 @@ func (r *datavizResource) stateRefresh(ctx context.Context, clusterID *string, v
 
 		resp, err := r.describeDataViz(describeRequest(ctx, clusterID, vizID))
 		if err != nil {
+			tflog.Error(ctx, fmt.Sprintf("Error describing Data Visualisation, error, %v", err))
+
+			if strings.Contains(err.Error(), "unable to get viz-webapp") {
+				// the &models.DescribeDataVisualizationResponse{} has to be a response otherwise it end up in an infinite loop
+				return &models.DescribeDataVisualizationResponse{}, "Deleted", nil
+			}
+
+			// the "Data Visualization not found" will be the correct way of handling
 			if strings.Contains(err.Error(), "Data Visualization not found") {
 				return nil, "Deleted", nil
 			}

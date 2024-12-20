@@ -35,10 +35,3 @@ type resourceModel struct {
 func (m *resourceModel) GetPollingOptions() *utils.PollingOptions {
 	return m.PollingOptions
 }
-
-func (m *resourceModel) getImageVersion() string {
-	if m.ImageVersion.IsNull() || m.ImageVersion.IsUnknown() || m.ImageVersion.String() == "<unknown>" {
-		return ""
-	}
-	return m.ImageVersion.String()
-}
