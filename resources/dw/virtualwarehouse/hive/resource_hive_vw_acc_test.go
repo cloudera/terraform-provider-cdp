@@ -1,4 +1,4 @@
-// Copyright 2024 Cloudera. All Rights Reserved.
+// Copyright 2025 Cloudera. All Rights Reserved.
 //
 // This file is licensed under the Apache License Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ func HivePreCheck(t *testing.T) {
 	}
 }
 
-func TestAccHive_basic(t *testing.T) {
+func TestAccHive_Basic(t *testing.T) {
 	params := hiveTestParameters{
 		Name:              cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
 		ClusterID:         os.Getenv("CDW_CLUSTER_ID"),
@@ -81,7 +81,7 @@ func TestAccHive_basic(t *testing.T) {
 func testAccHiveBasicConfig(params hiveTestParameters) string {
 	return fmt.Sprintf(`
 		resource "cdp_dw_vw_hive" "test_hive" {
-		  cluster_id = %[1]q
+		  cluster_id    = %[1]q
 		  database_catalog_id = %[2]q
 		  name = %[3]q
 		  group_size = 2
