@@ -12,7 +12,7 @@ Cloudera Data Warehouse (CDW) integrates [Data Visualization](https://docs.cloud
 ## Example Usage
 
 ```terraform
-## Copyright 2024 Cloudera. All Rights Reserved.
+## Copyright 2025 Cloudera. All Rights Reserved.
 #
 # This file is licensed under the Apache License Version 2.0 (the "License").
 # You may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ resource "cdp_dw_data_visualization" "example" {
 
 - `image_version` (String) The version of the Data Visualization.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
-- `resource_template` (String) The name of the resource template being used. Available options: reduced, medium, large. Empty means the default resources template will be assigned.
+- `resource_template` (String) The name of the resource template being used. Available options: viz-default, viz-low, viz-medium, viz-large. Empty means the default resources template will be assigned.
 - `user_groups` (List of String) List of the LDAP groups which have access to this Data Visualization instance.
 
 ### Read-Only

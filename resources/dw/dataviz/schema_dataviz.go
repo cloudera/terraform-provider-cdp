@@ -50,7 +50,7 @@ var datavizSchema = schema.Schema{
 			Optional: true,
 			Computed: true,
 			// TODO vcsomor add validation logic to the allowed types
-			MarkdownDescription: "The name of the resource template being used. Available options: reduced, medium, large. Empty means the default resources template will be assigned.",
+			MarkdownDescription: "The name of the resource template being used. Available options: viz-default, viz-low, viz-medium, viz-large. Empty means the default resources template will be assigned.",
 		},
 
 		"user_groups": schema.ListAttribute{

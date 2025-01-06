@@ -211,7 +211,7 @@ func (r *datavizResource) retryStateConf(
 		Target:       cfg.target,
 		Delay:        30 * time.Second,
 		Timeout:      utils.GetPollingTimeout(po, 20*time.Minute),
-		PollInterval: 30 * time.Second,
+		PollInterval: 10 * time.Second,
 		Refresh:      r.stateRefresh(ctx, cfg.clusterID, cfg.vizID, &failedCnt, utils.GetCallFailureThreshold(po, 3)),
 	}
 }
