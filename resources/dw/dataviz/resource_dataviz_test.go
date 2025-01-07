@@ -16,6 +16,7 @@ import (
 	"testing"
 
 	"github.com/go-openapi/runtime"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -71,9 +72,9 @@ var testDatavizSchema = schema.Schema{
 		},
 
 		"user_groups": schema.ListAttribute{
-			Optional:            true,
+			Required:            true,
 			ElementType:         types.StringType,
-			MarkdownDescription: "List of the LDAP groups which have access to this Data Visualization instance.",
+			MarkdownDescription: "List of the LDAP groups which have access to this Data Visualization instance. It might be an empty list.",
 		},
 		"admin_groups": schema.ListAttribute{
 			Required:            true,
@@ -134,7 +135,45 @@ func newDwApi(client *mocks.MockDwClientService) *datavizResource {
 			}}}
 }
 
-func createRawDatavizResource() tftypes.Value {
+func createRawDatavizResource(overrides map[string]tftypes.Value) tftypes.Value {
+	value := map[string]tftypes.Value{
+		"id":         tftypes.NewValue(tftypes.String, ""),
+		"cluster_id": tftypes.NewValue(tftypes.String, "cluster-id"),
+		"name":       tftypes.NewValue(tftypes.String, "test-name"),
+
+		"image_version":     tftypes.NewValue(tftypes.String, "test-version"),
+		"resource_template": tftypes.NewValue(tftypes.String, "viz-default"),
+
+		"user_groups": tftypes.NewValue(tftypes.List{ElementType: tftypes.String},
+			[]tftypes.Value{
+				tftypes.NewValue(tftypes.String, "user-group1"),
+				tftypes.NewValue(tftypes.String, "user-group2"),
+			}),
+		"admin_groups": tftypes.NewValue(tftypes.List{ElementType: tftypes.String},
+			[]tftypes.Value{
+				tftypes.NewValue(tftypes.String, "admin-group1"),
+				tftypes.NewValue(tftypes.String, "admin-group2"),
+			}),
+		"last_updated": tftypes.NewValue(tftypes.String, ""),
+		"status":       tftypes.NewValue(tftypes.String, "Running"),
+
+		"polling_options": tftypes.NewValue(
+			tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"async":                  tftypes.Bool,
+					"polling_timeout":        tftypes.Number,
+					"call_failure_threshold": tftypes.Number,
+				}}, map[string]tftypes.Value{
+				"async":                  tftypes.NewValue(tftypes.Bool, true),
+				"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
+				"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+			}),
+	}
+
+	for k, v := range overrides {
+		value[k] = v
+	}
+
 	return tftypes.NewValue(
 		// schema --------------------------
 		tftypes.Object{
@@ -159,42 +198,7 @@ func createRawDatavizResource() tftypes.Value {
 					},
 				},
 			},
-		},
-
-		// value --------------------------
-		map[string]tftypes.Value{
-			"id":         tftypes.NewValue(tftypes.String, ""),
-			"cluster_id": tftypes.NewValue(tftypes.String, "cluster-id"),
-			"name":       tftypes.NewValue(tftypes.String, "test-name"),
-
-			"image_version":     tftypes.NewValue(tftypes.String, "test-version"),
-			"resource_template": tftypes.NewValue(tftypes.String, "test-template"),
-
-			"user_groups": tftypes.NewValue(tftypes.List{ElementType: tftypes.String},
-				[]tftypes.Value{
-					tftypes.NewValue(tftypes.String, "user-group1"),
-					tftypes.NewValue(tftypes.String, "user-group2"),
-				}),
-			"admin_groups": tftypes.NewValue(tftypes.List{ElementType: tftypes.String},
-				[]tftypes.Value{
-					tftypes.NewValue(tftypes.String, "admin-group1"),
-					tftypes.NewValue(tftypes.String, "admin-group2"),
-				}),
-			"last_updated": tftypes.NewValue(tftypes.String, ""),
-			"status":       tftypes.NewValue(tftypes.String, "Running"),
-
-			"polling_options": tftypes.NewValue(
-				tftypes.Object{
-					AttributeTypes: map[string]tftypes.Type{
-						"async":                  tftypes.Bool,
-						"polling_timeout":        tftypes.Number,
-						"call_failure_threshold": tftypes.Number,
-					}}, map[string]tftypes.Value{
-					"async":                  tftypes.NewValue(tftypes.Bool, true),
-					"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
-					"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
-				}),
-		})
+		}, value)
 }
 
 type DataVizTestSuite struct {
@@ -266,7 +270,7 @@ func (suite *DataVizTestSuite) TestDatavizCreate_Success() {
 		ctx,
 		resource.CreateRequest{
 			Plan: tfsdk.Plan{
-				Raw:    createRawDatavizResource(),
+				Raw:    createRawDatavizResource(nil),
 				Schema: testDatavizSchema,
 			},
 		},
@@ -299,7 +303,7 @@ func (suite *DataVizTestSuite) TestDatavizCreate_CreationError() {
 	// Function under test
 	dwApi.Create(ctx, resource.CreateRequest{
 		Plan: tfsdk.Plan{
-			Raw:    createRawDatavizResource(),
+			Raw:    createRawDatavizResource(nil),
 			Schema: testDatavizSchema,
 		},
 	}, resp)
@@ -333,7 +337,7 @@ func (suite *DataVizTestSuite) TestDatavizCreate_DescribeError() {
 	// Function under test
 	dwApi.Create(ctx, resource.CreateRequest{
 		Plan: tfsdk.Plan{
-			Raw:    createRawDatavizResource(),
+			Raw:    createRawDatavizResource(nil),
 			Schema: testDatavizSchema,
 		},
 	}, resp)
@@ -357,7 +361,7 @@ func (suite *DataVizTestSuite) TestDatavizDeletion_Success() {
 	dwApi.Delete(context.TODO(), resource.DeleteRequest{
 		State: tfsdk.State{
 			Schema: testDatavizSchema,
-			Raw:    createRawDatavizResource(),
+			Raw:    createRawDatavizResource(nil),
 		},
 	}, resp)
 	suite.False(resp.Diagnostics.HasError())
@@ -375,7 +379,7 @@ func (suite *DataVizTestSuite) TestDatavizDeletion_ReturnsError() {
 	dwApi.Delete(context.TODO(), resource.DeleteRequest{
 		State: tfsdk.State{
 			Schema: testDatavizSchema,
-			Raw:    createRawDatavizResource(),
+			Raw:    createRawDatavizResource(nil),
 		},
 	}, resp)
 	suite.True(resp.Diagnostics.HasError())
@@ -433,6 +437,58 @@ func (suite *DataVizTestSuite) TestStateRefresh_FailureThresholdReached() {
 		_, _, err = refresh()
 	}
 	suite.Error(err, "unknown error")
+}
+
+func (suite *DataVizTestSuite) TestDatavizValidateConfig_Success() {
+	dwApi := newDwApi(new(mocks.MockDwClientService))
+	resp := &resource.ValidateConfigResponse{
+		Diagnostics: make(diag.Diagnostics, 0),
+	}
+
+	// Function under test
+	dwApi.ValidateConfig(
+		context.TODO(),
+		resource.ValidateConfigRequest{
+			Config: tfsdk.Config{
+				Raw:    createRawDatavizResource(nil),
+				Schema: testDatavizSchema,
+			},
+		},
+		resp,
+	)
+	suite.False(resp.Diagnostics.HasError())
+}
+
+func (suite *DataVizTestSuite) TestDatavizValidateConfig_ValidationErrors() {
+	dwApi := newDwApi(new(mocks.MockDwClientService))
+	resp := &resource.ValidateConfigResponse{
+		Diagnostics: make(diag.Diagnostics, 0),
+	}
+
+	// Function under test
+	dwApi.ValidateConfig(
+		context.TODO(),
+		resource.ValidateConfigRequest{
+			Config: tfsdk.Config{
+				Raw: createRawDatavizResource(
+					map[string]tftypes.Value{
+						"resource_template": tftypes.NewValue(tftypes.String, "something-invalid"),
+						"admin_groups":      tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
+					}),
+				Schema: testDatavizSchema,
+			},
+		},
+		resp,
+	)
+	suite.True(resp.Diagnostics.HasError())
+
+	errAdminGroups := resp.Diagnostics[0]
+	suite.Equal(errAdminGroups.Summary(), "Invalid administrator groups")
+	suite.Equal(errAdminGroups.Detail(), "The admin_groups must have at least one group.")
+
+	errResourceTemplate := resp.Diagnostics[1]
+	suite.Equal(errResourceTemplate.Summary(), "Invalid resource template")
+	suite.Equal(errResourceTemplate.Detail(), "The resource_template can be one of the following if defined: viz-default, viz-low, viz-medium, viz-large.")
 }
 
 func TestRetryConfigs(t *testing.T) {

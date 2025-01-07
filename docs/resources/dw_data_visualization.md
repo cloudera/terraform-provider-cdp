@@ -35,7 +35,7 @@ resource "cdp_dw_data_visualization" "example" {
   name          = "data-visualization"
   image_version = "7.2.7-b48"
 
-  resource_template = "default"
+  resource_template = "viz-default"
 
   user_groups  = ["ugrp0", "ugrp1"]
   admin_groups = ["admgrp0", "admgrp1"]
@@ -50,13 +50,13 @@ resource "cdp_dw_data_visualization" "example" {
 - `admin_groups` (List of String) List of the LDAP groups which can administer this Data Visualization instance. At least one valid group is required.
 - `cluster_id` (String) The id of the CDW Cluster which the Data Visualization is attached to.
 - `name` (String) The name of the Data Visualization.
+- `user_groups` (List of String) List of the LDAP groups which have access to this Data Visualization instance. It might be an empty list.
 
 ### Optional
 
 - `image_version` (String) The version of the Data Visualization.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `resource_template` (String) The name of the resource template being used. Available options: viz-default, viz-low, viz-medium, viz-large. Empty means the default resources template will be assigned.
-- `user_groups` (List of String) List of the LDAP groups which have access to this Data Visualization instance.
 
 ### Read-Only
 

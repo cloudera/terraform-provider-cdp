@@ -54,9 +54,9 @@ var datavizSchema = schema.Schema{
 		},
 
 		"user_groups": schema.ListAttribute{
-			Optional:            true,
+			Required:            true,
 			ElementType:         types.StringType,
-			MarkdownDescription: "List of the LDAP groups which have access to this Data Visualization instance.",
+			MarkdownDescription: "List of the LDAP groups which have access to this Data Visualization instance. It might be an empty list.",
 		},
 		"admin_groups": schema.ListAttribute{
 			Required:            true,

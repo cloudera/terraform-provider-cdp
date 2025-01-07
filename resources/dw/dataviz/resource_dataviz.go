@@ -33,14 +33,18 @@ type datavizResource struct {
 	client *cdp.Client
 }
 
-func (r *datavizResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
-}
-
 var (
-	_ resource.Resource                = (*datavizResource)(nil)
-	_ resource.ResourceWithConfigure   = (*datavizResource)(nil)
-	_ resource.ResourceWithImportState = (*datavizResource)(nil)
+	_ resource.Resource                   = (*datavizResource)(nil)
+	_ resource.ResourceWithConfigure      = (*datavizResource)(nil)
+	_ resource.ResourceWithImportState    = (*datavizResource)(nil)
+	_ resource.ResourceWithValidateConfig = (*datavizResource)(nil)
+)
+
+const (
+	resourceTemplateDefault string = "viz-default"
+	resourceTemplateLow     string = "viz-low"
+	resourceTemplateMedium  string = "viz-medium"
+	resourceTemplateLarge   string = "viz-large"
 )
 
 func NewDataVizResource() resource.Resource {
@@ -49,6 +53,45 @@ func NewDataVizResource() resource.Resource {
 
 func (r *datavizResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *datavizResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data resourceModel
+
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	if admGrp := data.AdminGroups; len(admGrp.Elements()) == 0 {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("admin_groups"),
+			"Invalid administrator groups",
+			"The admin_groups must have at least one group.",
+		)
+	}
+
+	// If resource template not defined then default will be applied -> viz-default, otherwise we validate
+	if !data.ResourceTemplate.IsNull() && data.ResourceTemplate.ValueString() != "" {
+		// oly allow certain values for the resource template field
+		resourceTemplatePossibleValues := []string{
+			resourceTemplateDefault,
+			resourceTemplateLow,
+			resourceTemplateMedium,
+			resourceTemplateLarge,
+		}
+		if !isAnyOf(data.ResourceTemplate.ValueString(), resourceTemplatePossibleValues...) {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("resource_template"),
+				"Invalid resource template",
+				fmt.Sprintf("The resource_template can be one of the following if defined: %s.", strings.Join(resourceTemplatePossibleValues, ", ")),
+			)
+		}
+	}
+}
+
+func (r *datavizResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *datavizResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -107,7 +150,7 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 		stateFromDataViz(
 			*clusterID,
 			describe.GetPayload().DataVisualization,
-			plan.ResourceTemplate,
+			plan.ResourceTemplate.ValueStringPointer(),
 			time.Now(),
 			plan.PollingOptions,
 		),
@@ -255,17 +298,22 @@ func (r *datavizResource) stateRefresh(ctx context.Context, clusterID *string, v
 func stateFromDataViz(
 	clusterID string,
 	viz *models.DataVisualizationSummary,
-	template types.String,
+	template *string,
 	updated time.Time,
 	pollingOpts *utils.PollingOptions,
 ) resourceModel {
+	t := types.StringNull()
+	if template != nil {
+		t = types.StringValue(*template)
+	}
+
 	return resourceModel{
 		ID:        types.StringValue(viz.ID),
 		ClusterID: types.StringValue(clusterID),
 		Name:      types.StringValue(viz.Name),
 
 		ImageVersion:     types.StringValue(viz.ImageVersion),
-		ResourceTemplate: template,
+		ResourceTemplate: t,
 
 		UserGroups:  stringList(viz.UserGroups),
 		AdminGroups: stringList(viz.AdminGroups),
@@ -311,4 +359,13 @@ func teardownRetryCfg(clusterID *string, vizID *string) *retryStateCfg {
 		pending:   []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
 		target:    []string{"Deleted"},
 	}
+}
+
+func isAnyOf(v string, possibleValues ...string) bool {
+	for _, pv := range possibleValues {
+		if v == pv {
+			return true
+		}
+	}
+	return false
 }

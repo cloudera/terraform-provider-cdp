@@ -21,7 +21,7 @@ resource "cdp_dw_data_visualization" "example" {
   name          = "data-visualization"
   image_version = "7.2.7-b48"
 
-  resource_template = "default"
+  resource_template = "viz-default"
 
   user_groups  = ["ugrp0", "ugrp1"]
   admin_groups = ["admgrp0", "admgrp1"]

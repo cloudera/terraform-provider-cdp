@@ -191,7 +191,7 @@ func TestAccDwCluster_Basic(t *testing.T) {
 					// TODO vcsomor add checks for Impala!
 
 					resource.TestCheckResourceAttrSet(dataVisualizationResource, "image_version"),
-					resource.TestCheckResourceAttr(dataVisualizationResource, "admin_groups.0", "dwx-viz"),
+					resource.TestCheckResourceAttr(dataVisualizationResource, "admin_groups.0", "dwx-dummy-ldap-group"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -361,6 +361,7 @@ func testAccImpalaVirtualWarehouse(name string) string {
 }
 
 func testAccDataVisualization(name string) string {
+	// NOTE: the LDAP groups vary by CDP environment, the admin_groups has to be injected via an ENV var or some other way, we use now a dummy one
 	return fmt.Sprintf(`
 		resource "cdp_dw_data_visualization" "test_dataviz" {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
@@ -368,7 +369,7 @@ func testAccDataVisualization(name string) string {
 			
 			resource_template = "viz-low"
 			
-			admin_groups = ["dwx-viz"]
+			admin_groups = ["dwx-dummy-ldap-group"]
 			user_groups  = []
 		}
 	`, name)

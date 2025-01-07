@@ -65,7 +65,7 @@ func TestAccDataViz_Low(t *testing.T) {
 					resource.TestCheckResourceAttr(testResource, "name", params.Name),
 					resource.TestCheckResourceAttr(testResource, "cluster_id", params.ClusterID),
 					resource.TestCheckResourceAttrSet(testResource, "image_version"),
-					resource.TestCheckResourceAttr(testResource, "admin_groups.0", "dwx-viz"),
+					resource.TestCheckResourceAttr(testResource, "admin_groups.0", "dwx-dummy-ldap-group"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -74,6 +74,7 @@ func TestAccDataViz_Low(t *testing.T) {
 }
 
 func testAccDtaVizLowConfig(p datavizTestParameters) string {
+	// NOTE: the LDAP groups vary by CDP environment, the admin_groups has to be injected via an ENV var or some other way, we use now a dummy one
 	return fmt.Sprintf(`
 		resource "cdp_dw_data_visualization" "test-dataviz-low" {
 		  cluster_id    = %[1]q
@@ -81,7 +82,7 @@ func testAccDtaVizLowConfig(p datavizTestParameters) string {
 		
 		  resource_template = "viz-low"
 		
-		  admin_groups = ["dwx-viz"]
+		  admin_groups = ["dwx-dummy-ldap-group"]
 		  user_groups  = []
 		}
 	`, p.ClusterID, p.Name)
