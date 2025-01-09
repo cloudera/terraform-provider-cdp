@@ -16,7 +16,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -125,7 +124,7 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	vizID := &create.GetPayload().DataVisualizationID
 
 	// Wait the desired state
-	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		if _, err = r.retryStateConf(ctx, setupRetryCfg(clusterID, vizID), &plan).WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
 				"Error waiting for Data Visualization",
@@ -188,7 +187,7 @@ func (r *datavizResource) Delete(ctx context.Context, req resource.DeleteRequest
 		return
 	}
 
-	if opts := state.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	if opts := state.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		if _, err := r.retryStateConf(ctx, teardownRetryCfg(clusterID, vizID), &state).WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
 				"Error waiting for Data Visualization to delete",
@@ -274,7 +273,8 @@ func (r *datavizResource) stateRefresh(ctx context.Context, clusterID *string, v
 
 			// the "Data Visualization not found" will be the correct way of handling
 			if strings.Contains(err.Error(), "Data Visualization not found") {
-				return nil, "Deleted", nil
+				// the &models.DescribeDataVisualizationResponse{} has to be a response otherwise it end up in an infinite loop
+				return &models.DescribeDataVisualizationResponse{}, "Deleted", nil
 			}
 
 			*failedCnt++
@@ -315,25 +315,14 @@ func stateFromDataViz(
 		ImageVersion:     types.StringValue(viz.ImageVersion),
 		ResourceTemplate: t,
 
-		UserGroups:  stringList(viz.UserGroups),
-		AdminGroups: stringList(viz.AdminGroups),
+		UserGroups:  utils.FromStringListToListValue(viz.UserGroups),
+		AdminGroups: utils.FromStringListToListValue(viz.AdminGroups),
 
 		LastUpdated: types.StringValue(updated.Format(time.RFC850)),
 		Status:      types.StringValue(viz.Status),
 
 		PollingOptions: pollingOpts,
 	}
-}
-
-func stringList(s []string) types.List {
-	var elems []attr.Value
-	elems = make([]attr.Value, 0, len(s))
-	for _, v := range s {
-		elems = append(elems, types.StringValue(v))
-	}
-	var list types.List
-	list, _ = types.ListValue(types.StringType, elems)
-	return list
 }
 
 type retryStateCfg struct {

@@ -57,8 +57,8 @@ type resourceModel struct {
 	PollingOptions               *utils.PollingOptions `tfsdk:"polling_options"`
 }
 
-func (m *resourceModel) GetPollingOptions() *utils.PollingOptions {
-	return m.PollingOptions
+func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
+	return p.PollingOptions
 }
 
 func (p *resourceModel) convertToCreateVwRequest(ctx context.Context) (*models.CreateVwRequest, diag.Diagnostics) {

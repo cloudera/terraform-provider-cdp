@@ -16,6 +16,7 @@ import (
 	"math"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -23,6 +24,12 @@ import (
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 )
+
+// TODO vcsomor: This file contains utility methods for multiple purposes, such as
+// - credential handling
+// - TF <-> GO Data Object transformations
+// - Timeout handling
+// TODO vcsomor: I'd good to separate these by purpose
 
 func GetCdpClientForResource(req resource.ConfigureRequest, resp *resource.ConfigureResponse) *cdp.Client {
 	if req.ProviderData == nil {
@@ -90,6 +97,21 @@ func CalculateCallFailureThresholdOrDefault(ctx context.Context, options *Pollin
 	}
 	tflog.Debug(ctx, fmt.Sprintf("The following call failure threshold calculated: %+v", threshold))
 	return threshold, nil
+}
+
+func FromStringListToListValue(s []string) types.List {
+	if s == nil {
+		return types.ListNull(types.StringType)
+	}
+
+	var elems []attr.Value
+	elems = make([]attr.Value, 0, len(s))
+	for _, v := range s {
+		elems = append(elems, types.StringValue(v))
+	}
+	var list types.List
+	list, _ = types.ListValue(types.StringType, elems)
+	return list
 }
 
 func FromListValueToStringList(tl types.List) []string {
