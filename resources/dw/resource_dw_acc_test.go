@@ -1,4 +1,4 @@
-// Copyright 2024 Cloudera. All Rights Reserved.
+// Copyright 2025 Cloudera. All Rights Reserved.
 //
 // This file is licensed under the Apache License Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -147,6 +147,13 @@ func TestAccDwCluster_Basic(t *testing.T) {
 		StorageLocationBase: os.Getenv(AwsStorageLocationBase),
 		Runtime:             os.Getenv(AwsRuntime),
 	}
+
+	const (
+		awsClusterResource        = "cdp_dw_aws_cluster.test_data_warehouse_aws"
+		hiveResource              = "cdp_dw_vw_hive.test_hive"
+		dataVisualizationResource = "cdp_dw_data_visualization.test_dataviz"
+	)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
 			cdpacctest.PreCheck(t)
@@ -170,14 +177,21 @@ func TestAccDwCluster_Basic(t *testing.T) {
 					testAccAwsClusterBasicConfig(&envParams),
 					testAccDwCatalog(),
 					testAccHiveVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-hive")),
-					testAccImpalaVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-impala"))),
+					testAccImpalaVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-impala")),
+					testAccDataVisualization(cdpacctest.RandomShortWithPrefix("tf-dataviz"))),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("cdp_dw_aws_cluster.test_data_warehouse_aws", "name", envParams.Name),
-					resource.TestCheckResourceAttr("cdp_dw_aws_cluster.test_data_warehouse_aws", "status", "Accepted"),
-					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "compactor"),
-					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jdbc_url"),
-					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "hue_url"),
-					resource.TestCheckResourceAttrSet("cdp_dw_vw_hive.test_hive", "jwt_token_gen_url"),
+					resource.TestCheckResourceAttr(awsClusterResource, "name", envParams.Name),
+					resource.TestCheckResourceAttr(awsClusterResource, "status", "Accepted"),
+
+					resource.TestCheckResourceAttrSet(hiveResource, "compactor"),
+					resource.TestCheckResourceAttrSet(hiveResource, "jdbc_url"),
+					resource.TestCheckResourceAttrSet(hiveResource, "hue_url"),
+					resource.TestCheckResourceAttrSet(hiveResource, "jwt_token_gen_url"),
+
+					// TODO vcsomor add checks for Impala!
+
+					resource.TestCheckResourceAttrSet(dataVisualizationResource, "image_version"),
+					resource.TestCheckResourceAttr(dataVisualizationResource, "admin_groups.0", "dwx-dummy-ldap-group"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -342,6 +356,21 @@ func testAccImpalaVirtualWarehouse(name string) string {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
 			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
 			name = %[1]q
+		}
+	`, name)
+}
+
+func testAccDataVisualization(name string) string {
+	// NOTE: the LDAP groups vary by CDP environment, the admin_groups has to be injected via an ENV var or some other way, we use now a dummy one
+	return fmt.Sprintf(`
+		resource "cdp_dw_data_visualization" "test_dataviz" {
+			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+			name          = %[1]q
+			
+			resource_template = "viz-low"
+			
+			admin_groups = ["dwx-dummy-ldap-group"]
+			user_groups  = []
 		}
 	`, name)
 }
