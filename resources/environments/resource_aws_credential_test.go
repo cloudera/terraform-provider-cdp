@@ -59,10 +59,9 @@ func TestAccAwsCredential_basic(t *testing.T) {
 			},
 			// ImportState testing
 			{
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ResourceName:            resourceName,
-				ImportStateVerifyIgnore: []string{"skip_org_policy_decisions", "verify_permissions"}, // this ignore has to be taken out once the CB-27933 got finished
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
 			},
 			// Delete testing automatically occurs in TestCase
 		},
@@ -103,10 +102,9 @@ func TestAccAwsCredential_withDescription(t *testing.T) {
 			},
 			// ImportState testing
 			{
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ResourceName:            resourceName,
-				ImportStateVerifyIgnore: []string{"skip_org_policy_decisions", "verify_permissions"}, // this ignore has to be taken out once the CB-27933 got finished
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
 			},
 			// Delete testing automatically occurs in TestCase
 		},
