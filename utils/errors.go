@@ -199,11 +199,36 @@ func decorateDatahubUnauthorizedErrorIfMessageNotExists(err *datahubmodels.Error
 	return err
 }
 
+func decorateRecipeUnauthorizedErrorIfMessageNotExists(err *datahubmodels.Error) *datahubmodels.Error {
+	if err != nil && len(err.Message) == 0 {
+		return &datahubmodels.Error{
+			Message: authFailMsg,
+		}
+	}
+	return err
+}
+
 func AddDatahubDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
 	msg := err.Error()
 	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
 		if d.GetPayload().Code == "401" {
 			msg = decorateDatahubUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
+		} else {
+			msg = d.GetPayload().Message
+		}
+	}
+	caser := cases.Title(language.English)
+	diagnostics.AddError(
+		caser.String(errMsg),
+		"Failed to "+errMsg+", unexpected error: "+msg,
+	)
+}
+
+func AddRecipeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
+	msg := err.Error()
+	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
+		if d.GetPayload().Code == "401" {
+			msg = decorateRecipeUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
 		} else {
 			msg = d.GetPayload().Message
 		}
