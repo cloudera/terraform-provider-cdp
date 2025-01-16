@@ -143,6 +143,12 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	if c.AwsCredentialProperties != nil {
 		state.RoleArn = types.StringValue(c.AwsCredentialProperties.RoleArn)
 	}
+	if c.SkipOrgPolicyDecisions != nil {
+		state.SkipOrgPolicyDecisions = types.BoolPointerValue(c.SkipOrgPolicyDecisions)
+	}
+	if c.VerifyPermissions != nil {
+		state.VerifyPermissions = types.BoolPointerValue(c.VerifyPermissions)
+	}
 
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)
