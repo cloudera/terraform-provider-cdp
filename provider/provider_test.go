@@ -38,6 +38,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/ml"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
+	"github.com/cloudera/terraform-provider-cdp/resources/recipe"
 	testUtil "github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
@@ -642,6 +643,7 @@ func TestCdpProvider_Resources(t *testing.T) {
 		dataviz.NewDataVizResource,
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
+		recipe.NewRecipeResource,
 	}
 
 	provider := CdpProvider{testVersion}

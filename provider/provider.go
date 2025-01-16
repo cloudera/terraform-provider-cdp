@@ -38,6 +38,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/ml"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
+	"github.com/cloudera/terraform-provider-cdp/resources/recipe"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -256,6 +257,7 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		dataviz.NewDataVizResource,
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
+		recipe.NewRecipeResource,
 	}
 }
 

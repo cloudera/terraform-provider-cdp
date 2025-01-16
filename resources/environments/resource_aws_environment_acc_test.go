@@ -76,6 +76,7 @@ func TestAccAwsEnvironment_basic(t *testing.T) {
 				Config: utils.Concat(
 					cdpacctest.TestAccCdpProviderConfig(),
 					testAccAwsCredentialBasicConfig(credName, os.Getenv(AwsXAccRoleArn)),
+					testAccRecipeConfig(fmt.Sprintf("%s_recipe", params.Name)),
 					testAccAwsEnvironmentConfig("cdp_environments_aws_credential.test_cred.credential_name", &params)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrWith(resourceName, "id", cdpacctest.CheckCrn),
@@ -123,6 +124,19 @@ resource "cdp_environments_aws_credential" "test_cred" {
 `, rName, roleArn)
 }
 
+func testAccRecipeConfig(recipeName string) string {
+	return fmt.Sprintf(`
+resource "cdp_recipe" "test_recipe" {
+  name = %[1]q
+  content = <<EOF
+#!/bin/bash
+echo 'some content'
+EOF
+  type = "PRE_SERVICE_DEPLOYMENT"
+}
+`, recipeName)
+}
+
 func testAccAwsEnvironmentConfig(credName string, envParams *awsEnvironmentTestParameters) string {
 	return fmt.Sprintf(`
 	resource "cdp_environments_aws_environment" "test_env" {
@@ -151,6 +165,9 @@ func testAccAwsEnvironmentConfig(credName string, envParams *awsEnvironmentTestP
 		polling_options = {
 		  async = false
 		}
+		freeipa = {
+    		recipes = [cdp_recipe.test_recipe.name]
+  		}
 	  }
 `, envParams.Name, credName, envParams.Region, envParams.PublicKeyId, envParams.InstanceProfile, envParams.StorageLocationBase, envParams.VpcId, envParams.SubnetIds)
 }

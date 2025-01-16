@@ -45,7 +45,7 @@ lint:
 	golangci-lint run
 
 # See https://golangci-lint.run/
-fix:
+fix-lint:
 	golangci-lint run --fix
 
 install: main
