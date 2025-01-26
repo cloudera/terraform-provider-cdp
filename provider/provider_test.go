@@ -723,6 +723,7 @@ func TestCdpProvider_DataSources(t *testing.T) {
 	expectedDataSources := []func() datasource.DataSource{
 		environments.NewAWSCredentialPrerequisitesDataSource,
 		environments.NewKeytabDataSource,
+		datalake.NewListRuntimeDataSource,
 		iam.NewGroupDataSource,
 	}
 
