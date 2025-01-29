@@ -76,7 +76,7 @@ func TestAccAwsEnvironment_basic(t *testing.T) {
 				Config: utils.Concat(
 					cdpacctest.TestAccCdpProviderConfig(),
 					testAccAwsCredentialBasicConfig(credName, os.Getenv(AwsXAccRoleArn)),
-					testAccRecipeConfig(fmt.Sprintf("%s_recipe", params.Name)),
+					testAccRecipeConfig(fmt.Sprintf("%s-recipe", params.Name)),
 					testAccAwsEnvironmentConfig("cdp_environments_aws_credential.test_cred.credential_name", &params)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrWith(resourceName, "id", cdpacctest.CheckCrn),
