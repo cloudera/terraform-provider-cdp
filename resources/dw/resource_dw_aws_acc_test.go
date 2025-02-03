@@ -354,13 +354,61 @@ func testCheckClusterDestroy(s *terraform.State) error {
 
 func testAccImpalaVirtualWarehouse(name string) string {
 	return fmt.Sprintf(`
-		resource "cdp_dw_vw_impala" "test_impala" {
-			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
-			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
-			name = %[1]q
-			depends_on = [cdp_dw_database_catalog.test_catalog]
-		}
-	`, name)
+resource "cdp_dw_vw_impala" "test_impala" {
+  cluster_id          = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+  database_catalog_id = cdp_dw_database_catalog.test_catalog.id
+  name                = %[1]q
+  tshirt_size         = "xsmall"
+
+  autoscaling = {
+    auto_suspend_timeout_seconds = 350
+    disable_auto_suspend         = false
+    scale_down_delay_seconds     = 330
+    scale_up_delay_seconds       = 40
+    max_clusters                 = 4
+    min_clusters                 = 2
+  }
+
+  aws_options = {
+    scratch_space_limit = 300
+    ebs_llap_spill_gb   = 100
+  }
+
+  ha_settings = {
+    high_availability_mode               = "ACTIVE_PASSIVE"
+    enable_shutdown_of_coordinator      = false
+    shutdown_of_coordinator_delay_secs  = 360
+    num_of_active_coordinators          = 2
+    enable_catalog_high_availability    = false
+    enable_statestore_high_availability = false
+  }
+
+  enable_unified_analytics = true
+
+  query_isolation_options = {
+    max_queries         = 2
+    max_nodes_per_query = 2
+  }
+
+  instance_type     = "r5d.4xlarge"
+  platform_jwt_auth = true
+  query_log         = true
+  enable_sso        = true
+
+  tags = [
+    {
+      key   = "environment"
+      value = "acceptance-test"
+    },
+    {
+      key   = "team"
+      value = "dwx"
+    }
+  ]
+
+  depends_on = [cdp_dw_database_catalog.test_catalog]
+}
+`, name)
 }
 
 func testAccDataVisualization(name string) string {
