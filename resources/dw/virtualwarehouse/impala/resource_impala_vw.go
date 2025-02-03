@@ -188,6 +188,118 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 	if imageVersion := plan.ImageVersion.ValueString(); imageVersion != "" {
 		req.ImageVersion = imageVersion
 	}
+
+	if instanceType := plan.InstanceType.ValueString(); instanceType != "" {
+		req.InstanceType = instanceType
+	}
+
+	if tshirtSize := plan.TShirtSize.ValueString(); tshirtSize != "" {
+		req.TShirtSize = tshirtSize
+	}
+
+	if nodeCount := plan.NodeCount.ValueInt32(); nodeCount > 0 {
+		req.NodeCount = nodeCount
+	}
+
+	if availabilityZone := plan.AvailabilityZone.ValueString(); availabilityZone != "" {
+		req.AvailabilityZone = availabilityZone
+	}
+
+	if enableUnifiedAnalytics := plan.EnableUnifiedAnalytics.ValueBool(); enableUnifiedAnalytics != false {
+		req.EnableUnifiedAnalytics = enableUnifiedAnalytics
+	}
+
+	if resourcePool := plan.ResourcePool.ValueString(); resourcePool != "" {
+		req.ResourcePool = resourcePool
+	}
+
+	if platformJwtAuth := plan.PlatformJwtAuth.ValueBool(); platformJwtAuth != false {
+		req.PlatformJwtAuth = &platformJwtAuth
+	}
+
+	if impalaQueryLog := plan.ImpalaQueryLog.ValueBool(); impalaQueryLog != false {
+		req.ImpalaQueryLog = impalaQueryLog
+	}
+
+	if ebsLLAPSpillGB := plan.EbsLLAPSpillGB.ValueInt64(); ebsLLAPSpillGB > 0 {
+		req.EbsLLAPSpillGB = int32(ebsLLAPSpillGB)
+	}
+
+	if hiveServerHaMode := plan.HiveServerHaMode.ValueStringPointer(); *hiveServerHaMode != "" {
+		req.HiveServerHaMode = hiveServerHaMode
+	}
+
+	if plan.ImpalaOptions != nil {
+		req.ImpalaOptions = &models.ImpalaOptionsCreateRequest{
+			SpillToS3URI:      plan.ImpalaOptions.SpillToS3URI,
+			ScratchSpaceLimit: plan.ImpalaOptions.ScratchSpaceLimit,
+		}
+	}
+
+	if plan.ImpalaHASettings != nil {
+		req.ImpalaHaSettings = &models.ImpalaHASettingsCreateRequest{
+			EnableCatalogHighAvailability:     plan.ImpalaHASettings.EnableCatalogHighAvailability,
+			EnableShutdownOfCoordinator:       plan.ImpalaHASettings.EnableShutdownOfCoordinator,
+			EnableStatestoreHighAvailability:  plan.ImpalaHASettings.EnableStatestoreHighAvailability,
+			HighAvailabilityMode:              plan.ImpalaHASettings.HighAvailabilityMode,
+			NumOfActiveCoordinators:           plan.ImpalaHASettings.NumOfActiveCoordinators,
+			ShutdownOfCoordinatorDelaySeconds: plan.ImpalaHASettings.ShutdownOfCoordinatorDelaySeconds,
+		}
+	}
+
+	if plan.Autoscaling != nil {
+		req.Autoscaling = &models.AutoscalingOptionsCreateRequest{
+			MinClusters:                             plan.Autoscaling.MinClusters,
+			MaxClusters:                             plan.Autoscaling.MaxClusters,
+			DisableAutoSuspend:                      plan.Autoscaling.DisableAutoSuspend,
+			AutoSuspendTimeoutSeconds:               plan.Autoscaling.AutoSuspendTimeoutSeconds,
+			EnableUnifiedAnalytics:                  plan.Autoscaling.EnableUnifiedAnalytics,
+			HiveScaleWaitTimeSeconds:                plan.Autoscaling.HiveScaleWaitTimeSeconds,
+			HiveDesiredFreeCapacity:                 plan.Autoscaling.HiveDesiredFreeCapacity,
+			ImpalaHighAvailabilityMode:              plan.Autoscaling.ImpalaHighAvailabilityMode,
+			ImpalaScaleUpDelaySeconds:               plan.Autoscaling.ImpalaScaleUpDelaySeconds,
+			ImpalaScaleDownDelaySeconds:             plan.Autoscaling.ImpalaScaleDownDelaySeconds,
+			ImpalaEnableShutdownOfCoordinator:       plan.Autoscaling.ImpalaEnableShutdownOfCoordinator,
+			ImpalaShutdownOfCoordinatorDelaySeconds: plan.Autoscaling.ImpalaShutdownOfCoordinatorDelaySeconds,
+			ImpalaNumOfActiveCoordinators:           plan.Autoscaling.ImpalaNumOfActiveCoordinators,
+			ImpalaEnableCatalogHighAvailability:     plan.Autoscaling.ImpalaEnableCatalogHighAvailability,
+			ImpalaExecutorGroupSets: &models.ImpalaExecutorGroupSetsCreateRequest{
+				Custom1: plan.Autoscaling.ImpalaExecutorGroupSets.Custom1,
+				Custom2: plan.Autoscaling.ImpalaExecutorGroupSets.Custom2,
+				Custom3: plan.Autoscaling.ImpalaExecutorGroupSets.Custom3,
+				Large:   plan.Autoscaling.ImpalaExecutorGroupSets.Large,
+				Small:   plan.Autoscaling.ImpalaExecutorGroupSets.Small,
+			},
+		}
+	}
+
+	if plan.Config != nil {
+		req.Config = &models.ServiceConfigReq{
+			CommonConfigs:      plan.Config.CommonConfigs,
+			ApplicationConfigs: plan.Config.ApplicationConfigs,
+			LdapGroups:         plan.Config.LdapGroups,
+			EnableSSO:          plan.Config.EnableSSO,
+		}
+	}
+
+	if plan.QueryIsolationOptions != nil {
+		req.QueryIsolationOptions = &models.QueryIsolationOptionsRequest{
+			MaxQueries:       plan.QueryIsolationOptions.MaxQueries,
+			MaxNodesPerQuery: plan.QueryIsolationOptions.MaxNodesPerQuery,
+		}
+	}
+
+	if plan.Tags != nil && len(*plan.Tags) > 0 {
+		tags := make([]*models.TagRequest, len(*plan.Tags))
+		for i, tag := range *plan.Tags {
+			tags[i] = &models.TagRequest{
+				Key:   &tag.Key,
+				Value: &tag.Value,
+			}
+		}
+		req.Tags = tags
+	}
+
 	return req
 }
 
