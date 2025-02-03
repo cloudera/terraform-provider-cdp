@@ -188,6 +188,78 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 	if imageVersion := plan.ImageVersion.ValueString(); imageVersion != "" {
 		req.ImageVersion = imageVersion
 	}
+
+	if instanceType := plan.InstanceType.ValueString(); instanceType != "" {
+		req.InstanceType = instanceType
+	}
+
+	if tshirtSize := plan.TShirtSize.ValueString(); tshirtSize != "" {
+		req.TShirtSize = tshirtSize
+	}
+
+	if nodeCount := plan.NodeCount.ValueInt32(); nodeCount > 0 {
+		req.NodeCount = nodeCount
+	}
+
+	if availabilityZone := plan.AvailabilityZone.ValueString(); availabilityZone != "" {
+		req.AvailabilityZone = availabilityZone
+	}
+
+	if enableUnifiedAnalytics := plan.EnableUnifiedAnalytics.ValueBool(); enableUnifiedAnalytics != false {
+		req.EnableUnifiedAnalytics = enableUnifiedAnalytics
+	}
+
+	if resourcePool := plan.ResourcePool.ValueString(); resourcePool != "" {
+		req.ResourcePool = resourcePool
+	}
+
+	if platformJwtAuth := plan.PlatformJwtAuth.ValueBool(); platformJwtAuth != false {
+		req.PlatformJwtAuth = &platformJwtAuth
+	}
+
+	if impalaQueryLog := plan.ImpalaQueryLog.ValueBool(); impalaQueryLog != false {
+		req.ImpalaQueryLog = impalaQueryLog
+	}
+
+	if ebsLLAPSpillGB := plan.EbsLLAPSpillGB.ValueInt64(); ebsLLAPSpillGB > 0 {
+		req.EbsLLAPSpillGB = int32(ebsLLAPSpillGB)
+	}
+
+	/*if hiveServerHaMode := plan.HiveServerHaMode.ValueStringPointer(); *hiveServerHaMode != "" {
+		req.HiveServerHaMode = hiveServerHaMode
+	}*/
+
+	if plan.ImpalaOptions != nil {
+		req.ImpalaOptions = convertToAPIImpalaOptions(plan.ImpalaOptions)
+	}
+
+	if plan.ImpalaHASettings != nil {
+		req.ImpalaHaSettings = convertToAPIModel(plan.ImpalaHASettings)
+	}
+
+	if plan.Config != nil {
+		req.Config = ConvertToServiceConfigReqModel(plan.Config)
+	}
+
+	if plan.Autoscaling != nil {
+		req.Autoscaling = ConvertToAutoscalingModel(plan.Autoscaling)
+	}
+
+	if plan.QueryIsolationOptions != nil {
+		req.QueryIsolationOptions = convertToAPIQueryIsolationOptions(plan.QueryIsolationOptions)
+	}
+
+	if plan.Tags != nil && len(*plan.Tags) > 0 {
+		tags := make([]*models.TagRequest, len(*plan.Tags))
+		for i, tag := range *plan.Tags {
+			tags[i] = &models.TagRequest{
+				Key:   &tag.Key,
+				Value: &tag.Value,
+			}
+		}
+		req.Tags = tags
+	}
+
 	return req
 }
 

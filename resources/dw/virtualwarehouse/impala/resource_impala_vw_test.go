@@ -75,6 +75,11 @@ var testImpalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "Image version of the impala.",
 		},
+		"node_count": schema.Int32Attribute{
+			Computed:            true,
+			Optional:            true,
+			MarkdownDescription: "Node counts for impala to use.",
+		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,

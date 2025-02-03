@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var impalaSchema = schema.Schema{
@@ -59,6 +60,270 @@ var impalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "Image version of the impala.",
 		},
+		"instance_type": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "The instance type for the Impala Virtual Warehouse.",
+		},
+		"tshirt_size": schema.StringAttribute{
+			Optional:            true,
+			Computed:            true,
+			MarkdownDescription: "T-shirt size of Impala.",
+		},
+		"node_count": schema.Int32Attribute{
+			Optional:            true,
+			Computed:            true,
+			MarkdownDescription: "Node count of Impala.",
+		},
+		"availability_zone": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "The availability zone for the Impala Virtual Warehouse.",
+		},
+		"enable_unified_analytics": schema.BoolAttribute{
+			Optional:            true,
+			MarkdownDescription: "Flag to enable unified analytics.",
+		},
+		"impala_options": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Impala-specific configuration options.",
+			Attributes: map[string]schema.Attribute{
+				"scratch_space_limit": schema.Int32Attribute{
+					Optional:            true,
+					MarkdownDescription: "Defines the limit for scratch space in GiB needed by Impala for spilling queries. Valid values depend on the platform (AWS or Azure). If set, 'spillToS3Uri' cannot be set.",
+				},
+				"spill_to_s3_uri": schema.StringAttribute{
+					Optional:            true,
+					MarkdownDescription: "Set S3 URI in 's3://bucket/path' format to enable spilling to S3. If set, 'scratchSpaceLimit' cannot be set. Not supported on Azure.",
+				},
+			},
+		},
+		"impala_ha_settings": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "High availability settings for Impala.",
+			Attributes: map[string]schema.Attribute{
+				"high_availability_mode": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "High Availability mode: DISABLED, ACTIVE_PASSIVE, or ACTIVE_ACTIVE.",
+				},
+				"enable_shutdown_of_coordinator": schema.BoolAttribute{
+					Required:            true,
+					MarkdownDescription: "Enables the shutdown of the coordinator.",
+				},
+				"shutdown_of_coordinator_delay_secs": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Delay in seconds before shutting down the coordinator.",
+				},
+				"num_of_active_coordinators": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Number of active coordinators.",
+				},
+				"enable_catalog_high_availability": schema.BoolAttribute{
+					Required:            true,
+					MarkdownDescription: "Enables high availability for Impala catalog.",
+				},
+				"enable_statestore_high_availability": schema.BoolAttribute{
+					Required:            true,
+					MarkdownDescription: "Enables high availability for Impala Statestore.",
+				},
+			},
+		},
+		"autoscaling": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Autoscaling configuration options.",
+			Attributes: map[string]schema.Attribute{
+				"min_clusters": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Minimum number of available compute groups. Default: 0.",
+				},
+				"max_clusters": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Maximum number of available compute groups. Default: 0.",
+				},
+				"disable_auto_suspend": schema.BoolAttribute{
+					Required:            true,
+					MarkdownDescription: "Disable auto-suspend for the Virtual Warehouse.",
+				},
+				"auto_suspend_timeout_seconds": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Threshold for auto-suspend in seconds.",
+				},
+				/*"hive_scale_wait_time_seconds": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Wait time before a scaling event happens.",
+				},
+				"hive_desired_free_capacity": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Desired free capacity for Hive.",
+				},*/
+				"impala_scale_up_delay_seconds": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Scale-up threshold in seconds for Impala.",
+				},
+				"impala_scale_down_delay_seconds": schema.Int32Attribute{
+					Required:            true,
+					MarkdownDescription: "Scale-down threshold in seconds for Impala.",
+				},
+				"impala_shutdown_of_coordinator_delay_seconds": schema.Int32Attribute{
+					Optional:            true,
+					MarkdownDescription: "Delay in seconds before shutting down Impala coordinator. Deprecated.",
+				},
+				"impala_num_of_active_coordinators": schema.Int32Attribute{
+					Optional:            true,
+					MarkdownDescription: "Number of active Impala coordinators. Deprecated.",
+				},
+				"impala_executor_group_sets": schema.SingleNestedAttribute{
+					Optional:            true,
+					MarkdownDescription: "Reconfigure executor group sets for workload-aware autoscaling.",
+					Attributes: map[string]schema.Attribute{
+						"small": schema.SingleNestedAttribute{
+							Optional:            true,
+							MarkdownDescription: "Configure small executor group set.",
+							Attributes:          map[string]schema.Attribute{}, // Define attributes based on ImpalaExecutorGroupSetCreateRequest
+						},
+						"custom1": schema.SingleNestedAttribute{
+							Optional:            true,
+							MarkdownDescription: "Configure first custom executor group set.",
+							Attributes:          map[string]schema.Attribute{},
+						},
+						"custom2": schema.SingleNestedAttribute{
+							Optional:            true,
+							MarkdownDescription: "Configure second custom executor group set.",
+							Attributes:          map[string]schema.Attribute{},
+						},
+						"custom3": schema.SingleNestedAttribute{
+							Optional:            true,
+							MarkdownDescription: "Configure third custom executor group set.",
+							Attributes:          map[string]schema.Attribute{},
+						},
+						"large": schema.SingleNestedAttribute{
+							Optional:            true,
+							MarkdownDescription: "Configure large executor group set.",
+							Attributes:          map[string]schema.Attribute{},
+						},
+					},
+				},
+			},
+		},
+		"config": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Service configuration settings.",
+			Attributes: map[string]schema.Attribute{
+				"common_configs": schema.SingleNestedAttribute{
+					Required:            true,
+					MarkdownDescription: "Common configuration settings.",
+					Attributes: map[string]schema.Attribute{
+						"config_blocks": schema.ListNestedAttribute{
+							Optional:            true,
+							MarkdownDescription: "List of config blocks.",
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"name": schema.StringAttribute{
+										Required: true,
+									},
+									"value": schema.StringAttribute{
+										Required: true,
+									},
+									"type": schema.StringAttribute{
+										Required: true,
+									},
+									"enabled": schema.BoolAttribute{
+										Required: true,
+									},
+								},
+							},
+						},
+					},
+				},
+				"application_configs": schema.MapNestedAttribute{
+					Optional:            true,
+					MarkdownDescription: "Map of application-specific configuration settings.",
+					NestedObject: schema.NestedAttributeObject{
+						Attributes: map[string]schema.Attribute{
+							"config_blocks": schema.ListNestedAttribute{
+								Optional:            true,
+								MarkdownDescription: "List of config blocks for application configurations.",
+								NestedObject: schema.NestedAttributeObject{
+									Attributes: map[string]schema.Attribute{
+										"name": schema.StringAttribute{
+											Required: true,
+										},
+										"value": schema.StringAttribute{
+											Required: true,
+										},
+										"type": schema.StringAttribute{
+											Required: true,
+										},
+										"enabled": schema.BoolAttribute{
+											Required: true,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				"ldap_groups": schema.ListAttribute{
+					Optional:            true,
+					MarkdownDescription: "LDAP groups for SSO configuration.",
+					ElementType:         types.StringType,
+				},
+				"enable_sso": schema.BoolAttribute{
+					Optional:            true,
+					MarkdownDescription: "Enable Single Sign-On (SSO).",
+				},
+			},
+		},
+		"query_isolation_options": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Query isolation options for Impala.",
+			Attributes: map[string]schema.Attribute{
+				"max_queries": schema.Int32Attribute{
+					Optional:            true,
+					MarkdownDescription: "Maximum number of queries for isolation. Default: 0 disables isolation.",
+				},
+				"max_nodes_per_query": schema.Int32Attribute{
+					Optional:            true,
+					MarkdownDescription: "Maximum number of nodes per query for isolation. Default: 0 disables isolation.",
+				},
+			},
+		},
+		"tags": schema.ListNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Tags associated with the Impala Virtual Warehouse.",
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: map[string]schema.Attribute{
+					"key": schema.StringAttribute{
+						Required: true,
+					},
+					"value": schema.StringAttribute{
+						Required: true,
+					},
+				},
+			},
+		},
+		"resource_pool": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "Resource pool for the Impala Virtual Warehouse.",
+		},
+		"hive_authentication_mode": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "Hive authentication mode.",
+		},
+		"platform_jwt_auth": schema.BoolAttribute{
+			Optional:            true,
+			MarkdownDescription: "Platform JWT authentication flag.",
+		},
+		"impala_query_log": schema.BoolAttribute{
+			Optional:            true,
+			MarkdownDescription: "Enable or disable Impala query logging.",
+		},
+		"ebs_llap_spill_gb": schema.Int64Attribute{
+			Optional:            true,
+			MarkdownDescription: "EBS LLAP spill size in GB.",
+		},
+		/*"hive_server_ha_mode": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "HiveServer high availability mode.",
+		},*/
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
