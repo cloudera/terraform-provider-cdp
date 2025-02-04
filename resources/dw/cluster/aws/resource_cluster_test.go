@@ -155,6 +155,11 @@ var testDwClusterSchema = schema.Schema{
 				},
 			},
 		},
+		"enable_private_eks": schema.BoolAttribute{
+			Optional:            true,
+			Default:             booldefault.StaticBool(false),
+			MarkdownDescription: "Enable private EKS API endpoint.",
+		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
@@ -236,6 +241,7 @@ func createRawClusterResource() tftypes.Value {
 						"additional_instance_types": tftypes.List{ElementType: tftypes.String},
 					},
 				},
+				"enable_private_eks": tftypes.Bool,
 				"polling_options": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"async":                  tftypes.Bool,
@@ -317,6 +323,7 @@ func createRawClusterResource() tftypes.Value {
 					"additional_instance_types": tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
 				},
 			),
+			"enable_private_eks": tftypes.NewValue(tftypes.Bool, false),
 			"polling_options": tftypes.NewValue(
 				tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{

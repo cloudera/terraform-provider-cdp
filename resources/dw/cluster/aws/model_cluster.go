@@ -54,6 +54,7 @@ type resourceModel struct {
 	CustomSubdomain             types.String           `tfsdk:"custom_subdomain"`
 	NetworkSettings             *networkResourceModel  `tfsdk:"network_settings"`
 	InstanceSettings            *instanceResourceModel `tfsdk:"instance_settings"`
+	EnablePrivateEks            types.Bool             `tfsdk:"enable_private_eks"`
 	PollingOptions              *utils.PollingOptions  `tfsdk:"polling_options"`
 }
 
@@ -74,6 +75,7 @@ func (p *resourceModel) convertToCreateAwsClusterRequest() *models.CreateAwsClus
 		EnableSpotInstances:              p.getEnableSpotInstances(),
 		CustomAmiID:                      p.getCustomAmiID(),
 		ComputeInstanceTypes:             p.getComputeInstanceTypes(),
+		EnablePrivateEKS:                 p.EnablePrivateEks.ValueBoolPointer(),
 	}
 }
 

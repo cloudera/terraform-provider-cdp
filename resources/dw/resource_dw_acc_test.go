@@ -226,7 +226,7 @@ func testAccAwsEnvironmentConfig(envParams *awsEnvironmentTestParameters) string
 			cidr = "0.0.0.0/0"
 			}
 			endpoint_access_gateway_scheme = "PRIVATE"
-			enable_tunnel = false
+			enable_tunnel = true
 			authentication = {
 			public_key_id = %[3]q
 			}
@@ -237,7 +237,7 @@ func testAccAwsEnvironmentConfig(envParams *awsEnvironmentTestParameters) string
 			vpc_id = %[6]q
 			subnet_ids = [ %[7]s ]
 			create_private_subnets = true
-			create_service_endpoints = false
+			create_service_endpoints = true
 			tags = {
 			"made-with": "CDP Terraform Provider"
 			}
@@ -262,7 +262,7 @@ func testAccAwsDataLakeConfig(params *awsDataLakeTestParameters) string {
 			storage_location_base = %[5]q
 			scale = "LIGHT_DUTY"
 			runtime = %[6]q
-			enable_ranger_raz = false
+			enable_ranger_raz = true
 			
 			tags = {
 				"made-with": "CDP Terraform Provider"
@@ -286,6 +286,7 @@ func testAccAwsClusterBasicConfig(params *awsEnvironmentTestParameters) string {
 			use_private_load_balancer = true
 			use_public_worker_node = false
 		  }
+          enable_private_eks = true
           depends_on = [ cdp_datalake_aws_datalake.test_dl_dw_aws ]
 		}
 	`, params.SubnetIds)
