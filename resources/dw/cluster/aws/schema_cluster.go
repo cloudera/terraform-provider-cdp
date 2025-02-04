@@ -85,6 +85,11 @@ var dwClusterSchema = schema.Schema{
 			Optional:   true,
 			Attributes: instanceSettings,
 		},
+		"enable_private_eks": schema.BoolAttribute{
+			Optional:            true,
+			Default:             booldefault.StaticBool(false),
+			MarkdownDescription: "Enable private EKS API endpoint.",
+		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
