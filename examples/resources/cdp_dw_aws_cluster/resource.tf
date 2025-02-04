@@ -27,6 +27,7 @@ resource "cdp_dw_aws_cluster" "example" {
     whitelist_workload_access_ip_cidrs    = ["0.0.0.0/0"]
     use_private_load_balancer             = true
     use_public_worker_node                = false
+    enable_private_eks                    = true
   }
   instance_settings = {
     custom_ami_id             = ""

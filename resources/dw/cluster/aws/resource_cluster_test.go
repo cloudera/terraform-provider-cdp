@@ -128,6 +128,12 @@ var testDwClusterSchema = schema.Schema{
 					Required:            true,
 					MarkdownDescription: "Whether to use public IP addresses for worker nodes.",
 				},
+				"enable_private_eks": schema.BoolAttribute{
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
+					MarkdownDescription: "Enable private EKS API endpoint.",
+				},
 			},
 		},
 		"instance_settings": schema.SingleNestedAttribute{
@@ -226,6 +232,7 @@ func createRawClusterResource() tftypes.Value {
 						"whitelist_workload_access_ip_cidrs":    tftypes.List{ElementType: tftypes.String},
 						"use_private_load_balancer":             tftypes.Bool,
 						"use_public_worker_node":                tftypes.Bool,
+						"enable_private_eks":                    tftypes.Bool,
 					},
 				},
 				"instance_settings": tftypes.Object{
@@ -272,6 +279,7 @@ func createRawClusterResource() tftypes.Value {
 						"whitelist_workload_access_ip_cidrs":    tftypes.List{ElementType: tftypes.String},
 						"use_private_load_balancer":             tftypes.Bool,
 						"use_public_worker_node":                tftypes.Bool,
+						"enable_private_eks":                    tftypes.Bool,
 					},
 				}, map[string]tftypes.Value{
 					"worker_subnet_ids": tftypes.NewValue(tftypes.List{ElementType: tftypes.String},
@@ -301,6 +309,7 @@ func createRawClusterResource() tftypes.Value {
 						}),
 					"use_private_load_balancer": tftypes.NewValue(tftypes.Bool, true),
 					"use_public_worker_node":    tftypes.NewValue(tftypes.Bool, false),
+					"enable_private_eks":        tftypes.NewValue(tftypes.Bool, false),
 				},
 			),
 			"instance_settings": tftypes.NewValue(
