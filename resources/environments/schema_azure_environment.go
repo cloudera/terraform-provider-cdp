@@ -20,6 +20,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -159,6 +160,9 @@ var AzureEnvironmentSchema = schema.Schema{
 					Optional:    true,
 					Computed:    true,
 					ElementType: types.StringType,
+					PlanModifiers: []planmodifier.Set{
+						setplanmodifier.UseStateForUnknown(),
+					},
 				},
 			},
 		},
@@ -266,9 +270,6 @@ var AzureEnvironmentSchema = schema.Schema{
 		},
 		"encryption_user_managed_identity": schema.StringAttribute{
 			Optional: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
 		},
 		"tags": schema.MapAttribute{
 			Optional:    true,
