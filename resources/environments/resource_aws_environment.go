@@ -152,7 +152,7 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 }
 
 func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *awsEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
-	utils.LogEnvironmentSilently(ctx, env, "")
+	utils.LogEnvironmentSilently(ctx, env, "Converting environment: ")
 	model.ID = types.StringPointerValue(env.Crn)
 	if env.AwsDetails != nil {
 		model.S3GuardTableName = types.StringValue(env.AwsDetails.S3GuardTableName)
@@ -213,10 +213,14 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 		var dsgIDs types.Set
 		if model.SecurityAccess != nil && !model.SecurityAccess.DefaultSecurityGroupIDs.IsUnknown() {
 			dsgIDs = model.SecurityAccess.DefaultSecurityGroupIDs
+		} else {
+			dsgIDs = types.SetNull(types.StringType)
 		}
 		var sgIDsknox types.Set
 		if model.SecurityAccess != nil && !model.SecurityAccess.SecurityGroupIDsForKnox.IsUnknown() {
 			sgIDsknox = model.SecurityAccess.SecurityGroupIDsForKnox
+		} else {
+			sgIDsknox = types.SetNull(types.StringType)
 		}
 		model.SecurityAccess = &SecurityAccess{
 			Cidr:                    types.StringValue(env.SecurityAccess.Cidr),
