@@ -722,6 +722,7 @@ func TestCdpProvider_Metadata(t *testing.T) {
 func TestCdpProvider_DataSources(t *testing.T) {
 	expectedDataSources := []func() datasource.DataSource{
 		environments.NewAWSCredentialPrerequisitesDataSource,
+		environments.NewEnvironmentConfigDataSource,
 		environments.NewKeytabDataSource,
 		datalake.NewListRuntimeDataSource,
 		iam.NewGroupDataSource,
