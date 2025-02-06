@@ -175,7 +175,6 @@ func TestAccDwCluster_Basic(t *testing.T) {
 					testAccAwsEnvironmentConfig(&envParams),
 					testAccAwsDataLakeConfig(&dlParams),
 					testAccAwsClusterBasicConfig(&envParams),
-					testAccDwCatalog(),
 					testAccHiveVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-hive")),
 					testAccImpalaVirtualWarehouse(cdpacctest.RandomShortWithPrefix("tf-impala")),
 					testAccDataVisualization(cdpacctest.RandomShortWithPrefix("tf-dataviz"))),
@@ -271,8 +270,8 @@ func testAccAwsDataLakeConfig(params *awsDataLakeTestParameters) string {
 			depends_on = [ cdp_environments_id_broker_mappings.test_idbm_dw_aws ]
 		}
 		`,
-		params.DataAccessRole, params.RangerAuditRole, params.Name, params.AssumerRole, params.StorageLocationBase,
-		params.Runtime)
+		params.DataAccessRole, params.RangerAuditRole, params.Name,
+		params.AssumerRole, params.StorageLocationBase, params.Runtime)
 }
 
 func testAccAwsClusterBasicConfig(params *awsEnvironmentTestParameters) string {
@@ -291,19 +290,11 @@ func testAccAwsClusterBasicConfig(params *awsEnvironmentTestParameters) string {
 	`, params.SubnetIds)
 }
 
-func testAccDwCatalog() string {
-	return `
-		resource "cdp_dw_database_catalog" "test_catalog" {
-			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
-		}
-	`
-}
-
 func testAccHiveVirtualWarehouse(name string) string {
 	return fmt.Sprintf(`
 		resource "cdp_dw_vw_hive" "test_hive" {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
-			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
+			database_catalog_id = cdp_dw_aws_cluster.test_data_warehouse_aws.default_database_catalog.id
 			name = %[1]q
 			group_size = 2
 			platform_jwt_auth = true
@@ -318,9 +309,9 @@ func testAccHiveVirtualWarehouse(name string) string {
 			aws_options = {
 			  availability_zone = "us-west-2a"
 			  ebs_llap_spill_gb = 300
-			  tags = {
-				owner = "cdw-terraform@cloudera.com"
-			  }
+            tags = {
+              "made-with": "CDP Terraform Provider"
+            }
 			}
 		}
 	`, name)
@@ -354,7 +345,7 @@ func testAccImpalaVirtualWarehouse(name string) string {
 	return fmt.Sprintf(`
 		resource "cdp_dw_vw_impala" "test_impala" {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
-			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
+			database_catalog_id = cdp_dw_aws_cluster.test_data_warehouse_aws.default_database_catalog.id
 			name = %[1]q
 		}
 	`, name)

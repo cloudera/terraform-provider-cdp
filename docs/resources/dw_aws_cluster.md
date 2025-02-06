@@ -83,10 +83,12 @@ output "name" {
 ### Read-Only
 
 - `cluster_id` (String) The id of the cluster.
+- `default_database_catalog` (Attributes) (see [below for nested schema](#nestedatt--default_database_catalog))
 - `id` (String) The ID of this resource.
 - `last_updated` (String) Timestamp of the last Terraform update of the order.
 - `name` (String) The name of the cluster matches the environment name.
 - `status` (String) The status of the cluster.
+- `version` (String) The version of the cluster.
 
 <a id="nestedatt--network_settings"></a>
 ### Nested Schema for `network_settings`
@@ -119,7 +121,6 @@ Required:
 
 Optional:
 
-- `additional_instance_types` (List of String) The additional instance types that the environment is allowed to use, listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes.
 - `compute_instance_types` (List of String) The compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed.
 - `custom_ami_id` (String) The custom AMI ID to use for worker nodes.
 - `enable_spot_instances` (Boolean) Whether to use spot instances for worker nodes.
@@ -133,3 +134,14 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--default_database_catalog"></a>
+### Nested Schema for `default_database_catalog`
+
+Read-Only:
+
+- `id` (String) The ID of the database catalog.
+- `last_updated` (String) Timestamp of the last Terraform update of the order.
+- `name` (String) The name of the database catalog.
+- `status` (String) The status of the database catalog.

@@ -68,6 +68,10 @@ var testDwClusterSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "The status of the cluster.",
 		},
+		"version": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "The version of the cluster.",
+		},
 		"node_role_cdw_managed_policy_arn": schema.StringAttribute{
 			Optional:            true,
 			MarkdownDescription: "The managed policy ARN to be attached to the created node instance role.",
@@ -132,6 +136,7 @@ var testDwClusterSchema = schema.Schema{
 		},
 		"instance_settings": schema.SingleNestedAttribute{
 			Optional: true,
+			Computed: true,
 			Attributes: map[string]schema.Attribute{
 				"custom_ami_id": schema.StringAttribute{
 					Optional:            true,
@@ -145,13 +150,30 @@ var testDwClusterSchema = schema.Schema{
 				},
 				"compute_instance_types": schema.ListAttribute{
 					Optional:            true,
+					Computed:            true,
 					ElementType:         types.StringType,
 					MarkdownDescription: "The compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed.",
 				},
-				"additional_instance_types": schema.ListAttribute{
-					Optional:            true,
-					ElementType:         types.StringType,
-					MarkdownDescription: "The additional instance types that the environment is allowed to use, listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes.",
+			},
+		},
+		"default_database_catalog": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"id": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: "The ID of the database catalog.",
+				},
+				"name": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: "The name of the database catalog.",
+				},
+				"last_updated": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: "Timestamp of the last Terraform update of the order.",
+				},
+				"status": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: "The status of the database catalog.",
 				},
 			},
 		},
@@ -208,6 +230,7 @@ func createRawClusterResource() tftypes.Value {
 				"cluster_id":                       tftypes.String,
 				"last_updated":                     tftypes.String,
 				"status":                           tftypes.String,
+				"version":                          tftypes.String,
 				"node_role_cdw_managed_policy_arn": tftypes.String,
 				"database_backup_retention_days":   tftypes.Number,
 				"custom_registry_options": tftypes.Object{
@@ -230,10 +253,17 @@ func createRawClusterResource() tftypes.Value {
 				},
 				"instance_settings": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
-						"custom_ami_id":             tftypes.String,
-						"enable_spot_instances":     tftypes.Bool,
-						"compute_instance_types":    tftypes.List{ElementType: tftypes.String},
-						"additional_instance_types": tftypes.List{ElementType: tftypes.String},
+						"custom_ami_id":          tftypes.String,
+						"enable_spot_instances":  tftypes.Bool,
+						"compute_instance_types": tftypes.List{ElementType: tftypes.String},
+					},
+				},
+				"default_database_catalog": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"id":           tftypes.String,
+						"name":         tftypes.String,
+						"last_updated": tftypes.String,
+						"status":       tftypes.String,
 					},
 				},
 				"polling_options": tftypes.Object{
@@ -250,6 +280,7 @@ func createRawClusterResource() tftypes.Value {
 			"cluster_id":                       tftypes.NewValue(tftypes.String, "id"),
 			"last_updated":                     tftypes.NewValue(tftypes.String, ""),
 			"status":                           tftypes.NewValue(tftypes.String, "Accepted"),
+			"version":                          tftypes.NewValue(tftypes.String, "1.9.4-b10"),
 			"node_role_cdw_managed_policy_arn": tftypes.NewValue(tftypes.String, ""),
 			"database_backup_retention_days":   tftypes.NewValue(tftypes.Number, 0),
 			"custom_registry_options": tftypes.NewValue(tftypes.Object{
@@ -306,15 +337,27 @@ func createRawClusterResource() tftypes.Value {
 			"instance_settings": tftypes.NewValue(
 				tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
-						"custom_ami_id":             tftypes.String,
-						"enable_spot_instances":     tftypes.Bool,
-						"compute_instance_types":    tftypes.List{ElementType: tftypes.String},
-						"additional_instance_types": tftypes.List{ElementType: tftypes.String},
+						"custom_ami_id":          tftypes.String,
+						"enable_spot_instances":  tftypes.Bool,
+						"compute_instance_types": tftypes.List{ElementType: tftypes.String},
 					}}, map[string]tftypes.Value{
-					"custom_ami_id":             tftypes.NewValue(tftypes.String, ""),
-					"enable_spot_instances":     tftypes.NewValue(tftypes.Bool, false),
-					"compute_instance_types":    tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
-					"additional_instance_types": tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
+					"custom_ami_id":          tftypes.NewValue(tftypes.String, ""),
+					"enable_spot_instances":  tftypes.NewValue(tftypes.Bool, false),
+					"compute_instance_types": tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
+				},
+			),
+			"default_database_catalog": tftypes.NewValue(
+				tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"id":           tftypes.String,
+						"name":         tftypes.String,
+						"last_updated": tftypes.String,
+						"status":       tftypes.String,
+					}}, map[string]tftypes.Value{
+					"id":           tftypes.NewValue(tftypes.String, ""),
+					"name":         tftypes.NewValue(tftypes.String, ""),
+					"last_updated": tftypes.NewValue(tftypes.String, ""),
+					"status":       tftypes.NewValue(tftypes.String, "Starting"),
 				},
 			),
 			"polling_options": tftypes.NewValue(
@@ -380,11 +423,23 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_Success() {
 				EnvironmentCrn: "crn",
 				ID:             "cluster-id",
 				Name:           "test-name",
+				Status:         "Running",
+			}}}
+
+	expectedDbcResponse := &operations.ListDbcsOK{
+		Payload: &models.ListDbcsResponse{
+			Dbcs: []*models.DbcSummary{
+				{
+					ID:     "dbc-id",
+					Name:   "dbc-name",
+					Status: "Running",
+				},
 			}}}
 
 	client := new(mocks.MockDwClientService)
 	client.On("CreateAwsCluster", mock.Anything).Return(suite.expectedCreateResponse, nil)
 	client.On("DescribeCluster", mock.Anything).Return(expectedDescribeResponse, nil)
+	client.On("ListDbcs", mock.Anything).Return(expectedDbcResponse, nil)
 	dwApi := NewDwApi(client)
 
 	req := resource.CreateRequest{
@@ -473,6 +528,7 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
 	client.On("DeleteCluster", mock.Anything).Return(&operations.DeleteClusterOK{}, nil)
+	client.On("DescribeCluster", mock.Anything).Return(&operations.DescribeClusterOK{}, fmt.Errorf("NOT_FOUND"))
 	dwApi := NewDwApi(client)
 
 	req := resource.DeleteRequest{
@@ -530,7 +586,7 @@ func (suite *DwClusterTestSuite) TestStateRefresh_Success() {
 	callFailureThreshold := 3
 
 	// Function under test
-	refresh := dwApi.stateRefresh(ctx, &clusterID, &callFailedCount, callFailureThreshold)
+	refresh := dwApi.clusterStateRefresh(ctx, &clusterID, &callFailedCount, callFailureThreshold)
 	_, status, err := refresh()
 	suite.NoError(err)
 	suite.Equal("Running", status)
@@ -548,7 +604,7 @@ func (suite *DwClusterTestSuite) TestStateRefresh_FailureThresholdReached() {
 	callFailureThreshold := 3
 
 	// Function under test
-	refresh := dwApi.stateRefresh(ctx, &clusterID, &callFailedCount, callFailureThreshold)
+	refresh := dwApi.clusterStateRefresh(ctx, &clusterID, &callFailedCount, callFailureThreshold)
 	var err error
 	for i := 0; i <= callFailureThreshold; i++ {
 		_, _, err = refresh()

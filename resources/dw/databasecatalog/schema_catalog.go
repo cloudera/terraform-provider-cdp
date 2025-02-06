@@ -21,6 +21,8 @@ import (
 
 var dwDefaultDatabaseCatalogSchema = schema.Schema{
 	MarkdownDescription: "Creates an AWS Data Warehouse database catalog.",
+	DeprecationMessage: "This resource is deprecated and will be removed in the next major release. The cluster resource " +
+		"default_database_catalog attribute will be used instead. All properties are computed, no need to specify them manually.",
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
 			Computed: true,

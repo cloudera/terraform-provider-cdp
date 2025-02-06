@@ -52,6 +52,10 @@ var dwClusterSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "The status of the cluster.",
 		},
+		"version": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: "The version of the cluster.",
+		},
 		"node_role_cdw_managed_policy_arn": schema.StringAttribute{
 			Optional:            true,
 			MarkdownDescription: "The managed policy ARN to be attached to the created node instance role.",
@@ -83,7 +87,12 @@ var dwClusterSchema = schema.Schema{
 		},
 		"instance_settings": schema.SingleNestedAttribute{
 			Optional:   true,
+			Computed:   true,
 			Attributes: instanceSettings,
+		},
+		"default_database_catalog": schema.SingleNestedAttribute{
+			Computed:   true,
+			Attributes: defaultDatabaseCatalogProperties,
 		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
@@ -163,12 +172,27 @@ var instanceSettings = map[string]schema.Attribute{
 	},
 	"compute_instance_types": schema.ListAttribute{
 		Optional:            true,
+		Computed:            true,
 		ElementType:         types.StringType,
 		MarkdownDescription: "The compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed.",
 	},
-	"additional_instance_types": schema.ListAttribute{
-		Optional:            true,
-		ElementType:         types.StringType,
-		MarkdownDescription: "The additional instance types that the environment is allowed to use, listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes.",
+}
+
+var defaultDatabaseCatalogProperties = map[string]schema.Attribute{
+	"id": schema.StringAttribute{
+		Computed:            true,
+		MarkdownDescription: "The ID of the database catalog.",
+	},
+	"name": schema.StringAttribute{
+		Computed:            true,
+		MarkdownDescription: "The name of the database catalog.",
+	},
+	"last_updated": schema.StringAttribute{
+		Computed:            true,
+		MarkdownDescription: "Timestamp of the last Terraform update of the order.",
+	},
+	"status": schema.StringAttribute{
+		Computed:            true,
+		MarkdownDescription: "The status of the database catalog.",
 	},
 }

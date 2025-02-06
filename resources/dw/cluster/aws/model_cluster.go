@@ -11,9 +11,13 @@
 package aws
 
 import (
+	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -35,10 +39,9 @@ type customRegistryOptions struct {
 }
 
 type instanceResourceModel struct {
-	CustomAmiID             types.String `tfsdk:"custom_ami_id"`
-	EnableSpotInstances     types.Bool   `tfsdk:"enable_spot_instances"`
-	ComputeInstanceTypes    types.List   `tfsdk:"compute_instance_types"`
-	AdditionalInstanceTypes types.List   `tfsdk:"additional_instance_types"`
+	CustomAmiID          types.String `tfsdk:"custom_ami_id"`
+	EnableSpotInstances  types.Bool   `tfsdk:"enable_spot_instances"`
+	ComputeInstanceTypes types.List   `tfsdk:"compute_instance_types"`
 }
 
 type resourceModel struct {
@@ -48,16 +51,31 @@ type resourceModel struct {
 	ClusterID                   types.String           `tfsdk:"cluster_id"`
 	LastUpdated                 types.String           `tfsdk:"last_updated"`
 	Status                      types.String           `tfsdk:"status"`
+	Version                     types.String           `tfsdk:"version"`
 	NodeRoleCDWManagedPolicyArn types.String           `tfsdk:"node_role_cdw_managed_policy_arn"`
 	DatabaseBackupRetentionDays types.Int64            `tfsdk:"database_backup_retention_days"`
 	CustomRegistryOptions       *customRegistryOptions `tfsdk:"custom_registry_options"`
 	CustomSubdomain             types.String           `tfsdk:"custom_subdomain"`
 	NetworkSettings             *networkResourceModel  `tfsdk:"network_settings"`
-	InstanceSettings            *instanceResourceModel `tfsdk:"instance_settings"`
+	InstanceSettings            types.Object           `tfsdk:"instance_settings"`
+	DefaultDatabaseCatalog      types.Object           `tfsdk:"default_database_catalog"`
 	PollingOptions              *utils.PollingOptions  `tfsdk:"polling_options"`
 }
 
-func (p *resourceModel) convertToCreateAwsClusterRequest() *models.CreateAwsClusterRequest {
+func (p *resourceModel) convertToCreateAwsClusterRequest(ctx context.Context) (*models.CreateAwsClusterRequest, diag.Diagnostics) {
+	enableSpotInstances, diags := p.getEnableSpotInstances(ctx)
+	if diags.HasError() {
+		return nil, diags
+	}
+	customAmiID, diags := p.getCustomAmiID(ctx)
+	if diags.HasError() {
+		return nil, diags
+	}
+	computeInstanceTypes, diags := p.getComputeInstanceTypes(ctx)
+	if diags.HasError() {
+		return nil, diags
+	}
+
 	return &models.CreateAwsClusterRequest{
 		EnvironmentCrn:                   p.Crn.ValueStringPointer(),
 		UseOverlayNetwork:                p.NetworkSettings.UseOverlayNetwork.ValueBool(),
@@ -71,31 +89,28 @@ func (p *resourceModel) convertToCreateAwsClusterRequest() *models.CreateAwsClus
 		DatabaseBackupRetentionPeriod:    utils.Int64To32Pointer(p.DatabaseBackupRetentionDays),
 		CustomSubdomain:                  p.CustomSubdomain.ValueString(),
 		CustomRegistryOptions:            p.getCustomRegistryOptions(),
-		EnableSpotInstances:              p.getEnableSpotInstances(),
-		CustomAmiID:                      p.getCustomAmiID(),
-		ComputeInstanceTypes:             p.getComputeInstanceTypes(),
-	}
+		EnableSpotInstances:              enableSpotInstances,
+		CustomAmiID:                      customAmiID,
+		ComputeInstanceTypes:             computeInstanceTypes,
+	}, diags
 }
 
-func (p *resourceModel) getEnableSpotInstances() *bool {
-	if i := p.InstanceSettings; i != nil {
-		return i.EnableSpotInstances.ValueBoolPointer()
-	}
-	return nil
+func (p *resourceModel) getEnableSpotInstances(ctx context.Context) (*bool, diag.Diagnostics) {
+	var irm instanceResourceModel
+	diags := p.InstanceSettings.As(ctx, &irm, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	return irm.EnableSpotInstances.ValueBoolPointer(), diags
 }
 
-func (p *resourceModel) getCustomAmiID() string {
-	if i := p.InstanceSettings; i != nil {
-		return p.InstanceSettings.CustomAmiID.ValueString()
-	}
-	return ""
+func (p *resourceModel) getCustomAmiID(ctx context.Context) (string, diag.Diagnostics) {
+	var irm instanceResourceModel
+	diags := p.InstanceSettings.As(ctx, &irm, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	return irm.CustomAmiID.ValueString(), diags
 }
 
-func (p *resourceModel) getComputeInstanceTypes() []string {
-	if i := p.InstanceSettings; i != nil {
-		return utils.FromListValueToStringList(p.InstanceSettings.ComputeInstanceTypes)
-	}
-	return nil
+func (p *resourceModel) getComputeInstanceTypes(ctx context.Context) ([]string, diag.Diagnostics) {
+	var irm instanceResourceModel
+	diags := p.InstanceSettings.As(ctx, &irm, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	return utils.FromListValueToStringList(irm.ComputeInstanceTypes), diags
 }
 
 func (p *resourceModel) getCustomRegistryOptions() *models.CustomRegistryOptions {
@@ -108,16 +123,50 @@ func (p *resourceModel) getCustomRegistryOptions() *models.CustomRegistryOptions
 	return nil
 }
 
-func (p *resourceModel) getPollingTimeout() time.Duration {
-	if p.PollingOptions != nil {
-		return time.Duration(p.PollingOptions.PollingTimeout.ValueInt64()) * time.Minute
-	}
-	return 40 * time.Minute
+func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
+	return p.PollingOptions
 }
 
-func (p *resourceModel) getCallFailureThreshold() int {
-	if p.PollingOptions != nil {
-		return int(p.PollingOptions.CallFailureThreshold.ValueInt64())
+func (p *resourceModel) setResourceModel(ctx context.Context, resp *models.DescribeClusterResponse) diag.Diagnostics {
+	p.ID = types.StringValue(resp.Cluster.EnvironmentCrn)
+	p.Crn = types.StringValue(resp.Cluster.EnvironmentCrn)
+	p.Name = types.StringValue(resp.Cluster.Name)
+	p.Status = types.StringValue(resp.Cluster.Status)
+	p.Version = types.StringValue(resp.Cluster.Version)
+	p.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	var irm instanceResourceModel
+	diags := p.InstanceSettings.As(ctx, &irm, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	if diags.HasError() {
+		return diags
 	}
-	return 3
+	attributeTypes := map[string]attr.Type{
+		"custom_ami_id":          types.StringType,
+		"enable_spot_instances":  types.BoolType,
+		"compute_instance_types": types.ListType{ElemType: types.StringType},
+	}
+	attributes := map[string]attr.Value{
+		"custom_ami_id":          irm.CustomAmiID,
+		"enable_spot_instances":  basetypes.NewBoolValue(resp.Cluster.EnableSpotInstances),
+		"compute_instance_types": utils.FromStringListToListValue(resp.Cluster.ComputeInstanceTypes),
+	}
+	p.InstanceSettings, diags = basetypes.NewObjectValue(attributeTypes, attributes)
+	return diags
+}
+
+func (p *resourceModel) setDefaultDatabaseCatalog(catalog *models.DbcSummary) diag.Diagnostics {
+	attributeTypes := map[string]attr.Type{
+		"id":           types.StringType,
+		"name":         types.StringType,
+		"last_updated": types.StringType,
+		"status":       types.StringType,
+	}
+	attributes := map[string]attr.Value{
+		"id":           basetypes.NewStringValue(catalog.ID),
+		"name":         basetypes.NewStringValue(catalog.Name),
+		"last_updated": basetypes.NewStringValue(time.Now().Format(time.RFC850)),
+		"status":       basetypes.NewStringValue(catalog.Status),
+	}
+	dbc, diags := basetypes.NewObjectValue(attributeTypes, attributes)
+	p.DefaultDatabaseCatalog = dbc
+	return diags
 }

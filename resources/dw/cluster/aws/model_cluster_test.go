@@ -13,7 +13,6 @@ package aws
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -44,7 +43,7 @@ func (s *DwClusterModelTestSuite) SetupSuite() {
 }
 
 func (s *DwClusterModelTestSuite) TestConvertToCreateAwsClusterRequest() {
-	awsCluster := s.rm.convertToCreateAwsClusterRequest()
+	awsCluster, _ := s.rm.convertToCreateAwsClusterRequest(context.TODO())
 	s.Equal("crn", *awsCluster.EnvironmentCrn)
 	s.Equal(true, awsCluster.UseOverlayNetwork)
 	s.Equal([]string{"cidr-1", "cidr-2", "cidr-3"}, awsCluster.WhitelistK8sClusterAccessIPCIDRs)
@@ -60,14 +59,4 @@ func (s *DwClusterModelTestSuite) TestConvertToCreateAwsClusterRequest() {
 	s.Equal(false, *awsCluster.EnableSpotInstances)
 	s.Equal("", awsCluster.CustomAmiID)
 	s.Equal([]string{}, awsCluster.ComputeInstanceTypes)
-}
-
-func (s *DwClusterModelTestSuite) TestGetPollingTimeout() {
-	timeout := s.rm.getPollingTimeout()
-	s.Equal(90*time.Minute, timeout)
-}
-
-func (s *DwClusterModelTestSuite) TestGetCallFailureThreshold() {
-	out := s.rm.getCallFailureThreshold()
-	s.Equal(3, out)
 }

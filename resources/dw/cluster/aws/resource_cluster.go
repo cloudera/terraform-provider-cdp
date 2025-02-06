@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -67,26 +68,16 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	// Generate API request body from plan
-	clusterParams := operations.NewCreateAwsClusterParamsWithContext(ctx).
-		WithInput(plan.convertToCreateAwsClusterRequest())
-
-	// Create new AWS cluster
-	response, err := r.client.Dw.Operations.CreateAwsCluster(clusterParams)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Data Warehouse AWS cluster",
-			"Could not create cluster, unexpected error: "+err.Error(),
-		)
+	response, diags := r.createCluster(ctx, plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
 		return
 	}
 	payload := response.GetPayload()
 	clusterID := &payload.ClusterID
 	plan.ClusterID = types.StringValue(*clusterID)
 
-	desc := operations.NewDescribeClusterParamsWithContext(ctx).
-		WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
-	describe, err := r.client.Dw.Operations.DescribeCluster(desc)
+	describe, err := r.describeCluster(ctx, clusterID)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Data Warehouse AWS cluster",
@@ -94,50 +85,154 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 		)
 		return
 	}
-
-	cluster := describe.GetPayload()
-
-	// Map response body to schema and populate Computed attribute values
-	plan.ID = types.StringValue(cluster.Cluster.EnvironmentCrn)
-	plan.Crn = types.StringValue(cluster.Cluster.EnvironmentCrn)
-	plan.Name = types.StringValue(cluster.Cluster.Name)
-	plan.Status = types.StringValue(cluster.Cluster.Status)
-	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
-
-	// Set state to fully populated data
+	plan.setResourceModel(ctx, describe.GetPayload())
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	if !(plan.PollingOptions != nil && plan.PollingOptions.Async.ValueBool()) {
-		callFailedCount := 0
-		stateConf := &retry.StateChangeConf{
-			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
-			Target:       []string{"Running"},
-			Delay:        30 * time.Second,
-			Timeout:      plan.getPollingTimeout(),
-			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, plan.getCallFailureThreshold()),
-		}
-		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
-			resp.Diagnostics.AddError(
-				"Error waiting for Data Warehouse AWS cluster",
-				"Could not create cluster, unexpected error: "+err.Error(),
-			)
+	if opts := plan.PollingOptions; opts == nil || opts.Async.ValueBool() {
+		cluster, diags := r.waitForClusterCreation(ctx, &plan, clusterID)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
 			return
 		}
-		plan.Status = types.StringValue(cluster.Cluster.Status)
-		plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+		plan.setResourceModel(ctx, cluster)
+		diags = resp.State.Set(ctx, plan)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+
+		catalog, diags := r.waitForDefaultDatabaseCatalogCreation(ctx, &plan, clusterID)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		diags = plan.setDefaultDatabaseCatalog(catalog)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 	}
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }
 
+func (r *dwClusterResource) waitForClusterCreation(ctx context.Context, plan *resourceModel, clusterID *string) (*models.DescribeClusterResponse, diag.Diagnostics) {
+	diags := diag.Diagnostics{}
+	if _, err := retryStateConf(ctx, plan, setupRetryCfg(clusterID), r.clusterStateRefresh).WaitForStateContext(ctx); err != nil {
+		diags.AddError(
+			"Error waiting for Data Warehouse AWS cluster",
+			"Could not create cluster, unexpected error: "+err.Error(),
+		)
+		return nil, diags
+	}
+
+	describe, err := r.describeCluster(ctx, clusterID)
+	if err != nil {
+		diags.AddError(
+			"Error creating Data Warehouse AWS cluster",
+			"Could not describe cluster, unexpected error: "+err.Error(),
+		)
+		return nil, diags
+	}
+
+	return describe.GetPayload(), diags
+}
+
+func (r *dwClusterResource) waitForDefaultDatabaseCatalogCreation(ctx context.Context, plan *resourceModel, clusterID *string) (*models.DbcSummary, diag.Diagnostics) {
+	diags := diag.Diagnostics{}
+	if _, err := retryStateConf(ctx, plan, setupRetryCfg(clusterID), r.databaseCatalogStateRefresh).WaitForStateContext(ctx); err != nil {
+		diags.AddError(
+			"Error waiting for Data Warehouse database catalog",
+			fmt.Sprintf("Could not create database catalog, unexpected error: %v", err),
+		)
+		return nil, diags
+	}
+	catalog, err := r.getDatabaseCatalog(ctx, clusterID)
+	if err != nil {
+		diags.AddError(
+			"Error finding Data Warehouse database catalog", fmt.Sprintf("unexpected error: %v", err),
+		)
+		return nil, diags
+	}
+
+	return catalog, diags
+}
+
+func (r *dwClusterResource) createCluster(ctx context.Context, plan resourceModel) (*operations.CreateAwsClusterOK, diag.Diagnostics) {
+	// Generate API request body from plan
+	req, diags := plan.convertToCreateAwsClusterRequest(ctx)
+	if diags.HasError() {
+		return nil, diags
+	}
+	clusterParams := operations.NewCreateAwsClusterParamsWithContext(ctx).
+		WithInput(req)
+
+	// Create new AWS cluster
+	response, err := r.client.Dw.Operations.CreateAwsCluster(clusterParams)
+	if err != nil {
+		diags.AddError("Error creating Data Warehouse AWS cluster", "Could not create cluster, unexpected error: "+err.Error())
+	}
+	return response, diags
+}
+
+func (r *dwClusterResource) describeCluster(ctx context.Context, clusterID *string) (*operations.DescribeClusterOK, error) {
+	desc := operations.NewDescribeClusterParamsWithContext(ctx).
+		WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
+	describe, err := r.client.Dw.Operations.DescribeCluster(desc)
+	return describe, err
+}
+
+func (r *dwClusterResource) deleteCluster(ctx context.Context, clusterID *string) (*operations.DeleteClusterOK, error) {
+	op := operations.NewDeleteClusterParamsWithContext(ctx).
+		WithInput(&models.DeleteClusterRequest{
+			ClusterID: clusterID,
+		})
+	resp, err := r.client.Dw.Operations.DeleteCluster(op)
+	return resp, err
+}
+
+func (r *dwClusterResource) getDatabaseCatalog(ctx context.Context, clusterID *string) (*models.DbcSummary, error) {
+	response, err := r.listDatabaseCatalogs(ctx, clusterID)
+	if err != nil {
+		err = fmt.Errorf("could not list database catalogs, unexpected error: %s", err.Error())
+		return nil, err
+	}
+	resp := response.GetPayload()
+	if len(resp.Dbcs) != 1 {
+		err = fmt.Errorf("exactly one Data Warehouse database catalog should be deployed for cluster %s", *clusterID)
+		return nil, err
+	}
+	return resp.Dbcs[0], nil
+}
+
 func (r *dwClusterResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	tflog.Warn(ctx, "Read operation is not implemented yet.")
+	var state resourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if diags.HasError() {
+		return
+	}
+
+	describe, err := r.describeCluster(ctx, state.ClusterID.ValueStringPointer())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error creating Data Warehouse AWS cluster",
+			"Could not describe cluster, unexpected error: "+err.Error(),
+		)
+		return
+	}
+	diags = state.setResourceModel(ctx, describe.GetPayload())
+	resp.Diagnostics.Append(diags...)
+	if diags.HasError() {
+		return
+	}
+	diags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(diags...)
 }
 
 func (r *dwClusterResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
@@ -155,12 +250,7 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 	}
 
 	clusterID := state.ClusterID.ValueStringPointer()
-	op := operations.NewDeleteClusterParamsWithContext(ctx).
-		WithInput(&models.DeleteClusterRequest{
-			ClusterID: clusterID,
-		})
-
-	if _, err := r.client.Dw.Operations.DeleteCluster(op); err != nil {
+	if _, err := r.deleteCluster(ctx, clusterID); err != nil {
 		resp.Diagnostics.AddError(
 			"Error deleting Data Warehouse AWS cluster",
 			"Could not delete cluster, unexpected error: "+err.Error(),
@@ -168,17 +258,8 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
-	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
-		callFailedCount := 0
-		stateConf := &retry.StateChangeConf{
-			Pending:      []string{"Deleting", "Running"},
-			Target:       []string{"Deleted"}, // This is not an actual state, we added it to fake the state change
-			Delay:        30 * time.Second,
-			Timeout:      state.getPollingTimeout(),
-			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, state.getCallFailureThreshold()),
-		}
-		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
+	if opts := state.PollingOptions; opts == nil || opts.Async.ValueBool() {
+		if _, err := retryStateConf(ctx, &state, teardownRetryCfg(clusterID), r.clusterStateRefresh).WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
 				"Error waiting for Data Warehouse AWS cluster",
 				"Could not delete cluster, unexpected error: "+err.Error(),
@@ -188,12 +269,54 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 	}
 }
 
-func (r *dwClusterResource) stateRefresh(ctx context.Context, clusterID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
+type retryStateCfg struct {
+	clusterID *string
+	pending   []string
+	target    []string
+}
+
+func setupRetryCfg(clusterID *string) *retryStateCfg {
+	return &retryStateCfg{
+		clusterID: clusterID,
+		pending:   []string{"Accepted", "Creating", "Created", "Loading", "Starting"},
+		target:    []string{"Running"},
+	}
+}
+
+func teardownRetryCfg(clusterID *string) *retryStateCfg {
+	return &retryStateCfg{
+		clusterID: clusterID,
+		pending:   []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
+		target:    []string{"Deleted"},
+	}
+}
+
+type stateRefresherFunc func(
+	ctx context.Context,
+	clusterID *string,
+	callFailedCount *int,
+	callFailureThreshold int) func() (any, string, error)
+
+func retryStateConf(
+	ctx context.Context,
+	po utils.HasPollingOptions,
+	status *retryStateCfg,
+	stateRefresher stateRefresherFunc) *retry.StateChangeConf {
+	callFailedCount := 0
+	return &retry.StateChangeConf{
+		Pending:      status.pending,
+		Target:       status.target, // Deleted is not an actual state, we added it to fake the state change
+		Delay:        30 * time.Second,
+		Timeout:      utils.GetPollingTimeout(po, 40*time.Minute),
+		PollInterval: 30 * time.Second,
+		Refresh:      stateRefresher(ctx, status.clusterID, &callFailedCount, utils.GetCallFailureThreshold(po, 3)),
+	}
+}
+
+func (r *dwClusterResource) clusterStateRefresh(ctx context.Context, clusterID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "About to describe cluster")
-		params := operations.NewDescribeClusterParamsWithContext(ctx).
-			WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
-		resp, err := r.client.Dw.Operations.DescribeCluster(params)
+		resp, err := r.describeCluster(ctx, clusterID)
 		if err != nil {
 			if strings.Contains(err.Error(), "NOT_FOUND") {
 				return &models.DescribeClusterResponse{}, "Deleted", nil
@@ -213,4 +336,44 @@ func (r *dwClusterResource) stateRefresh(ctx context.Context, clusterID *string,
 		tflog.Debug(ctx, fmt.Sprintf("Described cluster %s with status %s", *clusterID, cluster.Cluster.Status))
 		return cluster, cluster.Cluster.Status, nil
 	}
+}
+
+func (r *dwClusterResource) databaseCatalogStateRefresh(ctx context.Context, clusterID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
+	return func() (any, string, error) {
+		tflog.Debug(ctx, "About to get DBCs")
+		response, err := r.listDatabaseCatalogs(ctx, clusterID)
+		if err != nil {
+			tflog.Error(ctx,
+				fmt.Sprintf("could not list database catalogs, unexpected error: %s", err.Error()),
+			)
+			return nil, "", err
+		}
+		resp := response.GetPayload()
+		if len(resp.Dbcs) == 0 {
+			*callFailedCount++
+			if *callFailedCount <= callFailureThreshold {
+				tflog.Warn(ctx, fmt.Sprintf("could not find Data Warehouse database catalog "+
+					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+				return nil, "", nil
+			}
+			tflog.Error(ctx, fmt.Sprintf("error describing Data Warehouse database catalog due to [%s] "+
+				"failure threshold limit exceeded.", err.Error()))
+			return nil, "", err
+		}
+		if len(resp.Dbcs) > 1 {
+			err = fmt.Errorf("found more than one Data Warehouse database catalog for cluster %s", *clusterID)
+			tflog.Error(ctx, fmt.Sprintf("error describing Data Warehouse database catalog due to [%s] ", err.Error()))
+			return nil, "", err
+		}
+		*callFailedCount = 0
+
+		tflog.Debug(ctx, fmt.Sprintf("Found database catalog %s with status %s", resp.Dbcs[0].ID, resp.Dbcs[0].Status))
+		return resp.Dbcs[0], resp.Dbcs[0].Status, nil
+	}
+}
+
+func (r *dwClusterResource) listDatabaseCatalogs(ctx context.Context, clusterID *string) (*operations.ListDbcsOK, error) {
+	catalogParams := operations.NewListDbcsParamsWithContext(ctx).WithInput(&models.ListDbcsRequest{ClusterID: clusterID})
+	response, err := r.client.Dw.Operations.ListDbcs(catalogParams)
+	return response, err
 }
