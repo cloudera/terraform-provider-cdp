@@ -239,7 +239,7 @@ func testAccAwsEnvironmentConfig(envParams *awsEnvironmentTestParameters) string
 			create_private_subnets = true
 			create_service_endpoints = false
 			tags = {
-			"made-with": "CDP Terraform Provider"
+			  "made-with": "CDP Terraform Provider"
 			}
 		}`, envParams.Name, envParams.Region, envParams.PublicKeyId, envParams.InstanceProfile,
 		envParams.StorageLocationBase, envParams.VpcId, envParams.SubnetIds)
@@ -265,7 +265,7 @@ func testAccAwsDataLakeConfig(params *awsDataLakeTestParameters) string {
 			enable_ranger_raz = false
 			
 			tags = {
-				"made-with": "CDP Terraform Provider"
+			  "made-with": "CDP Terraform Provider"
 			}
 			
 			depends_on = [ cdp_environments_id_broker_mappings.test_idbm_dw_aws ]
@@ -319,7 +319,7 @@ func testAccHiveVirtualWarehouse(name string) string {
 			  availability_zone = "us-west-2a"
 			  ebs_llap_spill_gb = 300
 			  tags = {
-				owner = "cdw-terraform@cloudera.com"
+			    "made-with": "CDP Terraform Provider"
 			  }
 			}
 		}
