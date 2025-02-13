@@ -104,7 +104,6 @@ func TestAccAwsDataLake_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "datalake_name", dlParams.Name),
 					resource.TestCheckResourceAttrWith(resourceName, "crn", cdpacctest.CheckCrn),
 				),
-				Destroy: false,
 			},
 		},
 	})
