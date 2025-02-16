@@ -33,7 +33,8 @@ resource "cdp_environments_aws_environment" "example" {
   security_access = {
     cidr = "0.0.0.0/0"
   }
-  network_cidr = "10.10.0.0/16"
+  vpc_id = "vpc-0a1b2c3d4e5f67890"
+  subnet_ids = [ "subnet-0a1b2c3d4e5f67890", "subnet-1f2e3d4c5b6a78901", "subnet-9a8b7c6d5e4f32100" ]
   authentication = {
     public_key_id = "my-key"
   }

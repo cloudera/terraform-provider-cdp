@@ -174,6 +174,7 @@ var AwsEnvironmentSchema = schema.Schema{
 		"report_deployment_logs": schema.BoolAttribute{
 			// report_deployment_logs is a deprecated field and should not be used
 			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
+			DeprecationMessage:  "report_deployment_logs is a deprecated field and should not be used. ",
 			Computed:            true,
 			Default:             booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
@@ -181,8 +182,8 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"network_cidr": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
+			DeprecationMessage: "New network creation by specifying network_cidr is deprecated and should not be used anymore.",
+			Computed:           true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
@@ -242,8 +243,7 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"subnet_ids": schema.SetAttribute{
-			Optional:    true,
-			Computed:    true,
+			Required:    true,
 			ElementType: types.StringType,
 		},
 		"tags": schema.MapAttribute{
@@ -269,8 +269,7 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"vpc_id": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
+			Required: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},

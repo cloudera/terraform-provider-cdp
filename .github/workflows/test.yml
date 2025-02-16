@@ -118,6 +118,7 @@ jobs:
         run: go install golang.org/x/tools/cmd/deadcode@latest && sh ./deadcode-check.sh
   check-docs:
     runs-on: ubuntu-latest
+    name: 'Terraform Provider Quality Gate :: Documentation'
     steps:
       - name: Checkout repository
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4

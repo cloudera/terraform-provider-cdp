@@ -65,6 +65,8 @@ output "crn" {
 - `log_storage` (Attributes) (see [below for nested schema](#nestedatt--log_storage))
 - `region` (String)
 - `security_access` (Attributes) (see [below for nested schema](#nestedatt--security_access))
+- `subnet_ids` (Set of String)
+- `vpc_id` (String)
 
 ### Optional
 
@@ -77,20 +79,18 @@ output "crn" {
 - `endpoint_access_gateway_scheme` (String)
 - `endpoint_access_gateway_subnet_ids` (Set of String)
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
-- `network_cidr` (String)
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
 - `s3_guard_table_name` (String)
-- `subnet_ids` (Set of String)
 - `tags` (Map of String)
-- `vpc_id` (String)
 - `workload_analytics` (Boolean)
 
 ### Read-Only
 
 - `crn` (String)
 - `id` (String) The ID of this resource.
-- `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
+- `network_cidr` (String, Deprecated)
+- `report_deployment_logs` (Boolean, Deprecated) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String)
 - `status_reason` (String)
 - `tunnel_type` (String)

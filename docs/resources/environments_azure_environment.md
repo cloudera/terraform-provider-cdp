@@ -71,6 +71,7 @@ output "crn" {
 
 - `credential_name` (String)
 - `environment_name` (String)
+- `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--existing_network_params))
 - `log_storage` (Attributes) (see [below for nested schema](#nestedatt--log_storage))
 - `public_key` (String)
 - `region` (String)
@@ -90,9 +91,7 @@ output "crn" {
 - `encryption_user_managed_identity` (String)
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 - `endpoint_access_gateway_subnet_ids` (Set of String) The subnets to use for endpoint access gateway.
-- `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--existing_network_params))
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
-- `new_network_params` (Attributes) (see [below for nested schema](#nestedatt--new_network_params))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
 - `resource_group_name` (String)
@@ -103,9 +102,26 @@ output "crn" {
 
 - `crn` (String)
 - `id` (String) The ID of this resource.
+- `new_network_params` (Attributes, Deprecated) (see [below for nested schema](#nestedatt--new_network_params))
 - `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String)
 - `status_reason` (String)
+
+<a id="nestedatt--existing_network_params"></a>
+### Nested Schema for `existing_network_params`
+
+Required:
+
+- `network_id` (String)
+- `resource_group_name` (String)
+- `subnet_ids` (Set of String)
+
+Optional:
+
+- `aks_private_dns_zone_id` (String)
+- `database_private_dns_zone_id` (String)
+- `flexible_server_subnet_ids` (Set of String)
+
 
 <a id="nestedatt--log_storage"></a>
 ### Nested Schema for `log_storage`
@@ -130,22 +146,6 @@ Optional:
 - `default_security_group_ids` (Set of String)
 - `security_group_id_for_knox` (String)
 - `security_group_ids_for_knox` (Set of String)
-
-
-<a id="nestedatt--existing_network_params"></a>
-### Nested Schema for `existing_network_params`
-
-Required:
-
-- `network_id` (String)
-- `resource_group_name` (String)
-- `subnet_ids` (Set of String)
-
-Optional:
-
-- `aks_private_dns_zone_id` (String)
-- `database_private_dns_zone_id` (String)
-- `flexible_server_subnet_ids` (Set of String)
 
 
 <a id="nestedatt--freeipa"></a>
@@ -186,14 +186,6 @@ Read-Only:
 
 
 
-<a id="nestedatt--new_network_params"></a>
-### Nested Schema for `new_network_params`
-
-Required:
-
-- `network_cidr` (String)
-
-
 <a id="nestedatt--polling_options"></a>
 ### Nested Schema for `polling_options`
 
@@ -202,3 +194,11 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--new_network_params"></a>
+### Nested Schema for `new_network_params`
+
+Required:
+
+- `network_cidr` (String)
