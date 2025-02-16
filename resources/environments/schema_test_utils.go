@@ -10,9 +10,30 @@
 
 package environments
 
+import (
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+)
+
 type SchemaTestCaseStructure struct {
 	name             string
 	field            string
 	computed         bool
 	shouldBeRequired bool
+}
+
+func performResourceSchemaValidation(t *testing.T, test SchemaTestCaseStructure, attr schema.Attribute) {
+	t.Run(test.name, func(t *testing.T) {
+		if attr == nil {
+			t.Errorf("The following field does not exists, however it should: %s", test.field)
+			t.FailNow()
+		}
+		if attr.IsRequired() != test.shouldBeRequired {
+			t.Errorf("The '%s' filed's >required< property should be: %t", test.field, test.shouldBeRequired)
+		}
+		if attr.IsComputed() != test.computed {
+			t.Errorf("The '%s' filed's >computed< property should be: %t", test.field, test.computed)
+		}
+	})
 }

@@ -126,8 +126,7 @@ var AzureEnvironmentSchema = schema.Schema{
 			Default:  booldefault.StaticBool(true),
 		},
 		"existing_network_params": schema.SingleNestedAttribute{
-			Optional: true,
-			Computed: true,
+			Required: true,
 			PlanModifiers: []planmodifier.Object{
 				objectplanmodifier.UseStateForUnknown(),
 			},
@@ -186,8 +185,8 @@ var AzureEnvironmentSchema = schema.Schema{
 			},
 		},
 		"new_network_params": schema.SingleNestedAttribute{
-			Optional: true,
-			Computed: true,
+			DeprecationMessage: "New network creation is deprecated and should not be used anymore.",
+			Computed:           true,
 			PlanModifiers: []planmodifier.Object{
 				objectplanmodifier.UseStateForUnknown(),
 			},

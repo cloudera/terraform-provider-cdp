@@ -1,4 +1,4 @@
-// Copyright 2024 Cloudera. All Rights Reserved.
+// Copyright 2025 Cloudera. All Rights Reserved.
 //
 // This file is licensed under the Apache License Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -14,10 +14,16 @@ import (
 	"testing"
 )
 
-var schemaElements = []SchemaTestCaseStructure{
+var awsSchemaElements = []SchemaTestCaseStructure{
 	{
 		name:             "id field must exist and be valid",
 		field:            "id",
+		computed:         true,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "crn should exist and be valid",
+		field:            "crn",
 		computed:         true,
 		shouldBeRequired: false,
 	},
@@ -28,19 +34,31 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
-		name:             "crn should exist and be valid",
-		field:            "crn",
+		name:             "authentication should exist and be valid",
+		field:            "authentication",
+		computed:         false,
+		shouldBeRequired: true,
+	},
+	{
+		name:             "create_private_subnets should exist and be valid",
+		field:            "create_private_subnets",
 		computed:         true,
 		shouldBeRequired: false,
 	},
 	{
-		name:             "create_private_endpoints should exist and be valid",
-		field:            "create_private_endpoints",
-		computed:         false,
+		name:             "create_service_endpoints should exist and be valid",
+		field:            "create_service_endpoints",
+		computed:         true,
 		shouldBeRequired: false,
 	},
 	{
-		name:             "credential_name must exist and be valid",
+		name:             "s3_guard_table_name should exist and be valid",
+		field:            "s3_guard_table_name",
+		computed:         true,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "credential_name should exist and be valid",
 		field:            "credential_name",
 		computed:         false,
 		shouldBeRequired: true,
@@ -52,21 +70,21 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
-		name:             "enable_outbound_load_balancer should exist and be valid",
-		field:            "enable_outbound_load_balancer",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
 		name:             "enable_tunnel should exist and be valid",
 		field:            "enable_tunnel",
 		computed:         true,
 		shouldBeRequired: false,
 	},
 	{
+		name:             "encryption_key_arn should exist and be valid",
+		field:            "encryption_key_arn",
+		computed:         true,
+		shouldBeRequired: false,
+	},
+	{
 		name:             "endpoint_access_gateway_scheme should exist and be valid",
 		field:            "endpoint_access_gateway_scheme",
-		computed:         false,
+		computed:         true,
 		shouldBeRequired: false,
 	},
 	{
@@ -76,34 +94,16 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
-		name:             "encryption_key_resource_group_name should exist and be valid",
-		field:            "encryption_key_resource_group_name",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "encryption_key_url should exist and be valid",
-		field:            "encryption_key_url",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "encryption_at_host should exist and be valid",
-		field:            "encryption_at_host",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
 		name:             "environment_name should exist and be valid",
 		field:            "environment_name",
 		computed:         false,
 		shouldBeRequired: true,
 	},
 	{
-		name:             "existing_network_params should exist and be valid",
-		field:            "existing_network_params",
-		computed:         false,
-		shouldBeRequired: true,
+		name:             "cascading_delete should exist and be valid",
+		field:            "cascading_delete",
+		computed:         true,
+		shouldBeRequired: false,
 	},
 	{
 		name:             "freeipa should exist and be valid",
@@ -114,24 +114,6 @@ var schemaElements = []SchemaTestCaseStructure{
 	{
 		name:             "log_storage should exist and be valid",
 		field:            "log_storage",
-		computed:         false,
-		shouldBeRequired: true,
-	},
-	{
-		name:             "new_network_params should exist and be valid",
-		field:            "new_network_params",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "proxy_config_name should exist and be valid",
-		field:            "proxy_config_name",
-		computed:         false,
-		shouldBeRequired: false,
-	},
-	{
-		name:             "public_key should exist and be valid",
-		field:            "public_key",
 		computed:         false,
 		shouldBeRequired: true,
 	},
@@ -148,8 +130,14 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
-		name:             "resource_group_name should exist and be valid",
-		field:            "resource_group_name",
+		name:             "network_cidr should exist and be valid",
+		field:            "network_cidr",
+		computed:         true,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "proxy_config_name should exist and be valid",
+		field:            "proxy_config_name",
 		computed:         true,
 		shouldBeRequired: false,
 	},
@@ -172,10 +160,10 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
-		name:             "encryption_user_managed_identity should exist and be valid",
-		field:            "encryption_user_managed_identity",
+		name:             "subnet_ids should exist and be valid",
+		field:            "subnet_ids",
 		computed:         false,
-		shouldBeRequired: false,
+		shouldBeRequired: true,
 	},
 	{
 		name:             "tags should exist and be valid",
@@ -184,10 +172,10 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
-		name:             "use_public_ip should exist and be valid",
-		field:            "use_public_ip",
-		computed:         false,
-		shouldBeRequired: true,
+		name:             "tunnel_type should exist and be valid",
+		field:            "tunnel_type",
+		computed:         true,
+		shouldBeRequired: false,
 	},
 	{
 		name:             "workload_analytics should exist and be valid",
@@ -195,10 +183,16 @@ var schemaElements = []SchemaTestCaseStructure{
 		computed:         true,
 		shouldBeRequired: false,
 	},
+	{
+		name:             "vpc_id should exist and be valid",
+		field:            "vpc_id",
+		computed:         false,
+		shouldBeRequired: true,
+	},
 }
 
-func TestSchemaContainsElements(t *testing.T) {
-	for _, test := range schemaElements {
-		performResourceSchemaValidation(t, test, AzureEnvironmentSchema.Attributes[test.field])
+func TestAwsSchemaContainsElements(t *testing.T) {
+	for _, test := range awsSchemaElements {
+		performResourceSchemaValidation(t, test, AwsEnvironmentSchema.Attributes[test.field])
 	}
 }
