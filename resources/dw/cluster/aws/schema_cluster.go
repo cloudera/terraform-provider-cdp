@@ -148,6 +148,12 @@ var networkSettings = map[string]schema.Attribute{
 		Required:            true,
 		MarkdownDescription: "Whether to use public IP addresses for worker nodes.",
 	},
+	"enable_private_eks": schema.BoolAttribute{
+		Optional:            true,
+		Computed:            true,
+		Default:             booldefault.StaticBool(false),
+		MarkdownDescription: "Enable private EKS API endpoint.",
+	},
 }
 
 var instanceSettings = map[string]schema.Attribute{

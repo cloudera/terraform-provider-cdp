@@ -27,6 +27,7 @@ type networkResourceModel struct {
 	WhitelistWorkloadAccessIPCIDRs   types.List `tfsdk:"whitelist_workload_access_ip_cidrs"`
 	UsePrivateLoadBalancer           types.Bool `tfsdk:"use_private_load_balancer"`
 	UsePublicWorkerNode              types.Bool `tfsdk:"use_public_worker_node"`
+	EnablePrivateEks                 types.Bool `tfsdk:"enable_private_eks"`
 }
 
 type customRegistryOptions struct {
@@ -74,6 +75,7 @@ func (p *resourceModel) convertToCreateAwsClusterRequest() *models.CreateAwsClus
 		EnableSpotInstances:              p.getEnableSpotInstances(),
 		CustomAmiID:                      p.getCustomAmiID(),
 		ComputeInstanceTypes:             p.getComputeInstanceTypes(),
+		EnablePrivateEKS:                 p.NetworkSettings.EnablePrivateEks.ValueBoolPointer(),
 	}
 }
 

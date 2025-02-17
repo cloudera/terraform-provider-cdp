@@ -41,6 +41,7 @@ resource "cdp_dw_aws_cluster" "example" {
     whitelist_workload_access_ip_cidrs    = ["0.0.0.0/0"]
     use_private_load_balancer             = true
     use_public_worker_node                = false
+    enable_private_eks                    = true
   }
   instance_settings = {
     custom_ami_id             = ""
@@ -101,6 +102,7 @@ Required:
 
 Optional:
 
+- `enable_private_eks` (Boolean) Enable private EKS API endpoint.
 - `whitelist_k8s_cluster_access_ip_cidrs` (List of String) The list of IP CIDRs to allow access for kubernetes cluster API endpoint.
 - `whitelist_workload_access_ip_cidrs` (List of String) The list of IP CIDRs to allow access for workload endpoints.
 
