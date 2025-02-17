@@ -11,13 +11,14 @@
 package impala
 
 import (
+	"context"
 	"time"
-
-	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 )
 
 const timeZone = time.RFC850
@@ -205,7 +206,7 @@ type resourceModel struct {
 	NodeCount              types.Int32                 `tfsdk:"node_count"`
 	AvailabilityZone       types.String                `tfsdk:"availability_zone"`
 	EnableUnifiedAnalytics types.Bool                  `tfsdk:"enable_unified_analytics"`
-	ImpalaOptions          *ImpalaOptionsModel         `tfsdk:"impala_options"`
+	ImpalaOptions          types.Object                `tfsdk:"impala_options"`
 	ImpalaHASettings       *ImpalaHASettingsModel      `tfsdk:"impala_ha_settings"`
 	Autoscaling            *AutoscalingModel           `tfsdk:"autoscaling"`
 	Config                 *ServiceConfigReqModel      `tfsdk:"config"`
@@ -227,8 +228,8 @@ type QueryIsolationOptionsRequest struct {
 }
 
 type ImpalaOptionsModel struct {
-	ScratchSpaceLimit types.Int32  `tfsdk:"scratch_space_limit"`
-	SpillToS3URI      types.String `tfsdk:"spill_to_s3_uri"`
+	ScratchSpaceLimit basetypes.Int32Value  `tfsdk:"scratch_space_limit"`
+	SpillToS3URI      basetypes.StringValue `tfsdk:"spill_to_s3_uri"`
 }
 
 type AutoscalingOptionsCreateRequest struct {
@@ -358,24 +359,77 @@ func convertFromAPIModel(apiModel *models.ImpalaHASettingsOptionsResponse) *Impa
 	}
 }
 
-func convertToAPIImpalaOptions(model *ImpalaOptionsModel) *models.ImpalaOptionsCreateRequest {
-	if model == nil {
+func convertToAPIImpalaOptions(model types.Object) *models.ImpalaOptionsCreateRequest {
+	if model.IsUnknown() {
 		return nil
 	}
-	return &models.ImpalaOptionsCreateRequest{
-		ScratchSpaceLimit: model.ScratchSpaceLimit.ValueInt32(),
-		SpillToS3URI:      model.SpillToS3URI.ValueString(),
+	attributes := model.Attributes()
+
+	scratchSpaceLimit, hasScratchSpace := attributes["scratch_space_limit"]
+	spillToS3URI, hasSpillToS3URI := attributes["spill_to_s3_uri"]
+
+	req := &models.ImpalaOptionsCreateRequest{}
+
+	if hasScratchSpace && !scratchSpaceLimit.IsUnknown() {
+		val, err := scratchSpaceLimit.ToTerraformValue(context.Background())
+		if err == nil {
+			var valueInt32 int32
+			if err := val.As(&valueInt32); err == nil {
+				req.ScratchSpaceLimit = valueInt32
+			}
+		}
 	}
+
+	if hasSpillToS3URI && !spillToS3URI.IsUnknown() {
+		val, err := spillToS3URI.ToTerraformValue(context.Background())
+		if err == nil {
+			var valueString string
+			if err := val.As(&valueString); err == nil {
+				req.SpillToS3URI = valueString
+			}
+		}
+	}
+
+	return req
 }
 
-func convertFromAPIImpalaOptions(apiModel *models.ImpalaOptionsResponse) *ImpalaOptionsModel {
+func convertFromAPIImpalaOptions(apiModel *models.ImpalaOptionsResponse) types.Object {
 	if apiModel == nil {
-		return nil
+		return types.ObjectNull(map[string]attr.Type{
+			"scratch_space_limit": types.Int32Type,
+			"spill_to_s3_uri":     types.StringType,
+		})
 	}
-	return &ImpalaOptionsModel{
-		ScratchSpaceLimit: types.Int32Value(apiModel.ScratchSpaceLimit),
-		SpillToS3URI:      types.StringValue(apiModel.SpillToS3URI),
+
+	attributeTypes := map[string]attr.Type{
+		"scratch_space_limit": types.Int32Type,
+		"spill_to_s3_uri":     types.StringType,
 	}
+
+	attributeValues := map[string]attr.Value{
+		"scratch_space_limit": types.Int32Null(),
+		"spill_to_s3_uri":     types.StringNull(),
+	}
+
+	impalaOptions := map[string]attr.Value{}
+
+	// Handle ScratchSpaceLimit
+	if apiModel.ScratchSpaceLimit != 0 {
+		impalaOptions["scratch_space_limit"] = types.Int32Value(apiModel.ScratchSpaceLimit)
+	} else {
+		impalaOptions["scratch_space_limit"] = types.Int32Null() // Null if missing
+	}
+
+	// Handle SpillToS3URI
+	if apiModel.SpillToS3URI != "" {
+		impalaOptions["spill_to_s3_uri"] = types.StringValue(apiModel.SpillToS3URI)
+	} else {
+		impalaOptions["spill_to_s3_uri"] = types.StringNull() // Null if empty
+	}
+
+	// Return as types.Object
+	ret, _ := types.ObjectValue(attributeTypes, attributeValues)
+	return ret
 }
 
 func convertToAPIQueryIsolationOptions(model *QueryIsolationOptionsModel) *models.QueryIsolationOptionsRequest {
