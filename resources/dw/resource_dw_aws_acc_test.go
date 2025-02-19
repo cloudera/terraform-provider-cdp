@@ -320,7 +320,7 @@ func testAccHiveVirtualWarehouse(name string) string {
 			  availability_zone = "us-west-2a"
 			  ebs_llap_spill_gb = 300
 			  tags = {
-			    "made-with": "CDP Terraform Provider"
+			    "made-with": "CDP-Terraform-Provider"
 			  }
 			}
 		}
