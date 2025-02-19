@@ -98,7 +98,7 @@ func testAccHiveBasicConfig(params hiveTestParameters) string {
 			availability_zone = "us-west-2a"
 			ebs_llap_spill_gb = 300
 			tags = {
-			  owner = "cdw-terraform@cloudera.com"
+			  "made-with": "CDP-Terraform-Provider"
 			}
 		  }
 		}
