@@ -229,7 +229,7 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 		req.HiveServerHaMode = hiveServerHaMode
 	}*/
 
-	if !plan.ImpalaOptions.IsNull() {
+	if plan.ImpalaOptions != nil {
 		req.ImpalaOptions = convertToAPIImpalaOptions(plan.ImpalaOptions)
 	}
 
