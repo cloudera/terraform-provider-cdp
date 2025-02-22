@@ -84,6 +84,7 @@ var impalaSchema = schema.Schema{
 		},
 		"impala_options": schema.SingleNestedAttribute{
 			Optional:            true,
+			Computed:            true,
 			MarkdownDescription: "Impala-specific configuration options.",
 			Attributes: map[string]schema.Attribute{
 				"scratch_space_limit": schema.Int32Attribute{
@@ -146,14 +147,6 @@ var impalaSchema = schema.Schema{
 					Required:            true,
 					MarkdownDescription: "Threshold for auto-suspend in seconds.",
 				},
-				/*"hive_scale_wait_time_seconds": schema.Int32Attribute{
-					Required:            true,
-					MarkdownDescription: "Wait time before a scaling event happens.",
-				},
-				"hive_desired_free_capacity": schema.Int32Attribute{
-					Required:            true,
-					MarkdownDescription: "Desired free capacity for Hive.",
-				},*/
 				"impala_scale_up_delay_seconds": schema.Int32Attribute{
 					Required:            true,
 					MarkdownDescription: "Scale-up threshold in seconds for Impala.",
@@ -208,7 +201,7 @@ var impalaSchema = schema.Schema{
 			MarkdownDescription: "Service configuration settings.",
 			Attributes: map[string]schema.Attribute{
 				"common_configs": schema.SingleNestedAttribute{
-					Required:            true,
+					Optional:            true,
 					MarkdownDescription: "Common configuration settings.",
 					Attributes: map[string]schema.Attribute{
 						"config_blocks": schema.ListNestedAttribute{
@@ -320,10 +313,6 @@ var impalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "EBS LLAP spill size in GB.",
 		},
-		/*"hive_server_ha_mode": schema.StringAttribute{
-			Optional:            true,
-			MarkdownDescription: "HiveServer high availability mode.",
-		},*/
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
