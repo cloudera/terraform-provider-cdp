@@ -26,119 +26,12 @@ import (
 
 const timeZone = time.RFC850
 
-/*type TShirtSize string
-
-const (
-	TShirtSizeXSmall TShirtSize = "xsmall"
-	TShirtSizeSmall  TShirtSize = "small"
-	TShirtSizeMedium TShirtSize = "medium"
-	TShirtSizeLarge  TShirtSize = "large"
-)*/
-
-/*type ImpalaOptionsCreateRequest struct {
-	SpillToS3URI      string `tfsdk:"spill_to_s3_uri"`     // S3 URI in "s3://bucket/path" format for spilling to S3.
-	ScratchSpaceLimit int32  `tfsdk:"scratch_space_limit"` // Scratch space limit in GiB.
-}*/
-
-type ImpalaHASettingsModel struct {
-	EnableCatalogHighAvailability    types.Bool   `tfsdk:"enable_catalog_high_availability"`
-	EnableShutdownOfCoordinator      types.Bool   `tfsdk:"enable_shutdown_of_coordinator"`
-	EnableStatestoreHighAvailability types.Bool   `tfsdk:"enable_statestore_high_availability"`
-	HighAvailabilityMode             types.String `tfsdk:"high_availability_mode"`
-	NumOfActiveCoordinators          types.Int32  `tfsdk:"num_of_active_coordinators"`
-	ShutdownOfCoordinatorDelaySecs   types.Int32  `tfsdk:"shutdown_of_coordinator_delay_secs"`
-}
-
-type HASettingsCreateRequest struct {
-	HighAvailabilityMode             string `tfsdk:"high_availability_mode"`              // High Availability mode: DISABLED, ACTIVE_PASSIVE, or ACTIVE_ACTIVE.
-	EnableShutdownOfCoordinator      bool   `tfsdk:"enable_shutdown_of_coordinator"`      // Enables the shutdown of the coordinator.
-	ShutdownOfCoordinatorDelaySecs   int32  `tfsdk:"shutdown_of_coordinator_delay_secs"`  // Delay in seconds before shutting down the coordinator.
-	NumOfActiveCoordinators          int32  `tfsdk:"num_of_active_coordinators"`          // Number of active coordinators.
-	EnableCatalogHighAvailability    bool   `tfsdk:"enable_catalog_high_availability"`    // Enables high availability for Impala catalog.
-	EnableStatestoreHighAvailability bool   `tfsdk:"enable_statestore_high_availability"` // Enables high availability for Impala Statestore.
-}
-
-type AutoscalingOptionsUpdateRequest struct {
-	MinClusters               int32 `tfsdk:"min_clusters"`                 // Minimum number of available compute groups. Default: 0.
-	MaxClusters               int32 `tfsdk:"max_clusters"`                 // Maximum number of available compute groups. Default: 0.
-	DisableAutoSuspend        bool  `tfsdk:"disable_auto_suspend"`         // Disable auto-suspend for the Virtual Warehouse.
-	AutoSuspendTimeoutSeconds int32 `tfsdk:"auto_suspend_timeout_seconds"` // Threshold for auto-suspend in seconds.
-	// HiveScaleWaitTimeSeconds  int32 `tfsdk:"hive_scale_wait_time_seconds"` // Wait time before a scaling event happens.
-	// HiveDesiredFreeCapacity              int32                                 `tfsdk:"hive_desired_free_capacity"`                                           // Desired free capacity for Hive.
-	ImpalaScaleUpDelaySeconds            int32                                 `tfsdk:"impala_scale_up_delay_seconds"`                                        // Scale-up threshold in seconds for Impala.
-	ImpalaScaleDownDelaySeconds          int32                                 `tfsdk:"impala_scale_down_delay_seconds"`                                      // Scale-down threshold in seconds for Impala.
-	ImpalaShutdownOfCoordinatorDelaySecs int32                                 `tfsdk:"impala_shutdown_of_coordinator_delay_seconds" tfsdk_deprecated:"true"` // DEPRECATED: Delay in seconds before shutting down Impala coordinator.
-	ImpalaNumOfActiveCoordinators        int32                                 `tfsdk:"impala_num_of_active_coordinators" tfsdk_deprecated:"true"`            // DEPRECATED: Number of active Impala coordinators.
-	ImpalaExecutorGroupSets              *ImpalaExecutorGroupSetsUpdateRequest `tfsdk:"impala_executor_group_sets"`                                           // Reconfigure executor group sets for workload-aware autoscaling.
-}
-
-type ImpalaExecutorGroupSetsUpdateRequest struct {
-	Small   ImpalaExecutorGroupSetUpdateRequest `json:"small"`
-	Custom1 ImpalaExecutorGroupSetUpdateRequest `json:"custom1"`
-	Custom2 ImpalaExecutorGroupSetUpdateRequest `json:"custom2"`
-	Custom3 ImpalaExecutorGroupSetUpdateRequest `json:"custom3"`
-	Large   ImpalaExecutorGroupSetUpdateRequest `json:"large"`
-}
-
-// ImpalaExecutorGroupSetsCreateRequest represents the configuration of executor group sets for workload-aware autoscaling.
-type ImpalaExecutorGroupSetsCreateRequest struct {
-	Small   ImpalaExecutorGroupSetCreateRequest  `tfsdk:"small"`   // Configure small executor group set for workload-aware autoscaling. Required.
-	Custom1 *ImpalaExecutorGroupSetCreateRequest `tfsdk:"custom1"` // Configure first optional custom executor group set.
-	Custom2 *ImpalaExecutorGroupSetCreateRequest `tfsdk:"custom2"` // Configure second optional custom executor group set.
-	Custom3 *ImpalaExecutorGroupSetCreateRequest `tfsdk:"custom3"` // Configure third optional custom executor group set.
-	Large   ImpalaExecutorGroupSetCreateRequest  `tfsdk:"large"`   // Configure large executor group set for workload-aware autoscaling. Required.
-}
-
-type ImpalaExecutorGroupSetCreateRequest struct {
-	ExecGroupSize             int   `tfsdk:"exec_group_size"`                        // Set number of executors per executor group. Required.
-	MinExecutorGroups         int   `tfsdk:"min_executor_groups"`                    // Set minimum number of executor groups allowed. Required.
-	MaxExecutorGroups         int   `tfsdk:"max_executor_groups"`                    // Set maximum number of executor groups allowed. Required.
-	AutoSuspendTimeoutSeconds *int  `tfsdk:"auto_suspend_timeout_seconds,omitempty"` // Set auto suspend threshold. Optional.
-	DisableAutoSuspend        *bool `tfsdk:"disable_auto_suspend,omitempty"`         // Turn off auto suspend. Optional.
-	TriggerScaleUpDelay       *int  `tfsdk:"trigger_scale_up_delay,omitempty"`       // Set scale-up threshold in seconds. Optional.
-	TriggerScaleDownDelay     *int  `tfsdk:"trigger_scale_down_delay,omitempty"`     // Set scale-down threshold in seconds. Optional.
-}
-
-type ImpalaExecutorGroupSetUpdateRequest struct {
-	ExecGroupSize             *int  `tfsdk:"exec_group_size,omitempty"`              // Set number of executors per executor group. Optional.
-	MinExecutorGroups         *int  `tfsdk:"min_executor_groups,omitempty"`          // Set minimum number of executor groups allowed. Optional.
-	MaxExecutorGroups         *int  `tfsdk:"max_executor_groups,omitempty"`          // Set maximum number of executor groups allowed. Optional.
-	AutoSuspendTimeoutSeconds *int  `tfsdk:"auto_suspend_timeout_seconds,omitempty"` // Set auto suspend threshold. Optional.
-	DisableAutoSuspend        *bool `tfsdk:"disable_auto_suspend,omitempty"`         // Turn off auto suspend. Optional.
-	TriggerScaleUpDelay       *int  `tfsdk:"trigger_scale_up_delay,omitempty"`       // Set scale-up threshold in seconds. Optional.
-	TriggerScaleDownDelay     *int  `tfsdk:"trigger_scale_down_delay,omitempty"`     // Set scale-down threshold in seconds. Optional.
-	DeleteGroupSet            *bool `tfsdk:"delete_group_set,omitempty"`             // Delete the executor group set. Optional.
-}
-
-type ServiceConfigReq struct {
-	CommonConfigs      ApplicationConfigReq            `json:"common_configs"`
-	ApplicationConfigs map[string]ApplicationConfigReq `json:"application_configs"`
-	LdapGroups         []string                        `json:"ldap_groups,omitempty"`
-	EnableSSO          bool                            `json:"enable_sso"`
-}
-
-type ApplicationConfigReq struct {
-	ConfigBlocks []ConfigBlockReq `json:"config_blocks"`
-}
-
-type ConfigBlockReq struct {
-	// Define fields based on the actual ConfigBlock schema
-	Name    string `json:"name"`
-	Value   string `json:"value"`
-	Type    string `json:"type"`
-	Enabled bool   `json:"enabled"`
-}
-
 type TagRequest struct {
 	Key   string `tfsdk:"key"`   // The tag's name
 	Value string `tfsdk:"value"` // The associated value of the tag
 }
 
-type QueryIsolationOptionsModel struct {
-	MaxNodesPerQuery types.Int32 `tfsdk:"max_nodes_per_query"`
-	MaxQueries       types.Int32 `tfsdk:"max_queries"`
-}
-
+// TODO Prateek Use or Remove once you are done fixing Impala API
 type ServiceConfigReqModel struct {
 	ApplicationConfigs map[string]ApplicationConfigReqModel `tfsdk:"application_configs"`
 	CommonConfigs      *ApplicationConfigReqModel           `tfsdk:"common_configs"`
@@ -146,37 +39,25 @@ type ServiceConfigReqModel struct {
 	LdapGroups         []string                             `tfsdk:"ldap_groups"`
 }
 
+// TODO Prateek Use or Remove once you are done fixing Impala API
 type ApplicationConfigReqModel struct {
 	ConfigBlocks []*ConfigBlockReqModel `tfsdk:"config_blocks"`
 }
 
+// TODO Prateek Use or Remove once you are done fixing Impala API
 type ConfigBlockReqModel struct {
 	Content *ConfigContentReqModel `tfsdk:"content"`
 	ID      *string                `tfsdk:"id"`
 }
 
+// TODO Prateek Use or Remove once you are done fixing Impala API
 type ConfigContentReqModel struct {
 	JSON      string            `tfsdk:"json"`
 	KeyValues map[string]string `tfsdk:"key_values"`
 	Text      string            `tfsdk:"text"`
 }
 
-// AutoscalingModel represents the Terraform model for autoscaling options.
-type AutoscalingModel struct {
-	AutoSuspendTimeoutSeconds types.Int32 `tfsdk:"auto_suspend_timeout_seconds"`
-	DisableAutoSuspend        types.Bool  `tfsdk:"disable_auto_suspend"`
-	// HiveDesiredFreeCapacity                 types.Int32                   `tfsdk:"hive_desired_free_capacity"`
-	// HiveScaleWaitTimeSeconds                types.Int32                   `tfsdk:"hive_scale_wait_time_seconds"`
-	ImpalaNumOfActiveCoordinators           types.Int32                   `tfsdk:"impala_num_of_active_coordinators"`
-	ImpalaScaleDownDelaySeconds             types.Int32                   `tfsdk:"impala_scale_down_delay_seconds"`
-	ImpalaScaleUpDelaySeconds               types.Int32                   `tfsdk:"impala_scale_up_delay_seconds"`
-	ImpalaShutdownOfCoordinatorDelaySeconds types.Int32                   `tfsdk:"impala_shutdown_of_coordinator_delay_seconds"`
-	MaxClusters                             types.Int32                   `tfsdk:"max_clusters"`
-	MinClusters                             types.Int32                   `tfsdk:"min_clusters"`
-	ImpalaExecutorGroupSets                 *ImpalaExecutorGroupSetsModel `tfsdk:"impala_executor_group_sets"`
-}
-
-// ImpalaExecutorGroupSetsModel represents the Terraform model for executor group sets.
+// TODO Prateek Use or Remove once you are done fixing Impala API
 type ImpalaExecutorGroupSetsModel struct {
 	Custom1 *ImpalaExecutorGroupSetModel `tfsdk:"custom1"`
 	Custom2 *ImpalaExecutorGroupSetModel `tfsdk:"custom2"`
@@ -185,7 +66,7 @@ type ImpalaExecutorGroupSetsModel struct {
 	Small   *ImpalaExecutorGroupSetModel `tfsdk:"small"`
 }
 
-// ImpalaExecutorGroupSetModel represents an individual executor group set.
+// TODO Prateek Use or Remove once you are done fixing Impala API
 type ImpalaExecutorGroupSetModel struct {
 	AutoSuspendTimeoutSeconds int32 `tfsdk:"auto_suspend_timeout_seconds"`
 	DisableAutoSuspend        bool  `tfsdk:"disable_auto_suspend"`
@@ -220,38 +101,11 @@ type resourceModel struct {
 	PlatformJwtAuth        types.Bool   `tfsdk:"platform_jwt_auth"`
 	ImpalaQueryLog         types.Bool   `tfsdk:"impala_query_log"`
 	EbsLLAPSpillGB         types.Int64  `tfsdk:"ebs_llap_spill_gb"`
-	// This does not look like should be in Impala
+	// TODO Prateek This does not look like should be in Impala, so delete
+	// or enable after talking to Impala team
 	// HiveServerHaMode       types.String                `tfsdk:"hive_server_ha_mode"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
-}
-
-type QueryIsolationOptionsRequest struct {
-	MaxQueries       int32 `json:"maxQueries,omitempty"`       // Default: 0, disables query isolation when 0
-	MaxNodesPerQuery int32 `json:"maxNodesPerQuery,omitempty"` // Default: 0, disables query isolation when 0
-}
-
-type ImpalaOptionsModel struct {
-	ScratchSpaceLimit basetypes.Int32Value  `tfsdk:"scratch_space_limit"`
-	SpillToS3URI      basetypes.StringValue `tfsdk:"spill_to_s3_uri"`
-}
-
-type AutoscalingOptionsCreateRequest struct {
-	MinClusters               int32 `json:"minClusters,omitempty"`
-	MaxClusters               int32 `json:"maxClusters,omitempty"`
-	DisableAutoSuspend        bool  `json:"disableAutoSuspend,omitempty"`
-	AutoSuspendTimeoutSeconds int32 `json:"autoSuspendTimeoutSeconds,omitempty"`
-	EnableUnifiedAnalytics    *bool `json:"enableUnifiedAnalytics,omitempty"` // Deprecated, nullable if not used
-	// HiveScaleWaitTimeSeconds  int32 `json:"hiveScaleWaitTimeSeconds,omitempty"`
-	// HiveDesiredFreeCapacity                 int32                                `json:"hiveDesiredFreeCapacity,omitempty"`
-	ImpalaHighAvailabilityMode              string                               `json:"impalaHighAvailabilityMode,omitempty"`
-	ImpalaScaleUpDelaySeconds               int32                                `json:"impalaScaleUpDelaySeconds,omitempty"`
-	ImpalaScaleDownDelaySeconds             int32                                `json:"impalaScaleDownDelaySeconds,omitempty"`
-	ImpalaEnableShutdownOfCoordinator       bool                                 `json:"impalaEnableShutdownOfCoordinator,omitempty"`
-	ImpalaShutdownOfCoordinatorDelaySeconds int32                                `json:"impalaShutdownOfCoordinatorDelaySeconds,omitempty"`
-	ImpalaNumOfActiveCoordinators           int32                                `json:"impalaNumOfActiveCoordinators,omitempty"`
-	ImpalaEnableCatalogHighAvailability     types.Bool                           `json:"impalaEnableCatalogHighAvailability,omitempty"`
-	ImpalaExecutorGroupSets                 ImpalaExecutorGroupSetsCreateRequest `json:"impalaExecutorGroupSets"`
 }
 
 func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwResponse) {
@@ -262,23 +116,46 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	p.ImageVersion = types.StringValue(resp.Vw.CdhVersion)
 	p.LastUpdated = types.StringValue(time.Now().Format(timeZone))
 
+	setStringIfNotEmpty := func(target *types.String, source string) {
+		if source != "" {
+			*target = types.StringValue(source)
+		}
+	}
+
+	// Helper function for setting optional int values
+	setInt32IfPositive := func(target *types.Int32, source int32) {
+		if source > 0 {
+			*target = types.Int32Value(source)
+		}
+	}
+
+	// Helper function for setting optional int64 values
+	setInt64IfPositive := func(target *types.Int64, source int32) {
+		if source > 0 {
+			*target = types.Int64Value(int64(source))
+		}
+	}
+
+	// Helper function for setting optional pointer-based string values
+	setStringIfNotNil := func(target *types.String, source *string) {
+		if source != nil {
+			*target = types.StringValue(*source)
+		}
+	}
+
 	/*if resp.Vw.HiveServerHaMode != nil {
 		p.InstanceType = types.StringValue(resp.Vw.InstanceType)
 	}*/
 
-	if resp.Vw.NodeCount != 0 {
-		p.NodeCount = types.Int32Value(resp.Vw.NodeCount)
-	}
-
-	if resp.Vw.InstanceType != "" {
-		p.InstanceType = types.StringValue(resp.Vw.InstanceType)
-	}
-
-	if resp.Vw.AvailabilityZone != "" {
-		p.AvailabilityZone = types.StringValue(resp.Vw.AvailabilityZone)
-	}
+	setInt32IfPositive(&p.NodeCount, resp.Vw.NodeCount)
+	setStringIfNotEmpty(&p.InstanceType, resp.Vw.InstanceType)
+	setStringIfNotEmpty(&p.AvailabilityZone, resp.Vw.AvailabilityZone)
+	setStringIfNotEmpty(&p.ResourcePool, resp.Vw.ResourcePool)
+	setStringIfNotNil(&p.HiveAuthenticationMode, resp.Vw.HiveAuthenticationMode)
+	setInt64IfPositive(&p.EbsLLAPSpillGB, resp.Vw.EbsLLAPSpillGB)
 
 	p.EnableUnifiedAnalytics = types.BoolValue(resp.Vw.EnableUnifiedAnalytics)
+	p.ImpalaQueryLog = types.BoolValue(resp.Vw.ImpalaQueryLog)
 
 	if resp.Vw.ImpalaOptions != nil {
 		p.ImpalaOptions = convertFromAPIImpalaOptions(resp.Vw.ImpalaOptions)
@@ -286,31 +163,15 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	if resp.Vw.ImpalaHaSettingsOptions != nil {
 		p.ImpalaHASettings = convertFromAPIImpalaHASettings(resp.Vw.ImpalaHaSettingsOptions)
 	}
-
 	if resp.Vw.AutoscalingOptions != nil {
 		p.Autoscaling = convertFromAPIAutoscaling(resp.Vw.AutoscalingOptions)
 	}
-
 	if resp.Vw.QueryIsolationOptions != nil {
 		p.QueryIsolationOptions = convertFromAPIQueryIsolationOptions(resp.Vw.QueryIsolationOptions)
 	}
 
 	if len(resp.Vw.Tags) != 0 {
 		p.Tags = convertFromAPITagRequests(resp.Vw.Tags)
-	}
-
-	if resp.Vw.ResourcePool != "" {
-		p.ResourcePool = types.StringValue(resp.Vw.ResourcePool)
-	}
-
-	if resp.Vw.HiveAuthenticationMode != nil {
-		p.HiveAuthenticationMode = types.StringValue(*(resp.Vw.HiveAuthenticationMode))
-	}
-
-	p.ImpalaQueryLog = types.BoolValue(resp.Vw.ImpalaQueryLog)
-
-	if resp.Vw.EbsLLAPSpillGB != 0 {
-		p.EbsLLAPSpillGB = types.Int64Value(int64(resp.Vw.EbsLLAPSpillGB))
 	}
 
 	/*if resp.Vw.HiveServerHaMode != nil {
@@ -403,46 +264,22 @@ func convertFromAPIImpalaHASettings(apiModel *models.ImpalaHASettingsOptionsResp
 		"shutdown_of_coordinator_delay_secs":  types.Int32Null(),
 	}
 
-	// Debug API Model before processing
-	tflog.Debug(ctx, fmt.Sprintf("Processing apiModel: %+v", apiModel))
-
-	// Assign values with debug logs
 	attributeValues["enable_catalog_high_availability"] = types.BoolValue(apiModel.EnableCatalogHighAvailability)
-	tflog.Debug(ctx, fmt.Sprintf("enable_catalog_high_availability: %v", apiModel.EnableCatalogHighAvailability))
-
 	attributeValues["enable_shutdown_of_coordinator"] = types.BoolValue(apiModel.EnableShutdownOfCoordinator)
-	tflog.Debug(ctx, fmt.Sprintf("enable_shutdown_of_coordinator: %v", apiModel.EnableShutdownOfCoordinator))
-
 	attributeValues["enable_statestore_high_availability"] = types.BoolValue(apiModel.EnableStatestoreHighAvailability)
-	tflog.Debug(ctx, fmt.Sprintf("enable_statestore_high_availability: %v", apiModel.EnableStatestoreHighAvailability))
-
 	if apiModel.HighAvailabilityMode != "" {
 		attributeValues["high_availability_mode"] = types.StringValue(string(apiModel.HighAvailabilityMode))
 	}
-	tflog.Debug(ctx, fmt.Sprintf("high_availability_mode: %v", apiModel.HighAvailabilityMode))
-
 	if apiModel.NumOfActiveCoordinators != 0 {
 		attributeValues["num_of_active_coordinators"] = types.Int32Value(apiModel.NumOfActiveCoordinators)
 	}
-	tflog.Debug(ctx, fmt.Sprintf("num_of_active_coordinators: %d", apiModel.NumOfActiveCoordinators))
-
 	if apiModel.ShutdownOfCoordinatorDelaySeconds != 0 {
 		attributeValues["shutdown_of_coordinator_delay_secs"] = types.Int32Value(apiModel.ShutdownOfCoordinatorDelaySeconds)
 	}
-	tflog.Debug(ctx, fmt.Sprintf("shutdown_of_coordinator_delay_secs: %d", apiModel.ShutdownOfCoordinatorDelaySeconds))
-
-	// TODO Remove debugging
-	for key, val := range attributeValues {
-		tflog.Debug(ctx, fmt.Sprintf("Key: %s, IsUnknown: %t, Value: %+v", key, val.IsUnknown(), val))
-		fmt.Printf("Key: %s, IsUnknown: %t, Value: %+v, Type: %v\n", key, val.IsUnknown(), val, val.Type(ctx))
-	}
-
-	// Return as types.Object
 	ret, err := types.ObjectValue(attributeTypes, attributeValues)
 	if err != nil {
 		tflog.Error(ctx, fmt.Sprintf("Error creating ObjectValue: %v", err))
 	}
-	tflog.Debug(ctx, fmt.Sprintf("Returning Object: %+v", ret))
 	return ret
 }
 
@@ -451,12 +288,6 @@ func convertToAPIImpalaOptions(model types.Object) *models.ImpalaOptionsCreateRe
 		return nil
 	}
 	attributes := model.Attributes()
-
-	// TODO Remove debugging
-	for key, val := range attributes {
-		tflog.Debug(context.Background(), fmt.Sprintf("Key: %s, IsUnknown: %t, Value: %+v", key, val.IsUnknown(), val))
-		fmt.Printf("Key: %s, IsUnknown: %t, Value: %+v, type %v,\n", key, val.IsUnknown(), val, val.Type(context.Background()))
-	}
 
 	scratchSpaceLimit, hasScratchSpace := attributes["scratch_space_limit"]
 	spillToS3URI, hasSpillToS3URI := attributes["spill_to_s3_uri"]
@@ -1148,7 +979,6 @@ func convertToAPITagRequests(model types.List) []*models.TagRequest {
 }
 
 func convertFromAPITagRequests(apiTags []*models.TagResponse) types.List {
-	// Define attribute type for the list
 	attributeType := types.ObjectType{
 		AttrTypes: map[string]attr.Type{
 			"key":   types.StringType,
@@ -1156,14 +986,12 @@ func convertFromAPITagRequests(apiTags []*models.TagResponse) types.List {
 		},
 	}
 
-	// Handle nil case
 	if apiTags == nil || len(apiTags) == 0 {
 		return types.ListNull(attributeType)
 	}
 
 	var tagValues []attr.Value
 
-	// Convert each API tag to Terraform value
 	for _, apiTag := range apiTags {
 		if apiTag == nil {
 			continue
@@ -1180,7 +1008,6 @@ func convertFromAPITagRequests(apiTags []*models.TagResponse) types.List {
 		))
 	}
 
-	// Return as types.List
 	return types.ListValueMust(attributeType, tagValues)
 }
 

@@ -62,24 +62,7 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 
 	// Create the VW Request using a helper
 	vwhCreateRequest := r.createVwRequestFromPlan(&plan)
-	/*
-		tflog.Debug(ctx, fmt.Sprintf("CreateVw request: %+v", vwhCreateRequest))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: autoSuspendTimeoutSeconds: %d", vwhCreateRequest.Autoscaling.AutoSuspendTimeoutSeconds))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: disableAutoSuspend: %t", vwhCreateRequest.Autoscaling.DisableAutoSuspend))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: enableUnifiedAnalytics: %t", vwhCreateRequest.Autoscaling.EnableUnifiedAnalytics))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: hiveDesiredFreeCapacity: %d", vwhCreateRequest.Autoscaling.HiveDesiredFreeCapacity))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: hiveScaleWaitTimeSeconds: %d", vwhCreateRequest.Autoscaling.HiveScaleWaitTimeSeconds))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaEnableCatalogHighAvailability: %t", vwhCreateRequest.Autoscaling.ImpalaEnableCatalogHighAvailability))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaEnableShutdownOfCoordinator: %t", vwhCreateRequest.Autoscaling.ImpalaEnableShutdownOfCoordinator))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaExecutorGroupSets: %+v", vwhCreateRequest.Autoscaling.ImpalaExecutorGroupSets))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaHighAvailabilityMode: %s", vwhCreateRequest.Autoscaling.ImpalaHighAvailabilityMode))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaNumOfActiveCoordinators: %d", vwhCreateRequest.Autoscaling.ImpalaNumOfActiveCoordinators))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaScaleDownDelaySeconds: %d", vwhCreateRequest.Autoscaling.ImpalaScaleDownDelaySeconds))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaScaleUpDelaySeconds: %d", vwhCreateRequest.Autoscaling.ImpalaScaleUpDelaySeconds))
-		tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: impalaShutdownOfCoordinatorDelaySeconds: %d", vwhCreateRequest.Autoscaling.ImpalaShutdownOfCoordinatorDelaySeconds))
-		//tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: maxClusters: %d", *vwhCreateRequest.Autoscaling.MaxClusters))
-		//tflog.Debug(ctx, fmt.Sprintf("AutoscalingOptions: minClusters: %d", *vwhCreateRequest.Autoscaling.MinClusters))
-	*/
+	tflog.Debug(ctx, fmt.Sprintf("CreateVw request: %+v", vwhCreateRequest))
 
 	// Make API request to create VW
 	response, err := r.client.Dw.Operations.CreateVw(
@@ -208,7 +191,7 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 
 			}
 
-			tflog.Debug(ctx, fmt.Sprintf("==============================================================Pillow: Basic VW Details:"+
+			tflog.Debug(ctx, fmt.Sprintf("Basic VW Details:"+
 				"\nID: %s"+
 				"\nName: %s"+
 				"\nStatus: %s"+
@@ -227,8 +210,7 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				"\nResource Pool: %s"+
 				"\nViz Enabled: %v"+
 				"\nVW Type: %s"+
-				"\nImpala Query Log: %v"+
-				"\n==============================================================",
+				"\nImpala Query Log: %v",
 				vw.Vw.ID,
 				vw.Vw.Name,
 				vw.Vw.Status,
@@ -249,14 +231,12 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				vw.Vw.VwType,
 				vw.Vw.ImpalaQueryLog))
 
-			// Replica Status
 			if vw.Vw.ReplicaStatus != nil {
-				tflog.Debug(ctx, fmt.Sprintf("==============================================================Pillow: Replica Status:"+
+				tflog.Debug(ctx, fmt.Sprintf("Replica Status:"+
 					"\nReady Coordinator Replicas: %d"+
 					"\nReady Executor Replicas: %d"+
 					"\nTotal Coordinator Replicas: %d"+
-					"\nTotal Executor Replicas: %d"+
-					"\n==============================================================",
+					"\nTotal Executor Replicas: %d",
 					vw.Vw.ReplicaStatus.ReadyCoordinatorReplicas,
 					vw.Vw.ReplicaStatus.ReadyExecutorReplicas,
 					vw.Vw.ReplicaStatus.TotalCoordinatorReplicas,
@@ -265,12 +245,10 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				tflog.Debug(ctx, "Pillow: Replica Status is nil")
 			}
 
-			// Query Isolation Options
 			if vw.Vw.QueryIsolationOptions != nil {
-				tflog.Debug(ctx, fmt.Sprintf("==============================================================Pillow: Query Isolation Options:"+
+				tflog.Debug(ctx, fmt.Sprintf("Query Isolation Options:"+
 					"\nMax Nodes Per Query: %d"+
-					"\nMax Queries: %d"+
-					"==============================================================",
+					"\nMax Queries: %d",
 					vw.Vw.QueryIsolationOptions.MaxNodesPerQuery,
 					vw.Vw.QueryIsolationOptions.MaxQueries))
 			} else {
@@ -279,10 +257,9 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 
 			// Impala Options
 			if vw.Vw.ImpalaOptions != nil {
-				tflog.Debug(ctx, fmt.Sprintf("Pillow: Impala Options:"+
+				tflog.Debug(ctx, fmt.Sprintf("Impala Options:"+
 					"\nScratch Space Limit: %d"+
-					"\nSpill to S3 URI: %s"+
-					"\n==============================================================",
+					"\nSpill to S3 URI: %s",
 					vw.Vw.ImpalaOptions.ScratchSpaceLimit,
 					vw.Vw.ImpalaOptions.SpillToS3URI))
 			} else {
@@ -291,13 +268,12 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 
 			// Impala HA Settings
 			if vw.Vw.ImpalaHaSettingsOptions != nil {
-				tflog.Debug(ctx, fmt.Sprintf("==============================================================Pillow: Impala HA Settings:"+
+				tflog.Debug(ctx, fmt.Sprintf("Impala HA Settings:"+
 					"\nEnable Catalog HA: %v"+
 					"\nEnable Shutdown Of Coordinator: %v"+
 					"\nEnable Statestore HA: %v"+
 					"\nHA Mode: %v"+
-					"\nNum Of Active Coordinators: %d"+
-					"\n==============================================================",
+					"\nNum Of Active Coordinators: %d",
 					vw.Vw.ImpalaHaSettingsOptions.EnableCatalogHighAvailability,
 					vw.Vw.ImpalaHaSettingsOptions.EnableShutdownOfCoordinator,
 					vw.Vw.ImpalaHaSettingsOptions.EnableStatestoreHighAvailability,
@@ -307,21 +283,18 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				tflog.Debug(ctx, "Pillow: Impala HA Settings is nil")
 			}
 
-			// JWT Auth
 			if vw.Vw.JwtAuth != nil {
 				tflog.Debug(ctx, fmt.Sprintf("Pillow: JWT Auth Provider: %s", vw.Vw.JwtAuth.Provider))
 			} else {
 				tflog.Debug(ctx, "Pillow: JWT Auth is nil")
 			}
 
-			// Supported Auth Methods
 			if vw.Vw.SupportedAuthMethods != nil {
 				if vw.Vw.SupportedAuthMethods.Jwt != nil && vw.Vw.SupportedAuthMethods.Ldap != nil && vw.Vw.SupportedAuthMethods.Sso != nil {
-					tflog.Debug(ctx, fmt.Sprintf("==============================================================Pillow: Supported Auth Methods:"+
+					tflog.Debug(ctx, fmt.Sprintf("Supported Auth Methods:"+
 						"\nJWT: %v"+
 						"\nLDAP: %v"+
-						"\nSSO: %v"+
-						"\n==============================================================",
+						"\nSSO: %v",
 						*vw.Vw.SupportedAuthMethods.Jwt,
 						*vw.Vw.SupportedAuthMethods.Ldap,
 						*vw.Vw.SupportedAuthMethods.Sso))
@@ -332,9 +305,8 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				tflog.Debug(ctx, "Pillow: Supported Auth Methods is nil")
 			}
 
-			// Autoscaling Options
 			if vw.Vw.AutoscalingOptions != nil {
-				tflog.Debug(ctx, fmt.Sprintf("==============================================================Pillow: Autoscaling Options:"+
+				tflog.Debug(ctx, fmt.Sprintf("Autoscaling Options:"+
 					"\nMin Clusters: %d"+
 					"\nMax Clusters: %d"+
 					"\nDisable Auto Suspend: %v"+
@@ -342,8 +314,7 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 					"\nHive Scale Wait Time: %d"+
 					"\nHive Desired Free Capacity: %d"+
 					"\nImpala Scale Up Delay: %d"+
-					"\nImpala Scale Down Delay: %d"+
-					"\n==============================================================",
+					"\nImpala Scale Down Delay: %d",
 					vw.Vw.AutoscalingOptions.MinClusters,
 					vw.Vw.AutoscalingOptions.MaxClusters,
 					vw.Vw.AutoscalingOptions.DisableAutoSuspend,
@@ -353,16 +324,14 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 					vw.Vw.AutoscalingOptions.ImpalaScaleUpDelaySeconds,
 					vw.Vw.AutoscalingOptions.ImpalaScaleDownDelaySeconds))
 
-				// Executor Group Sets
 				if vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets != nil {
 					if vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small != nil {
-						tflog.Debug(ctx, fmt.Sprintf("Pillow: Small Executor Group Set:"+
+						tflog.Debug(ctx, fmt.Sprintf("Small Executor Group Set:"+
 							"\nMin Groups: %d"+
 							"\nMax Groups: %d"+
 							"\nExec Group Size: %d"+
 							"\nAuto Suspend Timeout: %d"+
-							"\nDisable Auto Suspend: %v"+
-							"\n==============================================================",
+							"\nDisable Auto Suspend: %v",
 							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.MinExecutorGroups,
 							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.MaxExecutorGroups,
 							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.ExecGroupSize,
@@ -373,7 +342,7 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 					}
 
 					if vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large != nil {
-						tflog.Debug(ctx, fmt.Sprintf("Pillow: Large Executor Group Set:"+
+						tflog.Debug(ctx, fmt.Sprintf("Large Executor Group Set:"+
 							"\nMin Groups: %d"+
 							"\nMax Groups: %d"+
 							"\nExec Group Size: %d"+
@@ -385,13 +354,13 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large.AutoSuspendTimeoutSeconds,
 							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large.DisableAutoSuspend))
 					} else {
-						tflog.Debug(ctx, "Pillow: Large Executor Group Set is nil")
+						tflog.Debug(ctx, "Large Executor Group Set is nil")
 					}
 				} else {
-					tflog.Debug(ctx, "Pillow: Impala Executor Group Sets is nil")
+					tflog.Debug(ctx, "Impala Executor Group Sets is nil")
 				}
 			} else {
-				tflog.Debug(ctx, "Pillow: Autoscaling Options is nil")
+				tflog.Debug(ctx, "Autoscaling Options is nil")
 			}
 		}
 		return vw, vw.Vw.Status, nil
@@ -405,41 +374,36 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 		DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
 		VwType:    models.VwTypeImpala.Pointer(),
 	}
-	if imageVersion := plan.ImageVersion.ValueString(); imageVersion != "" {
-		req.ImageVersion = imageVersion
+
+	setIfNotEmpty := func(target *string, source string) {
+		if source != "" {
+			*target = source
+		}
 	}
 
-	if instanceType := plan.InstanceType.ValueString(); instanceType != "" {
-		req.InstanceType = instanceType
+	setIfPositive := func(target *int32, source int32) {
+		if source > 0 {
+			*target = source
+		}
 	}
 
-	if tshirtSize := plan.TShirtSize.ValueString(); tshirtSize != "" {
-		req.TShirtSize = tshirtSize
+	setIfTrue := func(target **bool, source bool) {
+		if source {
+			*target = &source
+		}
 	}
 
-	if nodeCount := plan.NodeCount.ValueInt32(); nodeCount > 0 {
-		req.NodeCount = nodeCount
-	}
+	setIfNotEmpty(&req.ImageVersion, plan.ImageVersion.ValueString())
+	setIfNotEmpty(&req.InstanceType, plan.InstanceType.ValueString())
+	setIfNotEmpty(&req.TShirtSize, plan.TShirtSize.ValueString())
+	setIfNotEmpty(&req.AvailabilityZone, plan.AvailabilityZone.ValueString())
+	setIfNotEmpty(&req.ResourcePool, plan.ResourcePool.ValueString())
 
-	if availabilityZone := plan.AvailabilityZone.ValueString(); availabilityZone != "" {
-		req.AvailabilityZone = availabilityZone
-	}
+	setIfPositive(&req.NodeCount, plan.NodeCount.ValueInt32())
 
-	if enableUnifiedAnalytics := plan.EnableUnifiedAnalytics.ValueBool(); enableUnifiedAnalytics != false {
-		req.EnableUnifiedAnalytics = enableUnifiedAnalytics
-	}
-
-	if resourcePool := plan.ResourcePool.ValueString(); resourcePool != "" {
-		req.ResourcePool = resourcePool
-	}
-
-	if platformJwtAuth := plan.PlatformJwtAuth.ValueBool(); platformJwtAuth != false {
-		req.PlatformJwtAuth = &platformJwtAuth
-	}
-
-	if impalaQueryLog := plan.ImpalaQueryLog.ValueBool(); impalaQueryLog != false {
-		req.ImpalaQueryLog = impalaQueryLog
-	}
+	req.EnableUnifiedAnalytics = plan.EnableUnifiedAnalytics.ValueBool()
+	req.ImpalaQueryLog = plan.ImpalaQueryLog.ValueBool()
+	setIfTrue(&req.PlatformJwtAuth, plan.PlatformJwtAuth.ValueBool())
 
 	if ebsLLAPSpillGB := plan.EbsLLAPSpillGB.ValueInt64(); ebsLLAPSpillGB > 0 {
 		req.EbsLLAPSpillGB = int32(ebsLLAPSpillGB)
