@@ -12,6 +12,8 @@ package impala
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
@@ -19,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 const timeZone = time.RFC850
@@ -194,29 +197,30 @@ type ImpalaExecutorGroupSetModel struct {
 }
 
 type resourceModel struct {
-	ID                     types.String                `tfsdk:"id"`
-	ClusterID              types.String                `tfsdk:"cluster_id"`
-	DatabaseCatalogID      types.String                `tfsdk:"database_catalog_id"`
-	Name                   types.String                `tfsdk:"name"`
-	LastUpdated            types.String                `tfsdk:"last_updated"`
-	Status                 types.String                `tfsdk:"status"`
-	ImageVersion           types.String                `tfsdk:"image_version"`
-	InstanceType           types.String                `tfsdk:"instance_type"`
-	TShirtSize             types.String                `tfsdk:"tshirt_size"`
-	NodeCount              types.Int32                 `tfsdk:"node_count"`
-	AvailabilityZone       types.String                `tfsdk:"availability_zone"`
-	EnableUnifiedAnalytics types.Bool                  `tfsdk:"enable_unified_analytics"`
-	ImpalaOptions          types.Object                `tfsdk:"impala_options"`
-	ImpalaHASettings       *ImpalaHASettingsModel      `tfsdk:"impala_ha_settings"`
-	Autoscaling            *AutoscalingModel           `tfsdk:"autoscaling"`
-	Config                 *ServiceConfigReqModel      `tfsdk:"config"`
-	QueryIsolationOptions  *QueryIsolationOptionsModel `tfsdk:"query_isolation_options"`
-	Tags                   *[]TagRequest               `tfsdk:"tags"`
-	ResourcePool           types.String                `tfsdk:"resource_pool"`
-	HiveAuthenticationMode types.String                `tfsdk:"hive_authentication_mode"`
-	PlatformJwtAuth        types.Bool                  `tfsdk:"platform_jwt_auth"`
-	ImpalaQueryLog         types.Bool                  `tfsdk:"impala_query_log"`
-	EbsLLAPSpillGB         types.Int64                 `tfsdk:"ebs_llap_spill_gb"`
+	ID                     types.String `tfsdk:"id"`
+	ClusterID              types.String `tfsdk:"cluster_id"`
+	DatabaseCatalogID      types.String `tfsdk:"database_catalog_id"`
+	Name                   types.String `tfsdk:"name"`
+	LastUpdated            types.String `tfsdk:"last_updated"`
+	Status                 types.String `tfsdk:"status"`
+	ImageVersion           types.String `tfsdk:"image_version"`
+	InstanceType           types.String `tfsdk:"instance_type"`
+	TShirtSize             types.String `tfsdk:"tshirt_size"`
+	NodeCount              types.Int32  `tfsdk:"node_count"`
+	AvailabilityZone       types.String `tfsdk:"availability_zone"`
+	EnableUnifiedAnalytics types.Bool   `tfsdk:"enable_unified_analytics"`
+	ImpalaOptions          types.Object `tfsdk:"impala_options"`
+	ImpalaHASettings       types.Object `tfsdk:"impala_ha_settings"`
+	Autoscaling            types.Object `tfsdk:"autoscaling"`
+	//Config                 types.Object `tfsdk:"config"`
+	QueryIsolationOptions  types.Object `tfsdk:"query_isolation_options"`
+	Tags                   types.List   `tfsdk:"tags"`
+	ResourcePool           types.String `tfsdk:"resource_pool"`
+	HiveAuthenticationMode types.String `tfsdk:"hive_authentication_mode"`
+	PlatformJwtAuth        types.Bool   `tfsdk:"platform_jwt_auth"`
+	ImpalaQueryLog         types.Bool   `tfsdk:"impala_query_log"`
+	EbsLLAPSpillGB         types.Int64  `tfsdk:"ebs_llap_spill_gb"`
+	// This does not look like should be in Impala
 	// HiveServerHaMode       types.String                `tfsdk:"hive_server_ha_mode"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
@@ -280,11 +284,11 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 		p.ImpalaOptions = convertFromAPIImpalaOptions(resp.Vw.ImpalaOptions)
 	}
 	if resp.Vw.ImpalaHaSettingsOptions != nil {
-		p.ImpalaHASettings = convertFromAPIModel(resp.Vw.ImpalaHaSettingsOptions)
+		p.ImpalaHASettings = convertFromAPIImpalaHASettings(resp.Vw.ImpalaHaSettingsOptions)
 	}
 
 	if resp.Vw.AutoscalingOptions != nil {
-		p.Autoscaling = ConvertFromAutoscalingModel(resp.Vw.AutoscalingOptions)
+		p.Autoscaling = convertFromAPIAutoscaling(resp.Vw.AutoscalingOptions)
 	}
 
 	if resp.Vw.QueryIsolationOptions != nil {
@@ -292,17 +296,7 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	}
 
 	if len(resp.Vw.Tags) != 0 {
-		if p.Tags == nil {
-			p.Tags = &[]TagRequest{}
-		}
-
-		for i := 0; i < len(resp.Vw.Tags); i++ {
-			newTag := TagRequest{
-				Key:   *(resp.Vw.Tags[i].Key),
-				Value: *(resp.Vw.Tags[i].Value),
-			}
-			*p.Tags = append(*p.Tags, newTag)
-		}
+		p.Tags = convertFromAPITagRequests(resp.Vw.Tags)
 	}
 
 	if resp.Vw.ResourcePool != "" {
@@ -329,34 +323,127 @@ func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
 	return p.PollingOptions
 }
 
-func convertToAPIModel(model *ImpalaHASettingsModel) *models.ImpalaHASettingsCreateRequest {
-	if model == nil {
+func convertToAPIImpalaHASettings(model types.Object) *models.ImpalaHASettingsCreateRequest {
+	if model.IsUnknown() {
 		return nil
 	}
+	attributes := model.Attributes()
 
-	return &models.ImpalaHASettingsCreateRequest{
-		EnableCatalogHighAvailability:     model.EnableCatalogHighAvailability.ValueBool(),
-		EnableShutdownOfCoordinator:       model.EnableShutdownOfCoordinator.ValueBool(),
-		EnableStatestoreHighAvailability:  model.EnableStatestoreHighAvailability.ValueBool(),
-		HighAvailabilityMode:              models.ImpalaHighAvailabilityMode(model.HighAvailabilityMode.ValueString()),
-		NumOfActiveCoordinators:           model.NumOfActiveCoordinators.ValueInt32(),
-		ShutdownOfCoordinatorDelaySeconds: model.ShutdownOfCoordinatorDelaySecs.ValueInt32(),
+	req := &models.ImpalaHASettingsCreateRequest{}
+
+	if val, ok := attributes["enable_catalog_high_availability"]; ok {
+		if value, err := ExtractBoolFromAttribute(context.Background(), val.(basetypes.BoolValue)); err == nil {
+			req.EnableCatalogHighAvailability = value
+		}
 	}
+
+	if val, ok := attributes["enable_shutdown_of_coordinator"]; ok {
+		if value, err := ExtractBoolFromAttribute(context.Background(), val.(basetypes.BoolValue)); err == nil {
+			req.EnableShutdownOfCoordinator = value
+		}
+	}
+
+	if val, ok := attributes["enable_statestore_high_availability"]; ok {
+		if value, err := ExtractBoolFromAttribute(context.Background(), val.(basetypes.BoolValue)); err == nil {
+			req.EnableStatestoreHighAvailability = value
+		}
+	}
+
+	if val, ok := attributes["high_availability_mode"]; ok {
+		if value, err := ExtractStringFromAttribute(context.Background(), val.(basetypes.StringValue)); err == nil {
+			req.HighAvailabilityMode = models.ImpalaHighAvailabilityMode(value)
+		}
+	}
+
+	if val, ok := attributes["num_of_active_coordinators"]; ok {
+		if value, err := ExtractInt32FromAttribute(context.Background(), val.(basetypes.Int32Value)); err == nil {
+			req.NumOfActiveCoordinators = value
+		}
+	}
+
+	if val, ok := attributes["shutdown_of_coordinator_delay_secs"]; ok {
+		if value, err := ExtractInt32FromAttribute(context.Background(), val.(basetypes.Int32Value)); err == nil {
+			req.ShutdownOfCoordinatorDelaySeconds = value
+		}
+	}
+
+	return req
 }
 
-func convertFromAPIModel(apiModel *models.ImpalaHASettingsOptionsResponse) *ImpalaHASettingsModel {
+func convertFromAPIImpalaHASettings(apiModel *models.ImpalaHASettingsOptionsResponse) types.Object {
+	ctx := context.Background()
+
 	if apiModel == nil {
-		return nil
+		tflog.Debug(ctx, "apiModel is nil, returning ObjectNull")
+		return types.ObjectNull(map[string]attr.Type{
+			"enable_catalog_high_availability":    types.BoolType,
+			"enable_shutdown_of_coordinator":      types.BoolType,
+			"enable_statestore_high_availability": types.BoolType,
+			"high_availability_mode":              types.StringType,
+			"num_of_active_coordinators":          types.Int32Type,
+			"shutdown_of_coordinator_delay_secs":  types.Int32Type,
+		})
 	}
 
-	return &ImpalaHASettingsModel{
-		EnableCatalogHighAvailability:    types.BoolValue(apiModel.EnableCatalogHighAvailability),
-		EnableShutdownOfCoordinator:      types.BoolValue(apiModel.EnableShutdownOfCoordinator),
-		EnableStatestoreHighAvailability: types.BoolValue(apiModel.EnableStatestoreHighAvailability),
-		HighAvailabilityMode:             types.StringValue(string(apiModel.HighAvailabilityMode)),
-		NumOfActiveCoordinators:          types.Int32Value(apiModel.NumOfActiveCoordinators),
-		ShutdownOfCoordinatorDelaySecs:   types.Int32Value(apiModel.ShutdownOfCoordinatorDelaySeconds),
+	attributeTypes := map[string]attr.Type{
+		"enable_catalog_high_availability":    types.BoolType,
+		"enable_shutdown_of_coordinator":      types.BoolType,
+		"enable_statestore_high_availability": types.BoolType,
+		"high_availability_mode":              types.StringType,
+		"num_of_active_coordinators":          types.Int32Type,
+		"shutdown_of_coordinator_delay_secs":  types.Int32Type,
 	}
+
+	attributeValues := map[string]attr.Value{
+		"enable_catalog_high_availability":    types.BoolNull(),
+		"enable_shutdown_of_coordinator":      types.BoolNull(),
+		"enable_statestore_high_availability": types.BoolNull(),
+		"high_availability_mode":              types.StringNull(),
+		"num_of_active_coordinators":          types.Int32Null(),
+		"shutdown_of_coordinator_delay_secs":  types.Int32Null(),
+	}
+
+	// Debug API Model before processing
+	tflog.Debug(ctx, fmt.Sprintf("Processing apiModel: %+v", apiModel))
+
+	// Assign values with debug logs
+	attributeValues["enable_catalog_high_availability"] = types.BoolValue(apiModel.EnableCatalogHighAvailability)
+	tflog.Debug(ctx, fmt.Sprintf("enable_catalog_high_availability: %v", apiModel.EnableCatalogHighAvailability))
+
+	attributeValues["enable_shutdown_of_coordinator"] = types.BoolValue(apiModel.EnableShutdownOfCoordinator)
+	tflog.Debug(ctx, fmt.Sprintf("enable_shutdown_of_coordinator: %v", apiModel.EnableShutdownOfCoordinator))
+
+	attributeValues["enable_statestore_high_availability"] = types.BoolValue(apiModel.EnableStatestoreHighAvailability)
+	tflog.Debug(ctx, fmt.Sprintf("enable_statestore_high_availability: %v", apiModel.EnableStatestoreHighAvailability))
+
+	if apiModel.HighAvailabilityMode != "" {
+		attributeValues["high_availability_mode"] = types.StringValue(string(apiModel.HighAvailabilityMode))
+	}
+	tflog.Debug(ctx, fmt.Sprintf("high_availability_mode: %v", apiModel.HighAvailabilityMode))
+
+	if apiModel.NumOfActiveCoordinators != 0 {
+		attributeValues["num_of_active_coordinators"] = types.Int32Value(apiModel.NumOfActiveCoordinators)
+	}
+	tflog.Debug(ctx, fmt.Sprintf("num_of_active_coordinators: %d", apiModel.NumOfActiveCoordinators))
+
+	if apiModel.ShutdownOfCoordinatorDelaySeconds != 0 {
+		attributeValues["shutdown_of_coordinator_delay_secs"] = types.Int32Value(apiModel.ShutdownOfCoordinatorDelaySeconds)
+	}
+	tflog.Debug(ctx, fmt.Sprintf("shutdown_of_coordinator_delay_secs: %d", apiModel.ShutdownOfCoordinatorDelaySeconds))
+
+	// TODO Remove debugging
+	for key, val := range attributeValues {
+		tflog.Debug(ctx, fmt.Sprintf("Key: %s, IsUnknown: %t, Value: %+v", key, val.IsUnknown(), val))
+		fmt.Printf("Key: %s, IsUnknown: %t, Value: %+v, Type: %v\n", key, val.IsUnknown(), val, val.Type(ctx))
+	}
+
+	// Return as types.Object
+	ret, err := types.ObjectValue(attributeTypes, attributeValues)
+	if err != nil {
+		tflog.Error(ctx, fmt.Sprintf("Error creating ObjectValue: %v", err))
+	}
+	tflog.Debug(ctx, fmt.Sprintf("Returning Object: %+v", ret))
+	return ret
 }
 
 func convertToAPIImpalaOptions(model types.Object) *models.ImpalaOptionsCreateRequest {
@@ -365,28 +452,36 @@ func convertToAPIImpalaOptions(model types.Object) *models.ImpalaOptionsCreateRe
 	}
 	attributes := model.Attributes()
 
+	// TODO Remove debugging
+	for key, val := range attributes {
+		tflog.Debug(context.Background(), fmt.Sprintf("Key: %s, IsUnknown: %t, Value: %+v", key, val.IsUnknown(), val))
+		fmt.Printf("Key: %s, IsUnknown: %t, Value: %+v, type %v,\n", key, val.IsUnknown(), val, val.Type(context.Background()))
+	}
+
 	scratchSpaceLimit, hasScratchSpace := attributes["scratch_space_limit"]
 	spillToS3URI, hasSpillToS3URI := attributes["spill_to_s3_uri"]
 
 	req := &models.ImpalaOptionsCreateRequest{}
 
 	if hasScratchSpace && !scratchSpaceLimit.IsUnknown() {
-		val, err := scratchSpaceLimit.ToTerraformValue(context.Background())
-		if err == nil {
-			var valueInt32 int32
-			if err := val.As(&valueInt32); err == nil {
-				req.ScratchSpaceLimit = valueInt32
-			}
+		intValue, err := ExtractInt32FromAttribute(context.Background(), scratchSpaceLimit)
+		if err != nil {
+			fmt.Printf("Error extracting int32 for ScratchSpaceLimit: %v\n", err)
+		} else {
+			req.ScratchSpaceLimit = intValue
+			fmt.Printf("Assigned value to ScratchSpaceLimit: %d\n", req.ScratchSpaceLimit)
 		}
+		// If this is set, don't set spillToS3URI
+		return req
 	}
 
 	if hasSpillToS3URI && !spillToS3URI.IsUnknown() {
-		val, err := spillToS3URI.ToTerraformValue(context.Background())
-		if err == nil {
-			var valueString string
-			if err := val.As(&valueString); err == nil {
-				req.SpillToS3URI = valueString
-			}
+		valueString, err := ExtractStringFromAttribute(context.Background(), spillToS3URI)
+		if err != nil {
+			fmt.Printf("Error extracting string for SpillToS3URI: %v\n", err)
+		} else {
+			req.SpillToS3URI = valueString
+			fmt.Printf("Assigned value to SpillToS3URI: %s\n", req.SpillToS3URI)
 		}
 	}
 
@@ -394,6 +489,7 @@ func convertToAPIImpalaOptions(model types.Object) *models.ImpalaOptionsCreateRe
 }
 
 func convertFromAPIImpalaOptions(apiModel *models.ImpalaOptionsResponse) types.Object {
+
 	if apiModel == nil {
 		return types.ObjectNull(map[string]attr.Type{
 			"scratch_space_limit": types.Int32Type,
@@ -411,20 +507,16 @@ func convertFromAPIImpalaOptions(apiModel *models.ImpalaOptionsResponse) types.O
 		"spill_to_s3_uri":     types.StringNull(),
 	}
 
-	impalaOptions := map[string]attr.Value{}
-
-	// Handle ScratchSpaceLimit
 	if apiModel.ScratchSpaceLimit != 0 {
-		impalaOptions["scratch_space_limit"] = types.Int32Value(apiModel.ScratchSpaceLimit)
+		attributeValues["scratch_space_limit"] = types.Int32Value(apiModel.ScratchSpaceLimit)
 	} else {
-		impalaOptions["scratch_space_limit"] = types.Int32Null() // Null if missing
+		attributeValues["scratch_space_limit"] = types.Int32Null() // Null if missing
 	}
 
-	// Handle SpillToS3URI
 	if apiModel.SpillToS3URI != "" {
-		impalaOptions["spill_to_s3_uri"] = types.StringValue(apiModel.SpillToS3URI)
+		attributeValues["spill_to_s3_uri"] = types.StringValue(apiModel.SpillToS3URI)
 	} else {
-		impalaOptions["spill_to_s3_uri"] = types.StringNull() // Null if empty
+		attributeValues["spill_to_s3_uri"] = types.StringNull() // Null if empty
 	}
 
 	// Return as types.Object
@@ -432,26 +524,64 @@ func convertFromAPIImpalaOptions(apiModel *models.ImpalaOptionsResponse) types.O
 	return ret
 }
 
-func convertToAPIQueryIsolationOptions(model *QueryIsolationOptionsModel) *models.QueryIsolationOptionsRequest {
-	if model == nil {
+func convertToAPIQueryIsolationOptions(model types.Object) *models.QueryIsolationOptionsRequest {
+	if model.IsUnknown() {
 		return nil
 	}
+	attributes := model.Attributes()
 
-	return &models.QueryIsolationOptionsRequest{
-		MaxNodesPerQuery: model.MaxNodesPerQuery.ValueInt32(),
-		MaxQueries:       model.MaxQueries.ValueInt32(),
+	req := &models.QueryIsolationOptionsRequest{}
+
+	if val, ok := attributes["max_nodes_per_query"]; ok {
+		if value, err := ExtractInt32FromAttribute(context.Background(), val.(basetypes.Int32Value)); err == nil {
+			req.MaxNodesPerQuery = value
+		}
 	}
+
+	if val, ok := attributes["max_queries"]; ok {
+		if value, err := ExtractInt32FromAttribute(context.Background(), val.(basetypes.Int32Value)); err == nil {
+			req.MaxQueries = value
+		}
+	}
+
+	return req
 }
 
-func convertFromAPIQueryIsolationOptions(apiModel *models.QueryIsolationOptionsResponse) *QueryIsolationOptionsModel {
+func convertFromAPIQueryIsolationOptions(apiModel *models.QueryIsolationOptionsResponse) types.Object {
 	if apiModel == nil {
-		return nil
+		return types.ObjectNull(map[string]attr.Type{
+			"max_nodes_per_query": types.Int32Type,
+			"max_queries":         types.Int32Type,
+		})
 	}
 
-	return &QueryIsolationOptionsModel{
-		MaxNodesPerQuery: types.Int32Value(apiModel.MaxNodesPerQuery),
-		MaxQueries:       types.Int32Value(apiModel.MaxQueries),
+	attributeTypes := map[string]attr.Type{
+		"max_nodes_per_query": types.Int32Type,
+		"max_queries":         types.Int32Type,
 	}
+
+	attributeValues := map[string]attr.Value{
+		"max_nodes_per_query": types.Int32Null(),
+		"max_queries":         types.Int32Null(),
+	}
+
+	// Handle MaxNodesPerQuery
+	if apiModel.MaxNodesPerQuery != 0 {
+		attributeValues["max_nodes_per_query"] = types.Int32Value(apiModel.MaxNodesPerQuery)
+	} else {
+		attributeValues["max_nodes_per_query"] = types.Int32Null()
+	}
+
+	// Handle MaxQueries
+	if apiModel.MaxQueries != 0 {
+		attributeValues["max_queries"] = types.Int32Value(apiModel.MaxQueries)
+	} else {
+		attributeValues["max_queries"] = types.Int32Null()
+	}
+
+	// Return as types.Object
+	ret, _ := types.ObjectValue(attributeTypes, attributeValues)
+	return ret
 }
 
 func ConvertToServiceConfigReqModel(model *ServiceConfigReqModel) *models.ServiceConfigReq {
@@ -498,123 +628,624 @@ func ConvertToConfigContentReqModel(req ConfigContentReqModel) *models.ConfigCon
 	}
 }
 
-func ConvertToAutoscalingModel(req *AutoscalingModel) *models.AutoscalingOptionsCreateRequest {
-	if req == nil {
+func convertToAPIAutoscaling(model types.Object) *models.AutoscalingOptionsCreateRequest {
+	if model.IsUnknown() {
 		return nil
 	}
+	attributes := model.Attributes()
 
-	return &models.AutoscalingOptionsCreateRequest{
-		AutoSuspendTimeoutSeconds: req.AutoSuspendTimeoutSeconds.ValueInt32(),
-		DisableAutoSuspend:        req.DisableAutoSuspend.ValueBool(),
-		// HiveDesiredFreeCapacity:                 req.HiveDesiredFreeCapacity.ValueInt32(),
-		// HiveScaleWaitTimeSeconds:                req.HiveScaleWaitTimeSeconds.ValueInt32(),
-		ImpalaNumOfActiveCoordinators:           req.ImpalaNumOfActiveCoordinators.ValueInt32(),
-		ImpalaScaleDownDelaySeconds:             req.ImpalaScaleDownDelaySeconds.ValueInt32(),
-		ImpalaScaleUpDelaySeconds:               req.ImpalaScaleUpDelaySeconds.ValueInt32(),
-		ImpalaShutdownOfCoordinatorDelaySeconds: req.ImpalaShutdownOfCoordinatorDelaySeconds.ValueInt32(),
-		MaxClusters:                             convertIntPtr(req.MaxClusters.ValueInt32()),
-		MinClusters:                             convertIntPtr(req.MinClusters.ValueInt32()),
-		ImpalaExecutorGroupSets:                 ConvertToImpalaExecutorGroupSetsModel(req.ImpalaExecutorGroupSets),
+	// TODO Remove debugging
+	for key, val := range attributes {
+		tflog.Debug(context.Background(), fmt.Sprintf("Key: %s, IsUnknown: %t, Value: %+v", key, val.IsUnknown(), val))
+		fmt.Printf("Key: %s, IsUnknown: %t, Value: %+v, type %v,\n", key, val.IsUnknown(), val, val.Type(context.Background()))
 	}
+
+	req := &models.AutoscalingOptionsCreateRequest{}
+
+	if val, ok := attributes["auto_suspend_timeout_seconds"]; ok {
+		// Debug statement to be deleted
+		fmt.Printf("Found key 'auto_suspend_timeout_seconds' in attributes: %+v\n", val)
+		intValue, err := ExtractInt32FromAttribute(context.Background(), val)
+		if err != nil {
+			fmt.Printf("Error extracting int32: %v\n", err)
+		} else {
+			req.AutoSuspendTimeoutSeconds = intValue
+			fmt.Printf("Assigned value to AutoSuspendTimeoutSeconds: %d\n", req.AutoSuspendTimeoutSeconds)
+		}
+	}
+
+	if val, ok := attributes["disable_auto_suspend"]; ok {
+		boolValue, err := ExtractBoolFromAttribute(context.Background(), val)
+		if err != nil {
+			fmt.Printf("Error extracting bool: %v\n", err)
+		} else {
+			req.DisableAutoSuspend = boolValue
+			fmt.Printf("Assigned value to DisableAutoSuspend: %t\n", req.DisableAutoSuspend)
+		}
+	}
+
+	/*if val, ok := attributes["impala_num_of_active_coordinators"]; ok && !val.IsUnknown() {
+		tfv, err := val.ToTerraformValue(context.Background())
+		if err == nil {
+			var valueInt32 int32
+			if err := tfv.As(&valueInt32); err == nil {
+				req.ImpalaNumOfActiveCoordinators = valueInt32
+			}
+		}
+	}*/
+
+	if val, ok := attributes["impala_scale_down_delay_seconds"]; ok {
+		intValue, err := ExtractInt32FromAttribute(context.Background(), val)
+		if err != nil {
+			fmt.Printf("Error extracting int32: %v\n", err)
+		} else {
+			req.ImpalaScaleDownDelaySeconds = intValue
+			fmt.Printf("Assigned value to ImpalaScaleDownDelaySeconds: %d\n", req.ImpalaScaleDownDelaySeconds)
+		}
+	}
+
+	if val, ok := attributes["impala_scale_up_delay_seconds"]; ok {
+		intValue, err := ExtractInt32FromAttribute(context.Background(), val)
+		if err != nil {
+			fmt.Printf("Error extracting int32 for impala_scale_up_delay_seconds: %v\n", err)
+		} else {
+			req.ImpalaScaleUpDelaySeconds = intValue
+			fmt.Printf("Assigned value to ImpalaScaleUpDelaySeconds: %d\n", req.ImpalaScaleUpDelaySeconds)
+		}
+	}
+
+	/*if val, ok := attributes["impala_shutdown_of_coordinator_delay_seconds"]; ok && !val.IsUnknown() {
+		tfv, err := val.ToTerraformValue(context.Background())
+		if err == nil {
+			var valueInt32 int32
+			if err := tfv.As(&valueInt32); err == nil {
+				req.ImpalaShutdownOfCoordinatorDelaySeconds = valueInt32
+			}
+		}
+	}*/
+
+	if val, ok := attributes["max_clusters"]; ok {
+		intValue, err := ExtractInt32FromAttribute(context.Background(), val)
+		if err != nil {
+			fmt.Printf("Error extracting int32 for max_clusters: %v\n", err)
+		} else {
+			req.MaxClusters = &intValue
+			fmt.Printf("Assigned value to MaxClusters: %d\n", *req.MaxClusters)
+		}
+	}
+
+	if val, ok := attributes["min_clusters"]; ok {
+		intValue, err := ExtractInt32FromAttribute(context.Background(), val)
+		if err != nil {
+			fmt.Printf("Error extracting int32 for min_clusters: %v\n", err)
+		} else {
+			req.MinClusters = &intValue
+			fmt.Printf("Assigned value to MinClusters: %d\n", *req.MinClusters)
+		}
+	}
+
+	/*if val, ok := attributes["impala_executor_group_sets"]; ok && !val.IsUnknown() {
+		tfv, err := val.ToTerraformValue(context.Background())
+		if err == nil {
+			var impalaExecutorGroupSets ImpalaExecutorGroupSetsModel
+			if err := tfv.As(&impalaExecutorGroupSets); err == nil {
+				req.ImpalaExecutorGroupSets = convertToAPIExecutorGroupSets(&impalaExecutorGroupSets)
+			}
+		}
+	}*/
+
+	return req
 }
 
-// ConvertToImpalaExecutorGroupSetsModel converts Impala executor group sets.
-func ConvertToImpalaExecutorGroupSetsModel(req *ImpalaExecutorGroupSetsModel) *models.ImpalaExecutorGroupSetsCreateRequest {
-	if req == nil {
+func convertToAPIExecutorGroupSets(model *ImpalaExecutorGroupSetsModel) *models.ImpalaExecutorGroupSetsCreateRequest {
+	if model == nil {
 		return nil
 	}
 
 	return &models.ImpalaExecutorGroupSetsCreateRequest{
-		Custom1: ConvertToImpalaExecutorGroupSetModel(req.Custom1),
-		Custom2: ConvertToImpalaExecutorGroupSetModel(req.Custom2),
-		Custom3: ConvertToImpalaExecutorGroupSetModel(req.Custom3),
-		Large:   ConvertToImpalaExecutorGroupSetModel(req.Large),
-		Small:   ConvertToImpalaExecutorGroupSetModel(req.Small),
+		Custom1: convertToAPIExecutorGroupSet(model.Custom1),
+		Custom2: convertToAPIExecutorGroupSet(model.Custom2),
+		Custom3: convertToAPIExecutorGroupSet(model.Custom3),
+		Large:   convertToAPIExecutorGroupSet(model.Large),
+		Small:   convertToAPIExecutorGroupSet(model.Small),
 	}
 }
 
-// ConvertToImpalaExecutorGroupSetModel converts an executor group set.
-func ConvertToImpalaExecutorGroupSetModel(req *ImpalaExecutorGroupSetModel) *models.ImpalaExecutorGroupSetCreateRequest {
-	if req == nil {
+func convertToAPIExecutorGroupSet(model *ImpalaExecutorGroupSetModel) *models.ImpalaExecutorGroupSetCreateRequest {
+	if model == nil {
 		return nil
 	}
 
 	return &models.ImpalaExecutorGroupSetCreateRequest{
-		AutoSuspendTimeoutSeconds: req.AutoSuspendTimeoutSeconds,
-		DisableAutoSuspend:        req.DisableAutoSuspend,
-		ExecGroupSize:             req.ExecGroupSize,
-		MaxExecutorGroups:         req.MaxExecutorGroups,
-		MinExecutorGroups:         req.MinExecutorGroups,
-		TriggerScaleDownDelay:     req.TriggerScaleDownDelay,
-		TriggerScaleUpDelay:       req.TriggerScaleUpDelay,
+		AutoSuspendTimeoutSeconds: model.AutoSuspendTimeoutSeconds,
+		DisableAutoSuspend:        model.DisableAutoSuspend,
+		ExecGroupSize:             model.ExecGroupSize,
+		MaxExecutorGroups:         model.MaxExecutorGroups,
+		MinExecutorGroups:         model.MinExecutorGroups,
+		TriggerScaleDownDelay:     model.TriggerScaleDownDelay,
+		TriggerScaleUpDelay:       model.TriggerScaleUpDelay,
 	}
 }
 
-// convertIntPtr safely converts an int32 to a *int32.
-func convertIntPtr(ptr int32) *int32 {
-	if ptr == 0 {
-		return nil
+func convertFromAPIAutoscaling(apiModel *models.AutoscalingOptionsResponse) types.Object {
+	if apiModel == nil {
+		return types.ObjectNull(map[string]attr.Type{
+			"auto_suspend_timeout_seconds": types.Int32Type,
+			"disable_auto_suspend":         types.BoolType,
+			//"impala_num_of_active_coordinators":            types.Int32Type,
+			"impala_scale_down_delay_seconds": types.Int32Type,
+			"impala_scale_up_delay_seconds":   types.Int32Type,
+			//"impala_shutdown_of_coordinator_delay_seconds": types.Int32Type,
+			"max_clusters": types.Int32Type,
+			"min_clusters": types.Int32Type,
+			/*"impala_executor_group_sets": types.ListType{
+				ElemType: types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"custom1": types.ObjectType{},
+						"custom2": types.ObjectType{
+							AttrTypes: map[string]attr.Type{
+								"auto_suspend_timeout_seconds": types.Int32Type,
+								"disable_auto_suspend":         types.BoolType,
+								"exec_group_size":              types.Int32Type,
+								"max_executor_groups":          types.Int32Type,
+								"min_executor_groups":          types.Int32Type,
+								"trigger_scale_down_delay":     types.Int32Type,
+								"trigger_scale_up_delay":       types.Int32Type,
+							},
+						},
+						"custom3": types.ObjectType{
+							AttrTypes: map[string]attr.Type{
+								"auto_suspend_timeout_seconds": types.Int32Type,
+								"disable_auto_suspend":         types.BoolType,
+								"exec_group_size":              types.Int32Type,
+								"max_executor_groups":          types.Int32Type,
+								"min_executor_groups":          types.Int32Type,
+								"trigger_scale_down_delay":     types.Int32Type,
+								"trigger_scale_up_delay":       types.Int32Type,
+							},
+						},
+						"large": types.ObjectType{
+							AttrTypes: map[string]attr.Type{
+								"auto_suspend_timeout_seconds": types.Int32Type,
+								"disable_auto_suspend":         types.BoolType,
+								"exec_group_size":              types.Int32Type,
+								"max_executor_groups":          types.Int32Type,
+								"min_executor_groups":          types.Int32Type,
+								"trigger_scale_down_delay":     types.Int32Type,
+								"trigger_scale_up_delay":       types.Int32Type,
+							},
+						},
+						"small": types.ObjectType{
+							AttrTypes: map[string]attr.Type{
+								"auto_suspend_timeout_seconds": types.Int32Type,
+								"disable_auto_suspend":         types.BoolType,
+								"exec_group_size":              types.Int32Type,
+								"max_executor_groups":          types.Int32Type,
+								"min_executor_groups":          types.Int32Type,
+								"trigger_scale_down_delay":     types.Int32Type,
+								"trigger_scale_up_delay":       types.Int32Type,
+							},
+						},
+					},
+				},
+			},*/
+		})
 	}
-	r := &ptr
-	return r
-}
 
-func ConvertFromAutoscalingModel(req *models.AutoscalingOptionsResponse) *AutoscalingModel {
-	if req == nil {
-		return nil
+	attributeTypes := map[string]attr.Type{
+		"auto_suspend_timeout_seconds": types.Int32Type,
+		"disable_auto_suspend":         types.BoolType,
+		//"impala_num_of_active_coordinators":            types.Int32Type,
+		"impala_scale_down_delay_seconds": types.Int32Type,
+		"impala_scale_up_delay_seconds":   types.Int32Type,
+		//"impala_shutdown_of_coordinator_delay_seconds": types.Int32Type,
+		"max_clusters": types.Int32Type,
+		"min_clusters": types.Int32Type,
+		/*"impala_executor_group_sets": types.ListType{
+			ElemType: types.ObjectType{
+				AttrTypes: map[string]attr.Type{
+					"custom1": types.ObjectType{},
+					"custom2": types.ObjectType{
+						AttrTypes: map[string]attr.Type{
+							"auto_suspend_timeout_seconds": types.Int32Type,
+							"disable_auto_suspend":         types.BoolType,
+							"exec_group_size":              types.Int32Type,
+							"max_executor_groups":          types.Int32Type,
+							"min_executor_groups":          types.Int32Type,
+							"trigger_scale_down_delay":     types.Int32Type,
+							"trigger_scale_up_delay":       types.Int32Type,
+						},
+					},
+					"custom3": types.ObjectType{
+						AttrTypes: map[string]attr.Type{
+							"auto_suspend_timeout_seconds": types.Int32Type,
+							"disable_auto_suspend":         types.BoolType,
+							"exec_group_size":              types.Int32Type,
+							"max_executor_groups":          types.Int32Type,
+							"min_executor_groups":          types.Int32Type,
+							"trigger_scale_down_delay":     types.Int32Type,
+							"trigger_scale_up_delay":       types.Int32Type,
+						},
+					},
+					"large": types.ObjectType{
+						AttrTypes: map[string]attr.Type{
+							"auto_suspend_timeout_seconds": types.Int32Type,
+							"disable_auto_suspend":         types.BoolType,
+							"exec_group_size":              types.Int32Type,
+							"max_executor_groups":          types.Int32Type,
+							"min_executor_groups":          types.Int32Type,
+							"trigger_scale_down_delay":     types.Int32Type,
+							"trigger_scale_up_delay":       types.Int32Type,
+						},
+					},
+					"small": types.ObjectType{
+						AttrTypes: map[string]attr.Type{
+							"auto_suspend_timeout_seconds": types.Int32Type,
+							"disable_auto_suspend":         types.BoolType,
+							"exec_group_size":              types.Int32Type,
+							"max_executor_groups":          types.Int32Type,
+							"min_executor_groups":          types.Int32Type,
+							"trigger_scale_down_delay":     types.Int32Type,
+							"trigger_scale_up_delay":       types.Int32Type,
+						},
+					},
+				},
+			},
+		},*/
 	}
 
-	return &AutoscalingModel{
-		AutoSuspendTimeoutSeconds: types.Int32Value(req.AutoSuspendTimeoutSeconds),
-		DisableAutoSuspend:        types.BoolValue(req.DisableAutoSuspend),
-		// HiveDesiredFreeCapacity:                 types.Int32Value(req.HiveDesiredFreeCapacity),
-		// HiveScaleWaitTimeSeconds:                types.Int32Value(req.HiveScaleWaitTimeSeconds),
-		ImpalaNumOfActiveCoordinators:           types.Int32Value(req.ImpalaNumOfActiveCoordinators),
-		ImpalaScaleDownDelaySeconds:             types.Int32Value(req.ImpalaScaleDownDelaySeconds),
-		ImpalaScaleUpDelaySeconds:               types.Int32Value(req.ImpalaScaleUpDelaySeconds),
-		ImpalaShutdownOfCoordinatorDelaySeconds: types.Int32Value(req.ImpalaShutdownOfCoordinatorDelaySeconds),
-		MaxClusters:                             convertInt32Ptr(&req.MaxClusters),
-		MinClusters:                             convertInt32Ptr(&req.MinClusters),
-		ImpalaExecutorGroupSets:                 ConvertFromImpalaExecutorGroupSetsModel(req.ImpalaExecutorGroupSets),
+	attributeValues := map[string]attr.Value{
+		"auto_suspend_timeout_seconds": types.Int32Null(),
+		"disable_auto_suspend":         types.BoolNull(),
+		//"impala_num_of_active_coordinators":            types.Int32Null(),
+		"impala_scale_down_delay_seconds": types.Int32Null(),
+		"impala_scale_up_delay_seconds":   types.Int32Null(),
+		//"impala_shutdown_of_coordinator_delay_seconds": types.Int32Null(),
+		"max_clusters": types.Int32Null(),
+		"min_clusters": types.Int32Null(),
+		/*"impala_executor_group_sets": types.ListNull(types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"small": types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"exec_group_size":              types.Int64Type,
+						"min_executor_groups":          types.Int64Type,
+						"max_executor_groups":          types.Int64Type,
+						"auto_suspend_timeout_seconds": types.NumberType,
+						"disable_auto_suspend":         types.BoolType,
+						"trigger_scale_up_delay":       types.Int64Type,
+						"trigger_scale_down_delay":     types.Int64Type,
+					},
+				},
+				"custom1": types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"exec_group_size":              types.Int64Type,
+						"min_executor_groups":          types.Int64Type,
+						"max_executor_groups":          types.Int64Type,
+						"auto_suspend_timeout_seconds": types.NumberType,
+						"disable_auto_suspend":         types.BoolType,
+						"trigger_scale_up_delay":       types.Int64Type,
+						"trigger_scale_down_delay":     types.Int64Type,
+					},
+				},
+				"custom2": types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"exec_group_size":              types.Int64Type,
+						"min_executor_groups":          types.Int64Type,
+						"max_executor_groups":          types.Int64Type,
+						"auto_suspend_timeout_seconds": types.NumberType,
+						"disable_auto_suspend":         types.BoolType,
+						"trigger_scale_up_delay":       types.Int64Type,
+						"trigger_scale_down_delay":     types.Int64Type,
+					},
+				},
+				"custom3": types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"exec_group_size":              types.Int64Type,
+						"min_executor_groups":          types.Int64Type,
+						"max_executor_groups":          types.Int64Type,
+						"auto_suspend_timeout_seconds": types.NumberType,
+						"disable_auto_suspend":         types.BoolType,
+						"trigger_scale_up_delay":       types.Int64Type,
+						"trigger_scale_down_delay":     types.Int64Type,
+					},
+				},
+				"large": types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"exec_group_size":              types.Int64Type,
+						"min_executor_groups":          types.Int64Type,
+						"max_executor_groups":          types.Int64Type,
+						"auto_suspend_timeout_seconds": types.NumberType,
+						"disable_auto_suspend":         types.BoolType,
+						"trigger_scale_up_delay":       types.Int64Type,
+						"trigger_scale_down_delay":     types.Int64Type,
+					},
+				},
+			},
+		}),*/
 	}
+
+	// Populate non-null values
+	if apiModel.AutoSuspendTimeoutSeconds != 0 {
+		attributeValues["auto_suspend_timeout_seconds"] = types.Int32Value(apiModel.AutoSuspendTimeoutSeconds)
+	}
+	attributeValues["disable_auto_suspend"] = types.BoolValue(apiModel.DisableAutoSuspend)
+	/*if apiModel.ImpalaNumOfActiveCoordinators != 0 {
+		attributeValues["impala_num_of_active_coordinators"] = types.Int32Value(apiModel.ImpalaNumOfActiveCoordinators)
+	}*/
+	if apiModel.ImpalaScaleDownDelaySeconds != 0 {
+		attributeValues["impala_scale_down_delay_seconds"] = types.Int32Value(apiModel.ImpalaScaleDownDelaySeconds)
+	}
+	if apiModel.ImpalaScaleUpDelaySeconds != 0 {
+		attributeValues["impala_scale_up_delay_seconds"] = types.Int32Value(apiModel.ImpalaScaleUpDelaySeconds)
+	}
+	/*if apiModel.ImpalaShutdownOfCoordinatorDelaySeconds != 0 {
+		attributeValues["impala_shutdown_of_coordinator_delay_seconds"] = types.Int32Value(apiModel.ImpalaShutdownOfCoordinatorDelaySeconds)
+	}*/
+	if apiModel.MaxClusters != 0 {
+		attributeValues["max_clusters"] = types.Int32Value(apiModel.MaxClusters)
+	}
+	if apiModel.MinClusters != 0 {
+		attributeValues["min_clusters"] = types.Int32Value(apiModel.MinClusters)
+	}
+
+	// Convert ImpalaExecutorGroupSets if available
+	/*if apiModel.ImpalaExecutorGroupSets != nil {
+		attributeValues["impala_executor_group_sets"] = convertFromAPIImpalaExecutorGroupSets(apiModel.ImpalaExecutorGroupSets)
+	}*/
+
+	// Return as types.Object
+	ret, _ := types.ObjectValue(attributeTypes, attributeValues)
+	return ret
 }
 
 // ConvertFromImpalaExecutorGroupSetsModel converts from Impala executor group sets.
-func ConvertFromImpalaExecutorGroupSetsModel(req *models.ImpalaExecutorGroupSetsResponse) *ImpalaExecutorGroupSetsModel {
-	if req == nil {
+/*func convertFromAPIImpalaExecutorGroupSets(apiModel *models.ImpalaExecutorGroupSetsResponse) types.Object {
+	if apiModel == nil {
+		return types.ObjectNull(map[string]attr.Type{})
+	}
+
+	groupTypes := map[string]attr.Type{
+		"custom1": types.ObjectType{},
+		"custom2": types.ObjectType{},
+		"custom3": types.ObjectType{},
+		"large":   types.ObjectType{},
+		"small":   types.ObjectType{},
+	}
+
+	groupValues := map[string]attr.Value{
+		"custom1": convertFromAPIImpalaExecutorGroupSet(apiModel.Custom1),
+		"custom2": convertFromAPIImpalaExecutorGroupSet(apiModel.Custom2),
+		"custom3": convertFromAPIImpalaExecutorGroupSet(apiModel.Custom3),
+		"large":   convertFromAPIImpalaExecutorGroupSet(apiModel.Large),
+		"small":   convertFromAPIImpalaExecutorGroupSet(apiModel.Small),
+	}
+
+	ret, _ := types.ObjectValue(groupTypes, groupValues)
+	return ret
+}*/
+
+func convertFromAPIImpalaExecutorGroupSets(apiModel *models.ImpalaExecutorGroupSetsResponse) types.List {
+	if apiModel == nil {
+		return types.ListNull(types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"group_type": types.StringType,
+				"settings": types.ObjectType{
+					AttrTypes: map[string]attr.Type{
+						"auto_suspend_timeout_seconds": types.Int32Type,
+						"disable_auto_suspend":         types.BoolType,
+						"exec_group_size":              types.Int32Type,
+						"max_executor_groups":          types.Int32Type,
+						"min_executor_groups":          types.Int32Type,
+						"trigger_scale_down_delay":     types.Int32Type,
+						"trigger_scale_up_delay":       types.Int32Type,
+					},
+				},
+			},
+		})
+	}
+
+	groupList := []attr.Value{}
+	groupTypes := types.ObjectType{
+		AttrTypes: map[string]attr.Type{
+			"group_type": types.StringType,
+			"settings": types.ObjectType{
+				AttrTypes: map[string]attr.Type{
+					"auto_suspend_timeout_seconds": types.Int32Type,
+					"disable_auto_suspend":         types.BoolType,
+					"exec_group_size":              types.Int32Type,
+					"max_executor_groups":          types.Int32Type,
+					"min_executor_groups":          types.Int32Type,
+					"trigger_scale_down_delay":     types.Int32Type,
+					"trigger_scale_up_delay":       types.Int32Type,
+				},
+			},
+		},
+	}
+
+	// Iterate over group types
+	groupMappings := map[string]*models.ImpalaExecutorGroupSetResponse{
+		"custom1": apiModel.Custom1,
+		"custom2": apiModel.Custom2,
+		"custom3": apiModel.Custom3,
+		"large":   apiModel.Large,
+		"small":   apiModel.Small,
+	}
+
+	for groupType, groupData := range groupMappings {
+		if groupData != nil {
+			groupValue, _ := types.ObjectValue(groupTypes.AttrTypes, map[string]attr.Value{
+				"group_type": types.StringValue(groupType),
+				"settings":   convertFromAPIImpalaExecutorGroupSet(groupData),
+			})
+			groupList = append(groupList, groupValue)
+		}
+	}
+
+	ret, _ := types.ListValue(groupTypes, groupList)
+	return ret
+}
+
+func convertFromAPIImpalaExecutorGroupSet(apiModel *models.ImpalaExecutorGroupSetResponse) types.Object {
+	if apiModel == nil {
+		return types.ObjectNull(map[string]attr.Type{
+			"auto_suspend_timeout_seconds": types.Int32Type,
+			"disable_auto_suspend":         types.BoolType,
+			"exec_group_size":              types.Int32Type,
+			"max_executor_groups":          types.Int32Type,
+			"min_executor_groups":          types.Int32Type,
+			"trigger_scale_down_delay":     types.Int32Type,
+			"trigger_scale_up_delay":       types.Int32Type,
+		})
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"auto_suspend_timeout_seconds": types.Int32Type,
+		"disable_auto_suspend":         types.BoolType,
+		"exec_group_size":              types.Int32Type,
+		"max_executor_groups":          types.Int32Type,
+		"min_executor_groups":          types.Int32Type,
+		"trigger_scale_down_delay":     types.Int32Type,
+		"trigger_scale_up_delay":       types.Int32Type,
+	}
+
+	attributeValues := map[string]attr.Value{
+		"auto_suspend_timeout_seconds": types.Int32Value(apiModel.AutoSuspendTimeoutSeconds),
+		"disable_auto_suspend":         types.BoolValue(apiModel.DisableAutoSuspend),
+		"exec_group_size":              types.Int32Value(apiModel.ExecGroupSize),
+		"max_executor_groups":          types.Int32Value(apiModel.MaxExecutorGroups),
+		"min_executor_groups":          types.Int32Value(apiModel.MinExecutorGroups),
+		"trigger_scale_down_delay":     types.Int32Value(apiModel.TriggerScaleDownDelay),
+		"trigger_scale_up_delay":       types.Int32Value(apiModel.TriggerScaleUpDelay),
+	}
+
+	ret, _ := types.ObjectValue(attributeTypes, attributeValues)
+	return ret
+}
+
+func convertToAPITagRequests(model types.List) []*models.TagRequest {
+	if model.IsUnknown() || model.IsNull() {
 		return nil
 	}
 
-	return &ImpalaExecutorGroupSetsModel{
-		Custom1: ConvertFromImpalaExecutorGroupSetModel(req.Custom1),
-		Custom2: ConvertFromImpalaExecutorGroupSetModel(req.Custom2),
-		Custom3: ConvertFromImpalaExecutorGroupSetModel(req.Custom3),
-		Large:   ConvertFromImpalaExecutorGroupSetModel(req.Large),
-		Small:   ConvertFromImpalaExecutorGroupSetModel(req.Small),
-	}
-}
+	var tagRequests []*models.TagRequest
 
-// ConvertFromImpalaExecutorGroupSetModel converts from an executor group set.
-func ConvertFromImpalaExecutorGroupSetModel(req *models.ImpalaExecutorGroupSetResponse) *ImpalaExecutorGroupSetModel {
-	if req == nil {
+	// Extract values from the list
+	values, _ := model.ToTerraformValue(context.Background())
+	var tags []TagRequest
+	if err := values.As(&tags); err != nil {
 		return nil
 	}
 
-	return &ImpalaExecutorGroupSetModel{
-		AutoSuspendTimeoutSeconds: req.AutoSuspendTimeoutSeconds,
-		DisableAutoSuspend:        req.DisableAutoSuspend,
-		ExecGroupSize:             req.ExecGroupSize,
-		MaxExecutorGroups:         req.MaxExecutorGroups,
-		MinExecutorGroups:         req.MinExecutorGroups,
-		TriggerScaleDownDelay:     req.TriggerScaleDownDelay,
-		TriggerScaleUpDelay:       req.TriggerScaleUpDelay,
+	// Convert each TagRequest into API format
+	for _, tag := range tags {
+		tagRequests = append(tagRequests, &models.TagRequest{
+			Key:   &tag.Key,
+			Value: &tag.Value,
+		})
 	}
+
+	return tagRequests
 }
 
-// convertInt32Ptr safely converts an int32 pointer to a Terraform Int32 type.
-func convertInt32Ptr(value *int32) types.Int32 {
-	if value == nil {
-		return types.Int32Null()
+func convertFromAPITagRequests(apiTags []*models.TagResponse) types.List {
+	// Define attribute type for the list
+	attributeType := types.ObjectType{
+		AttrTypes: map[string]attr.Type{
+			"key":   types.StringType,
+			"value": types.StringType,
+		},
 	}
-	return types.Int32Value(*value)
+
+	// Handle nil case
+	if apiTags == nil || len(apiTags) == 0 {
+		return types.ListNull(attributeType)
+	}
+
+	var tagValues []attr.Value
+
+	// Convert each API tag to Terraform value
+	for _, apiTag := range apiTags {
+		if apiTag == nil {
+			continue
+		}
+		tagValues = append(tagValues, types.ObjectValueMust(
+			map[string]attr.Type{
+				"key":   types.StringType,
+				"value": types.StringType,
+			},
+			map[string]attr.Value{
+				"key":   types.StringValue(*apiTag.Key),
+				"value": types.StringValue(*apiTag.Value),
+			},
+		))
+	}
+
+	// Return as types.List
+	return types.ListValueMust(attributeType, tagValues)
+}
+
+func ExtractInt32FromAttribute(ctx context.Context, val attr.Value) (int32, error) {
+	if val.IsUnknown() {
+		return 0, fmt.Errorf("value is unknown")
+	}
+
+	tfv, err := val.ToTerraformValue(ctx)
+	if err != nil {
+		return 0, fmt.Errorf("error converting to Terraform value: %v", err)
+	}
+
+	convertedValue, err := basetypes.Int32Type{}.ValueFromTerraform(ctx, tfv)
+	if err != nil {
+		return 0, fmt.Errorf("error converting Terraform value to Int32Type: %v", err)
+	}
+
+	stringValue := convertedValue.String()
+	intValue, err := strconv.ParseInt(stringValue, 10, 32)
+	if err != nil {
+		return 0, fmt.Errorf("error parsing string to int32: %v", err)
+	}
+
+	return int32(intValue), nil
+}
+
+func ExtractBoolFromAttribute(ctx context.Context, val attr.Value) (bool, error) {
+	if val.IsUnknown() {
+		return false, fmt.Errorf("value is unknown")
+	}
+
+	tfv, err := val.ToTerraformValue(ctx)
+	if err != nil {
+		return false, fmt.Errorf("error converting to Terraform value: %v", err)
+	}
+
+	convertedValue, err := basetypes.BoolType{}.ValueFromTerraform(ctx, tfv)
+	if err != nil {
+		return false, fmt.Errorf("error converting Terraform value to BoolType: %v", err)
+	}
+
+	boolString := convertedValue.String()
+	boolValue, err := strconv.ParseBool(boolString)
+	if err != nil {
+		return false, fmt.Errorf("error parsing string to bool: %v", err)
+	}
+
+	return boolValue, nil
+}
+
+func ExtractStringFromAttribute(ctx context.Context, attr attr.Value) (string, error) {
+	if attr.IsUnknown() {
+		return "", fmt.Errorf("attribute value is unknown")
+	}
+
+	tfv, err := attr.ToTerraformValue(ctx)
+	if err != nil {
+		return "", fmt.Errorf("error converting to Terraform value: %w", err)
+	}
+
+	var valueString string
+	if err := tfv.As(&valueString); err != nil {
+		return "", fmt.Errorf("error converting Terraform value to string: %w", err)
+	}
+
+	return valueString, nil
 }
