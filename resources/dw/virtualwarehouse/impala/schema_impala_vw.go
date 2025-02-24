@@ -65,8 +65,8 @@ var impalaSchema = schema.Schema{
 			MarkdownDescription: "The instance type for the Impala Virtual Warehouse.",
 		},
 		"tshirt_size": schema.StringAttribute{
-			Optional:            true,
-			Computed:            true,
+			Optional: true,
+			//Computed:            true,
 			MarkdownDescription: "T-shirt size of Impala.",
 		},
 		"node_count": schema.Int32Attribute{
