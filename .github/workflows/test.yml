@@ -7,6 +7,22 @@ on:
     branches: [ "main" ]
 
 jobs:
+  check_commits:
+    name: 'Commit count check'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get commit count
+        run: |
+          COMMIT_COUNT=$(git rev-list --count origin/${{ github.event.pull_request.base.ref }}..${{ github.event.pull_request.head.sha }})
+          echo "Commit count: $COMMIT_COUNT"
+          if [ "$COMMIT_COUNT" -ne 1 ]; then
+            echo "❌ Pull request contains more than one commit. Please squash your commits."
+            exit 1
+          fi
   build:
     name: Build
     runs-on: ubuntu-latest
