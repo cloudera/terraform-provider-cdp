@@ -31,52 +31,6 @@ type TagRequest struct {
 	Value string `tfsdk:"value"` // The associated value of the tag
 }
 
-// TODO Prateek Use or Remove once you are done fixing Impala API
-type ServiceConfigReqModel struct {
-	ApplicationConfigs map[string]ApplicationConfigReqModel `tfsdk:"application_configs"`
-	CommonConfigs      *ApplicationConfigReqModel           `tfsdk:"common_configs"`
-	EnableSSO          basetypes.BoolValue                  `tfsdk:"enable_sso"`
-	LdapGroups         []string                             `tfsdk:"ldap_groups"`
-}
-
-// TODO Prateek Use or Remove once you are done fixing Impala API
-type ApplicationConfigReqModel struct {
-	ConfigBlocks []*ConfigBlockReqModel `tfsdk:"config_blocks"`
-}
-
-// TODO Prateek Use or Remove once you are done fixing Impala API
-type ConfigBlockReqModel struct {
-	Content *ConfigContentReqModel `tfsdk:"content"`
-	ID      *string                `tfsdk:"id"`
-}
-
-// TODO Prateek Use or Remove once you are done fixing Impala API
-type ConfigContentReqModel struct {
-	JSON      string            `tfsdk:"json"`
-	KeyValues map[string]string `tfsdk:"key_values"`
-	Text      string            `tfsdk:"text"`
-}
-
-// TODO Prateek Use or Remove once you are done fixing Impala API
-type ImpalaExecutorGroupSetsModel struct {
-	Custom1 *ImpalaExecutorGroupSetModel `tfsdk:"custom1"`
-	Custom2 *ImpalaExecutorGroupSetModel `tfsdk:"custom2"`
-	Custom3 *ImpalaExecutorGroupSetModel `tfsdk:"custom3"`
-	Large   *ImpalaExecutorGroupSetModel `tfsdk:"large"`
-	Small   *ImpalaExecutorGroupSetModel `tfsdk:"small"`
-}
-
-// TODO Prateek Use or Remove once you are done fixing Impala API
-type ImpalaExecutorGroupSetModel struct {
-	AutoSuspendTimeoutSeconds int32 `tfsdk:"auto_suspend_timeout_seconds"`
-	DisableAutoSuspend        bool  `tfsdk:"disable_auto_suspend"`
-	ExecGroupSize             int32 `tfsdk:"exec_group_size"`
-	MaxExecutorGroups         int32 `tfsdk:"max_executor_groups"`
-	MinExecutorGroups         int32 `tfsdk:"min_executor_groups"`
-	TriggerScaleDownDelay     int32 `tfsdk:"trigger_scale_down_delay"`
-	TriggerScaleUpDelay       int32 `tfsdk:"trigger_scale_up_delay"`
-}
-
 type resourceModel struct {
 	ID                     types.String `tfsdk:"id"`
 	ClusterID              types.String `tfsdk:"cluster_id"`
@@ -101,9 +55,6 @@ type resourceModel struct {
 	PlatformJwtAuth        types.Bool   `tfsdk:"platform_jwt_auth"`
 	ImpalaQueryLog         types.Bool   `tfsdk:"impala_query_log"`
 	EbsLLAPSpillGB         types.Int64  `tfsdk:"ebs_llap_spill_gb"`
-	// TODO Prateek This does not look like should be in Impala, so delete
-	// or enable after talking to Impala team
-	// HiveServerHaMode       types.String                `tfsdk:"hive_server_ha_mode"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 }
@@ -415,50 +366,6 @@ func convertFromAPIQueryIsolationOptions(apiModel *models.QueryIsolationOptionsR
 	return ret
 }
 
-func ConvertToServiceConfigReqModel(model *ServiceConfigReqModel) *models.ServiceConfigReq {
-	converted := &models.ServiceConfigReq{
-		ApplicationConfigs: make(map[string]models.ApplicationConfigReq),
-		EnableSSO:          model.EnableSSO.ValueBool(),
-		LdapGroups:         model.LdapGroups,
-	}
-
-	for key, value := range model.ApplicationConfigs {
-		converted.ApplicationConfigs[key] = ConvertToApplicationConfigReqModel(value)
-	}
-
-	if model.CommonConfigs != nil {
-		commonConfig := ConvertToApplicationConfigReqModel(*model.CommonConfigs)
-		converted.CommonConfigs = &commonConfig
-	}
-
-	return converted
-}
-
-func ConvertToApplicationConfigReqModel(req ApplicationConfigReqModel) models.ApplicationConfigReq {
-	converted := models.ApplicationConfigReq{
-		ConfigBlocks: make([]*models.ConfigBlockReq, len(req.ConfigBlocks)),
-	}
-	for i, block := range req.ConfigBlocks {
-		converted.ConfigBlocks[i] = ConvertToConfigBlockReqModel(*block)
-	}
-	return converted
-}
-
-func ConvertToConfigBlockReqModel(req ConfigBlockReqModel) *models.ConfigBlockReq {
-	return &models.ConfigBlockReq{
-		Content: ConvertToConfigContentReqModel(*req.Content),
-		ID:      req.ID,
-	}
-}
-
-func ConvertToConfigContentReqModel(req ConfigContentReqModel) *models.ConfigContentReq {
-	return &models.ConfigContentReq{
-		JSON:      req.JSON,
-		KeyValues: req.KeyValues,
-		Text:      req.Text,
-	}
-}
-
 func convertToAPIAutoscaling(model types.Object) *models.AutoscalingOptionsCreateRequest {
 	if model.IsUnknown() {
 		return nil
@@ -568,47 +475,15 @@ func convertToAPIAutoscaling(model types.Object) *models.AutoscalingOptionsCreat
 	return req
 }
 
-func convertToAPIExecutorGroupSets(model *ImpalaExecutorGroupSetsModel) *models.ImpalaExecutorGroupSetsCreateRequest {
-	if model == nil {
-		return nil
-	}
-
-	return &models.ImpalaExecutorGroupSetsCreateRequest{
-		Custom1: convertToAPIExecutorGroupSet(model.Custom1),
-		Custom2: convertToAPIExecutorGroupSet(model.Custom2),
-		Custom3: convertToAPIExecutorGroupSet(model.Custom3),
-		Large:   convertToAPIExecutorGroupSet(model.Large),
-		Small:   convertToAPIExecutorGroupSet(model.Small),
-	}
-}
-
-func convertToAPIExecutorGroupSet(model *ImpalaExecutorGroupSetModel) *models.ImpalaExecutorGroupSetCreateRequest {
-	if model == nil {
-		return nil
-	}
-
-	return &models.ImpalaExecutorGroupSetCreateRequest{
-		AutoSuspendTimeoutSeconds: model.AutoSuspendTimeoutSeconds,
-		DisableAutoSuspend:        model.DisableAutoSuspend,
-		ExecGroupSize:             model.ExecGroupSize,
-		MaxExecutorGroups:         model.MaxExecutorGroups,
-		MinExecutorGroups:         model.MinExecutorGroups,
-		TriggerScaleDownDelay:     model.TriggerScaleDownDelay,
-		TriggerScaleUpDelay:       model.TriggerScaleUpDelay,
-	}
-}
-
 func convertFromAPIAutoscaling(apiModel *models.AutoscalingOptionsResponse) types.Object {
 	if apiModel == nil {
 		return types.ObjectNull(map[string]attr.Type{
-			"auto_suspend_timeout_seconds": types.Int32Type,
-			"disable_auto_suspend":         types.BoolType,
-			//"impala_num_of_active_coordinators":            types.Int32Type,
+			"auto_suspend_timeout_seconds":    types.Int32Type,
+			"disable_auto_suspend":            types.BoolType,
 			"impala_scale_down_delay_seconds": types.Int32Type,
 			"impala_scale_up_delay_seconds":   types.Int32Type,
-			//"impala_shutdown_of_coordinator_delay_seconds": types.Int32Type,
-			"max_clusters": types.Int32Type,
-			"min_clusters": types.Int32Type,
+			"max_clusters":                    types.Int32Type,
+			"min_clusters":                    types.Int32Type,
 			/*"impala_executor_group_sets": types.ListType{
 				ElemType: types.ObjectType{
 					AttrTypes: map[string]attr.Type{
@@ -664,289 +539,38 @@ func convertFromAPIAutoscaling(apiModel *models.AutoscalingOptionsResponse) type
 	}
 
 	attributeTypes := map[string]attr.Type{
-		"auto_suspend_timeout_seconds": types.Int32Type,
-		"disable_auto_suspend":         types.BoolType,
-		//"impala_num_of_active_coordinators":            types.Int32Type,
+		"auto_suspend_timeout_seconds":    types.Int32Type,
+		"disable_auto_suspend":            types.BoolType,
 		"impala_scale_down_delay_seconds": types.Int32Type,
 		"impala_scale_up_delay_seconds":   types.Int32Type,
-		//"impala_shutdown_of_coordinator_delay_seconds": types.Int32Type,
-		"max_clusters": types.Int32Type,
-		"min_clusters": types.Int32Type,
-		/*"impala_executor_group_sets": types.ListType{
-			ElemType: types.ObjectType{
-				AttrTypes: map[string]attr.Type{
-					"custom1": types.ObjectType{},
-					"custom2": types.ObjectType{
-						AttrTypes: map[string]attr.Type{
-							"auto_suspend_timeout_seconds": types.Int32Type,
-							"disable_auto_suspend":         types.BoolType,
-							"exec_group_size":              types.Int32Type,
-							"max_executor_groups":          types.Int32Type,
-							"min_executor_groups":          types.Int32Type,
-							"trigger_scale_down_delay":     types.Int32Type,
-							"trigger_scale_up_delay":       types.Int32Type,
-						},
-					},
-					"custom3": types.ObjectType{
-						AttrTypes: map[string]attr.Type{
-							"auto_suspend_timeout_seconds": types.Int32Type,
-							"disable_auto_suspend":         types.BoolType,
-							"exec_group_size":              types.Int32Type,
-							"max_executor_groups":          types.Int32Type,
-							"min_executor_groups":          types.Int32Type,
-							"trigger_scale_down_delay":     types.Int32Type,
-							"trigger_scale_up_delay":       types.Int32Type,
-						},
-					},
-					"large": types.ObjectType{
-						AttrTypes: map[string]attr.Type{
-							"auto_suspend_timeout_seconds": types.Int32Type,
-							"disable_auto_suspend":         types.BoolType,
-							"exec_group_size":              types.Int32Type,
-							"max_executor_groups":          types.Int32Type,
-							"min_executor_groups":          types.Int32Type,
-							"trigger_scale_down_delay":     types.Int32Type,
-							"trigger_scale_up_delay":       types.Int32Type,
-						},
-					},
-					"small": types.ObjectType{
-						AttrTypes: map[string]attr.Type{
-							"auto_suspend_timeout_seconds": types.Int32Type,
-							"disable_auto_suspend":         types.BoolType,
-							"exec_group_size":              types.Int32Type,
-							"max_executor_groups":          types.Int32Type,
-							"min_executor_groups":          types.Int32Type,
-							"trigger_scale_down_delay":     types.Int32Type,
-							"trigger_scale_up_delay":       types.Int32Type,
-						},
-					},
-				},
-			},
-		},*/
+		"max_clusters":                    types.Int32Type,
+		"min_clusters":                    types.Int32Type,
 	}
 
 	attributeValues := map[string]attr.Value{
-		"auto_suspend_timeout_seconds": types.Int32Null(),
-		"disable_auto_suspend":         types.BoolNull(),
-		//"impala_num_of_active_coordinators":            types.Int32Null(),
+		"auto_suspend_timeout_seconds":    types.Int32Null(),
+		"disable_auto_suspend":            types.BoolNull(),
 		"impala_scale_down_delay_seconds": types.Int32Null(),
 		"impala_scale_up_delay_seconds":   types.Int32Null(),
-		//"impala_shutdown_of_coordinator_delay_seconds": types.Int32Null(),
-		"max_clusters": types.Int32Null(),
-		"min_clusters": types.Int32Null(),
-		/*"impala_executor_group_sets": types.ListNull(types.ObjectType{
-			AttrTypes: map[string]attr.Type{
-				"small": types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"exec_group_size":              types.Int64Type,
-						"min_executor_groups":          types.Int64Type,
-						"max_executor_groups":          types.Int64Type,
-						"auto_suspend_timeout_seconds": types.NumberType,
-						"disable_auto_suspend":         types.BoolType,
-						"trigger_scale_up_delay":       types.Int64Type,
-						"trigger_scale_down_delay":     types.Int64Type,
-					},
-				},
-				"custom1": types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"exec_group_size":              types.Int64Type,
-						"min_executor_groups":          types.Int64Type,
-						"max_executor_groups":          types.Int64Type,
-						"auto_suspend_timeout_seconds": types.NumberType,
-						"disable_auto_suspend":         types.BoolType,
-						"trigger_scale_up_delay":       types.Int64Type,
-						"trigger_scale_down_delay":     types.Int64Type,
-					},
-				},
-				"custom2": types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"exec_group_size":              types.Int64Type,
-						"min_executor_groups":          types.Int64Type,
-						"max_executor_groups":          types.Int64Type,
-						"auto_suspend_timeout_seconds": types.NumberType,
-						"disable_auto_suspend":         types.BoolType,
-						"trigger_scale_up_delay":       types.Int64Type,
-						"trigger_scale_down_delay":     types.Int64Type,
-					},
-				},
-				"custom3": types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"exec_group_size":              types.Int64Type,
-						"min_executor_groups":          types.Int64Type,
-						"max_executor_groups":          types.Int64Type,
-						"auto_suspend_timeout_seconds": types.NumberType,
-						"disable_auto_suspend":         types.BoolType,
-						"trigger_scale_up_delay":       types.Int64Type,
-						"trigger_scale_down_delay":     types.Int64Type,
-					},
-				},
-				"large": types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"exec_group_size":              types.Int64Type,
-						"min_executor_groups":          types.Int64Type,
-						"max_executor_groups":          types.Int64Type,
-						"auto_suspend_timeout_seconds": types.NumberType,
-						"disable_auto_suspend":         types.BoolType,
-						"trigger_scale_up_delay":       types.Int64Type,
-						"trigger_scale_down_delay":     types.Int64Type,
-					},
-				},
-			},
-		}),*/
+		"max_clusters":                    types.Int32Null(),
+		"min_clusters":                    types.Int32Null(),
 	}
 
-	// Populate non-null values
 	if apiModel.AutoSuspendTimeoutSeconds != 0 {
 		attributeValues["auto_suspend_timeout_seconds"] = types.Int32Value(apiModel.AutoSuspendTimeoutSeconds)
 	}
 	attributeValues["disable_auto_suspend"] = types.BoolValue(apiModel.DisableAutoSuspend)
-	/*if apiModel.ImpalaNumOfActiveCoordinators != 0 {
-		attributeValues["impala_num_of_active_coordinators"] = types.Int32Value(apiModel.ImpalaNumOfActiveCoordinators)
-	}*/
 	if apiModel.ImpalaScaleDownDelaySeconds != 0 {
 		attributeValues["impala_scale_down_delay_seconds"] = types.Int32Value(apiModel.ImpalaScaleDownDelaySeconds)
 	}
 	if apiModel.ImpalaScaleUpDelaySeconds != 0 {
 		attributeValues["impala_scale_up_delay_seconds"] = types.Int32Value(apiModel.ImpalaScaleUpDelaySeconds)
 	}
-	/*if apiModel.ImpalaShutdownOfCoordinatorDelaySeconds != 0 {
-		attributeValues["impala_shutdown_of_coordinator_delay_seconds"] = types.Int32Value(apiModel.ImpalaShutdownOfCoordinatorDelaySeconds)
-	}*/
 	if apiModel.MaxClusters != 0 {
 		attributeValues["max_clusters"] = types.Int32Value(apiModel.MaxClusters)
 	}
 	if apiModel.MinClusters != 0 {
 		attributeValues["min_clusters"] = types.Int32Value(apiModel.MinClusters)
-	}
-
-	// Convert ImpalaExecutorGroupSets if available
-	/*if apiModel.ImpalaExecutorGroupSets != nil {
-		attributeValues["impala_executor_group_sets"] = convertFromAPIImpalaExecutorGroupSets(apiModel.ImpalaExecutorGroupSets)
-	}*/
-
-	// Return as types.Object
-	ret, _ := types.ObjectValue(attributeTypes, attributeValues)
-	return ret
-}
-
-// ConvertFromImpalaExecutorGroupSetsModel converts from Impala executor group sets.
-/*func convertFromAPIImpalaExecutorGroupSets(apiModel *models.ImpalaExecutorGroupSetsResponse) types.Object {
-	if apiModel == nil {
-		return types.ObjectNull(map[string]attr.Type{})
-	}
-
-	groupTypes := map[string]attr.Type{
-		"custom1": types.ObjectType{},
-		"custom2": types.ObjectType{},
-		"custom3": types.ObjectType{},
-		"large":   types.ObjectType{},
-		"small":   types.ObjectType{},
-	}
-
-	groupValues := map[string]attr.Value{
-		"custom1": convertFromAPIImpalaExecutorGroupSet(apiModel.Custom1),
-		"custom2": convertFromAPIImpalaExecutorGroupSet(apiModel.Custom2),
-		"custom3": convertFromAPIImpalaExecutorGroupSet(apiModel.Custom3),
-		"large":   convertFromAPIImpalaExecutorGroupSet(apiModel.Large),
-		"small":   convertFromAPIImpalaExecutorGroupSet(apiModel.Small),
-	}
-
-	ret, _ := types.ObjectValue(groupTypes, groupValues)
-	return ret
-}*/
-
-func convertFromAPIImpalaExecutorGroupSets(apiModel *models.ImpalaExecutorGroupSetsResponse) types.List {
-	if apiModel == nil {
-		return types.ListNull(types.ObjectType{
-			AttrTypes: map[string]attr.Type{
-				"group_type": types.StringType,
-				"settings": types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"auto_suspend_timeout_seconds": types.Int32Type,
-						"disable_auto_suspend":         types.BoolType,
-						"exec_group_size":              types.Int32Type,
-						"max_executor_groups":          types.Int32Type,
-						"min_executor_groups":          types.Int32Type,
-						"trigger_scale_down_delay":     types.Int32Type,
-						"trigger_scale_up_delay":       types.Int32Type,
-					},
-				},
-			},
-		})
-	}
-
-	groupList := []attr.Value{}
-	groupTypes := types.ObjectType{
-		AttrTypes: map[string]attr.Type{
-			"group_type": types.StringType,
-			"settings": types.ObjectType{
-				AttrTypes: map[string]attr.Type{
-					"auto_suspend_timeout_seconds": types.Int32Type,
-					"disable_auto_suspend":         types.BoolType,
-					"exec_group_size":              types.Int32Type,
-					"max_executor_groups":          types.Int32Type,
-					"min_executor_groups":          types.Int32Type,
-					"trigger_scale_down_delay":     types.Int32Type,
-					"trigger_scale_up_delay":       types.Int32Type,
-				},
-			},
-		},
-	}
-
-	// Iterate over group types
-	groupMappings := map[string]*models.ImpalaExecutorGroupSetResponse{
-		"custom1": apiModel.Custom1,
-		"custom2": apiModel.Custom2,
-		"custom3": apiModel.Custom3,
-		"large":   apiModel.Large,
-		"small":   apiModel.Small,
-	}
-
-	for groupType, groupData := range groupMappings {
-		if groupData != nil {
-			groupValue, _ := types.ObjectValue(groupTypes.AttrTypes, map[string]attr.Value{
-				"group_type": types.StringValue(groupType),
-				"settings":   convertFromAPIImpalaExecutorGroupSet(groupData),
-			})
-			groupList = append(groupList, groupValue)
-		}
-	}
-
-	ret, _ := types.ListValue(groupTypes, groupList)
-	return ret
-}
-
-func convertFromAPIImpalaExecutorGroupSet(apiModel *models.ImpalaExecutorGroupSetResponse) types.Object {
-	if apiModel == nil {
-		return types.ObjectNull(map[string]attr.Type{
-			"auto_suspend_timeout_seconds": types.Int32Type,
-			"disable_auto_suspend":         types.BoolType,
-			"exec_group_size":              types.Int32Type,
-			"max_executor_groups":          types.Int32Type,
-			"min_executor_groups":          types.Int32Type,
-			"trigger_scale_down_delay":     types.Int32Type,
-			"trigger_scale_up_delay":       types.Int32Type,
-		})
-	}
-
-	attributeTypes := map[string]attr.Type{
-		"auto_suspend_timeout_seconds": types.Int32Type,
-		"disable_auto_suspend":         types.BoolType,
-		"exec_group_size":              types.Int32Type,
-		"max_executor_groups":          types.Int32Type,
-		"min_executor_groups":          types.Int32Type,
-		"trigger_scale_down_delay":     types.Int32Type,
-		"trigger_scale_up_delay":       types.Int32Type,
-	}
-
-	attributeValues := map[string]attr.Value{
-		"auto_suspend_timeout_seconds": types.Int32Value(apiModel.AutoSuspendTimeoutSeconds),
-		"disable_auto_suspend":         types.BoolValue(apiModel.DisableAutoSuspend),
-		"exec_group_size":              types.Int32Value(apiModel.ExecGroupSize),
-		"max_executor_groups":          types.Int32Value(apiModel.MaxExecutorGroups),
-		"min_executor_groups":          types.Int32Value(apiModel.MinExecutorGroups),
-		"trigger_scale_down_delay":     types.Int32Value(apiModel.TriggerScaleDownDelay),
-		"trigger_scale_up_delay":       types.Int32Value(apiModel.TriggerScaleUpDelay),
 	}
 
 	ret, _ := types.ObjectValue(attributeTypes, attributeValues)

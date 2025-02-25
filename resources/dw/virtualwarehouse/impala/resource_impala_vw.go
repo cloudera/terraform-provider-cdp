@@ -408,35 +408,21 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 	if ebsLLAPSpillGB := plan.EbsLLAPSpillGB.ValueInt64(); ebsLLAPSpillGB > 0 {
 		req.EbsLLAPSpillGB = int32(ebsLLAPSpillGB)
 	}
-
-	/*if hiveServerHaMode := plan.HiveServerHaMode.ValueStringPointer(); *hiveServerHaMode != "" {
-		req.HiveServerHaMode = hiveServerHaMode
-	}*/
-
 	if !plan.ImpalaOptions.IsNull() {
 		req.ImpalaOptions = convertToAPIImpalaOptions(plan.ImpalaOptions)
 	}
-
 	if !plan.Autoscaling.IsNull() {
 		req.Autoscaling = convertToAPIAutoscaling(plan.Autoscaling)
 	}
-
 	if !plan.ImpalaHASettings.IsNull() {
 		req.ImpalaHaSettings = convertToAPIImpalaHASettings(plan.ImpalaHASettings)
 	}
-
 	if !plan.QueryIsolationOptions.IsNull() {
 		req.QueryIsolationOptions = convertToAPIQueryIsolationOptions(plan.QueryIsolationOptions)
 	}
-
-	/*if !plan.Config.IsNull() {
-		req.Config = ConvertToServiceConfigReqModel(plan.Config)
-	}*/
-
 	if len(plan.Tags.Elements()) > 0 {
 		req.Tags = convertToAPITagRequests(plan.Tags)
 	}
-
 	return req
 }
 
