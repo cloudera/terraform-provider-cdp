@@ -36,14 +36,14 @@ resource "cdp_environments_azure_credential" "example-cred" {
 resource "cdp_environments_azure_environment" "example-env" {
   environment_name = "example-cdp-azure-environment"
   credential_name  = cdp_environments_azure_credential.example-cred.credential_name
-  region           = "us-west"
+  region           = "<your-region>"
   security_access = {
     cidr = "0.0.0.0/0"
   }
   existing_network_params = {
     network_id          = "network-name"
     resource_group_name = "rg-name"
-    subnet_ids          = ["subnet.id"]
+    subnet_ids = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
   }
   public_key = "my-key"
   log_storage = {
@@ -53,14 +53,23 @@ resource "cdp_environments_azure_environment" "example-env" {
   resource_group_name              = "rg-name"
   encryption_user_managed_identity = "some-identity"
   use_public_ip                    = true
+  compute_cluster = {
+    enabled = false
+    configuration = {
+      private_cluster = false
+      outbound_type   = "udr"
+      kube_api_authorized_ip_ranges = ["0.0.0.0/0"]
+      worker_node_subnets = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
+    }
+  }
 }
 
-output "environment_name" {
-  value = cdp_environments_azure_environment.example-env.environment_name
+output "credential" {
+  value = cdp_environments_azure_credential.example-cred
 }
 
-output "crn" {
-  value = cdp_environments_azure_environment.example-env.crn
+output "environment" {
+  value = cdp_environments_azure_environment.example-env
 }
 ```
 
@@ -81,6 +90,7 @@ output "crn" {
 ### Optional
 
 - `cascading_delete` (Boolean)
+- `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_endpoints` (Boolean)
 - `description` (String)
 - `enable_outbound_load_balancer` (Boolean)
@@ -102,6 +112,7 @@ output "crn" {
 
 - `crn` (String)
 - `id` (String) The ID of this resource.
+- `new_network_params` (Attributes, Deprecated) (see [below for nested schema](#nestedatt--new_network_params))
 - `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String)
 - `status_reason` (String)
@@ -145,6 +156,29 @@ Optional:
 - `default_security_group_ids` (Set of String)
 - `security_group_id_for_knox` (String)
 - `security_group_ids_for_knox` (Set of String)
+
+
+<a id="nestedatt--compute_cluster"></a>
+### Nested Schema for `compute_cluster`
+
+Required:
+
+- `enabled` (Boolean)
+
+Optional:
+
+- `configuration` (Attributes) The Externalized k8s configuration for the environment. (see [below for nested schema](#nestedatt--compute_cluster--configuration))
+
+<a id="nestedatt--compute_cluster--configuration"></a>
+### Nested Schema for `compute_cluster.configuration`
+
+Optional:
+
+- `kube_api_authorized_ip_ranges` (Set of String) Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster.
+- `outbound_type` (String) Customize cluster egress with defined outbound type in Azure Kubernetes Service. Possible value(s): udr
+- `private_cluster` (Boolean) If true, creates private cluster. False, if not specified
+- `worker_node_subnets` (Set of String) Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.
+
 
 
 <a id="nestedatt--freeipa"></a>
@@ -193,3 +227,11 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--new_network_params"></a>
+### Nested Schema for `new_network_params`
+
+Required:
+
+- `network_cidr` (String)

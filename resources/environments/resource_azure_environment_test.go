@@ -73,12 +73,18 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 						},
 					},
 				},
-				"workload_analytics":               tftypes.Bool,
-				"encryption_key_url":               tftypes.String,
-				"freeipa":                          FreeIpaDetailsObject,
-				"region":                           tftypes.String,
-				"resource_group_name":              tftypes.String,
-				"create_private_endpoints":         tftypes.Bool,
+				"workload_analytics":       tftypes.Bool,
+				"encryption_key_url":       tftypes.String,
+				"freeipa":                  FreeIpaDetailsObject,
+				"compute_cluster":          AzureComputeClusterObject,
+				"region":                   tftypes.String,
+				"resource_group_name":      tftypes.String,
+				"create_private_endpoints": tftypes.Bool,
+				"new_network_params": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"network_cidr": tftypes.String,
+					},
+				},
 				"environment_name":                 tftypes.String,
 				"cascading_delete":                 tftypes.Bool,
 				"proxy_config_name":                tftypes.String,
@@ -168,6 +174,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}),
 			"workload_analytics": tftypes.NewValue(tftypes.Bool, false),
 			"encryption_key_url": tftypes.NewValue(tftypes.String, ""),
+			"compute_cluster":    tftypes.NewValue(AzureComputeClusterObject, nil),
 			"freeipa": tftypes.NewValue(FreeIpaDetailsObject, map[string]tftypes.Value{
 				"catalog":                 tftypes.NewValue(tftypes.String, ""),
 				"image_id":                tftypes.NewValue(tftypes.String, ""),
@@ -220,6 +227,26 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}, []tftypes.Value{}),
 		},
 	)
+}
+
+var AzureComputeClusterObject = tftypes.Object{
+	AttributeTypes: map[string]tftypes.Type{
+		"enabled":       tftypes.Bool,
+		"configuration": AzureComputeClusterConfigurationObject,
+	},
+}
+
+var AzureComputeClusterConfigurationObject = tftypes.Object{
+	AttributeTypes: map[string]tftypes.Type{
+		"private_cluster": tftypes.Bool,
+		"kube_api_authorized_ip_ranges": tftypes.Set{
+			ElementType: tftypes.String,
+		},
+		"outbound_type": tftypes.Bool,
+		"worker_node_subnets": tftypes.Set{
+			ElementType: tftypes.String,
+		},
+	},
 }
 
 func TestCreateAzureEnvironment(t *testing.T) {
