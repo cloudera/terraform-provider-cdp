@@ -190,6 +190,8 @@ type ClientService interface {
 
 	RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error)
 
+	ResetServerSettings(params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error)
+
 	RestartDbc(params *RestartDbcParams, opts ...ClientOption) (*RestartDbcOK, error)
 
 	RestartVw(params *RestartVwParams, opts ...ClientOption) (*RestartVwOK, error)
@@ -2890,6 +2892,45 @@ func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...Clie
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*RenewCertificatesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+ResetServerSettings restores the d w x server settings to the default values
+
+Restores the DWX server settings to the default values. Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server settings list returned by the describeServerSetting functionality.
+*/
+func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewResetServerSettingsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "resetServerSettings",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/resetServerSettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ResetServerSettingsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ResetServerSettingsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ResetServerSettingsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

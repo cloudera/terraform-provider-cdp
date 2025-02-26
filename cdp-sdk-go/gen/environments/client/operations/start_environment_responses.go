@@ -53,7 +53,7 @@ StartEnvironmentOK describes a response with status code 200, with default heade
 Expected response to a valid request.
 */
 type StartEnvironmentOK struct {
-	Payload models.StartEnvironmentResponse
+	Payload *models.StartEnvironmentResponse
 }
 
 // IsSuccess returns true when this start environment o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *StartEnvironmentOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/startEnvironment][%d] startEnvironmentOK %s", 200, payload)
 }
 
-func (o *StartEnvironmentOK) GetPayload() models.StartEnvironmentResponse {
+func (o *StartEnvironmentOK) GetPayload() *models.StartEnvironmentResponse {
 	return o.Payload
 }
 
 func (o *StartEnvironmentOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.StartEnvironmentResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

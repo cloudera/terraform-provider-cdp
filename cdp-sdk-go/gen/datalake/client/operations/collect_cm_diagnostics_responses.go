@@ -53,7 +53,7 @@ CollectCmDiagnosticsOK describes a response with status code 200, with default h
 Expected response to a valid request.
 */
 type CollectCmDiagnosticsOK struct {
-	Payload models.CollectCmDiagnosticsResponse
+	Payload *models.CollectCmDiagnosticsResponse
 }
 
 // IsSuccess returns true when this collect cm diagnostics o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *CollectCmDiagnosticsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/collectCmDiagnostics][%d] collectCmDiagnosticsOK %s", 200, payload)
 }
 
-func (o *CollectCmDiagnosticsOK) GetPayload() models.CollectCmDiagnosticsResponse {
+func (o *CollectCmDiagnosticsOK) GetPayload() *models.CollectCmDiagnosticsResponse {
 	return o.Payload
 }
 
 func (o *CollectCmDiagnosticsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.CollectCmDiagnosticsResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

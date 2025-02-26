@@ -4036,6 +4036,79 @@ func (_c *MockIamClientService_ListUsers_Call) RunAndReturn(run func(*operations
 	return _c
 }
 
+// MigrateUsersToIdentityProvider provides a mock function with given fields: params, opts
+func (_m *MockIamClientService) MigrateUsersToIdentityProvider(params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for MigrateUsersToIdentityProvider")
+	}
+
+	var r0 *operations.MigrateUsersToIdentityProviderOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.MigrateUsersToIdentityProviderParams, ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.MigrateUsersToIdentityProviderParams, ...operations.ClientOption) *operations.MigrateUsersToIdentityProviderOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.MigrateUsersToIdentityProviderOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.MigrateUsersToIdentityProviderParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockIamClientService_MigrateUsersToIdentityProvider_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'MigrateUsersToIdentityProvider'
+type MockIamClientService_MigrateUsersToIdentityProvider_Call struct {
+	*mock.Call
+}
+
+// MigrateUsersToIdentityProvider is a helper method to define mock.On call
+//   - params *operations.MigrateUsersToIdentityProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) MigrateUsersToIdentityProvider(params interface{}, opts ...interface{}) *MockIamClientService_MigrateUsersToIdentityProvider_Call {
+	return &MockIamClientService_MigrateUsersToIdentityProvider_Call{Call: _e.mock.On("MigrateUsersToIdentityProvider",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_MigrateUsersToIdentityProvider_Call) Run(run func(params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_MigrateUsersToIdentityProvider_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.MigrateUsersToIdentityProviderParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_MigrateUsersToIdentityProvider_Call) Return(_a0 *operations.MigrateUsersToIdentityProviderOK, _a1 error) *MockIamClientService_MigrateUsersToIdentityProvider_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockIamClientService_MigrateUsersToIdentityProvider_Call) RunAndReturn(run func(*operations.MigrateUsersToIdentityProviderParams, ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error)) *MockIamClientService_MigrateUsersToIdentityProvider_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RemoveMachineUserFromGroup provides a mock function with given fields: params, opts
 func (_m *MockIamClientService) RemoveMachineUserFromGroup(params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -4430,7 +4503,7 @@ func (_c *MockIamClientService_SetTransport_Call) Return() *MockIamClientService
 }
 
 func (_c *MockIamClientService_SetTransport_Call) RunAndReturn(run func(runtime.ClientTransport)) *MockIamClientService_SetTransport_Call {
-	_c.Run(run)
+	_c.Call.Return(run)
 	return _c
 }
 

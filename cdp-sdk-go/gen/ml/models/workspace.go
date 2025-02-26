@@ -23,6 +23,9 @@ type Workspace struct {
 	// The whitelist of CIDR blocks which can access the API server.
 	AuthorizedIPRanges []string `json:"authorizedIPRanges"`
 
+	// Available Quota for the workbench.
+	AvailableQuota *ResourceQuota `json:"availableQuota,omitempty"`
+
 	// The Backup MetaData for this workbench
 	BackupMetadata *BackupMetadata `json:"backupMetadata,omitempty"`
 
@@ -116,6 +119,15 @@ type Workspace struct {
 	// NFS Version of the filesystem.
 	NfsVersion string `json:"nfsVersion,omitempty"`
 
+	// Parent Resource Pool for the workbench.
+	ParentResourcePoolName string `json:"parentResourcePoolName,omitempty"`
+
+	// Quota configured for the workbench.
+	Quota *ResourceQuota `json:"quota,omitempty"`
+
+	// Resource Pool for the workbench.
+	ResourcePoolName string `json:"resourcePoolName,omitempty"`
+
 	// The subnets of the workbench.
 	Subnets []string `json:"subnets"`
 
@@ -140,6 +152,10 @@ type Workspace struct {
 // Validate validates this workspace
 func (m *Workspace) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateAvailableQuota(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateBackupMetadata(formats); err != nil {
 		res = append(res, err)
@@ -209,6 +225,10 @@ func (m *Workspace) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateQuota(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateTags(formats); err != nil {
 		res = append(res, err)
 	}
@@ -224,6 +244,25 @@ func (m *Workspace) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Workspace) validateAvailableQuota(formats strfmt.Registry) error {
+	if swag.IsZero(m.AvailableQuota) { // not required
+		return nil
+	}
+
+	if m.AvailableQuota != nil {
+		if err := m.AvailableQuota.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("availableQuota")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("availableQuota")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -428,6 +467,25 @@ func (m *Workspace) validateMonitoringEnabled(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Workspace) validateQuota(formats strfmt.Registry) error {
+	if swag.IsZero(m.Quota) { // not required
+		return nil
+	}
+
+	if m.Quota != nil {
+		if err := m.Quota.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("quota")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("quota")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Workspace) validateTags(formats strfmt.Registry) error {
 
 	if err := validate.Required("tags", "body", m.Tags); err != nil {
@@ -487,6 +545,10 @@ func (m *Workspace) validateVersion(formats strfmt.Registry) error {
 func (m *Workspace) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateAvailableQuota(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateBackupMetadata(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -496,6 +558,10 @@ func (m *Workspace) ContextValidate(ctx context.Context, formats strfmt.Registry
 	}
 
 	if err := m.contextValidateInstanceGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateQuota(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -510,6 +576,27 @@ func (m *Workspace) ContextValidate(ctx context.Context, formats strfmt.Registry
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Workspace) contextValidateAvailableQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AvailableQuota != nil {
+
+		if swag.IsZero(m.AvailableQuota) { // not required
+			return nil
+		}
+
+		if err := m.AvailableQuota.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("availableQuota")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("availableQuota")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -579,6 +666,27 @@ func (m *Workspace) contextValidateInstanceGroups(ctx context.Context, formats s
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *Workspace) contextValidateQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Quota != nil {
+
+		if swag.IsZero(m.Quota) { // not required
+			return nil
+		}
+
+		if err := m.Quota.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("quota")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("quota")
+			}
+			return err
+		}
 	}
 
 	return nil

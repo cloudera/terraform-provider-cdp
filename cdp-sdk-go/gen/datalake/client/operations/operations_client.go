@@ -92,6 +92,8 @@ type ClientService interface {
 
 	GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error)
 
+	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
 	ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error)
 
 	ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error)
@@ -907,6 +909,45 @@ func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsPara
 }
 
 /*
+GetOperation useds for retrieving operation status for the datalake cluster defaulting to the most recent operation provide an operation Id to view details of a specific historical operation
+
+Used for retrieving operation status for the datalake cluster, defaulting to the most recent operation. Provide an operationId to view details of a specific historical operation.
+*/
+func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetOperationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getOperation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/getOperation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetOperationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetOperationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetOperationDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListDatalakeBackups lists all the backup operations that were performed on the datalake
 
 List all the backup operations that were performed on the datalake.
@@ -1650,7 +1691,7 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 /*
 RotateSaltPassword rotates salt stack user password on data lake instances
 
-Rotate SaltStack user password on DataLake instances.
+Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	// TODO: Validate the params before sending

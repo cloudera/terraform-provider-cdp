@@ -32,7 +32,7 @@ type DbcSummary struct {
 	// The ID of the Database Catalog.
 	ID string `json:"id,omitempty"`
 
-	// Metastore container memory size.
+	// DEPRECATED: resourceTemplateId field is replacing this one. Metastore container memory size.
 	MemorySize string `json:"memorySize,omitempty"`
 
 	// The name of the Database Catalog.
@@ -40,6 +40,9 @@ type DbcSummary struct {
 
 	// The name of the Resource Pool the Database Catalog is in.
 	ResourcePool string `json:"resourcePool,omitempty"`
+
+	// The resource template of the Database Catalog.
+	ResourceTemplateID string `json:"resourceTemplateId,omitempty"`
 
 	// The actual resources used by the Database Catalog.
 	Resources map[string]ApplicationResources `json:"resources,omitempty"`

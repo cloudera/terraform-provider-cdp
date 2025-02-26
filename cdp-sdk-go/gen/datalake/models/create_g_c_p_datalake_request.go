@@ -46,6 +46,9 @@ type CreateGCPDatalakeRequest struct {
 	// Configure the major version of Java on the cluster.
 	JavaVersion int32 `json:"javaVersion,omitempty"`
 
+	// Creates CDP datalake distributed across multiple availability zones in GCP region.
+	MultiAz *bool `json:"multiAz,omitempty"`
+
 	// Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker').
 	Recipes []*InstanceGroupRecipeRequest `json:"recipes"`
 
@@ -54,6 +57,9 @@ type CreateGCPDatalakeRequest struct {
 
 	// The scale of the datalake. Allowed values are "LIGHT_DUTY" or "MEDIUM_DUTY_HA". Defaults to "LIGHT_DUTY" if not set.
 	Scale DatalakeScaleType `json:"scale,omitempty"`
+
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityRequest `json:"security,omitempty"`
 
 	// Tags that can be attached to GCP Data Lake resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.
 	Tags []*DatalakeResourceGCPTagRequest `json:"tags"`
@@ -88,6 +94,10 @@ func (m *CreateGCPDatalakeRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateScale(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -235,6 +245,25 @@ func (m *CreateGCPDatalakeRequest) validateScale(formats strfmt.Registry) error 
 	return nil
 }
 
+func (m *CreateGCPDatalakeRequest) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateGCPDatalakeRequest) validateTags(formats strfmt.Registry) error {
 	if swag.IsZero(m.Tags) { // not required
 		return nil
@@ -282,6 +311,10 @@ func (m *CreateGCPDatalakeRequest) ContextValidate(ctx context.Context, formats 
 	}
 
 	if err := m.contextValidateScale(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -396,6 +429,27 @@ func (m *CreateGCPDatalakeRequest) contextValidateScale(ctx context.Context, for
 			return ce.ValidateName("scale")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateGCPDatalakeRequest) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
 	}
 
 	return nil

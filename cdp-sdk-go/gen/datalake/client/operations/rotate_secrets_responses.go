@@ -53,7 +53,7 @@ RotateSecretsOK describes a response with status code 200, with default header v
 Expected response to a valid request.
 */
 type RotateSecretsOK struct {
-	Payload models.RotateSecretsResponse
+	Payload *models.RotateSecretsResponse
 }
 
 // IsSuccess returns true when this rotate secrets o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RotateSecretsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/rotateSecrets][%d] rotateSecretsOK %s", 200, payload)
 }
 
-func (o *RotateSecretsOK) GetPayload() models.RotateSecretsResponse {
+func (o *RotateSecretsOK) GetPayload() *models.RotateSecretsResponse {
 	return o.Payload
 }
 
 func (o *RotateSecretsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RotateSecretsResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

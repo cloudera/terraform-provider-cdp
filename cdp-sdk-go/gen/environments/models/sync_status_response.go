@@ -29,7 +29,7 @@ type SyncStatusResponse struct {
 	// List of sync operation details for all failed envs.
 	Failure []*SyncOperationDetails `json:"failure"`
 
-	// UUID of the request for this operation. This Id can be used for geting status on the operation.
+	// Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
 	// Required: true
 	OperationID *string `json:"operationId"`
 

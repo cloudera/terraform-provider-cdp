@@ -19,8 +19,8 @@ import (
 // swagger:model GetAccountTelemetryDefaultResponse
 type GetAccountTelemetryDefaultResponse struct {
 
-	// Flag to enable account level deployment log collection. (that will be used as a default for environment)
-	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
+	// [Deprecated] Flag to enable account level deployment log collection. (that will be used as a default for environment)
+	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
 
 	// List of anonymization rules that are applied on logs that are shipped to Cloudera
 	Rules []*AnonymizationRuleResponse `json:"rules"`

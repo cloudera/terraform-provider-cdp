@@ -72,8 +72,11 @@ type CreateGCPEnvironmentRequest struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
+	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
+	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
+
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityRequest `json:"security,omitempty"`
 
 	// Firewall rules for FreeIPA, Data Lake and Data Hub deployment.
 	SecurityAccess *GcpSecurityAccessRequest `json:"securityAccess,omitempty"`
@@ -126,6 +129,10 @@ func (m *CreateGCPEnvironmentRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateRegion(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -302,6 +309,25 @@ func (m *CreateGCPEnvironmentRequest) validateRegion(formats strfmt.Registry) er
 	return nil
 }
 
+func (m *CreateGCPEnvironmentRequest) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateGCPEnvironmentRequest) validateSecurityAccess(formats strfmt.Registry) error {
 	if swag.IsZero(m.SecurityAccess) { // not required
 		return nil
@@ -373,6 +399,10 @@ func (m *CreateGCPEnvironmentRequest) ContextValidate(ctx context.Context, forma
 	}
 
 	if err := m.contextValidateLogStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -462,6 +492,27 @@ func (m *CreateGCPEnvironmentRequest) contextValidateLogStorage(ctx context.Cont
 				return ve.ValidateName("logStorage")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("logStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateGCPEnvironmentRequest) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
 			}
 			return err
 		}

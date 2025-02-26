@@ -4985,6 +4985,79 @@ func (_c *MockDwClientService_RenewCertificates_Call) RunAndReturn(run func(*ope
 	return _c
 }
 
+// ResetServerSettings provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) ResetServerSettings(params *operations.ResetServerSettingsParams, opts ...operations.ClientOption) (*operations.ResetServerSettingsOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ResetServerSettings")
+	}
+
+	var r0 *operations.ResetServerSettingsOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.ResetServerSettingsParams, ...operations.ClientOption) (*operations.ResetServerSettingsOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.ResetServerSettingsParams, ...operations.ClientOption) *operations.ResetServerSettingsOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ResetServerSettingsOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.ResetServerSettingsParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_ResetServerSettings_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ResetServerSettings'
+type MockDwClientService_ResetServerSettings_Call struct {
+	*mock.Call
+}
+
+// ResetServerSettings is a helper method to define mock.On call
+//   - params *operations.ResetServerSettingsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ResetServerSettings(params interface{}, opts ...interface{}) *MockDwClientService_ResetServerSettings_Call {
+	return &MockDwClientService_ResetServerSettings_Call{Call: _e.mock.On("ResetServerSettings",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ResetServerSettings_Call) Run(run func(params *operations.ResetServerSettingsParams, opts ...operations.ClientOption)) *MockDwClientService_ResetServerSettings_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.ResetServerSettingsParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ResetServerSettings_Call) Return(_a0 *operations.ResetServerSettingsOK, _a1 error) *MockDwClientService_ResetServerSettings_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_ResetServerSettings_Call) RunAndReturn(run func(*operations.ResetServerSettingsParams, ...operations.ClientOption) (*operations.ResetServerSettingsOK, error)) *MockDwClientService_ResetServerSettings_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RestartDbc provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) RestartDbc(params *operations.RestartDbcParams, opts ...operations.ClientOption) (*operations.RestartDbcOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -5379,7 +5452,7 @@ func (_c *MockDwClientService_SetTransport_Call) Return() *MockDwClientService_S
 }
 
 func (_c *MockDwClientService_SetTransport_Call) RunAndReturn(run func(runtime.ClientTransport)) *MockDwClientService_SetTransport_Call {
-	_c.Run(run)
+	_c.Call.Return(run)
 	return _c
 }
 

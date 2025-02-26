@@ -164,6 +164,8 @@ type ClientService interface {
 
 	ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
 
+	MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error)
+
 	RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error)
 
 	RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error)
@@ -2355,6 +2357,45 @@ func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*List
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListUsersDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+MigrateUsersToIdentityProvider migrates all users from an identity provider connector to a different identity provider connector
+
+Allow existing users to be associated with a different identity provider connector. It is required that the identity provider user ID for each user be the same in both identity providers. This is expected to be used for migration from LDAP authentication to SAML authentication for the same physical IdP. A new SAML connector would be created in CDP, integrated with the same IdP as the original LDAP connector. First the LDAP mapping would be set to use the planned SAML name id mapping. Then this method can switch users created via LDAP login to be associated with the SAML connector and enable SAML authentication instead of LDAP authentication.
+*/
+func (a *Client) MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMigrateUsersToIdentityProviderParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "migrateUsersToIdentityProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/migrateUsersToIdentityProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MigrateUsersToIdentityProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MigrateUsersToIdentityProviderOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*MigrateUsersToIdentityProviderDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

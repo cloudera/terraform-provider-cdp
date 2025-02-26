@@ -71,6 +71,9 @@ type Cluster struct {
 	// The cluster node count.
 	NodeCount int32 `json:"nodeCount,omitempty"`
 
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityResponse `json:"security,omitempty"`
+
 	// The status of the stack.
 	Status string `json:"status,omitempty"`
 
@@ -110,6 +113,10 @@ func (m *Cluster) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateInstanceGroups(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -232,6 +239,25 @@ func (m *Cluster) validateInstanceGroups(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Cluster) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this cluster based on the context it is used
 func (m *Cluster) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -249,6 +275,10 @@ func (m *Cluster) ContextValidate(ctx context.Context, formats strfmt.Registry) 
 	}
 
 	if err := m.contextValidateInstanceGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -341,6 +371,27 @@ func (m *Cluster) contextValidateInstanceGroups(ctx context.Context, formats str
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *Cluster) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
 	}
 
 	return nil

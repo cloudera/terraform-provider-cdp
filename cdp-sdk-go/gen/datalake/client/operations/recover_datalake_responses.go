@@ -53,7 +53,7 @@ RecoverDatalakeOK describes a response with status code 200, with default header
 Expected response to a valid recover data lake request.
 */
 type RecoverDatalakeOK struct {
-	Payload models.RecoverDatalakeResponse
+	Payload *models.RecoverDatalakeResponse
 }
 
 // IsSuccess returns true when this recover datalake o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RecoverDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/recoverDatalake][%d] recoverDatalakeOK %s", 200, payload)
 }
 
-func (o *RecoverDatalakeOK) GetPayload() models.RecoverDatalakeResponse {
+func (o *RecoverDatalakeOK) GetPayload() *models.RecoverDatalakeResponse {
 	return o.Payload
 }
 
 func (o *RecoverDatalakeOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RecoverDatalakeResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

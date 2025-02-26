@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// RotateSaltPasswordRequest Request object for rotating SaltStack user password on FreeIPA instances.
+// RotateSaltPasswordRequest Request object for rotating SaltStack user password on FreeIPA instances (Deprecated).
 //
 // swagger:model RotateSaltPasswordRequest
 type RotateSaltPasswordRequest struct {

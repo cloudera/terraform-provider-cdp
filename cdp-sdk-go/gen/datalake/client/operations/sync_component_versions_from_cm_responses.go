@@ -53,7 +53,7 @@ SyncComponentVersionsFromCmOK describes a response with status code 200, with de
 Expected response to a valid sync datahub CM component versions request.
 */
 type SyncComponentVersionsFromCmOK struct {
-	Payload models.SyncComponentVersionsFromCmResponse
+	Payload *models.SyncComponentVersionsFromCmResponse
 }
 
 // IsSuccess returns true when this sync component versions from cm o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *SyncComponentVersionsFromCmOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/syncComponentVersionsFromCm][%d] syncComponentVersionsFromCmOK %s", 200, payload)
 }
 
-func (o *SyncComponentVersionsFromCmOK) GetPayload() models.SyncComponentVersionsFromCmResponse {
+func (o *SyncComponentVersionsFromCmOK) GetPayload() *models.SyncComponentVersionsFromCmResponse {
 	return o.Payload
 }
 
 func (o *SyncComponentVersionsFromCmOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.SyncComponentVersionsFromCmResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

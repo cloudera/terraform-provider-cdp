@@ -22,6 +22,9 @@ type CreateAzureDatalakeResponse struct {
 	// The datalake.
 	// Required: true
 	Datalake *Datalake `json:"datalake"`
+
+	// Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+	OperationID string `json:"operationId,omitempty"`
 }
 
 // Validate validates this create azure datalake response

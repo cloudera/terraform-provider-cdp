@@ -20,31 +20,56 @@ import (
 // swagger:model GetOperationResponse
 type GetOperationResponse struct {
 
+	// End time of the operation.
+	// Format: date-time
+	Ended strfmt.DateTime `json:"ended,omitempty"`
+
 	// Identifier of the operation.
 	OperationID string `json:"operationId,omitempty"`
+
+	// Name of the operation.
+	OperationName string `json:"operationName,omitempty"`
 
 	// Status of the operation.
 	// Enum: ["UNKNOWN","RUNNING","FAILED","FINISHED","CANCELLED"]
 	OperationStatus string `json:"operationStatus,omitempty"`
 
-	// Type of the operation.
-	OperationType string `json:"operationType,omitempty"`
-
-	// Progress percentage of the operation.
-	Progress int32 `json:"progress,omitempty"`
+	// Start time of the operation.
+	// Format: date-time
+	Started strfmt.DateTime `json:"started,omitempty"`
 }
 
 // Validate validates this get operation response
 func (m *GetOperationResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateEnded(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateOperationStatus(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateStarted(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *GetOperationResponse) validateEnded(formats strfmt.Registry) error {
+	if swag.IsZero(m.Ended) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("ended", "body", "date-time", m.Ended.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -93,6 +118,18 @@ func (m *GetOperationResponse) validateOperationStatus(formats strfmt.Registry) 
 
 	// value enum
 	if err := m.validateOperationStatusEnum("operationStatus", "body", m.OperationStatus); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *GetOperationResponse) validateStarted(formats strfmt.Registry) error {
+	if swag.IsZero(m.Started) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("started", "body", "date-time", m.Started.String(), formats); err != nil {
 		return err
 	}
 

@@ -53,7 +53,7 @@ RepairDatalakeOK describes a response with status code 200, with default header 
 Expected response to a valid request.
 */
 type RepairDatalakeOK struct {
-	Payload models.RepairDatalakeResponse
+	Payload *models.RepairDatalakeResponse
 }
 
 // IsSuccess returns true when this repair datalake o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RepairDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/repairDatalake][%d] repairDatalakeOK %s", 200, payload)
 }
 
-func (o *RepairDatalakeOK) GetPayload() models.RepairDatalakeResponse {
+func (o *RepairDatalakeOK) GetPayload() *models.RepairDatalakeResponse {
 	return o.Payload
 }
 
 func (o *RepairDatalakeOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RepairDatalakeResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

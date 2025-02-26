@@ -53,7 +53,7 @@ UpgradeCcmOK describes a response with status code 200, with default header valu
 Expected response to a valid request.
 */
 type UpgradeCcmOK struct {
-	Payload models.UpgradeCcmResponse
+	Payload *models.UpgradeCcmResponse
 }
 
 // IsSuccess returns true when this upgrade ccm o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *UpgradeCcmOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/upgradeCcm][%d] upgradeCcmOK %s", 200, payload)
 }
 
-func (o *UpgradeCcmOK) GetPayload() models.UpgradeCcmResponse {
+func (o *UpgradeCcmOK) GetPayload() *models.UpgradeCcmResponse {
 	return o.Payload
 }
 
 func (o *UpgradeCcmOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.UpgradeCcmResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

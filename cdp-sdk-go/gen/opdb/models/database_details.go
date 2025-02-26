@@ -79,6 +79,9 @@ type DatabaseDetails struct {
 	// The predetermined size of the cluster.
 	ScaleType ScaleType `json:"scaleType,omitempty"`
 
+	// Specifies the Security related configuration of the cluster nodes.
+	SecurityResponse *SecurityResponse `json:"securityResponse,omitempty"`
+
 	// Status of the database creation
 	Status StatusType `json:"status,omitempty"`
 
@@ -121,6 +124,10 @@ func (m *DatabaseDetails) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateScaleType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurityResponse(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -231,6 +238,25 @@ func (m *DatabaseDetails) validateScaleType(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *DatabaseDetails) validateSecurityResponse(formats strfmt.Registry) error {
+	if swag.IsZero(m.SecurityResponse) { // not required
+		return nil
+	}
+
+	if m.SecurityResponse != nil {
+		if err := m.SecurityResponse.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("securityResponse")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityResponse")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *DatabaseDetails) validateStatus(formats strfmt.Registry) error {
 	if swag.IsZero(m.Status) { // not required
 		return nil
@@ -287,6 +313,10 @@ func (m *DatabaseDetails) ContextValidate(ctx context.Context, formats strfmt.Re
 	}
 
 	if err := m.contextValidateScaleType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurityResponse(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -356,6 +386,27 @@ func (m *DatabaseDetails) contextValidateScaleType(ctx context.Context, formats 
 			return ce.ValidateName("scaleType")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *DatabaseDetails) contextValidateSecurityResponse(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SecurityResponse != nil {
+
+		if swag.IsZero(m.SecurityResponse) { // not required
+			return nil
+		}
+
+		if err := m.SecurityResponse.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("securityResponse")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityResponse")
+			}
+			return err
+		}
 	}
 
 	return nil

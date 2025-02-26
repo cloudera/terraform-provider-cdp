@@ -53,7 +53,7 @@ RepairClusterOK describes a response with status code 200, with default header v
 Expected response to a valid request.
 */
 type RepairClusterOK struct {
-	Payload models.RepairClusterResponse
+	Payload *models.RepairClusterResponse
 }
 
 // IsSuccess returns true when this repair cluster o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RepairClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/repairCluster][%d] repairClusterOK %s", 200, payload)
 }
 
-func (o *RepairClusterOK) GetPayload() models.RepairClusterResponse {
+func (o *RepairClusterOK) GetPayload() *models.RepairClusterResponse {
 	return o.Payload
 }
 
 func (o *RepairClusterOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RepairClusterResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

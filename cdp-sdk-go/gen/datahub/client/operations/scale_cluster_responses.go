@@ -53,7 +53,7 @@ ScaleClusterOK describes a response with status code 200, with default header va
 Expected response to a valid request.
 */
 type ScaleClusterOK struct {
-	Payload models.ScaleClusterResponse
+	Payload *models.ScaleClusterResponse
 }
 
 // IsSuccess returns true when this scale cluster o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *ScaleClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/scaleCluster][%d] scaleClusterOK %s", 200, payload)
 }
 
-func (o *ScaleClusterOK) GetPayload() models.ScaleClusterResponse {
+func (o *ScaleClusterOK) GetPayload() *models.ScaleClusterResponse {
 	return o.Payload
 }
 
 func (o *ScaleClusterOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.ScaleClusterResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

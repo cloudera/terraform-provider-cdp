@@ -53,7 +53,7 @@ UpdateToAwsImdsV1OK describes a response with status code 200, with default head
 Expected response to a valid request.
 */
 type UpdateToAwsImdsV1OK struct {
-	Payload models.UpdateToAwsImdsV1Response
+	Payload *models.UpdateToAwsImdsV1Response
 }
 
 // IsSuccess returns true when this update to aws imds v1 o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *UpdateToAwsImdsV1OK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/updateToAwsImdsV1][%d] updateToAwsImdsV1OK %s", 200, payload)
 }
 
-func (o *UpdateToAwsImdsV1OK) GetPayload() models.UpdateToAwsImdsV1Response {
+func (o *UpdateToAwsImdsV1OK) GetPayload() *models.UpdateToAwsImdsV1Response {
 	return o.Payload
 }
 
 func (o *UpdateToAwsImdsV1OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.UpdateToAwsImdsV1Response)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

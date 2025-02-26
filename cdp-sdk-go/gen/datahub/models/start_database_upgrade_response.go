@@ -17,6 +17,9 @@ import (
 // swagger:model StartDatabaseUpgradeResponse
 type StartDatabaseUpgradeResponse struct {
 
+	// Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+	OperationID string `json:"operationId,omitempty"`
+
 	// The database engine major version to upgrade to.
 	TargetVersion string `json:"targetVersion,omitempty"`
 }

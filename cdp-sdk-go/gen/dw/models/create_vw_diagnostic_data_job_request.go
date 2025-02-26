@@ -42,12 +42,6 @@ type CreateVwDiagnosticDataJobRequest struct {
 	// Forced recreation of the diagnostic job.
 	Force *bool `json:"force,omitempty"`
 
-	// DEPRECATED: All logs are included by default
-	HiveDownloadOptions *HiveCreateDiagnosticDataDownloadOptions `json:"hiveDownloadOptions,omitempty"`
-
-	// DEPRECATED: All logs are included by default
-	ImpalaDownloadOptions *ImpalaCreateDiagnosticDataDownloadOptions `json:"impalaDownloadOptions,omitempty"`
-
 	// The resulting bundle will contain logs/metrics after the specified start time. If not indicated, then 30 minutes ago from now is taken as the start time.
 	// Format: date-time
 	StartTime strfmt.DateTime `json:"startTime,omitempty"`
@@ -70,14 +64,6 @@ func (m *CreateVwDiagnosticDataJobRequest) Validate(formats strfmt.Registry) err
 	}
 
 	if err := m.validateEndTime(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateHiveDownloadOptions(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateImpalaDownloadOptions(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -159,44 +145,6 @@ func (m *CreateVwDiagnosticDataJobRequest) validateEndTime(formats strfmt.Regist
 	return nil
 }
 
-func (m *CreateVwDiagnosticDataJobRequest) validateHiveDownloadOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.HiveDownloadOptions) { // not required
-		return nil
-	}
-
-	if m.HiveDownloadOptions != nil {
-		if err := m.HiveDownloadOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hiveDownloadOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hiveDownloadOptions")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *CreateVwDiagnosticDataJobRequest) validateImpalaDownloadOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaDownloadOptions) { // not required
-		return nil
-	}
-
-	if m.ImpalaDownloadOptions != nil {
-		if err := m.ImpalaDownloadOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("impalaDownloadOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("impalaDownloadOptions")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (m *CreateVwDiagnosticDataJobRequest) validateStartTime(formats strfmt.Registry) error {
 	if swag.IsZero(m.StartTime) { // not required
 		return nil
@@ -218,63 +166,8 @@ func (m *CreateVwDiagnosticDataJobRequest) validateVwID(formats strfmt.Registry)
 	return nil
 }
 
-// ContextValidate validate this create vw diagnostic data job request based on the context it is used
+// ContextValidate validates this create vw diagnostic data job request based on context it is used
 func (m *CreateVwDiagnosticDataJobRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateHiveDownloadOptions(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateImpalaDownloadOptions(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *CreateVwDiagnosticDataJobRequest) contextValidateHiveDownloadOptions(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.HiveDownloadOptions != nil {
-
-		if swag.IsZero(m.HiveDownloadOptions) { // not required
-			return nil
-		}
-
-		if err := m.HiveDownloadOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hiveDownloadOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hiveDownloadOptions")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *CreateVwDiagnosticDataJobRequest) contextValidateImpalaDownloadOptions(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ImpalaDownloadOptions != nil {
-
-		if swag.IsZero(m.ImpalaDownloadOptions) { // not required
-			return nil
-		}
-
-		if err := m.ImpalaDownloadOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("impalaDownloadOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("impalaDownloadOptions")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 

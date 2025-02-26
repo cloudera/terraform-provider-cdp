@@ -22,6 +22,9 @@ type DeleteMlServingAppRequest struct {
 	// The CRN of the Cloudera AI Inference Service to be deleted.
 	// Required: true
 	AppCrn *string `json:"appCrn"`
+
+	// Forcefully deletes the Cloudera AI Inference service, bypassing any errors encountered during the deletion process. Please note that using force delete removes the assurance that resources in your cloud account will be properly cleaned up. By default, force is set to false.
+	Force bool `json:"force,omitempty"`
 }
 
 // Validate validates this delete ml serving app request

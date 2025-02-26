@@ -63,6 +63,9 @@ type CreateWorkspaceRequest struct {
 	// The request for Kubernetes workbench provision. Required in public cloud.
 	ProvisionK8sRequest *ProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
 
+	// The resource pool configuration for quota management.
+	ResourcePoolConfig *ResourcePoolConfig `json:"resourcePoolConfig,omitempty"`
+
 	// Skip pre-flight validations if requested.
 	SkipValidation bool `json:"skipValidation,omitempty"`
 
@@ -100,6 +103,10 @@ func (m *CreateWorkspaceRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateProvisionK8sRequest(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateResourcePoolConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -181,6 +188,25 @@ func (m *CreateWorkspaceRequest) validateProvisionK8sRequest(formats strfmt.Regi
 	return nil
 }
 
+func (m *CreateWorkspaceRequest) validateResourcePoolConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.ResourcePoolConfig) { // not required
+		return nil
+	}
+
+	if m.ResourcePoolConfig != nil {
+		if err := m.ResourcePoolConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("resourcePoolConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resourcePoolConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateWorkspaceRequest) validateWorkspaceName(formats strfmt.Registry) error {
 
 	if err := validate.Required("workspaceName", "body", m.WorkspaceName); err != nil {
@@ -203,6 +229,10 @@ func (m *CreateWorkspaceRequest) ContextValidate(ctx context.Context, formats st
 	}
 
 	if err := m.contextValidateProvisionK8sRequest(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResourcePoolConfig(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -268,6 +298,27 @@ func (m *CreateWorkspaceRequest) contextValidateProvisionK8sRequest(ctx context.
 				return ve.ValidateName("provisionK8sRequest")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("provisionK8sRequest")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateWorkspaceRequest) contextValidateResourcePoolConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ResourcePoolConfig != nil {
+
+		if swag.IsZero(m.ResourcePoolConfig) { // not required
+			return nil
+		}
+
+		if err := m.ResourcePoolConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("resourcePoolConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resourcePoolConfig")
 			}
 			return err
 		}

@@ -53,7 +53,7 @@ RenewPublicCertificateOK describes a response with status code 200, with default
 Expected response to a valid request.
 */
 type RenewPublicCertificateOK struct {
-	Payload models.RenewPublicCertificateResponse
+	Payload *models.RenewPublicCertificateResponse
 }
 
 // IsSuccess returns true when this renew public certificate o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RenewPublicCertificateOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/renewPublicCertificate][%d] renewPublicCertificateOK %s", 200, payload)
 }
 
-func (o *RenewPublicCertificateOK) GetPayload() models.RenewPublicCertificateResponse {
+func (o *RenewPublicCertificateOK) GetPayload() *models.RenewPublicCertificateResponse {
 	return o.Payload
 }
 
 func (o *RenewPublicCertificateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RenewPublicCertificateResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

@@ -28,9 +28,6 @@ type AzureResourceEncryptionParameters struct {
 
 	// User managed identity for encryption.
 	EncryptionUserManagedIdentity string `json:"encryptionUserManagedIdentity,omitempty"`
-
-	// User managed identity for encryption. (deprecated)
-	UserManagedIdentity string `json:"userManagedIdentity,omitempty"`
 }
 
 // Validate validates this azure resource encryption parameters

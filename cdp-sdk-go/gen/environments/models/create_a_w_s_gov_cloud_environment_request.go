@@ -78,11 +78,14 @@ type CreateAWSGovCloudEnvironmentRequest struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
+	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
+	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
 
 	// Deprecated. S3Guard was used to ensure consistent S3 updates when S3 was still eventually consistent. With the introduction of Consistent S3, the goal and usage of S3 Guard have become superfluous and defunct.
 	S3GuardTableName string `json:"s3GuardTableName,omitempty"`
+
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityRequest `json:"security,omitempty"`
 
 	// Security control for FreeIPA and Data Lake deployment.
 	// Required: true
@@ -139,6 +142,10 @@ func (m *CreateAWSGovCloudEnvironmentRequest) Validate(formats strfmt.Registry) 
 	}
 
 	if err := m.validateRegion(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -326,6 +333,25 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateRegion(formats strfmt.Regi
 	return nil
 }
 
+func (m *CreateAWSGovCloudEnvironmentRequest) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateAWSGovCloudEnvironmentRequest) validateSecurityAccess(formats strfmt.Registry) error {
 
 	if err := validate.Required("securityAccess", "body", m.SecurityAccess); err != nil {
@@ -405,6 +431,10 @@ func (m *CreateAWSGovCloudEnvironmentRequest) ContextValidate(ctx context.Contex
 	}
 
 	if err := m.contextValidateLogStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -511,6 +541,27 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateLogStorage(ctx cont
 				return ve.ValidateName("logStorage")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("logStorage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
 			}
 			return err
 		}

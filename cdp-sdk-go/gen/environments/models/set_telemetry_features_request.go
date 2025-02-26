@@ -23,8 +23,8 @@ type SetTelemetryFeaturesRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// Flag to enable environment level deployment log collection.
-	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
+	// [Deprecated] Flag to enable environment level deployment log collection.
+	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
 
 	// Flag to enable environment level workload analytics.
 	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`

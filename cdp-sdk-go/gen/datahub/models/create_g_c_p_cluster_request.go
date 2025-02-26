@@ -52,8 +52,14 @@ type CreateGCPClusterRequest struct {
 	// Configure the major version of Java on the cluster.
 	JavaVersion int32 `json:"javaVersion,omitempty"`
 
+	// Creates CDP Data Hub distributed across multiple availability zones in GCP region
+	MultiAz *bool `json:"multiAz,omitempty"`
+
 	// JSON template to use for cluster creation. This is different from cluster template and would be removed in the future.
 	RequestTemplate string `json:"requestTemplate,omitempty"`
+
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityRequest `json:"security,omitempty"`
 
 	// The subnet name.
 	SubnetName string `json:"subnetName,omitempty"`
@@ -83,6 +89,10 @@ func (m *CreateGCPClusterRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateInstanceGroups(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -193,6 +203,25 @@ func (m *CreateGCPClusterRequest) validateInstanceGroups(formats strfmt.Registry
 	return nil
 }
 
+func (m *CreateGCPClusterRequest) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateGCPClusterRequest) validateTags(formats strfmt.Registry) error {
 	if swag.IsZero(m.Tags) { // not required
 		return nil
@@ -236,6 +265,10 @@ func (m *CreateGCPClusterRequest) ContextValidate(ctx context.Context, formats s
 	}
 
 	if err := m.contextValidateInstanceGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -329,6 +362,27 @@ func (m *CreateGCPClusterRequest) contextValidateInstanceGroups(ctx context.Cont
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *CreateGCPClusterRequest) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
 	}
 
 	return nil

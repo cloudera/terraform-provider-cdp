@@ -234,6 +234,8 @@ type ClientService interface {
 
 	UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error)
 
+	UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error)
+
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
 	UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error)
@@ -2522,7 +2524,7 @@ func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts .
 /*
 RotateSaltPassword rotates salt stack user password on free IP a instances
 
-Rotate SaltStack user password on FreeIPA instances.
+Deprecated, please use rotateFreeipaSecrets with SALT_PASSWORD secretType instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	// TODO: Validate the params before sending
@@ -3764,6 +3766,45 @@ func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateFreeipaToAwsImdsV2Default)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateGcpAvailabilityZones updates the availability zones for the g c p environment
+
+Updates the Availability Zones for the GCP environment.
+*/
+func (a *Client) UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateGcpAvailabilityZonesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateGcpAvailabilityZones",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateGcpAvailabilityZones",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateGcpAvailabilityZonesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateGcpAvailabilityZonesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateGcpAvailabilityZonesDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

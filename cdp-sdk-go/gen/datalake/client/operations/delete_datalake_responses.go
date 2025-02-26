@@ -53,7 +53,7 @@ DeleteDatalakeOK describes a response with status code 200, with default header 
 Expected response to a valid request.
 */
 type DeleteDatalakeOK struct {
-	Payload models.DeleteDatalakeResponse
+	Payload *models.DeleteDatalakeResponse
 }
 
 // IsSuccess returns true when this delete datalake o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *DeleteDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/deleteDatalake][%d] deleteDatalakeOK %s", 200, payload)
 }
 
-func (o *DeleteDatalakeOK) GetPayload() models.DeleteDatalakeResponse {
+func (o *DeleteDatalakeOK) GetPayload() *models.DeleteDatalakeResponse {
 	return o.Payload
 }
 
 func (o *DeleteDatalakeOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.DeleteDatalakeResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

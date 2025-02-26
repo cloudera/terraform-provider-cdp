@@ -53,7 +53,7 @@ RotatePrivateCertificatesOK describes a response with status code 200, with defa
 Expected response to a valid request.
 */
 type RotatePrivateCertificatesOK struct {
-	Payload models.RotatePrivateCertificatesResponse
+	Payload *models.RotatePrivateCertificatesResponse
 }
 
 // IsSuccess returns true when this rotate private certificates o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RotatePrivateCertificatesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/rotatePrivateCertificates][%d] rotatePrivateCertificatesOK %s", 200, payload)
 }
 
-func (o *RotatePrivateCertificatesOK) GetPayload() models.RotatePrivateCertificatesResponse {
+func (o *RotatePrivateCertificatesOK) GetPayload() *models.RotatePrivateCertificatesResponse {
 	return o.Payload
 }
 
 func (o *RotatePrivateCertificatesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RotatePrivateCertificatesResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

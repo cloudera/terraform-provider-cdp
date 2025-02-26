@@ -99,6 +99,7 @@ func TestCloudPlatformIsNilAddsError(t *testing.T) {
 
 func createEnvironmentTestModel(cloudPlatform *string) *models.Environment {
 	status := "ACTIVE"
+	falseVal := false
 	env := &models.Environment{
 		Authentication:                   nil,
 		AwsComputeClusterConfiguration:   nil,
@@ -122,7 +123,7 @@ func createEnvironmentTestModel(cloudPlatform *string) *models.Environment {
 		Network:                          nil,
 		ProxyConfig:                      nil,
 		Region:                           nil,
-		ReportDeploymentLogs:             false,
+		ReportDeploymentLogs:             &falseVal,
 		SecurityAccess:                   nil,
 		Status:                           &status,
 		StatusReason:                     "",

@@ -53,7 +53,7 @@ RestartDatalakeInstancesOK describes a response with status code 200, with defau
 Expected response to a valid request.
 */
 type RestartDatalakeInstancesOK struct {
-	Payload models.RestartDatalakeInstancesResponse
+	Payload *models.RestartDatalakeInstancesResponse
 }
 
 // IsSuccess returns true when this restart datalake instances o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RestartDatalakeInstancesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/restartDatalakeInstances][%d] restartDatalakeInstancesOK %s", 200, payload)
 }
 
-func (o *RestartDatalakeInstancesOK) GetPayload() models.RestartDatalakeInstancesResponse {
+func (o *RestartDatalakeInstancesOK) GetPayload() *models.RestartDatalakeInstancesResponse {
 	return o.Payload
 }
 
 func (o *RestartDatalakeInstancesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RestartDatalakeInstancesResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

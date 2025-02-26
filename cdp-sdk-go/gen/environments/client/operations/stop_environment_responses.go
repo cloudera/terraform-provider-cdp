@@ -53,7 +53,7 @@ StopEnvironmentOK describes a response with status code 200, with default header
 Expected response to a valid request.
 */
 type StopEnvironmentOK struct {
-	Payload models.StopEnvironmentResponse
+	Payload *models.StopEnvironmentResponse
 }
 
 // IsSuccess returns true when this stop environment o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *StopEnvironmentOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/stopEnvironment][%d] stopEnvironmentOK %s", 200, payload)
 }
 
-func (o *StopEnvironmentOK) GetPayload() models.StopEnvironmentResponse {
+func (o *StopEnvironmentOK) GetPayload() *models.StopEnvironmentResponse {
 	return o.Payload
 }
 
 func (o *StopEnvironmentOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.StopEnvironmentResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

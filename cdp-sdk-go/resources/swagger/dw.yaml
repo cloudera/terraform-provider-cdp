@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.127 (BETA)
+  version: 0.9.131 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -233,6 +233,28 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/UpdateServerSettingResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: true
+  /api/v1/dw/resetServerSettings:
+    post:
+      x-form-factors: private
+      summary: Restores the DWX server settings to the default values.
+      description: Restores the DWX server settings to the default values. Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server settings list returned by the describeServerSetting functionality.
+      operationId: resetServerSettings
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ResetServerSettingsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ResetServerSettingsResponse'
         default:
           description: The default response on an error.
           schema:
@@ -2231,6 +2253,18 @@ definitions:
       status:
         type: string
         description: Update status.
+  ResetServerSettingsRequest:
+    type: object
+    description: Request object for the resetServerSettings method.
+    x-form-factors: private
+  ResetServerSettingsResponse:
+    type: object
+    description: Response object for the resetServerSettings method.
+    x-form-factors: private
+    properties:
+      status:
+        type: string
+        description: Reset status.
   UpdateServerSettingItem:
     type: object
     description: A DWX server setting update.
@@ -2480,10 +2514,11 @@ definitions:
         type: boolean
         description: Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
       computeInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
+        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
   CreateAzureClusterRequest:
     type: object
     description: Request object for the createAzureCluster method.
@@ -2548,10 +2583,11 @@ definitions:
         description: Whether to enable spot instances for Virtual warehouses. It cannot be updated later. Defaults to false.
         default: false
       computeInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
+        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
       logAnalyticsWorkspaceId:
         type: string
         description: Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
@@ -2784,10 +2820,11 @@ definitions:
         type: boolean
         description: Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
       computeInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
+        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
   AzureActivationOptions:
     type: object
     description: Options for activating an Azure environment.
@@ -2806,10 +2843,11 @@ definitions:
         description: Whether to enable spot instances for Virtual warehouses. It cannot be updated later. If the AzureActivationOptions is not provided it defaults to false.
         default: false
       computeInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
+        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
       logAnalyticsWorkspaceId:
         type: string
         description: Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
@@ -3294,9 +3332,14 @@ definitions:
         description: Version of the Database Catalog.
         default: ''
         x-form-factors: public
+      resourceTemplateId:
+        type: string
+        description: The resource template of the Database Catalog.
       memorySize:
         type: string
-        description: Set Metastore container memory size. If not provided, small will apply.
+        x-no-compatibility-guarantee: true
+        x-deprecated: true
+        description: 'DEPRECATED: resourceTemplateId field is replacing this one. Set Metastore container memory size. The small size will apply as default if neither the resourceTemplateId field nor this field is provided.'
         enum:
           - small
           - medium
@@ -3361,10 +3404,6 @@ definitions:
         type: boolean
         default: false
         description: Forced recreation of the diagnostic job.
-      downloadOptions:
-        x-deprecated: true
-        description: 'DEPRECATED: All logs are included by default. No need to specify options'
-        $ref: '#/definitions/ClusterCreateDiagnosticDataDownloadOptions'
   CreateClusterDiagnosticDataJobResponse:
     type: object
     description: Response object for the createClusterDiagnosticDataJob method.
@@ -3531,10 +3570,6 @@ definitions:
         type: boolean
         default: false
         description: Forced recreation of the diagnostic job.
-      downloadOptions:
-        x-deprecated: true
-        description: 'DEPRECATED: All logs are included by default'
-        $ref: '#/definitions/DBCCreateDiagnosticDataDownloadOptions'
   CreateDbcDiagnosticDataJobResponse:
     type: object
     description: Response object for the createDbcDiagnosticDataJob method.
@@ -4616,14 +4651,6 @@ definitions:
         type: boolean
         default: false
         description: Forced recreation of the diagnostic job.
-      hiveDownloadOptions:
-        x-deprecated: true
-        description: 'DEPRECATED: All logs are included by default'
-        $ref: '#/definitions/HiveCreateDiagnosticDataDownloadOptions'
-      impalaDownloadOptions:
-        x-deprecated: true
-        description: 'DEPRECATED: All logs are included by default'
-        $ref: '#/definitions/ImpalaCreateDiagnosticDataDownloadOptions'
   CreateVwDiagnosticDataJobResponse:
     type: object
     description: Response object for the createVwDiagnosticDataJob method.
@@ -4791,120 +4818,6 @@ definitions:
         description: The list of the events belonging to the particular Virtual Warehouse
         items:
           $ref: '#/definitions/EventResponse'
-  HiveCreateDiagnosticDataDownloadOptions:
-    x-deprecated: true
-    type: object
-    description: 'DEPRECATED: Included by default, no need to specify'
-    x-form-factors: public
-    properties:
-      includeHms:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeErrordump:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeGclogs:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeHeapdump:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeLogs:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeComputeResourceInfo:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeKubernetesResourceInfo:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-  ImpalaCreateDiagnosticDataDownloadOptions:
-    x-deprecated: true
-    type: object
-    description: 'DEPRECATED: Included by default, no need to specify'
-    x-form-factors: public
-    properties:
-      includeHms:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeMinidump:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeProfile:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeSidecar:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeWorkload:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeKubernetesResourceInfo:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-  DBCCreateDiagnosticDataDownloadOptions:
-    x-deprecated: true
-    type: object
-    description: 'DEPRECATED: Included by default, no need to specify'
-    x-form-factors: public
-    properties:
-      includeKubernetesResourceInfo:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-  ClusterCreateDiagnosticDataDownloadOptions:
-    type: object
-    x-form-factors: public
-    x-deprecated: true
-    description: 'DEPRECATED: Included by default, no need to specify'
-    properties:
-      includeClusterInfo:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeIstioSystem:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeSharedServices:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
-      includeKubeSystem:
-        x-deprecated: true
-        type: boolean
-        default: false
-        description: 'DEPRECATED: Included by default, no need to specify'
   ExternalBucket:
     type: object
     description: External bucket details.
@@ -4968,10 +4881,11 @@ definitions:
         format: int32
         description: DEPRECATED - will be removed in future releases. Number of additional reserved nodes for other services in the cluster.
       computeInstanceTypes:
+        x-deprecated: true
         type: array
         items:
           type: string
-        description: 'NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.'
+        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.'
       awsOptions:
         $ref: '#/definitions/AwsOptionsResponse'
         description: Response object of AWS related cluster options.
@@ -5070,9 +4984,14 @@ definitions:
       name:
         type: string
         description: The name of the Database Catalog.
+      resourceTemplateId:
+        type: string
+        description: The resource template of the Database Catalog.
       memorySize:
         type: string
-        description: Metastore container memory size.
+        x-no-compatibility-guarantee: true
+        x-deprecated: true
+        description: 'DEPRECATED: resourceTemplateId field is replacing this one. Metastore container memory size.'
       status:
         type: string
         description: 'Status of the Database Catalog. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.'
@@ -5568,9 +5487,14 @@ definitions:
       dbcId:
         type: string
         description: ID of the Database Catalog.
+      resourceTemplateId:
+        type: string
+        description: The resource template of the Database Catalog.
       memorySize:
         type: string
-        description: Set Metastore container memory size. If not provided, small will apply.
+        x-no-compatibility-guarantee: true
+        x-deprecated: true
+        description: 'DEPRECATED: resourceTemplateId field is replacing this one. Set Metastore container memory size. The small size will apply as default if neither the resourceTemplateId field nor this field is provided.'
         enum:
           - small
           - medium
@@ -6335,6 +6259,9 @@ definitions:
         items:
           type: string
         description: The job states we need to filter by. If not present, this filter is not used.
+      includeAutomaticBackups:
+        type: boolean
+        description: Decides whether automatic (system-generated) backups should be listed or not. Value is true by default.
   ListBackupsResponse:
     type: object
     x-form-factors: private
@@ -6728,11 +6655,6 @@ definitions:
       xmx:
         type: string
         description: Java VM configuration for -Xmx (maximum heap size).
-      headroom:
-        type: string
-        description: 'DEPRECATED: Java VM configuration for -Xmx (maximum heap size).Java VM overhead for Garbage Collector structures, metaspace, etc., and a safety margin to avoid out-of-memory issues.'
-        x-nullable: true
-        x-deprecated: true
       xss:
         type: string
         description: Java VM configuration for -Xss (thread stack size).
@@ -6741,12 +6663,6 @@ definitions:
         type: string
         description: Java VM configuration for -XX:MaxDirectMemorySize (limit for Direct Byte Buffers).
         x-nullable: true
-      waitQueueSize:
-        type: integer
-        format: int32
-        description: 'DEPRECATED: Set the hive.query.isolation.slots.per.node configuration value instead. Overhead buffer for hive.query.isolation.slots.per.node. The total number of concurrent tasks the Hive query executor can process is the sum of the available CPU cores and the value you specify in this field.'
-        x-nullable: true
-        x-deprecated: true
   CreateApplicationResourcesLocalStorageSize:
     type: object
     description: Storage related information.
@@ -6834,11 +6750,6 @@ definitions:
       xmx:
         type: string
         description: Java VM configuration for -Xmx (maximum heap size).
-      headroom:
-        type: string
-        description: 'DEPRECATED: Java VM configuration for -Xmx (maximum heap size).Java VM overhead for Garbage Collector structures, metaspace, etc., and a safety margin to avoid out-of-memory issues.'
-        x-nullable: true
-        x-deprecated: true
       xss:
         type: string
         description: Java VM configuration for -Xss (thread stack size).
@@ -6847,12 +6758,6 @@ definitions:
         type: string
         description: Java VM configuration for -XX:MaxDirectMemorySize (limit for Direct Byte Buffers).
         x-nullable: true
-      waitQueueSize:
-        type: integer
-        format: int32
-        description: 'DEPRECATED: Set the hive.query.isolation.slots.per.node configuration value instead. Overhead buffer for hive.query.isolation.slots.per.node. The total number of concurrent tasks the Hive query executor can process is the sum of the available CPU cores and the value you specify in this field.'
-        x-nullable: true
-        x-deprecated: true
   UpdateApplicationResourcesLocalStorageSize:
     type: object
     description: Storage related information.
@@ -6932,11 +6837,6 @@ definitions:
       xmx:
         type: string
         description: Java VM configuration for -Xmx (maximum heap size).
-      headroom:
-        type: string
-        description: 'DEPRECATED: Java VM configuration for -Xmx (maximum heap size).Java VM overhead for Garbage Collector structures, metaspace, etc., and a safety margin to avoid out-of-memory issues.'
-        x-nullable: true
-        x-deprecated: true
       xss:
         type: string
         description: Java VM configuration for -Xss (thread stack size).
@@ -6945,12 +6845,6 @@ definitions:
         type: string
         description: Java VM configuration for -XX:MaxDirectMemorySize (limit for Direct Byte Buffers).
         x-nullable: true
-      waitQueueSize:
-        type: integer
-        format: int32
-        description: 'DEPRECATED: Set the hive.query.isolation.slots.per.node configuration value instead. Overhead buffer for hive.query.isolation.slots.per.node. The total number of concurrent tasks the Hive query executor can process is the sum of the available CPU cores and the value you specify in this field.'
-        x-nullable: true
-        x-deprecated: true
   ApplicationResourcesLocalStorageSize:
     type: object
     description: Storage related information.

@@ -19,6 +19,9 @@ type ScaleHorizontallyResponse struct {
 
 	// The name of the datalake.
 	DatalakeName string `json:"datalakeName,omitempty"`
+
+	// Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+	OperationID string `json:"operationId,omitempty"`
 }
 
 // Validate validates this scale horizontally response

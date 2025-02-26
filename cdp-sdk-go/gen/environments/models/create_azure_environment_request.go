@@ -105,11 +105,14 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
+	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
+	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
 
 	// Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.
 	ResourceGroupName string `json:"resourceGroupName,omitempty"`
+
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityRequest `json:"security,omitempty"`
 
 	// Security control for FreeIPA and Data Lake deployment.
 	// Required: true
@@ -182,6 +185,10 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	}
 
 	if err := m.validateRegion(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -434,6 +441,25 @@ func (m *CreateAzureEnvironmentRequest) validateRegion(formats strfmt.Registry) 
 	return nil
 }
 
+func (m *CreateAzureEnvironmentRequest) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateAzureEnvironmentRequest) validateSecurityAccess(formats strfmt.Registry) error {
 
 	if err := validate.Required("securityAccess", "body", m.SecurityAccess); err != nil {
@@ -522,6 +548,10 @@ func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, for
 	}
 
 	if err := m.contextValidateNewNetworkParams(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -695,6 +725,27 @@ func (m *CreateAzureEnvironmentRequest) contextValidateNewNetworkParams(ctx cont
 				return ve.ValidateName("newNetworkParams")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("newNetworkParams")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
 			}
 			return err
 		}

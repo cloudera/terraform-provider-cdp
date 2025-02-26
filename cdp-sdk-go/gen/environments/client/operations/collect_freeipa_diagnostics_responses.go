@@ -53,7 +53,7 @@ CollectFreeipaDiagnosticsOK describes a response with status code 200, with defa
 Expected response to a valid request.
 */
 type CollectFreeipaDiagnosticsOK struct {
-	Payload models.CollectFreeipaDiagnosticsResponse
+	Payload *models.CollectFreeipaDiagnosticsResponse
 }
 
 // IsSuccess returns true when this collect freeipa diagnostics o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *CollectFreeipaDiagnosticsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/collectFreeipaDiagnostics][%d] collectFreeipaDiagnosticsOK %s", 200, payload)
 }
 
-func (o *CollectFreeipaDiagnosticsOK) GetPayload() models.CollectFreeipaDiagnosticsResponse {
+func (o *CollectFreeipaDiagnosticsOK) GetPayload() *models.CollectFreeipaDiagnosticsResponse {
 	return o.Payload
 }
 
 func (o *CollectFreeipaDiagnosticsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.CollectFreeipaDiagnosticsResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

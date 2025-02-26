@@ -16,7 +16,7 @@ import (
 
 // StorageType Storage type for clusters.
 //
-//	`CLOUD_WITH_EPHEMERAL` - Cloud with ephemeral storage. `CLOUD` - Cloud storage without ephemeral storage. `HDFS` - HDFS storage. `CLOUD_WITH_EPHEMERAL_DATATIERING` - Cloud with Ephemeral Storage and Datatiering.
+//	`CLOUD_WITH_EPHEMERAL` - Cloud with ephemeral storage. `CLOUD` - Cloud storage without ephemeral storage. `HDFS` - HDFS storage.
 //
 // swagger:model StorageType
 type StorageType string

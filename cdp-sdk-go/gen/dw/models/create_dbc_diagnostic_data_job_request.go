@@ -39,9 +39,6 @@ type CreateDbcDiagnosticDataJobRequest struct {
 	// Enum: ["UPLOAD_TO_CLOUDERA","DOWNLOAD"]
 	Destination *string `json:"destination"`
 
-	// DEPRECATED: All logs are included by default
-	DownloadOptions *DBCCreateDiagnosticDataDownloadOptions `json:"downloadOptions,omitempty"`
-
 	// The resulting bundle will contain logs/metrics before the specified end time. If not indicated, then the current time is taken as the end time.
 	// Format: date-time
 	EndTime strfmt.DateTime `json:"endTime,omitempty"`
@@ -67,10 +64,6 @@ func (m *CreateDbcDiagnosticDataJobRequest) Validate(formats strfmt.Registry) er
 	}
 
 	if err := m.validateDestination(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateDownloadOptions(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -149,25 +142,6 @@ func (m *CreateDbcDiagnosticDataJobRequest) validateDestination(formats strfmt.R
 	return nil
 }
 
-func (m *CreateDbcDiagnosticDataJobRequest) validateDownloadOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.DownloadOptions) { // not required
-		return nil
-	}
-
-	if m.DownloadOptions != nil {
-		if err := m.DownloadOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("downloadOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("downloadOptions")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (m *CreateDbcDiagnosticDataJobRequest) validateEndTime(formats strfmt.Registry) error {
 	if swag.IsZero(m.EndTime) { // not required
 		return nil
@@ -192,38 +166,8 @@ func (m *CreateDbcDiagnosticDataJobRequest) validateStartTime(formats strfmt.Reg
 	return nil
 }
 
-// ContextValidate validate this create dbc diagnostic data job request based on the context it is used
+// ContextValidate validates this create dbc diagnostic data job request based on context it is used
 func (m *CreateDbcDiagnosticDataJobRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateDownloadOptions(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *CreateDbcDiagnosticDataJobRequest) contextValidateDownloadOptions(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.DownloadOptions != nil {
-
-		if swag.IsZero(m.DownloadOptions) { // not required
-			return nil
-		}
-
-		if err := m.DownloadOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("downloadOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("downloadOptions")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 

@@ -22,6 +22,9 @@ type GetOperationRequest struct {
 	// Name of the environment resource.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
+
+	// Filter by operation id.
+	OperationID string `json:"operationId,omitempty"`
 }
 
 // Validate validates this get operation request

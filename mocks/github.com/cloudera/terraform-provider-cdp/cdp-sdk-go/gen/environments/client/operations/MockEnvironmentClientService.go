@@ -5160,7 +5160,7 @@ func (_c *MockEnvironmentClientService_SetTransport_Call) Return() *MockEnvironm
 }
 
 func (_c *MockEnvironmentClientService_SetTransport_Call) RunAndReturn(run func(runtime.ClientTransport)) *MockEnvironmentClientService_SetTransport_Call {
-	_c.Run(run)
+	_c.Call.Return(run)
 	return _c
 }
 
@@ -6620,6 +6620,79 @@ func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call) Return(_a0
 }
 
 func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call) RunAndReturn(run func(*operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateGcpAvailabilityZones provides a mock function with given fields: params, opts
+func (_m *MockEnvironmentClientService) UpdateGcpAvailabilityZones(params *operations.UpdateGcpAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateGcpAvailabilityZonesOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateGcpAvailabilityZones")
+	}
+
+	var r0 *operations.UpdateGcpAvailabilityZonesOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateGcpAvailabilityZonesParams, ...operations.ClientOption) (*operations.UpdateGcpAvailabilityZonesOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateGcpAvailabilityZonesParams, ...operations.ClientOption) *operations.UpdateGcpAvailabilityZonesOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateGcpAvailabilityZonesOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateGcpAvailabilityZonesParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateGcpAvailabilityZones'
+type MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call struct {
+	*mock.Call
+}
+
+// UpdateGcpAvailabilityZones is a helper method to define mock.On call
+//   - params *operations.UpdateGcpAvailabilityZonesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateGcpAvailabilityZones(params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call {
+	return &MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call{Call: _e.mock.On("UpdateGcpAvailabilityZones",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call) Run(run func(params *operations.UpdateGcpAvailabilityZonesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateGcpAvailabilityZonesParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call) Return(_a0 *operations.UpdateGcpAvailabilityZonesOK, _a1 error) *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call) RunAndReturn(run func(*operations.UpdateGcpAvailabilityZonesParams, ...operations.ClientOption) (*operations.UpdateGcpAvailabilityZonesOK, error)) *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call {
 	_c.Call.Return(run)
 	return _c
 }

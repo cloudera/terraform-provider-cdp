@@ -53,7 +53,7 @@ RestartClusterInstancesOK describes a response with status code 200, with defaul
 Expected response to a valid request.
 */
 type RestartClusterInstancesOK struct {
-	Payload models.RestartClusterInstancesResponse
+	Payload *models.RestartClusterInstancesResponse
 }
 
 // IsSuccess returns true when this restart cluster instances o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RestartClusterInstancesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/restartClusterInstances][%d] restartClusterInstancesOK %s", 200, payload)
 }
 
-func (o *RestartClusterInstancesOK) GetPayload() models.RestartClusterInstancesResponse {
+func (o *RestartClusterInstancesOK) GetPayload() *models.RestartClusterInstancesResponse {
 	return o.Payload
 }
 
 func (o *RestartClusterInstancesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RestartClusterInstancesResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

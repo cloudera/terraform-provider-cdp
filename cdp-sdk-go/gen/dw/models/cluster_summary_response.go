@@ -29,7 +29,7 @@ type ClusterSummaryResponse struct {
 	// The cloud platform of the environment that was used to create this cluster.
 	CloudPlatform string `json:"cloudPlatform,omitempty"`
 
-	// NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.
+	// DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.
 	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
 
 	// Creation date of cluster.

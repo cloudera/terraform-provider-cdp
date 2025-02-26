@@ -53,7 +53,7 @@ DeleteClusterOK describes a response with status code 200, with default header v
 Expected response to a valid request.
 */
 type DeleteClusterOK struct {
-	Payload models.DeleteClusterResponse
+	Payload *models.DeleteClusterResponse
 }
 
 // IsSuccess returns true when this delete cluster o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *DeleteClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/deleteCluster][%d] deleteClusterOK %s", 200, payload)
 }
 
-func (o *DeleteClusterOK) GetPayload() models.DeleteClusterResponse {
+func (o *DeleteClusterOK) GetPayload() *models.DeleteClusterResponse {
 	return o.Payload
 }
 
 func (o *DeleteClusterOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.DeleteClusterResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

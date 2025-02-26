@@ -53,7 +53,7 @@ UpdateFreeipaToAwsImdsV1OK describes a response with status code 200, with defau
 Expected response to a valid request.
 */
 type UpdateFreeipaToAwsImdsV1OK struct {
-	Payload models.UpdateFreeipaToAwsImdsV1Response
+	Payload *models.UpdateFreeipaToAwsImdsV1Response
 }
 
 // IsSuccess returns true when this update freeipa to aws imds v1 o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *UpdateFreeipaToAwsImdsV1OK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/updateFreeipaToAwsImdsV1][%d] updateFreeipaToAwsImdsV1OK %s", 200, payload)
 }
 
-func (o *UpdateFreeipaToAwsImdsV1OK) GetPayload() models.UpdateFreeipaToAwsImdsV1Response {
+func (o *UpdateFreeipaToAwsImdsV1OK) GetPayload() *models.UpdateFreeipaToAwsImdsV1Response {
 	return o.Payload
 }
 
 func (o *UpdateFreeipaToAwsImdsV1OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.UpdateFreeipaToAwsImdsV1Response)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

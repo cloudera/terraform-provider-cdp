@@ -46,6 +46,9 @@ type Datalake struct {
 	// Flag which marks that the datalake is deployed in a multi-availability zone way or not.
 	MultiAz bool `json:"multiAz,omitempty"`
 
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityResponse `json:"security,omitempty"`
+
 	// The status of the datalake.
 	Status string `json:"status,omitempty"`
 
@@ -73,6 +76,10 @@ func (m *Datalake) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateDatalakeName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -158,6 +165,25 @@ func (m *Datalake) validateDatalakeName(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Datalake) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Datalake) validateTags(formats strfmt.Registry) error {
 	if swag.IsZero(m.Tags) { // not required
 		return nil
@@ -188,6 +214,10 @@ func (m *Datalake) validateTags(formats strfmt.Registry) error {
 func (m *Datalake) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateTags(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -195,6 +225,27 @@ func (m *Datalake) ContextValidate(ctx context.Context, formats strfmt.Registry)
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Datalake) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

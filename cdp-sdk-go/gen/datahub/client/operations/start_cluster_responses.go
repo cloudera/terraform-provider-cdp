@@ -53,7 +53,7 @@ StartClusterOK describes a response with status code 200, with default header va
 Expected response to a valid request.
 */
 type StartClusterOK struct {
-	Payload models.StartClusterResponse
+	Payload *models.StartClusterResponse
 }
 
 // IsSuccess returns true when this start cluster o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *StartClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/startCluster][%d] startClusterOK %s", 200, payload)
 }
 
-func (o *StartClusterOK) GetPayload() models.StartClusterResponse {
+func (o *StartClusterOK) GetPayload() *models.StartClusterResponse {
 	return o.Payload
 }
 
 func (o *StartClusterOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.StartClusterResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

@@ -26,7 +26,7 @@ type UpscaleFreeipaRequest struct {
 
 	// The target FreeIPA availability type.
 	// Required: true
-	// Enum: ["HA"]
+	// Enum: ["TWO_NODE_BASED","HA"]
 	TargetAvailabilityType *string `json:"targetAvailabilityType"`
 }
 
@@ -61,7 +61,7 @@ var upscaleFreeipaRequestTypeTargetAvailabilityTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["HA"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["TWO_NODE_BASED","HA"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -70,6 +70,9 @@ func init() {
 }
 
 const (
+
+	// UpscaleFreeipaRequestTargetAvailabilityTypeTWONODEBASED captures enum value "TWO_NODE_BASED"
+	UpscaleFreeipaRequestTargetAvailabilityTypeTWONODEBASED string = "TWO_NODE_BASED"
 
 	// UpscaleFreeipaRequestTargetAvailabilityTypeHA captures enum value "HA"
 	UpscaleFreeipaRequestTargetAvailabilityTypeHA string = "HA"
