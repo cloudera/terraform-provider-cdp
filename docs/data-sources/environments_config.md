@@ -216,7 +216,6 @@ Read-Only:
 - `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--azure--existing_network_params))
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--azure--freeipa))
 - `log_storage` (Attributes) (see [below for nested schema](#nestedatt--azure--log_storage))
-- `new_network_params` (Attributes) (see [below for nested schema](#nestedatt--azure--new_network_params))
 - `proxy_config_name` (String)
 - `public_key` (String)
 - `region` (String)
@@ -285,14 +284,6 @@ Read-Only:
 - `backup_storage_location_base` (String)
 - `managed_identity` (String)
 - `storage_location_base` (String)
-
-
-<a id="nestedatt--azure--new_network_params"></a>
-### Nested Schema for `azure.new_network_params`
-
-Read-Only:
-
-- `network_cidr` (String)
 
 
 <a id="nestedatt--azure--security_access"></a>

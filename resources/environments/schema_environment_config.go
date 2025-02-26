@@ -249,14 +249,6 @@ var EnvironmentConfigSchema = schema.Schema{
 						},
 					},
 				},
-				"new_network_params": schema.SingleNestedAttribute{
-					Computed: true,
-					Attributes: map[string]schema.Attribute{
-						"network_cidr": schema.StringAttribute{
-							Computed: true,
-						},
-					},
-				},
 				"proxy_config_name": schema.StringAttribute{
 					Computed: true,
 				},

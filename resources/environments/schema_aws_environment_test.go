@@ -183,6 +183,12 @@ var awsSchemaElements = []SchemaTestCaseStructure{
 		computed:         false,
 		shouldBeRequired: true,
 	},
+	{
+		name:             "compute_cluster should exist and be valid",
+		field:            "compute_cluster",
+		computed:         false,
+		shouldBeRequired: false,
+	},
 }
 
 func TestAwsSchemaContainsElements(t *testing.T) {

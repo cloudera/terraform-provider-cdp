@@ -184,6 +184,42 @@ var AzureEnvironmentSchema = schema.Schema{
 				},
 			},
 		},
+		"compute_cluster": schema.SingleNestedAttribute{
+			MarkdownDescription: "Option to set up Externalized compute cluster for the environment.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"enabled": schema.BoolAttribute{
+					Required: true,
+				},
+				"configuration": schema.SingleNestedAttribute{
+					MarkdownDescription: "The Externalized k8s configuration for the environment.",
+					Optional:            true,
+					Attributes: map[string]schema.Attribute{
+						"private_cluster": schema.BoolAttribute{
+							MarkdownDescription: "If true, creates private cluster. False, if not specified",
+							Default:             booldefault.StaticBool(false),
+							Computed:            true,
+							Optional:            true,
+						},
+						"kube_api_authorized_ip_ranges": schema.SetAttribute{
+							MarkdownDescription: "Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster.",
+							ElementType:         types.StringType,
+							Optional:            true,
+						},
+						"outbound_type": schema.StringAttribute{
+							MarkdownDescription: "Customize cluster egress with defined outbound type in Azure Kubernetes Service. Possible value(s): udr",
+							Optional:            true,
+						},
+						"worker_node_subnets": schema.SetAttribute{
+							MarkdownDescription: "Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.",
+							ElementType:         types.StringType,
+							Computed:            true,
+							Optional:            true,
+						},
+					},
+				},
+			},
+		},
 		"proxy_config_name": schema.StringAttribute{
 			Optional: true,
 		},
