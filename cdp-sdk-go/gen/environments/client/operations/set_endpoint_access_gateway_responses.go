@@ -53,7 +53,7 @@ SetEndpointAccessGatewayOK describes a response with status code 200, with defau
 Expected response to a valid request.
 */
 type SetEndpointAccessGatewayOK struct {
-	Payload models.SetEndpointAccessGatewayResponse
+	Payload *models.SetEndpointAccessGatewayResponse
 }
 
 // IsSuccess returns true when this set endpoint access gateway o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *SetEndpointAccessGatewayOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/setEndpointAccessGateway][%d] setEndpointAccessGatewayOK %s", 200, payload)
 }
 
-func (o *SetEndpointAccessGatewayOK) GetPayload() models.SetEndpointAccessGatewayResponse {
+func (o *SetEndpointAccessGatewayOK) GetPayload() *models.SetEndpointAccessGatewayResponse {
 	return o.Payload
 }
 
 func (o *SetEndpointAccessGatewayOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.SetEndpointAccessGatewayResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

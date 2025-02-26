@@ -53,7 +53,7 @@ StopClusterOK describes a response with status code 200, with default header val
 Expected response to a valid request.
 */
 type StopClusterOK struct {
-	Payload models.StopClusterResponse
+	Payload *models.StopClusterResponse
 }
 
 // IsSuccess returns true when this stop cluster o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *StopClusterOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/stopCluster][%d] stopClusterOK %s", 200, payload)
 }
 
-func (o *StopClusterOK) GetPayload() models.StopClusterResponse {
+func (o *StopClusterOK) GetPayload() *models.StopClusterResponse {
 	return o.Payload
 }
 
 func (o *StopClusterOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.StopClusterResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

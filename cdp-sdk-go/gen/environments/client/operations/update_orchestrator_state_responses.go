@@ -53,7 +53,7 @@ UpdateOrchestratorStateOK describes a response with status code 200, with defaul
 Expected response to a valid request.
 */
 type UpdateOrchestratorStateOK struct {
-	Payload models.UpdateOrchestratorStateResponse
+	Payload *models.UpdateOrchestratorStateResponse
 }
 
 // IsSuccess returns true when this update orchestrator state o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *UpdateOrchestratorStateOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/updateOrchestratorState][%d] updateOrchestratorStateOK %s", 200, payload)
 }
 
-func (o *UpdateOrchestratorStateOK) GetPayload() models.UpdateOrchestratorStateResponse {
+func (o *UpdateOrchestratorStateOK) GetPayload() *models.UpdateOrchestratorStateResponse {
 	return o.Payload
 }
 
 func (o *UpdateOrchestratorStateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.UpdateOrchestratorStateResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

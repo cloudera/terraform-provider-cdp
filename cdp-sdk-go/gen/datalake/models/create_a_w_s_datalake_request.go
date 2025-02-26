@@ -61,6 +61,9 @@ type CreateAWSDatalakeRequest struct {
 	// The scale of the datalake. Allowed values are "LIGHT_DUTY" or "MEDIUM_DUTY_HA". Defaults to "LIGHT_DUTY" if not set.
 	Scale DatalakeScaleType `json:"scale,omitempty"`
 
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityRequest `json:"security,omitempty"`
+
 	// Tags to be added to Data Lake related resources.
 	Tags []*DatalakeResourceTagRequest `json:"tags"`
 }
@@ -94,6 +97,10 @@ func (m *CreateAWSDatalakeRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateScale(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -241,6 +248,25 @@ func (m *CreateAWSDatalakeRequest) validateScale(formats strfmt.Registry) error 
 	return nil
 }
 
+func (m *CreateAWSDatalakeRequest) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateAWSDatalakeRequest) validateTags(formats strfmt.Registry) error {
 	if swag.IsZero(m.Tags) { // not required
 		return nil
@@ -288,6 +314,10 @@ func (m *CreateAWSDatalakeRequest) ContextValidate(ctx context.Context, formats 
 	}
 
 	if err := m.contextValidateScale(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -402,6 +432,27 @@ func (m *CreateAWSDatalakeRequest) contextValidateScale(ctx context.Context, for
 			return ce.ValidateName("scale")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateAWSDatalakeRequest) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
 	}
 
 	return nil

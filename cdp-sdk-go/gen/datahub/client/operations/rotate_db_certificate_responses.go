@@ -53,7 +53,7 @@ RotateDbCertificateOK describes a response with status code 200, with default he
 Expected response to a valid request.
 */
 type RotateDbCertificateOK struct {
-	Payload models.RotateDbCertificateResponse
+	Payload *models.RotateDbCertificateResponse
 }
 
 // IsSuccess returns true when this rotate db certificate o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RotateDbCertificateOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/rotateDbCertificate][%d] rotateDbCertificateOK %s", 200, payload)
 }
 
-func (o *RotateDbCertificateOK) GetPayload() models.RotateDbCertificateResponse {
+func (o *RotateDbCertificateOK) GetPayload() *models.RotateDbCertificateResponse {
 	return o.Payload
 }
 
 func (o *RotateDbCertificateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RotateDbCertificateResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

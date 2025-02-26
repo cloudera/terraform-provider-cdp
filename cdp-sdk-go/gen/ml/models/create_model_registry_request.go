@@ -67,7 +67,7 @@ type CreateModelRegistryRequest struct {
 	// The boolean flag to request a public load balancer. By default, a private load balancer is used.
 	UsePublicLoadBalancer bool `json:"usePublicLoadBalancer,omitempty"`
 
-	// Whether to whitelist only authorizedIPRanges given or all public IPs
+	// Whether to whitelist only authorizedIPRanges given or all public IPs.
 	WhitelistAuthorizedIPRanges bool `json:"whitelistAuthorizedIPRanges,omitempty"`
 }
 

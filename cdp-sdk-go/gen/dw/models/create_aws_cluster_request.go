@@ -19,7 +19,7 @@ import (
 // swagger:model CreateAwsClusterRequest
 type CreateAwsClusterRequest struct {
 
-	// NOTE: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
+	// DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
 	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
 
 	// Custom AMI ID.

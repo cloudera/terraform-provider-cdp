@@ -53,7 +53,7 @@ UpdateToAwsImdsV2OK describes a response with status code 200, with default head
 Expected response to a valid request.
 */
 type UpdateToAwsImdsV2OK struct {
-	Payload models.UpdateToAwsImdsV2Response
+	Payload *models.UpdateToAwsImdsV2Response
 }
 
 // IsSuccess returns true when this update to aws imds v2 o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *UpdateToAwsImdsV2OK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/updateToAwsImdsV2][%d] updateToAwsImdsV2OK %s", 200, payload)
 }
 
-func (o *UpdateToAwsImdsV2OK) GetPayload() models.UpdateToAwsImdsV2Response {
+func (o *UpdateToAwsImdsV2OK) GetPayload() *models.UpdateToAwsImdsV2Response {
 	return o.Payload
 }
 
 func (o *UpdateToAwsImdsV2OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.UpdateToAwsImdsV2Response)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

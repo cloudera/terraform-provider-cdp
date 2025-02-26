@@ -18,7 +18,7 @@ import (
 // swagger:model UpgradeFreeipaResponse
 type UpgradeFreeipaResponse struct {
 
-	// UUID of the request for this operation. This ID can be used for geting status on the operation.
+	// Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
 	OperationID string `json:"operationId,omitempty"`
 
 	// Original, current image.

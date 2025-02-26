@@ -174,6 +174,7 @@ func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
 }
 
 func createFilledEnvironment() *environmentsmodels.Environment {
+	falseVal := false
 	return &environmentsmodels.Environment{
 		Authentication: &environmentsmodels.Authentication{
 			LoginUserName: "someLoginUserName",
@@ -289,7 +290,7 @@ func createFilledEnvironment() *environmentsmodels.Environment {
 			User:            "someUser",
 		},
 		Region:               func(s string) *string { return &s }("someRegion"),
-		ReportDeploymentLogs: true,
+		ReportDeploymentLogs: &falseVal,
 		SecurityAccess: &environmentsmodels.SecurityAccess{
 			Cidr:                   "someCidr",
 			DefaultSecurityGroupID: "someDefaultSecurityGroupID",

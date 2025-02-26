@@ -53,7 +53,7 @@ RetryDatalakeOK describes a response with status code 200, with default header v
 Expected response to a valid request.
 */
 type RetryDatalakeOK struct {
-	Payload models.RetryDatalakeResponse
+	Payload *models.RetryDatalakeResponse
 }
 
 // IsSuccess returns true when this retry datalake o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RetryDatalakeOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/retryDatalake][%d] retryDatalakeOK %s", 200, payload)
 }
 
-func (o *RetryDatalakeOK) GetPayload() models.RetryDatalakeResponse {
+func (o *RetryDatalakeOK) GetPayload() *models.RetryDatalakeResponse {
 	return o.Payload
 }
 
 func (o *RetryDatalakeOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RetryDatalakeResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

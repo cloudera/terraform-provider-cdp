@@ -26,6 +26,9 @@ type SetDefaultJavaVersionRequest struct {
 	// The Java version to set as default.
 	// Required: true
 	JavaVersion *string `json:"javaVersion"`
+
+	// If set to true Cloudera Manager will use Rolling Restart to restart services running on the cluster. This operation can take a long time. Default value is false.
+	RollingRestart *bool `json:"rollingRestart,omitempty"`
 }
 
 // Validate validates this set default java version request

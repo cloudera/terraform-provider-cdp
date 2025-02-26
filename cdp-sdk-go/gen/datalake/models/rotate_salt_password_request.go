@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// RotateSaltPasswordRequest Request object for rotating SaltStack user password on DataLake instances.
+// RotateSaltPasswordRequest Request object for rotating SaltStack user password on DataLake instances (Deprecated).
 //
 // swagger:model RotateSaltPasswordRequest
 type RotateSaltPasswordRequest struct {

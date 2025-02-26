@@ -24,6 +24,9 @@ type GCPInstanceGroupRequest struct {
 	// Required: true
 	AttachedVolumeConfiguration []*AttachedVolumeRequest `json:"attachedVolumeConfiguration"`
 
+	// List of availability zones that this instance group is associated with.
+	AvailabilityZones []string `json:"availabilityZones"`
+
 	// The instance group name.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`

@@ -91,6 +91,9 @@ type CreateDatabaseRequest struct {
 	// Optional tags to choose one of the predefined cluster sizes.
 	ScaleType ScaleType `json:"scaleType,omitempty"`
 
+	// Specifies the Security related configuration of the cluster.
+	SecurityRequest *SecurityRequest `json:"securityRequest,omitempty"`
+
 	// Provide an optional external storage location for a non-CDP managed bucket as the HBase root.
 	StorageLocation string `json:"storageLocation,omitempty"`
 
@@ -145,6 +148,10 @@ func (m *CreateDatabaseRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateScaleType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurityRequest(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -342,6 +349,25 @@ func (m *CreateDatabaseRequest) validateScaleType(formats strfmt.Registry) error
 	return nil
 }
 
+func (m *CreateDatabaseRequest) validateSecurityRequest(formats strfmt.Registry) error {
+	if swag.IsZero(m.SecurityRequest) { // not required
+		return nil
+	}
+
+	if m.SecurityRequest != nil {
+		if err := m.SecurityRequest.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("securityRequest")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityRequest")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateDatabaseRequest) validateStorageType(formats strfmt.Registry) error {
 	if swag.IsZero(m.StorageType) { // not required
 		return nil
@@ -418,6 +444,10 @@ func (m *CreateDatabaseRequest) ContextValidate(ctx context.Context, formats str
 	}
 
 	if err := m.contextValidateScaleType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurityRequest(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -600,6 +630,27 @@ func (m *CreateDatabaseRequest) contextValidateScaleType(ctx context.Context, fo
 			return ce.ValidateName("scaleType")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *CreateDatabaseRequest) contextValidateSecurityRequest(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SecurityRequest != nil {
+
+		if swag.IsZero(m.SecurityRequest) { // not required
+			return nil
+		}
+
+		if err := m.SecurityRequest.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("securityRequest")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("securityRequest")
+			}
+			return err
+		}
 	}
 
 	return nil

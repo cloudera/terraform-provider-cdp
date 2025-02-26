@@ -42,13 +42,16 @@ type CreateDbcRequest struct {
 	// Load demo data into the Database Catalog?
 	LoadDemoData bool `json:"loadDemoData,omitempty"`
 
-	// Set Metastore container memory size. If not provided, small will apply.
+	// DEPRECATED: resourceTemplateId field is replacing this one. Set Metastore container memory size. The small size will apply as default if neither the resourceTemplateId field nor this field is provided.
 	// Enum: ["small","medium","large"]
 	MemorySize string `json:"memorySize,omitempty"`
 
 	// Name of the Database Catalog.
 	// Required: true
 	Name *string `json:"name"`
+
+	// The resource template of the Database Catalog.
+	ResourceTemplateID string `json:"resourceTemplateId,omitempty"`
 }
 
 // Validate validates this create dbc request

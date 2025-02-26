@@ -26,6 +26,9 @@ type SetDefaultJavaVersionRequest struct {
 	// The default Java version to be set on the Data Lake cluster.
 	// Required: true
 	JavaVersion *string `json:"javaVersion"`
+
+	// If set to true Cloudera Manager will use Rolling Restart to restart services running on the cluster. This operation can take a long time. Default value is false.
+	RollingRestart *bool `json:"rollingRestart,omitempty"`
 }
 
 // Validate validates this set default java version request

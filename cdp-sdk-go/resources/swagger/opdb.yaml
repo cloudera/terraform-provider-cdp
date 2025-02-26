@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.127 (BETA)
+  version: 0.9.131 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -907,6 +907,9 @@ definitions:
       customInstanceTypes:
         description: Provide custom VM instance types for master, worker, gateway, leader, edge and compute groups.
         $ref: '#/definitions/CustomInstanceTypes'
+      securityRequest:
+        description: Specifies the Security related configuration of the cluster.
+        $ref: '#/definitions/SecurityRequest'
   CustomInstanceTypes:
     type: object
     description: Custom VM Instance Types.
@@ -962,7 +965,7 @@ definitions:
       - HEAVY
   StorageType:
     type: string
-    description: "Storage type for clusters.\n `CLOUD_WITH_EPHEMERAL` - Cloud with ephemeral storage. `CLOUD` - Cloud storage without ephemeral storage. `HDFS` - HDFS storage. `CLOUD_WITH_EPHEMERAL_DATATIERING` - Cloud with Ephemeral Storage and Datatiering."
+    description: "Storage type for clusters.\n `CLOUD_WITH_EPHEMERAL` - Cloud with ephemeral storage. `CLOUD` - Cloud storage without ephemeral storage. `HDFS` - HDFS storage."
     enum:
       - CLOUD_WITH_EPHEMERAL
       - CLOUD
@@ -973,6 +976,26 @@ definitions:
     enum:
       - X86_64
       - ARM64
+  SecurityRequest:
+    type: object
+    description: Security related configurations for the clusters.
+    properties:
+      seLinux:
+        description: SELinux enforcement policy, can be PERMISSIVE or ENFORCING
+        $ref: '#/definitions/SELinux'
+  SecurityResponse:
+    type: object
+    description: Security related configurations for the clusters.
+    properties:
+      seLinux:
+        description: SELinux enforcement policy, can be PERMISSIVE or ENFORCING
+        $ref: '#/definitions/SELinux'
+  SELinux:
+    type: string
+    description: "SELinux configurations for the cluster\n `PERMISSIVE` - PERMISSIVE policy is used for the cluster. `ENFORCING` - ENFORCING policy is used for the cluster."
+    enum:
+      - PERMISSIVE
+      - ENFORCING
   UpdateDatabaseRequest:
     type: object
     description: A request to update the database
@@ -1421,6 +1444,9 @@ definitions:
       architecture:
         description: Specifies the architecture of the cluster nodes.
         $ref: '#/definitions/ArchitectureType'
+      securityResponse:
+        description: Specifies the Security related configuration of the cluster nodes.
+        $ref: '#/definitions/SecurityResponse'
   StorageDetailsForWorker:
     type: object
     description: Storage details for the worker node for AWS, Azure, and GCP cloud providers.

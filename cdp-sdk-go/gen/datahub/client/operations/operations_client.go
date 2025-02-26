@@ -2269,7 +2269,7 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 /*
 RotateSaltPassword rotates salt stack user password on data hub instances
 
-Rotate SaltStack user password on Data Hub instances.
+Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	// TODO: Validate the params before sending

@@ -53,6 +53,9 @@ type WorkspaceInstanceGroup struct {
 	// Required: true
 	MinInstances *int32 `json:"minInstances"`
 
+	// Root volume size in GiB attached to this instance type.
+	RootVolumeSize int64 `json:"rootVolumeSize,omitempty"`
+
 	// Tags are key/value pairs that are applied to all tag-able resources deployed in the workbench's cloud environment.
 	// Required: true
 	Tags []*Tag `json:"tags"`

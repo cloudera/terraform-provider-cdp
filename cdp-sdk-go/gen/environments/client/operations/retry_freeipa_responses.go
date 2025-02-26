@@ -53,7 +53,7 @@ RetryFreeipaOK describes a response with status code 200, with default header va
 Expected response to a valid request.
 */
 type RetryFreeipaOK struct {
-	Payload models.RetryFreeipaResponse
+	Payload *models.RetryFreeipaResponse
 }
 
 // IsSuccess returns true when this retry freeipa o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RetryFreeipaOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/retryFreeipa][%d] retryFreeipaOK %s", 200, payload)
 }
 
-func (o *RetryFreeipaOK) GetPayload() models.RetryFreeipaResponse {
+func (o *RetryFreeipaOK) GetPayload() *models.RetryFreeipaResponse {
 	return o.Payload
 }
 
 func (o *RetryFreeipaOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RetryFreeipaResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

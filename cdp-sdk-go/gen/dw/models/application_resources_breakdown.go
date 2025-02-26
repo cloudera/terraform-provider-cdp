@@ -17,14 +17,8 @@ import (
 // swagger:model ApplicationResourcesBreakdown
 type ApplicationResourcesBreakdown struct {
 
-	// DEPRECATED: Java VM configuration for -Xmx (maximum heap size).Java VM overhead for Garbage Collector structures, metaspace, etc., and a safety margin to avoid out-of-memory issues.
-	Headroom *string `json:"headroom,omitempty"`
-
 	// Java VM configuration for -XX:MaxDirectMemorySize (limit for Direct Byte Buffers).
 	MaxDirectMemorySize *string `json:"maxDirectMemorySize,omitempty"`
-
-	// DEPRECATED: Set the hive.query.isolation.slots.per.node configuration value instead. Overhead buffer for hive.query.isolation.slots.per.node. The total number of concurrent tasks the Hive query executor can process is the sum of the available CPU cores and the value you specify in this field.
-	WaitQueueSize *int32 `json:"waitQueueSize,omitempty"`
 
 	// Java VM configuration for -Xms (initial and minimum heap size).
 	Xms *string `json:"xms,omitempty"`

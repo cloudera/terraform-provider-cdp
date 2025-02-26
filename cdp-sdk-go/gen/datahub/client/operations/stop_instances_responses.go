@@ -53,7 +53,7 @@ StopInstancesOK describes a response with status code 200, with default header v
 Expected response to a valid stop instances request.
 */
 type StopInstancesOK struct {
-	Payload models.StopInstancesResponse
+	Payload *models.StopInstancesResponse
 }
 
 // IsSuccess returns true when this stop instances o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *StopInstancesOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/stopInstances][%d] stopInstancesOK %s", 200, payload)
 }
 
-func (o *StopInstancesOK) GetPayload() models.StopInstancesResponse {
+func (o *StopInstancesOK) GetPayload() *models.StopInstancesResponse {
 	return o.Payload
 }
 
 func (o *StopInstancesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.StopInstancesResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

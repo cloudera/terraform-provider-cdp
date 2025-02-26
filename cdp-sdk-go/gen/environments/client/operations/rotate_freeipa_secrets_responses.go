@@ -53,7 +53,7 @@ RotateFreeipaSecretsOK describes a response with status code 200, with default h
 Expected response to a valid request.
 */
 type RotateFreeipaSecretsOK struct {
-	Payload models.RotateFreeipaSecretsResponse
+	Payload *models.RotateFreeipaSecretsResponse
 }
 
 // IsSuccess returns true when this rotate freeipa secrets o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *RotateFreeipaSecretsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/environments2/rotateFreeipaSecrets][%d] rotateFreeipaSecretsOK %s", 200, payload)
 }
 
-func (o *RotateFreeipaSecretsOK) GetPayload() models.RotateFreeipaSecretsResponse {
+func (o *RotateFreeipaSecretsOK) GetPayload() *models.RotateFreeipaSecretsResponse {
 	return o.Payload
 }
 
 func (o *RotateFreeipaSecretsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.RotateFreeipaSecretsResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

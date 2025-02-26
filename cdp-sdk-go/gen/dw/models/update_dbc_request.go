@@ -31,9 +31,12 @@ type UpdateDbcRequest struct {
 	// Required: true
 	DbcID *string `json:"dbcId"`
 
-	// Set Metastore container memory size. If not provided, small will apply.
+	// DEPRECATED: resourceTemplateId field is replacing this one. Set Metastore container memory size. The small size will apply as default if neither the resourceTemplateId field nor this field is provided.
 	// Enum: ["small","medium","large"]
 	MemorySize string `json:"memorySize,omitempty"`
+
+	// The resource template of the Database Catalog.
+	ResourceTemplateID string `json:"resourceTemplateId,omitempty"`
 }
 
 // Validate validates this update dbc request

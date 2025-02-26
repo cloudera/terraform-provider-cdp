@@ -31,6 +31,9 @@ type ResizeDatalakeResponse struct {
 	// The CRN of the environment the datalake is attached to. This will remain the same for the datalake created by the resize process.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
 
+	// Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+	OperationID string `json:"operationId,omitempty"`
+
 	// The runtime of the datalake. This will remain the same for the datalake created by the resize process.
 	Runtime string `json:"runtime,omitempty"`
 

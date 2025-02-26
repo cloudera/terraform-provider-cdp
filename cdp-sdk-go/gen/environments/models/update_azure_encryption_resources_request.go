@@ -32,9 +32,6 @@ type UpdateAzureEncryptionResourcesRequest struct {
 	// The name or CRN of the environment.
 	// Required: true
 	Environment *string `json:"environment"`
-
-	// User managed identity for encryption. (deprecated)
-	UserManagedIdentity string `json:"userManagedIdentity,omitempty"`
 }
 
 // Validate validates this update azure encryption resources request

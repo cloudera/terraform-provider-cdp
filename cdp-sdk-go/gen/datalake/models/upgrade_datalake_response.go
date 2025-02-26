@@ -22,6 +22,9 @@ type UpgradeDatalakeResponse struct {
 	// Information about the current image
 	Current *ImageInfo `json:"current,omitempty"`
 
+	// Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+	OperationID string `json:"operationId,omitempty"`
+
 	// The reason why upgrade is not possible
 	Reason string `json:"reason,omitempty"`
 

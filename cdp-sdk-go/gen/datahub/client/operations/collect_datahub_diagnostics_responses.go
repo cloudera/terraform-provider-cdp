@@ -53,7 +53,7 @@ CollectDatahubDiagnosticsOK describes a response with status code 200, with defa
 Expected response to a valid request.
 */
 type CollectDatahubDiagnosticsOK struct {
-	Payload models.CollectDatahubDiagnosticsResponse
+	Payload *models.CollectDatahubDiagnosticsResponse
 }
 
 // IsSuccess returns true when this collect datahub diagnostics o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *CollectDatahubDiagnosticsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datahub/collectDatahubDiagnostics][%d] collectDatahubDiagnosticsOK %s", 200, payload)
 }
 
-func (o *CollectDatahubDiagnosticsOK) GetPayload() models.CollectDatahubDiagnosticsResponse {
+func (o *CollectDatahubDiagnosticsOK) GetPayload() *models.CollectDatahubDiagnosticsResponse {
 	return o.Payload
 }
 
 func (o *CollectDatahubDiagnosticsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.CollectDatahubDiagnosticsResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

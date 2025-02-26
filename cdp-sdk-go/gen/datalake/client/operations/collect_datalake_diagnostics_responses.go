@@ -53,7 +53,7 @@ CollectDatalakeDiagnosticsOK describes a response with status code 200, with def
 Expected response to a valid request.
 */
 type CollectDatalakeDiagnosticsOK struct {
-	Payload models.CollectDatalakeDiagnosticsResponse
+	Payload *models.CollectDatalakeDiagnosticsResponse
 }
 
 // IsSuccess returns true when this collect datalake diagnostics o k response has a 2xx status code
@@ -96,14 +96,16 @@ func (o *CollectDatalakeDiagnosticsOK) String() string {
 	return fmt.Sprintf("[POST /api/v1/datalake/collectDatalakeDiagnostics][%d] collectDatalakeDiagnosticsOK %s", 200, payload)
 }
 
-func (o *CollectDatalakeDiagnosticsOK) GetPayload() models.CollectDatalakeDiagnosticsResponse {
+func (o *CollectDatalakeDiagnosticsOK) GetPayload() *models.CollectDatalakeDiagnosticsResponse {
 	return o.Payload
 }
 
 func (o *CollectDatalakeDiagnosticsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.CollectDatalakeDiagnosticsResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

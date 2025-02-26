@@ -93,8 +93,11 @@ type Environment struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs bool `json:"reportDeploymentLogs,omitempty"`
+	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
+	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
+
+	// Security related configurations for Data Hub clusters.
+	Security *SecurityResponse `json:"security,omitempty"`
 
 	// Security control for FreeIPA and Data Lake deployment.
 	SecurityAccess *SecurityAccess `json:"securityAccess,omitempty"`
@@ -196,6 +199,10 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateRegion(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecurity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -527,6 +534,25 @@ func (m *Environment) validateRegion(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Environment) validateSecurity(formats strfmt.Registry) error {
+	if swag.IsZero(m.Security) { // not required
+		return nil
+	}
+
+	if m.Security != nil {
+		if err := m.Security.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Environment) validateSecurityAccess(formats strfmt.Registry) error {
 	if swag.IsZero(m.SecurityAccess) { // not required
 		return nil
@@ -644,6 +670,10 @@ func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Regist
 	}
 
 	if err := m.contextValidateProxyConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -922,6 +952,27 @@ func (m *Environment) contextValidateProxyConfig(ctx context.Context, formats st
 				return ve.ValidateName("proxyConfig")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("proxyConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Security != nil {
+
+		if swag.IsZero(m.Security) { // not required
+			return nil
+		}
+
+		if err := m.Security.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("security")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("security")
 			}
 			return err
 		}

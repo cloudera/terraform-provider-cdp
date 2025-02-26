@@ -20,6 +20,9 @@ type ListBackupsRequest struct {
 	// Specified name for the backup. If not present, this filter is not used.
 	BackupName string `json:"backupName,omitempty"`
 
+	// Decides whether automatic (system-generated) backups should be listed or not. Value is true by default.
+	IncludeAutomaticBackups bool `json:"includeAutomaticBackups,omitempty"`
+
 	// The job states we need to filter by. If not present, this filter is not used.
 	JobStates []string `json:"jobStates"`
 }
