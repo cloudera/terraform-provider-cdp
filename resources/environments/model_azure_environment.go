@@ -76,6 +76,8 @@ type azureEnvironmentResourceModel struct {
 	EndpointAccessGatewaySubnetIds types.Set `tfsdk:"endpoint_access_gateway_subnet_ids"`
 
 	EncryptionUserManagedIdentity types.String `tfsdk:"encryption_user_managed_identity"`
+
+	ComputeCluster *AzureComputeCluster `tfsdk:"compute_cluster"`
 }
 
 type existingAzureNetwork struct {
@@ -98,4 +100,16 @@ type azureLogStorage struct {
 	StorageLocationBase types.String `tfsdk:"storage_location_base"`
 
 	BackupStorageLocationBase types.String `tfsdk:"backup_storage_location_base"`
+}
+
+type AzureComputeCluster struct {
+	Enabled       types.Bool                        `tfsdk:"enabled"`
+	Configuration *AzureComputeClusterConfiguration `tfsdk:"configuration"`
+}
+
+type AzureComputeClusterConfiguration struct {
+	PrivateCluster            types.Bool   `tfsdk:"private_cluster"`
+	KubeApiAuthorizedIpRanges types.Set    `tfsdk:"kube_api_authorized_ip_ranges"`
+	OutboundType              types.String `tfsdk:"outbound_type"`
+	WorkerNodeSubnets         types.Set    `tfsdk:"worker_node_subnets"`
 }

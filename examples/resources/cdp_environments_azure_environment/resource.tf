@@ -22,14 +22,14 @@ resource "cdp_environments_azure_credential" "example-cred" {
 resource "cdp_environments_azure_environment" "example-env" {
   environment_name = "example-cdp-azure-environment"
   credential_name  = cdp_environments_azure_credential.example-cred.credential_name
-  region           = "us-west"
+  region           = "<your-region>"
   security_access = {
     cidr = "0.0.0.0/0"
   }
   existing_network_params = {
     network_id          = "network-name"
     resource_group_name = "rg-name"
-    subnet_ids          = ["subnet.id"]
+    subnet_ids = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
   }
   public_key = "my-key"
   log_storage = {
@@ -39,12 +39,21 @@ resource "cdp_environments_azure_environment" "example-env" {
   resource_group_name              = "rg-name"
   encryption_user_managed_identity = "some-identity"
   use_public_ip                    = true
+  compute_cluster = {
+    enabled = false
+    configuration = {
+      private_cluster = false
+      outbound_type   = "udr"
+      kube_api_authorized_ip_ranges = ["0.0.0.0/0"]
+      worker_node_subnets = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
+    }
+  }
 }
 
-output "environment_name" {
-  value = cdp_environments_azure_environment.example-env.environment_name
+output "credential" {
+  value = cdp_environments_azure_credential.example-cred
 }
 
-output "crn" {
-  value = cdp_environments_azure_environment.example-env.crn
+output "environment" {
+  value = cdp_environments_azure_environment.example-env
 }
