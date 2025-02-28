@@ -123,7 +123,6 @@ func PreCheck(t *testing.T) {
 }
 
 func TestAccDwCluster_Basic(t *testing.T) {
-	t.Skip("Skipping test until CDPCP-14125 will not get resolved")
 	PreCheck(t)
 	credName := acctest.RandomWithPrefix(cdpacctest.ResourcePrefix)
 	awsProvider := cdpacctest.NewAwsProvider(os.Getenv(AwsAccessKeyID), os.Getenv(AwsSecretAccessKey), os.Getenv(AwsRegion))
