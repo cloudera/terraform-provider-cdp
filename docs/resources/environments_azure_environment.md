@@ -102,7 +102,6 @@ output "crn" {
 
 - `crn` (String)
 - `id` (String) The ID of this resource.
-- `new_network_params` (Attributes, Deprecated) (see [below for nested schema](#nestedatt--new_network_params))
 - `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String)
 - `status_reason` (String)
@@ -194,11 +193,3 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
-
-
-<a id="nestedatt--new_network_params"></a>
-### Nested Schema for `new_network_params`
-
-Required:
-
-- `network_cidr` (String)

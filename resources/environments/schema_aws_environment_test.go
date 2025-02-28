@@ -130,12 +130,6 @@ var awsSchemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: false,
 	},
 	{
-		name:             "network_cidr should exist and be valid",
-		field:            "network_cidr",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
 		name:             "proxy_config_name should exist and be valid",
 		field:            "proxy_config_name",
 		computed:         true,

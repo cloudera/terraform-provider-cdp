@@ -184,18 +184,6 @@ var AzureEnvironmentSchema = schema.Schema{
 				},
 			},
 		},
-		"new_network_params": schema.SingleNestedAttribute{
-			DeprecationMessage: "New network creation is deprecated and should not be used anymore.",
-			Computed:           true,
-			PlanModifiers: []planmodifier.Object{
-				objectplanmodifier.UseStateForUnknown(),
-			},
-			Attributes: map[string]schema.Attribute{
-				"network_cidr": schema.StringAttribute{
-					Required: true,
-				},
-			},
-		},
 		"proxy_config_name": schema.StringAttribute{
 			Optional: true,
 		},
@@ -342,13 +330,6 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 			ManagedIdentity:           model.LogStorage.ManagedIdentity.ValueStringPointer(),
 			StorageLocationBase:       model.LogStorage.StorageLocationBase.ValueStringPointer(),
 			BackupStorageLocationBase: model.LogStorage.BackupStorageLocationBase.ValueString(),
-		}
-	}
-	if !model.NewNetworkParams.IsNull() && !model.NewNetworkParams.IsUnknown() {
-		var newNetworkParams newNetworkParams
-		model.NewNetworkParams.As(ctx, &newNetworkParams, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
-		req.NewNetworkParams = &environmentsmodels.CreateAzureEnvironmentRequestNewNetworkParams{
-			NetworkCidr: newNetworkParams.NetworkCidr.ValueStringPointer(),
 		}
 	}
 	req.ProxyConfigName = model.ProxyConfigName.ValueString()
