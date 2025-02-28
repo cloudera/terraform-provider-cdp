@@ -181,13 +181,6 @@ var AwsEnvironmentSchema = schema.Schema{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"network_cidr": schema.StringAttribute{
-			DeprecationMessage: "New network creation by specifying network_cidr is deprecated and should not be used anymore.",
-			Computed:           true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
 		"proxy_config_name": schema.StringAttribute{
 			Optional: true,
 			Computed: true,
@@ -310,9 +303,6 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 			StorageLocationBase:       model.LogStorage.StorageLocationBase.ValueStringPointer(),
 			BackupStorageLocationBase: model.LogStorage.BackupStorageLocationBase.ValueString(),
 		}
-	}
-	if !model.NetworkCidr.IsNull() && !model.NetworkCidr.IsUnknown() {
-		res.NetworkCidr = model.NetworkCidr.ValueString()
 	}
 	res.ProxyConfigName = model.ProxyConfigName.ValueString()
 	res.Region = model.Region.ValueStringPointer()

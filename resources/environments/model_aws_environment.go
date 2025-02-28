@@ -49,8 +49,6 @@ type awsEnvironmentResourceModel struct {
 
 	LogStorage *AWSLogStorage `tfsdk:"log_storage"`
 
-	NetworkCidr types.String `tfsdk:"network_cidr"`
-
 	ProxyConfigName types.String `tfsdk:"proxy_config_name"`
 
 	Region types.String `tfsdk:"region"`

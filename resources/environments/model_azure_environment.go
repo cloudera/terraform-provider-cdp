@@ -49,8 +49,6 @@ type azureEnvironmentResourceModel struct {
 
 	LogStorage *azureLogStorage `tfsdk:"log_storage"`
 
-	NewNetworkParams types.Object `tfsdk:"new_network_params"`
-
 	ProxyConfigName types.String `tfsdk:"proxy_config_name"`
 
 	PublicKey types.String `tfsdk:"public_key"`
@@ -100,8 +98,4 @@ type azureLogStorage struct {
 	StorageLocationBase types.String `tfsdk:"storage_location_base"`
 
 	BackupStorageLocationBase types.String `tfsdk:"backup_storage_location_base"`
-}
-
-type newNetworkParams struct {
-	NetworkCidr types.String `tfsdk:"network_cidr"`
 }

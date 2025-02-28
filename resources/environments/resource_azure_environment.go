@@ -158,11 +158,6 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 	diags.Append(*FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
 	if env.Network != nil {
 		var npDiags diag.Diagnostics
-		model.NewNetworkParams, npDiags = types.ObjectValueFrom(ctx, map[string]attr.Type{
-			"network_cidr": types.StringType,
-		}, &newNetworkParams{
-			NetworkCidr: types.StringValue(env.Network.NetworkCidr),
-		})
 		if env.Network.EndpointAccessGatewaySubnetIds != nil {
 			var gatewaySubnetIds types.Set
 			if len(env.Network.EndpointAccessGatewaySubnetIds) > 0 {

@@ -21,7 +21,6 @@ resource "cdp_environments_aws_environment" "example" {
   security_access = {
     cidr = "0.0.0.0/0"
   }
-  network_cidr = "10.10.0.0/16"
   authentication = {
     public_key_id = "my-key"
   }
@@ -29,6 +28,8 @@ resource "cdp_environments_aws_environment" "example" {
     storage_location_base = "s3a://storage-bucket/location"
     instance_profile      = "arn:aws:iam::11111111111:instance-profile/storage-instance-profile"
   }
+  vpc_id = "vpc-1"
+  subnet_ids = [ "<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>" ]
 }
 
 output "environment_name" {

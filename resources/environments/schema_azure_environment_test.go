@@ -118,12 +118,6 @@ var schemaElements = []SchemaTestCaseStructure{
 		shouldBeRequired: true,
 	},
 	{
-		name:             "new_network_params should exist and be valid",
-		field:            "new_network_params",
-		computed:         true,
-		shouldBeRequired: false,
-	},
-	{
 		name:             "proxy_config_name should exist and be valid",
 		field:            "proxy_config_name",
 		computed:         false,
