@@ -359,6 +359,7 @@ func testAccImpalaVirtualWarehouse(name string) string {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
 			database_catalog_id = cdp_dw_database_catalog.test_catalog.id
 			name = %[1]q
+			depends_on = [cdp_dw_database_catalog.test_catalog]
 		}
 	`, name)
 }
@@ -374,6 +375,7 @@ func testAccDataVisualization(name string) string {
 			
 			admin_groups = ["dwx-dummy-ldap-group"]
 			user_groups  = []
+			depends_on = [cdp_dw_database_catalog.test_catalog]
 		}
 	`, name)
 }
