@@ -205,10 +205,6 @@ var impalaSchema = schema.Schema{
 				},
 			},
 		},
-		"resource_pool": schema.StringAttribute{
-			Optional:            true,
-			MarkdownDescription: "Resource pool for the Impala Virtual Warehouse.",
-		},
 		"platform_jwt_auth": schema.BoolAttribute{
 			Optional:            true,
 			MarkdownDescription: "Platform JWT authentication flag.",

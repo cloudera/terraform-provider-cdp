@@ -59,8 +59,7 @@ resource "cdp_dw_vw_impala" "impala-terraform" {
     max_queries         = var.max_queries
     max_nodes_per_query = var.max_nodes_per_query
   }
-
-  resource_pool            = var.resource_pool
+  
   platform_jwt_auth        = var.platform_jwt_auth
   impala_query_log        = var.impala_query_log
 

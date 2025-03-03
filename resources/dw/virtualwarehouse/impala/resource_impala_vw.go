@@ -206,7 +206,6 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				"\nMemory Capacity: %d"+
 				"\nNode Count: %d"+
 				"\nNumber of Cores: %d"+
-				"\nResource Pool: %s"+
 				"\nViz Enabled: %v"+
 				"\nVW Type: %s"+
 				"\nImpala Query Log: %v",
@@ -224,7 +223,6 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				vw.Vw.MemoryCapacity,
 				vw.Vw.NodeCount,
 				vw.Vw.NumOfCores,
-				vw.Vw.ResourcePool,
 				vw.Vw.Viz,
 				vw.Vw.VwType,
 				vw.Vw.ImpalaQueryLog))
@@ -395,7 +393,6 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 	setIfNotEmpty(&req.InstanceType, plan.InstanceType.ValueString())
 	setIfNotEmpty(&req.TShirtSize, plan.TShirtSize.ValueString())
 	setIfNotEmpty(&req.AvailabilityZone, plan.AvailabilityZone.ValueString())
-	setIfNotEmpty(&req.ResourcePool, plan.ResourcePool.ValueString())
 
 	setIfPositive(&req.NodeCount, plan.NodeCount.ValueInt32())
 

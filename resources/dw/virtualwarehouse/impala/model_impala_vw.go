@@ -50,7 +50,6 @@ type resourceModel struct {
 	//Config                 types.Object `tfsdk:"config"`
 	QueryIsolationOptions types.Object `tfsdk:"query_isolation_options"`
 	Tags                  types.List   `tfsdk:"tags"`
-	ResourcePool          types.String `tfsdk:"resource_pool"`
 	PlatformJwtAuth       types.Bool   `tfsdk:"platform_jwt_auth"`
 	ImpalaQueryLog        types.Bool   `tfsdk:"impala_query_log"`
 
@@ -93,7 +92,6 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	setInt32IfPositive(&p.NodeCount, resp.Vw.NodeCount)
 	setStringIfNotEmpty(&p.InstanceType, resp.Vw.InstanceType)
 	setStringIfNotEmpty(&p.AvailabilityZone, resp.Vw.AvailabilityZone)
-	setStringIfNotEmpty(&p.ResourcePool, resp.Vw.ResourcePool)
 
 	p.EnableUnifiedAnalytics = types.BoolValue(resp.Vw.EnableUnifiedAnalytics)
 	p.ImpalaQueryLog = types.BoolValue(resp.Vw.ImpalaQueryLog)

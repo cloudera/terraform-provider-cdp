@@ -53,7 +53,6 @@ type impalaTestParameters struct {
 	MaxNodesPerQuery                 int
 	InstanceType                     string
 	AvailabilityZone                 string
-	ResourcePool                     string
 	HiveAuthenticationMode           string
 	PlatformJwtAuth                  bool
 	ImpalaQueryLog                   bool
@@ -178,7 +177,6 @@ func TestAccImpalaImageVersion(t *testing.T) {
 		MaxNodesPerQuery:                 2,
 		InstanceType:                     "r5d.4xlarge",
 		AvailabilityZone:                 "us-west-2a",
-		ResourcePool:                     "default",
 		HiveAuthenticationMode:           "NONE",
 		PlatformJwtAuth:                  true,
 		ImpalaQueryLog:                   true,
