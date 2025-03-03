@@ -49,10 +49,9 @@ resource "cdp_dw_vw_impala" "test-terraform-prateek" {
   // node_count              = 3
   availability_zone = "us-west-2a"
 
-  resource_pool            = "default"
-  hive_authentication_mode = "NONE"
-  platform_jwt_auth        = true
-  impala_query_log         = true
+  resource_pool     = "default"
+  platform_jwt_auth = true
+  impala_query_log  = true
 
   tags = [
     {

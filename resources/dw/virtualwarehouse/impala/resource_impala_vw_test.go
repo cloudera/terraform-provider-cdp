@@ -225,10 +225,6 @@ var testImpalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "Resource pool for the Impala Virtual Warehouse.",
 		},
-		"hive_authentication_mode": schema.StringAttribute{
-			Optional:            true,
-			MarkdownDescription: "Hive authentication mode.",
-		},
 		"platform_jwt_auth": schema.BoolAttribute{
 			Optional:            true,
 			MarkdownDescription: "Platform JWT authentication flag.",
@@ -328,7 +324,6 @@ func createRawImpalaResource() tftypes.Value {
 				"instance_type":            tftypes.String,
 				"availability_zone":        tftypes.String,
 				"resource_pool":            tftypes.String,
-				"hive_authentication_mode": tftypes.String,
 				"platform_jwt_auth":        tftypes.Bool,
 				"enable_unified_analytics": tftypes.Bool,
 				"node_count":               tftypes.Number,
@@ -426,7 +421,6 @@ func createRawImpalaResource() tftypes.Value {
 			"instance_type":            tftypes.NewValue(tftypes.String, "r5d.4xlarge"),
 			"availability_zone":        tftypes.NewValue(tftypes.String, "us-west-2a"),
 			"resource_pool":            tftypes.NewValue(tftypes.String, "default"),
-			"hive_authentication_mode": tftypes.NewValue(tftypes.String, "NONE"),
 			"platform_jwt_auth":        tftypes.NewValue(tftypes.Bool, true),
 			"impala_query_log":         tftypes.NewValue(tftypes.Bool, true),
 			"enable_unified_analytics": tftypes.NewValue(tftypes.Bool, false),

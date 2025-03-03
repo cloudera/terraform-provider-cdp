@@ -48,12 +48,11 @@ type resourceModel struct {
 	ImpalaHASettings       types.Object `tfsdk:"impala_ha_settings"`
 	Autoscaling            types.Object `tfsdk:"autoscaling"`
 	//Config                 types.Object `tfsdk:"config"`
-	QueryIsolationOptions  types.Object `tfsdk:"query_isolation_options"`
-	Tags                   types.List   `tfsdk:"tags"`
-	ResourcePool           types.String `tfsdk:"resource_pool"`
-	HiveAuthenticationMode types.String `tfsdk:"hive_authentication_mode"`
-	PlatformJwtAuth        types.Bool   `tfsdk:"platform_jwt_auth"`
-	ImpalaQueryLog         types.Bool   `tfsdk:"impala_query_log"`
+	QueryIsolationOptions types.Object `tfsdk:"query_isolation_options"`
+	Tags                  types.List   `tfsdk:"tags"`
+	ResourcePool          types.String `tfsdk:"resource_pool"`
+	PlatformJwtAuth       types.Bool   `tfsdk:"platform_jwt_auth"`
+	ImpalaQueryLog        types.Bool   `tfsdk:"impala_query_log"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 }
@@ -80,11 +79,12 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	}
 
 	// Helper function for setting optional pointer-based string values
-	setStringIfNotNil := func(target *types.String, source *string) {
+	// To be used later on
+	/*setStringIfNotNil := func(target *types.String, source *string) {
 		if source != nil {
 			*target = types.StringValue(*source)
 		}
-	}
+	}*/
 
 	/*if resp.Vw.HiveServerHaMode != nil {
 		p.InstanceType = types.StringValue(resp.Vw.InstanceType)
@@ -94,7 +94,6 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	setStringIfNotEmpty(&p.InstanceType, resp.Vw.InstanceType)
 	setStringIfNotEmpty(&p.AvailabilityZone, resp.Vw.AvailabilityZone)
 	setStringIfNotEmpty(&p.ResourcePool, resp.Vw.ResourcePool)
-	setStringIfNotNil(&p.HiveAuthenticationMode, resp.Vw.HiveAuthenticationMode)
 
 	p.EnableUnifiedAnalytics = types.BoolValue(resp.Vw.EnableUnifiedAnalytics)
 	p.ImpalaQueryLog = types.BoolValue(resp.Vw.ImpalaQueryLog)

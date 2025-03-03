@@ -209,10 +209,6 @@ var impalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "Resource pool for the Impala Virtual Warehouse.",
 		},
-		"hive_authentication_mode": schema.StringAttribute{
-			Optional:            true,
-			MarkdownDescription: "Hive authentication mode.",
-		},
 		"platform_jwt_auth": schema.BoolAttribute{
 			Optional:            true,
 			MarkdownDescription: "Platform JWT authentication flag.",
