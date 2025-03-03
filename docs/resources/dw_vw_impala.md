@@ -64,7 +64,6 @@ resource "cdp_dw_vw_impala" "impala-terraform" {
   hive_authentication_mode = var.hive_authentication_mode
   platform_jwt_auth        = var.platform_jwt_auth
   impala_query_log        = var.impala_query_log
-  ebs_llap_spill_gb       = var.ebs_llap_spill_gb
 
   tags = var.tags
 }

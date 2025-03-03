@@ -201,7 +201,6 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				"\nConfig ID: %s"+
 				"\nCRN: %s"+
 				"\nDBC ID: %s"+
-				"\nEBS LLAP Spill GB: %d"+
 				"\nEnable Unified Analytics: %v"+
 				"\nInstance Type: %s"+
 				"\nMemory Capacity: %d"+
@@ -220,7 +219,6 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 				vw.Vw.ConfigID,
 				vw.Vw.Crn,
 				vw.Vw.DbcID,
-				vw.Vw.EbsLLAPSpillGB,
 				vw.Vw.EnableUnifiedAnalytics,
 				vw.Vw.InstanceType,
 				vw.Vw.MemoryCapacity,
@@ -405,9 +403,6 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 	req.ImpalaQueryLog = plan.ImpalaQueryLog.ValueBool()
 	setIfTrue(&req.PlatformJwtAuth, plan.PlatformJwtAuth.ValueBool())
 
-	if ebsLLAPSpillGB := plan.EbsLLAPSpillGB.ValueInt64(); ebsLLAPSpillGB > 0 {
-		req.EbsLLAPSpillGB = int32(ebsLLAPSpillGB)
-	}
 	if !plan.ImpalaOptions.IsNull() {
 		req.ImpalaOptions = convertToAPIImpalaOptions(plan.ImpalaOptions)
 	}

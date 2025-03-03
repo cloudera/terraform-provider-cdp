@@ -222,10 +222,6 @@ var impalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "Enable or disable Impala query logging.",
 		},
-		"ebs_llap_spill_gb": schema.Int64Attribute{
-			Optional:            true,
-			MarkdownDescription: "EBS LLAP spill size in GB.",
-		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,

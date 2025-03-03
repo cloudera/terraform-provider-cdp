@@ -238,10 +238,6 @@ var testImpalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "Enable or disable Impala query logging.",
 		},
-		"ebs_llap_spill_gb": schema.Int64Attribute{
-			Optional:            true,
-			MarkdownDescription: "EBS LLAP spill size in GB.",
-		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
@@ -337,7 +333,6 @@ func createRawImpalaResource() tftypes.Value {
 				"enable_unified_analytics": tftypes.Bool,
 				"node_count":               tftypes.Number,
 				"impala_query_log":         tftypes.Bool,
-				"ebs_llap_spill_gb":        tftypes.Number,
 				"tags": tftypes.List{
 					ElementType: tftypes.Object{
 						AttributeTypes: map[string]tftypes.Type{
@@ -436,7 +431,6 @@ func createRawImpalaResource() tftypes.Value {
 			"impala_query_log":         tftypes.NewValue(tftypes.Bool, true),
 			"enable_unified_analytics": tftypes.NewValue(tftypes.Bool, false),
 			"node_count":               tftypes.NewValue(tftypes.Number, 2),
-			"ebs_llap_spill_gb":        tftypes.NewValue(tftypes.Number, 100),
 			"tags": tftypes.NewValue(
 				tftypes.List{
 					ElementType: tftypes.Object{

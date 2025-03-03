@@ -54,7 +54,6 @@ type resourceModel struct {
 	HiveAuthenticationMode types.String `tfsdk:"hive_authentication_mode"`
 	PlatformJwtAuth        types.Bool   `tfsdk:"platform_jwt_auth"`
 	ImpalaQueryLog         types.Bool   `tfsdk:"impala_query_log"`
-	EbsLLAPSpillGB         types.Int64  `tfsdk:"ebs_llap_spill_gb"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 }
@@ -80,13 +79,6 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 		}
 	}
 
-	// Helper function for setting optional int64 values
-	setInt64IfPositive := func(target *types.Int64, source int32) {
-		if source > 0 {
-			*target = types.Int64Value(int64(source))
-		}
-	}
-
 	// Helper function for setting optional pointer-based string values
 	setStringIfNotNil := func(target *types.String, source *string) {
 		if source != nil {
@@ -103,7 +95,6 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	setStringIfNotEmpty(&p.AvailabilityZone, resp.Vw.AvailabilityZone)
 	setStringIfNotEmpty(&p.ResourcePool, resp.Vw.ResourcePool)
 	setStringIfNotNil(&p.HiveAuthenticationMode, resp.Vw.HiveAuthenticationMode)
-	setInt64IfPositive(&p.EbsLLAPSpillGB, resp.Vw.EbsLLAPSpillGB)
 
 	p.EnableUnifiedAnalytics = types.BoolValue(resp.Vw.EnableUnifiedAnalytics)
 	p.ImpalaQueryLog = types.BoolValue(resp.Vw.ImpalaQueryLog)
