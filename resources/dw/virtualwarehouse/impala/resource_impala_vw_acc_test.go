@@ -15,12 +15,13 @@ package impala_test
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"net/http"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
@@ -29,10 +30,40 @@ import (
 )
 
 type impalaTestParameters struct {
-	Name              string
-	ClusterID         string
-	DatabaseCatalogID string
-	ImageVersion      string
+	Name                             string
+	ClusterID                        string
+	DatabaseCatalogID                string
+	ImageVersion                     string
+	TshirtSize                       string
+	AutoSuspendTimeoutSeconds        int
+	DisableAutoSuspend               bool
+	ImpalaScaleDownDelaySeconds      int
+	ImpalaScaleUpDelaySeconds        int
+	MaxClusters                      int
+	MinClusters                      int
+	ScratchSpaceLimit                int
+	HighAvailabilityMode             string
+	EnableShutdownOfCoordinator      bool
+	ShutdownOfCoordinatorDelaySecs   int
+	NumOfActiveCoordinators          int
+	EnableCatalogHighAvailability    bool
+	EnableStatestoreHighAvailability bool
+	EnableUnifiedAnalytics           bool
+	MaxQueries                       int
+	MaxNodesPerQuery                 int
+	InstanceType                     string
+	AvailabilityZone                 string
+	ResourcePool                     string
+	HiveAuthenticationMode           string
+	PlatformJwtAuth                  bool
+	ImpalaQueryLog                   bool
+	EbsLlapSpillGb                   int
+	Tags                             []Tag
+}
+
+type Tag struct {
+	Key   string
+	Value string
 }
 
 func ImpalaPreCheck(t *testing.T) {
@@ -124,10 +155,38 @@ func TestAccImpalaImageVersion(t *testing.T) {
 	}
 
 	params := impalaTestParameters{
-		Name:              cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
-		ClusterID:         os.Getenv("CDW_CLUSTER_ID"),
-		DatabaseCatalogID: os.Getenv("CDW_DATABASE_CATALOG_ID"),
-		ImageVersion:      latestImageVersion,
+		Name:                             cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
+		ClusterID:                        os.Getenv("CDW_CLUSTER_ID"),
+		DatabaseCatalogID:                os.Getenv("CDW_DATABASE_CATALOG_ID"),
+		ImageVersion:                     latestImageVersion,
+		TshirtSize:                       "xsmall",
+		AutoSuspendTimeoutSeconds:        360,
+		DisableAutoSuspend:               false,
+		ImpalaScaleDownDelaySeconds:      360,
+		ImpalaScaleUpDelaySeconds:        40,
+		MaxClusters:                      6,
+		MinClusters:                      4,
+		ScratchSpaceLimit:                634,
+		HighAvailabilityMode:             "ACTIVE_PASSIVE",
+		EnableShutdownOfCoordinator:      false,
+		ShutdownOfCoordinatorDelaySecs:   360,
+		NumOfActiveCoordinators:          2,
+		EnableCatalogHighAvailability:    false,
+		EnableStatestoreHighAvailability: false,
+		EnableUnifiedAnalytics:           true,
+		MaxQueries:                       2,
+		MaxNodesPerQuery:                 2,
+		InstanceType:                     "r5d.4xlarge",
+		AvailabilityZone:                 "us-west-2a",
+		ResourcePool:                     "default",
+		HiveAuthenticationMode:           "NONE",
+		PlatformJwtAuth:                  true,
+		ImpalaQueryLog:                   true,
+		EbsLlapSpillGb:                   100,
+		Tags: []Tag{
+			{Key: "environment", Value: "mow-dev"},
+			{Key: "team", Value: "dwx"},
+		},
 	}
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
