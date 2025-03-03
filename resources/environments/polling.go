@@ -113,6 +113,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 			"ENVIRONMENT_RESOURCE_ENCRYPTION_INITIALIZATION_IN_PROGRESS",
 			"ENVIRONMENT_VALIDATION_IN_PROGRESS",
 			"ENVIRONMENT_INITIALIZATION_IN_PROGRESS",
+			"COMPUTE_CLUSTER_CREATION_IN_PROGRESS",
 			"FREEIPA_CREATION_IN_PROGRESS"},
 		Target:       []string{"AVAILABLE"},
 		Delay:        5 * time.Second,

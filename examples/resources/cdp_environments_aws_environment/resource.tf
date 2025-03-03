@@ -17,7 +17,7 @@ resource "cdp_environments_aws_credential" "example" {
 resource "cdp_environments_aws_environment" "example" {
   environment_name = "example-environment"
   credential_name  = cdp_environments_aws_credential.example.credential_name
-  region           = "us-west"
+  region           = "<your-region>"
   security_access = {
     cidr = "0.0.0.0/0"
   }
@@ -30,12 +30,19 @@ resource "cdp_environments_aws_environment" "example" {
   }
   vpc_id = "vpc-1"
   subnet_ids = [ "<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>" ]
+  compute_cluster = {
+    enabled = false
+    configuration = {
+      kube_api_authorized_ip_ranges = ["0.0.0.0/0"]
+      worker_node_subnets = [ "<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>" ]
+    }
+  }
 }
 
-output "environment_name" {
-  value = cdp_environments_aws_environment.example.environment_name
+output "credential" {
+  value = cdp_environments_aws_credential.example
 }
 
-output "crn" {
-  value = cdp_environments_aws_environment.example.crn
+output "environment" {
+  value = cdp_environments_aws_environment.example
 }

@@ -100,6 +100,8 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	}
 
 	toAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+	diags = initiateComputeClustersForAwsAfterEnvCreationAndWait(ctx, data, r, resp, diags, client)
+
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -132,7 +134,26 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	}
 }
 
-func (r *awsEnvironmentResource) Update(_ context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
+func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan awsEnvironmentResourceModel
+	var state awsEnvironmentResourceModel
+	planDiags := req.Plan.Get(ctx, &plan)
+	var stateDiags = req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(planDiags...)
+	resp.Diagnostics.Append(stateDiags...)
+	if resp.Diagnostics.HasError() {
+		tflog.Error(ctx, "Got Error while trying to set plan")
+		return
+	}
+
+	updateAwsEnvironment(ctx, &plan, &state, r.client.Environments, resp)
+
+	stateDiags = resp.State.Set(ctx, state)
+	resp.Diagnostics.Append(stateDiags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	resp.State.Set(ctx, state)
 }
 
 func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
