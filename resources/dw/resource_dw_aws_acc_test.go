@@ -253,6 +253,7 @@ func testAccAwsDataLakeConfig(params *awsDataLakeTestParameters) string {
 			data_access_role = %[1]q
 			ranger_audit_role = %[2]q
 			set_empty_mappings = true
+			depends_on = [cdp_environments_aws_environment.test_env_dw_aws]
 			}
 			
 		resource "cdp_datalake_aws_datalake" "test_dl_dw_aws" {
@@ -267,7 +268,6 @@ func testAccAwsDataLakeConfig(params *awsDataLakeTestParameters) string {
 			tags = {
 			  "made-with": "CDP Terraform Provider"
 			}
-			
 			depends_on = [ cdp_environments_id_broker_mappings.test_idbm_dw_aws ]
 		}
 		`,
@@ -296,6 +296,7 @@ func testAccDwCatalog() string {
 	return `
 		resource "cdp_dw_database_catalog" "test_catalog" {
 			cluster_id = cdp_dw_aws_cluster.test_data_warehouse_aws.cluster_id
+			depends_on = [cdp_dw_aws_cluster.test_data_warehouse_aws]
 		}
 	`
 }
@@ -323,6 +324,7 @@ func testAccHiveVirtualWarehouse(name string) string {
 			    "made-with": "CDP-Terraform-Provider"
 			  }
 			}
+			depends_on = [cdp_dw_database_catalog.test_catalog]
 		}
 	`, name)
 }
