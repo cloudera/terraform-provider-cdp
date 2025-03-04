@@ -137,7 +137,6 @@ var hiveSchema = schema.Schema{
 			Attributes: map[string]schema.Attribute{
 				"availability_zone": schema.StringAttribute{
 					Optional:            true,
-					Computed:            true,
 					MarkdownDescription: "This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets.",
 				},
 				"ebs_llap_spill_gb": schema.Int64Attribute{

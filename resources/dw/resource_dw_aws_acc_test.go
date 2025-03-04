@@ -318,7 +318,6 @@ func testAccHiveVirtualWarehouse(name string) string {
 			max_concurrent_isolated_queries = 10
 			max_nodes_per_isolated_query = 10
 			aws_options = {
-			  availability_zone = "us-west-2a"
 			  ebs_llap_spill_gb = 300
 			  tags = {
 			    "made-with": "CDP-Terraform-Provider"
