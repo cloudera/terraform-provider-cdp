@@ -221,6 +221,16 @@ var testImpalaSchema = schema.Schema{
 				},
 			},
 		},
+		"config": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Config to enable sso",
+			Attributes: map[string]schema.Attribute{
+				"enable_sso": schema.BoolAttribute{
+					Optional:            true,
+					MarkdownDescription: "Enable sso for Impala VWH",
+				},
+			},
+		},
 		"platform_jwt_auth": schema.BoolAttribute{
 			Optional:            true,
 			MarkdownDescription: "Platform JWT authentication flag.",
@@ -338,6 +348,11 @@ func createRawImpalaResource() tftypes.Value {
 						"call_failure_threshold": tftypes.Number,
 					},
 				},
+				"config": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"enable_sso": tftypes.Bool,
+					},
+				},
 			},
 		},
 		map[string]tftypes.Value{
@@ -408,9 +423,20 @@ func createRawImpalaResource() tftypes.Value {
 						"max_nodes_per_query": tftypes.Number,
 					},
 				},
+
 				map[string]tftypes.Value{
 					"max_queries":         tftypes.NewValue(tftypes.Number, 2),
 					"max_nodes_per_query": tftypes.NewValue(tftypes.Number, 2),
+				},
+			),
+			"config": tftypes.NewValue(
+				tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"enable_sso": tftypes.Bool,
+					},
+				},
+				map[string]tftypes.Value{
+					"enable_sso": tftypes.NewValue(tftypes.Bool, true),
 				},
 			),
 			"instance_type":            tftypes.NewValue(tftypes.String, "r5d.4xlarge"),

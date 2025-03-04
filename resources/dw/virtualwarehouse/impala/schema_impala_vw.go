@@ -174,6 +174,16 @@ var impalaSchema = schema.Schema{
 				},
 			},
 		},
+		"config": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Config to enable sso",
+			Attributes: map[string]schema.Attribute{
+				"enable_sso": schema.BoolAttribute{
+					Optional:            true,
+					MarkdownDescription: "Enable sso for Impala VWH",
+				},
+			},
+		},
 		"query_isolation_options": schema.SingleNestedAttribute{
 			Optional:            true,
 			Computed:            true,

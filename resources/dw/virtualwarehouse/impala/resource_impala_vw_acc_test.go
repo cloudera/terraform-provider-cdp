@@ -58,6 +58,7 @@ type impalaTestParameters struct {
 	ImpalaQueryLog                   bool
 	EbsLlapSpillGb                   int
 	Tags                             []Tag
+	EnableSso                        bool
 }
 
 type Tag struct {
@@ -185,6 +186,7 @@ func TestAccImpalaImageVersion(t *testing.T) {
 			{Key: "environment", Value: "mow-dev"},
 			{Key: "team", Value: "dwx"},
 		},
+		EnableSso: true,
 	}
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {

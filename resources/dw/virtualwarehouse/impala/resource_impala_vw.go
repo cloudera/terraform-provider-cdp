@@ -412,6 +412,9 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 	if !plan.QueryIsolationOptions.IsNull() {
 		req.QueryIsolationOptions = convertToAPIQueryIsolationOptions(plan.QueryIsolationOptions)
 	}
+	if !plan.Config.IsNull() {
+		req.Config = convertToAPIServiceConfigReq(plan.Config)
+	}
 	if len(plan.Tags.Elements()) > 0 {
 		req.Tags = convertToAPITagRequests(plan.Tags)
 	}

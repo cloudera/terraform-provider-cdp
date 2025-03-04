@@ -47,11 +47,11 @@ type resourceModel struct {
 	ImpalaOptions          types.Object `tfsdk:"impala_options"`
 	ImpalaHASettings       types.Object `tfsdk:"impala_ha_settings"`
 	Autoscaling            types.Object `tfsdk:"autoscaling"`
-	//Config                 types.Object `tfsdk:"config"`
-	QueryIsolationOptions types.Object `tfsdk:"query_isolation_options"`
-	Tags                  types.List   `tfsdk:"tags"`
-	PlatformJwtAuth       types.Bool   `tfsdk:"platform_jwt_auth"`
-	ImpalaQueryLog        types.Bool   `tfsdk:"impala_query_log"`
+	Config                 types.Object `tfsdk:"config"`
+	QueryIsolationOptions  types.Object `tfsdk:"query_isolation_options"`
+	Tags                   types.List   `tfsdk:"tags"`
+	PlatformJwtAuth        types.Bool   `tfsdk:"platform_jwt_auth"`
+	ImpalaQueryLog         types.Bool   `tfsdk:"impala_query_log"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 }
@@ -107,6 +107,9 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	}
 	if resp.Vw.QueryIsolationOptions != nil {
 		p.QueryIsolationOptions = convertFromAPIQueryIsolationOptions(resp.Vw.QueryIsolationOptions)
+	}
+	if resp.Vw.SupportedAuthMethods != nil {
+		p.Config = convertFromAPIServiceConfigReq(resp.Vw.SupportedAuthMethods)
 	}
 
 	if len(resp.Vw.Tags) != 0 {
@@ -290,6 +293,59 @@ func convertFromAPIImpalaOptions(apiModel *models.ImpalaOptionsResponse) types.O
 	}
 
 	// Return as types.Object
+	ret, _ := types.ObjectValue(attributeTypes, attributeValues)
+	return ret
+}
+
+func convertToAPIServiceConfigReq(model types.Object) *models.ServiceConfigReq {
+	if model.IsUnknown() {
+		return nil
+	}
+	attributes := model.Attributes()
+
+	enableSSOAttr, hasEnableSSO := attributes["enable_sso"]
+
+	req := &models.ServiceConfigReq{}
+
+	if hasEnableSSO && !enableSSOAttr.IsUnknown() {
+		boolValue, err := ExtractBoolFromAttribute(context.Background(), enableSSOAttr)
+		if err != nil {
+			fmt.Printf("Error extracting bool for EnableSSO: %v\n", err)
+		} else {
+			req.EnableSSO = boolValue
+			fmt.Printf("Assigned value to EnableSSO: %t\n", req.EnableSSO)
+		}
+	}
+
+	return req
+}
+
+func convertFromAPIServiceConfigReq(apiModel *models.VwSummarySupportedAuthMethods) types.Object {
+	if apiModel == nil {
+		return types.ObjectNull(map[string]attr.Type{
+			"enable_sso": types.BoolType,
+		})
+	}
+
+	attributeTypes := map[string]attr.Type{
+		"enable_sso": types.BoolType,
+	}
+
+	attributeValues := map[string]attr.Value{}
+
+	// Handle nil pointer safely
+	if apiModel.Sso != nil {
+		boolValue, err := ExtractBoolFromAttribute(context.Background(), types.BoolValue(*apiModel.Sso))
+		if err != nil {
+			fmt.Printf("Error extracting bool: %v\n", err)
+		} else {
+			attributeValues["enable_sso"] = types.BoolValue(boolValue)
+			fmt.Printf("Assigned value to EnableSSO: %t\n", boolValue)
+		}
+	} else {
+		attributeValues["enable_sso"] = types.BoolNull()
+	}
+
 	ret, _ := types.ObjectValue(attributeTypes, attributeValues)
 	return ret
 }
