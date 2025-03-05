@@ -76,6 +76,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 				"workload_analytics":               tftypes.Bool,
 				"encryption_key_url":               tftypes.String,
 				"freeipa":                          FreeIpaDetailsObject,
+				"compute_cluster":                  AzureComputeClusterObject,
 				"region":                           tftypes.String,
 				"resource_group_name":              tftypes.String,
 				"create_private_endpoints":         tftypes.Bool,
@@ -168,6 +169,19 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}),
 			"workload_analytics": tftypes.NewValue(tftypes.Bool, false),
 			"encryption_key_url": tftypes.NewValue(tftypes.String, ""),
+			"compute_cluster": tftypes.NewValue(AzureComputeClusterObject, map[string]tftypes.Value{
+				"enabled": tftypes.NewValue(tftypes.Bool, false),
+				"configuration": tftypes.NewValue(AzureComputeClusterConfigurationObject, map[string]tftypes.Value{
+					"private_cluster": tftypes.NewValue(tftypes.Bool, false),
+					"kube_api_authorized_ip_ranges": tftypes.NewValue(tftypes.Set{
+						ElementType: tftypes.String,
+					}, []tftypes.Value{}),
+					"worker_node_subnets": tftypes.NewValue(tftypes.Set{
+						ElementType: tftypes.String,
+					}, []tftypes.Value{}),
+					"outbound_type": tftypes.NewValue(tftypes.String, ""),
+				}),
+			}),
 			"freeipa": tftypes.NewValue(FreeIpaDetailsObject, map[string]tftypes.Value{
 				"catalog":                 tftypes.NewValue(tftypes.String, ""),
 				"image_id":                tftypes.NewValue(tftypes.String, ""),
@@ -206,11 +220,11 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}, map[string]tftypes.Value{
 				"aks_private_dns_zone_id":      tftypes.NewValue(tftypes.String, ""),
 				"database_private_dns_zone_id": tftypes.NewValue(tftypes.String, ""),
-				"network_id":                   tftypes.NewValue(tftypes.String, ""),
-				"resource_group_name":          tftypes.NewValue(tftypes.String, ""),
+				"network_id":                   tftypes.NewValue(tftypes.String, "some-network"),
+				"resource_group_name":          tftypes.NewValue(tftypes.String, "some-resource-group"),
 				"subnet_ids": tftypes.NewValue(tftypes.Set{
 					ElementType: tftypes.String,
-				}, []tftypes.Value{}),
+				}, []tftypes.Value{tftypes.NewValue(tftypes.String, "some-subnet-1"), tftypes.NewValue(tftypes.String, "some-subnet-2")}),
 				"flexible_server_subnet_ids": tftypes.NewValue(tftypes.Set{
 					ElementType: tftypes.String,
 				}, []tftypes.Value{}),
@@ -220,6 +234,26 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}, []tftypes.Value{}),
 		},
 	)
+}
+
+var AzureComputeClusterObject = tftypes.Object{
+	AttributeTypes: map[string]tftypes.Type{
+		"enabled":       tftypes.Bool,
+		"configuration": AzureComputeClusterConfigurationObject,
+	},
+}
+
+var AzureComputeClusterConfigurationObject = tftypes.Object{
+	AttributeTypes: map[string]tftypes.Type{
+		"private_cluster": tftypes.Bool,
+		"kube_api_authorized_ip_ranges": tftypes.Set{
+			ElementType: tftypes.String,
+		},
+		"outbound_type": tftypes.String,
+		"worker_node_subnets": tftypes.Set{
+			ElementType: tftypes.String,
+		},
+	},
 }
 
 func TestCreateAzureEnvironment(t *testing.T) {
@@ -245,12 +279,17 @@ func TestCreateAzureEnvironment(t *testing.T) {
 						EnvironmentName: func(s string) *string { return &s }(""),
 						Freeipa:         &models.FreeipaDetails{},
 						LogStorage:      &models.LogStorage{},
-						Network:         &models.Network{},
-						ProxyConfig:     &models.ProxyConfig{},
-						Region:          func(s string) *string { return &s }(""),
-						SecurityAccess:  &models.SecurityAccess{},
-						Status:          func(s string) *string { return &s }(""),
-						Tags:            &models.EnvironmentTags{},
+						Network: &models.Network{
+							SubnetIds: []string{"subnet-1", "subnet-2"},
+							Azure: &models.NetworkAzureParams{
+								ResourceGroupName: func(s string) *string { return &s }("some-resource-group"),
+							},
+						},
+						ProxyConfig:    &models.ProxyConfig{},
+						Region:         func(s string) *string { return &s }(""),
+						SecurityAccess: &models.SecurityAccess{},
+						Status:         func(s string) *string { return &s }(""),
+						Tags:           &models.EnvironmentTags{},
 					},
 				},
 			},
@@ -266,12 +305,17 @@ func TestCreateAzureEnvironment(t *testing.T) {
 						EnvironmentName: func(s string) *string { return &s }(""),
 						Freeipa:         &models.FreeipaDetails{},
 						LogStorage:      &models.LogStorage{},
-						Network:         &models.Network{},
-						ProxyConfig:     &models.ProxyConfig{},
-						Region:          func(s string) *string { return &s }(""),
-						SecurityAccess:  &models.SecurityAccess{},
-						Status:          func(s string) *string { return &s }("AVAILABLE"),
-						Tags:            &models.EnvironmentTags{},
+						Network: &models.Network{
+							SubnetIds: []string{"subnet-1", "subnet-2"},
+							Azure: &models.NetworkAzureParams{
+								ResourceGroupName: func(s string) *string { return &s }("some-resource-group"),
+							},
+						},
+						ProxyConfig:    &models.ProxyConfig{},
+						Region:         func(s string) *string { return &s }(""),
+						SecurityAccess: &models.SecurityAccess{},
+						Status:         func(s string) *string { return &s }("AVAILABLE"),
+						Tags:           &models.EnvironmentTags{},
 					},
 				},
 			},
@@ -363,12 +407,17 @@ func TestReadAzureEnvironment(t *testing.T) {
 						EnvironmentName: func(s string) *string { return &s }(""),
 						Freeipa:         &models.FreeipaDetails{},
 						LogStorage:      &models.LogStorage{},
-						Network:         &models.Network{},
-						ProxyConfig:     &models.ProxyConfig{},
-						Region:          func(s string) *string { return &s }(""),
-						SecurityAccess:  &models.SecurityAccess{},
-						Status:          func(s string) *string { return &s }("AVAILABLE"),
-						Tags:            &models.EnvironmentTags{},
+						Network: &models.Network{
+							SubnetIds: []string{"subnet-1", "subnet-2"},
+							Azure: &models.NetworkAzureParams{
+								ResourceGroupName: func(s string) *string { return &s }("some-resource-group"),
+							},
+						},
+						ProxyConfig:    &models.ProxyConfig{},
+						Region:         func(s string) *string { return &s }(""),
+						SecurityAccess: &models.SecurityAccess{},
+						Status:         func(s string) *string { return &s }("AVAILABLE"),
+						Tags:           &models.EnvironmentTags{},
 					},
 				},
 			},

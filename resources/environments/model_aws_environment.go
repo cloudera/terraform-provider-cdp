@@ -72,6 +72,8 @@ type awsEnvironmentResourceModel struct {
 	VpcID types.String `tfsdk:"vpc_id"`
 
 	WorkloadAnalytics types.Bool `tfsdk:"workload_analytics"`
+
+	ComputeCluster *AwsComputeCluster `tfsdk:"compute_cluster"`
 }
 
 type Authentication struct {
@@ -98,4 +100,15 @@ type SecurityAccess struct {
 	SecurityGroupIDForKnox types.String `tfsdk:"security_group_id_for_knox"`
 
 	SecurityGroupIDsForKnox types.Set `tfsdk:"security_group_ids_for_knox"`
+}
+
+type AwsComputeCluster struct {
+	Enabled       types.Bool                      `tfsdk:"enabled"`
+	Configuration *AwsComputeClusterConfiguration `tfsdk:"configuration"`
+}
+
+type AwsComputeClusterConfiguration struct {
+	PrivateCluster            types.Bool `tfsdk:"private_cluster"`
+	KubeApiAuthorizedIpRanges types.Set  `tfsdk:"kube_api_authorized_ip_ranges"`
+	WorkerNodeSubnets         types.Set  `tfsdk:"worker_node_subnets"`
 }

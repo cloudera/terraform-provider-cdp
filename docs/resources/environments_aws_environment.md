@@ -31,7 +31,7 @@ resource "cdp_environments_aws_credential" "example" {
 resource "cdp_environments_aws_environment" "example" {
   environment_name = "example-environment"
   credential_name  = cdp_environments_aws_credential.example.credential_name
-  region           = "us-west"
+  region           = "<your-region>"
   security_access = {
     cidr = "0.0.0.0/0"
   }
@@ -44,14 +44,21 @@ resource "cdp_environments_aws_environment" "example" {
   }
   vpc_id = "vpc-1"
   subnet_ids = [ "<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>" ]
+  compute_cluster = {
+    enabled = false
+    configuration = {
+      kube_api_authorized_ip_ranges = ["0.0.0.0/0"]
+      worker_node_subnets = [ "<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>" ]
+    }
+  }
 }
 
-output "environment_name" {
-  value = cdp_environments_aws_environment.example.environment_name
+output "credential" {
+  value = cdp_environments_aws_credential.example
 }
 
-output "crn" {
-  value = cdp_environments_aws_environment.example.crn
+output "environment" {
+  value = cdp_environments_aws_environment.example
 }
 ```
 
@@ -72,6 +79,7 @@ output "crn" {
 ### Optional
 
 - `cascading_delete` (Boolean)
+- `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_subnets` (Boolean)
 - `create_service_endpoints` (Boolean)
 - `description` (String)
@@ -127,6 +135,28 @@ Optional:
 - `default_security_group_ids` (Set of String)
 - `security_group_id_for_knox` (String)
 - `security_group_ids_for_knox` (Set of String)
+
+
+<a id="nestedatt--compute_cluster"></a>
+### Nested Schema for `compute_cluster`
+
+Required:
+
+- `enabled` (Boolean)
+
+Optional:
+
+- `configuration` (Attributes) The Externalized k8s configuration for the environment. (see [below for nested schema](#nestedatt--compute_cluster--configuration))
+
+<a id="nestedatt--compute_cluster--configuration"></a>
+### Nested Schema for `compute_cluster.configuration`
+
+Optional:
+
+- `kube_api_authorized_ip_ranges` (Set of String) Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster.
+- `private_cluster` (Boolean) If true, creates private cluster. False, if not specified
+- `worker_node_subnets` (Set of String) Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.
+
 
 
 <a id="nestedatt--freeipa"></a>

@@ -13,6 +13,9 @@ package utils
 import (
 	"fmt"
 	"strings"
+
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 // Concat concatenates input strings
@@ -26,4 +29,14 @@ func CheckStringEquals(name string, expected string, actual string) error {
 		return fmt.Errorf("%s name does not match, expected %q, actual: %q", name, expected, actual)
 	}
 	return nil
+}
+
+func ToSetValueFromStringList(sl []string) types.Set {
+	elements := make([]attr.Value, len(sl))
+	for i, s := range sl {
+		elements[i] = types.StringValue(s)
+	}
+
+	setValue, _ := types.SetValue(types.StringType, elements)
+	return setValue
 }
