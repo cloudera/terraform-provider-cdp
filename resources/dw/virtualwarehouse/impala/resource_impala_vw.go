@@ -174,6 +174,191 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 		*callFailedCount = 0
 		vw := resp.GetPayload()
 		tflog.Debug(ctx, fmt.Sprintf("Described Impala %s with status %s", vw.Vw.ID, vw.Vw.Status))
+		// Debug statement to delete
+		if vw.Vw.Status == "Running" {
+			if vw == nil {
+				tflog.Debug(ctx, "Pillow: VW is nil")
+
+			}
+
+			if vw.Vw == nil {
+				tflog.Debug(ctx, "Pillow: VW.Vw is nil")
+
+			}
+
+			if vw.Vw.Status != "Running" {
+				tflog.Debug(ctx, fmt.Sprintf("Pillow: VW Status is not Running: %s", vw.Vw.Status))
+
+			}
+
+			tflog.Debug(ctx, fmt.Sprintf("Basic VW Details:"+
+				"\nID: %s"+
+				"\nName: %s"+
+				"\nStatus: %s"+
+				"\nAvailability Zone: %s"+
+				"\nCDH Version: %s"+
+				"\nCompactor: %v"+
+				"\nConfig ID: %s"+
+				"\nCRN: %s"+
+				"\nDBC ID: %s"+
+				"\nEnable Unified Analytics: %v"+
+				"\nInstance Type: %s"+
+				"\nMemory Capacity: %d"+
+				"\nNode Count: %d"+
+				"\nNumber of Cores: %d"+
+				"\nViz Enabled: %v"+
+				"\nVW Type: %s"+
+				"\nImpala Query Log: %v",
+				vw.Vw.ID,
+				vw.Vw.Name,
+				vw.Vw.Status,
+				vw.Vw.AvailabilityZone,
+				vw.Vw.CdhVersion,
+				vw.Vw.Compactor,
+				vw.Vw.ConfigID,
+				vw.Vw.Crn,
+				vw.Vw.DbcID,
+				vw.Vw.EnableUnifiedAnalytics,
+				vw.Vw.InstanceType,
+				vw.Vw.MemoryCapacity,
+				vw.Vw.NodeCount,
+				vw.Vw.NumOfCores,
+				vw.Vw.Viz,
+				vw.Vw.VwType,
+				vw.Vw.ImpalaQueryLog))
+
+			if vw.Vw.ReplicaStatus != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Replica Status:"+
+					"\nReady Coordinator Replicas: %d"+
+					"\nReady Executor Replicas: %d"+
+					"\nTotal Coordinator Replicas: %d"+
+					"\nTotal Executor Replicas: %d",
+					vw.Vw.ReplicaStatus.ReadyCoordinatorReplicas,
+					vw.Vw.ReplicaStatus.ReadyExecutorReplicas,
+					vw.Vw.ReplicaStatus.TotalCoordinatorReplicas,
+					vw.Vw.ReplicaStatus.TotalExecutorReplicas))
+			} else {
+				tflog.Debug(ctx, "Pillow: Replica Status is nil")
+			}
+
+			if vw.Vw.QueryIsolationOptions != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Query Isolation Options:"+
+					"\nMax Nodes Per Query: %d"+
+					"\nMax Queries: %d",
+					vw.Vw.QueryIsolationOptions.MaxNodesPerQuery,
+					vw.Vw.QueryIsolationOptions.MaxQueries))
+			} else {
+				tflog.Debug(ctx, "Pillow: Query Isolation Options is nil")
+			}
+
+			// Impala Options
+			if vw.Vw.ImpalaOptions != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Impala Options:"+
+					"\nScratch Space Limit: %d"+
+					"\nSpill to S3 URI: %s",
+					vw.Vw.ImpalaOptions.ScratchSpaceLimit,
+					vw.Vw.ImpalaOptions.SpillToS3URI))
+			} else {
+				tflog.Debug(ctx, "Pillow: Impala Options is nil")
+			}
+
+			// Impala HA Settings
+			if vw.Vw.ImpalaHaSettingsOptions != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Impala HA Settings:"+
+					"\nEnable Catalog HA: %v"+
+					"\nEnable Shutdown Of Coordinator: %v"+
+					"\nEnable Statestore HA: %v"+
+					"\nHA Mode: %v"+
+					"\nNum Of Active Coordinators: %d",
+					vw.Vw.ImpalaHaSettingsOptions.EnableCatalogHighAvailability,
+					vw.Vw.ImpalaHaSettingsOptions.EnableShutdownOfCoordinator,
+					vw.Vw.ImpalaHaSettingsOptions.EnableStatestoreHighAvailability,
+					vw.Vw.ImpalaHaSettingsOptions.HighAvailabilityMode,
+					vw.Vw.ImpalaHaSettingsOptions.NumOfActiveCoordinators))
+			} else {
+				tflog.Debug(ctx, "Pillow: Impala HA Settings is nil")
+			}
+
+			if vw.Vw.JwtAuth != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Pillow: JWT Auth Provider: %s", vw.Vw.JwtAuth.Provider))
+			} else {
+				tflog.Debug(ctx, "Pillow: JWT Auth is nil")
+			}
+
+			if vw.Vw.SupportedAuthMethods != nil {
+				if vw.Vw.SupportedAuthMethods.Jwt != nil && vw.Vw.SupportedAuthMethods.Ldap != nil && vw.Vw.SupportedAuthMethods.Sso != nil {
+					tflog.Debug(ctx, fmt.Sprintf("Supported Auth Methods:"+
+						"\nJWT: %v"+
+						"\nLDAP: %v"+
+						"\nSSO: %v",
+						*vw.Vw.SupportedAuthMethods.Jwt,
+						*vw.Vw.SupportedAuthMethods.Ldap,
+						*vw.Vw.SupportedAuthMethods.Sso))
+				} else {
+					tflog.Debug(ctx, "Pillow: One or more Supported Auth Methods values are nil")
+				}
+			} else {
+				tflog.Debug(ctx, "Pillow: Supported Auth Methods is nil")
+			}
+
+			if vw.Vw.AutoscalingOptions != nil {
+				tflog.Debug(ctx, fmt.Sprintf("Autoscaling Options:"+
+					"\nMin Clusters: %d"+
+					"\nMax Clusters: %d"+
+					"\nDisable Auto Suspend: %v"+
+					"\nAuto Suspend Timeout: %d"+
+					"\nHive Scale Wait Time: %d"+
+					"\nHive Desired Free Capacity: %d"+
+					"\nImpala Scale Up Delay: %d"+
+					"\nImpala Scale Down Delay: %d",
+					vw.Vw.AutoscalingOptions.MinClusters,
+					vw.Vw.AutoscalingOptions.MaxClusters,
+					vw.Vw.AutoscalingOptions.DisableAutoSuspend,
+					vw.Vw.AutoscalingOptions.AutoSuspendTimeoutSeconds,
+					vw.Vw.AutoscalingOptions.HiveScaleWaitTimeSeconds,
+					vw.Vw.AutoscalingOptions.HiveDesiredFreeCapacity,
+					vw.Vw.AutoscalingOptions.ImpalaScaleUpDelaySeconds,
+					vw.Vw.AutoscalingOptions.ImpalaScaleDownDelaySeconds))
+
+				if vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets != nil {
+					if vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small != nil {
+						tflog.Debug(ctx, fmt.Sprintf("Small Executor Group Set:"+
+							"\nMin Groups: %d"+
+							"\nMax Groups: %d"+
+							"\nExec Group Size: %d"+
+							"\nAuto Suspend Timeout: %d"+
+							"\nDisable Auto Suspend: %v",
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.MinExecutorGroups,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.MaxExecutorGroups,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.ExecGroupSize,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.AutoSuspendTimeoutSeconds,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Small.DisableAutoSuspend))
+					} else {
+						tflog.Debug(ctx, "Pillow: Small Executor Group Set is nil")
+					}
+
+					if vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large != nil {
+						tflog.Debug(ctx, fmt.Sprintf("Large Executor Group Set:"+
+							"\nMin Groups: %d"+
+							"\nMax Groups: %d"+
+							"\nExec Group Size: %d"+
+							"\nAuto Suspend Timeout: %d"+
+							"\nDisable Auto Suspend: %v",
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large.MinExecutorGroups,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large.MaxExecutorGroups,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large.ExecGroupSize,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large.AutoSuspendTimeoutSeconds,
+							vw.Vw.AutoscalingOptions.ImpalaExecutorGroupSets.Large.DisableAutoSuspend))
+					} else {
+						tflog.Debug(ctx, "Large Executor Group Set is nil")
+					}
+				} else {
+					tflog.Debug(ctx, "Impala Executor Group Sets is nil")
+				}
+			} else {
+				tflog.Debug(ctx, "Autoscaling Options is nil")
+			}
+		}
 		return vw, vw.Vw.Status, nil
 	}
 }
@@ -185,8 +370,53 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.Cr
 		DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
 		VwType:    models.VwTypeImpala.Pointer(),
 	}
-	if imageVersion := plan.ImageVersion.ValueString(); imageVersion != "" {
-		req.ImageVersion = imageVersion
+
+	setIfNotEmpty := func(target *string, source string) {
+		if source != "" {
+			*target = source
+		}
+	}
+
+	setIfPositive := func(target *int32, source int32) {
+		if source > 0 {
+			*target = source
+		}
+	}
+
+	setIfTrue := func(target **bool, source bool) {
+		if source {
+			*target = &source
+		}
+	}
+
+	setIfNotEmpty(&req.ImageVersion, plan.ImageVersion.ValueString())
+	setIfNotEmpty(&req.InstanceType, plan.InstanceType.ValueString())
+	setIfNotEmpty(&req.TShirtSize, plan.TShirtSize.ValueString())
+	setIfNotEmpty(&req.AvailabilityZone, plan.AvailabilityZone.ValueString())
+
+	setIfPositive(&req.NodeCount, plan.NodeCount.ValueInt32())
+
+	req.EnableUnifiedAnalytics = plan.EnableUnifiedAnalytics.ValueBool()
+	req.ImpalaQueryLog = plan.ImpalaQueryLog.ValueBool()
+	setIfTrue(&req.PlatformJwtAuth, plan.PlatformJwtAuth.ValueBool())
+
+	if !plan.ImpalaOptions.IsNull() {
+		req.ImpalaOptions = convertToAPIImpalaOptions(plan.ImpalaOptions)
+	}
+	if !plan.Autoscaling.IsNull() {
+		req.Autoscaling = convertToAPIAutoscaling(plan.Autoscaling)
+	}
+	if !plan.ImpalaHASettings.IsNull() {
+		req.ImpalaHaSettings = convertToAPIImpalaHASettings(plan.ImpalaHASettings)
+	}
+	if !plan.QueryIsolationOptions.IsNull() {
+		req.QueryIsolationOptions = convertToAPIQueryIsolationOptions(plan.QueryIsolationOptions)
+	}
+	if !plan.Config.IsNull() {
+		req.Config = convertToAPIServiceConfigReq(plan.Config)
+	}
+	if len(plan.Tags.Elements()) > 0 {
+		req.Tags = convertToAPITagRequests(plan.Tags)
 	}
 	return req
 }
@@ -219,6 +449,7 @@ func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *res
 	}
 
 	impala := describe.GetPayload()
+	tflog.Info(context.Background(), fmt.Sprintf("Prateek API Response: %+v", impala))
 	plan.setFromDescribeVwResponse(impala)
 
 	return nil
