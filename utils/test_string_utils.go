@@ -32,6 +32,9 @@ func CheckStringEquals(name string, expected string, actual string) error {
 }
 
 func ToSetValueFromStringList(sl []string) types.Set {
+	if sl == nil {
+		return types.SetNull(types.StringType)
+	}
 	elements := make([]attr.Value, len(sl))
 	for i, s := range sl {
 		elements[i] = types.StringValue(s)

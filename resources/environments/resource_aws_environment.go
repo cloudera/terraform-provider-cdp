@@ -100,7 +100,6 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	}
 
 	toAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
-	diags = initiateComputeClustersForAwsAfterEnvCreationAndWait(ctx, data, r, resp, diags, client)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)

@@ -29,7 +29,7 @@ resource "cdp_environments_azure_environment" "example-env" {
   existing_network_params = {
     network_id          = "network-name"
     resource_group_name = "rg-name"
-    subnet_ids = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
+    subnet_ids          = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
   }
   public_key = "my-key"
   log_storage = {
@@ -42,10 +42,10 @@ resource "cdp_environments_azure_environment" "example-env" {
   compute_cluster = {
     enabled = false
     configuration = {
-      private_cluster = false
-      outbound_type   = "udr"
+      private_cluster               = false
+      outbound_type                 = "udr"
       kube_api_authorized_ip_ranges = ["0.0.0.0/0"]
-      worker_node_subnets = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
+      worker_node_subnets           = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
     }
   }
 }
