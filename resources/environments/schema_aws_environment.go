@@ -303,43 +303,43 @@ var AwsEnvironmentSchema = schema.Schema{
 }
 
 func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceModel) *environmentsmodels.CreateAWSEnvironmentRequest {
-	res := &environmentsmodels.CreateAWSEnvironmentRequest{}
-	res.Authentication = &environmentsmodels.AuthenticationRequest{
+	req := &environmentsmodels.CreateAWSEnvironmentRequest{}
+	req.Authentication = &environmentsmodels.AuthenticationRequest{
 		PublicKey:   model.Authentication.PublicKey.ValueString(),
 		PublicKeyID: model.Authentication.PublicKeyID.ValueString(),
 	}
-	res.CreatePrivateSubnets = model.CreatePrivateSubnets.ValueBool()
-	res.CreateServiceEndpoints = model.CreateServiceEndpoints.ValueBool()
-	res.CredentialName = model.CredentialName.ValueStringPointer()
-	res.Description = model.Description.ValueString()
-	res.EnableTunnel = model.EnableTunnel.ValueBoolPointer()
-	res.EncryptionKeyArn = model.EncryptionKeyArn.ValueString()
-	res.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
-	res.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
-	res.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	req.CreatePrivateSubnets = model.CreatePrivateSubnets.ValueBool()
+	req.CreateServiceEndpoints = model.CreateServiceEndpoints.ValueBool()
+	req.CredentialName = model.CredentialName.ValueStringPointer()
+	req.Description = model.Description.ValueString()
+	req.EnableTunnel = model.EnableTunnel.ValueBoolPointer()
+	req.EncryptionKeyArn = model.EncryptionKeyArn.ValueString()
+	req.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
+	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
+	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
 		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)
-		res.FreeIpa = &environmentsmodels.AWSFreeIpaCreationRequest{
+		req.FreeIpa = &environmentsmodels.AWSFreeIpaCreationRequest{
 			InstanceCountByGroup: trans.InstanceCountByGroup,
 			InstanceType:         trans.InstanceType,
 			MultiAz:              trans.MultiAz,
 			Recipes:              trans.Recipes,
 		}
-		res.Image = img
+		req.Image = img
 	}
 
 	if model.LogStorage != nil {
-		res.LogStorage = &environmentsmodels.AwsLogStorageRequest{
+		req.LogStorage = &environmentsmodels.AwsLogStorageRequest{
 			InstanceProfile:           model.LogStorage.InstanceProfile.ValueStringPointer(),
 			StorageLocationBase:       model.LogStorage.StorageLocationBase.ValueStringPointer(),
 			BackupStorageLocationBase: model.LogStorage.BackupStorageLocationBase.ValueString(),
 		}
 	}
-	res.ProxyConfigName = model.ProxyConfigName.ValueString()
-	res.Region = model.Region.ValueStringPointer()
-	res.S3GuardTableName = model.S3GuardTableName.ValueString()
-	res.SecurityAccess = &environmentsmodels.SecurityAccessRequest{
+	req.ProxyConfigName = model.ProxyConfigName.ValueString()
+	req.Region = model.Region.ValueStringPointer()
+	req.S3GuardTableName = model.S3GuardTableName.ValueString()
+	req.SecurityAccess = &environmentsmodels.SecurityAccessRequest{
 		Cidr:                    model.SecurityAccess.Cidr.ValueString(),
 		DefaultSecurityGroupIDs: utils.FromSetValueToStringList(model.SecurityAccess.DefaultSecurityGroupIDs),
 		DefaultSecurityGroupID:  model.SecurityAccess.DefaultSecurityGroupID.ValueString(),
@@ -347,11 +347,37 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 		SecurityGroupIDForKnox:  model.SecurityAccess.SecurityGroupIDForKnox.ValueString(),
 	}
 	if !model.SubnetIds.IsNull() && !model.SubnetIds.IsUnknown() {
-		res.SubnetIds = utils.FromSetValueToStringList(model.SubnetIds)
+		req.SubnetIds = utils.FromSetValueToStringList(model.SubnetIds)
 	}
-	res.Tags = ConvertTags(ctx, model.Tags)
-	res.VpcID = model.VpcID.ValueString()
-	res.WorkloadAnalytics = model.WorkloadAnalytics.ValueBool()
-	utils.LogSilently(ctx, "CreateAWSEnvironmentRequest has been created: ", res)
-	return res
+	req.Tags = ConvertTags(ctx, model.Tags)
+	req.VpcID = model.VpcID.ValueString()
+	req.WorkloadAnalytics = model.WorkloadAnalytics.ValueBool()
+	if model.ComputeCluster != nil && model.ComputeCluster.Enabled.ValueBool() {
+		var subnets []string
+		var ipRanges []string
+		if model.ComputeCluster.Configuration != nil {
+			if !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsNull() {
+				subnets = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.WorkerNodeSubnets)
+			} else {
+				subnets = utils.FromSetValueToStringList(model.SubnetIds)
+			}
+			if !model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges.IsNull() {
+				ipRanges = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges)
+			} else {
+				ipRanges = nil
+			}
+		}
+		req.ComputeClusterConfiguration = &environmentsmodels.AWSComputeClusterConfigurationRequest{
+			KubeAPIAuthorizedIPRanges: ipRanges,
+			PrivateCluster:            model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool(),
+			WorkerNodeSubnets:         subnets,
+		}
+		model.ComputeCluster.Configuration = &AwsComputeClusterConfiguration{
+			PrivateCluster:            types.BoolValue(model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool()),
+			KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList(ipRanges),
+			WorkerNodeSubnets:         utils.ToSetValueFromStringList(subnets),
+		}
+	}
+	utils.LogSilently(ctx, "CreateAWSEnvironmentRequest has been created: ", req)
+	return req
 }

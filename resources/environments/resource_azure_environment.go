@@ -101,7 +101,6 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	toAzureEnvironmentResource(ctx, descEnvResp, &data, data.PollingOptions, &resp.Diagnostics)
-	diags = initiateComputeClustersForAzureAfterEnvCreationAndWait(ctx, data, r, resp, diags, client)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)

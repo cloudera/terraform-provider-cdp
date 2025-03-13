@@ -64,24 +64,6 @@ func enableComputeClusterForAws(ctx context.Context, config *AwsComputeClusterCo
 	return err
 }
 
-func initiateComputeClustersForAwsAfterEnvCreationAndWait(ctx context.Context, data awsEnvironmentResourceModel, r *awsEnvironmentResource, resp *resource.CreateResponse, diags diag.Diagnostics, client *environmentsclient.Environments) diag.Diagnostics {
-	if data.ComputeCluster != nil && data.ComputeCluster.Enabled.ValueBool() {
-		err := enableComputeClusterForAws(ctx, data.ComputeCluster.Configuration, data.EnvironmentName.ValueString(), data.SubnetIds, r.client.Environments)
-		if err != nil {
-			resp.Diagnostics.AddError("Failed to enable compute cluster", err.Error())
-		}
-		stateSaver := func(env *environmentsmodels.Environment) {
-			toAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
-			diags = resp.State.Set(ctx, data)
-			resp.Diagnostics.Append(diags...)
-		}
-		if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeoutOneHour, callFailureThreshold, client, ctx, data.PollingOptions, stateSaver); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
-		}
-	}
-	return diags
-}
-
 func convertConfigToAwsComputeClusterConfigurationRequest(config *AwsComputeClusterConfiguration, fallbackSubnetIds types.Set) *environmentsmodels.AWSComputeClusterConfigurationRequest {
 	if config == nil {
 		return nil

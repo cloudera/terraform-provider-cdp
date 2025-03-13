@@ -30,6 +30,8 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
+const compute_cluster_outbound_type_default_value = "udr"
+
 var AzureEnvironmentSchema = schema.Schema{
 	MarkdownDescription: "The environment is a logical entity that represents the association of your user account with multiple compute resources using which you can provision and manage workloads.",
 	Attributes: map[string]schema.Attribute{
@@ -329,26 +331,23 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
 	req.EncryptionAtHost = model.EncryptionAtHost.ValueBool()
 	req.UserManagedIdentity = model.EncryptionUserManagedIdentity.ValueString()
-	if !model.ExistingNetworkParams.IsNull() && !model.ExistingNetworkParams.IsUnknown() {
-		tflog.Debug(ctx, "existing network params")
-		var existingNetworkParams existingAzureNetwork
-		diag := model.ExistingNetworkParams.As(ctx, &existingNetworkParams, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
-		if diag.HasError() {
-			for _, v := range diag.Errors() {
-				tflog.Debug(ctx, "ERROR: "+v.Detail())
-			}
+	var existingNetworkParams existingAzureNetwork
+	diag := model.ExistingNetworkParams.As(ctx, &existingNetworkParams, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	if diag.HasError() {
+		for _, v := range diag.Errors() {
+			tflog.Debug(ctx, "ERROR: "+v.Detail())
 		}
-		tflog.Debug(ctx, "network id: "+existingNetworkParams.NetworkID.ValueString())
-		tflog.Debug(ctx, "network id cast: "+model.ExistingNetworkParams.Attributes()["network_id"].(types.String).ValueString())
-		req.ExistingNetworkParams = &environmentsmodels.ExistingAzureNetworkRequest{
-			AksPrivateDNSZoneID:      existingNetworkParams.AksPrivateDNSZoneID.ValueString(),
-			DatabasePrivateDNSZoneID: existingNetworkParams.DatabasePrivateDNSZoneID.ValueString(),
-			NetworkID:                existingNetworkParams.NetworkID.ValueStringPointer(),
-			ResourceGroupName:        existingNetworkParams.ResourceGroupName.ValueStringPointer(),
-			SubnetIds:                utils.FromSetValueToStringList(existingNetworkParams.SubnetIds),
-		}
-		req.FlexibleServerSubnetIds = utils.FromSetValueToStringList(existingNetworkParams.FlexibleServerSubnetIds)
 	}
+	tflog.Debug(ctx, "network id: "+existingNetworkParams.NetworkID.ValueString())
+	tflog.Debug(ctx, "network id cast: "+model.ExistingNetworkParams.Attributes()["network_id"].(types.String).ValueString())
+	req.ExistingNetworkParams = &environmentsmodels.ExistingAzureNetworkRequest{
+		AksPrivateDNSZoneID:      existingNetworkParams.AksPrivateDNSZoneID.ValueString(),
+		DatabasePrivateDNSZoneID: existingNetworkParams.DatabasePrivateDNSZoneID.ValueString(),
+		NetworkID:                existingNetworkParams.NetworkID.ValueStringPointer(),
+		ResourceGroupName:        existingNetworkParams.ResourceGroupName.ValueStringPointer(),
+		SubnetIds:                utils.FromSetValueToStringList(existingNetworkParams.SubnetIds),
+	}
+	req.FlexibleServerSubnetIds = utils.FromSetValueToStringList(existingNetworkParams.FlexibleServerSubnetIds)
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
 		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)
@@ -382,5 +381,39 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.Tags = ConvertTags(ctx, model.Tags)
 	req.UsePublicIP = model.UsePublicIP.ValueBoolPointer()
 	req.WorkloadAnalytics = model.WorkloadAnalytics.ValueBool()
+	if model.ComputeCluster != nil && model.ComputeCluster.Enabled.ValueBool() {
+		var subnets []string
+		var ipRanges []string
+		var outboundType string
+		if model.ComputeCluster.Configuration != nil {
+			if !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsNull() {
+				subnets = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.WorkerNodeSubnets)
+			} else {
+				subnets = utils.FromSetValueToStringList(existingNetworkParams.SubnetIds)
+			}
+			if !model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges.IsNull() {
+				ipRanges = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges)
+			} else {
+				ipRanges = nil
+			}
+			if !model.ComputeCluster.Configuration.OutboundType.IsNull() {
+				outboundType = model.ComputeCluster.Configuration.OutboundType.ValueString()
+			} else {
+				outboundType = compute_cluster_outbound_type_default_value
+			}
+		}
+		req.ComputeClusterConfiguration = &environmentsmodels.AzureComputeClusterConfigurationRequest{
+			KubeAPIAuthorizedIPRanges: ipRanges,
+			PrivateCluster:            model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool(),
+			WorkerNodeSubnets:         subnets,
+			OutboundType:              outboundType,
+		}
+		model.ComputeCluster.Configuration = &AzureComputeClusterConfiguration{
+			PrivateCluster:            types.BoolValue(model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool()),
+			KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList(ipRanges),
+			OutboundType:              types.StringValue(outboundType),
+			WorkerNodeSubnets:         utils.ToSetValueFromStringList(subnets),
+		}
+	}
 	return req
 }

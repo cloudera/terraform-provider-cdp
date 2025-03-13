@@ -14,7 +14,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -69,26 +68,6 @@ func enableComputeClusterForAzure(ctx context.Context, config *AzureComputeClust
 	tflog.Info(ctx, fmt.Sprintf("Initializing Azure compute cluster for environment '%s'", environmentName))
 	_, err := envClient.Operations.InitializeAzureComputeCluster(params)
 	return err
-}
-
-func initiateComputeClustersForAzureAfterEnvCreationAndWait(ctx context.Context, data azureEnvironmentResourceModel, r *azureEnvironmentResource, resp *resource.CreateResponse, diags diag.Diagnostics, client *environmentsclient.Environments) diag.Diagnostics {
-	if data.ComputeCluster != nil && data.ComputeCluster.Enabled.ValueBool() {
-		var existingNetwork existingAzureNetwork
-		diags := data.ExistingNetworkParams.As(ctx, &existingNetwork, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
-		err := enableComputeClusterForAzure(ctx, data.ComputeCluster.Configuration, data.EnvironmentName.ValueString(), existingNetwork.SubnetIds, r.client.Environments)
-		if err != nil {
-			resp.Diagnostics.AddError("Failed to enable compute cluster", err.Error())
-		}
-		stateSaver := func(env *environmentsmodels.Environment) {
-			toAzureEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
-			diags = resp.State.Set(ctx, data)
-			resp.Diagnostics.Append(diags...)
-		}
-		if err := waitForEnvironmentToBeAvailable(data.ID.ValueString(), timeoutOneHour, callFailureThreshold, client, ctx, data.PollingOptions, stateSaver); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
-		}
-	}
-	return diags
 }
 
 func convertConfigToAzureComputeClusterConfigurationRequest(config *AzureComputeClusterConfiguration, fallbackSubnetIds types.Set) *environmentsmodels.AzureComputeClusterConfigurationRequest {
