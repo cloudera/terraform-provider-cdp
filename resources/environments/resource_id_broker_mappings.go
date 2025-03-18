@@ -17,10 +17,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -38,65 +34,14 @@ var (
 	emptyMappings                                  = true
 )
 
-var IDBrokerMappingSchema = schema.Schema{
-	MarkdownDescription: "To enable your CDP user to utilize the central authentication features CDP provides and to exchange credentials for AWS or Azure access tokens, you have to map this CDP user to the correct IAM role or Azure Managed Service Identity (MSI).",
-	Attributes: map[string]schema.Attribute{
-		"id": schema.StringAttribute{
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"data_access_role": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"environment_name": schema.StringAttribute{
-			Required: true,
-		},
-		"environment_crn": schema.StringAttribute{
-			Required: true,
-		},
-		"mappings": schema.SetNestedAttribute{
-			Optional: true,
-			NestedObject: schema.NestedAttributeObject{
-				Attributes: map[string]schema.Attribute{
-					"accessor_crn": schema.StringAttribute{
-						Required: true,
-					},
-					"role": schema.StringAttribute{
-						Required: true,
-					},
-				},
-			},
-		},
-		"ranger_audit_role": schema.StringAttribute{
-			Required: true,
-		},
-		"ranger_cloud_access_authorizer_role": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-			},
-		},
-		"set_empty_mappings": schema.BoolAttribute{
-			Optional: true,
-		},
-		"mappings_version": schema.Int64Attribute{
-			Computed: true,
-			PlanModifiers: []planmodifier.Int64{
-				int64planmodifier.UseStateForUnknown(),
-			},
-		},
-	},
-}
-
 type idBrokerMappingsResource struct {
 	client *cdp.Client
+}
+
+type idBrokerMapping struct {
+	AccessorCrn types.String `tfsdk:"accessor_crn"`
+
+	Role types.String `tfsdk:"role"`
 }
 
 func (r *idBrokerMappingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
@@ -107,56 +52,11 @@ func NewIDBrokerMappingsResource() resource.Resource {
 	return &idBrokerMappingsResource{}
 }
 
-func (r *idBrokerMappingsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *idBrokerMappingsResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_id_broker_mappings"
 }
 
-type idBrokerMappingsResourceModel struct {
-	ID types.String `tfsdk:"id"`
-
-	DataAccessRole types.String `tfsdk:"data_access_role"`
-
-	EnvironmentName types.String `tfsdk:"environment_name"`
-
-	EnvironmentCrn types.String `tfsdk:"environment_crn"`
-
-	Mappings types.Set `tfsdk:"mappings"`
-
-	RangerAuditRole types.String `tfsdk:"ranger_audit_role"`
-
-	RangerCloudAccessAuthorizerRole types.String `tfsdk:"ranger_cloud_access_authorizer_role"`
-
-	SetEmptyMappings types.Bool `tfsdk:"set_empty_mappings"`
-
-	MappingsVersion types.Int64 `tfsdk:"mappings_version"`
-}
-
-type idBrokerMapping struct {
-	AccessorCrn types.String `tfsdk:"accessor_crn"`
-
-	Role types.String `tfsdk:"role"`
-}
-
-func toSetIDBrokerMappingsRequest(ctx context.Context, model *idBrokerMappingsResourceModel, diag *diag.Diagnostics) *environmentsmodels.SetIDBrokerMappingsRequest {
-	resp := &environmentsmodels.SetIDBrokerMappingsRequest{}
-	resp.DataAccessRole = model.DataAccessRole.ValueStringPointer()
-	resp.EnvironmentName = model.EnvironmentName.ValueStringPointer()
-	resp.RangerAuditRole = model.RangerAuditRole.ValueString()
-	resp.RangerCloudAccessAuthorizerRole = model.RangerCloudAccessAuthorizerRole.ValueString()
-	resp.SetEmptyMappings = model.SetEmptyMappings.ValueBoolPointer()
-	mappings := make([]*idBrokerMapping, len(model.Mappings.Elements()))
-	diag.Append(model.Mappings.ElementsAs(ctx, &mappings, false)...)
-	resp.Mappings = make([]*environmentsmodels.IDBrokerMappingRequest, len(mappings))
-	for i, v := range mappings {
-		resp.Mappings[i] = &environmentsmodels.IDBrokerMappingRequest{
-			AccessorCrn: v.AccessorCrn.ValueStringPointer(),
-			Role:        v.Role.ValueStringPointer(),
-		}
-	}
-	return resp
-}
-
-func (r *idBrokerMappingsResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *idBrokerMappingsResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = IDBrokerMappingSchema
 }
 
@@ -202,24 +102,6 @@ func (r *idBrokerMappingsResource) Create(ctx context.Context, req resource.Crea
 	}
 }
 
-func isSetIDBEnvNotFoundError(err error) bool {
-	if envErr, ok := err.(*operations.SetIDBrokerMappingsDefault); ok {
-		if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
-			return true
-		}
-	}
-	return false
-}
-
-func queryEnvironment(ctx context.Context, client *client.Environments, envName string, state *idBrokerMappingsResourceModel) error {
-	envParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
-	envParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
-		EnvironmentName: &envName,
-	})
-	_, err := client.Operations.DescribeEnvironment(envParams)
-	return err
-}
-
 func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state idBrokerMappingsResourceModel
 	diags := req.State.Get(ctx, &state)
@@ -262,45 +144,6 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
-	}
-}
-
-func removeResourceFromState(ctx context.Context, diag *diag.Diagnostics, state *tfsdk.State, model idBrokerMappingsResourceModel) {
-	diag.AddWarning("Resource not found on provider", "Environment not found, removing ID Broker mapping from state.")
-	tflog.Warn(ctx, "Environment not found, removing ID Broker mapping from state", map[string]interface{}{
-		"id": model.ID.ValueString(),
-	})
-	state.RemoveResource(ctx)
-}
-
-func toIdBrokerMappingsResourceModel(ctx context.Context, mapping *environmentsmodels.GetIDBrokerMappingsResponse, out *idBrokerMappingsResourceModel, diags *diag.Diagnostics) {
-	out.DataAccessRole = types.StringPointerValue(mapping.DataAccessRole)
-	out.MappingsVersion = types.Int64PointerValue(mapping.MappingsVersion)
-	out.RangerAuditRole = types.StringPointerValue(mapping.RangerAuditRole)
-	out.RangerCloudAccessAuthorizerRole = types.StringValue(mapping.RangerCloudAccessAuthorizerRole)
-	if len(mapping.Mappings) == 0 {
-		out.Mappings = types.SetNull(types.ObjectType{
-			AttrTypes: map[string]attr.Type{
-				"accessor_crn": types.StringType,
-				"role":         types.StringType,
-			},
-		})
-	} else {
-		mappings := make([]*idBrokerMapping, len(mapping.Mappings))
-		for i, v := range mapping.Mappings {
-			mappings[i] = &idBrokerMapping{
-				AccessorCrn: types.StringPointerValue(v.AccessorCrn),
-				Role:        types.StringPointerValue(v.Role),
-			}
-		}
-		var mappingsDiags diag.Diagnostics
-		out.Mappings, mappingsDiags = types.SetValueFrom(ctx, types.ObjectType{
-			AttrTypes: map[string]attr.Type{
-				"accessor_crn": types.StringType,
-				"role":         types.StringType,
-			},
-		}, mappings)
-		diags.Append(mappingsDiags...)
 	}
 }
 
@@ -383,4 +226,80 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete ID Broker mapping")
 		return
 	}
+}
+
+func queryEnvironment(ctx context.Context, client *client.Environments, envName string, state *idBrokerMappingsResourceModel) error {
+	envParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	envParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
+		EnvironmentName: &envName,
+	})
+	_, err := client.Operations.DescribeEnvironment(envParams)
+	return err
+}
+
+func isSetIDBEnvNotFoundError(err error) bool {
+	if envErr, ok := err.(*operations.SetIDBrokerMappingsDefault); ok {
+		if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
+			return true
+		}
+	}
+	return false
+}
+
+func removeResourceFromState(ctx context.Context, diag *diag.Diagnostics, state *tfsdk.State, model idBrokerMappingsResourceModel) {
+	diag.AddWarning("Resource not found on provider", "Environment not found, removing ID Broker mapping from state.")
+	tflog.Warn(ctx, "Environment not found, removing ID Broker mapping from state", map[string]interface{}{
+		"id": model.ID.ValueString(),
+	})
+	state.RemoveResource(ctx)
+}
+
+func toIdBrokerMappingsResourceModel(ctx context.Context, mapping *environmentsmodels.GetIDBrokerMappingsResponse, out *idBrokerMappingsResourceModel, diags *diag.Diagnostics) {
+	out.DataAccessRole = types.StringPointerValue(mapping.DataAccessRole)
+	out.MappingsVersion = types.Int64PointerValue(mapping.MappingsVersion)
+	out.RangerAuditRole = types.StringPointerValue(mapping.RangerAuditRole)
+	out.RangerCloudAccessAuthorizerRole = types.StringValue(mapping.RangerCloudAccessAuthorizerRole)
+	if len(mapping.Mappings) == 0 {
+		out.Mappings = types.SetNull(types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"accessor_crn": types.StringType,
+				"role":         types.StringType,
+			},
+		})
+	} else {
+		mappings := make([]*idBrokerMapping, len(mapping.Mappings))
+		for i, v := range mapping.Mappings {
+			mappings[i] = &idBrokerMapping{
+				AccessorCrn: types.StringPointerValue(v.AccessorCrn),
+				Role:        types.StringPointerValue(v.Role),
+			}
+		}
+		var mappingsDiags diag.Diagnostics
+		out.Mappings, mappingsDiags = types.SetValueFrom(ctx, types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"accessor_crn": types.StringType,
+				"role":         types.StringType,
+			},
+		}, mappings)
+		diags.Append(mappingsDiags...)
+	}
+}
+
+func toSetIDBrokerMappingsRequest(ctx context.Context, model *idBrokerMappingsResourceModel, diag *diag.Diagnostics) *environmentsmodels.SetIDBrokerMappingsRequest {
+	resp := &environmentsmodels.SetIDBrokerMappingsRequest{}
+	resp.DataAccessRole = model.DataAccessRole.ValueStringPointer()
+	resp.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	resp.RangerAuditRole = model.RangerAuditRole.ValueString()
+	resp.RangerCloudAccessAuthorizerRole = model.RangerCloudAccessAuthorizerRole.ValueString()
+	resp.SetEmptyMappings = model.SetEmptyMappings.ValueBoolPointer()
+	mappings := make([]*idBrokerMapping, len(model.Mappings.Elements()))
+	diag.Append(model.Mappings.ElementsAs(ctx, &mappings, false)...)
+	resp.Mappings = make([]*environmentsmodels.IDBrokerMappingRequest, len(mappings))
+	for i, v := range mappings {
+		resp.Mappings[i] = &environmentsmodels.IDBrokerMappingRequest{
+			AccessorCrn: v.AccessorCrn.ValueStringPointer(),
+			Role:        v.Role.ValueStringPointer(),
+		}
+	}
+	return resp
 }

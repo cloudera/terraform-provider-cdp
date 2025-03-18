@@ -14,7 +14,7 @@ import (
 	"testing"
 )
 
-var schemaElements = []SchemaTestCaseStructure{
+var azureSchemaElements = []SchemaTestCaseStructure{
 	{
 		name:             "id field must exist and be valid",
 		field:            "id",
@@ -197,8 +197,16 @@ var schemaElements = []SchemaTestCaseStructure{
 	},
 }
 
+func TestAzureEnvironmentSchemaSchemaAttributeNumber(t *testing.T) {
+	expected := 31
+	if len(AzureEnvironmentSchema.Attributes) != expected {
+		t.Errorf("The number of fields in the AzureEnvironment schema should be: %d but it is: %d", expected, len(AzureEnvironmentSchema.Attributes))
+		t.FailNow()
+	}
+}
+
 func TestSchemaContainsElements(t *testing.T) {
-	for _, test := range schemaElements {
+	for _, test := range azureSchemaElements {
 		performResourceSchemaValidation(t, test, AzureEnvironmentSchema.Attributes[test.field])
 	}
 }
