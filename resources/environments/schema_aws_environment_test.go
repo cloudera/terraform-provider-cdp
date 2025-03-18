@@ -191,6 +191,14 @@ var awsSchemaElements = []SchemaTestCaseStructure{
 	},
 }
 
+func TestAwsEnvironmentSchemaSchemaAttributeNumber(t *testing.T) {
+	expected := 29
+	if len(AwsEnvironmentSchema.Attributes) != expected {
+		t.Errorf("The number of fields in the AwsEnvironmentSchema schema should be: %d but it is: %d", expected, len(AwsEnvironmentSchema.Attributes))
+		t.FailNow()
+	}
+}
+
 func TestAwsSchemaContainsElements(t *testing.T) {
 	for _, test := range awsSchemaElements {
 		performResourceSchemaValidation(t, test, AwsEnvironmentSchema.Attributes[test.field])
