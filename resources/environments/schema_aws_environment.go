@@ -19,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -104,9 +105,12 @@ var AwsEnvironmentSchema = schema.Schema{
 						},
 						"worker_node_subnets": schema.SetAttribute{
 							MarkdownDescription: "Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.",
-							ElementType:         types.StringType,
-							Computed:            true,
-							Optional:            true,
+							PlanModifiers: []planmodifier.Set{
+								setplanmodifier.UseStateForUnknown(),
+							},
+							ElementType: types.StringType,
+							Computed:    true,
+							Optional:    true,
 						},
 					},
 				},
@@ -355,27 +359,30 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	if model.ComputeCluster != nil && model.ComputeCluster.Enabled.ValueBool() {
 		var subnets []string
 		var ipRanges []string
+		var privateCluster bool
 		if model.ComputeCluster.Configuration != nil {
-			if !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsNull() {
+			privateCluster = model.ComputeCluster.Configuration.PrivateCluster.ValueBool()
+			if !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsNull() && !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsUnknown() {
 				subnets = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.WorkerNodeSubnets)
 			} else {
 				subnets = utils.FromSetValueToStringList(model.SubnetIds)
+				model.ComputeCluster.Configuration.WorkerNodeSubnets = model.SubnetIds
 			}
-			if !model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges.IsNull() {
+			if !model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges.IsNull() && !model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges.IsUnknown() {
 				ipRanges = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges)
 			} else {
 				ipRanges = nil
 			}
+			model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges = utils.ToSetValueFromStringList(ipRanges)
+		} else {
+			subnets = utils.FromSetValueToStringList(model.SubnetIds)
+			privateCluster = true
 		}
+		req.EnableComputeCluster = true
 		req.ComputeClusterConfiguration = &environmentsmodels.AWSComputeClusterConfigurationRequest{
 			KubeAPIAuthorizedIPRanges: ipRanges,
-			PrivateCluster:            model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool(),
+			PrivateCluster:            privateCluster,
 			WorkerNodeSubnets:         subnets,
-		}
-		model.ComputeCluster.Configuration = &AwsComputeClusterConfiguration{
-			PrivateCluster:            types.BoolValue(model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool()),
-			KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList(ipRanges),
-			WorkerNodeSubnets:         utils.ToSetValueFromStringList(subnets),
 		}
 	}
 	utils.LogSilently(ctx, "CreateAWSEnvironmentRequest has been created: ", req)
