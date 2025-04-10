@@ -233,9 +233,12 @@ var AzureEnvironmentSchema = schema.Schema{
 						},
 						"worker_node_subnets": schema.SetAttribute{
 							MarkdownDescription: "Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.",
-							ElementType:         types.StringType,
-							Computed:            true,
-							Optional:            true,
+							PlanModifiers: []planmodifier.Set{
+								setplanmodifier.UseStateForUnknown(),
+							},
+							ElementType: types.StringType,
+							Computed:    true,
+							Optional:    true,
 						},
 					},
 				},
@@ -404,34 +407,36 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 		var subnets []string
 		var ipRanges []string
 		var outboundType string
+		var privateCluster bool
 		if model.ComputeCluster.Configuration != nil {
-			if !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsNull() {
+			privateCluster = model.ComputeCluster.Configuration.PrivateCluster.ValueBool()
+			if !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsNull() && !model.ComputeCluster.Configuration.WorkerNodeSubnets.IsUnknown() {
 				subnets = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.WorkerNodeSubnets)
 			} else {
 				subnets = utils.FromSetValueToStringList(existingNetworkParams.SubnetIds)
+				model.ComputeCluster.Configuration.WorkerNodeSubnets = existingNetworkParams.SubnetIds
 			}
 			if !model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges.IsNull() {
 				ipRanges = utils.FromSetValueToStringList(model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges)
 			} else {
 				ipRanges = nil
 			}
+			model.ComputeCluster.Configuration.KubeApiAuthorizedIpRanges = utils.ToSetValueFromStringList(ipRanges)
 			if !model.ComputeCluster.Configuration.OutboundType.IsNull() {
 				outboundType = model.ComputeCluster.Configuration.OutboundType.ValueString()
 			} else {
 				outboundType = compute_cluster_outbound_type_default_value
 			}
+		} else {
+			subnets = utils.FromSetValueToStringList(existingNetworkParams.SubnetIds)
+			privateCluster = true
 		}
+		req.EnableComputeCluster = true
 		req.ComputeClusterConfiguration = &environmentsmodels.AzureComputeClusterConfigurationRequest{
 			KubeAPIAuthorizedIPRanges: ipRanges,
-			PrivateCluster:            model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool(),
+			PrivateCluster:            privateCluster,
 			WorkerNodeSubnets:         subnets,
 			OutboundType:              outboundType,
-		}
-		model.ComputeCluster.Configuration = &AzureComputeClusterConfiguration{
-			PrivateCluster:            types.BoolValue(model.ComputeCluster.Configuration != nil && model.ComputeCluster.Configuration.PrivateCluster.ValueBool()),
-			KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList(ipRanges),
-			OutboundType:              types.StringValue(outboundType),
-			WorkerNodeSubnets:         utils.ToSetValueFromStringList(subnets),
 		}
 	}
 	return req
