@@ -53,9 +53,9 @@ func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx cont
 	return utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, describeLogPrefix), nil
 }
 
-func deleteEnvironmentWithDiagnosticHandle(environmentName string, cascading bool, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingOptions *utils.PollingOptions) error {
+func deleteEnvironmentWithDiagnosticHandle(environmentName string, cascading bool, forced bool, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingOptions *utils.PollingOptions) error {
 	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
-	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName, Cascading: cascading})
+	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName, Cascading: cascading, Forced: forced})
 	_, err := client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Environment")

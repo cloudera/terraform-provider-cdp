@@ -40,6 +40,10 @@ func NewGcpEnvironmentResource() resource.Resource {
 	return &gcpEnvironmentResource{}
 }
 
+func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = GcpEnvironmentSchema
+}
+
 func (r *gcpEnvironmentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_gcp_environment"
 }
@@ -140,10 +144,23 @@ func (r *gcpEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	}
 
 	cascading := state.Cascading.ValueBool()
+	forced := false
 	if state.Cascading.IsNull() {
 		cascading = true
 	}
-	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, ctx, r.client, resp, state.PollingOptions); err != nil {
+
+	if state.DeleteOptions != nil {
+		if !state.DeleteOptions.Cascading.IsUnknown() {
+			cascading = state.DeleteOptions.Cascading.ValueBool()
+		} else {
+			cascading = true
+		}
+		if !state.DeleteOptions.Forced.IsUnknown() {
+			forced = state.DeleteOptions.Forced.ValueBool()
+		}
+	}
+
+	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, state.PollingOptions); err != nil {
 		return
 	}
 }
