@@ -45,6 +45,8 @@ type awsEnvironmentResourceModel struct {
 
 	Cascading types.Bool `tfsdk:"cascading_delete"`
 
+	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
+
 	FreeIpa types.Object `tfsdk:"freeipa"`
 
 	LogStorage *AWSLogStorage `tfsdk:"log_storage"`

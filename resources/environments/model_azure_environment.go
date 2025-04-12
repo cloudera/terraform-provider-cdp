@@ -43,6 +43,8 @@ type azureEnvironmentResourceModel struct {
 
 	Cascading types.Bool `tfsdk:"cascading_delete"`
 
+	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
+
 	ExistingNetworkParams types.Object `tfsdk:"existing_network_params"`
 
 	FreeIpa types.Object `tfsdk:"freeipa"`

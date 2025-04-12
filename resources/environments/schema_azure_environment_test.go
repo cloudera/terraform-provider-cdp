@@ -195,17 +195,29 @@ var azureSchemaElements = []SchemaTestCaseStructure{
 		computed:         false,
 		shouldBeRequired: false,
 	},
+	{
+		name:             "delete_options should exist and be valid",
+		field:            "delete_options",
+		computed:         false,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "cascading_delete should exist and be valid",
+		field:            "cascading_delete",
+		computed:         true,
+		shouldBeRequired: false,
+	},
 }
 
 func TestAzureEnvironmentSchemaSchemaAttributeNumber(t *testing.T) {
-	expected := 31
+	expected := 32
 	if len(AzureEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AzureEnvironment schema should be: %d but it is: %d", expected, len(AzureEnvironmentSchema.Attributes))
 		t.FailNow()
 	}
 }
 
-func TestSchemaContainsElements(t *testing.T) {
+func TestAzureSchemaContainsElements(t *testing.T) {
 	for _, test := range azureSchemaElements {
 		performResourceSchemaValidation(t, test, AzureEnvironmentSchema.Attributes[test.field])
 	}
