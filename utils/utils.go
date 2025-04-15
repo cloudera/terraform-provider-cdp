@@ -144,17 +144,6 @@ func FromSetValueToStringList(tl types.Set) []string {
 	return res
 }
 
-func FromMapValueToStringMap(tl types.Map) map[string]string {
-	if tl.IsNull() {
-		return map[string]string{}
-	}
-	res := make(map[string]string, len(tl.Elements()))
-	for key, value := range tl.Elements() {
-		res[key] = value.(types.String).ValueString()
-	}
-	return res
-}
-
 func Int64To32Pointer(in types.Int64) *int32 {
 	n32 := Int64To32(in)
 	return &n32
