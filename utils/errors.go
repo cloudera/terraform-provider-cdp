@@ -17,10 +17,8 @@ import (
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
-	demodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
-	mlmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
@@ -88,64 +86,6 @@ func AddIamDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg str
 	if d, ok := err.(IamErrorPayload); ok && d.GetPayload() != nil {
 		if d.GetPayload().Code == "401" {
 			msg = decorateIamUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
-		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
-}
-
-type MlErrorPayload interface {
-	GetPayload() *mlmodels.Error
-}
-
-func decorateMlUnauthorizedErrorIfMessageNotExists(err *mlmodels.Error) *mlmodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &mlmodels.Error{
-			Message: authFailMsg,
-		}
-	}
-	return err
-}
-
-func AddMlDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(MlErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateMlUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
-		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
-}
-
-type DeErrorPayload interface {
-	GetPayload() *demodels.Error
-}
-
-func decorateDeUnauthorizedErrorIfMessageNotExists(err *demodels.Error) *demodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &demodels.Error{
-			Message: authFailMsg,
-		}
-	}
-	return err
-}
-
-func AddDeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(DeErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateDeUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
 		} else {
 			msg = d.GetPayload().Message
 		}

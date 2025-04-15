@@ -15,10 +15,8 @@ import (
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
-	demodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
-	mlmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
@@ -94,52 +92,6 @@ func TestDecorateIamUnAuthWhenErrMessageIsNotEmpty(t *testing.T) {
 
 func TestDecorateIamUnAuthWhenErrMessageIsEmpty(t *testing.T) {
 	result := decorateIamUnauthorizedErrorIfMessageNotExists(&iammodels.Error{})
-	if result.Message != authFailMsg {
-		t.Errorf("Result message is not the expected one! Expected: '%s', got: '%s'.", authFailMsg, result.Message)
-	}
-}
-
-func TestDecorateMlUnAuthWhenErrIsNil(t *testing.T) {
-	if decorateMlUnauthorizedErrorIfMessageNotExists(nil) != nil {
-		t.Error("Result is not nil but it should be!")
-	}
-}
-
-func TestDecorateMlUnAuthWhenErrMessageIsNotEmpty(t *testing.T) {
-	msg := "something"
-	result := decorateMlUnauthorizedErrorIfMessageNotExists(&mlmodels.Error{
-		Message: msg,
-	})
-	if result.Message != msg {
-		t.Errorf("Result message is not the expected one! Expected: '%s', got: '%s'.", msg, result.Message)
-	}
-}
-
-func TestDecorateMlUnAuthWhenErrMessageIsEmpty(t *testing.T) {
-	result := decorateMlUnauthorizedErrorIfMessageNotExists(&mlmodels.Error{})
-	if result.Message != authFailMsg {
-		t.Errorf("Result message is not the expected one! Expected: '%s', got: '%s'.", authFailMsg, result.Message)
-	}
-}
-
-func TestDecorateDeUnAuthWhenErrIsNil(t *testing.T) {
-	if decorateDeUnauthorizedErrorIfMessageNotExists(nil) != nil {
-		t.Error("Result is not nil but it should be!")
-	}
-}
-
-func TestDecorateDeUnAuthWhenErrMessageIsNotEmpty(t *testing.T) {
-	msg := "something"
-	result := decorateDeUnauthorizedErrorIfMessageNotExists(&demodels.Error{
-		Message: msg,
-	})
-	if result.Message != msg {
-		t.Errorf("Result message is not the expected one! Expected: '%s', got: '%s'.", msg, result.Message)
-	}
-}
-
-func TestDecorateDeUnAuthWhenErrMessageIsEmpty(t *testing.T) {
-	result := decorateDeUnauthorizedErrorIfMessageNotExists(&demodels.Error{})
 	if result.Message != authFailMsg {
 		t.Errorf("Result message is not the expected one! Expected: '%s', got: '%s'.", authFailMsg, result.Message)
 	}

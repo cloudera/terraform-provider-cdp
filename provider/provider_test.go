@@ -28,7 +28,6 @@ import (
 
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
-	"github.com/cloudera/terraform-provider-cdp/resources/de"
 	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
 	dwdatabasecatalog "github.com/cloudera/terraform-provider-cdp/resources/dw/databasecatalog"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/dataviz"
@@ -36,7 +35,6 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/impala"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
-	"github.com/cloudera/terraform-provider-cdp/resources/ml"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 	"github.com/cloudera/terraform-provider-cdp/resources/recipe"
 	testUtil "github.com/cloudera/terraform-provider-cdp/utils/test"
@@ -636,8 +634,6 @@ func TestCdpProvider_Resources(t *testing.T) {
 		datahub.NewAzureDatahubResource,
 		datahub.NewGcpDatahubResource,
 		opdb.NewDatabaseResource,
-		ml.NewWorkspaceResource,
-		de.NewServiceResource,
 		hive.NewHiveResource,
 		impala.NewImpalaResource,
 		dataviz.NewDataVizResource,
