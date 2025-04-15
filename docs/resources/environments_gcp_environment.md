@@ -87,7 +87,8 @@ output "shared_project_id" {
 ### Optional
 
 - `availability_zones` (List of String) The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
-- `cascading_delete` (Boolean)
+- `cascading_delete` (Boolean, Deprecated)
+- `delete_options` (Attributes) Options for deleting the environment. (see [below for nested schema](#nestedatt--delete_options))
 - `description` (String) A description of the environment.
 - `enable_tunnel` (Boolean) Whether to enable SSH tunneling for the environment.
 - `encryption_key` (String) Key Resource ID of the customer managed encryption key to encrypt GCP resources.
@@ -116,6 +117,15 @@ Required:
 - `network_name` (String) The name of the GCP VPC.
 - `shared_project_id` (String) The ID of the Google project associated with the VPC.
 - `subnet_names` (List of String) One or more subnet names within the VPC. Google VPCs are global, please give subnets from single geographic region only to reduce latency.
+
+
+<a id="nestedatt--delete_options"></a>
+### Nested Schema for `delete_options`
+
+Optional:
+
+- `cascading` (Boolean) If true, all resources in the environment will be deleted.
+- `forced` (Boolean) Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.
 
 
 <a id="nestedatt--freeipa"></a>

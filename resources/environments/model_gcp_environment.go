@@ -21,6 +21,8 @@ type gcpEnvironmentResourceModel struct {
 
 	Cascading types.Bool `tfsdk:"cascading_delete"`
 
+	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
+
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 
 	CredentialName types.String `tfsdk:"credential_name"`

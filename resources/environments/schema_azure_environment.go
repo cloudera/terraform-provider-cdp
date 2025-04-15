@@ -123,9 +123,28 @@ var AzureEnvironmentSchema = schema.Schema{
 			Required: true,
 		},
 		"cascading_delete": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
-			Default:  booldefault.StaticBool(true),
+			Optional:           true,
+			Computed:           true,
+			Default:            booldefault.StaticBool(true),
+			DeprecationMessage: "Cascading_delete is deprecated. Use delete_options.cascading instead. If latter specified, it will override this value.",
+		},
+		"delete_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Options for deleting the environment.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"cascading": schema.BoolAttribute{
+					MarkdownDescription: "If true, all resources in the environment will be deleted.",
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(true),
+				},
+				"forced": schema.BoolAttribute{
+					MarkdownDescription: "Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.",
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
+				},
+			},
 		},
 		"existing_network_params": schema.SingleNestedAttribute{
 			Required: true,

@@ -89,9 +89,10 @@ output "environment" {
 
 ### Optional
 
-- `cascading_delete` (Boolean)
+- `cascading_delete` (Boolean, Deprecated)
 - `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_endpoints` (Boolean)
+- `delete_options` (Attributes) Options for deleting the environment. (see [below for nested schema](#nestedatt--delete_options))
 - `description` (String)
 - `enable_outbound_load_balancer` (Boolean)
 - `enable_tunnel` (Boolean)
@@ -178,6 +179,15 @@ Optional:
 - `private_cluster` (Boolean) If true, creates private cluster. False, if not specified
 - `worker_node_subnets` (Set of String) Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.
 
+
+
+<a id="nestedatt--delete_options"></a>
+### Nested Schema for `delete_options`
+
+Optional:
+
+- `cascading` (Boolean) If true, all resources in the environment will be deleted.
+- `forced` (Boolean) Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.
 
 
 <a id="nestedatt--freeipa"></a>
