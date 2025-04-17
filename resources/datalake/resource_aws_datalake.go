@@ -77,7 +77,7 @@ func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) 
 			Os:          model.Image.Os.ValueString(),
 		}
 	}
-	req.JavaVersion = int32(model.JavaVersion.ValueInt64())
+	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.MultiAz = model.MultiAz.ValueBool()
 	req.Recipes = make([]*datalakemodels.InstanceGroupRecipeRequest, len(model.Recipes))
 	for i, v := range model.Recipes {

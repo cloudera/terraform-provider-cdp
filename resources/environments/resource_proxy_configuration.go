@@ -79,7 +79,7 @@ func (p *proxyConfigurationResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	client := p.client.Environments
+	environmentClient := p.client.Environments
 
 	params := operations.NewCreateProxyConfigParamsWithContext(ctx)
 	params.WithInput(&models.CreateProxyConfigRequest{
@@ -87,13 +87,13 @@ func (p *proxyConfigurationResource) Create(ctx context.Context, req resource.Cr
 		Description:     data.Description.ValueString(),
 		Protocol:        data.Protocol.ValueStringPointer(),
 		Host:            data.Host.ValueStringPointer(),
-		Port:            func(i int32) *int32 { return &i }(int32(data.Port.ValueInt64())),
+		Port:            data.Port.ValueInt32Pointer(),
 		NoProxyHosts:    joinHostSet(data.NoProxyHosts),
 		User:            data.User.ValueString(),
 		Password:        data.Password.ValueString(),
 	})
 
-	responseOk, err := client.Operations.CreateProxyConfig(params)
+	responseOk, err := environmentClient.Operations.CreateProxyConfig(params)
 	if err != nil {
 		msg := err.Error()
 		if d, ok := err.(utils.EnvironmentErrorPayload); ok && d.GetPayload() != nil {
@@ -126,12 +126,12 @@ func (p *proxyConfigurationResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
-	client := p.client.Environments
+	environmentClient := p.client.Environments
 
 	params := operations.NewDeleteProxyConfigParamsWithContext(ctx)
 	params.WithInput(&models.DeleteProxyConfigRequest{ProxyConfigName: state.Name.ValueStringPointer()})
 
-	_, err := client.Operations.DeleteProxyConfig(params)
+	_, err := environmentClient.Operations.DeleteProxyConfig(params)
 	if err != nil {
 		if envErr, ok := err.(*operations.DeleteProxyConfigDefault); ok {
 			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
@@ -159,8 +159,8 @@ func (p *proxyConfigurationResource) Delete(ctx context.Context, req resource.De
 func splitHostsToSet(hostsStr string, diags *diag.Diagnostics, ctx context.Context) basetypes.SetValue {
 	hosts := strings.Split(hostsStr, ",")
 
-	result, diag := types.SetValueFrom(ctx, types.StringType, hosts)
-	diags.Append(diag...)
+	result, d := types.SetValueFrom(ctx, types.StringType, hosts)
+	diags.Append(d...)
 	return result
 }
 
@@ -210,9 +210,9 @@ func (p *proxyConfigurationResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
-	client := p.client.Environments
+	environmentClient := p.client.Environments
 
-	proxyConfig, err := FindProxyConfigurationByName(state.Name.ValueString(), ctx, client, &resp.Diagnostics)
+	proxyConfig, err := FindProxyConfigurationByName(state.Name.ValueString(), ctx, environmentClient, &resp.Diagnostics)
 	if err != nil {
 		if err.Error() == "not found" {
 			removeProxyConfigFromState(ctx, &resp.Diagnostics, &resp.State, state)
@@ -224,7 +224,7 @@ func (p *proxyConfigurationResource) Read(ctx context.Context, req resource.Read
 	state.Description = types.StringValue(proxyConfig.Description)
 	state.Protocol = types.StringValue(*proxyConfig.Protocol)
 	state.Host = types.StringValue(*proxyConfig.Host)
-	state.Port = types.Int64Value(int64(*proxyConfig.Port))
+	state.Port = types.Int32Value(*proxyConfig.Port)
 	state.NoProxyHosts = splitHostsToSet(proxyConfig.NoProxyHosts, &diags, ctx)
 	state.User = types.StringValue(proxyConfig.User)
 	state.Password = types.StringValue(proxyConfig.Password)

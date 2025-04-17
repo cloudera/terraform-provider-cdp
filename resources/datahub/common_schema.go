@@ -120,7 +120,7 @@ var generalAttributes = map[string]schema.Attribute{
 			},
 		},
 	},
-	"java_version": schema.Int64Attribute{
+	"java_version": schema.Int32Attribute{
 		MarkdownDescription: "Configure the major version of Java on the cluster.",
 		Optional:            true,
 	},
@@ -135,7 +135,7 @@ var instanceGroupSchemaAttributes = map[string]schema.Attribute{
 		Optional: true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
-				"node_count": schema.Int64Attribute{
+				"node_count": schema.Int32Attribute{
 					MarkdownDescription: "The cluster node count. Has to be greater or equal than 0 and less than 100,000.",
 					Required:            true,
 				},
@@ -151,7 +151,7 @@ var instanceGroupSchemaAttributes = map[string]schema.Attribute{
 					MarkdownDescription: "The cloud provider-side instance type.",
 					Required:            true,
 				},
-				"root_volume_size": schema.Int64Attribute{
+				"root_volume_size": schema.Int32Attribute{
 					MarkdownDescription: "The size of the root volume in GB",
 					Required:            true,
 				},
@@ -170,11 +170,11 @@ var instanceGroupSchemaAttributes = map[string]schema.Attribute{
 					MarkdownDescription: "Configuration regarding the attached volume to the specific instance group.",
 					NestedObject: schema.NestedAttributeObject{
 						Attributes: map[string]schema.Attribute{
-							"volume_size": schema.Int64Attribute{
+							"volume_size": schema.Int32Attribute{
 								MarkdownDescription: "The size of the volume in GB.",
 								Required:            true,
 							},
-							"volume_count": schema.Int64Attribute{
+							"volume_count": schema.Int32Attribute{
 								MarkdownDescription: "The number of volumes to be attached.",
 								Required:            true,
 							},

@@ -16,8 +16,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int32default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int32planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
@@ -83,20 +84,20 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				stringplanmodifier.RequiresReplace(),
 			},
 		},
-		"num_edge_nodes": schema.Int64Attribute{
+		"num_edge_nodes": schema.Int32Attribute{
 			MarkdownDescription: "Number of edge nodes",
 			Optional:            true,
 			Computed:            true,
-			Default:             int64default.StaticInt64(0),
-			PlanModifiers: []planmodifier.Int64{
-				int64planmodifier.RequiresReplace(),
+			Default:             int32default.StaticInt32(0),
+			PlanModifiers: []planmodifier.Int32{
+				int32planmodifier.RequiresReplace(),
 			},
 		},
-		"java_version": schema.Int64Attribute{
+		"java_version": schema.Int32Attribute{
 			MarkdownDescription: "Java version. It is only available in the BETA api.",
 			Optional:            true,
-			PlanModifiers: []planmodifier.Int64{
-				int64planmodifier.RequiresReplace(),
+			PlanModifiers: []planmodifier.Int32{
+				int32planmodifier.RequiresReplace(),
 			},
 		},
 
