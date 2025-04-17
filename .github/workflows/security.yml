@@ -15,4 +15,4 @@ jobs:
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
         with:
-          args: -exclude-generated -exclude-dir=cdp-sdk-go/gen -exclude-dir=mocks ./..
+          args: -exclude-generated -exclude-dir=cdp-sdk-go/gen -exclude-dir=mocks ./...
