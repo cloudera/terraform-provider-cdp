@@ -15,12 +15,13 @@ package impala_test
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"net/http"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
@@ -29,10 +30,40 @@ import (
 )
 
 type impalaTestParameters struct {
-	Name              string
-	ClusterID         string
-	DatabaseCatalogID string
-	ImageVersion      string
+	Name                             string
+	ClusterID                        string
+	DatabaseCatalogID                string
+	ImageVersion                     string
+	TshirtSize                       string
+	AutoSuspendTimeoutSeconds        int
+	DisableAutoSuspend               bool
+	ImpalaScaleDownDelaySeconds      int
+	ImpalaScaleUpDelaySeconds        int
+	MaxClusters                      int
+	MinClusters                      int
+	ScratchSpaceLimit                int
+	HighAvailabilityMode             string
+	EnableShutdownOfCoordinator      bool
+	ShutdownOfCoordinatorDelaySecs   int
+	NumOfActiveCoordinators          int
+	EnableCatalogHighAvailability    bool
+	EnableStatestoreHighAvailability bool
+	EnableUnifiedAnalytics           bool
+	MaxQueries                       int
+	MaxNodesPerQuery                 int
+	InstanceType                     string
+	AvailabilityZone                 string
+	HiveAuthenticationMode           string
+	PlatformJwtAuth                  bool
+	ImpalaQueryLog                   bool
+	EbsLlapSpillGb                   int
+	Tags                             []Tag
+	EnableSso                        bool
+}
+
+type Tag struct {
+	Key   string
+	Value string
 }
 
 func ImpalaPreCheck(t *testing.T) {
@@ -75,15 +106,155 @@ func TestAccImpala_basic(t *testing.T) {
 	})
 }
 
+func formatTags(tags []Tag) string {
+	var tagStrings []string
+	for _, tag := range tags {
+		tagStrings = append(tagStrings, fmt.Sprintf("    {\n      key   = %q\n      value = %q\n    }", tag.Key, tag.Value))
+	}
+	return strings.Join(tagStrings, ",\n")
+}
+
 func testAccImpalaBasicConfig(params impalaTestParameters) string {
-	return fmt.Sprintf(`
+	var config strings.Builder
+	config.WriteString(fmt.Sprintf(`
 		resource "cdp_dw_vw_impala" "test_impala" {
-		  cluster_id = %[1]q
-		  database_catalog_id = %[2]q
-		  name = %[3]q
-		  image_version = %[4]q
+		  cluster_id = %q
+		  database_catalog_id = %q
+		  name = %q
+	`, params.ClusterID, params.DatabaseCatalogID, params.Name))
+
+	if params.ImageVersion != "" {
+		config.WriteString(fmt.Sprintf("\n  image_version = %q", params.ImageVersion))
+	}
+
+	if params.TshirtSize != "" {
+		config.WriteString(fmt.Sprintf("\n  tshirt_size = %q", params.TshirtSize))
+	}
+
+	if params.AutoSuspendTimeoutSeconds > 0 ||
+		params.DisableAutoSuspend ||
+		params.ImpalaScaleDownDelaySeconds > 0 ||
+		params.ImpalaScaleUpDelaySeconds > 0 ||
+		params.MaxClusters > 0 ||
+		params.MinClusters > 0 {
+
+		config.WriteString("\n  autoscaling = {")
+
+		if params.AutoSuspendTimeoutSeconds > 0 {
+			config.WriteString(fmt.Sprintf("\n    auto_suspend_timeout_seconds = %d", params.AutoSuspendTimeoutSeconds))
 		}
-	`, params.ClusterID, params.DatabaseCatalogID, params.Name, params.ImageVersion)
+		if params.DisableAutoSuspend {
+			config.WriteString("\n    disable_auto_suspend = true")
+		} else {
+			config.WriteString("\n    disable_auto_suspend = false")
+		}
+		if params.ImpalaScaleDownDelaySeconds > 0 {
+			config.WriteString(fmt.Sprintf("\n    scale_down_delay_seconds = %d", params.ImpalaScaleDownDelaySeconds))
+		}
+		if params.ImpalaScaleUpDelaySeconds > 0 {
+			config.WriteString(fmt.Sprintf("\n    scale_up_delay_seconds = %d", params.ImpalaScaleUpDelaySeconds))
+		}
+		if params.MaxClusters > 0 {
+			config.WriteString(fmt.Sprintf("\n    max_clusters = %d", params.MaxClusters))
+		}
+		if params.MinClusters > 0 {
+			config.WriteString(fmt.Sprintf("\n    min_clusters = %d", params.MinClusters))
+		}
+		config.WriteString("\n  }")
+	}
+
+	if params.ScratchSpaceLimit > 0 {
+		config.WriteString(fmt.Sprintf("\n  aws_options = {\n    scratch_space_limit = %d\n  }", params.ScratchSpaceLimit))
+	}
+
+	if params.HighAvailabilityMode != "" ||
+		params.EnableShutdownOfCoordinator ||
+		params.ShutdownOfCoordinatorDelaySecs > 0 ||
+		params.NumOfActiveCoordinators > 0 ||
+		params.EnableCatalogHighAvailability ||
+		params.EnableStatestoreHighAvailability {
+		config.WriteString("\n  ha_settings = {")
+
+		if params.HighAvailabilityMode != "" {
+			config.WriteString(fmt.Sprintf("\n    high_availability_mode = %q", params.HighAvailabilityMode))
+		}
+		if params.EnableShutdownOfCoordinator {
+			config.WriteString("\n    enable_shutdown_of_coordinator = true")
+		} else {
+			config.WriteString("\n    enable_shutdown_of_coordinator = false")
+		}
+		if params.ShutdownOfCoordinatorDelaySecs > 0 {
+			config.WriteString(fmt.Sprintf("\n    shutdown_of_coordinator_delay_secs = %d", params.ShutdownOfCoordinatorDelaySecs))
+		}
+		if params.NumOfActiveCoordinators > 0 {
+			config.WriteString(fmt.Sprintf("\n    num_of_active_coordinators = %d", params.NumOfActiveCoordinators))
+		}
+		if params.EnableCatalogHighAvailability {
+			config.WriteString("\n    enable_catalog_high_availability = true")
+		} else {
+			config.WriteString("\n    enable_catalog_high_availability = false")
+		}
+		if params.EnableStatestoreHighAvailability {
+			config.WriteString("\n    enable_statestore_high_availability = true")
+		} else {
+			config.WriteString("\n    enable_statestore_high_availability = false")
+		}
+		config.WriteString("\n  }")
+	}
+
+	if params.EnableUnifiedAnalytics {
+		config.WriteString("\n  enable_unified_analytics = true")
+	}
+
+	if params.MaxQueries > 0 || params.MaxNodesPerQuery > 0 {
+		config.WriteString("\n  query_isolation_options = {")
+		if params.MaxQueries > 0 {
+			config.WriteString(fmt.Sprintf("\n    max_queries = %d", params.MaxQueries))
+		}
+		if params.MaxNodesPerQuery > 0 {
+			config.WriteString(fmt.Sprintf("\n    max_nodes_per_query = %d", params.MaxNodesPerQuery))
+		}
+		config.WriteString("\n  }")
+	}
+
+	if params.InstanceType != "" {
+		config.WriteString(fmt.Sprintf("\n  instance_type = %q", params.InstanceType))
+	}
+	if params.AvailabilityZone != "" {
+		config.WriteString(fmt.Sprintf("\n  availability_zone = %q", params.AvailabilityZone))
+	}
+	if params.PlatformJwtAuth {
+		config.WriteString("\n  platform_jwt_auth = true")
+	}
+	if params.ImpalaQueryLog {
+		config.WriteString("\n  query_log = true")
+	}
+
+	if len(params.Tags) > 0 {
+		config.WriteString("\n  tags = [\n    " + formatTags(params.Tags) + "\n  ]")
+	}
+
+	if params.EnableSso {
+		config.WriteString("\n  enable_sso = true")
+	}
+
+	config.WriteString(`
+
+  lifecycle {
+    ignore_changes = [
+      aws_options["spill_to_s3_uri"],
+      last_updated,
+      node_count,
+      status
+    ]
+  }
+  `)
+
+	config.WriteString("\n}")
+
+	result := config.String()
+	fmt.Println("Generated Config:", result)
+	return result
 }
 
 func testCheckImpalaDestroy(s *terraform.State) error {
@@ -124,10 +295,37 @@ func TestAccImpalaImageVersion(t *testing.T) {
 	}
 
 	params := impalaTestParameters{
-		Name:              cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
-		ClusterID:         os.Getenv("CDW_CLUSTER_ID"),
-		DatabaseCatalogID: os.Getenv("CDW_DATABASE_CATALOG_ID"),
-		ImageVersion:      latestImageVersion,
+		Name:                             cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
+		ClusterID:                        os.Getenv("CDW_CLUSTER_ID"),
+		DatabaseCatalogID:                os.Getenv("CDW_DATABASE_CATALOG_ID"),
+		ImageVersion:                     latestImageVersion,
+		TshirtSize:                       "xsmall",
+		AutoSuspendTimeoutSeconds:        350,
+		DisableAutoSuspend:               false,
+		ImpalaScaleDownDelaySeconds:      330,
+		ImpalaScaleUpDelaySeconds:        40,
+		MaxClusters:                      4,
+		MinClusters:                      2,
+		ScratchSpaceLimit:                300,
+		HighAvailabilityMode:             "ACTIVE_PASSIVE",
+		EnableShutdownOfCoordinator:      false,
+		ShutdownOfCoordinatorDelaySecs:   360,
+		NumOfActiveCoordinators:          2,
+		EnableCatalogHighAvailability:    false,
+		EnableStatestoreHighAvailability: false,
+		EnableUnifiedAnalytics:           true,
+		MaxQueries:                       2,
+		MaxNodesPerQuery:                 2,
+		InstanceType:                     "r5d.4xlarge",
+		AvailabilityZone:                 "us-west-2a",
+		PlatformJwtAuth:                  true,
+		ImpalaQueryLog:                   true,
+		EbsLlapSpillGb:                   100,
+		Tags: []Tag{
+			{Key: "environment", Value: "mow-dev"},
+			{Key: "team", Value: "dwx"},
+		},
+		EnableSso: true,
 	}
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {

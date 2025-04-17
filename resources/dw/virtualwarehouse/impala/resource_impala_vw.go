@@ -61,8 +61,16 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 	}
 
 	// Create the VW Request using a helper
-	vwhCreateRequest := r.createVwRequestFromPlan(&plan)
+	vwhCreateRequest, err := r.createVwRequestFromPlan(&plan, ctx)
 	tflog.Debug(ctx, fmt.Sprintf("CreateVw request: %+v", vwhCreateRequest))
+
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error getting values for Impala virtual warehouse",
+			fmt.Sprintf("Unexpected error while parsing VWH parameters: %v", err),
+		)
+		return
+	}
 
 	// Make API request to create VW
 	response, err := r.client.Dw.Operations.CreateVw(
@@ -178,17 +186,72 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 	}
 }
 
-func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel) *models.CreateVwRequest {
+func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel, ctx context.Context) (*models.CreateVwRequest, error) {
 	req := &models.CreateVwRequest{
 		Name:      plan.Name.ValueStringPointer(),
 		ClusterID: plan.ClusterID.ValueStringPointer(),
 		DbcID:     plan.DatabaseCatalogID.ValueStringPointer(),
 		VwType:    models.VwTypeImpala.Pointer(),
 	}
-	if imageVersion := plan.ImageVersion.ValueString(); imageVersion != "" {
-		req.ImageVersion = imageVersion
+
+	setIfNotEmpty := func(target *string, source string) {
+		if source != "" {
+			*target = source
+		}
 	}
-	return req
+
+	setIfPositive := func(target *int32, source int32) {
+		if source > 0 {
+			*target = source
+		}
+	}
+
+	setIfTrue := func(target **bool, source bool) {
+		if source {
+			*target = &source
+		}
+	}
+
+	setIfNotEmpty(&req.ImageVersion, plan.ImageVersion.ValueString())
+	setIfNotEmpty(&req.InstanceType, plan.InstanceType.ValueString())
+	setIfNotEmpty(&req.TShirtSize, plan.TShirtSize.ValueString())
+	setIfNotEmpty(&req.AvailabilityZone, plan.AvailabilityZone.ValueString())
+
+	setIfPositive(&req.NodeCount, plan.NodeCount.ValueInt32())
+
+	req.EnableUnifiedAnalytics = plan.EnableUnifiedAnalytics.ValueBool()
+	req.ImpalaQueryLog = plan.ImpalaQueryLog.ValueBool()
+	setIfTrue(&req.PlatformJwtAuth, plan.PlatformJwtAuth.ValueBool())
+
+	var err error
+	if !plan.ImpalaOptions.IsNull() {
+		req.ImpalaOptions, err = convertToAPIImpalaOptions(plan.ImpalaOptions, ctx)
+	}
+	if !plan.Autoscaling.IsNull() {
+		req.Autoscaling, err = convertToAPIAutoscaling(plan.Autoscaling, ctx)
+	}
+	if !plan.ImpalaHASettings.IsNull() {
+		req.ImpalaHaSettings, err = convertToAPIImpalaHASettings(plan.ImpalaHASettings, ctx)
+	}
+	if !plan.QueryIsolationOptions.IsNull() {
+		req.QueryIsolationOptions = convertToAPIQueryIsolationOptions(plan.QueryIsolationOptions, ctx)
+	}
+
+	if !plan.EnableSSO.IsNull() && !plan.EnableSSO.IsUnknown() {
+		boolValue, err1 := ExtractBoolFromAttribute(ctx, plan.EnableSSO)
+		if err != nil {
+			return req, err1
+		}
+		tflog.Debug(ctx, fmt.Sprintf("Assigned value to EnableSSO: %t", boolValue))
+		req.Config = &models.ServiceConfigReq{
+			EnableSSO: boolValue,
+		}
+	}
+
+	if len(plan.Tags.Elements()) > 0 {
+		req.Tags = convertToAPITagRequests(plan.Tags)
+	}
+	return req, err
 }
 
 func (r *impalaResource) waitForVwRunning(ctx context.Context, plan *resourceModel, vwID *string) error {
@@ -219,7 +282,8 @@ func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *res
 	}
 
 	impala := describe.GetPayload()
-	plan.setFromDescribeVwResponse(impala)
+	tflog.Info(context.Background(), fmt.Sprintf("Prateek API Response: %+v", impala))
+	plan.setFromDescribeVwResponse(impala, ctx)
 
 	return nil
 }
