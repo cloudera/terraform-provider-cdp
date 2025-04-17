@@ -35,7 +35,7 @@ type azureDatahubResourceModel struct {
 	ClusterExtension                types.Object          `tfsdk:"cluster_extension"`
 	SubnetId                        types.String          `tfsdk:"subnet_id"`
 	MultiAz                         types.Bool            `tfsdk:"multi_az"`
-	JavaVersion                     types.Int64           `tfsdk:"java_version"`
+	JavaVersion                     types.Int32           `tfsdk:"java_version"`
 	Tags                            types.Map             `tfsdk:"tags"`
 	EnableLoadBalancer              types.Bool            `tfsdk:"enable_load_balancer"`
 	LoadBalancerSku                 types.String          `tfsdk:"load_balancer_sku"`

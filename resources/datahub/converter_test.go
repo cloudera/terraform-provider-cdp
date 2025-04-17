@@ -51,7 +51,7 @@ func TestFromModelToRequestBasicFields(t *testing.T) {
 		DatahubDatabase:          types.StringValue("someDatahubDatabase"),
 		ClusterExtension:         clusterExt,
 		EnableLoadBalancer:       types.BoolValue(true),
-		JavaVersion:              types.Int64Value(11),
+		JavaVersion:              types.Int32Value(11),
 	}
 	got := fromModelToAwsRequest(input, context.TODO())
 
@@ -70,7 +70,7 @@ func TestFromModelToRequestBasicFields(t *testing.T) {
 	test.CompareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
 	test.CompareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
 	test.CompareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
-	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareInt32PointerToTypesInt32(&got.JavaVersion, input.JavaVersion, t)
 }
 
 func TestFromModelToRequestRecipe(t *testing.T) {
@@ -98,8 +98,8 @@ func TestFromModelToRequestRecipe(t *testing.T) {
 
 func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 	avcs := []AttachedVolumeConfiguration{{
-		VolumeSize:  types.Int64Value(100),
-		VolumeCount: types.Int64Value(1),
+		VolumeSize:  types.Int32Value(100),
+		VolumeCount: types.Int32Value(1),
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
 	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
@@ -111,18 +111,18 @@ func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 	test.CompareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
 
 	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
-	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
-	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	test.CompareInt32PointerToTypesInt32(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	test.CompareInt32PointerToTypesInt32(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
 	test.CompareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
 }
 
 func TestFromModelToRequestInstanceGroups(t *testing.T) {
 	igs := []InstanceGroup{{
-		NodeCount:         types.Int64Value(1),
+		NodeCount:         types.Int32Value(1),
 		InstanceGroupName: types.StringValue("gateway"),
 		InstanceGroupType: types.StringValue("CORE"),
 		InstanceType:      types.StringValue("m5.xlarge"),
-		RootVolumeSize:    types.Int64Value(100),
+		RootVolumeSize:    types.Int32Value(100),
 		RecoveryMode:      types.StringValue("MANUAL"),
 	}}
 
@@ -135,7 +135,7 @@ func TestFromModelToRequestInstanceGroups(t *testing.T) {
 	test.CompareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
 	test.CompareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
 	test.CompareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
-	test.CompareInt32PointerToTypesInt64(&resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	test.CompareInt32PointerToTypesInt32(&resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
 	test.CompareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
 }
 
@@ -209,7 +209,7 @@ func TestFromModelToGcpRequestBasicFields(t *testing.T) {
 		RequestTemplate:          types.StringValue("someRequestTemplate"),
 		DatahubDatabase:          types.StringValue("someDatahubDatabase"),
 		ClusterExtension:         clusterExt,
-		JavaVersion:              types.Int64Value(11),
+		JavaVersion:              types.Int32Value(11),
 	}
 	got := fromModelToGcpRequest(input, context.TODO())
 
@@ -225,7 +225,7 @@ func TestFromModelToGcpRequestBasicFields(t *testing.T) {
 	test.CompareStrings(got.RequestTemplate, input.RequestTemplate.ValueString(), t)
 	test.CompareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
 	test.CompareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
-	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareInt32PointerToTypesInt32(&got.JavaVersion, input.JavaVersion, t)
 }
 
 func TestFromModelToGcpRequestRecipe(t *testing.T) {
@@ -253,8 +253,8 @@ func TestFromModelToGcpRequestRecipe(t *testing.T) {
 
 func TestFromModelToGcpRequestAttachedVolumeConfiguration(t *testing.T) {
 	avcs := []AttachedVolumeConfiguration{{
-		VolumeSize:  types.Int64Value(100),
-		VolumeCount: types.Int64Value(1),
+		VolumeSize:  types.Int32Value(100),
+		VolumeCount: types.Int32Value(1),
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
 	igs := []GcpInstanceGroup{{AttachedVolumeConfiguration: avcs}}
@@ -266,18 +266,18 @@ func TestFromModelToGcpRequestAttachedVolumeConfiguration(t *testing.T) {
 	test.CompareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
 
 	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
-	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
-	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	test.CompareInt32PointerToTypesInt32(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	test.CompareInt32PointerToTypesInt32(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
 	test.CompareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
 }
 
 func TestFromModelToGcpRequestInstanceGroups(t *testing.T) {
 	igs := []GcpInstanceGroup{{
-		NodeCount:         types.Int64Value(1),
+		NodeCount:         types.Int32Value(1),
 		InstanceGroupName: types.StringValue("gateway"),
 		InstanceGroupType: types.StringValue("CORE"),
 		InstanceType:      types.StringValue("m5.xlarge"),
-		RootVolumeSize:    types.Int64Value(100),
+		RootVolumeSize:    types.Int32Value(100),
 		RecoveryMode:      types.StringValue("MANUAL"),
 	}}
 
@@ -290,7 +290,7 @@ func TestFromModelToGcpRequestInstanceGroups(t *testing.T) {
 	test.CompareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
 	test.CompareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
 	test.CompareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
-	test.CompareInt32PointerToTypesInt64(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	test.CompareInt32PointerToTypesInt32(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
 	test.CompareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
 }
 
@@ -330,7 +330,7 @@ func TestFromModelToAzureRequestBasicFields(t *testing.T) {
 		DatahubDatabase:                 types.StringValue("someDatahubDatabase"),
 		ClusterExtension:                clusterExt,
 		EnableLoadBalancer:              types.BoolValue(true),
-		JavaVersion:                     types.Int64Value(11),
+		JavaVersion:                     types.Int32Value(11),
 		FlexibleServerDelegatedSubnetId: types.StringValue("someFlexibleServerDelegatedSubnetId"),
 	}
 	got := fromModelToAzureRequest(input, context.TODO())
@@ -349,7 +349,7 @@ func TestFromModelToAzureRequestBasicFields(t *testing.T) {
 	test.CompareStrings(string(got.DatahubDatabase), input.DatahubDatabase.ValueString(), t)
 	test.CompareStrings(got.ClusterExtension.CustomProperties, input.ClusterExtension.Attributes()["custom_properties"].(types.String).ValueString(), t)
 	test.CompareBools(got.EnableLoadBalancer, input.EnableLoadBalancer.ValueBool(), t)
-	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareInt32PointerToTypesInt32(&got.JavaVersion, input.JavaVersion, t)
 	test.CompareStrings(got.FlexibleServerDelegatedSubnetID, input.FlexibleServerDelegatedSubnetId.ValueString(), t)
 }
 
@@ -378,8 +378,8 @@ func TestFromModelToAzureRequestRecipe(t *testing.T) {
 
 func TestFromModelToAzureRequestAttachedVolumeConfiguration(t *testing.T) {
 	avcs := []AttachedVolumeConfiguration{{
-		VolumeSize:  types.Int64Value(100),
-		VolumeCount: types.Int64Value(1),
+		VolumeSize:  types.Int32Value(100),
+		VolumeCount: types.Int32Value(1),
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
 	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
@@ -391,18 +391,18 @@ func TestFromModelToAzureRequestAttachedVolumeConfiguration(t *testing.T) {
 	test.CompareInts(len(got.InstanceGroups[0].AttachedVolumeConfiguration), len(avcs), t)
 
 	resultAvcs := got.InstanceGroups[0].AttachedVolumeConfiguration[0]
-	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
-	test.CompareInt32PointerToTypesInt64(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
+	test.CompareInt32PointerToTypesInt32(resultAvcs.VolumeCount, avcs[0].VolumeCount, t)
+	test.CompareInt32PointerToTypesInt32(resultAvcs.VolumeSize, avcs[0].VolumeSize, t)
 	test.CompareStrings(*resultAvcs.VolumeType, avcs[0].VolumeType.ValueString(), t)
 }
 
 func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
 	igs := []InstanceGroup{{
-		NodeCount:         types.Int64Value(1),
+		NodeCount:         types.Int32Value(1),
 		InstanceGroupName: types.StringValue("gateway"),
 		InstanceGroupType: types.StringValue("CORE"),
 		InstanceType:      types.StringValue("m5.xlarge"),
-		RootVolumeSize:    types.Int64Value(100),
+		RootVolumeSize:    types.Int32Value(100),
 		RecoveryMode:      types.StringValue("MANUAL"),
 	}}
 
@@ -415,7 +415,7 @@ func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
 	test.CompareStrings(*resultIg.InstanceGroupName, igs[0].InstanceGroupName.ValueString(), t)
 	test.CompareStrings(*resultIg.InstanceGroupType, igs[0].InstanceGroupType.ValueString(), t)
 	test.CompareStrings(*resultIg.InstanceType, igs[0].InstanceType.ValueString(), t)
-	test.CompareInt32PointerToTypesInt64(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
+	test.CompareInt32PointerToTypesInt32(resultIg.RootVolumeSize, igs[0].RootVolumeSize, t)
 	test.CompareStrings(resultIg.RecoveryMode, igs[0].RecoveryMode.ValueString(), t)
 }
 

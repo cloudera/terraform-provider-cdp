@@ -38,7 +38,7 @@ var ProxyConfigurationSchema = schema.Schema{
 		"host": schema.StringAttribute{
 			Required: true,
 		},
-		"port": schema.Int64Attribute{
+		"port": schema.Int32Attribute{
 			Required: true,
 		},
 		"no_proxy_hosts": schema.SetAttribute{

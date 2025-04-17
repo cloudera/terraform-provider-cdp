@@ -13,6 +13,7 @@ package recipe
 import (
 	"errors"
 	"os"
+	"path/filepath"
 )
 
 func processInput(input string) (string, error) {
@@ -26,7 +27,7 @@ func processInput(input string) (string, error) {
 	// Check if the path points to a regular file
 	if info.Mode().IsRegular() {
 		// Read the file's content
-		content, err := os.ReadFile(input)
+		content, err := os.ReadFile(filepath.Clean(input))
 		if err != nil {
 			return "", err // Return an error if reading fails
 		}

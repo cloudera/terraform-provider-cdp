@@ -13,7 +13,7 @@ package environments
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int32planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
@@ -46,10 +46,10 @@ var FreeIpaSchema = schema.SingleNestedAttribute{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"instance_count_by_group": schema.Int64Attribute{
+		"instance_count_by_group": schema.Int32Attribute{
 			Optional: true,
-			PlanModifiers: []planmodifier.Int64{
-				int64planmodifier.UseStateForUnknown(),
+			PlanModifiers: []planmodifier.Int32{
+				int32planmodifier.UseStateForUnknown(),
 			},
 		},
 		"instance_type": schema.StringAttribute{

@@ -41,7 +41,7 @@ type azureDatalakeResourceModel struct {
 
 	Image *azureDatalakeImage `tfsdk:"image"`
 
-	JavaVersion types.Int64 `tfsdk:"java_version"`
+	JavaVersion types.Int32 `tfsdk:"java_version"`
 
 	Recipes []*instanceGroupRecipe `tfsdk:"recipes"`
 

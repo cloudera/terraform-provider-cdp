@@ -19,7 +19,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *datahubmodels.CreateAWSClusterRequest {
@@ -50,10 +49,10 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
-			NodeCount:                   utils.Int64To32Pointer(group.NodeCount),
+			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
 			RecipeNames:                 igRecipes,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
-			RootVolumeSize:              int64To32(group.RootVolumeSize),
+			RootVolumeSize:              group.RootVolumeSize.ValueInt32(),
 			VolumeEncryption: &datahubmodels.VolumeEncryptionRequest{
 				EnableEncryption: group.VolumeEncryption.Encryption.ValueBoolPointer(),
 			},
@@ -61,7 +60,7 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 		igs = append(igs, ig)
 	}
 	req.InstanceGroups = igs
-	req.JavaVersion = int64To32(model.JavaVersion)
+	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.SubnetID = model.SubnetId.ValueString()
 	subnetIds := make([]string, len(model.SubnetIds.Elements()))
 	for i, v := range model.SubnetIds.Elements() {
@@ -127,16 +126,16 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 				igRecipes = append(igRecipes, recipe.ValueString())
 			}
 		}
-		volumeSize := int64To32(group.RootVolumeSize)
+		volumeSize := group.RootVolumeSize.ValueInt32Pointer()
 		ig := &datahubmodels.GCPInstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
-			NodeCount:                   utils.Int64To32Pointer(group.NodeCount),
+			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
 			RecipeNames:                 igRecipes,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
-			RootVolumeSize:              &volumeSize,
+			RootVolumeSize:              volumeSize,
 		}
 		igs = append(igs, ig)
 	}
@@ -156,7 +155,7 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 	req.ClusterExtension = &datahubmodels.ClusterExtension{
 		CustomProperties: clusterExt.CustomProperties.ValueString(),
 	}
-	req.JavaVersion = int64To32(model.JavaVersion)
+	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.SubnetName = model.SubnetName.ValueString()
 	if !model.Tags.IsNull() {
 		req.Tags = make([]*datahubmodels.GCPDatahubResourceTagRequest, len(model.Tags.Elements()))
@@ -207,13 +206,13 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 				azs = append(azs, az.ValueString())
 			}
 		}
-		rootVolumeSize := int32(group.RootVolumeSize.ValueInt64())
+		rootVolumeSize := group.RootVolumeSize.ValueInt32()
 		ig := &datahubmodels.AzureInstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
-			NodeCount:                   utils.Int64To32Pointer(group.NodeCount),
+			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
 			RecipeNames:                 igRecipes,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              &rootVolumeSize,
@@ -237,7 +236,7 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 	req.ClusterExtension = &datahubmodels.ClusterExtension{
 		CustomProperties: clusterExt.CustomProperties.ValueString(),
 	}
-	req.JavaVersion = int64To32(model.JavaVersion)
+	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.SubnetID = model.SubnetId.ValueString()
 	req.MultiAz = model.MultiAz.ValueBoolPointer()
 	if !model.Tags.IsNull() {
@@ -263,13 +262,8 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 
 func createAttachedVolumeRequest(attachedVolumeConfig AttachedVolumeConfiguration) *datahubmodels.AttachedVolumeRequest {
 	return &datahubmodels.AttachedVolumeRequest{
-		VolumeCount: utils.Int64To32Pointer(attachedVolumeConfig.VolumeCount),
-		VolumeSize:  utils.Int64To32Pointer(attachedVolumeConfig.VolumeSize),
+		VolumeCount: attachedVolumeConfig.VolumeCount.ValueInt32Pointer(),
+		VolumeSize:  attachedVolumeConfig.VolumeSize.ValueInt32Pointer(),
 		VolumeType:  attachedVolumeConfig.VolumeType.ValueStringPointer(),
 	}
-}
-
-func int64To32(in types.Int64) int32 {
-	n64 := in.ValueInt64()
-	return int32(n64)
 }

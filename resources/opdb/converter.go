@@ -33,12 +33,12 @@ func fromModelToDatabaseRequest(model databaseResourceModel, ctx context.Context
 	req.DisableMultiAz = model.DisableMultiAz.ValueBool()
 	req.SubnetID = model.SubnetID.ValueString()
 
-	req.JavaVersion = int64To32(model.JavaVersion)
-	req.NumEdgeNodes = int64To32(model.NumEdgeNodes)
+	req.JavaVersion = int32TypesTo32(model.JavaVersion)
+	req.NumEdgeNodes = int32TypesTo32(model.NumEdgeNodes)
 
 	if model.AutoScalingParameters != nil {
 		tflog.Info(ctx, fmt.Sprintf("Autoscaling parameters %+v.", model.AutoScalingParameters))
-		req.AutoScalingParameters = createAutoScalingParameters(*model.AutoScalingParameters, ctx)
+		req.AutoScalingParameters = createAutoScalingParameters(*model.AutoScalingParameters)
 	}
 
 	if model.AttachedStorageForWorkers != nil {
@@ -76,7 +76,7 @@ func fromModelToUpdateDatabaseRequest(model databaseResourceModel, ctx context.C
 
 	if model.AutoScalingParameters != nil {
 		tflog.Info(ctx, fmt.Sprintf("Autoscaling parameters %+v.", model.AutoScalingParameters))
-		req.AutoScalingParameters = createAutoScalingParameters(*model.AutoScalingParameters, ctx)
+		req.AutoScalingParameters = createAutoScalingParameters(*model.AutoScalingParameters)
 	}
 
 	if model.Image != nil {
@@ -87,27 +87,27 @@ func fromModelToUpdateDatabaseRequest(model databaseResourceModel, ctx context.C
 	return &req
 }
 
-func createAutoScalingParameters(autoScalingParameters AutoScalingParametersStruct, ctx context.Context) *opdbmodels.AutoScalingParameters {
+func createAutoScalingParameters(autoScalingParameters AutoScalingParametersStruct) *opdbmodels.AutoScalingParameters {
 	return &opdbmodels.AutoScalingParameters{
 		TargetedValueForMetric: autoScalingParameters.TargetedValueForMetric.ValueInt64(),
-		MaxWorkersForDatabase:  int64To32(autoScalingParameters.MaxWorkersForDatabase),
-		MaxWorkersPerBatch:     int64To32(autoScalingParameters.MaxWorkersPerBatch),
-		MinWorkersForDatabase:  int64To32(autoScalingParameters.MinWorkersForDatabase),
+		MaxWorkersForDatabase:  int32TypesTo32(autoScalingParameters.MaxWorkersForDatabase),
+		MaxWorkersPerBatch:     int32TypesTo32(autoScalingParameters.MaxWorkersPerBatch),
+		MinWorkersForDatabase:  int32TypesTo32(autoScalingParameters.MinWorkersForDatabase),
 		EvaluationPeriod:       autoScalingParameters.EvaluationPeriod.ValueInt64(),
-		MinimumBlockCacheGb:    int64To32(autoScalingParameters.MinimumBlockCacheGb),
+		MinimumBlockCacheGb:    int32TypesTo32(autoScalingParameters.MinimumBlockCacheGb),
 
-		MaxCPUUtilization:          int64To32(autoScalingParameters.MaxCPUUtilization),
-		MaxComputeNodesForDatabase: int64To32Pointer(autoScalingParameters.MaxComputeNodesForDatabase),
-		MinComputeNodesForDatabase: int64To32Pointer(autoScalingParameters.MinComputeNodesForDatabase),
-		MaxHdfsUsagePercentage:     int64To32(autoScalingParameters.MaxHdfsUsagePercentage),
-		MaxRegionsPerRegionServer:  int64To32(autoScalingParameters.MaxRegionsPerRegionServer),
+		MaxCPUUtilization:          int32TypesTo32(autoScalingParameters.MaxCPUUtilization),
+		MaxComputeNodesForDatabase: int32TypesTo32Pointer(autoScalingParameters.MaxComputeNodesForDatabase),
+		MinComputeNodesForDatabase: int32TypesTo32Pointer(autoScalingParameters.MinComputeNodesForDatabase),
+		MaxHdfsUsagePercentage:     int32TypesTo32(autoScalingParameters.MaxHdfsUsagePercentage),
+		MaxRegionsPerRegionServer:  int32TypesTo32(autoScalingParameters.MaxRegionsPerRegionServer),
 	}
 }
 
 func createAttachedStorageForWorkers(attachedStorageForWorkers AttachedStorageForWorkersStruct, ctx context.Context) *opdbmodels.AttachedStorageForWorkers {
 	return &opdbmodels.AttachedStorageForWorkers{
-		VolumeCount: int64To32(attachedStorageForWorkers.VolumeCount),
-		VolumeSize:  int64To32(attachedStorageForWorkers.VolumeSize),
+		VolumeCount: int32TypesTo32(attachedStorageForWorkers.VolumeCount),
+		VolumeSize:  int32TypesTo32(attachedStorageForWorkers.VolumeSize),
 		VolumeType:  opdbmodels.VolumeType(attachedStorageForWorkers.VolumeType.ValueString()),
 	}
 }
@@ -167,13 +167,13 @@ func createVolumeEncryption(volumeEncryption VolumeEncryption) *opdbmodels.Volum
 	}
 }
 
-func int64To32Pointer(in types.Int64) *int32 {
-	n64 := in.ValueInt64()
-	var n2 = int32(n64)
+func int32TypesTo32Pointer(in types.Int32) *int32 {
+	n64 := in.ValueInt32()
+	var n2 = n64
 	return &n2
 }
 
-func int64To32(in types.Int64) int32 {
-	n64 := in.ValueInt64()
-	return int32(n64)
+func int32TypesTo32(in types.Int32) int32 {
+	n64 := in.ValueInt32()
+	return n64
 }
