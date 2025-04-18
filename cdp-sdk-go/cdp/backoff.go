@@ -11,9 +11,10 @@
 package cdp
 
 import (
+	"crypto/rand"
 	"log"
 	"math"
-	"math/rand"
+	"math/big"
 	"os"
 	"time"
 )
@@ -39,10 +40,19 @@ func backoff(retries int) time.Duration {
 	}
 }
 
+// Generates a cryptographically secure random float64 in [0, 1)
+func cryptoRandFloat64() float64 {
+	const precision = 1 << 53
+	nBig, err := rand.Int(rand.Reader, big.NewInt(precision))
+	if err != nil {
+		panic(err)
+	}
+	return float64(nBig.Int64()) / float64(precision)
+}
+
 func exponentialBackoff(retries int) time.Duration {
-	rndSrc := rand.NewSource(time.Now().UnixNano())
 	delta := expDeltaMax - expDeltaMin
-	jitter := expDeltaMin + rand.New(rndSrc).Float64()*(delta)
+	jitter := expDeltaMin + cryptoRandFloat64()*delta
 	return time.Duration((math.Pow(2, float64(retries))*jitter)*float64(time.Millisecond)) * 1000
 }
 

@@ -95,7 +95,7 @@ var (
 			field:            "java_version",
 			computed:         false,
 			shouldBeRequired: false,
-			attributeType:    schema.Int64Attribute{},
+			attributeType:    schema.Int32Attribute{},
 		},
 		{
 			name:             "'recipes' should exist",

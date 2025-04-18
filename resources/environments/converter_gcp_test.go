@@ -96,7 +96,7 @@ func TestToGcpEnvironmentRequestFreeIpa(t *testing.T) {
 	testObject.FreeIpa.As(ctx, &freeIpaDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 
 	assert.NotNilf(t, result.FreeIpa, "FreeIpa is expected to be not nil")
-	assert.Equal(t, freeIpaDetails.InstanceCountByGroup.ValueInt64(), int64(result.FreeIpa.InstanceCountByGroup))
+	assert.Equal(t, freeIpaDetails.InstanceCountByGroup.ValueInt32(), result.FreeIpa.InstanceCountByGroup)
 	assert.Equal(t, len(freeIpaDetails.Recipes.Elements()), len(result.FreeIpa.Recipes))
 	assert.Equal(t, freeIpaDetails.InstanceType.ValueString(), result.FreeIpa.InstanceType)
 }

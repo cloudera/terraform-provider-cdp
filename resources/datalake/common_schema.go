@@ -99,7 +99,7 @@ var generalAttributes = map[string]schema.Attribute{
 			},
 		},
 	},
-	"java_version": schema.Int64Attribute{
+	"java_version": schema.Int32Attribute{
 		Optional: true,
 	},
 	"recipes": schema.SetNestedAttribute{

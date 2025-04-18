@@ -29,8 +29,8 @@ type databaseResourceModel struct {
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
 
 	DisableMultiAz types.Bool   `tfsdk:"disable_multi_az"`
-	NumEdgeNodes   types.Int64  `tfsdk:"num_edge_nodes"`
-	JavaVersion    types.Int64  `tfsdk:"java_version"`
+	NumEdgeNodes   types.Int32  `tfsdk:"num_edge_nodes"`
+	JavaVersion    types.Int32  `tfsdk:"java_version"`
 	SubnetID       types.String `tfsdk:"subnet_id"`
 
 	AutoScalingParameters     *AutoScalingParametersStruct     `tfsdk:"auto_scaling_parameters"`
@@ -50,22 +50,22 @@ type databaseResourceModel struct {
 
 type AutoScalingParametersStruct struct {
 	TargetedValueForMetric types.Int64 `tfsdk:"targeted_value_for_metric"`
-	MaxWorkersForDatabase  types.Int64 `tfsdk:"max_workers_for_database"`
-	MaxWorkersPerBatch     types.Int64 `tfsdk:"max_workers_per_batch"`
-	MinWorkersForDatabase  types.Int64 `tfsdk:"min_workers_for_database"`
+	MaxWorkersForDatabase  types.Int32 `tfsdk:"max_workers_for_database"`
+	MaxWorkersPerBatch     types.Int32 `tfsdk:"max_workers_per_batch"`
+	MinWorkersForDatabase  types.Int32 `tfsdk:"min_workers_for_database"`
 	EvaluationPeriod       types.Int64 `tfsdk:"evaluation_period"`
-	MinimumBlockCacheGb    types.Int64 `tfsdk:"minimum_block_cache_gb"`
+	MinimumBlockCacheGb    types.Int32 `tfsdk:"minimum_block_cache_gb"`
 
-	MaxHdfsUsagePercentage     types.Int64 `tfsdk:"max_hdfs_usage_percentage"`
-	MaxRegionsPerRegionServer  types.Int64 `tfsdk:"max_regions_per_region_server"`
-	MaxCPUUtilization          types.Int64 `tfsdk:"max_cpu_utilization"`
-	MaxComputeNodesForDatabase types.Int64 `tfsdk:"max_compute_nodes_for_database"`
-	MinComputeNodesForDatabase types.Int64 `tfsdk:"min_compute_nodes_for_database"`
+	MaxHdfsUsagePercentage     types.Int32 `tfsdk:"max_hdfs_usage_percentage"`
+	MaxRegionsPerRegionServer  types.Int32 `tfsdk:"max_regions_per_region_server"`
+	MaxCPUUtilization          types.Int32 `tfsdk:"max_cpu_utilization"`
+	MaxComputeNodesForDatabase types.Int32 `tfsdk:"max_compute_nodes_for_database"`
+	MinComputeNodesForDatabase types.Int32 `tfsdk:"min_compute_nodes_for_database"`
 }
 
 type AttachedStorageForWorkersStruct struct {
-	VolumeCount types.Int64  `tfsdk:"volume_count"`
-	VolumeSize  types.Int64  `tfsdk:"volume_size"`
+	VolumeCount types.Int32  `tfsdk:"volume_count"`
+	VolumeSize  types.Int32  `tfsdk:"volume_size"`
 	VolumeType  types.String `tfsdk:"volume_type"`
 }
 

@@ -28,13 +28,13 @@ resource "cdp_environments_aws_environment" "example" {
     storage_location_base = "s3a://storage-bucket/location"
     instance_profile      = "arn:aws:iam::11111111111:instance-profile/storage-instance-profile"
   }
-  vpc_id = "vpc-1"
-  subnet_ids = [ "<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>" ]
+  vpc_id     = "vpc-1"
+  subnet_ids = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
   compute_cluster = {
     enabled = false
     configuration = {
       kube_api_authorized_ip_ranges = ["0.0.0.0/0"]
-      worker_node_subnets = [ "<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>" ]
+      worker_node_subnets           = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
     }
   }
 }

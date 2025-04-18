@@ -45,7 +45,7 @@ func TestFromModelToAzureRequestBasicFields(t *testing.T) {
 		Scale:                           types.StringValue("someScale"),
 		LoadBalancerSku:                 types.StringValue("someLoadBalancerSku"),
 		EnableRangerRaz:                 types.BoolValue(true),
-		JavaVersion:                     types.Int64Value(11),
+		JavaVersion:                     types.Int32Value(11),
 		FlexibleServerDelegatedSubnetId: types.StringValue("someFlexibleServerDelegatedSubnetId"),
 	}
 	got := toAzureDatalakeRequest(context.TODO(), &input)
@@ -66,6 +66,6 @@ func TestFromModelToAzureRequestBasicFields(t *testing.T) {
 	test.CompareStrings(string(got.Scale), input.Scale.ValueString(), t)
 	test.CompareStrings(string(got.LoadBalancerSku), input.LoadBalancerSku.ValueString(), t)
 	test.CompareBools(got.EnableRangerRaz, input.EnableRangerRaz.ValueBool(), t)
-	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareInt32PointerToTypesInt32(&got.JavaVersion, input.JavaVersion, t)
 	test.CompareStrings(got.FlexibleServerDelegatedSubnetID, input.FlexibleServerDelegatedSubnetId.ValueString(), t)
 }

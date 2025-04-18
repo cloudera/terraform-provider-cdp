@@ -94,7 +94,7 @@ func FreeIpaModelToRequest(model *types.Object, ctx context.Context) (*FreeIpaTr
 	var freeIpaDetails FreeIpaDetails
 	model.As(ctx, &freeIpaDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 	return &FreeIpaTransitional{
-			InstanceCountByGroup: int32(freeIpaDetails.InstanceCountByGroup.ValueInt64()),
+			InstanceCountByGroup: freeIpaDetails.InstanceCountByGroup.ValueInt32(),
 			InstanceType:         freeIpaDetails.InstanceType.ValueString(),
 			MultiAz:              freeIpaDetails.MultiAz.ValueBool(),
 			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),

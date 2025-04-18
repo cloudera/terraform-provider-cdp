@@ -11,9 +11,11 @@
 package cdpacctest
 
 import (
+	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"math/rand"
+	"log"
+	"math/big"
 	"os"
 	"regexp"
 	"sync"
@@ -95,7 +97,12 @@ func ConcatExternalProviders(providerMaps ...map[string]resource.ExternalProvide
 }
 
 func RandomShortWithPrefix(name string) string {
-	return fmt.Sprintf("%s-%d", name, rand.Int()%1000)
+	upperLimit := big.NewInt(1000)
+	nBig, err := rand.Int(rand.Reader, upperLimit)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return fmt.Sprintf("%s-%d", name, nBig.Int64())
 }
 
 func TestAccCdpProviderConfig() string {

@@ -147,7 +147,7 @@ func getCommonDatabaseDetails(data *databaseResourceModel, databaseDetails *opdb
 	data.ScaleType = types.StringValue(string(databaseDetails.ScaleType))
 	data.StorageLocation = types.StringValue(databaseDetails.StorageLocation)
 
-	data.NumEdgeNodes = types.Int64Value(int64(databaseDetails.DbEdgeNodeCount))
+	data.NumEdgeNodes = types.Int32Value(databaseDetails.DbEdgeNodeCount)
 
 	data.Architecture = types.StringValue(string(databaseDetails.Architecture))
 
@@ -158,8 +158,8 @@ func getCommonDatabaseDetails(data *databaseResourceModel, databaseDetails *opdb
 
 func createStorageDetailsForWorkers(storageDetailsForWorker *opdbmodels.StorageDetailsForWorker) *AttachedStorageForWorkersStruct {
 	return &AttachedStorageForWorkersStruct{
-		VolumeCount: types.Int64Value(int64(storageDetailsForWorker.VolumeCount)),
-		VolumeSize:  types.Int64Value(int64(storageDetailsForWorker.VolumeSize)),
+		VolumeCount: types.Int32Value(storageDetailsForWorker.VolumeCount),
+		VolumeSize:  types.Int32Value(storageDetailsForWorker.VolumeSize),
 		VolumeType:  types.StringValue(string(storageDetailsForWorker.VolumeType)),
 	}
 }

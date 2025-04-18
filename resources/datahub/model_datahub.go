@@ -15,11 +15,11 @@ import (
 )
 
 type InstanceGroup struct {
-	NodeCount                   types.Int64                   `tfsdk:"node_count"`
+	NodeCount                   types.Int32                   `tfsdk:"node_count"`
 	InstanceGroupName           types.String                  `tfsdk:"instance_group_name"`
 	InstanceGroupType           types.String                  `tfsdk:"instance_group_type"`
 	InstanceType                types.String                  `tfsdk:"instance_type"`
-	RootVolumeSize              types.Int64                   `tfsdk:"root_volume_size"`
+	RootVolumeSize              types.Int32                   `tfsdk:"root_volume_size"`
 	AttachedVolumeConfiguration []AttachedVolumeConfiguration `tfsdk:"attached_volume_configuration"`
 	RecoveryMode                types.String                  `tfsdk:"recovery_mode"`
 	VolumeEncryption            VolumeEncryption              `tfsdk:"volume_encryption"`
@@ -28,8 +28,8 @@ type InstanceGroup struct {
 }
 
 type AttachedVolumeConfiguration struct {
-	VolumeSize  types.Int64  `tfsdk:"volume_size"`
-	VolumeCount types.Int64  `tfsdk:"volume_count"`
+	VolumeSize  types.Int32  `tfsdk:"volume_size"`
+	VolumeCount types.Int32  `tfsdk:"volume_count"`
 	VolumeType  types.String `tfsdk:"volume_type"`
 }
 

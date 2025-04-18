@@ -37,7 +37,7 @@ type gcpDatalakeResourceModel struct {
 
 	Image *gcpDatalakeImage `tfsdk:"image"`
 
-	JavaVersion types.Int64 `tfsdk:"java_version"`
+	JavaVersion types.Int32 `tfsdk:"java_version"`
 
 	MultiAz types.Bool `tfsdk:"multi_az"`
 

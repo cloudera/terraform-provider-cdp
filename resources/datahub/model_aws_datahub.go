@@ -35,7 +35,7 @@ type awsDatahubResourceModel struct {
 	SubnetId                 types.String          `tfsdk:"subnet_id"`
 	SubnetIds                types.Set             `tfsdk:"subnet_ids"`
 	MultiAz                  types.Bool            `tfsdk:"multi_az"`
-	JavaVersion              types.Int64           `tfsdk:"java_version"`
+	JavaVersion              types.Int32           `tfsdk:"java_version"`
 	Tags                     types.Map             `tfsdk:"tags"`
 	EnableLoadBalancer       types.Bool            `tfsdk:"enable_load_balancer"`
 }

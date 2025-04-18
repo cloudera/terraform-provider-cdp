@@ -67,8 +67,14 @@ func CompareStringValueSlices(got []string, expected []attr.Value, t *testing.T)
 	}
 }
 
-func CompareInt32PointerToTypesInt64(got *int32, expected types.Int64, t *testing.T) {
-	if *got != *Int64To32Pointer(expected) {
+func CompareInt32PointerToTypesInt32(got *int32, expected types.Int32, t *testing.T) {
+	if *got != expected.ValueInt32() {
+		t.Errorf("Assertion error! Expected: %d, got: %d", expected.ValueInt32(), *got)
+	}
+}
+
+func CompareInt64PointerToTypesInt64(got *int64, expected types.Int64, t *testing.T) {
+	if *got != expected.ValueInt64() {
 		t.Errorf("Assertion error! Expected: %d, got: %d", expected.ValueInt64(), *got)
 	}
 }
@@ -83,10 +89,4 @@ func CompareBools(got bool, expected bool, t *testing.T) {
 	if got != expected {
 		t.Errorf("Assertion error! Expected: %t, got: %t", expected, got)
 	}
-}
-
-func Int64To32Pointer(in types.Int64) *int32 {
-	n64 := in.ValueInt64()
-	var n2 = int32(n64)
-	return &n2
 }

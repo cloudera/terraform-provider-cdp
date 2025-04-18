@@ -33,18 +33,18 @@ type gcpDatahubResourceModel struct {
 	DatahubDatabase          types.String          `tfsdk:"datahub_database"`
 	ClusterExtension         types.Object          `tfsdk:"cluster_extension"`
 	SubnetName               types.String          `tfsdk:"subnet_name"`
-	JavaVersion              types.Int64           `tfsdk:"java_version"`
+	JavaVersion              types.Int32           `tfsdk:"java_version"`
 	Tags                     types.Map             `tfsdk:"tags"`
 }
 
 type GcpInstanceGroup struct {
-	NodeCount                   types.Int64                   `tfsdk:"node_count"`
+	NodeCount                   types.Int32                   `tfsdk:"node_count"`
 	InstanceGroupName           types.String                  `tfsdk:"instance_group_name"`
 	InstanceGroupType           types.String                  `tfsdk:"instance_group_type"`
 	InstanceType                types.String                  `tfsdk:"instance_type"`
 	Recipes                     []types.String                `tfsdk:"recipes"`
 	AttachedVolumeConfiguration []AttachedVolumeConfiguration `tfsdk:"attached_volume_configuration"`
-	RootVolumeSize              types.Int64                   `tfsdk:"root_volume_size"`
+	RootVolumeSize              types.Int32                   `tfsdk:"root_volume_size"`
 	RecoveryMode                types.String                  `tfsdk:"recovery_mode"`
 }
 

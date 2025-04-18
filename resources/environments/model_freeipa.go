@@ -19,7 +19,7 @@ type FreeIpaDetails struct {
 
 	Os types.String `tfsdk:"os"`
 
-	InstanceCountByGroup types.Int64 `tfsdk:"instance_count_by_group"`
+	InstanceCountByGroup types.Int32 `tfsdk:"instance_count_by_group"`
 
 	InstanceType types.String `tfsdk:"instance_type"`
 

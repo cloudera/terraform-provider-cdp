@@ -48,8 +48,8 @@ func TestFromModelToDatabaseRequestMoreFields(t *testing.T) {
 		DisableExternalDB: types.BoolValue(true),
 		DisableMultiAz:    types.BoolValue(true),
 		SubnetID:          types.StringValue("someSubnetID"),
-		JavaVersion:       types.Int64Value(11),
-		NumEdgeNodes:      types.Int64Value(2),
+		JavaVersion:       types.Int32Value(11),
+		NumEdgeNodes:      types.Int32Value(2),
 
 		DisableKerberos:    types.BoolValue(true),
 		DisableJwtAuth:     types.BoolValue(true),
@@ -70,8 +70,8 @@ func TestFromModelToDatabaseRequestMoreFields(t *testing.T) {
 
 	test.CompareStrings(got.SubnetID, input.SubnetID.ValueString(), t)
 
-	test.CompareInt32PointerToTypesInt64(&got.JavaVersion, input.JavaVersion, t)
-	test.CompareInt32PointerToTypesInt64(&got.NumEdgeNodes, input.NumEdgeNodes, t)
+	test.CompareInt32PointerToTypesInt32(&got.JavaVersion, input.JavaVersion, t)
+	test.CompareInt32PointerToTypesInt32(&got.NumEdgeNodes, input.NumEdgeNodes, t)
 
 	test.CompareBools(got.DisableKerberos, input.DisableKerberos.ValueBool(), t)
 	test.CompareBools(got.DisableJwtAuth, input.DisableJwtAuth.ValueBool(), t)
@@ -85,17 +85,17 @@ func TestFromModelToDatabaseRequestMoreFields(t *testing.T) {
 func TestFromModelToUpdateDatabaseRequestAutoScaling(t *testing.T) {
 	autoScalingParameters := AutoScalingParametersStruct{
 		TargetedValueForMetric: types.Int64Value(234),
-		MaxWorkersForDatabase:  types.Int64Value(4),
-		MaxWorkersPerBatch:     types.Int64Value(2),
-		MinWorkersForDatabase:  types.Int64Value(3),
+		MaxWorkersForDatabase:  types.Int32Value(4),
+		MaxWorkersPerBatch:     types.Int32Value(2),
+		MinWorkersForDatabase:  types.Int32Value(3),
 		EvaluationPeriod:       types.Int64Value(2400),
-		MinimumBlockCacheGb:    types.Int64Value(1),
+		MinimumBlockCacheGb:    types.Int32Value(1),
 
-		MaxCPUUtilization:          types.Int64Value(-1),
-		MaxComputeNodesForDatabase: types.Int64Value(-1),
-		MinComputeNodesForDatabase: types.Int64Value(-1),
-		MaxHdfsUsagePercentage:     types.Int64Value(80),
-		MaxRegionsPerRegionServer:  types.Int64Value(200),
+		MaxCPUUtilization:          types.Int32Value(-1),
+		MaxComputeNodesForDatabase: types.Int32Value(-1),
+		MinComputeNodesForDatabase: types.Int32Value(-1),
+		MaxHdfsUsagePercentage:     types.Int32Value(80),
+		MaxRegionsPerRegionServer:  types.Int32Value(200),
 	}
 
 	input := databaseResourceModel{
@@ -110,18 +110,18 @@ func TestFromModelToUpdateDatabaseRequestAutoScaling(t *testing.T) {
 
 	gotAutoscalingParametersRequest := *got.AutoScalingParameters
 
-	test.CompareInt32PointerToTypesInt64(Int64PointerTo32Pointer(&gotAutoscalingParametersRequest.TargetedValueForMetric), autoScalingParameters.TargetedValueForMetric, t)
-	test.CompareInt32PointerToTypesInt64(&gotAutoscalingParametersRequest.MaxWorkersForDatabase, autoScalingParameters.MaxWorkersForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(&gotAutoscalingParametersRequest.MaxWorkersPerBatch, autoScalingParameters.MaxWorkersPerBatch, t)
-	test.CompareInt32PointerToTypesInt64(&gotAutoscalingParametersRequest.MinWorkersForDatabase, autoScalingParameters.MinWorkersForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(Int64PointerTo32Pointer(&gotAutoscalingParametersRequest.EvaluationPeriod), autoScalingParameters.EvaluationPeriod, t)
-	test.CompareInt32PointerToTypesInt64(&gotAutoscalingParametersRequest.MinimumBlockCacheGb, autoScalingParameters.MinimumBlockCacheGb, t)
+	test.CompareInt64PointerToTypesInt64(&gotAutoscalingParametersRequest.TargetedValueForMetric, autoScalingParameters.TargetedValueForMetric, t)
+	test.CompareInt32PointerToTypesInt32(&gotAutoscalingParametersRequest.MaxWorkersForDatabase, autoScalingParameters.MaxWorkersForDatabase, t)
+	test.CompareInt32PointerToTypesInt32(&gotAutoscalingParametersRequest.MaxWorkersPerBatch, autoScalingParameters.MaxWorkersPerBatch, t)
+	test.CompareInt32PointerToTypesInt32(&gotAutoscalingParametersRequest.MinWorkersForDatabase, autoScalingParameters.MinWorkersForDatabase, t)
+	test.CompareInt64PointerToTypesInt64(&gotAutoscalingParametersRequest.EvaluationPeriod, autoScalingParameters.EvaluationPeriod, t)
+	test.CompareInt32PointerToTypesInt32(&gotAutoscalingParametersRequest.MinimumBlockCacheGb, autoScalingParameters.MinimumBlockCacheGb, t)
 
-	test.CompareInt32PointerToTypesInt64(&gotAutoscalingParametersRequest.MaxCPUUtilization, autoScalingParameters.MaxCPUUtilization, t)
-	test.CompareInt32PointerToTypesInt64(gotAutoscalingParametersRequest.MaxComputeNodesForDatabase, autoScalingParameters.MaxComputeNodesForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(gotAutoscalingParametersRequest.MinComputeNodesForDatabase, autoScalingParameters.MinComputeNodesForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(&gotAutoscalingParametersRequest.MaxHdfsUsagePercentage, autoScalingParameters.MaxHdfsUsagePercentage, t)
-	test.CompareInt32PointerToTypesInt64(&gotAutoscalingParametersRequest.MaxRegionsPerRegionServer, autoScalingParameters.MaxRegionsPerRegionServer, t)
+	test.CompareInt32PointerToTypesInt32(&gotAutoscalingParametersRequest.MaxCPUUtilization, autoScalingParameters.MaxCPUUtilization, t)
+	test.CompareInt32PointerToTypesInt32(gotAutoscalingParametersRequest.MaxComputeNodesForDatabase, autoScalingParameters.MaxComputeNodesForDatabase, t)
+	test.CompareInt32PointerToTypesInt32(gotAutoscalingParametersRequest.MinComputeNodesForDatabase, autoScalingParameters.MinComputeNodesForDatabase, t)
+	test.CompareInt32PointerToTypesInt32(&gotAutoscalingParametersRequest.MaxHdfsUsagePercentage, autoScalingParameters.MaxHdfsUsagePercentage, t)
+	test.CompareInt32PointerToTypesInt32(&gotAutoscalingParametersRequest.MaxRegionsPerRegionServer, autoScalingParameters.MaxRegionsPerRegionServer, t)
 
 }
 
@@ -146,33 +146,33 @@ func TestFromModelToUpdateDatabaseRequestImage(t *testing.T) {
 func TestCreateAutoScalingParams(t *testing.T) {
 	autoScalingParameters := AutoScalingParametersStruct{
 		TargetedValueForMetric: types.Int64Value(234),
-		MaxWorkersForDatabase:  types.Int64Value(4),
-		MaxWorkersPerBatch:     types.Int64Value(2),
-		MinWorkersForDatabase:  types.Int64Value(3),
+		MaxWorkersForDatabase:  types.Int32Value(4),
+		MaxWorkersPerBatch:     types.Int32Value(2),
+		MinWorkersForDatabase:  types.Int32Value(3),
 		EvaluationPeriod:       types.Int64Value(2400),
-		MinimumBlockCacheGb:    types.Int64Value(1),
+		MinimumBlockCacheGb:    types.Int32Value(1),
 
-		MaxCPUUtilization:          types.Int64Value(-1),
-		MaxComputeNodesForDatabase: types.Int64Value(-1),
-		MinComputeNodesForDatabase: types.Int64Value(-1),
-		MaxHdfsUsagePercentage:     types.Int64Value(80),
-		MaxRegionsPerRegionServer:  types.Int64Value(200),
+		MaxCPUUtilization:          types.Int32Value(-1),
+		MaxComputeNodesForDatabase: types.Int32Value(-1),
+		MinComputeNodesForDatabase: types.Int32Value(-1),
+		MaxHdfsUsagePercentage:     types.Int32Value(80),
+		MaxRegionsPerRegionServer:  types.Int32Value(200),
 	}
 
-	got := createAutoScalingParameters(autoScalingParameters, context.TODO())
+	got := createAutoScalingParameters(autoScalingParameters)
 
-	test.CompareInt32PointerToTypesInt64(Int64PointerTo32Pointer(&got.TargetedValueForMetric), autoScalingParameters.TargetedValueForMetric, t)
-	test.CompareInt32PointerToTypesInt64(&got.MaxWorkersForDatabase, autoScalingParameters.MaxWorkersForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(&got.MaxWorkersPerBatch, autoScalingParameters.MaxWorkersPerBatch, t)
-	test.CompareInt32PointerToTypesInt64(&got.MinWorkersForDatabase, autoScalingParameters.MinWorkersForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(Int64PointerTo32Pointer(&got.EvaluationPeriod), autoScalingParameters.EvaluationPeriod, t)
-	test.CompareInt32PointerToTypesInt64(&got.MinimumBlockCacheGb, autoScalingParameters.MinimumBlockCacheGb, t)
+	test.CompareInt64PointerToTypesInt64(&got.TargetedValueForMetric, autoScalingParameters.TargetedValueForMetric, t)
+	test.CompareInt32PointerToTypesInt32(&got.MaxWorkersForDatabase, autoScalingParameters.MaxWorkersForDatabase, t)
+	test.CompareInt32PointerToTypesInt32(&got.MaxWorkersPerBatch, autoScalingParameters.MaxWorkersPerBatch, t)
+	test.CompareInt32PointerToTypesInt32(&got.MinWorkersForDatabase, autoScalingParameters.MinWorkersForDatabase, t)
+	test.CompareInt64PointerToTypesInt64(&got.EvaluationPeriod, autoScalingParameters.EvaluationPeriod, t)
+	test.CompareInt32PointerToTypesInt32(&got.MinimumBlockCacheGb, autoScalingParameters.MinimumBlockCacheGb, t)
 
-	test.CompareInt32PointerToTypesInt64(&got.MaxCPUUtilization, autoScalingParameters.MaxCPUUtilization, t)
-	test.CompareInt32PointerToTypesInt64(got.MaxComputeNodesForDatabase, autoScalingParameters.MaxComputeNodesForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(got.MinComputeNodesForDatabase, autoScalingParameters.MinComputeNodesForDatabase, t)
-	test.CompareInt32PointerToTypesInt64(&got.MaxHdfsUsagePercentage, autoScalingParameters.MaxHdfsUsagePercentage, t)
-	test.CompareInt32PointerToTypesInt64(&got.MaxRegionsPerRegionServer, autoScalingParameters.MaxRegionsPerRegionServer, t)
+	test.CompareInt32PointerToTypesInt32(&got.MaxCPUUtilization, autoScalingParameters.MaxCPUUtilization, t)
+	test.CompareInt32PointerToTypesInt32(got.MaxComputeNodesForDatabase, autoScalingParameters.MaxComputeNodesForDatabase, t)
+	test.CompareInt32PointerToTypesInt32(got.MinComputeNodesForDatabase, autoScalingParameters.MinComputeNodesForDatabase, t)
+	test.CompareInt32PointerToTypesInt32(&got.MaxHdfsUsagePercentage, autoScalingParameters.MaxHdfsUsagePercentage, t)
+	test.CompareInt32PointerToTypesInt32(&got.MaxRegionsPerRegionServer, autoScalingParameters.MaxRegionsPerRegionServer, t)
 }
 
 func Int64PointerTo32Pointer(in *int64) *int32 {
@@ -182,15 +182,15 @@ func Int64PointerTo32Pointer(in *int64) *int32 {
 
 func TestCreateAttachedStorageForWorkers(t *testing.T) {
 	attachedStorageForWorkers := AttachedStorageForWorkersStruct{
-		VolumeCount: types.Int64Value(2),
-		VolumeSize:  types.Int64Value(2024),
+		VolumeCount: types.Int32Value(2),
+		VolumeSize:  types.Int32Value(2024),
 		VolumeType:  types.StringValue("LOCAL_SSD"),
 	}
 
 	got := createAttachedStorageForWorkers(attachedStorageForWorkers, context.TODO())
 
-	test.CompareInt32PointerToTypesInt64(&got.VolumeCount, attachedStorageForWorkers.VolumeCount, t)
-	test.CompareInt32PointerToTypesInt64(&got.VolumeSize, attachedStorageForWorkers.VolumeSize, t)
+	test.CompareInt32PointerToTypesInt32(&got.VolumeCount, attachedStorageForWorkers.VolumeCount, t)
+	test.CompareInt32PointerToTypesInt32(&got.VolumeSize, attachedStorageForWorkers.VolumeSize, t)
 	test.CompareStrings(string(got.VolumeType), attachedStorageForWorkers.VolumeType.ValueString(), t)
 }
 
