@@ -15,9 +15,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
@@ -39,88 +36,12 @@ func (r *azureCredentialResource) ImportState(ctx context.Context, req resource.
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-type AppBased struct {
-	ApplicationID types.String `tfsdk:"application_id"`
-	SecretKey     types.String `tfsdk:"secret_key"`
-}
-
-type azureCredentialResourceModel struct {
-	ID             types.String `tfsdk:"id"`
-	CredentialName types.String `tfsdk:"credential_name"`
-	SubscriptionID types.String `tfsdk:"subscription_id"`
-	TenantID       types.String `tfsdk:"tenant_id"`
-	AppBased       *AppBased    `tfsdk:"app_based"`
-	Crn            types.String `tfsdk:"crn"`
-	Description    types.String `tfsdk:"description"`
-}
-
 func NewAzureCredentialResource() resource.Resource {
 	return &azureCredentialResource{}
 }
 
 func (r *azureCredentialResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_environments_azure_credential"
-}
-
-func (r *azureCredentialResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "The Azure credential is used for authorization  to provision resources such as compute instances within your cloud provider account.",
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed: true,
-			},
-			"credential_name": schema.StringAttribute{
-				Required:    true,
-				Description: "The name of the CDP credential.",
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-			},
-			"subscription_id": schema.StringAttribute{
-				Description: "The Azure subscription ID. Required for secret based credentials and should look like the following example: a8d4457d-310v-41p6-sc53-14g8d733e514",
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-				Required: true,
-			},
-			"tenant_id": schema.StringAttribute{
-				Description: "The Azure AD tenant ID for the Azure subscription. Required for secret based credentials and should look like the following example: b10u3481-2451-10ba-7sfd-9o2d1v60185d",
-				Required:    true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-			},
-			"app_based": schema.SingleNestedAttribute{
-				Required: true,
-				Attributes: map[string]schema.Attribute{
-					"application_id": schema.StringAttribute{
-						Description: "The ID of the application registered in Azure.",
-						PlanModifiers: []planmodifier.String{
-							stringplanmodifier.RequiresReplace(),
-						},
-						Required:  true,
-						Sensitive: false,
-					},
-					"secret_key": schema.StringAttribute{
-						Description: "The client secret key (also referred to as application password) for the registered application.",
-						PlanModifiers: []planmodifier.String{
-							stringplanmodifier.RequiresReplace(),
-						},
-						Required:  true,
-						Sensitive: true,
-					},
-				},
-			},
-			"description": schema.StringAttribute{
-				Description: "A description for the credential.",
-				Optional:    true,
-			},
-			"crn": schema.StringAttribute{
-				Description: "The CRN of the credential.",
-				Computed:    true,
-			},
-		},
-	}
 }
 
 func (r *azureCredentialResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {

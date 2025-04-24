@@ -64,17 +64,17 @@ output "crn" {
 ### Required
 
 - `app_based` (Attributes) (see [below for nested schema](#nestedatt--app_based))
-- `credential_name` (String) The name of the CDP credential.
+- `credential_name` (String)
 - `subscription_id` (String) The Azure subscription ID. Required for secret based credentials and should look like the following example: a8d4457d-310v-41p6-sc53-14g8d733e514
 - `tenant_id` (String) The Azure AD tenant ID for the Azure subscription. Required for secret based credentials and should look like the following example: b10u3481-2451-10ba-7sfd-9o2d1v60185d
 
 ### Optional
 
-- `description` (String) A description for the credential.
+- `description` (String)
 
 ### Read-Only
 
-- `crn` (String) The CRN of the credential.
+- `crn` (String)
 - `id` (String) The ID of this resource.
 
 <a id="nestedatt--app_based"></a>

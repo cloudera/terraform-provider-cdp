@@ -17,39 +17,25 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func (r *gcpCredentialResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "The GCP credential is used for authorization to provision resources such as compute instances within your cloud provider account.",
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed: true,
-			},
-			"credential_name": schema.StringAttribute{
-				MarkdownDescription: "The name of the CDP credential.",
-				Required:            true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-			},
-			"credential_key": schema.StringAttribute{
-				MarkdownDescription: "The GCP credential JSON content encoded in Base64",
-				Required:            true,
-				Sensitive:           true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-			},
-			"description": schema.StringAttribute{
-				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-			},
-			"crn": schema.StringAttribute{
-				Computed: true,
+	attr := map[string]schema.Attribute{}
+	utils.Append(attr, generalCredentialSchema)
+	utils.Append(attr, map[string]schema.Attribute{
+		"credential_key": schema.StringAttribute{
+			MarkdownDescription: "The GCP credential JSON content encoded in Base64",
+			Required:            true,
+			Sensitive:           true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
 			},
 		},
+	})
+	resp.Schema = schema.Schema{
+		MarkdownDescription: "The GCP credential is used for authorization to provision resources such as compute instances within your cloud provider account.",
+		Attributes:          attr,
 	}
 }

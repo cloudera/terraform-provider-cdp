@@ -121,10 +121,10 @@ func PerformValidation(t *testing.T, test TestCaseStructure, attr schema.Attribu
 			t.FailNow()
 		}
 		if attr.IsRequired() != test.shouldBeRequired {
-			t.Errorf("The '%s' filed's >required< property should be: %t", test.field, test.shouldBeRequired)
+			t.Errorf("The '%s' field's >required< property should be: %t", test.field, test.shouldBeRequired)
 		}
 		if attr.IsComputed() != test.computed {
-			t.Errorf("The '%s' filed's >computed< property should be: %t", test.field, test.computed)
+			t.Errorf("The '%s' field's >Computed< property should be: %t", test.field, test.computed)
 		}
 	})
 }

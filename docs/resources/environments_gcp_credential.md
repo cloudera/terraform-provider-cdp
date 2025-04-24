@@ -52,7 +52,7 @@ output "credential_key" {
 ### Required
 
 - `credential_key` (String, Sensitive) The GCP credential JSON content encoded in Base64
-- `credential_name` (String) The name of the CDP credential.
+- `credential_name` (String)
 
 ### Optional
 

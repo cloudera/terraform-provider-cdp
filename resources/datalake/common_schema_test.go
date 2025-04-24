@@ -15,136 +15,130 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+
+	"github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
-type TestCaseStructure struct {
-	name             string
-	field            string
-	computed         bool
-	shouldBeRequired bool
-	attributeType    schema.Attribute
-}
-
 var (
-	commonElementCaseSet = []TestCaseStructure{
+	commonElementCaseSet = []test.ResourceSchemaTestCaseStructure{
 		{
-			name:             "'id' field must exist",
-			field:            "id",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'id' field must exist",
+			Field:            "id",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'polling_options' should exist",
-			field:            "polling_options",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.SingleNestedAttribute{},
+			Name:             "'polling_options' should exist",
+			Field:            "polling_options",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.SingleNestedAttribute{},
 		},
 		{
-			name:             "'creation_date' should exist",
-			field:            "creation_date",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'creation_date' should exist",
+			Field:            "creation_date",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'crn' should exist",
-			field:            "crn",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'crn' should exist",
+			Field:            "crn",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'datalake_name' must exist",
-			field:            "datalake_name",
-			computed:         false,
-			shouldBeRequired: true,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'datalake_name' must exist",
+			Field:            "datalake_name",
+			Computed:         false,
+			ShouldBeRequired: true,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'enable_ranger_raz' should exist",
-			field:            "enable_ranger_raz",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.BoolAttribute{},
+			Name:             "'enable_ranger_raz' should exist",
+			Field:            "enable_ranger_raz",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.BoolAttribute{},
 		},
 		{
-			name:             "'environment_crn' should exist",
-			field:            "environment_crn",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'environment_crn' should exist",
+			Field:            "environment_crn",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'environment_name' must exist",
-			field:            "environment_name",
-			computed:         false,
-			shouldBeRequired: true,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'environment_name' must exist",
+			Field:            "environment_name",
+			Computed:         false,
+			ShouldBeRequired: true,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'image' should exist",
-			field:            "image",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.SingleNestedAttribute{},
+			Name:             "'image' should exist",
+			Field:            "image",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.SingleNestedAttribute{},
 		},
 		{
-			name:             "'java_version' should exist",
-			field:            "java_version",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.Int32Attribute{},
+			Name:             "'java_version' should exist",
+			Field:            "java_version",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.Int32Attribute{},
 		},
 		{
-			name:             "'recipes' should exist",
-			field:            "recipes",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.SetNestedAttribute{},
+			Name:             "'recipes' should exist",
+			Field:            "recipes",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.SetNestedAttribute{},
 		},
 		{
-			name:             "'runtime' should exist",
-			field:            "runtime",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'runtime' should exist",
+			Field:            "runtime",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'scale' should exist",
-			field:            "scale",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'scale' should exist",
+			Field:            "scale",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'status' should exist",
-			field:            "status",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'status' should exist",
+			Field:            "status",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'status_reason' should exist",
-			field:            "status_reason",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'status_reason' should exist",
+			Field:            "status_reason",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'multi_az' should exist",
-			field:            "multi_az",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.BoolAttribute{},
+			Name:             "'multi_az' should exist",
+			Field:            "multi_az",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.BoolAttribute{},
 		},
 		{
-			name:             "'tags' should exist",
-			field:            "tags",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.MapAttribute{},
+			Name:             "'tags' should exist",
+			Field:            "tags",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.MapAttribute{},
 		},
 	}
 )
@@ -154,22 +148,22 @@ func TestRootElements(t *testing.T) {
 }
 
 func SchemaContainsCommonElements(t *testing.T, providerSpecificSchema map[string]schema.Attribute) {
-	for _, test := range commonElementCaseSet {
-		t.Run(test.name, func(t *testing.T) {
-			if providerSpecificSchema[test.field] == nil {
-				t.Errorf("The following field does not exists, however it should: %s", test.field)
+	for _, toTest := range commonElementCaseSet {
+		t.Run(toTest.Name, func(t *testing.T) {
+			if providerSpecificSchema[toTest.Field] == nil {
+				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
-			if providerSpecificSchema[test.field].IsRequired() != test.shouldBeRequired {
-				t.Errorf("The '%s' filed's >required< property should be: %t", test.field, test.shouldBeRequired)
+			if providerSpecificSchema[toTest.Field].IsRequired() != toTest.ShouldBeRequired {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.ShouldBeRequired)
 			}
-			if providerSpecificSchema[test.field].IsComputed() != test.computed {
-				t.Errorf("The '%s' filed's >computed< property should be: %t", test.field, test.computed)
+			if providerSpecificSchema[toTest.Field].IsComputed() != toTest.Computed {
+				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)
 			}
-			var currentType = reflect.TypeOf(providerSpecificSchema[test.field])
-			var expectedType = reflect.TypeOf(test.attributeType)
+			var currentType = reflect.TypeOf(providerSpecificSchema[toTest.Field])
+			var expectedType = reflect.TypeOf(toTest.AttributeType)
 			if currentType != expectedType {
-				t.Errorf("The '%s' field's type should be: %t, instead of %t", test.field, expectedType, currentType)
+				t.Errorf("The '%s' field's type should be: %t, instead of %t", toTest.Field, expectedType, currentType)
 			}
 		})
 	}
