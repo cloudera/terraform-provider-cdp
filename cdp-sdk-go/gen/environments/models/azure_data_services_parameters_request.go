@@ -19,6 +19,9 @@ import (
 // swagger:model AzureDataServicesParametersRequest
 type AzureDataServicesParametersRequest struct {
 
+	// The full Azure resource ID of an existing Private DNS zone used for the AKS.
+	AksPrivateDNSZoneID string `json:"aksPrivateDnsZoneId,omitempty"`
+
 	// User-assigned managed identity used by the AKS control plane.
 	// Required: true
 	SharedManagedIdentity *string `json:"sharedManagedIdentity"`

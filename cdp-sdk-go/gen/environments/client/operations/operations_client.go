@@ -246,6 +246,8 @@ type ClientService interface {
 
 	UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error)
 
+	UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error)
+
 	UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error)
 
 	UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error)
@@ -3848,9 +3850,9 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 }
 
 /*
-UpdateProxyConfig updates the proxy config of the given environment
+UpdateProxyConfig updates the proxy config of the given environment the newly added proxy configs will only be used for the cloudera data hub clusters created within the environment after the new proxy configs were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the proxy configs originally defined during environment creation
 
-Updates the proxy config of the given environment.
+Updates the proxy config of the given environment. The newly added proxy configs will only be used for the Cloudera Data Hub clusters created within the environment after the new proxy configs were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the proxy configs originally defined during environment creation.
 */
 func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error) {
 	// TODO: Validate the params before sending
@@ -3887,9 +3889,9 @@ func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...Clie
 }
 
 /*
-UpdateSecurityAccess updates the security access settings of the given environment
+UpdateSecurityAccess updates the security access settings of the given environment the newly added security groups will only be used for the cloudera data hub clusters created within the environment after the new security groups were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the security groups originally defined during environment creation
 
-Updates the security access settings of the given environment.
+Updates the security access settings of the given environment. The newly added security groups will only be used for the Cloudera Data Hub clusters created within the environment after the new security groups were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the security groups originally defined during environment creation.
 */
 func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error) {
 	// TODO: Validate the params before sending
@@ -3926,9 +3928,9 @@ func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts .
 }
 
 /*
-UpdateSSHKey updates the designated SSH key for the given environment
+UpdateSSHKey updates the designated SSH key for the given environment the newly added SSH key will only be used for the cloudera data hub clusters created within the environment after the new SSH key were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the SSH key originally defined during environment creation
 
-Updates the designated SSH key for the given environment.
+Updates the designated SSH key for the given environment. The newly added SSH key will only be used for the Cloudera Data Hub clusters created within the environment after the new SSH key were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the SSH key originally defined during environment creation.
 */
 func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
 	// TODO: Validate the params before sending
@@ -3965,9 +3967,9 @@ func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) 
 }
 
 /*
-UpdateSubnet updates the subnet s of the given environment
+UpdateSubnet updates the subnet s of the given environment the newly added subnets will only be used for the cloudera data hub clusters created within the environment after the new subnets were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the subnets originally defined during environment creation
 
-Updates the subnet(s) of the given environment.
+Updates the subnet(s) of the given environment. The newly added subnets will only be used for the Cloudera Data Hub clusters created within the environment after the new subnets were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the subnets originally defined during environment creation.
 */
 func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error) {
 	// TODO: Validate the params before sending
@@ -4000,6 +4002,45 @@ func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpdateSubnetDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateTags updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation
+
+Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation.
+*/
+func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateTagsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateTags",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/updateTags",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateTagsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateTagsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

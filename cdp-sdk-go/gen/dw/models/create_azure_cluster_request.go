@@ -70,12 +70,6 @@ type CreateAzureClusterRequest struct {
 	// Name of the delegated subnet where the private SQL should be deployed.
 	PrivateSQLSubnetName string `json:"privateSQLSubnetName,omitempty"`
 
-	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
-	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
-
-	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
-	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
-
 	// Name of Azure subnet where the cluster should be deployed. It is a mandatory parameter for Azure cluster creation.
 	// Required: true
 	SubnetName *string `json:"subnetName"`

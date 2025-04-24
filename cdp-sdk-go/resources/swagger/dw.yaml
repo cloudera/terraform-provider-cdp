@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.131 (BETA)
+  version: 0.9.134 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -2401,18 +2401,6 @@ definitions:
         x-deprecated: true
         x-form-factors: public
         x-entitlement: CDW_STORAGE_ROLES
-      reservedComputeNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
-      reservedSharedServicesNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
       customRegistryOptions:
         description: Options for custom ACR/ECR registries.
         $ref: '#/definitions/CustomRegistryOptions'
@@ -2472,18 +2460,6 @@ definitions:
         type: boolean
         description: Use this option to set up AWS EKS cluster in private only mode with restricted access only from internal/peered networks. Ensure you have ccmv2 setup functional to achieve this integration.
         default: false
-      reservedComputeNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
-      reservedSharedServicesNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
       customRegistryOptions:
         description: Options for custom ACR/ECR registries.
         $ref: '#/definitions/CustomRegistryOptions'
@@ -2557,18 +2533,6 @@ definitions:
       useInternalLoadBalancer:
         type: boolean
         description: Set up load balancer with private IP address. An internal load balancer gets created. Make sure there is connectivity between your client network and the network VNet where CDW environment is deployed.
-      reservedComputeNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
-      reservedSharedServicesNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
       customRegistryOptions:
         description: Options for custom ACR/ECR registries.
         $ref: '#/definitions/CustomRegistryOptions'
@@ -3335,15 +3299,6 @@ definitions:
       resourceTemplateId:
         type: string
         description: The resource template of the Database Catalog.
-      memorySize:
-        type: string
-        x-no-compatibility-guarantee: true
-        x-deprecated: true
-        description: 'DEPRECATED: resourceTemplateId field is replacing this one. Set Metastore container memory size. The small size will apply as default if neither the resourceTemplateId field nor this field is provided.'
-        enum:
-          - small
-          - medium
-          - large
       isDefault:
         type: boolean
         x-deprecated: true
@@ -4868,18 +4823,6 @@ definitions:
         x-form-factors: public
         type: boolean
         description: Denotes whether the spot instances have been enabled for the cluster. This value is only available for AWS and Azure clusters.
-      reservedComputeNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Number of additional reserved nodes for executors and coordinators to use during autoscaling.
-      reservedSharedServicesNodes:
-        x-entitlement: CDW_CLUSTER_OVERPROVISIONER
-        x-deprecated: true
-        type: integer
-        format: int32
-        description: DEPRECATED - will be removed in future releases. Number of additional reserved nodes for other services in the cluster.
       computeInstanceTypes:
         x-deprecated: true
         type: array
@@ -4987,11 +4930,6 @@ definitions:
       resourceTemplateId:
         type: string
         description: The resource template of the Database Catalog.
-      memorySize:
-        type: string
-        x-no-compatibility-guarantee: true
-        x-deprecated: true
-        description: 'DEPRECATED: resourceTemplateId field is replacing this one. Metastore container memory size.'
       status:
         type: string
         description: 'Status of the Database Catalog. Possible values are: Creating, Created, Accepted, Starting, Running, Stopping, Stopped, Updating, PreUpdate, Upgrading, PreUpgrade, Restarting, Deleting, Waiting, Failed, Error.'
@@ -5490,15 +5428,6 @@ definitions:
       resourceTemplateId:
         type: string
         description: The resource template of the Database Catalog.
-      memorySize:
-        type: string
-        x-no-compatibility-guarantee: true
-        x-deprecated: true
-        description: 'DEPRECATED: resourceTemplateId field is replacing this one. Set Metastore container memory size. The small size will apply as default if neither the resourceTemplateId field nor this field is provided.'
-        enum:
-          - small
-          - medium
-          - large
       config:
         description: The service configuration to update the DBC with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
         $ref: '#/definitions/ServiceConfigReq'

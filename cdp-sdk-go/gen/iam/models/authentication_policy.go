@@ -34,6 +34,9 @@ type AuthenticationPolicy struct {
 
 	// The inactivity duration, in seconds, of the UI session token, which would invalidate the session token due to no activity. The value of '0' indicates default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). There's no session token invalidation from no activity if the value is greater or equal to expiration.
 	SessionTokenInactivityDurationSec int32 `json:"sessionTokenInactivityDurationSec,omitempty"`
+
+	// The expiration, in seconds, of the workload authentication token. The value of '0' indicates the system default expiration (which is 1 hour).
+	WorkloadAuthTokenExpirationSec int32 `json:"workloadAuthTokenExpirationSec,omitempty"`
 }
 
 // Validate validates this authentication policy
