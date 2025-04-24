@@ -28,6 +28,10 @@ type Snapshot struct {
 	// Reason for the failure in case of snapshot creation failed.
 	FailureReason string `json:"failureReason,omitempty"`
 
+	// The id of the snapshot.
+	// Required: true
+	SnapshotID *int64 `json:"snapshotId"`
+
 	// The location of the snapshot.
 	SnapshotLocation string `json:"snapshotLocation,omitempty"`
 
@@ -47,6 +51,10 @@ type Snapshot struct {
 func (m *Snapshot) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateSnapshotID(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateSnapshotName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -62,6 +70,15 @@ func (m *Snapshot) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Snapshot) validateSnapshotID(formats strfmt.Registry) error {
+
+	if err := validate.Required("snapshotId", "body", m.SnapshotID); err != nil {
+		return err
+	}
+
 	return nil
 }
 

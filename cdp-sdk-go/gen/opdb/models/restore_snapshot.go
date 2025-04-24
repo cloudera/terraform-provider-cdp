@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // RestoreSnapshot An instance of restoring a snapshot to a database.
@@ -24,8 +25,16 @@ type RestoreSnapshot struct {
 	// Reason for the failure in case of restore snapshot failed.
 	FailureReason string `json:"failureReason,omitempty"`
 
+	// The id of the restore snapshot.
+	// Required: true
+	RestoreID *int64 `json:"restoreId"`
+
 	// The time when the snapshot restore was started.
 	RestoreTime int64 `json:"restoreTime,omitempty"`
+
+	// The id of the snapshot.
+	// Required: true
+	SnapshotID *int64 `json:"snapshotId"`
 
 	// The name of the snapshot.
 	SnapshotName string `json:"snapshotName,omitempty"`
@@ -44,6 +53,14 @@ type RestoreSnapshot struct {
 func (m *RestoreSnapshot) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateRestoreID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSnapshotID(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateStatus(formats); err != nil {
 		res = append(res, err)
 	}
@@ -51,6 +68,24 @@ func (m *RestoreSnapshot) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *RestoreSnapshot) validateRestoreID(formats strfmt.Registry) error {
+
+	if err := validate.Required("restoreId", "body", m.RestoreID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *RestoreSnapshot) validateSnapshotID(formats strfmt.Registry) error {
+
+	if err := validate.Required("snapshotId", "body", m.SnapshotID); err != nil {
+		return err
+	}
+
 	return nil
 }
 

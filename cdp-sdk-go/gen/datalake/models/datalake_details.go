@@ -71,7 +71,7 @@ type DatalakeDetails struct {
 	// The region of the datalake.
 	Region string `json:"region,omitempty"`
 
-	// The shape of the datalake (either LIGHT_DUTY or MEDIUM_DUTY_HA).
+	// The shape of the datalake.
 	Shape DatalakeScaleType `json:"shape,omitempty"`
 
 	// The status of the datalake.

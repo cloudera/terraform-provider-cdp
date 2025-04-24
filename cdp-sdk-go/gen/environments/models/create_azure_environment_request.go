@@ -814,7 +814,7 @@ func (m *CreateAzureEnvironmentRequest) UnmarshalBinary(b []byte) error {
 	return nil
 }
 
-// CreateAzureEnvironmentRequestNewNetworkParams Parameteres needed to automatically create VNet and Subnets.
+// CreateAzureEnvironmentRequestNewNetworkParams [Deprecated] Parameteres needed to automatically create VNet and Subnets.
 //
 // swagger:model CreateAzureEnvironmentRequestNewNetworkParams
 type CreateAzureEnvironmentRequestNewNetworkParams struct {

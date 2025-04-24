@@ -66,12 +66,6 @@ type ClusterSummaryResponse struct {
 	// Support lifecycle details of the given Cluster version (see version field). Learn more at Support lifecycle site: https://www.cloudera.com/services-and-support/support-lifecycle-policy.html.
 	ProductSupport *ClusterSummaryProductSupportResponse `json:"productSupport,omitempty"`
 
-	// DEPRECATED - will be removed in future releases. Number of additional reserved nodes for executors and coordinators to use during autoscaling.
-	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
-
-	// DEPRECATED - will be removed in future releases. Number of additional reserved nodes for other services in the cluster.
-	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
-
 	// The name of the Resource Pool the cluster is in.
 	ResourcePool string `json:"resourcePool,omitempty"`
 

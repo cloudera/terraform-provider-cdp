@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.131 (BETA)
+  version: 0.9.134 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -1344,7 +1344,7 @@ definitions:
         description: The status of the datalake.
       shape:
         $ref: '#/definitions/DatalakeScaleType'
-        description: The shape of the datalake (either LIGHT_DUTY or MEDIUM_DUTY_HA).
+        description: The shape of the datalake.
       environmentCrn:
         type: string
         description: The CRN of the environment.

@@ -53,12 +53,6 @@ type CreateAwsClusterRequest struct {
 	// Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
 	ReducedPermissionMode bool `json:"reducedPermissionMode,omitempty"`
 
-	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for executors and coordinators to use during autoscaling. Adding more reserved nodes increases your cloud costs.
-	ReservedComputeNodes int32 `json:"reservedComputeNodes,omitempty"`
-
-	// DEPRECATED - will be removed in future releases. Set additional number of nodes to reserve for other services in the cluster. Adding more reserved nodes increases your cloud costs.
-	ReservedSharedServicesNodes int32 `json:"reservedSharedServicesNodes,omitempty"`
-
 	// Using an overlay network will save IP addresses in the VPC by using a private IP address range for Pods in the cluster.
 	UseOverlayNetwork bool `json:"useOverlayNetwork,omitempty"`
 

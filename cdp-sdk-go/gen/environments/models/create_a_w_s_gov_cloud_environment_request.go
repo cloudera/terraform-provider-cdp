@@ -68,7 +68,7 @@ type CreateAWSGovCloudEnvironmentRequest struct {
 	// Required: true
 	LogStorage *AwsLogStorageRequest `json:"logStorage"`
 
-	// The network CIDR. This will create a VPC along with subnets in multiple Availability Zones.
+	// [Deprecated] The network CIDR. This will create a VPC along with subnets in multiple Availability Zones.
 	NetworkCidr string `json:"networkCidr,omitempty"`
 
 	// Name of the proxy config to use for the environment.
@@ -91,14 +91,14 @@ type CreateAWSGovCloudEnvironmentRequest struct {
 	// Required: true
 	SecurityAccess *SecurityAccessRequest `json:"securityAccess"`
 
-	// One or more subnet IDs within the VPC. Mutually exclusive with networkCidr.
+	// One or more subnet IDs within the VPC.
 	// Unique: true
 	SubnetIds []string `json:"subnetIds"`
 
 	// Tags associated with the resources.
 	Tags []*TagRequest `json:"tags"`
 
-	// The Amazon VPC ID. Mutually exclusive with networkCidr.
+	// The Amazon VPC ID.
 	VpcID string `json:"vpcId,omitempty"`
 
 	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
