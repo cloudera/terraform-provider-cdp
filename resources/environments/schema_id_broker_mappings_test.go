@@ -12,68 +12,82 @@ package environments
 
 import (
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+
+	"github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
-var idBrokerMappingsSchemaElements = []SchemaTestCaseStructure{
+var idBrokerMappingsSchemaElements = []test.ResourceSchemaTestCaseStructure{
 	{
-		name:             "id field must exist and be valid",
-		field:            "id",
-		computed:         true,
-		shouldBeRequired: false,
+		Name:             "id field must exist and be valid",
+		Field:            "id",
+		Computed:         true,
+		ShouldBeRequired: false,
+		AttributeType:    schema.StringAttribute{},
 	},
 	{
-		name:             "data_access_role field must exist and be valid",
-		field:            "data_access_role",
-		computed:         true,
-		shouldBeRequired: false,
+		Name:             "data_access_role Field must exist and be valid",
+		Field:            "data_access_role",
+		Computed:         true,
+		ShouldBeRequired: false,
+		AttributeType:    schema.StringAttribute{},
 	},
 	{
-		name:             "environment_name field must exist and be valid",
-		field:            "environment_name",
-		computed:         false,
-		shouldBeRequired: true,
+		Name:             "environment_name Field must exist and be valid",
+		Field:            "environment_name",
+		Computed:         false,
+		ShouldBeRequired: true,
+		AttributeType:    schema.StringAttribute{},
 	},
 	{
-		name:             "environment_crn field must exist and be valid",
-		field:            "environment_crn",
-		computed:         false,
-		shouldBeRequired: true,
+		Name:             "environment_crn Field must exist and be valid",
+		Field:            "environment_crn",
+		Computed:         false,
+		ShouldBeRequired: true,
+		AttributeType:    schema.StringAttribute{},
 	},
 	{
-		name:             "id field must exist and be valid",
-		field:            "id",
-		computed:         true,
-		shouldBeRequired: false,
+		Name:             "id Field must exist and be valid",
+		Field:            "id",
+		Computed:         true,
+		ShouldBeRequired: false,
+		AttributeType:    schema.StringAttribute{},
 	},
 	{
-		name:             "mappings field must exist and be valid",
-		field:            "mappings",
-		computed:         false,
-		shouldBeRequired: false,
+		Name:             "mappings Field must exist and be valid",
+		Field:            "mappings",
+		Computed:         false,
+		ShouldBeRequired: false,
+		AttributeType:    schema.SetNestedAttribute{},
 	},
 	{
-		name:             "ranger_audit_role field must exist and be valid",
-		field:            "ranger_audit_role",
-		computed:         false,
-		shouldBeRequired: true,
+		Name:             "ranger_audit_role Field must exist and be valid",
+		Field:            "ranger_audit_role",
+		Computed:         false,
+		ShouldBeRequired: true,
+		AttributeType:    schema.StringAttribute{},
 	},
 	{
-		name:             "ranger_cloud_access_authorizer_role field must exist and be valid",
-		field:            "ranger_cloud_access_authorizer_role",
-		computed:         true,
-		shouldBeRequired: false,
+		Name:             "ranger_cloud_access_authorizer_role Field must exist and be valid",
+		Field:            "ranger_cloud_access_authorizer_role",
+		Computed:         true,
+		ShouldBeRequired: false,
+		AttributeType:    schema.StringAttribute{},
 	},
 	{
-		name:             "set_empty_mappings field must exist and be valid",
-		field:            "set_empty_mappings",
-		computed:         false,
-		shouldBeRequired: false,
+		Name:             "set_empty_mappings Field must exist and be valid",
+		Field:            "set_empty_mappings",
+		Computed:         false,
+		ShouldBeRequired: false,
+		AttributeType:    schema.BoolAttribute{},
 	},
 	{
-		name:             "mappings_version field must exist and be valid",
-		field:            "mappings_version",
-		computed:         true,
-		shouldBeRequired: false,
+		Name:             "mappings_version Field must exist and be valid",
+		Field:            "mappings_version",
+		Computed:         true,
+		ShouldBeRequired: false,
+		AttributeType:    schema.Int64Attribute{},
 	},
 }
 
@@ -86,7 +100,5 @@ func TestIdBrokerMappingsSchemaAttributeNumber(t *testing.T) {
 }
 
 func TestIdBrokerMappingsSchemaContainsElements(t *testing.T) {
-	for _, test := range idBrokerMappingsSchemaElements {
-		performResourceSchemaValidation(t, test, IDBrokerMappingSchema.Attributes[test.field])
-	}
+	test.PerformResourceSchemaValidation(t, IDBrokerMappingSchema.Attributes, idBrokerMappingsSchemaElements)
 }

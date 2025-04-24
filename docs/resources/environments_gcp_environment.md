@@ -86,7 +86,7 @@ output "shared_project_id" {
 
 ### Optional
 
-- `availability_zones` (List of String) The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
+- `availability_zones` (Set of String) The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
 - `cascading_delete` (Boolean, Deprecated)
 - `delete_options` (Attributes) Options for deleting the environment. (see [below for nested schema](#nestedatt--delete_options))
 - `description` (String) A description of the environment.

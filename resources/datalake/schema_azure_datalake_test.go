@@ -16,6 +16,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+
+	"github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
 func TestAzureCommonSchemaElementsExist(t *testing.T) {
@@ -23,50 +25,50 @@ func TestAzureCommonSchemaElementsExist(t *testing.T) {
 }
 
 func TestAzureSpecificElements(t *testing.T) {
-	cases := []TestCaseStructure{
+	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			name:             "'database_type' should exist",
-			field:            "database_type",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'database_type' should exist",
+			Field:            "database_type",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'load_balancer_sku' should exist",
-			field:            "load_balancer_sku",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'load_balancer_sku' should exist",
+			Field:            "load_balancer_sku",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'flexible_server_delegated_subnet_id' should exist",
-			field:            "flexible_server_delegated_subnet_id",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.StringAttribute{},
+			Name:             "'flexible_server_delegated_subnet_id' should exist",
+			Field:            "flexible_server_delegated_subnet_id",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.StringAttribute{},
 		},
 		{
-			name:             "'multi_az' should exist",
-			field:            "multi_az",
-			computed:         false,
-			shouldBeRequired: false,
-			attributeType:    schema.BoolAttribute{},
+			Name:             "'multi_az' should exist",
+			Field:            "multi_az",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.BoolAttribute{},
 		},
 	}
 
 	underTestAttributes := createFilledAzureTestObject()
 
-	for _, test := range cases {
-		t.Run(test.name, func(t *testing.T) {
-			if underTestAttributes[test.field] == nil {
-				t.Errorf("The following field does not exists, however it should: %s", test.field)
+	for _, toTest := range cases {
+		t.Run(toTest.Name, func(t *testing.T) {
+			if underTestAttributes[toTest.Field] == nil {
+				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
-			if underTestAttributes[test.field].IsRequired() != test.shouldBeRequired {
-				t.Errorf("The '%s' filed's >required< property should be: %t", test.field, test.shouldBeRequired)
+			if underTestAttributes[toTest.Field].IsRequired() != toTest.ShouldBeRequired {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.ShouldBeRequired)
 			}
-			if underTestAttributes[test.field].IsComputed() != test.computed {
-				t.Errorf("The '%s' filed's >computed< property should be: %t", test.field, test.computed)
+			if underTestAttributes[toTest.Field].IsComputed() != toTest.Computed {
+				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)
 			}
 		})
 	}

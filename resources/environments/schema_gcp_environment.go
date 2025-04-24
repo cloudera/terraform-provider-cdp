@@ -223,7 +223,7 @@ var GcpEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"availability_zones": schema.ListAttribute{
+		"availability_zones": schema.SetAttribute{
 			MarkdownDescription: "The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.",
 			Optional:            true,
 			ElementType:         types.StringType,

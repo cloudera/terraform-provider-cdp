@@ -16,32 +16,34 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
 func TestRuntimeSchemaElements(t *testing.T) {
-	cases := []TestCaseStructure{
+	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			name:             "versions should exist",
-			field:            "versions",
-			computed:         true,
-			shouldBeRequired: false,
-			attributeType:    schema.SetNestedAttribute{},
+			Name:             "versions should exist",
+			Field:            "versions",
+			Computed:         true,
+			ShouldBeRequired: false,
+			AttributeType:    schema.SetNestedAttribute{},
 		},
 	}
 
 	underTestAttributes := createFilledRuntimeTestObject()
 
-	for _, test := range cases {
-		t.Run(test.name, func(t *testing.T) {
-			if underTestAttributes[test.field] == nil {
-				t.Errorf("The following field does not exists, however it should: %s", test.field)
+	for _, toTest := range cases {
+		t.Run(toTest.Name, func(t *testing.T) {
+			if underTestAttributes[toTest.Field] == nil {
+				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
-			if underTestAttributes[test.field].IsRequired() != test.shouldBeRequired {
-				t.Errorf("The '%s' filed's >required< property should be: %t", test.field, test.shouldBeRequired)
+			if underTestAttributes[toTest.Field].IsRequired() != toTest.ShouldBeRequired {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.ShouldBeRequired)
 			}
-			if underTestAttributes[test.field].IsComputed() != test.computed {
-				t.Errorf("The '%s' filed's >computed< property should be: %t", test.field, test.computed)
+			if underTestAttributes[toTest.Field].IsComputed() != toTest.Computed {
+				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)
 			}
 		})
 	}
