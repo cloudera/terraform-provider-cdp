@@ -99,6 +99,9 @@ func TestToGcpEnvironmentRequestFreeIpa(t *testing.T) {
 	assert.Equal(t, freeIpaDetails.InstanceCountByGroup.ValueInt32(), result.FreeIpa.InstanceCountByGroup)
 	assert.Equal(t, len(freeIpaDetails.Recipes.Elements()), len(result.FreeIpa.Recipes))
 	assert.Equal(t, freeIpaDetails.InstanceType.ValueString(), result.FreeIpa.InstanceType)
+	assert.Equal(t, freeIpaDetails.Catalog.ValueString(), result.Image.Catalog)
+	assert.Equal(t, freeIpaDetails.ImageID.ValueString(), result.Image.ID)
+	assert.Equal(t, freeIpaDetails.Os.ValueString(), result.Image.Os)
 }
 
 func TestToGcpEnvironmentResourceRootFields(t *testing.T) {
@@ -129,9 +132,9 @@ func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
 		"instance_count_by_group": types.Int64Value(123),
 		"recipes":                 createSetOfString(),
 		"instance_type":           types.StringValue("someInstanceType"),
-		"catalog":                 types.StringValue(""),
-		"image_id":                types.StringValue(""),
-		"os":                      types.StringValue(""),
+		"catalog":                 types.StringValue("someCatalog"),
+		"image_id":                types.StringValue("someImageId"),
+		"os":                      types.StringValue("someOs"),
 		"instances":               instances,
 		"multi_az":                types.BoolValue(false),
 	})

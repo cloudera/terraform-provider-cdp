@@ -42,12 +42,13 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 		AvailabilityZones: utils.FromTfStringSliceToStringSlice(model.AvailabilityZones),
 	}
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
-		trans, _ := FreeIpaModelToRequest(&model.FreeIpa, ctx)
+		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)
 		req.FreeIpa = &environmentsmodels.GCPFreeIpaCreationRequest{
 			InstanceCountByGroup: trans.InstanceCountByGroup,
 			InstanceType:         trans.InstanceType,
 			Recipes:              trans.Recipes,
 		}
+		req.Image = img
 	}
 
 	if model.LogStorage != nil {
