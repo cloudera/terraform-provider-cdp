@@ -22,11 +22,63 @@ A Impala Virtual Warehouse is service which is able to run low-latency SQL queri
 // OF ANY KIND, either express or implied. Refer to the License for the specific
 // permissions and limitations governing your use of the file.
 
-resource "cdp_dw_vw_impala" "impala-terraform" {
-  cluster_id          = var.cluster_id
-  database_catalog_id = var.database_catalog_id
-  name                = var.name
-  image_version       = var.image_version
+resource "cdp_dw_vw_impala" "test-terraform" {
+  cluster_id          = "env-fwkk6k"
+  database_catalog_id = "warehouse-1738648902-2tjt"
+  image_version       = "2025.0.20.0-16"
+  name                = "test-terraform"
+  tshirt_size         = "xsmall"
+
+  autoscaling = {
+    auto_suspend_timeout_seconds = 360
+    disable_auto_suspend         = false
+    scale_down_delay_seconds     = 360
+    scale_up_delay_seconds       = 40
+    max_clusters                 = 6
+    min_clusters                 = 4
+  }
+
+  aws_options = {
+    scratch_space_limit = 634
+  }
+
+  ha_settings = {
+    high_availability_mode              = "ACTIVE_PASSIVE"
+    enable_shutdown_of_coordinator      = false
+    shutdown_of_coordinator_delay_secs  = 360
+    num_of_active_coordinators          = 2
+    enable_catalog_high_availability    = false
+    enable_statestore_high_availability = false
+  }
+
+  enable_unified_analytics = true
+
+  query_isolation_options = {
+    max_queries         = 2
+    max_nodes_per_query = 2
+  }
+
+  instance_type = "r5d.4xlarge"
+  // either use node_count or autoscaling options, not both
+  // node_count              = 3
+  availability_zone = "us-west-2a"
+
+  platform_jwt_auth = true
+  query_log         = true
+
+  tags = [
+    {
+      key   = "environment"
+      value = "mow-dev"
+    },
+    {
+      key   = "team"
+      value = "dwx"
+    },
+  ]
+
+  enable_sso = true
+
 }
 ```
 
@@ -41,14 +93,62 @@ resource "cdp_dw_vw_impala" "impala-terraform" {
 
 ### Optional
 
+- `autoscaling` (Attributes) Autoscaling configuration options. (see [below for nested schema](#nestedatt--autoscaling))
+- `availability_zone` (String) The availability zone for the Impala Virtual Warehouse.
+- `aws_options` (Attributes) Impala-specific configuration options. (see [below for nested schema](#nestedatt--aws_options))
+- `enable_sso` (Boolean) Enable sso for Impala VWH
+- `enable_unified_analytics` (Boolean) Flag to enable unified analytics.
+- `ha_settings` (Attributes) High availability settings for Impala. (see [below for nested schema](#nestedatt--ha_settings))
 - `image_version` (String) Image version of the impala.
+- `instance_type` (String) The instance type for the Impala Virtual Warehouse.
+- `node_count` (Number) Node count of Impala.
+- `platform_jwt_auth` (Boolean) Platform JWT authentication flag.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `query_isolation_options` (Attributes) Query isolation options for Impala. (see [below for nested schema](#nestedatt--query_isolation_options))
+- `query_log` (Boolean) Enable or disable Impala query logging.
+- `tags` (Attributes List) Tags associated with the Impala Virtual Warehouse. (see [below for nested schema](#nestedatt--tags))
+- `tshirt_size` (String) T-shirt size of Impala.
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
 - `last_updated` (String) Timestamp of the last Terraform update of the order.
 - `status` (String) The status of the database catalog.
+
+<a id="nestedatt--autoscaling"></a>
+### Nested Schema for `autoscaling`
+
+Optional:
+
+- `auto_suspend_timeout_seconds` (Number) Threshold for auto-suspend in seconds.
+- `disable_auto_suspend` (Boolean) Disable auto-suspend for the Virtual Warehouse.
+- `max_clusters` (Number) Maximum number of available compute groups. Default: 0.
+- `min_clusters` (Number) Minimum number of available compute groups. Default: 0.
+- `scale_down_delay_seconds` (Number) Scale-down threshold in seconds for Impala.
+- `scale_up_delay_seconds` (Number) Scale-up threshold in seconds for Impala.
+
+
+<a id="nestedatt--aws_options"></a>
+### Nested Schema for `aws_options`
+
+Optional:
+
+- `scratch_space_limit` (Number) Defines the limit for scratch space in GiB needed by Impala for spilling queries. Valid values depend on the platform (AWS or Azure). If set, 'spillToS3Uri' cannot be set.
+- `spill_to_s3_uri` (String) Set S3 URI in 's3://bucket/path' format to enable spilling to S3. If set, 'scratchSpaceLimit' cannot be set. Not supported on Azure.
+
+
+<a id="nestedatt--ha_settings"></a>
+### Nested Schema for `ha_settings`
+
+Optional:
+
+- `enable_catalog_high_availability` (Boolean) Enables high availability for Impala catalog.
+- `enable_shutdown_of_coordinator` (Boolean) Enables the shutdown of the coordinator.
+- `enable_statestore_high_availability` (Boolean) Enables high availability for Impala Statestore.
+- `high_availability_mode` (String) High Availability mode: DISABLED, ACTIVE_PASSIVE, or ACTIVE_ACTIVE.
+- `num_of_active_coordinators` (Number) Number of active coordinators.
+- `shutdown_of_coordinator_delay_secs` (Number) Delay in seconds before shutting down the coordinator.
+
 
 <a id="nestedatt--polling_options"></a>
 ### Nested Schema for `polling_options`
@@ -58,3 +158,21 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--query_isolation_options"></a>
+### Nested Schema for `query_isolation_options`
+
+Optional:
+
+- `max_nodes_per_query` (Number) Maximum number of nodes per query for isolation. Default: 0 disables isolation.
+- `max_queries` (Number) Maximum number of queries for isolation. Default: 0 disables isolation.
+
+
+<a id="nestedatt--tags"></a>
+### Nested Schema for `tags`
+
+Required:
+
+- `key` (String)
+- `value` (String)
