@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -18,6 +19,10 @@ import (
 //
 // swagger:model ModifyDisks
 type ModifyDisks struct {
+
+	// Whether to modify the root disk or additional disks.
+	// Enum: ["ROOT_DISK","ADDITIONAL_DISK"]
+	DiskType string `json:"diskType,omitempty"`
 
 	// Size of disks to modify on all the instances in a group in GB.
 	// Required: true
@@ -31,6 +36,10 @@ type ModifyDisks struct {
 func (m *ModifyDisks) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateDiskType(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateSize(formats); err != nil {
 		res = append(res, err)
 	}
@@ -38,6 +47,48 @@ func (m *ModifyDisks) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+var modifyDisksTypeDiskTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["ROOT_DISK","ADDITIONAL_DISK"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		modifyDisksTypeDiskTypePropEnum = append(modifyDisksTypeDiskTypePropEnum, v)
+	}
+}
+
+const (
+
+	// ModifyDisksDiskTypeROOTDISK captures enum value "ROOT_DISK"
+	ModifyDisksDiskTypeROOTDISK string = "ROOT_DISK"
+
+	// ModifyDisksDiskTypeADDITIONALDISK captures enum value "ADDITIONAL_DISK"
+	ModifyDisksDiskTypeADDITIONALDISK string = "ADDITIONAL_DISK"
+)
+
+// prop value enum
+func (m *ModifyDisks) validateDiskTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, modifyDisksTypeDiskTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *ModifyDisks) validateDiskType(formats strfmt.Registry) error {
+	if swag.IsZero(m.DiskType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateDiskTypeEnum("diskType", "body", m.DiskType); err != nil {
+		return err
+	}
+
 	return nil
 }
 

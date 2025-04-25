@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.134 (BETA)
+  version: 0.9.135 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -2756,10 +2756,6 @@ definitions:
         uniqueItems: true
         items:
           type: string
-      networkCidr:
-        type: string
-        x-deprecated: true
-        description: '[Deprecated] The network CIDR. This will create a VPC along with subnets in multiple Availability Zones.'
       createPrivateSubnets:
         type: boolean
         description: Whether to create private subnets or not.
@@ -3353,16 +3349,6 @@ definitions:
       existingNetworkParams:
         description: Parameters needed to use an existing VNet and Subnets.
         $ref: '#/definitions/ExistingAzureNetworkRequest'
-      newNetworkParams:
-        type: object
-        x-deprecated: true
-        description: '[Deprecated] Parameteres needed to automatically create VNet and Subnets.'
-        required:
-          - networkCidr
-        properties:
-          networkCidr:
-            type: string
-            description: The range of private IPv4 addresses that resources will use under the created VNet.
       description:
         type: string
         description: An description of the environment.
@@ -3519,6 +3505,9 @@ definitions:
         items:
           type: string
         description: The subnets to use for endpoint access gateway.
+      image:
+        $ref: '#/definitions/FreeIpaImageRequest'
+        description: The FreeIPA image request for the environment.
       tags:
         type: array
         description: Tags that can be attached to GCP resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.

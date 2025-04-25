@@ -58,6 +58,9 @@ type CreateGCPEnvironmentRequest struct {
 	// The FreeIPA creation request for the environment
 	FreeIpa *GCPFreeIpaCreationRequest `json:"freeIpa,omitempty"`
 
+	// The FreeIPA image request for the environment.
+	Image *FreeIpaImageRequest `json:"image,omitempty"`
+
 	// GCP storage configuration for cluster and audit logs.
 	LogStorage *GcpLogStorageRequest `json:"logStorage,omitempty"`
 
@@ -117,6 +120,10 @@ func (m *CreateGCPEnvironmentRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateFreeIpa(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImage(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -272,6 +279,25 @@ func (m *CreateGCPEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) e
 	return nil
 }
 
+func (m *CreateGCPEnvironmentRequest) validateImage(formats strfmt.Registry) error {
+	if swag.IsZero(m.Image) { // not required
+		return nil
+	}
+
+	if m.Image != nil {
+		if err := m.Image.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("image")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("image")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreateGCPEnvironmentRequest) validateLogStorage(formats strfmt.Registry) error {
 	if swag.IsZero(m.LogStorage) { // not required
 		return nil
@@ -398,6 +424,10 @@ func (m *CreateGCPEnvironmentRequest) ContextValidate(ctx context.Context, forma
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateImage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateLogStorage(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -471,6 +501,27 @@ func (m *CreateGCPEnvironmentRequest) contextValidateFreeIpa(ctx context.Context
 				return ve.ValidateName("freeIpa")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("freeIpa")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreateGCPEnvironmentRequest) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Image != nil {
+
+		if swag.IsZero(m.Image) { // not required
+			return nil
+		}
+
+		if err := m.Image.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("image")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("image")
 			}
 			return err
 		}

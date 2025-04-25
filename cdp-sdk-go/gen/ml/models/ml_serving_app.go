@@ -48,6 +48,9 @@ type MlServingApp struct {
 	// Is this service installed on a private cluster.
 	IsPrivateCluster bool `json:"isPrivateCluster,omitempty"`
 
+	// The allowed list of IPs for the load balancer.
+	LoadBalancerIPWhitelists string `json:"loadBalancerIPWhitelists,omitempty"`
+
 	// The Cloudera AI Inference Service version running on this instance.
 	MlServingVersion string `json:"mlServingVersion,omitempty"`
 
