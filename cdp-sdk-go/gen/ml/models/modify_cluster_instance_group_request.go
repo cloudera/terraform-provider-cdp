@@ -19,7 +19,7 @@ import (
 // swagger:model ModifyClusterInstanceGroupRequest
 type ModifyClusterInstanceGroupRequest struct {
 
-	// The name of the instance group of the workbench cluster to modify.
+	// The system-assigned name of the instance group in the workbench cluster to be modified.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
 

@@ -29,6 +29,9 @@ type CreateWorkspaceRequest struct {
 	// The boolean flag to disable TLS setup for workbench. By default, the TLS is enabled.
 	DisableTLS bool `json:"disableTLS,omitempty"`
 
+	// Enable Enhanced Performance Mode to maximize throughput and IOPS for root volumes attached to worker nodes.
+	EnableEnhancedPerformance bool `json:"enableEnhancedPerformance,omitempty"`
+
 	// Enables Cloudera AI governance by integrating with Cloudera Atlas. By default, this flag is disabled.
 	EnableGovernance bool `json:"enableGovernance,omitempty"`
 

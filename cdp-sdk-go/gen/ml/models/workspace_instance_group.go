@@ -30,7 +30,7 @@ type WorkspaceInstanceGroup struct {
 	// Required: true
 	InstanceCount *int32 `json:"instanceCount"`
 
-	// The unique name of the instance group.
+	// The system-assigned name of the instance group.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
 
@@ -52,6 +52,9 @@ type WorkspaceInstanceGroup struct {
 	// The minimum number of instances that can be deployed to this instance group. If the value is 0, the group might be empty.
 	// Required: true
 	MinInstances *int32 `json:"minInstances"`
+
+	// The unique name for the instance or resource group of the workbench.
+	Name string `json:"name,omitempty"`
 
 	// Root volume size in GiB attached to this instance type.
 	RootVolumeSize int64 `json:"rootVolumeSize,omitempty"`

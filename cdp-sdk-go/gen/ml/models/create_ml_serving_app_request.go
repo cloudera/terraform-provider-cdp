@@ -24,8 +24,7 @@ type CreateMlServingAppRequest struct {
 	AppName *string `json:"appName"`
 
 	// The cluster CRN of an existing cluster where Cloudera AI Inference Service instance will be deployed.
-	// Required: true
-	ClusterCrn *string `json:"clusterCrn"`
+	ClusterCrn string `json:"clusterCrn,omitempty"`
 
 	// The environment CRN.
 	// Required: true
@@ -33,6 +32,9 @@ type CreateMlServingAppRequest struct {
 
 	// The whitelist of IPs for load balancer.
 	LoadBalancerIPWhitelists []string `json:"loadBalancerIPWhitelists"`
+
+	// Ozone credentials for the Cloudera On-Premise cluster.
+	OzoneS3Creds *MlServingOzoneCreds `json:"ozoneS3Creds,omitempty"`
 
 	// The request for Kubernetes cluster provisioning. Required in public cloud.
 	ProvisionK8sRequest *MlServingProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
@@ -58,11 +60,11 @@ func (m *CreateMlServingAppRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateClusterCrn(formats); err != nil {
+	if err := m.validateEnvironmentCrn(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateEnvironmentCrn(formats); err != nil {
+	if err := m.validateOzoneS3Creds(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -85,19 +87,29 @@ func (m *CreateMlServingAppRequest) validateAppName(formats strfmt.Registry) err
 	return nil
 }
 
-func (m *CreateMlServingAppRequest) validateClusterCrn(formats strfmt.Registry) error {
+func (m *CreateMlServingAppRequest) validateEnvironmentCrn(formats strfmt.Registry) error {
 
-	if err := validate.Required("clusterCrn", "body", m.ClusterCrn); err != nil {
+	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (m *CreateMlServingAppRequest) validateEnvironmentCrn(formats strfmt.Registry) error {
+func (m *CreateMlServingAppRequest) validateOzoneS3Creds(formats strfmt.Registry) error {
+	if swag.IsZero(m.OzoneS3Creds) { // not required
+		return nil
+	}
 
-	if err := validate.Required("environmentCrn", "body", m.EnvironmentCrn); err != nil {
-		return err
+	if m.OzoneS3Creds != nil {
+		if err := m.OzoneS3Creds.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ozoneS3Creds")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ozoneS3Creds")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -126,6 +138,10 @@ func (m *CreateMlServingAppRequest) validateProvisionK8sRequest(formats strfmt.R
 func (m *CreateMlServingAppRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateOzoneS3Creds(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateProvisionK8sRequest(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -133,6 +149,27 @@ func (m *CreateMlServingAppRequest) ContextValidate(ctx context.Context, formats
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateMlServingAppRequest) contextValidateOzoneS3Creds(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.OzoneS3Creds != nil {
+
+		if swag.IsZero(m.OzoneS3Creds) { // not required
+			return nil
+		}
+
+		if err := m.OzoneS3Creds.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ozoneS3Creds")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ozoneS3Creds")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

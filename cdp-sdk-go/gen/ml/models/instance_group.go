@@ -35,7 +35,7 @@ type InstanceGroup struct {
 	// Required: true
 	InstanceType *string `json:"instanceType"`
 
-	// The unique name of the instance group.
+	// The unique name for the instance or resource group of the workbench.
 	Name string `json:"name,omitempty"`
 
 	// The root volume of the instance.

@@ -10,8 +10,8 @@
 
 GO_FLAGS:=""
 
-SWAGGER_REPO_RAW=https://raw.githubusercontent.com/cloudera/cdp-dev-docs/refs/tags/
-API_DEFINITION_TAG ?= cdp-api-0.9.135
+SWAGGER_REPO_RAW=https://raw.githubusercontent.com/cloudera/cdp-dev-docs/refs/tags
+API_DEFINITION_TAG ?= cdp-api-0.9.136
 SWAGGER=$(SWAGGER_REPO_RAW)/$(API_DEFINITION_TAG)/api-docs-beta/swagger
 
 all: check-go test build

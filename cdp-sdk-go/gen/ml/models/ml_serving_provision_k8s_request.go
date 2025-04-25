@@ -25,7 +25,6 @@ type MlServingProvisionK8sRequest struct {
 	EnvironmentCrn *string `json:"environmentCrn"`
 
 	// The instance groups.
-	// Required: true
 	InstanceGroups []*InstanceGroup `json:"instanceGroups"`
 
 	// The overlay network for an AWS Kubernetes cluster's CNI.
@@ -71,9 +70,8 @@ func (m *MlServingProvisionK8sRequest) validateEnvironmentCrn(formats strfmt.Reg
 }
 
 func (m *MlServingProvisionK8sRequest) validateInstanceGroups(formats strfmt.Registry) error {
-
-	if err := validate.Required("instanceGroups", "body", m.InstanceGroups); err != nil {
-		return err
+	if swag.IsZero(m.InstanceGroups) { // not required
+		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {

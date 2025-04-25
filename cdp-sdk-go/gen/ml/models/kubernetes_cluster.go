@@ -40,10 +40,10 @@ type KubernetesCluster struct {
 	// The instance groups.
 	InstanceGroups []*WorkspaceInstanceGroup `json:"instanceGroups"`
 
-	// The allow list of IPs for incoming connections.
+	// Deprecated: Please use loadBalancerIPWhitelists instead, as this will soon be unsupported.
 	IPAllowlist string `json:"ipAllowlist,omitempty"`
 
-	// Indicates if this cluster is accepting incoming connection from public internet.
+	// Deprecated: Please use isPrivateCluster instead, as this will soon be unsupported.
 	IsPublic bool `json:"isPublic,omitempty"`
 
 	// The identifier in Cloudera Data Platform Compute Service corresponding to this Kubernetes cluster.

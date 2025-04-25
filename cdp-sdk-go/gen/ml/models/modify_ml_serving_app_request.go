@@ -23,7 +23,7 @@ type ModifyMlServingAppRequest struct {
 	// Required: true
 	AppCrn *string `json:"appCrn"`
 
-	// The name of the instance group to be modified.
+	// The system-assigned name of the instance group to be modified.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
 

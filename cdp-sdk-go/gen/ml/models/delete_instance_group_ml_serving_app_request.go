@@ -23,7 +23,7 @@ type DeleteInstanceGroupMlServingAppRequest struct {
 	// Required: true
 	AppCrn *string `json:"appCrn"`
 
-	// The instance group to be deleted from the Cloudera AI Inference Service instance.
+	// The system-assigned name of the instance group to be deleted from the Cloudera AI Inference Service instance.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
 }

@@ -74,9 +74,6 @@ type CreateAWSEnvironmentRequest struct {
 	// Required: true
 	LogStorage *AwsLogStorageRequest `json:"logStorage"`
 
-	// [Deprecated] The network CIDR. This will create a VPC along with subnets in multiple Availability Zones.
-	NetworkCidr string `json:"networkCidr,omitempty"`
-
 	// Name of the proxy config to use for the environment.
 	ProxyConfigName string `json:"proxyConfigName,omitempty"`
 

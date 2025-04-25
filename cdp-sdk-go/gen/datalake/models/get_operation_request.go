@@ -8,10 +8,8 @@ package models
 import (
 	"context"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // GetOperationRequest Request object for tracking the latest (current/last) operation on the datalake resource.
@@ -19,9 +17,11 @@ import (
 // swagger:model GetOperationRequest
 type GetOperationRequest struct {
 
-	// CRN of the datalake resource.
-	// Required: true
-	Crn *string `json:"crn"`
+	// CRN of the datalake resource, deprecated.
+	Crn string `json:"crn,omitempty"`
+
+	// The name or CRN of the datahub.
+	DatalakeName string `json:"datalakeName,omitempty"`
 
 	// Filter by operation id.
 	OperationID string `json:"operationId,omitempty"`
@@ -29,24 +29,6 @@ type GetOperationRequest struct {
 
 // Validate validates this get operation request
 func (m *GetOperationRequest) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateCrn(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *GetOperationRequest) validateCrn(formats strfmt.Registry) error {
-
-	if err := validate.Required("crn", "body", m.Crn); err != nil {
-		return err
-	}
-
 	return nil
 }
 

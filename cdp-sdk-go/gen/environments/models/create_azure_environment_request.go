@@ -91,9 +91,6 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	LogStorage *AzureLogStorageRequest `json:"logStorage"`
 
-	// new network params
-	NewNetworkParams *CreateAzureEnvironmentRequestNewNetworkParams `json:"newNetworkParams,omitempty"`
-
 	// Name of the proxy config to use for the environment.
 	ProxyConfigName string `json:"proxyConfigName,omitempty"`
 
@@ -173,10 +170,6 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	}
 
 	if err := m.validateLogStorage(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateNewNetworkParams(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -404,25 +397,6 @@ func (m *CreateAzureEnvironmentRequest) validateLogStorage(formats strfmt.Regist
 	return nil
 }
 
-func (m *CreateAzureEnvironmentRequest) validateNewNetworkParams(formats strfmt.Registry) error {
-	if swag.IsZero(m.NewNetworkParams) { // not required
-		return nil
-	}
-
-	if m.NewNetworkParams != nil {
-		if err := m.NewNetworkParams.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("newNetworkParams")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("newNetworkParams")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (m *CreateAzureEnvironmentRequest) validatePublicKey(formats strfmt.Registry) error {
 
 	if err := validate.Required("publicKey", "body", m.PublicKey); err != nil {
@@ -544,10 +518,6 @@ func (m *CreateAzureEnvironmentRequest) ContextValidate(ctx context.Context, for
 	}
 
 	if err := m.contextValidateLogStorage(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateNewNetworkParams(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -712,27 +682,6 @@ func (m *CreateAzureEnvironmentRequest) contextValidateLogStorage(ctx context.Co
 	return nil
 }
 
-func (m *CreateAzureEnvironmentRequest) contextValidateNewNetworkParams(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.NewNetworkParams != nil {
-
-		if swag.IsZero(m.NewNetworkParams) { // not required
-			return nil
-		}
-
-		if err := m.NewNetworkParams.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("newNetworkParams")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("newNetworkParams")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (m *CreateAzureEnvironmentRequest) contextValidateSecurity(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Security != nil {
@@ -807,62 +756,6 @@ func (m *CreateAzureEnvironmentRequest) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *CreateAzureEnvironmentRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAzureEnvironmentRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*m = res
-	return nil
-}
-
-// CreateAzureEnvironmentRequestNewNetworkParams [Deprecated] Parameteres needed to automatically create VNet and Subnets.
-//
-// swagger:model CreateAzureEnvironmentRequestNewNetworkParams
-type CreateAzureEnvironmentRequestNewNetworkParams struct {
-
-	// The range of private IPv4 addresses that resources will use under the created VNet.
-	// Required: true
-	NetworkCidr *string `json:"networkCidr"`
-}
-
-// Validate validates this create azure environment request new network params
-func (m *CreateAzureEnvironmentRequestNewNetworkParams) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateNetworkCidr(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *CreateAzureEnvironmentRequestNewNetworkParams) validateNetworkCidr(formats strfmt.Registry) error {
-
-	if err := validate.Required("newNetworkParams"+"."+"networkCidr", "body", m.NetworkCidr); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validates this create azure environment request new network params based on context it is used
-func (m *CreateAzureEnvironmentRequestNewNetworkParams) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (m *CreateAzureEnvironmentRequestNewNetworkParams) MarshalBinary() ([]byte, error) {
-	if m == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(m)
-}
-
-// UnmarshalBinary interface implementation
-func (m *CreateAzureEnvironmentRequestNewNetworkParams) UnmarshalBinary(b []byte) error {
-	var res CreateAzureEnvironmentRequestNewNetworkParams
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}
