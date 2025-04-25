@@ -113,7 +113,7 @@ var azureDatalakeResourceSchema = schema.Schema{
 				},
 			},
 		},
-		"java_version": schema.Int64Attribute{
+		"java_version": schema.Int32Attribute{
 			Optional: true,
 		},
 		"database_type": schema.StringAttribute{
