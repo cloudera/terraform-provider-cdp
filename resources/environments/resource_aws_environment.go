@@ -272,4 +272,5 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.TunnelType = types.StringValue(string(env.TunnelType))
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
+	utils.LogEnvironmentSilently(ctx, env, "Environment conversion finished: ")
 }

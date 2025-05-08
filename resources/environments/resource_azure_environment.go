@@ -135,6 +135,7 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 }
 
 func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *azureEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+	utils.LogEnvironmentSilently(ctx, env, "Converting environment: ")
 	model.ID = types.StringPointerValue(env.Crn)
 	model.Crn = types.StringPointerValue(env.Crn)
 	model.CredentialName = types.StringPointerValue(env.CredentialName)
@@ -232,6 +233,7 @@ func toAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 		model.Tags = tagMap
 	}
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
+	utils.LogEnvironmentSilently(ctx, env, "Environment conversion finished: ")
 }
 
 func (r *azureEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
