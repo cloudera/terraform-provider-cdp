@@ -167,6 +167,8 @@ func testAccAwsEnvironmentConfig(credName string, envParams *awsEnvironmentTestP
 		}
 		freeipa = {
     		recipes = [cdp_recipe.test_recipe.name]
+			instance_count_by_group = 3
+    		multi_az                = true
   		}
 	  }
 `, envParams.Name, credName, envParams.Region, envParams.PublicKeyId, envParams.InstanceProfile, envParams.StorageLocationBase, envParams.VpcId, envParams.SubnetIds)
