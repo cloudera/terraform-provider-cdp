@@ -69,10 +69,10 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 		Catalog:              freeIpaDetails.Catalog,
 		ImageID:              freeIpaDetails.ImageID,
 		Os:                   freeIpaDetails.Os,
-		InstanceCountByGroup: freeIpaDetails.InstanceCountByGroup,
+		InstanceCountByGroup: types.Int32Value(ipaResp.InstanceCountByGroup),
 		InstanceType:         freeIpaDetails.InstanceType,
 		Instances:            ipaInstances,
-		MultiAz:              freeIpaDetails.MultiAz,
+		MultiAz:              types.BoolValue(ipaResp.MultiAz),
 		Recipes:              recipes,
 	})
 	diags.Append(ipaDiags...)
