@@ -12,7 +12,9 @@ package environments
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int32default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int32planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -48,6 +50,8 @@ var FreeIpaSchema = schema.SingleNestedAttribute{
 		},
 		"instance_count_by_group": schema.Int32Attribute{
 			Optional: true,
+			Computed: true,
+			Default:  int32default.StaticInt32(1),
 			PlanModifiers: []planmodifier.Int32{
 				int32planmodifier.UseStateForUnknown(),
 			},
@@ -109,6 +113,8 @@ var FreeIpaSchema = schema.SingleNestedAttribute{
 		},
 		"multi_az": schema.BoolAttribute{
 			Optional: true,
+			Computed: true,
+			Default:  booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
