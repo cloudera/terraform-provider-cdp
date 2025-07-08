@@ -102,6 +102,7 @@ func TestToGcpEnvironmentRequestFreeIpa(t *testing.T) {
 	assert.Equal(t, freeIpaDetails.Catalog.ValueString(), result.Image.Catalog)
 	assert.Equal(t, freeIpaDetails.ImageID.ValueString(), result.Image.ID)
 	assert.Equal(t, freeIpaDetails.Os.ValueString(), result.Image.Os)
+	assert.Equal(t, freeIpaDetails.MultiAz.ValueBool(), *result.FreeIpa.MultiAz)
 }
 
 func TestToGcpEnvironmentResourceRootFields(t *testing.T) {
@@ -136,7 +137,7 @@ func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
 		"image_id":                types.StringValue("someImageId"),
 		"os":                      types.StringValue("someOs"),
 		"instances":               instances,
-		"multi_az":                types.BoolValue(false),
+		"multi_az":                types.BoolValue(true),
 	})
 	return &gcpEnvironmentResourceModel{
 		EnvironmentName: types.StringValue("someEnvironmentName"),

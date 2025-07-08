@@ -47,6 +47,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 			InstanceCountByGroup: trans.InstanceCountByGroup,
 			InstanceType:         trans.InstanceType,
 			Recipes:              trans.Recipes,
+			MultiAz:              &trans.MultiAz,
 		}
 		req.Image = img
 	}
@@ -65,6 +66,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 		}
 	}
 	req.Tags = ConvertGcpTags(ctx, model.Tags)
+	utils.LogSilently(ctx, "CreateGCPEnvironmentRequest has been created: ", req)
 	return req
 }
 
