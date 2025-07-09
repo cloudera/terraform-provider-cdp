@@ -30,7 +30,7 @@ func TestToGcpDatalakeResourceModel(t *testing.T) {
 			DatalakeName:               &name,
 			EnableRangerRaz:            false,
 			EnvironmentCrn:             "envCrn",
-			MultiAz:                    false,
+			MultiAz:                    true,
 			Status:                     "some cool status",
 			StatusReason:               "some more cole reason",
 		},

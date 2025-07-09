@@ -45,6 +45,7 @@ func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) 
 	req.DatalakeName = model.DatalakeName.ValueStringPointer()
 	req.EnableRangerRaz = model.EnableRangerRaz.ValueBool()
 	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	req.MultiAz = model.MultiAz.ValueBoolPointer()
 	if model.Image != nil {
 		req.Image = &datalakemodels.ImageRequest{
 			CatalogName: model.Image.CatalogName.ValueStringPointer(),
