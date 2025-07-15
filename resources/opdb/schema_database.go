@@ -18,7 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int32default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int32planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
@@ -117,15 +116,15 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 					Optional:            true,
 					MarkdownDescription: "The target value of the metric a user expect to maintain for the cluster",
 				},
-				"max_workers_for_database": schema.Int64Attribute{
+				"max_workers_for_database": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "Maximum number of worker nodes as per this metrics can be scaled up to.",
 				},
-				"max_workers_per_batch": schema.Int64Attribute{
+				"max_workers_per_batch": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "Maximum number of worker nodes as per this metrics can be scaled up to in one batch.",
 				},
-				"min_workers_for_database": schema.Int64Attribute{
+				"min_workers_for_database": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "Minimum number of worker nodes as per this metrics can be scaled down to.",
 				},
@@ -133,27 +132,27 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 					Optional:            true,
 					MarkdownDescription: "Period of metrics(in seconds) needs to be considered.",
 				},
-				"minimum_block_cache_gb": schema.Int64Attribute{
+				"minimum_block_cache_gb": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "The amount of block cache, in Gigabytes, which the database should have.",
 				},
-				"max_hdfs_usage_percentage": schema.Int64Attribute{
+				"max_hdfs_usage_percentage": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "The maximum percentage of HDFS utilization for the database before we trigger the scaling. It is only available in the BETA api.",
 				},
-				"max_regions_per_region_server": schema.Int64Attribute{
+				"max_regions_per_region_server": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "The maximum number of regions per region server. It is only available in the BETA api.",
 				},
-				"max_cpu_utilization": schema.Int64Attribute{
+				"max_cpu_utilization": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "The maximum percentage threshold for the CPU utilization of the worker nodes. The CPU utilization is obtained from the Cloudera Manager metric ‘cpu_percent’ across worker nodes. Set 100 or more to disable the CPU metrics. It is only available in the BETA api.",
 				},
-				"max_compute_nodes_for_database": schema.Int64Attribute{
+				"max_compute_nodes_for_database": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "The maximum number of compute nodes, as per these metrics, that can be scaled up to. It is only available in the BETA api.",
 				},
-				"min_compute_nodes_for_database": schema.Int64Attribute{
+				"min_compute_nodes_for_database": schema.Int32Attribute{
 					Optional:            true,
 					MarkdownDescription: "The minimum number of compute nodes, as per these metrics, that can be scaled down to. It is only available in the BETA api.",
 				},
@@ -166,17 +165,17 @@ func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				objectplanmodifier.RequiresReplace(),
 			},
 			Attributes: map[string]schema.Attribute{
-				"volume_count": schema.Int64Attribute{
+				"volume_count": schema.Int32Attribute{
 					Optional:            true,
 					Computed:            true,
 					MarkdownDescription: "The number of Volumes. Default is 4. Valid Range: Minimum value of 1, maximum value 8.",
-					Default:             int64default.StaticInt64(4),
+					Default:             int32default.StaticInt32(4),
 				},
-				"volume_size": schema.Int64Attribute{
+				"volume_size": schema.Int32Attribute{
 					Optional:            true,
 					Computed:            true,
 					MarkdownDescription: "The target size of the volume, in GiB. Default is 2048.",
-					Default:             int64default.StaticInt64(2048),
+					Default:             int32default.StaticInt32(2048),
 				},
 				"volume_type": schema.StringAttribute{
 					Optional:            true,
