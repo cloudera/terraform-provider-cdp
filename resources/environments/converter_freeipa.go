@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -64,12 +65,17 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 	ipaInstances, instDiags = types.SetValueFrom(ctx, FreeIpaInstanceType, instSet)
 	diags.Append(instDiags...)
 
+	instanceCount, countErr := ConvertIntToInt32IfPossible(len(ipaResp.Instances))
+	if countErr != nil {
+		diags.AddWarning(fmt.Sprintf("Unable to convert the numerical value of the length of the instances slice. Fallbacking to %d", ipaResp.InstanceCountByGroup), countErr.Error())
+		instanceCount = types.Int32Value(ipaResp.InstanceCountByGroup)
+	}
 	var ipaDiags diag.Diagnostics
 	*model, ipaDiags = types.ObjectValueFrom(ctx, FreeIpaDetailsType.AttrTypes, &FreeIpaDetails{
 		Catalog:              freeIpaDetails.Catalog,
 		ImageID:              freeIpaDetails.ImageID,
 		Os:                   freeIpaDetails.Os,
-		InstanceCountByGroup: types.Int32Value(ipaResp.InstanceCountByGroup),
+		InstanceCountByGroup: instanceCount,
 		InstanceType:         freeIpaDetails.InstanceType,
 		Instances:            ipaInstances,
 		MultiAz:              types.BoolValue(ipaResp.MultiAz),

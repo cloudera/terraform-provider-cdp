@@ -12,6 +12,8 @@ package environments
 
 import (
 	"context"
+	"fmt"
+	"math"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -53,4 +55,19 @@ func ConvertGcpTags(ctx context.Context, tagsIn types.Map) []*environmentsmodels
 		return tags
 	}
 	return nil
+}
+
+func ConvertIntToInt32IfPossible(value int) (basetypes.Int32Value, error) {
+	i32, err := safeIntToInt32(value)
+	if err != nil {
+		return basetypes.Int32Value{}, err
+	}
+	return types.Int32Value(i32), nil
+}
+
+func safeIntToInt32(n int) (int32, error) {
+	if n > math.MaxInt32 || n < math.MinInt32 {
+		return 0, fmt.Errorf("value %d out of int32 range", n)
+	}
+	return int32(n), nil
 }
