@@ -17,7 +17,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
@@ -134,8 +133,45 @@ func (r *gcpCredentialResource) Read(ctx context.Context, req resource.ReadReque
 	}
 }
 
-func (r *gcpCredentialResource) Update(ctx context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
-	tflog.Warn(ctx, "Update operation is not implemented yet.")
+func (r *gcpCredentialResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data gcpCredentialResourceModel
+	diags := req.Plan.Get(ctx, &data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	dec, err := base64.StdEncoding.DecodeString(data.CredentialKey.ValueString())
+
+	if err != nil {
+		diags.AddError("Unable to decode GCP credentials, please double check it.",
+			"Unable to decode GCP credential due to: "+err.Error())
+		return
+	}
+
+	credentialKey := string(dec)
+
+	params := operations.NewUpdateGCPCredentialParamsWithContext(ctx)
+	params.WithInput(&environmentsmodels.UpdateGCPCredentialRequest{
+		CredentialName: data.CredentialName.ValueStringPointer(),
+		Description:    data.Description.ValueString(),
+		CredentialKey:  &credentialKey,
+	})
+
+	responseOk, err := r.client.Environments.Operations.UpdateGCPCredential(params)
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "updating GCP Credential")
+		return
+	}
+
+	data.Crn = types.StringPointerValue(responseOk.Payload.Credential.Crn)
+	data.ID = data.Crn
+
+	diags = resp.State.Set(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
 func (r *gcpCredentialResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
