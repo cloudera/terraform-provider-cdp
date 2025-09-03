@@ -57,7 +57,7 @@ var FreeIpaDetailsType = types.ObjectType{
 		"catalog":                 types.StringType,
 		"image_id":                types.StringType,
 		"os":                      types.StringType,
-		"instance_count_by_group": types.Int64Type,
+		"instance_count_by_group": types.Int32Type,
 		"instance_type":           types.StringType,
 		"instances": types.SetType{
 			ElemType: FreeIpaInstanceType,
