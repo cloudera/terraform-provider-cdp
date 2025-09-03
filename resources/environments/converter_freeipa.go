@@ -65,10 +65,18 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 	ipaInstances, instDiags = types.SetValueFrom(ctx, FreeIpaInstanceType, instSet)
 	diags.Append(instDiags...)
 
-	instanceCount, countErr := ConvertIntToInt32IfPossible(len(ipaResp.Instances))
-	if countErr != nil {
-		diags.AddWarning(fmt.Sprintf("Unable to convert the numerical value of the length of the instances slice. Fallbacking to %d", ipaResp.InstanceCountByGroup), countErr.Error())
-		instanceCount = types.Int32Value(ipaResp.InstanceCountByGroup)
+	var instanceCount basetypes.Int32Value
+	if val, ok := model.Attributes()["instance_count_by_group"]; ok {
+		if val.IsNull() {
+			var countErr error
+			instanceCount, countErr = ConvertIntToInt32IfPossible(len(ipaResp.Instances))
+			if countErr != nil {
+				diags.AddWarning(fmt.Sprintf("Unable to convert the numerical value of the length of the instances slice. Fallbacking to %d", ipaResp.InstanceCountByGroup), countErr.Error())
+				instanceCount = types.Int32Value(ipaResp.InstanceCountByGroup)
+			}
+		} else {
+			instanceCount = val.(basetypes.Int32Value)
+		}
 	}
 	var ipaDiags diag.Diagnostics
 	*model, ipaDiags = types.ObjectValueFrom(ctx, FreeIpaDetailsType.AttrTypes, &FreeIpaDetails{
