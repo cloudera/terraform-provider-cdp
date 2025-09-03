@@ -31,10 +31,20 @@ import (
 var (
 	_ resource.ResourceWithConfigure   = &azureDatalakeResource{}
 	_ resource.ResourceWithImportState = &azureDatalakeResource{}
+	_ resource.ResourceWithModifyPlan  = &azureDatalakeResource{}
 )
 
 type azureDatalakeResource struct {
 	client *cdp.Client
+}
+
+func (r *azureDatalakeResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	if !req.State.Raw.IsNull() {
+		resp.Diagnostics.AddError(
+			"Resource Update Considerations",
+			"Due to provider limitations of this technical preview, modifications are not possible. "+
+				"Use the web interface or the CLI to update this resource.")
+	}
 }
 
 func (r *azureDatalakeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
