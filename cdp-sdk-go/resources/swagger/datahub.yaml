@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.135 (BETA)
+  version: 0.9.143 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -1518,6 +1518,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datahub/migrateSkus:
+    post:
+      summary: Migrate Data Hub cluster SKUs.
+      description: Migrate Data Hub cluster SKUs.
+      operationId: migrateSkus
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MigrateSkusRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/MigrateSkusResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -2851,6 +2872,9 @@ definitions:
         type: integer
         format: int32
         description: Configure the major version of Java on the cluster.
+      architecture:
+        type: string
+        description: Specifies the CPU architecture of the cluster. Values are ARM64, X86_64.
       security:
         $ref: '#/definitions/SecurityRequest'
         description: Security related configurations for Data Hub clusters.
@@ -3378,6 +3402,16 @@ definitions:
         type: integer
         format: int32
         description: The desired number of instances in the instance group.
+      preferredSubnetIds:
+        type: array
+        items:
+          type: string
+        description: The preferred subnet IDs for the scaling cluster (only for AWS).
+      preferredZones:
+        type: array
+        items:
+          type: string
+        description: The preferred zones for the scaling cluster (only for Azure and Google Cloud).
   ScaleClusterResponse:
     type: object
     description: Response object for scale cluster request.
@@ -5208,3 +5242,22 @@ definitions:
         enum:
           - PERMISSIVE
           - ENFORCING
+  MigrateSkusRequest:
+    type: object
+    description: Request object for migrating SKUs.
+    required:
+      - clusterName
+    properties:
+      clusterName:
+        type: string
+        description: The name or CRN of the Data Hub.
+      force:
+        type: boolean
+        description: Skips checking cloud resource SKUs before the migration.
+  MigrateSkusResponse:
+    type: object
+    description: Response object for migrating SKUs.
+    properties:
+      operationId:
+        type: string
+        description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.

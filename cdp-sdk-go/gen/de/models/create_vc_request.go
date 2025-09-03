@@ -74,6 +74,10 @@ type CreateVcRequest struct {
 	// Spark configs that will be applied to all the spark jobs inside a virtual cluster.
 	SparkConfigs map[string]string `json:"sparkConfigs,omitempty"`
 
+	// Spark os name for the virtual cluster. Currently supported types are SECURITYHARDENED(chainguard) and REDHAT(will be deprecated, and we will use INSECURE). The default value is SECURITYHARDENED.
+	// Enum: ["SECURITYHARDENED","REDHAT"]
+	SparkOSName string `json:"sparkOSName,omitempty"`
+
 	// Spark version for the virtual cluster. Currently supported Spark versions are SPARK2(deprecated), SPARK3, SPARK3_3 and SPARK3_5. This feature is only supported in CDE-1.7.0 and later. SPARK3_3 is supported in CDE-1.19 and later. SPARK3_5 is supported in CDE-1.21 and later.
 	// Enum: ["SPARK2","SPARK2_4","SPARK3","SPARK3_0","SPARK3_1","SPARK3_2","SPARK3_3","SPARK3_5"]
 	SparkVersion string `json:"sparkVersion,omitempty"`
@@ -118,6 +122,10 @@ func (m *CreateVcRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateSMTPConfigs(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSparkOSName(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -253,6 +261,48 @@ func (m *CreateVcRequest) validateSMTPConfigs(formats strfmt.Registry) error {
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var createVcRequestTypeSparkOSNamePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["SECURITYHARDENED","REDHAT"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createVcRequestTypeSparkOSNamePropEnum = append(createVcRequestTypeSparkOSNamePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateVcRequestSparkOSNameSECURITYHARDENED captures enum value "SECURITYHARDENED"
+	CreateVcRequestSparkOSNameSECURITYHARDENED string = "SECURITYHARDENED"
+
+	// CreateVcRequestSparkOSNameREDHAT captures enum value "REDHAT"
+	CreateVcRequestSparkOSNameREDHAT string = "REDHAT"
+)
+
+// prop value enum
+func (m *CreateVcRequest) validateSparkOSNameEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createVcRequestTypeSparkOSNamePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateVcRequest) validateSparkOSName(formats strfmt.Registry) error {
+	if swag.IsZero(m.SparkOSName) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateSparkOSNameEnum("sparkOSName", "body", m.SparkOSName); err != nil {
+		return err
 	}
 
 	return nil

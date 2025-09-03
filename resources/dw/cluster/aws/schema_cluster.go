@@ -167,11 +167,6 @@ var instanceSettings = map[string]schema.Attribute{
 		Default:             booldefault.StaticBool(false),
 		MarkdownDescription: "Whether to use spot instances for worker nodes.",
 	},
-	"compute_instance_types": schema.ListAttribute{
-		Optional:            true,
-		ElementType:         types.StringType,
-		MarkdownDescription: "The compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed.",
-	},
 	"additional_instance_types": schema.ListAttribute{
 		Optional:            true,
 		ElementType:         types.StringType,

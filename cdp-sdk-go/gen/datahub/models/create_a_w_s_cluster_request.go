@@ -20,6 +20,9 @@ import (
 // swagger:model CreateAWSClusterRequest
 type CreateAWSClusterRequest struct {
 
+	// Specifies the CPU architecture of the cluster. Values are ARM64, X86_64.
+	Architecture string `json:"architecture,omitempty"`
+
 	// The name or CRN of the cluster definition to use for cluster creation.
 	ClusterDefinition string `json:"clusterDefinition,omitempty"`
 

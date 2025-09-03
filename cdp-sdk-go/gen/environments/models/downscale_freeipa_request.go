@@ -24,6 +24,9 @@ type DownscaleFreeipaRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Force the downscale regardless of the status of the FreeIPA nodes and skip some validations.
+	Force *bool `json:"force,omitempty"`
+
 	// The instance Ids to downscale.
 	Instances []string `json:"instances"`
 

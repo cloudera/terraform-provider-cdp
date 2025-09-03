@@ -2065,6 +2065,79 @@ func (_c *MockIamClientService_DisableClouderaSSOLogin_Call) RunAndReturn(run fu
 	return _c
 }
 
+// DisableUserWorkloadPasswordChangedNotifications provides a mock function with given fields: params, opts
+func (_m *MockIamClientService) DisableUserWorkloadPasswordChangedNotifications(params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DisableUserWorkloadPasswordChangedNotifications")
+	}
+
+	var r0 *operations.DisableUserWorkloadPasswordChangedNotificationsOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.DisableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.DisableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) *operations.DisableUserWorkloadPasswordChangedNotificationsOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DisableUserWorkloadPasswordChangedNotificationsOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.DisableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DisableUserWorkloadPasswordChangedNotifications'
+type MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call struct {
+	*mock.Call
+}
+
+// DisableUserWorkloadPasswordChangedNotifications is a helper method to define mock.On call
+//   - params *operations.DisableUserWorkloadPasswordChangedNotificationsParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DisableUserWorkloadPasswordChangedNotifications(params interface{}, opts ...interface{}) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
+	return &MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call{Call: _e.mock.On("DisableUserWorkloadPasswordChangedNotifications",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call) Run(run func(params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.DisableUserWorkloadPasswordChangedNotificationsParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call) Return(_a0 *operations.DisableUserWorkloadPasswordChangedNotificationsOK, _a1 error) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call) RunAndReturn(run func(*operations.DisableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error)) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // EnableClouderaSSOLogin provides a mock function with given fields: params, opts
 func (_m *MockIamClientService) EnableClouderaSSOLogin(params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.EnableClouderaSSOLoginOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -2134,6 +2207,79 @@ func (_c *MockIamClientService_EnableClouderaSSOLogin_Call) Return(_a0 *operatio
 }
 
 func (_c *MockIamClientService_EnableClouderaSSOLogin_Call) RunAndReturn(run func(*operations.EnableClouderaSSOLoginParams, ...operations.ClientOption) (*operations.EnableClouderaSSOLoginOK, error)) *MockIamClientService_EnableClouderaSSOLogin_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// EnableUserWorkloadPasswordChangedNotifications provides a mock function with given fields: params, opts
+func (_m *MockIamClientService) EnableUserWorkloadPasswordChangedNotifications(params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for EnableUserWorkloadPasswordChangedNotifications")
+	}
+
+	var r0 *operations.EnableUserWorkloadPasswordChangedNotificationsOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.EnableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.EnableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) *operations.EnableUserWorkloadPasswordChangedNotificationsOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.EnableUserWorkloadPasswordChangedNotificationsOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.EnableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'EnableUserWorkloadPasswordChangedNotifications'
+type MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call struct {
+	*mock.Call
+}
+
+// EnableUserWorkloadPasswordChangedNotifications is a helper method to define mock.On call
+//   - params *operations.EnableUserWorkloadPasswordChangedNotificationsParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) EnableUserWorkloadPasswordChangedNotifications(params interface{}, opts ...interface{}) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
+	return &MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call{Call: _e.mock.On("EnableUserWorkloadPasswordChangedNotifications",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call) Run(run func(params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.EnableUserWorkloadPasswordChangedNotificationsParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call) Return(_a0 *operations.EnableUserWorkloadPasswordChangedNotificationsOK, _a1 error) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call) RunAndReturn(run func(*operations.EnableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error)) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
 	_c.Call.Return(run)
 	return _c
 }

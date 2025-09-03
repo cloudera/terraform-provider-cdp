@@ -5,7 +5,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.135 (BETA)
+  version: 0.9.143 (BETA)
   title: Cloudera Data Engineering
   license:
     name: Apache 2.0
@@ -462,6 +462,50 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/de/suspendResumeService:
+    post:
+      summary: Trigger a particular step of the suspend/resume process.
+      description: Trigger a particular step of the multi-step suspend/resume service process.
+      operationId: suspendResumeService
+      x-mutating: true
+      x-form-factors: public
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SuspendResumeServiceRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SuspendResumeServiceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/getSuspendResumeStatus:
+    post:
+      summary: Get CDE Service Suspend Resume Status.
+      description: The current status of the CDE Service suspend/resume process. After a particular step triggered by suspend-resume-service is completed, nextStep would point to the next step to take. If all the steps are completed, allStepsCompleted would be true.
+      operationId: getSuspendResumeStatus
+      x-mutating: false
+      x-form-factors: public
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetSuspendResumeStatusRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetSuspendResumeStatusResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -717,6 +761,9 @@ definitions:
       sparkVersion:
         type: string
         description: Spark version for the virtual cluster.
+      sparkOSName:
+        type: string
+        description: Spark os name for the virtual cluster.
       chartValueOverrides:
         type: array
         items:
@@ -1392,6 +1439,12 @@ definitions:
           - SPARK3_2
           - SPARK3_3
           - SPARK3_5
+      sparkOSName:
+        type: string
+        description: Spark os name for the virtual cluster. Currently supported types are SECURITYHARDENED(chainguard) and REDHAT(will be deprecated, and we will use INSECURE). The default value is SECURITYHARDENED.
+        enum:
+          - SECURITYHARDENED
+          - REDHAT
       vcTier:
         type: string
         description: Tier of the virtual cluster. Currently supported tiers are CORE and ALLP. CORE tiered virtual cluster enables operational deployment via batch jobs. ALLP virtual clusters are all-purpose virtual clusters supporting both operational batch jobs and interactive sessions. This feature is only supported in CDE-1.19.0 and beyond.
@@ -1861,3 +1914,57 @@ definitions:
       serviceID:
         type: string
         description: The ID of the service being restored.
+  SuspendResumeServiceRequest:
+    type: object
+    description: Request object for suspending/resuming a service.
+    x-form-factors: public
+    required:
+      - clusterId
+      - step
+    properties:
+      clusterId:
+        type: string
+        description: Cluster ID of the service to suspend/resume.
+      step:
+        type: string
+        description: The particular step to be performed. Use get-suspend-resume-status to know what is the next step to take.
+        enum:
+          - PREPARE
+          - SUSPEND
+          - RESUME
+          - QUIT
+      message:
+        type: string
+        description: Reason for suspending the service. This is needed only with PREPARE step.
+  SuspendResumeServiceResponse:
+    type: object
+    description: Response object for SuspendResumeService request.
+    x-form-factors: public
+    properties:
+      status:
+        type: string
+        description: The status message of suspend/resume operation.
+  GetSuspendResumeStatusRequest:
+    type: object
+    description: Request object for GetSuspendResumeStatus method.
+    x-form-factors: public
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster ID of the service.
+  GetSuspendResumeStatusResponse:
+    type: object
+    description: Response object for GetSuspendResumeStatus request.
+    x-form-factors: public
+    properties:
+      statusMessage:
+        type: string
+        description: The status of the suspend/resume operation.
+      nextStep:
+        type: string
+        description: The next step to take in the multi-step suspend/resume process.
+      allStepsCompleted:
+        type: boolean
+        description: Indicates if all steps in the multi-step suspend/resume process were successfully completed.

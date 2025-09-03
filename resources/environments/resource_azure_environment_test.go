@@ -190,6 +190,7 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			}),
 			"freeipa": tftypes.NewValue(FreeIpaDetailsObject, map[string]tftypes.Value{
 				"catalog":                 tftypes.NewValue(tftypes.String, ""),
+				"architecture":            tftypes.NewValue(tftypes.String, ""),
 				"image_id":                tftypes.NewValue(tftypes.String, ""),
 				"os":                      tftypes.NewValue(tftypes.String, ""),
 				"instance_count_by_group": tftypes.NewValue(tftypes.Number, 0),

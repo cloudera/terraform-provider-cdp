@@ -59,7 +59,6 @@ func (s *DwClusterModelTestSuite) TestConvertToCreateAwsClusterRequest() {
 	s.Equal(models2.CustomRegistryOptions{RegistryType: "", RepositoryURL: ""}, *awsCluster.CustomRegistryOptions)
 	s.Equal(false, *awsCluster.EnableSpotInstances)
 	s.Equal("", awsCluster.CustomAmiID)
-	s.Equal([]string{}, awsCluster.ComputeInstanceTypes)
 }
 
 func (s *DwClusterModelTestSuite) TestGetPollingTimeout() {

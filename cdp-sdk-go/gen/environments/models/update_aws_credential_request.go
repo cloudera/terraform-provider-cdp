@@ -23,6 +23,9 @@ type UpdateAwsCredentialRequest struct {
 	// Required: true
 	CredentialName *string `json:"credentialName"`
 
+	// The default region for the Credential to be used during API interactions.
+	DefaultRegion string `json:"defaultRegion,omitempty"`
+
 	// A description for the credential.
 	Description string `json:"description,omitempty"`
 

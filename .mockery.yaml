@@ -9,7 +9,6 @@
 # permissions and limitations governing your use of the file.
 
 quiet: False
-keeptree: True
 disable-version-string: True
 with-expecter: True
 mockname: "{{.InterfaceName}}"

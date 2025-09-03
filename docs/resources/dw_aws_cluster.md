@@ -46,7 +46,6 @@ resource "cdp_dw_aws_cluster" "example" {
   instance_settings = {
     custom_ami_id             = ""
     enable_spot_instances     = false
-    compute_instance_types    = ["<value>"]
     additional_instance_types = ["<value>"]
   }
 }
@@ -122,7 +121,6 @@ Required:
 Optional:
 
 - `additional_instance_types` (List of String) The additional instance types that the environment is allowed to use, listed in their priority order. They will be used instead of the primary compute instance type in case it is unavailable. You cannot include any instance type that was already indicated in computeInstanceTypes.
-- `compute_instance_types` (List of String) The compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed.
 - `custom_ami_id` (String) The custom AMI ID to use for worker nodes.
 - `enable_spot_instances` (Boolean) Whether to use spot instances for worker nodes.
 

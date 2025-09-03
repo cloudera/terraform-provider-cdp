@@ -62,6 +62,13 @@ var FreeIpaSchema = schema.SingleNestedAttribute{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
+		"architecture": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "CPU architecture of the freeipa instance. Can be either X86_64 or ARM64.",
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
 		"instances": schema.SetNestedAttribute{
 			Computed: true,
 			PlanModifiers: []planmodifier.Set{

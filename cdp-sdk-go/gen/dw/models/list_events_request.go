@@ -20,13 +20,13 @@ type ListEventsRequest struct {
 	// Provide the result in ascending order, default is descending.
 	Ascending *bool `json:"ascending,omitempty"`
 
-	// Limit the number of returned rows. If not specified then the recent 20 events will be returned. The maximum is 100.
+	// Limit the number of returned rows. If not specified then the recent 20 events will be returned. The maximum is 500.
 	Limit int32 `json:"limit,omitempty"`
 
-	// Filter events based on the operation ID. Either operation ID or service ID is required.
+	// Filters events based on the operation ID. Either operation ID or service ID is required.
 	OperationID string `json:"operationId,omitempty"`
 
-	// Filter events based on the service ID. It can be Cluster ID, Database Catalog ID, Virtual Warehouse ID or Data Visualization App ID.
+	// Filters events based on the service ID. It can be Cluster ID, Database Catalog ID, Virtual Warehouse ID or Data Visualization App ID.
 	ServiceID string `json:"serviceId,omitempty"`
 }
 

@@ -30,6 +30,7 @@ var FreeIpaDetailsObject = tftypes.Object{
 		"recipes": tftypes.Set{
 			ElementType: tftypes.String,
 		},
+		"architecture": tftypes.String,
 	},
 }
 
@@ -65,6 +66,7 @@ var FreeIpaDetailsType = types.ObjectType{
 		"recipes": types.SetType{
 			ElemType: types.StringType,
 		},
+		"architecture": types.StringType,
 	},
 }
 

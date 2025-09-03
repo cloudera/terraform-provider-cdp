@@ -22,10 +22,7 @@ type CreatePrivateClusterRequest struct {
 	// A certificate and private key pair belonging together for mutual SSL handshake when Database Catalog (aka DBC) connects to the metastore database.
 	DbClientCredentials *KeyPairCredentials `json:"dbClientCredentials,omitempty"`
 
-	// The name of the HUE database. Not required for embedded databases.
-	DbHue string `json:"dbHue,omitempty"`
-
-	// Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+	// DEPRECATED: As of 1.5.5, this feature flag can be set as an advanced configuration. Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
 	DedicatedExecutorNodes *bool `json:"dedicatedExecutorNodes,omitempty"`
 
 	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.
@@ -37,12 +34,6 @@ type CreatePrivateClusterRequest struct {
 	// The CRN of the environment for the cluster to create.
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
-
-	// The Resource Pool of the cluster.
-	ResourcePool string `json:"resourcePool,omitempty"`
-
-	// DEPRECATED: This option will be removed in future releases. Instead of creating a custom Security Context Constraint, we rely on the cluster default. The name of the Hive Security Context Constraint.
-	SecurityContextConstraintName string `json:"securityContextConstraintName,omitempty"`
 
 	// The storage class for the Local Storage Operator.
 	StorageClass string `json:"storageClass,omitempty"`

@@ -62,6 +62,9 @@ type DatalakeDetails struct {
 	// The GCP configuration.
 	GcpConfiguration *GCPConfiguration `json:"gcpConfiguration,omitempty"`
 
+	// The image details.
+	ImageDetails *ImageInfo `json:"imageDetails,omitempty"`
+
 	// The instance details.
 	InstanceGroups []*InstanceGroup `json:"instanceGroups"`
 
@@ -117,6 +120,10 @@ func (m *DatalakeDetails) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateGcpConfiguration(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImageDetails(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -267,6 +274,25 @@ func (m *DatalakeDetails) validateGcpConfiguration(formats strfmt.Registry) erro
 	return nil
 }
 
+func (m *DatalakeDetails) validateImageDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImageDetails) { // not required
+		return nil
+	}
+
+	if m.ImageDetails != nil {
+		if err := m.ImageDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageDetails")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *DatalakeDetails) validateInstanceGroups(formats strfmt.Registry) error {
 	if swag.IsZero(m.InstanceGroups) { // not required
 		return nil
@@ -383,6 +409,10 @@ func (m *DatalakeDetails) ContextValidate(ctx context.Context, formats strfmt.Re
 	}
 
 	if err := m.contextValidateGcpConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImageDetails(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -505,6 +535,27 @@ func (m *DatalakeDetails) contextValidateGcpConfiguration(ctx context.Context, f
 				return ve.ValidateName("gcpConfiguration")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("gcpConfiguration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *DatalakeDetails) contextValidateImageDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImageDetails != nil {
+
+		if swag.IsZero(m.ImageDetails) { // not required
+			return nil
+		}
+
+		if err := m.ImageDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageDetails")
 			}
 			return err
 		}

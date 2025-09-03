@@ -29,12 +29,18 @@ type FreeipaDetails struct {
 	// The hostname of the FreeIPA cluster.
 	Hostname string `json:"hostname,omitempty"`
 
+	// The image details.
+	ImageDetails *ImageInfo `json:"imageDetails,omitempty"`
+
 	// The number of FreeIPA instances to create per group when creating FreeIPA in environment.
 	InstanceCountByGroup int32 `json:"instanceCountByGroup,omitempty"`
 
 	// The instances of the FreeIPA cluster.
 	// Unique: true
 	Instances []*FreeIpaInstance `json:"instances"`
+
+	// Details of a FreeIPA load balancer.
+	LoadBalancer *FreeIpaLoadBalancer `json:"loadBalancer,omitempty"`
 
 	// Whether the given FreeIPA is deployed in a multi-availability zone way or not.
 	MultiAz bool `json:"multiAz,omitempty"`
@@ -51,7 +57,15 @@ type FreeipaDetails struct {
 func (m *FreeipaDetails) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateImageDetails(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateInstances(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateLoadBalancer(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -62,6 +76,25 @@ func (m *FreeipaDetails) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *FreeipaDetails) validateImageDetails(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImageDetails) { // not required
+		return nil
+	}
+
+	if m.ImageDetails != nil {
+		if err := m.ImageDetails.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageDetails")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -95,6 +128,25 @@ func (m *FreeipaDetails) validateInstances(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *FreeipaDetails) validateLoadBalancer(formats strfmt.Registry) error {
+	if swag.IsZero(m.LoadBalancer) { // not required
+		return nil
+	}
+
+	if m.LoadBalancer != nil {
+		if err := m.LoadBalancer.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("loadBalancer")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loadBalancer")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *FreeipaDetails) validateServerIP(formats strfmt.Registry) error {
 	if swag.IsZero(m.ServerIP) { // not required
 		return nil
@@ -111,13 +163,42 @@ func (m *FreeipaDetails) validateServerIP(formats strfmt.Registry) error {
 func (m *FreeipaDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateImageDetails(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateInstances(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLoadBalancer(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *FreeipaDetails) contextValidateImageDetails(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImageDetails != nil {
+
+		if swag.IsZero(m.ImageDetails) { // not required
+			return nil
+		}
+
+		if err := m.ImageDetails.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageDetails")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageDetails")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -141,6 +222,27 @@ func (m *FreeipaDetails) contextValidateInstances(ctx context.Context, formats s
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *FreeipaDetails) contextValidateLoadBalancer(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LoadBalancer != nil {
+
+		if swag.IsZero(m.LoadBalancer) { // not required
+			return nil
+		}
+
+		if err := m.LoadBalancer.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("loadBalancer")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loadBalancer")
+			}
+			return err
+		}
 	}
 
 	return nil

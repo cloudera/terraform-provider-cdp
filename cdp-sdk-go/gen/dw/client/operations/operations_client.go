@@ -74,6 +74,8 @@ type ClientService interface {
 
 	CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error)
 
+	CreateHue(params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error)
+
 	CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error)
 
 	CreateResourceTemplate(params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error)
@@ -93,6 +95,8 @@ type ClientService interface {
 	DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error)
 
 	DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error)
+
+	DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error)
 
 	DeleteResourceTemplate(params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error)
 
@@ -122,6 +126,8 @@ type ClientService interface {
 
 	DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error)
 
+	DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error)
+
 	DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error)
 
 	DescribeRestore(params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error)
@@ -135,6 +141,8 @@ type ClientService interface {
 	DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error)
 
 	GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error)
+
+	GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error)
 
 	GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error)
 
@@ -168,6 +176,8 @@ type ClientService interface {
 
 	ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error)
 
+	ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error)
+
 	ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error)
 
 	ListResourceTemplates(params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error)
@@ -186,6 +196,8 @@ type ClientService interface {
 
 	RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error)
 
+	RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error)
+
 	RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error)
 
 	RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error)
@@ -201,6 +213,8 @@ type ClientService interface {
 	RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error)
 
 	ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error)
+
+	StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error)
 
 	StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error)
 
@@ -222,6 +236,8 @@ type ClientService interface {
 
 	UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error)
 
+	UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error)
+
 	UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error)
 
 	UpdateResourceTemplate(params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error)
@@ -237,6 +253,8 @@ type ClientService interface {
 	UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error)
 
 	UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error)
+
+	UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error)
 
 	UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error)
 
@@ -634,6 +652,45 @@ func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobPa
 }
 
 /*
+CreateHue creates hue query editor in a c d w cluster
+
+Create Hue Query Editor in a CDW cluster.
+*/
+func (a *Client) CreateHue(params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateHueParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createHue",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createHue",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateHueReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateHueOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateHueDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 CreatePrivateCluster creates a a private cloud cluster in the cloudera data warehouse
 
 Create a Private Cloud cluster in the Cloudera Data Warehouse environment with the provided settings.
@@ -1020,6 +1077,45 @@ func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobPa
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DeleteDbcDiagnosticDataJobDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteHue asynchronous operation that deletes a hue query editor when the hue is in deleting state we can still use describe hue to check the status once it is deleted the describe hue would return a not found error
+
+Asynchronous operation that deletes a Hue Query Editor. When the Hue is in deleting state, we can still use describe-hue to check the status. Once it is deleted, the describe-hue would return a not found error.
+*/
+func (a *Client) DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteHueParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteHue",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/deleteHue",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteHueReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteHueOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteHueDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1570,6 +1666,45 @@ func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJ
 }
 
 /*
+DescribeHue describes a hue query editor
+
+Describes a Hue Query Editor.
+*/
+func (a *Client) DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeHueParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeHue",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/describeHue",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeHueReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeHueOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeHueDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 DescribeKubeconfig gets kubeconfig for a cloudera data warehouse cluster
 
 Get Kubeconfig for a Cloudera Data Warehouse cluster.
@@ -1839,6 +1974,45 @@ func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualization
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*GetDataVisualizationUpgradeVersionDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetHueUpgradeVersion gets latest version and latest compatible version for hue query editor
+
+Gets latest version and latest compatible version for Hue Query Editor.
+*/
+func (a *Client) GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetHueUpgradeVersionParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getHueUpgradeVersion",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/getHueUpgradeVersion",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetHueUpgradeVersionReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetHueUpgradeVersionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetHueUpgradeVersionDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2467,6 +2641,45 @@ func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*Li
 }
 
 /*
+ListHues lists hue query editors in the provided c d w cluster
+
+List Hue Query Editors in the provided CDW cluster.
+*/
+func (a *Client) ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewListHuesParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "listHues",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listHues",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListHuesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ListHuesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ListHuesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 ListLatestVersions lists the latest version of the product if available for all catalogs in the environment
 
 Lists the latest version of the product (if available) for all catalogs in the environment.
@@ -2818,6 +3031,45 @@ func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*Re
 }
 
 /*
+RebuildHue asynchronous operation that rebuilds a hue query editor keeping the same version
+
+Asynchronous operation that rebuilds a Hue Query Editor keeping the same version. Please use this feature for Hue Query Editors which are in inconsistent or erroneous state. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
+*/
+func (a *Client) RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRebuildHueParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rebuildHue",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/rebuildHue",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RebuildHueReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*RebuildHueOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*RebuildHueDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 RebuildVw rebuilds a virtual warehouse
 
 Rebuild a Virtual Warehouse. Please use this feature for Virtual Warehouses which are in inconsistent or erroneous state. Running/Stopped Virtual Warehouses are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
@@ -2937,7 +3189,7 @@ func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...
 /*
 RestartDbc restarts a database catalog
 
-Restart a Database Catalog.
+DEPRECATED: Use the stop-dbc / start-dbc commands instead. Restart a Database Catalog.
 */
 func (a *Client) RestartDbc(params *RestartDbcParams, opts ...ClientOption) (*RestartDbcOK, error) {
 	// TODO: Validate the params before sending
@@ -2976,7 +3228,7 @@ func (a *Client) RestartDbc(params *RestartDbcParams, opts ...ClientOption) (*Re
 /*
 RestartVw restarts a virtual warehouse
 
-Restart a Virtual Warehouse.
+DEPRECATED: Use the suspend-vw / start-vw commands instead. Restart a Virtual Warehouse.
 */
 func (a *Client) RestartVw(params *RestartVwParams, opts ...ClientOption) (*RestartVwOK, error) {
 	// TODO: Validate the params before sending
@@ -3126,6 +3378,45 @@ func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ResumeClusterDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+StartDbc starts a database catalog
+
+Start a Database Catalog.
+*/
+func (a *Client) StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewStartDbcParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "startDbc",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/startDbc",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &StartDbcReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*StartDbcOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*StartDbcDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3520,6 +3811,45 @@ func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOp
 }
 
 /*
+UpdateHue asynchronous operation that updates the configuration of a hue query editor the describe hue can be used at any time to get the latest status of a hue query editor
+
+Asynchronous operation that updates the configuration of a Hue Query Editor. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+*/
+func (a *Client) UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateHueParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateHue",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/updateHue",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateHueReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateHueOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateHueDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 UpdatePrivateCluster updates a private cloud pv c cluster in the cloudera data warehouse
 
 Update a Private Cloud cluster (PvC) in the Cloudera Data Warehouse with the provided settings.
@@ -3828,6 +4158,45 @@ func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*Up
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*UpgradeDbcDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpgradeHue asynchronous operation that upgrades a hue query editor to a compatible version the describe hue can be used at any time to get the latest status of a hue query editor
+
+Asynchronous operation that upgrades a Hue Query Editor to a compatible version. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+*/
+func (a *Client) UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpgradeHueParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "upgradeHue",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/upgradeHue",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpgradeHueReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpgradeHueOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpgradeHueDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

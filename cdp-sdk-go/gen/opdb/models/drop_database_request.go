@@ -26,6 +26,9 @@ type DropDatabaseRequest struct {
 	// environment name
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
+
+	// Whether to forcefully drop the database
+	Force bool `json:"force,omitempty"`
 }
 
 // Validate validates this drop database request

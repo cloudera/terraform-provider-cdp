@@ -104,6 +104,8 @@ type ClientService interface {
 
 	ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error)
 
+	MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
+
 	PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error)
 
 	RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error)
@@ -1139,6 +1141,45 @@ func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListRuntimesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+MigrateSkus migrates the data lake to a new s k u
+
+Migrate the Data Lake to a new SKU.
+*/
+func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMigrateSkusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "migrateSkus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/migrateSkus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MigrateSkusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MigrateSkusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*MigrateSkusDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

@@ -52,6 +52,9 @@ type CreatePrivateEnvironmentRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Set quota for resources in this Environment.
+	EnvironmentQuota *EnvironmentQuota `json:"environmentQuota,omitempty"`
+
 	// Name of credentials holding kubeconfig for access to the kubernetes cluster paired with this Environment.
 	KubeConfig string `json:"kubeConfig,omitempty"`
 
@@ -94,6 +97,10 @@ func (m *CreatePrivateEnvironmentRequest) Validate(formats strfmt.Registry) erro
 	}
 
 	if err := m.validateEnvironmentName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateEnvironmentQuota(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -201,6 +208,25 @@ func (m *CreatePrivateEnvironmentRequest) validateEnvironmentName(formats strfmt
 	return nil
 }
 
+func (m *CreatePrivateEnvironmentRequest) validateEnvironmentQuota(formats strfmt.Registry) error {
+	if swag.IsZero(m.EnvironmentQuota) { // not required
+		return nil
+	}
+
+	if m.EnvironmentQuota != nil {
+		if err := m.EnvironmentQuota.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("environmentQuota")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("environmentQuota")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *CreatePrivateEnvironmentRequest) validateUser(formats strfmt.Registry) error {
 
 	if err := validate.Required("user", "body", m.User); err != nil {
@@ -215,6 +241,10 @@ func (m *CreatePrivateEnvironmentRequest) ContextValidate(ctx context.Context, f
 	var res []error
 
 	if err := m.contextValidateDockerUserPass(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEnvironmentQuota(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -237,6 +267,27 @@ func (m *CreatePrivateEnvironmentRequest) contextValidateDockerUserPass(ctx cont
 				return ve.ValidateName("dockerUserPass")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("dockerUserPass")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *CreatePrivateEnvironmentRequest) contextValidateEnvironmentQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.EnvironmentQuota != nil {
+
+		if swag.IsZero(m.EnvironmentQuota) { // not required
+			return nil
+		}
+
+		if err := m.EnvironmentQuota.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("environmentQuota")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("environmentQuota")
 			}
 			return err
 		}
