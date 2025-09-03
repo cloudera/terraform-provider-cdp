@@ -26,6 +26,7 @@ import (
 var (
 	_ resource.ResourceWithConfigure   = &gcpEnvironmentResource{}
 	_ resource.ResourceWithImportState = &gcpEnvironmentResource{}
+	_ resource.ResourceWithModifyPlan  = &gcpEnvironmentResource{}
 )
 
 type gcpEnvironmentResource struct {
@@ -50,6 +51,15 @@ func (r *gcpEnvironmentResource) Metadata(ctx context.Context, req resource.Meta
 
 func (r *gcpEnvironmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *gcpEnvironmentResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	if !req.State.Raw.IsNull() {
+		resp.Diagnostics.AddWarning(
+			"Resource Update Considerations",
+			"Due to provider limitations of this technical preview resource modifications are limited to enabling compute clusters. "+
+				"Use the web interface or the CLI to update this resource.")
+	}
 }
 
 func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
