@@ -28,6 +28,8 @@ type FreeIpaDetails struct {
 	MultiAz types.Bool `tfsdk:"multi_az"`
 
 	Recipes types.Set `tfsdk:"recipes"`
+
+	Architecture types.String `tfsdk:"architecture"`
 }
 
 type FreeIpaInstance struct {

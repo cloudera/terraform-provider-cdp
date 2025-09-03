@@ -23,7 +23,7 @@ type UpdatePrivateClusterRequest struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
-	// Set it true to enable dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserve nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+	// DEPRECATED: As of 1.5.5, this feature flag can be set as an advanced configuration. Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
 	DedicatedExecutorNodes bool `json:"dedicatedExecutorNodes,omitempty"`
 
 	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.
@@ -34,9 +34,6 @@ type UpdatePrivateClusterRequest struct {
 
 	// Cluster description.
 	Description string `json:"description,omitempty"`
-
-	// Used to set the resource pool of the Private Cloud Data Services clusters that are not enrolled for quota management.
-	ResourcePool string `json:"resourcePool,omitempty"`
 }
 
 // Validate validates this update private cluster request

@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -26,6 +27,9 @@ type AwsOptionsResponse struct {
 	// IDs of AWS subnets where the cluster load balancer should be deployed.
 	LbSubnetIds []string `json:"lbSubnetIds"`
 
+	// Non-transparent proxy settings.
+	NonTransparentProxy *AwsOptionsNonTransparentProxyResponse `json:"nonTransparentProxy,omitempty"`
+
 	// Denotes whether the Reduced Permission mode is enabled.
 	ReducedPermissionMode bool `json:"reducedPermissionMode,omitempty"`
 
@@ -38,11 +42,69 @@ type AwsOptionsResponse struct {
 
 // Validate validates this aws options response
 func (m *AwsOptionsResponse) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateNonTransparentProxy(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this aws options response based on context it is used
+func (m *AwsOptionsResponse) validateNonTransparentProxy(formats strfmt.Registry) error {
+	if swag.IsZero(m.NonTransparentProxy) { // not required
+		return nil
+	}
+
+	if m.NonTransparentProxy != nil {
+		if err := m.NonTransparentProxy.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("nonTransparentProxy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nonTransparentProxy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this aws options response based on the context it is used
 func (m *AwsOptionsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateNonTransparentProxy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AwsOptionsResponse) contextValidateNonTransparentProxy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.NonTransparentProxy != nil {
+
+		if swag.IsZero(m.NonTransparentProxy) { // not required
+			return nil
+		}
+
+		if err := m.NonTransparentProxy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("nonTransparentProxy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nonTransparentProxy")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

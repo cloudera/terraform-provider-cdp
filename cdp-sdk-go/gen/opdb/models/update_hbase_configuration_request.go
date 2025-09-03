@@ -28,8 +28,7 @@ type UpdateHbaseConfigurationRequest struct {
 	ConfigurationType *ConfigurationType `json:"configurationType"`
 
 	// The new value of the configuration being updated.
-	// Required: true
-	ConfigurationValue *string `json:"configurationValue"`
+	ConfigurationValue string `json:"configurationValue,omitempty"`
 
 	// The name or CRN of the database.
 	// Required: true
@@ -38,6 +37,15 @@ type UpdateHbaseConfigurationRequest struct {
 	// The name or CRN of the environment.
 	// Required: true
 	Environment *string `json:"environment"`
+
+	// The name of safety valve item to set under configurationName.
+	SetSafetyValveItemName string `json:"setSafetyValveItemName,omitempty"`
+
+	// The value of safety valve item to set under configurationName.
+	SetSafetyValveItemValue string `json:"setSafetyValveItemValue,omitempty"`
+
+	// The name of safety valve item to unset under configurationName.
+	UnsetSafetyValveItemName string `json:"unsetSafetyValveItemName,omitempty"`
 }
 
 // Validate validates this update hbase configuration request
@@ -49,10 +57,6 @@ func (m *UpdateHbaseConfigurationRequest) Validate(formats strfmt.Registry) erro
 	}
 
 	if err := m.validateConfigurationType(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateConfigurationValue(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -98,15 +102,6 @@ func (m *UpdateHbaseConfigurationRequest) validateConfigurationType(formats strf
 			}
 			return err
 		}
-	}
-
-	return nil
-}
-
-func (m *UpdateHbaseConfigurationRequest) validateConfigurationValue(formats strfmt.Registry) error {
-
-	if err := validate.Required("configurationValue", "body", m.ConfigurationValue); err != nil {
-		return err
 	}
 
 	return nil

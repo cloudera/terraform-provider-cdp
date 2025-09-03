@@ -30,6 +30,12 @@ type ScaleClusterRequest struct {
 	// The name of the instance group which needs to be scaled.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
+
+	// The preferred subnet IDs for the scaling cluster (only for AWS).
+	PreferredSubnetIds []string `json:"preferredSubnetIds"`
+
+	// The preferred zones for the scaling cluster (only for Azure and Google Cloud).
+	PreferredZones []string `json:"preferredZones"`
 }
 
 // Validate validates this scale cluster request

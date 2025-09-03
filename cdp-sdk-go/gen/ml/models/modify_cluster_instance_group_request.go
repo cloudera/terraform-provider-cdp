@@ -35,6 +35,9 @@ type ModifyClusterInstanceGroupRequest struct {
 	// Required: true
 	Min *int32 `json:"min"`
 
+	// The unique name for the instance or resource group of the workbench.
+	Name string `json:"name,omitempty"`
+
 	// The CRN of the workbench cluster to modify.
 	// Required: true
 	WorkspaceCrn *string `json:"workspaceCrn"`

@@ -140,6 +140,8 @@ type ClientService interface {
 
 	ListScalingActivities(params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error)
 
+	MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
+
 	PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error)
 
 	RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
@@ -1873,6 +1875,45 @@ func (a *Client) ListScalingActivities(params *ListScalingActivitiesParams, opts
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ListScalingActivitiesDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+MigrateSkus migrates data hub cluster s k us
+
+Migrate Data Hub cluster SKUs.
+*/
+func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMigrateSkusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "migrateSkus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/migrateSkus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MigrateSkusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MigrateSkusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*MigrateSkusDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

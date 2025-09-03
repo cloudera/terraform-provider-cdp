@@ -66,6 +66,9 @@ type VcDescription struct {
 	// Spark configs that will be applied to all the spark jobs inside a virtual cluster.
 	SparkConfigs map[string]string `json:"sparkConfigs,omitempty"`
 
+	// Spark os name for the virtual cluster.
+	SparkOSName string `json:"sparkOSName,omitempty"`
+
 	// Spark version for the virtual cluster.
 	SparkVersion string `json:"sparkVersion,omitempty"`
 

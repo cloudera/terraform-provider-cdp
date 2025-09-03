@@ -38,7 +38,6 @@ type customRegistryOptions struct {
 type instanceResourceModel struct {
 	CustomAmiID             types.String `tfsdk:"custom_ami_id"`
 	EnableSpotInstances     types.Bool   `tfsdk:"enable_spot_instances"`
-	ComputeInstanceTypes    types.List   `tfsdk:"compute_instance_types"`
 	AdditionalInstanceTypes types.List   `tfsdk:"additional_instance_types"`
 }
 
@@ -74,7 +73,6 @@ func (p *resourceModel) convertToCreateAwsClusterRequest() *models.CreateAwsClus
 		CustomRegistryOptions:            p.getCustomRegistryOptions(),
 		EnableSpotInstances:              p.getEnableSpotInstances(),
 		CustomAmiID:                      p.getCustomAmiID(),
-		ComputeInstanceTypes:             p.getComputeInstanceTypes(),
 		EnablePrivateEKS:                 p.NetworkSettings.EnablePrivateEks.ValueBoolPointer(),
 	}
 }
@@ -91,13 +89,6 @@ func (p *resourceModel) getCustomAmiID() string {
 		return p.InstanceSettings.CustomAmiID.ValueString()
 	}
 	return ""
-}
-
-func (p *resourceModel) getComputeInstanceTypes() []string {
-	if i := p.InstanceSettings; i != nil {
-		return utils.FromListValueToStringList(p.InstanceSettings.ComputeInstanceTypes)
-	}
-	return nil
 }
 
 func (p *resourceModel) getCustomRegistryOptions() *models.CustomRegistryOptions {

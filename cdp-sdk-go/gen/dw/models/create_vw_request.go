@@ -65,6 +65,9 @@ type CreateVwRequest struct {
 	// Instance type for this Virtual Warehouse. To learn what instance types are allowed to be used for a Hive or an Impala Virtual Warehouse, please use the 'describe-allowed-instance-types' command. The command output will list the usable instance types in its 'hive' and 'impala' fields accordingly.
 	InstanceType string `json:"instanceType,omitempty"`
 
+	// Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine.
+	LogHiveQueries *bool `json:"logHiveQueries,omitempty"`
+
 	// Name of the Virtual Warehouse.
 	// Required: true
 	Name *string `json:"name"`

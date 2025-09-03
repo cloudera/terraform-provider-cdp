@@ -26,6 +26,9 @@ type CreateMlServingAppRequest struct {
 	// The cluster CRN of an existing cluster where Cloudera AI Inference Service instance will be deployed.
 	ClusterCrn string `json:"clusterCrn,omitempty"`
 
+	// The boolean flag to enable fine-grained access control. By default, this flag is disabled.
+	EnableFineGrainedAccessControl bool `json:"enableFineGrainedAccessControl,omitempty"`
+
 	// The environment CRN.
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`

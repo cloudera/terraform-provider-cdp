@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.135 (BETA)
+  version: 0.9.143 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -1180,6 +1180,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datalake/migrateSkus:
+    post:
+      summary: Migrate the Data Lake to a new SKU.
+      description: Migrate the Data Lake to a new SKU.
+      operationId: migrateSkus
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MigrateSkusRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/MigrateSkusResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -1401,6 +1422,9 @@ definitions:
       enableRangerRaz:
         type: boolean
         description: Whether Ranger RAZ is enabled for the datalake.
+      imageDetails:
+        $ref: '#/definitions/ImageInfo'
+        description: The image details.
       tags:
         type: array
         description: Datalake tags object containing the tag values defined for the datalake.
@@ -4059,3 +4083,22 @@ definitions:
         enum:
           - PERMISSIVE
           - ENFORCING
+  MigrateSkusRequest:
+    type: object
+    description: Request object for migrating SKUs.
+    required:
+      - datalakeName
+    properties:
+      datalakeName:
+        type: string
+        description: The name or CRN of the datalake.
+      force:
+        type: boolean
+        description: Skips checking cloud resource SKUs before the migration.
+  MigrateSkusResponse:
+    type: object
+    description: Response object for migrating SKUs.
+    properties:
+      operationId:
+        type: string
+        description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.

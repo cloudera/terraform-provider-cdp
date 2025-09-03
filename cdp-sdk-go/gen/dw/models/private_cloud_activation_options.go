@@ -21,13 +21,7 @@ type PrivateCloudActivationOptions struct {
 	// A certificate and private key pair belonging together for mutual SSL handshake when Database Catalog (aka DBC) connects to the metastore database.
 	DbClientCredentials *KeyPairCredentials `json:"dbClientCredentials,omitempty"`
 
-	// DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the DAS database. Not required for embedded databases.
-	DbDas string `json:"dbDas,omitempty"`
-
-	// DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the HUE database. Not required for embedded databases.
-	DbHue string `json:"dbHue,omitempty"`
-
-	// Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+	// DEPRECATED: As of 1.5.5, this feature flag can be set as an advanced configuration. Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
 	DedicatedExecutorNodes *bool `json:"dedicatedExecutorNodes,omitempty"`
 
 	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.
@@ -35,9 +29,6 @@ type PrivateCloudActivationOptions struct {
 
 	// DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.
 	DelegationUsername string `json:"delegationUsername,omitempty"`
-
-	// DEPRECATED: This option will be removed in future releases. Instead of creating a custom Security Context Constraint, we rely on the cluster default. The name of the Hive Security Context Constraint.
-	SecurityContextConstraintName string `json:"securityContextConstraintName,omitempty"`
 
 	// The storage class for the Local Storage Operator.
 	StorageClass string `json:"storageClass,omitempty"`

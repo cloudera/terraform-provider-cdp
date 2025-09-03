@@ -42,6 +42,9 @@ type UpdateVwRequest struct {
 	// Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
 	ImpalaQueryLog *bool `json:"impalaQueryLog,omitempty"`
 
+	// Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine.
+	LogHiveQueries *bool `json:"logHiveQueries,omitempty"`
+
 	// Nodes per compute cluster. If specified, forces 'template' to be 'custom'
 	NodeCount int32 `json:"nodeCount,omitempty"`
 
@@ -51,7 +54,7 @@ type UpdateVwRequest struct {
 	// Query isolation settings for Hive Virtual Warehouses.
 	QueryIsolationOptions *QueryIsolationOptionsRequest `json:"queryIsolationOptions,omitempty"`
 
-	// Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.
+	// DEPRECATED: This functionality will be removed in the next release. Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.
 	ResourcePool string `json:"resourcePool,omitempty"`
 
 	// Name of T-shirt size to use, which will determine the number of nodes.

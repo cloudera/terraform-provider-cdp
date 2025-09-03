@@ -7,15 +7,22 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // AWSFreeIpaCreationRequest Request object for creating FreeIPA in the environment.
 //
 // swagger:model AWSFreeIpaCreationRequest
 type AWSFreeIpaCreationRequest struct {
+
+	// Specifies the CPU architecture of freeipa instance type. Values are ARM64, X86_64.
+	// Enum: ["ARM64","X86_64"]
+	Architecture string `json:"architecture,omitempty"`
 
 	// The number of FreeIPA instances to create per group when creating FreeIPA in the environment
 	InstanceCountByGroup int32 `json:"instanceCountByGroup,omitempty"`
@@ -32,6 +39,57 @@ type AWSFreeIpaCreationRequest struct {
 
 // Validate validates this a w s free ipa creation request
 func (m *AWSFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateArchitecture(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+var aWSFreeIpaCreationRequestTypeArchitecturePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["ARM64","X86_64"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		aWSFreeIpaCreationRequestTypeArchitecturePropEnum = append(aWSFreeIpaCreationRequestTypeArchitecturePropEnum, v)
+	}
+}
+
+const (
+
+	// AWSFreeIpaCreationRequestArchitectureARM64 captures enum value "ARM64"
+	AWSFreeIpaCreationRequestArchitectureARM64 string = "ARM64"
+
+	// AWSFreeIpaCreationRequestArchitectureX8664 captures enum value "X86_64"
+	AWSFreeIpaCreationRequestArchitectureX8664 string = "X86_64"
+)
+
+// prop value enum
+func (m *AWSFreeIpaCreationRequest) validateArchitectureEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, aWSFreeIpaCreationRequestTypeArchitecturePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *AWSFreeIpaCreationRequest) validateArchitecture(formats strfmt.Registry) error {
+	if swag.IsZero(m.Architecture) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateArchitectureEnum("architecture", "body", m.Architecture); err != nil {
+		return err
+	}
+
 	return nil
 }
 

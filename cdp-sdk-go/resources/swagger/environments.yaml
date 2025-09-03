@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.135 (BETA)
+  version: 0.9.143 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -2432,6 +2432,9 @@ definitions:
         type: boolean
         default: false
         description: Whether to verify permissions upon saving or not.
+      defaultRegion:
+        type: string
+        description: The default region for the Credential to be used during API interactions.
   UpdateAwsCredentialResponse:
     type: object
     properties:
@@ -2531,7 +2534,10 @@ definitions:
         description: The AWS role arn for the given credential.
       govCloud:
         type: boolean
-        description: Flag that indicates that the given AWS credential is GovCloud specfic.
+        description: Flag that indicates that the given AWS credential is GovCloud specific.
+      defaultRegion:
+        type: string
+        description: The default region for the Credential to be used during API interactions.
   AzureCredentialProperties:
     type: object
     description: The credential properties that closely related to those that have been created on Azure.
@@ -2963,6 +2969,9 @@ definitions:
         description: The name of the cluster(s) to use as a Datalake for the environment.
         items:
           type: string
+      environmentQuota:
+        description: Set quota for resources in this Environment.
+        $ref: '#/definitions/EnvironmentQuota'
       kubeConfig:
         type: string
         description: Name of credentials holding kubeconfig for access to the kubernetes cluster paired with this Environment.
@@ -5245,6 +5254,12 @@ definitions:
       multiAz:
         type: boolean
         description: Flag which marks that the FreeIPA will be deployed in a multi-availability zone way or not.
+      architecture:
+        type: string
+        description: Specifies the CPU architecture of freeipa instance type. Values are ARM64, X86_64.
+        enum:
+          - ARM64
+          - X86_64
   AzureFreeIpaCreationRequest:
     description: Request object for creating FreeIPA in the environment.
     type: object
@@ -5362,6 +5377,12 @@ definitions:
       multiAz:
         type: boolean
         description: Whether the given FreeIPA is deployed in a multi-availability zone way or not.
+      loadBalancer:
+        $ref: '#/definitions/FreeIpaLoadBalancer'
+        description: Details of a FreeIPA load balancer.
+      imageDetails:
+        $ref: '#/definitions/ImageInfo'
+        description: The image details.
   FreeIpaInstance:
     type: object
     description: Object for a FreeIPA instance providing specific information about the instance.
@@ -5411,6 +5432,21 @@ definitions:
         description: List of volumes attached to this instance.
         items:
           $ref: '#/definitions/AttachedVolumeDetail'
+  FreeIpaLoadBalancer:
+    description: Details of a FreeIPA load balancer.
+    type: object
+    properties:
+      resourceId:
+        type: string
+        description: The cloud resource ID of the provisioned load balancer.
+      fqdn:
+        type: string
+        description: The fully qualified domain name of the load balancer.
+      privateIps:
+        type: array
+        items:
+          type: string
+        description: The private IP addresses of the load balancer.
   AWSComputeClusterConfigurationRequest:
     description: Request object for creating Externalized compute cluster for the environment.
     type: object
@@ -6470,6 +6506,10 @@ definitions:
         items:
           type: string
         description: The instance Ids to downscale.
+      force:
+        type: boolean
+        description: Force the downscale regardless of the status of the FreeIPA nodes and skip some validations.
+        default: false
   DownscaleFreeipaResponse:
     type: object
     description: The response object for FreeIPA downscale.
@@ -6579,6 +6619,19 @@ definitions:
       catalogName:
         type: string
         description: Image catalog name.
+  ImageInfo:
+    type: object
+    description: Basic information about an image.
+    properties:
+      imageId:
+        type: string
+        description: The ID of the image.
+      imageCatalogName:
+        type: string
+        description: The name of the image catalog of the image.
+      imageOs:
+        type: string
+        description: The OS of the image.
   RetryFreeipaRequest:
     type: object
     description: Request object for retry FreeIPA request.
@@ -6901,6 +6954,25 @@ definitions:
       message:
         type: string
         description: The detail of the success or failure.
+  EnvironmentQuota:
+    type: object
+    description: Resource pool quota for the Environment.
+    properties:
+      cpuQuota:
+        type: integer
+        format: int64
+        minimum: 1
+        description: CPU quota (in Cores) for the Environment. Must be a positive number. By default, a quota won't be set for this resource type in the environment.
+      memoryQuota:
+        type: integer
+        format: int64
+        minimum: 1
+        description: Memory quota (in GigaBytes) for the Environment. Must be a positive number. By default, a quota won't be set for this resource type in the environment.
+      gpuQuota:
+        type: integer
+        format: int64
+        minimum: 1
+        description: GPU quota (in Cores) for the Environment. Must be a positive number. By default, a quota won't be set for this resource type in the environment.
   SecurityRequest:
     type: object
     description: Security related configuration for Data Hub cluster.

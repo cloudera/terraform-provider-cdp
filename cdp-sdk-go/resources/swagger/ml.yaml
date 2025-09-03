@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.135 (BETA)
+  version: 0.9.143 (BETA)
   title: Cloudera AI
   license:
     name: Apache 2.0
@@ -76,6 +76,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/BackupWorkspaceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: true
+  /api/v1/ml/createFileReplica:
+    post:
+      summary: Create file system replica.
+      description: Creates a file system replication.
+      operationId: createFileReplica
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateFileReplicaRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateFileReplicaResponse'
         default:
           description: The default response on an error.
           schema:
@@ -160,6 +181,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/DeleteBackupResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: true
+  /api/v1/ml/deleteFileReplica:
+    post:
+      summary: Delete existing replication for project files.
+      description: Delete existing replication configuration for project files.
+      operationId: deleteFileReplica
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteFileReplicaRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DeleteFileReplicaResponse'
         default:
           description: The default response on an error.
           schema:
@@ -293,8 +335,8 @@ paths:
       x-mutating: false
   /api/v1/ml/describeModelRegistry:
     post:
-      summary: Describe Cloudera AI Model Registry.
-      description: Describes a Cloudera AI Model Registry.
+      summary: 'Deprecated: Cloudera AI Model Registry is now deprecated.'
+      description: Please use ListModelRegistries.
       operationId: describeModelRegistry
       parameters:
         - name: input
@@ -333,6 +375,48 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       x-mutating: false
+  /api/v1/ml/describeWorkspaceBackup:
+    post:
+      summary: Describe backup snaphot of a workbench.
+      description: Describe backup snaphot of a workbench.
+      operationId: describeWorkspaceBackup
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DescribeWorkspaceBackupRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DescribeWorkspaceBackupResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: false
+  /api/v1/ml/failOverFileSystem:
+    post:
+      summary: Failover to replica file system
+      description: Failover to replica in case of a source file system disaster.
+      operationId: failOverFileSystem
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FailOverFileSystemRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/FailOverFileSystemResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: true
   /api/v1/ml/getAuditEvents:
     post:
       summary: Gets all the events belong to a workbench crn.
@@ -370,6 +454,27 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/GetKubeconfigResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: false
+  /api/v1/ml/getLatestModelRegistryVersion:
+    post:
+      summary: GetLatestModelRegistryVersion Cloudera AI Registry.
+      description: Retrieves the latest version that Cloudera AI deploys to ModelRegistries.
+      operationId: getLatestModelRegistryVersion
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetLatestModelRegistryVersionRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetLatestModelRegistryVersionResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1058,6 +1163,18 @@ definitions:
       message:
         type: string
         description: The error message.
+  FailOverFileSystemRequest:
+    type: object
+    description: FailOverFileSystemRequest request to fallback to the replica.
+    required:
+      - workspaceCrn
+    properties:
+      workspaceCrn:
+        type: string
+        description: The CRN of the workbench to create file system ID replica.
+  FailOverFileSystemResponse:
+    type: object
+    description: FailOverFileSystemResponse response to fallback to the replica.
   RootVolume:
     type: object
     description: Configuration for instance root device volume.
@@ -1478,6 +1595,9 @@ definitions:
       existingNFS:
         type: string
         description: Optionally use an existing NFS by providing the hostname and desired path (Azure and Private Cloud only).
+      enableYunikorn:
+        type: boolean
+        description: The boolean flag is used to enable yunikorn scheduling. By default, yunikorn scheduling is disabled.
       loadBalancerIPWhitelists:
         type: array
         items:
@@ -1561,6 +1681,11 @@ definitions:
       workspaceCrn:
         type: string
         description: The CRN of the Cloudera AI workbench being provisioned.
+      warnings:
+        type: array
+        items:
+          type: string
+        description: Warning messages about restore behavior.
   ListWorkspacesRequest:
     type: object
     description: Request object for the ListWorkspaces method.
@@ -1602,6 +1727,44 @@ definitions:
       queryOptions:
         description: Additional query options to enhance/mutate the API response.
         $ref: '#/definitions/ListWorkspaceBackupsQueryOptions'
+  DescribeWorkspaceBackupRequest:
+    type: object
+    description: Request object for DescribeWorkspaceBackup method.
+    properties:
+      backupCrn:
+        type: string
+        description: The CRN of the backup snaphot.
+  DescribeWorkspaceBackupResponse:
+    type: object
+    description: Response object for DescribeWorkspaceBackup method.
+    properties:
+      backupCrn:
+        type: string
+        description: The CRN of the backup snaphot.
+      backupName:
+        type: string
+        description: The name of the backup snapshot.
+      createdAt:
+        type: string
+        format: date-time
+        description: The creation time of the backup snapshot.
+      creatorCrn:
+        type: string
+        description: The CRN of the creator.
+      workspaceVersionAtBackup:
+        type: string
+        description: The version of the backed-up workbench at the time of backup.
+      backupStatus:
+        type: string
+        description: The status of the backup.
+      isCrossNsBackup:
+        type: boolean
+        description: Indicates whether the backup has cross namespace enabled.
+      instanceGroups:
+        type: array
+        items:
+          $ref: '#/definitions/WorkspaceInstanceGroup'
+        description: The list of instance groups.
   BackupDetail:
     type: object
     description: Backup Detail response object for listing backups.
@@ -1945,6 +2108,18 @@ definitions:
       workspace:
         description: The workbench.
         $ref: '#/definitions/Workspace'
+  DeleteFileReplicaRequest:
+    type: object
+    description: Request object for DeleteFileReplica method.
+    required:
+      - workspaceCrn
+    properties:
+      workspaceCrn:
+        type: string
+        description: The CRN of the workbench of which replica is to be deleted.
+  DeleteFileReplicaResponse:
+    type: object
+    description: Response object for DeleteFileReplica method.
   DescribeModelRegistryRequest:
     type: object
     description: Request object for the DescribeModelRegistry method.
@@ -2003,6 +2178,18 @@ definitions:
   DeleteWorkspaceResponse:
     type: object
     description: Response object for the DeleteWorkspace method.
+  CreateFileReplicaRequest:
+    type: object
+    description: Request object for create file replica method.
+    required:
+      - workspaceCrn
+    properties:
+      workspaceCrn:
+        type: string
+        description: The workbench CRN to create replica of file system id.
+  CreateFileReplicaResponse:
+    type: object
+    description: Response object for the CreateFileReplica method.
   GrantWorkspaceAccessRequest:
     type: object
     description: Request object for the GrantWorkspaceAccess method.
@@ -2203,6 +2390,9 @@ definitions:
       instanceType:
         type: string
         description: The desired instance type of the workbench cluster instance group.
+      name:
+        type: string
+        description: The unique name for the instance or resource group of the workbench.
   AddInstanceGroupsRequest:
     type: object
     description: Request object for AddInstanceGroups.
@@ -2318,6 +2508,11 @@ definitions:
       vaultName:
         type: string
         description: Name of the vault where backup related volumes are stored.
+      warnings:
+        type: array
+        items:
+          type: string
+        description: Warning messages about backup behavior.
   DeleteBackupRequest:
     type: object
     description: The request object for DeleteBackup operation.
@@ -2705,6 +2900,9 @@ definitions:
       ozoneS3Creds:
         description: Ozone credentials for the Cloudera On-Premise cluster.
         $ref: '#/definitions/MlServingOzoneCreds'
+      enableFineGrainedAccessControl:
+        type: boolean
+        description: The boolean flag to enable fine-grained access control. By default, this flag is disabled.
   MlServingOzoneCreds:
     type: object
     description: Request object for the MlServingOzoneCreds method.
@@ -2719,6 +2917,7 @@ definitions:
       s3EndPointUrl:
         type: string
         description: The Ozone S3 end point.
+        x-no-paramfile: true
       s3CaCertBundle:
         type: string
         description: The Ozone S3 CA bundle.
@@ -2919,23 +3118,31 @@ definitions:
     type: object
     description: Request object for the ListRelevantInstances method.
     required:
-      - region
       - instanceCategory
-      - cloudProvider
       - requestInfo
+      - environmentName
+      - productType
     properties:
-      region:
-        type: string
-        description: Specifies the name of the region for which instance support details are requested.
       instanceCategory:
         type: string
         description: Defines the category of the instance (e.g., CPU, GPU) relevant for the query in the specified region.
-      cloudProvider:
-        type: string
-        description: Identifies the cloud provider (e.g., AWS, Azure) for which to list supported instances.
       requestInfo:
         description: Specifies the requested resource inputs eg (CPU/GPU, model, memory etc).
         $ref: '#/definitions/RequestResourceInfo'
+      environmentName:
+        type: string
+        description: Specifies the environment name of respective cloud provider for which instance support details are requested.
+      productType:
+        type: string
+        description: Specifies the product type for which instance support details are requested.
+      region:
+        type: string
+        description: Deprecated. Please use environmentName instead, from which the region will be determined.
+        x-deprecated: true
+      cloudProvider:
+        type: string
+        description: Deprecated. Please use environmentName instead, from which the cloud provider will be determined.
+        x-deprecated: true
   ListRelevantInstancesResponse:
     type: object
     description: Response object for the ListRelevantInstances method.
@@ -2951,23 +3158,31 @@ definitions:
     type: object
     description: Request object for the ListInstanceTypeConfiguration method.
     required:
-      - region
       - instanceCategory
-      - cloudProvider
       - instanceType
+      - environmentName
+      - productType
     properties:
-      region:
-        type: string
-        description: Specifies the name of the region for which instance support details are requested.
       instanceCategory:
         type: string
         description: Defines the category of the instance (e.g., CPU, GPU) relevant for the query in the specified region.
-      cloudProvider:
-        type: string
-        description: Identifies the cloud provider (e.g., AWS, Azure) for which to list supported instances.
       instanceType:
         type: string
         description: Identifies the instance type.
+      environmentName:
+        type: string
+        description: Specifies the environment name of respective cloud provider for which instance support details are requested.
+      productType:
+        type: string
+        description: Specifies the product type for which instance support details are requested.
+      region:
+        type: string
+        description: Deprecated. Please use environmentName instead, from which the region will be determined.
+        x-deprecated: true
+      cloudProvider:
+        type: string
+        description: Deprecated. Please use environmentName instead, from which the cloud provider will be determined.
+        x-deprecated: true
   ListInstanceTypeConfigurationResponse:
     type: object
     description: Response object for the ListInstanceTypeConfiguration method.
@@ -3130,4 +3345,16 @@ definitions:
   ModifyMlServingAppResponse:
     type: object
     description: Response object for ModifyMlServingApp method.
+  GetLatestModelRegistryVersionRequest:
+    type: object
+    description: Request object for GetLatestModelRegistryVersion.
+  GetLatestModelRegistryVersionResponse:
+    type: object
+    description: Response object for GetLatestModelRegistryVersion.
+    required:
+      - version
+    properties:
+      version:
+        type: string
+        description: The latest version of a modelregistry that is used when deploying Cloudera AI ModelRegistries.
 x-audit: true
