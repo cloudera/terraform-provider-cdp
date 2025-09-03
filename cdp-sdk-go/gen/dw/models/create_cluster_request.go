@@ -44,9 +44,6 @@ type CreateClusterRequest struct {
 	// Options for activating a Private Cloud environment.
 	PrivateCloudOptions *PrivateCloudActivationOptions `json:"privateCloudOptions,omitempty"`
 
-	// The Resource Pool of the cluster.
-	ResourcePool string `json:"resourcePool,omitempty"`
-
 	// Using an overlay network will save IP addresses in the VPC by using a private IP address range for Pods in the cluster.
 	UseOverlayNetwork bool `json:"useOverlayNetwork,omitempty"`
 

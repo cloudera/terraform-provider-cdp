@@ -751,6 +751,79 @@ func (_c *MockDwClientService_CreateDbcDiagnosticDataJob_Call) RunAndReturn(run 
 	return _c
 }
 
+// CreateHue provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) CreateHue(params *operations.CreateHueParams, opts ...operations.ClientOption) (*operations.CreateHueOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateHue")
+	}
+
+	var r0 *operations.CreateHueOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.CreateHueParams, ...operations.ClientOption) (*operations.CreateHueOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.CreateHueParams, ...operations.ClientOption) *operations.CreateHueOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateHueOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.CreateHueParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_CreateHue_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateHue'
+type MockDwClientService_CreateHue_Call struct {
+	*mock.Call
+}
+
+// CreateHue is a helper method to define mock.On call
+//   - params *operations.CreateHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateHue(params interface{}, opts ...interface{}) *MockDwClientService_CreateHue_Call {
+	return &MockDwClientService_CreateHue_Call{Call: _e.mock.On("CreateHue",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateHue_Call) Run(run func(params *operations.CreateHueParams, opts ...operations.ClientOption)) *MockDwClientService_CreateHue_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.CreateHueParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateHue_Call) Return(_a0 *operations.CreateHueOK, _a1 error) *MockDwClientService_CreateHue_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateHue_Call) RunAndReturn(run func(*operations.CreateHueParams, ...operations.ClientOption) (*operations.CreateHueOK, error)) *MockDwClientService_CreateHue_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreatePrivateCluster provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) CreatePrivateCluster(params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption) (*operations.CreatePrivateClusterOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -1477,6 +1550,79 @@ func (_c *MockDwClientService_DeleteDbcDiagnosticDataJob_Call) Return(_a0 *opera
 }
 
 func (_c *MockDwClientService_DeleteDbcDiagnosticDataJob_Call) RunAndReturn(run func(*operations.DeleteDbcDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DeleteDbcDiagnosticDataJobOK, error)) *MockDwClientService_DeleteDbcDiagnosticDataJob_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteHue provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) DeleteHue(params *operations.DeleteHueParams, opts ...operations.ClientOption) (*operations.DeleteHueOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteHue")
+	}
+
+	var r0 *operations.DeleteHueOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.DeleteHueParams, ...operations.ClientOption) (*operations.DeleteHueOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.DeleteHueParams, ...operations.ClientOption) *operations.DeleteHueOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteHueOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.DeleteHueParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_DeleteHue_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteHue'
+type MockDwClientService_DeleteHue_Call struct {
+	*mock.Call
+}
+
+// DeleteHue is a helper method to define mock.On call
+//   - params *operations.DeleteHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteHue(params interface{}, opts ...interface{}) *MockDwClientService_DeleteHue_Call {
+	return &MockDwClientService_DeleteHue_Call{Call: _e.mock.On("DeleteHue",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteHue_Call) Run(run func(params *operations.DeleteHueParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteHue_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.DeleteHueParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteHue_Call) Return(_a0 *operations.DeleteHueOK, _a1 error) *MockDwClientService_DeleteHue_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteHue_Call) RunAndReturn(run func(*operations.DeleteHueParams, ...operations.ClientOption) (*operations.DeleteHueOK, error)) *MockDwClientService_DeleteHue_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2503,6 +2649,79 @@ func (_c *MockDwClientService_DescribeDbcDiagnosticDataJob_Call) RunAndReturn(ru
 	return _c
 }
 
+// DescribeHue provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) DescribeHue(params *operations.DescribeHueParams, opts ...operations.ClientOption) (*operations.DescribeHueOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeHue")
+	}
+
+	var r0 *operations.DescribeHueOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.DescribeHueParams, ...operations.ClientOption) (*operations.DescribeHueOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.DescribeHueParams, ...operations.ClientOption) *operations.DescribeHueOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeHueOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.DescribeHueParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_DescribeHue_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeHue'
+type MockDwClientService_DescribeHue_Call struct {
+	*mock.Call
+}
+
+// DescribeHue is a helper method to define mock.On call
+//   - params *operations.DescribeHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeHue(params interface{}, opts ...interface{}) *MockDwClientService_DescribeHue_Call {
+	return &MockDwClientService_DescribeHue_Call{Call: _e.mock.On("DescribeHue",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeHue_Call) Run(run func(params *operations.DescribeHueParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeHue_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.DescribeHueParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeHue_Call) Return(_a0 *operations.DescribeHueOK, _a1 error) *MockDwClientService_DescribeHue_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeHue_Call) RunAndReturn(run func(*operations.DescribeHueParams, ...operations.ClientOption) (*operations.DescribeHueOK, error)) *MockDwClientService_DescribeHue_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeKubeconfig provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) DescribeKubeconfig(params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -3010,6 +3229,79 @@ func (_c *MockDwClientService_GetDataVisualizationUpgradeVersion_Call) Return(_a
 }
 
 func (_c *MockDwClientService_GetDataVisualizationUpgradeVersion_Call) RunAndReturn(run func(*operations.GetDataVisualizationUpgradeVersionParams, ...operations.ClientOption) (*operations.GetDataVisualizationUpgradeVersionOK, error)) *MockDwClientService_GetDataVisualizationUpgradeVersion_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetHueUpgradeVersion provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) GetHueUpgradeVersion(params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetHueUpgradeVersion")
+	}
+
+	var r0 *operations.GetHueUpgradeVersionOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.GetHueUpgradeVersionParams, ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.GetHueUpgradeVersionParams, ...operations.ClientOption) *operations.GetHueUpgradeVersionOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetHueUpgradeVersionOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.GetHueUpgradeVersionParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_GetHueUpgradeVersion_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetHueUpgradeVersion'
+type MockDwClientService_GetHueUpgradeVersion_Call struct {
+	*mock.Call
+}
+
+// GetHueUpgradeVersion is a helper method to define mock.On call
+//   - params *operations.GetHueUpgradeVersionParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetHueUpgradeVersion(params interface{}, opts ...interface{}) *MockDwClientService_GetHueUpgradeVersion_Call {
+	return &MockDwClientService_GetHueUpgradeVersion_Call{Call: _e.mock.On("GetHueUpgradeVersion",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetHueUpgradeVersion_Call) Run(run func(params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption)) *MockDwClientService_GetHueUpgradeVersion_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.GetHueUpgradeVersionParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetHueUpgradeVersion_Call) Return(_a0 *operations.GetHueUpgradeVersionOK, _a1 error) *MockDwClientService_GetHueUpgradeVersion_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_GetHueUpgradeVersion_Call) RunAndReturn(run func(*operations.GetHueUpgradeVersionParams, ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error)) *MockDwClientService_GetHueUpgradeVersion_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4182,6 +4474,79 @@ func (_c *MockDwClientService_ListEvents_Call) RunAndReturn(run func(*operations
 	return _c
 }
 
+// ListHues provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) ListHues(params *operations.ListHuesParams, opts ...operations.ClientOption) (*operations.ListHuesOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListHues")
+	}
+
+	var r0 *operations.ListHuesOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.ListHuesParams, ...operations.ClientOption) (*operations.ListHuesOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.ListHuesParams, ...operations.ClientOption) *operations.ListHuesOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListHuesOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.ListHuesParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_ListHues_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListHues'
+type MockDwClientService_ListHues_Call struct {
+	*mock.Call
+}
+
+// ListHues is a helper method to define mock.On call
+//   - params *operations.ListHuesParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListHues(params interface{}, opts ...interface{}) *MockDwClientService_ListHues_Call {
+	return &MockDwClientService_ListHues_Call{Call: _e.mock.On("ListHues",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListHues_Call) Run(run func(params *operations.ListHuesParams, opts ...operations.ClientOption)) *MockDwClientService_ListHues_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.ListHuesParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListHues_Call) Return(_a0 *operations.ListHuesOK, _a1 error) *MockDwClientService_ListHues_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_ListHues_Call) RunAndReturn(run func(*operations.ListHuesParams, ...operations.ClientOption) (*operations.ListHuesOK, error)) *MockDwClientService_ListHues_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListLatestVersions provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) ListLatestVersions(params *operations.ListLatestVersionsParams, opts ...operations.ClientOption) (*operations.ListLatestVersionsOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -4839,6 +5204,79 @@ func (_c *MockDwClientService_RebuildDbc_Call) RunAndReturn(run func(*operations
 	return _c
 }
 
+// RebuildHue provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) RebuildHue(params *operations.RebuildHueParams, opts ...operations.ClientOption) (*operations.RebuildHueOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RebuildHue")
+	}
+
+	var r0 *operations.RebuildHueOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.RebuildHueParams, ...operations.ClientOption) (*operations.RebuildHueOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.RebuildHueParams, ...operations.ClientOption) *operations.RebuildHueOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RebuildHueOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.RebuildHueParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_RebuildHue_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RebuildHue'
+type MockDwClientService_RebuildHue_Call struct {
+	*mock.Call
+}
+
+// RebuildHue is a helper method to define mock.On call
+//   - params *operations.RebuildHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RebuildHue(params interface{}, opts ...interface{}) *MockDwClientService_RebuildHue_Call {
+	return &MockDwClientService_RebuildHue_Call{Call: _e.mock.On("RebuildHue",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RebuildHue_Call) Run(run func(params *operations.RebuildHueParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildHue_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.RebuildHueParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildHue_Call) Return(_a0 *operations.RebuildHueOK, _a1 error) *MockDwClientService_RebuildHue_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildHue_Call) RunAndReturn(run func(*operations.RebuildHueParams, ...operations.ClientOption) (*operations.RebuildHueOK, error)) *MockDwClientService_RebuildHue_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RebuildVw provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) RebuildVw(params *operations.RebuildVwParams, opts ...operations.ClientOption) (*operations.RebuildVwOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -5452,6 +5890,79 @@ func (_c *MockDwClientService_SetTransport_Call) Return() *MockDwClientService_S
 }
 
 func (_c *MockDwClientService_SetTransport_Call) RunAndReturn(run func(runtime.ClientTransport)) *MockDwClientService_SetTransport_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// StartDbc provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) StartDbc(params *operations.StartDbcParams, opts ...operations.ClientOption) (*operations.StartDbcOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StartDbc")
+	}
+
+	var r0 *operations.StartDbcOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.StartDbcParams, ...operations.ClientOption) (*operations.StartDbcOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.StartDbcParams, ...operations.ClientOption) *operations.StartDbcOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.StartDbcOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.StartDbcParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_StartDbc_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StartDbc'
+type MockDwClientService_StartDbc_Call struct {
+	*mock.Call
+}
+
+// StartDbc is a helper method to define mock.On call
+//   - params *operations.StartDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) StartDbc(params interface{}, opts ...interface{}) *MockDwClientService_StartDbc_Call {
+	return &MockDwClientService_StartDbc_Call{Call: _e.mock.On("StartDbc",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_StartDbc_Call) Run(run func(params *operations.StartDbcParams, opts ...operations.ClientOption)) *MockDwClientService_StartDbc_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.StartDbcParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_StartDbc_Call) Return(_a0 *operations.StartDbcOK, _a1 error) *MockDwClientService_StartDbc_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_StartDbc_Call) RunAndReturn(run func(*operations.StartDbcParams, ...operations.ClientOption) (*operations.StartDbcOK, error)) *MockDwClientService_StartDbc_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6186,6 +6697,79 @@ func (_c *MockDwClientService_UpdateDbcConfig_Call) RunAndReturn(run func(*opera
 	return _c
 }
 
+// UpdateHue provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) UpdateHue(params *operations.UpdateHueParams, opts ...operations.ClientOption) (*operations.UpdateHueOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateHue")
+	}
+
+	var r0 *operations.UpdateHueOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpdateHueParams, ...operations.ClientOption) (*operations.UpdateHueOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpdateHueParams, ...operations.ClientOption) *operations.UpdateHueOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateHueOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpdateHueParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_UpdateHue_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateHue'
+type MockDwClientService_UpdateHue_Call struct {
+	*mock.Call
+}
+
+// UpdateHue is a helper method to define mock.On call
+//   - params *operations.UpdateHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateHue(params interface{}, opts ...interface{}) *MockDwClientService_UpdateHue_Call {
+	return &MockDwClientService_UpdateHue_Call{Call: _e.mock.On("UpdateHue",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateHue_Call) Run(run func(params *operations.UpdateHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateHue_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpdateHueParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateHue_Call) Return(_a0 *operations.UpdateHueOK, _a1 error) *MockDwClientService_UpdateHue_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateHue_Call) RunAndReturn(run func(*operations.UpdateHueParams, ...operations.ClientOption) (*operations.UpdateHueOK, error)) *MockDwClientService_UpdateHue_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdatePrivateCluster provides a mock function with given fields: params, opts
 func (_m *MockDwClientService) UpdatePrivateCluster(params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption) (*operations.UpdatePrivateClusterOK, error) {
 	_va := make([]interface{}, len(opts))
@@ -6766,6 +7350,79 @@ func (_c *MockDwClientService_UpgradeDbc_Call) Return(_a0 *operations.UpgradeDbc
 }
 
 func (_c *MockDwClientService_UpgradeDbc_Call) RunAndReturn(run func(*operations.UpgradeDbcParams, ...operations.ClientOption) (*operations.UpgradeDbcOK, error)) *MockDwClientService_UpgradeDbc_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradeHue provides a mock function with given fields: params, opts
+func (_m *MockDwClientService) UpgradeHue(params *operations.UpgradeHueParams, opts ...operations.ClientOption) (*operations.UpgradeHueOK, error) {
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeHue")
+	}
+
+	var r0 *operations.UpgradeHueOK
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*operations.UpgradeHueParams, ...operations.ClientOption) (*operations.UpgradeHueOK, error)); ok {
+		return rf(params, opts...)
+	}
+	if rf, ok := ret.Get(0).(func(*operations.UpgradeHueParams, ...operations.ClientOption) *operations.UpgradeHueOK); ok {
+		r0 = rf(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpgradeHueOK)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*operations.UpgradeHueParams, ...operations.ClientOption) error); ok {
+		r1 = rf(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDwClientService_UpgradeHue_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradeHue'
+type MockDwClientService_UpgradeHue_Call struct {
+	*mock.Call
+}
+
+// UpgradeHue is a helper method to define mock.On call
+//   - params *operations.UpgradeHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpgradeHue(params interface{}, opts ...interface{}) *MockDwClientService_UpgradeHue_Call {
+	return &MockDwClientService_UpgradeHue_Call{Call: _e.mock.On("UpgradeHue",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpgradeHue_Call) Run(run func(params *operations.UpgradeHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeHue_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		run(args[0].(*operations.UpgradeHueParams), variadicArgs...)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeHue_Call) Return(_a0 *operations.UpgradeHueOK, _a1 error) *MockDwClientService_UpgradeHue_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeHue_Call) RunAndReturn(run func(*operations.UpgradeHueParams, ...operations.ClientOption) (*operations.UpgradeHueOK, error)) *MockDwClientService_UpgradeHue_Call {
 	_c.Call.Return(run)
 	return _c
 }

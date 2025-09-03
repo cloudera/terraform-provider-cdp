@@ -80,6 +80,7 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 		Instances:            ipaInstances,
 		MultiAz:              types.BoolValue(ipaResp.MultiAz),
 		Recipes:              recipes,
+		Architecture:         types.StringValue(freeIpaDetails.Architecture.ValueString()),
 	})
 	diags.Append(ipaDiags...)
 
@@ -94,6 +95,8 @@ type FreeIpaTransitional struct {
 	MultiAz bool
 
 	Recipes []string
+
+	Architecture string
 }
 
 func FreeIpaModelToRequest(model *types.Object, ctx context.Context) (*FreeIpaTransitional, *environmentsmodels.FreeIpaImageRequest) {
@@ -104,6 +107,7 @@ func FreeIpaModelToRequest(model *types.Object, ctx context.Context) (*FreeIpaTr
 			InstanceType:         freeIpaDetails.InstanceType.ValueString(),
 			MultiAz:              freeIpaDetails.MultiAz.ValueBool(),
 			Recipes:              utils.FromSetValueToStringList(freeIpaDetails.Recipes),
+			Architecture:         freeIpaDetails.Architecture.ValueString(),
 		},
 		&environmentsmodels.FreeIpaImageRequest{
 			Catalog: freeIpaDetails.Catalog.ValueString(),

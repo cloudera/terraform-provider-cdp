@@ -81,6 +81,9 @@ type VwSummary struct {
 	// jwt auth
 	JwtAuth *VwSummaryJwtAuth `json:"jwtAuth,omitempty"`
 
+	// Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine.
+	LogHiveQueries bool `json:"logHiveQueries,omitempty"`
+
 	// Memory size of the Virtual Warehouse in MB.
 	MemoryCapacity int32 `json:"memoryCapacity,omitempty"`
 

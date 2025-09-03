@@ -22,6 +22,9 @@ type BackupWorkspaceResponse struct {
 
 	// Name of the vault where backup related volumes are stored.
 	VaultName string `json:"vaultName,omitempty"`
+
+	// Warning messages about backup behavior.
+	Warnings []string `json:"warnings"`
 }
 
 // Validate validates this backup workspace response

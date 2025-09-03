@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.135 (BETA)
+  version: 0.9.143 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -760,6 +760,174 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       x-mutating: true
+  /api/v1/dw/createHue:
+    post:
+      operationId: createHue
+      summary: Create Hue Query Editor in a CDW cluster.
+      description: Create Hue Query Editor in a CDW cluster.
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateHueRequest'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreateHueResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/listHues:
+    post:
+      operationId: listHues
+      summary: List Hue Query Editors in the provided CDW cluster.
+      description: List Hue Query Editors in the provided CDW cluster.
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListHuesRequest'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ListHuesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/describeHue:
+    post:
+      summary: Describes a Hue Query Editor.
+      description: Describes a Hue Query Editor.
+      operationId: describeHue
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DescribeHueRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DescribeHueResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/deleteHue:
+    post:
+      summary: Asynchronous operation that deletes a Hue Query Editor. When the Hue is in deleting state, we can still use describe-hue to check the status. Once it is deleted, the describe-hue would return a not found error.
+      description: Asynchronous operation that deletes a Hue Query Editor. When the Hue is in deleting state, we can still use describe-hue to check the status. Once it is deleted, the describe-hue would return a not found error.
+      operationId: deleteHue
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteHueRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DeleteHueResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/updateHue:
+    post:
+      summary: Asynchronous operation that updates the configuration of a Hue Query Editor. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+      description: Asynchronous operation that updates the configuration of a Hue Query Editor. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+      operationId: updateHue
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateHueRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateHueResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/getHueUpgradeVersion:
+    post:
+      summary: Gets latest version and latest compatible version for Hue Query Editor.
+      description: Gets latest version and latest compatible version for Hue Query Editor.
+      operationId: getHueUpgradeVersion
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetHueUpgradeVersionRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetHueUpgradeVersionResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/upgradeHue:
+    post:
+      summary: Asynchronous operation that upgrades a Hue Query Editor to a compatible version. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+      description: Asynchronous operation that upgrades a Hue Query Editor to a compatible version. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+      operationId: upgradeHue
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpgradeHueRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpgradeHueResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/rebuildHue:
+    post:
+      summary: Asynchronous operation that rebuilds a Hue Query Editor keeping the same version.
+      description: Asynchronous operation that rebuilds a Hue Query Editor keeping the same version. Please use this feature for Hue Query Editors which are in inconsistent or erroneous state. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
+      operationId: rebuildHue
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RebuildHueRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RebuildHueResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/dw/createDbc:
     post:
       x-no-compatibility-guarantee: true
@@ -892,11 +1060,33 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/dw/startDbc:
+    post:
+      x-mutating: true
+      summary: Start a Database Catalog.
+      description: Start a Database Catalog.
+      operationId: startDbc
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/StartDbcRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/StartDbcResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/dw/restartDbc:
     post:
       x-mutating: true
+      x-deprecated: true
       summary: Restart a Database Catalog.
-      description: Restart a Database Catalog.
+      description: 'DEPRECATED: Use the stop-dbc / start-dbc commands instead. Restart a Database Catalog.'
       operationId: restartDbc
       parameters:
         - name: input
@@ -1177,8 +1367,9 @@ paths:
   /api/v1/dw/restartVw:
     post:
       x-mutating: true
+      x-deprecated: true
       summary: Restart a Virtual Warehouse.
-      description: Restart a Virtual Warehouse.
+      description: 'DEPRECATED: Use the suspend-vw / start-vw commands instead. Restart a Virtual Warehouse.'
       operationId: restartVw
       parameters:
         - name: input
@@ -2283,14 +2474,14 @@ definitions:
     properties:
       operationId:
         type: string
-        description: Filter events based on the operation ID. Either operation ID or service ID is required.
+        description: Filters events based on the operation ID. Either operation ID or service ID is required.
       serviceId:
         type: string
-        description: Filter events based on the service ID. It can be Cluster ID, Database Catalog ID, Virtual Warehouse ID or Data Visualization App ID.
+        description: Filters events based on the service ID. It can be Cluster ID, Database Catalog ID, Virtual Warehouse ID or Data Visualization App ID.
       limit:
         type: integer
         format: int32
-        description: Limit the number of returned rows. If not specified then the recent 20 events will be returned. The maximum is 100.
+        description: Limit the number of returned rows. If not specified then the recent 20 events will be returned. The maximum is 500.
       ascending:
         type: boolean
         default: false
@@ -2419,10 +2610,6 @@ definitions:
       customSubdomain:
         type: string
         description: Custom environment subdomain. Overrides the environment subdomain using a customized domain either in the old subdomain format like ENV_ID.dw or the new format like dw-ENV_NAME.
-      resourcePool:
-        type: string
-        description: The Resource Pool of the cluster.
-        x-form-factors: private
   CreateAwsClusterRequest:
     type: object
     description: Request object for the createAwsCluster method.
@@ -2489,12 +2676,24 @@ definitions:
       reducedPermissionMode:
         type: boolean
         description: Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
-      computeInstanceTypes:
-        x-deprecated: true
+      nonTransparentProxy:
+        description: 'Non-transparent proxy settings. Read more: https://docs.cloudera.com/data-warehouse/cloud/aws-environments/topics/dw-aws-use-non-transparent-proxy.html'
+        $ref: '#/definitions/CreateAwsClusterNonTransparentProxyRequest'
+  CreateAwsClusterNonTransparentProxyRequest:
+    type: object
+    description: 'Activation options for an AWS environment to enable non-transparent proxy. Read more: https://docs.cloudera.com/data-warehouse/cloud/aws-environments/topics/dw-aws-use-non-transparent-proxy.html'
+    properties:
+      use:
+        type: boolean
+        description: Switch using the default non-transparent proxy on/off.
+        x-omitempty: false
+      bypassedDomains:
         type: array
+        description: Domains where the proxy is getting by-passed.
+        x-omitempty: false
         items:
           type: string
-        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
+          description: Domain.
   CreateAzureClusterRequest:
     type: object
     description: Request object for the createAzureCluster method.
@@ -2546,12 +2745,6 @@ definitions:
         type: boolean
         description: Whether to enable spot instances for Virtual warehouses. It cannot be updated later. Defaults to false.
         default: false
-      computeInstanceTypes:
-        x-deprecated: true
-        type: array
-        items:
-          type: string
-        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
       logAnalyticsWorkspaceId:
         type: string
         description: Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
@@ -2617,22 +2810,13 @@ definitions:
         x-deprecated: true
         type: string
         description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
-      securityContextConstraintName:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: This option will be removed in future releases. Instead of creating a custom Security Context Constraint, we rely on the cluster default. The name of the Hive Security Context Constraint.'
       storageClass:
         type: string
         description: The storage class for the Local Storage Operator.
-      dbHue:
-        type: string
-        description: The name of the HUE database. Not required for embedded databases.
-      resourcePool:
-        type: string
-        description: The Resource Pool of the cluster.
       dedicatedExecutorNodes:
+        x-deprecated: true
         type: boolean
-        description: Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+        description: 'DEPRECATED: As of 1.5.5, this feature flag can be set as an advanced configuration. Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.'
         default: false
       dbClientCredentials:
         $ref: '#/definitions/KeyPairCredentials'
@@ -2722,6 +2906,11 @@ definitions:
         description: Information about the restore-plan of the Data Visualization Apps.
         items:
           $ref: '#/definitions/RestoreClusterEntityPlan'
+      cdwHueRestorePlans:
+        type: array
+        description: The plan for the restoration of the Hue Query Editors.
+        items:
+          $ref: '#/definitions/RestoreClusterEntityPlan'
   RestoreClusterEntityPlan:
     type: object
     description: Entity status after the restore operation.
@@ -2783,12 +2972,24 @@ definitions:
       reducedPermissionMode:
         type: boolean
         description: Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
-      computeInstanceTypes:
-        x-deprecated: true
+      nonTransparentProxy:
+        description: 'Non-transparent proxy settings. Read more: https://docs.cloudera.com/data-warehouse/cloud/aws-environments/topics/dw-aws-use-non-transparent-proxy.html'
+        $ref: '#/definitions/AwsActivationOptionsNonTransparentProxy'
+  AwsActivationOptionsNonTransparentProxy:
+    type: object
+    description: 'Activation options for an AWS environment to enable non-transparent proxy. Read more: https://docs.cloudera.com/data-warehouse/cloud/aws-environments/topics/dw-aws-use-non-transparent-proxy.html'
+    properties:
+      use:
+        type: boolean
+        description: Switch using the default non-transparent proxy on/off.
+        x-omitempty: false
+      bypassedDomains:
         type: array
+        x-omitempty: false
+        description: Domains where the proxy is getting by-passed.
         items:
           type: string
-        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.'
+          description: Domain.
   AzureActivationOptions:
     type: object
     description: Options for activating an Azure environment.
@@ -2806,12 +3007,6 @@ definitions:
         type: boolean
         description: Whether to enable spot instances for Virtual warehouses. It cannot be updated later. If the AzureActivationOptions is not provided it defaults to false.
         default: false
-      computeInstanceTypes:
-        x-deprecated: true
-        type: array
-        items:
-          type: string
-        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. Azure compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values and the default value used for the case it is not provided.'
       logAnalyticsWorkspaceId:
         type: string
         description: Enable monitoring of Azure Kubernetes Service (AKS) cluster. Workspace ID for Azure log analytics.
@@ -2858,24 +3053,13 @@ definitions:
         x-deprecated: true
         type: string
         description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
-      securityContextConstraintName:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: This option will be removed in future releases. Instead of creating a custom Security Context Constraint, we rely on the cluster default. The name of the Hive Security Context Constraint.'
       storageClass:
         type: string
         description: The storage class for the Local Storage Operator.
-      dbDas:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the DAS database. Not required for embedded databases.'
-      dbHue:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the HUE database. Not required for embedded databases.'
       dedicatedExecutorNodes:
+        x-deprecated: true
         type: boolean
-        description: Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
+        description: 'DEPRECATED: As of 1.5.5, this feature flag can be set as an advanced configuration. Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.'
         default: false
       dbClientCredentials:
         $ref: '#/definitions/KeyPairCredentials'
@@ -2974,10 +3158,6 @@ definitions:
       observabilityConfig:
         description: Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
         $ref: '#/definitions/UpdateClusterObservabilityConfig'
-      resourcePool:
-        type: string
-        description: Used to set the resource pool of the Private Cloud Data Services clusters that are not enrolled for quota management.
-        x-form-factors: private
   UpdateAwsClusterRequest:
     type: object
     description: Request object for the updateAwsCluster method.
@@ -3060,11 +3240,9 @@ definitions:
         type: string
         description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.'
       dedicatedExecutorNodes:
+        x-deprecated: true
         type: boolean
-        description: Set it true to enable dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserve nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.
-      resourcePool:
-        type: string
-        description: Used to set the resource pool of the Private Cloud Data Services clusters that are not enrolled for quota management.
+        description: 'DEPRECATED: As of 1.5.5, this feature flag can be set as an advanced configuration. Enable to use dedicated nodes exclusively for executors and coordinators, and improve performance. You can enable this only if you reserved nodes while adding a CDP Private Cloud containerized ECS cluster. When disabled, non-compute pods such as MetaStore and Data Visualization can also use the reserved nodes.'
   ExternalBucketAccessInfo:
     type: object
     description: External bucket definition.
@@ -3275,6 +3453,229 @@ definitions:
       status:
         type: string
         description: The status of asynchronous update configuration request for Cloudera Data Visualization. To find the latest status please use describe-data-visualization.
+  CreateHueRequest:
+    type: object
+    description: Request object for the createHue call.
+    required:
+      - clusterId
+      - name
+    properties:
+      clusterId:
+        type: string
+        description: Cluster of the Hue Query Editor.
+      name:
+        type: string
+        description: Name of the Hue Query Editor.
+      instanceCount:
+        type: integer
+        format: int32
+        minimum: 1
+        description: Number of Hue Query Editor backend pods.
+        x-nullable: true
+      description:
+        type: string
+        description: Description for the Hue Query Editor.
+      dbName:
+        type: string
+        description: Name of the database backing the Hue Query Editor.
+      config:
+        description: Config for Hue Query Editor.
+        $ref: '#/definitions/ServiceConfigReq'
+      hueVersion:
+        type: string
+        description: Version of the Hue Query Editor.
+      userGroups:
+        type: array
+        items:
+          type: string
+        description: User groups that are allowed to access to Hue Query Editor.
+      dbInitStrategy:
+        type: string
+        description: Database initialization strategy for Hue Query Editor.
+        enum:
+          - CLONE_VW_DB
+          - FLUSH
+          - CREATE_OR_REUSE
+      tags:
+        type: array
+        description: List of tags to apply on compute instances.
+        items:
+          $ref: '#/definitions/TagRequest'
+      resourcePool:
+        type: string
+        description: The Resource Pool of the Hue Query Editor.
+        x-form-factors: private
+  CreateHueResponse:
+    type: object
+    description: Response object for the createHue method.
+    properties:
+      hueId:
+        type: string
+        description: ID of the new Hue Query Editor.
+      clusterId:
+        type: string
+        description: Cluster of the Hue Query Editor.
+  ListHuesRequest:
+    type: object
+    description: Request object for the listHues method.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: ID of cluster to list Hue Query Editors.
+  ListHuesResponse:
+    type: object
+    description: Response object for the listHues method.
+    properties:
+      results:
+        type: array
+        description: List of Hue Query Editors.
+        items:
+          $ref: '#/definitions/CdwHue'
+  DescribeHueRequest:
+    type: object
+    description: Request object for the describeHue method.
+    required:
+      - clusterId
+      - hueId
+    properties:
+      clusterId:
+        type: string
+        description: ID of the Hue Query Editor's cluster.
+      hueId:
+        type: string
+        description: ID of the Hue Query Editor.
+  DescribeHueResponse:
+    type: object
+    description: Response object for the describeHue method.
+    properties:
+      hue:
+        description: The Hue Query Editor.
+        $ref: '#/definitions/CdwHue'
+  DeleteHueRequest:
+    type: object
+    description: Request object for the deleteHue method.
+    required:
+      - clusterId
+      - hueId
+    properties:
+      clusterId:
+        type: string
+        description: ID of the Hue Query Editor's cluster.
+      hueId:
+        type: string
+        description: ID of the Hue Query Editor to delete from the cluster.
+  DeleteHueResponse:
+    type: object
+    description: Response object for the deleteHue method.
+    properties:
+      status:
+        type: string
+        description: The status of asynchronous delete request for Hue Query Editor. To find the latest status please use describe-hue. Once the Hue Query Editor is deleted, the describe-hue would return a not found error.
+  UpdateHueRequest:
+    type: object
+    description: Request object for the updateHue method.
+    required:
+      - clusterId
+      - hueId
+    properties:
+      clusterId:
+        type: string
+        description: ID of the Hue Query Editor's cluster.
+      hueId:
+        type: string
+        description: ID of the Hue Query Editor.
+      instanceCount:
+        type: integer
+        format: int32
+        minimum: 1
+        description: Number of Hue Query Editor backend pods.
+        x-nullable: true
+      userGroups:
+        type: array
+        items:
+          type: string
+        description: User groups that are allowed to access to Hue Query Editor.
+      resourcePool:
+        type: string
+        description: 'DEPRECATED: This functionality will be removed in the next release. The Resource Pool of the Hue Query Editor.'
+        x-form-factors: private
+        x-deprecated: true
+      config:
+        $ref: '#/definitions/ServiceConfigReq'
+        description: The service configuration to update the Hue Query Editor with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
+  UpdateHueResponse:
+    type: object
+    description: Response object for the updateHue method.
+    properties:
+      status:
+        type: string
+        description: The status of asynchronous update configuration request for Hue Query Editor. To find the latest status please use describe-hue.
+  GetHueUpgradeVersionRequest:
+    type: object
+    description: Request object for the getHueUpgradeVersion method.
+    required:
+      - clusterId
+      - hueId
+    properties:
+      clusterId:
+        type: string
+        description: ID of the Hue Query Editor's cluster.
+      hueId:
+        type: string
+        description: ID of the Hue Query Editor.
+  GetHueUpgradeVersionResponse:
+    type: object
+    description: Response object for the getHueUpgradeVersion method.
+    properties:
+      upgradeVersions:
+        description: Details of upgrade versions.
+        $ref: '#/definitions/UpgradeVersions'
+  UpgradeHueRequest:
+    type: object
+    description: Request object for the upgradeHue method.
+    required:
+      - clusterId
+      - hueId
+      - hueVersion
+    properties:
+      clusterId:
+        type: string
+        description: ID of the Hue Query Editor's cluster.
+      hueId:
+        type: string
+        description: ID of the Hue Query Editor.
+      hueVersion:
+        type: string
+        description: Version of the Hue Query Editor to upgrade to.
+  UpgradeHueResponse:
+    type: object
+    description: Response object for the upgradeHue method.
+    properties:
+      status:
+        type: string
+        description: The status of asynchronous upgrade request for Hue Query Editor. To find the latest status please use describe-hue.
+  RebuildHueRequest:
+    type: object
+    description: Request object for the rebuildHue method.
+    required:
+      - clusterId
+      - hueId
+    properties:
+      clusterId:
+        type: string
+        description: ID of the Hue Query Editor's cluster.
+      hueId:
+        type: string
+        description: ID of the Hue Query Editor.
+  RebuildHueResponse:
+    type: object
+    description: Response object for the rebuildHue method.
+    properties:
+      status:
+        type: string
+        description: The status of asynchronous rebuild request for Hue Query Editor. To find the latest status please use describe-hue.
   CreateDbcRequest:
     type: object
     description: Request object for the createDbc method.
@@ -3304,24 +3705,6 @@ definitions:
         x-deprecated: true
         description: 'NOTE: creating Default Database Catalogs is deprecated and explicitly disabled. Denotes if Default Database Catalog creation needed.'
         default: false
-      dbMetastore:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the Metastore database.'
-        default: ''
-        x-form-factors: private
-      dbDas:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the DAS database. Not required for embedded databases.'
-        default: ''
-        x-form-factors: private
-      dbHue:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the HUE database. Not required for embedded databases.'
-        default: ''
-        x-form-factors: private
   CreateClusterDiagnosticDataJobRequest:
     type: object
     description: Request object for the createClusterDiagnosticDataJob method.
@@ -3861,6 +4244,25 @@ definitions:
   SuspendDbcResponse:
     type: object
     description: The response object for the suspendDbc method.
+  StartDbcRequest:
+    type: object
+    description: Request object for the restartDbc method.
+    required:
+      - clusterId
+      - dbcId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the Database Catalog's cluster.
+      dbcId:
+        type: string
+        description: The ID of the Database Catalog to restart.
+      forceRefresh:
+        type: boolean
+        description: Enforce refreshing configurations.
+  StartDbcResponse:
+    type: object
+    description: Response object for the restartDbc method.
   RestartDbcRequest:
     type: object
     description: Request object for the restartDbc method.
@@ -4300,6 +4702,11 @@ definitions:
         type: boolean
         x-form-factors: public
         description: Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
+      logHiveQueries:
+        x-form-factors: private
+        x-nullable: true
+        type: boolean
+        description: Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine.
       ebsLLAPSpillGB:
         type: integer
         format: int32
@@ -4309,6 +4716,59 @@ definitions:
         x-nullable: true
         x-form-factors: private
         description: 'Set Hive Server High Availability mode in Private Cloud: * `DISABLED` (default) - Disables Hive Server high availability. * `ACTIVE_PASSIVE` - Runs two Hive Server instances, one active and one passive. Hive session failover is not supported in this setup.'
+  CdwHue:
+    type: object
+    description: Details of a Hue Query Editor.
+    properties:
+      id:
+        type: string
+        description: Unique ID of Hue Query Editor.
+      name:
+        type: string
+        description: Name of the Hue Query Editor.
+      description:
+        type: string
+        description: Description for the Hue Query Editor.
+      dbName:
+        type: string
+        description: Name of the database backing the Hue Query Editor.
+      status:
+        type: string
+        description: Status of the Hue Query Editor.
+      hueVersion:
+        type: string
+        description: Current version of the Hue Query Editor.
+      instanceCount:
+        type: integer
+        format: int32
+        description: Number of Hue Query Editor backend pods.
+      userGroups:
+        type: array
+        items:
+          type: string
+        description: User groups that are allowed to access to Hue Query Editor.
+      dbInitStrategy:
+        type: string
+        description: Database initialization strategy for Hue Query Editor.
+        enum:
+          - CLONE_VW_DB
+          - FLUSH
+          - CREATE_OR_REUSE
+      tags:
+        type: array
+        description: List of tags to apply on compute instances.
+        items:
+          $ref: '#/definitions/TagResponse'
+      creatorCrn:
+        type: string
+        description: The CRN of the user who created the Hue Query Editor.
+      resourcePool:
+        type: string
+        description: The name of the Resource Pool the Hue Query Editor is in.
+        x-form-factors: private
+      config:
+        $ref: '#/definitions/ServiceConfigResp'
+        description: Config for the Hue Query Editor.
   TagRequest:
     description: A key/value pair that can be attached to some resources.
     type: object
@@ -4505,6 +4965,23 @@ definitions:
       reducedPermissionMode:
         type: boolean
         description: Denotes whether the Reduced Permission mode is enabled.
+      nonTransparentProxy:
+        description: Non-transparent proxy settings.
+        $ref: '#/definitions/AwsOptionsNonTransparentProxyResponse'
+  AwsOptionsNonTransparentProxyResponse:
+    type: object
+    description: 'Non-transparent proxy settings. Read more: https://docs.cloudera.com/data-warehouse/cloud/aws-environments/topics/dw-aws-use-non-transparent-proxy.html'
+    properties:
+      use:
+        type: boolean
+        description: Denotes whether the proxy settings turned on/off.
+        x-omitempty: false
+      bypassedDomains:
+        type: array
+        description: Domains where the proxy is getting by-passed.
+        items:
+          type: string
+          description: Domain.
   AzureOptionsResponse:
     type: object
     description: Response object of the cluster Azure settings.
@@ -4514,7 +4991,7 @@ definitions:
         description: ID of Azure subnet where the cluster is deployed.
       enableAZ:
         type: boolean
-        description: Denotes whther the Azure Availability Zones for the cluster is enabled or not.
+        description: Denotes whether the Azure Availability Zones for the cluster is enabled or not.
         default: false
       outboundType:
         type: string
@@ -4823,12 +5300,6 @@ definitions:
         x-form-factors: public
         type: boolean
         description: Denotes whether the spot instances have been enabled for the cluster. This value is only available for AWS and Azure clusters.
-      computeInstanceTypes:
-        x-deprecated: true
-        type: array
-        items:
-          type: string
-        description: 'DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. Compute instance types that the environment is restricted to use. This affects the creation of the virtual warehouses where this restriction will apply.'
       awsOptions:
         $ref: '#/definitions/AwsOptionsResponse'
         description: Response object of AWS related cluster options.
@@ -5103,6 +5574,10 @@ definitions:
         type: boolean
         x-form-factors: public
         description: Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
+      logHiveQueries:
+        x-form-factors: private
+        type: boolean
+        description: Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine.
       tags:
         type: array
         description: Tags associated with the resources.
@@ -5400,10 +5875,16 @@ definitions:
         type: boolean
         x-form-factors: public
         description: Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
+      logHiveQueries:
+        x-form-factors: private
+        x-nullable: true
+        type: boolean
+        description: Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine.
       resourcePool:
         type: string
-        description: Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.
+        description: 'DEPRECATED: This functionality will be removed in the next release. Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.'
         x-form-factors: private
+        x-deprecated: true
       hiveServerHaMode:
         type: string
         x-nullable: true
@@ -5428,6 +5909,11 @@ definitions:
       resourceTemplateId:
         type: string
         description: The resource template of the Database Catalog.
+      resourcePool:
+        type: string
+        description: 'DEPRECATED: This functionality will be removed in the next release. Sets the resource pool of the Database Catalog. Updating an already set resource pool for a Database Catalog is not supported.'
+        x-form-factors: private
+        x-deprecated: true
       config:
         description: The service configuration to update the DBC with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
         $ref: '#/definitions/ServiceConfigReq'
@@ -5537,8 +6023,9 @@ definitions:
         description: Admin groups to allow configuration access to Data Visualization for selected users
       resourcePool:
         type: string
-        description: The Resource Pool of the Cloudera Data Visualization.
+        description: 'DEPRECATED: This functionality for update will be removed in the next release. For create, please use the new resourcePool field. The Resource Pool of the Cloudera Data Visualization.'
         x-form-factors: private
+        x-deprecated: true
   ConfigContentDiff:
     type: object
     description: Difference between two ConfigContents.
@@ -5709,6 +6196,9 @@ definitions:
       vwId:
         type: string
         description: The ID of the Virtual Warehouse.
+      forceRefresh:
+        type: boolean
+        description: Enforce refreshing configurations.
   StartVwResponse:
     type: object
     description: The response object for the startVw method.
@@ -6516,8 +7006,9 @@ definitions:
     properties:
       id:
         type: string
-        description: ID of the template.
+        description: 'DEPRECATED: ID of the template. This field is unused and always empty. Subject of removal.'
         x-nullable: false
+        x-deprecated: true
       name:
         type: string
         description: Name of the template.

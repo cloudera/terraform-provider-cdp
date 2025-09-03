@@ -32,7 +32,6 @@ resource "cdp_dw_aws_cluster" "example" {
   instance_settings = {
     custom_ami_id             = ""
     enable_spot_instances     = false
-    compute_instance_types    = ["<value>"]
     additional_instance_types = ["<value>"]
   }
 }

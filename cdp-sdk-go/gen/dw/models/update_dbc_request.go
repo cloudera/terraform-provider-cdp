@@ -30,6 +30,9 @@ type UpdateDbcRequest struct {
 	// Required: true
 	DbcID *string `json:"dbcId"`
 
+	// DEPRECATED: This functionality will be removed in the next release. Sets the resource pool of the Database Catalog. Updating an already set resource pool for a Database Catalog is not supported.
+	ResourcePool string `json:"resourcePool,omitempty"`
+
 	// The resource template of the Database Catalog.
 	ResourceTemplateID string `json:"resourceTemplateId,omitempty"`
 }

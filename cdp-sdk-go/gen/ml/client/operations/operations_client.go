@@ -60,6 +60,8 @@ type ClientService interface {
 
 	BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error)
 
+	CreateFileReplica(params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error)
+
 	CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error)
 
 	CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error)
@@ -67,6 +69,8 @@ type ClientService interface {
 	CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error)
 
 	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
+
+	DeleteFileReplica(params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error)
 
 	DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error)
 
@@ -84,9 +88,15 @@ type ClientService interface {
 
 	DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error)
 
+	DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error)
+
+	FailOverFileSystem(params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error)
+
 	GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error)
 
 	GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error)
+
+	GetLatestModelRegistryVersion(params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error)
 
 	GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error)
 
@@ -273,6 +283,45 @@ func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOp
 }
 
 /*
+CreateFileReplica creates file system replica
+
+Creates a file system replication.
+*/
+func (a *Client) CreateFileReplica(params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateFileReplicaParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createFileReplica",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/createFileReplica",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateFileReplicaReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateFileReplicaOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*CreateFileReplicaDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 CreateMlServingApp deploys cloudera a i inference service into an existing kubernetes cluster
 
 Deploys Cloudera AI Inference Service into an existing Kubernetes cluster.
@@ -425,6 +474,45 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DeleteBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteFileReplica deletes existing replication for project files
+
+Delete existing replication configuration for project files.
+*/
+func (a *Client) DeleteFileReplica(params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteFileReplicaParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteFileReplica",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/deleteFileReplica",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteFileReplicaReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DeleteFileReplicaOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DeleteFileReplicaDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -663,9 +751,9 @@ func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts .
 }
 
 /*
-DescribeModelRegistry describes cloudera a i model registry
+DescribeModelRegistry deprecateds cloudera a i model registry is now deprecated
 
-Describes a Cloudera AI Model Registry.
+Please use ListModelRegistries.
 */
 func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error) {
 	// TODO: Validate the params before sending
@@ -737,6 +825,84 @@ func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...Clie
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*DescribeWorkspaceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DescribeWorkspaceBackup describes backup snaphot of a workbench
+
+Describe backup snaphot of a workbench.
+*/
+func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDescribeWorkspaceBackupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "describeWorkspaceBackup",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/describeWorkspaceBackup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DescribeWorkspaceBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DescribeWorkspaceBackupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DescribeWorkspaceBackupDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+FailOverFileSystem failovers to replica file system
+
+Failover to replica in case of a source file system disaster.
+*/
+func (a *Client) FailOverFileSystem(params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewFailOverFileSystemParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "failOverFileSystem",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/failOverFileSystem",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &FailOverFileSystemReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*FailOverFileSystemOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*FailOverFileSystemDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -815,6 +981,45 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*GetKubeconfigDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetLatestModelRegistryVersion gets latest model registry version cloudera a i registry
+
+Retrieves the latest version that Cloudera AI deploys to ModelRegistries.
+*/
+func (a *Client) GetLatestModelRegistryVersion(params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetLatestModelRegistryVersionParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getLatestModelRegistryVersion",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/getLatestModelRegistryVersion",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetLatestModelRegistryVersionReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetLatestModelRegistryVersionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetLatestModelRegistryVersionDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

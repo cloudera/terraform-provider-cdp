@@ -19,9 +19,12 @@ import (
 // swagger:model ListInstanceTypeConfigurationRequest
 type ListInstanceTypeConfigurationRequest struct {
 
-	// Identifies the cloud provider (e.g., AWS, Azure) for which to list supported instances.
+	// Deprecated. Please use environmentName instead, from which the cloud provider will be determined.
+	CloudProvider string `json:"cloudProvider,omitempty"`
+
+	// Specifies the environment name of respective cloud provider for which instance support details are requested.
 	// Required: true
-	CloudProvider *string `json:"cloudProvider"`
+	EnvironmentName *string `json:"environmentName"`
 
 	// Defines the category of the instance (e.g., CPU, GPU) relevant for the query in the specified region.
 	// Required: true
@@ -31,16 +34,19 @@ type ListInstanceTypeConfigurationRequest struct {
 	// Required: true
 	InstanceType *string `json:"instanceType"`
 
-	// Specifies the name of the region for which instance support details are requested.
+	// Specifies the product type for which instance support details are requested.
 	// Required: true
-	Region *string `json:"region"`
+	ProductType *string `json:"productType"`
+
+	// Deprecated. Please use environmentName instead, from which the region will be determined.
+	Region string `json:"region,omitempty"`
 }
 
 // Validate validates this list instance type configuration request
 func (m *ListInstanceTypeConfigurationRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateCloudProvider(formats); err != nil {
+	if err := m.validateEnvironmentName(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -52,7 +58,7 @@ func (m *ListInstanceTypeConfigurationRequest) Validate(formats strfmt.Registry)
 		res = append(res, err)
 	}
 
-	if err := m.validateRegion(formats); err != nil {
+	if err := m.validateProductType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -62,9 +68,9 @@ func (m *ListInstanceTypeConfigurationRequest) Validate(formats strfmt.Registry)
 	return nil
 }
 
-func (m *ListInstanceTypeConfigurationRequest) validateCloudProvider(formats strfmt.Registry) error {
+func (m *ListInstanceTypeConfigurationRequest) validateEnvironmentName(formats strfmt.Registry) error {
 
-	if err := validate.Required("cloudProvider", "body", m.CloudProvider); err != nil {
+	if err := validate.Required("environmentName", "body", m.EnvironmentName); err != nil {
 		return err
 	}
 
@@ -89,9 +95,9 @@ func (m *ListInstanceTypeConfigurationRequest) validateInstanceType(formats strf
 	return nil
 }
 
-func (m *ListInstanceTypeConfigurationRequest) validateRegion(formats strfmt.Registry) error {
+func (m *ListInstanceTypeConfigurationRequest) validateProductType(formats strfmt.Registry) error {
 
-	if err := validate.Required("region", "body", m.Region); err != nil {
+	if err := validate.Required("productType", "body", m.ProductType); err != nil {
 		return err
 	}
 

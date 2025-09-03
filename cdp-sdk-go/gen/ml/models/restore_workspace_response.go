@@ -17,6 +17,9 @@ import (
 // swagger:model RestoreWorkspaceResponse
 type RestoreWorkspaceResponse struct {
 
+	// Warning messages about restore behavior.
+	Warnings []string `json:"warnings"`
+
 	// The CRN of the Cloudera AI workbench being provisioned.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 }

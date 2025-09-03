@@ -195,6 +195,7 @@ Optional:
 
 Optional:
 
+- `architecture` (String) CPU architecture of the freeipa instance. Can be either X86_64 or ARM64.
 - `catalog` (String)
 - `image_id` (String)
 - `instance_count_by_group` (Number)

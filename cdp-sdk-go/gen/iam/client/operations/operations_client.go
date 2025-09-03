@@ -110,7 +110,11 @@ type ClientService interface {
 
 	DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error)
 
+	DisableUserWorkloadPasswordChangedNotifications(params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error)
+
 	EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error)
+
+	EnableUserWorkloadPasswordChangedNotifications(params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error)
 
 	GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error)
 
@@ -1308,6 +1312,45 @@ func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, 
 }
 
 /*
+DisableUserWorkloadPasswordChangedNotifications disables sending user workload password changed email notifications for the account
+
+Disables sending user workload password changed email notifications for the account.
+*/
+func (a *Client) DisableUserWorkloadPasswordChangedNotifications(params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDisableUserWorkloadPasswordChangedNotificationsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "disableUserWorkloadPasswordChangedNotifications",
+		Method:             "POST",
+		PathPattern:        "/iam/disableUserWorkloadPasswordChangedNotifications",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DisableUserWorkloadPasswordChangedNotificationsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*DisableUserWorkloadPasswordChangedNotificationsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*DisableUserWorkloadPasswordChangedNotificationsDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 EnableClouderaSSOLogin enables interactive login using cloudera s s o for this account
 
 Enables interactive login using Cloudera SSO for this account. This is a no-op if login using Cloudera SSO are already enabled.
@@ -1343,6 +1386,45 @@ func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, op
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*EnableClouderaSSOLoginDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+EnableUserWorkloadPasswordChangedNotifications enables sending user workload password changed email notifications for the account
+
+Enables sending user workload password change email notifications for the account.
+*/
+func (a *Client) EnableUserWorkloadPasswordChangedNotifications(params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewEnableUserWorkloadPasswordChangedNotificationsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "enableUserWorkloadPasswordChangedNotifications",
+		Method:             "POST",
+		PathPattern:        "/iam/enableUserWorkloadPasswordChangedNotifications",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &EnableUserWorkloadPasswordChangedNotificationsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*EnableUserWorkloadPasswordChangedNotificationsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*EnableUserWorkloadPasswordChangedNotificationsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

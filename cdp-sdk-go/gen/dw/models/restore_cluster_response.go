@@ -22,6 +22,9 @@ type RestoreClusterResponse struct {
 	// The cluster action. Possible actions: Create, Skip
 	Action string `json:"action,omitempty"`
 
+	// The plan for the restoration of the Hue Query Editors.
+	CdwHueRestorePlans []*RestoreClusterEntityPlan `json:"cdwHueRestorePlans"`
+
 	// The ID of the cluster.
 	ClusterID string `json:"clusterId,omitempty"`
 
@@ -51,6 +54,10 @@ type RestoreClusterResponse struct {
 func (m *RestoreClusterResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCdwHueRestorePlans(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateDbcRestorePlans(formats); err != nil {
 		res = append(res, err)
 	}
@@ -74,6 +81,32 @@ func (m *RestoreClusterResponse) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *RestoreClusterResponse) validateCdwHueRestorePlans(formats strfmt.Registry) error {
+	if swag.IsZero(m.CdwHueRestorePlans) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.CdwHueRestorePlans); i++ {
+		if swag.IsZero(m.CdwHueRestorePlans[i]) { // not required
+			continue
+		}
+
+		if m.CdwHueRestorePlans[i] != nil {
+			if err := m.CdwHueRestorePlans[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -211,6 +244,10 @@ func (m *RestoreClusterResponse) validateVizRestorePlans(formats strfmt.Registry
 func (m *RestoreClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateCdwHueRestorePlans(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateDbcRestorePlans(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -234,6 +271,31 @@ func (m *RestoreClusterResponse) ContextValidate(ctx context.Context, formats st
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *RestoreClusterResponse) contextValidateCdwHueRestorePlans(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.CdwHueRestorePlans); i++ {
+
+		if m.CdwHueRestorePlans[i] != nil {
+
+			if swag.IsZero(m.CdwHueRestorePlans[i]) { // not required
+				return nil
+			}
+
+			if err := m.CdwHueRestorePlans[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

@@ -149,11 +149,6 @@ var testDwClusterSchema = schema.Schema{
 					Default:             booldefault.StaticBool(false),
 					MarkdownDescription: "Whether to use spot instances for worker nodes.",
 				},
-				"compute_instance_types": schema.ListAttribute{
-					Optional:            true,
-					ElementType:         types.StringType,
-					MarkdownDescription: "The compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed.",
-				},
 				"additional_instance_types": schema.ListAttribute{
 					Optional:            true,
 					ElementType:         types.StringType,
@@ -239,7 +234,6 @@ func createRawClusterResource() tftypes.Value {
 					AttributeTypes: map[string]tftypes.Type{
 						"custom_ami_id":             tftypes.String,
 						"enable_spot_instances":     tftypes.Bool,
-						"compute_instance_types":    tftypes.List{ElementType: tftypes.String},
 						"additional_instance_types": tftypes.List{ElementType: tftypes.String},
 					},
 				},
@@ -317,12 +311,10 @@ func createRawClusterResource() tftypes.Value {
 					AttributeTypes: map[string]tftypes.Type{
 						"custom_ami_id":             tftypes.String,
 						"enable_spot_instances":     tftypes.Bool,
-						"compute_instance_types":    tftypes.List{ElementType: tftypes.String},
 						"additional_instance_types": tftypes.List{ElementType: tftypes.String},
 					}}, map[string]tftypes.Value{
 					"custom_ami_id":             tftypes.NewValue(tftypes.String, ""),
 					"enable_spot_instances":     tftypes.NewValue(tftypes.Bool, false),
-					"compute_instance_types":    tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
 					"additional_instance_types": tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{}),
 				},
 			),
