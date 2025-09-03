@@ -23,6 +23,9 @@ type StartVwRequest struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
+	// Enforce refreshing configurations.
+	ForceRefresh bool `json:"forceRefresh,omitempty"`
+
 	// The ID of the Virtual Warehouse.
 	// Required: true
 	VwID *string `json:"vwId"`

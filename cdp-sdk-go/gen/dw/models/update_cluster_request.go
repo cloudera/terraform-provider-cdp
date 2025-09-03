@@ -35,9 +35,6 @@ type UpdateClusterRequest struct {
 	// Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
 	ObservabilityConfig *UpdateClusterObservabilityConfig `json:"observabilityConfig,omitempty"`
 
-	// Used to set the resource pool of the Private Cloud Data Services clusters that are not enrolled for quota management.
-	ResourcePool string `json:"resourcePool,omitempty"`
-
 	// List of IP address CIDRs to whitelist. NOTE: CDW is in process of rolling out a new feature to whitelist IP CIDR separately for Kubernetes Clusters and Loadbalancers on CDP Public Cloud. For an existing cluster, if different IP CIDR has been already applied to LoadBalancer and the Kubernetes cluster through the DWX UI, then updating the IP CIDR of such cluster is not supported from CLI. In the upcoming release, the CLI will support this feature. Please make use of UI for the same.
 	WhitelistIPCIDRs []string `json:"whitelistIpCIDRs"`
 

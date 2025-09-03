@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -16,9 +17,6 @@ import (
 //
 // swagger:model AwsActivationOptions
 type AwsActivationOptions struct {
-
-	// DEPRECATED: The cluster level instance type selection will be replaced by virtual warehouse level selection. AWS compute instance types that the environment is restricted to use. This affects the creation of virtual warehouses where this restriction will apply. Select an instance type that meets your computing, memory, networking, or storage needs. As of now, only a single instance type can be listed. Use describe-allowed-instance-types to see currently possible values.
-	ComputeInstanceTypes []string `json:"computeInstanceTypes"`
 
 	// Custom AMI ID.
 	CustomAmiID string `json:"customAmiId,omitempty"`
@@ -35,6 +33,9 @@ type AwsActivationOptions struct {
 	// Managed Policy Arn to be attached to the Node Instance Role.
 	NodeRoleCDWManagedPolicyArn string `json:"nodeRoleCDWManagedPolicyArn,omitempty"`
 
+	// Non-transparent proxy settings. Read more: https://docs.cloudera.com/data-warehouse/cloud/aws-environments/topics/dw-aws-use-non-transparent-proxy.html
+	NonTransparentProxy *AwsActivationOptionsNonTransparentProxy `json:"nonTransparentProxy,omitempty"`
+
 	// Use this option to activate the environment with fewer than half of the standard required IAM permissions on your AWS cross-account IAM role.
 	ReducedPermissionMode bool `json:"reducedPermissionMode,omitempty"`
 
@@ -44,11 +45,69 @@ type AwsActivationOptions struct {
 
 // Validate validates this aws activation options
 func (m *AwsActivationOptions) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateNonTransparentProxy(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this aws activation options based on context it is used
+func (m *AwsActivationOptions) validateNonTransparentProxy(formats strfmt.Registry) error {
+	if swag.IsZero(m.NonTransparentProxy) { // not required
+		return nil
+	}
+
+	if m.NonTransparentProxy != nil {
+		if err := m.NonTransparentProxy.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("nonTransparentProxy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nonTransparentProxy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this aws activation options based on the context it is used
 func (m *AwsActivationOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateNonTransparentProxy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AwsActivationOptions) contextValidateNonTransparentProxy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.NonTransparentProxy != nil {
+
+		if swag.IsZero(m.NonTransparentProxy) { // not required
+			return nil
+		}
+
+		if err := m.NonTransparentProxy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("nonTransparentProxy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nonTransparentProxy")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

@@ -23,15 +23,6 @@ type CreateDbcRequest struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
-	// DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the DAS database. Not required for embedded databases.
-	DbDas string `json:"dbDas,omitempty"`
-
-	// DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the HUE database. Not required for embedded databases.
-	DbHue string `json:"dbHue,omitempty"`
-
-	// DEPRECATED: Current Private Cloud releases only support embedded database, the value of this field is ignored. The name of the Metastore database.
-	DbMetastore string `json:"dbMetastore,omitempty"`
-
 	// Version of the Database Catalog.
 	ImageVersion string `json:"imageVersion,omitempty"`
 

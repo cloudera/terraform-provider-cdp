@@ -16,6 +16,7 @@ import (
 
 	"github.com/go-openapi/strfmt"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/stretchr/testify/assert"
@@ -32,7 +33,7 @@ type GcpEnvironmentResourceModelMock struct {
 func TestToGcpEnvironmentRequestRootFields(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
-	result := toGcpEnvironmentRequest(context.TODO(), testObject)
+	result := toGcpEnvironmentRequest(context.Background(), testObject)
 
 	assert.Equal(t, testObject.EnvironmentName.ValueString(), *result.EnvironmentName)
 	assert.Equal(t, testObject.CredentialName.ValueString(), *result.CredentialName)
@@ -48,7 +49,7 @@ func TestToGcpEnvironmentRequestRootFields(t *testing.T) {
 func TestToGcpEnvironmentRequestExistingNetworkParams(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
-	result := toGcpEnvironmentRequest(context.TODO(), testObject)
+	result := toGcpEnvironmentRequest(context.Background(), testObject)
 
 	assert.NotNilf(t, result.ExistingNetworkParams, "ExistingNetworkParams is expected to be not nil")
 	assert.Equal(t, testObject.ExistingNetworkParams.NetworkName.ValueString(), *result.ExistingNetworkParams.NetworkName)
@@ -59,7 +60,7 @@ func TestToGcpEnvironmentRequestExistingNetworkParams(t *testing.T) {
 func TestToGcpEnvironmentRequestSecurityAccess(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
-	result := toGcpEnvironmentRequest(context.TODO(), testObject)
+	result := toGcpEnvironmentRequest(context.Background(), testObject)
 
 	assert.NotNilf(t, result.SecurityAccess, "SecurityAccess is expected to be not nil")
 	assert.Equal(t, testObject.SecurityAccess.DefaultSecurityGroupId.ValueString(), result.SecurityAccess.DefaultSecurityGroupID)
@@ -69,7 +70,7 @@ func TestToGcpEnvironmentRequestSecurityAccess(t *testing.T) {
 func TestToGcpEnvironmentRequestAvailabilityZones(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
-	result := toGcpEnvironmentRequest(context.TODO(), testObject)
+	result := toGcpEnvironmentRequest(context.Background(), testObject)
 
 	assert.NotNilf(t, result.AvailabilityZones, "If AvailabilityZones is specified, it is expected to be not nil")
 	assert.Equal(t, 1, len(testObject.AvailabilityZones))
@@ -78,7 +79,7 @@ func TestToGcpEnvironmentRequestAvailabilityZones(t *testing.T) {
 func TestToGcpEnvironmentRequestLogStorage(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
-	result := toGcpEnvironmentRequest(context.TODO(), testObject)
+	result := toGcpEnvironmentRequest(context.Background(), testObject)
 
 	assert.NotNilf(t, result.LogStorage, "LogStorage is expected to be not nil")
 	assert.Equal(t, testObject.LogStorage.StorageLocationBase.ValueString(), *result.LogStorage.StorageLocationBase)
@@ -89,7 +90,7 @@ func TestToGcpEnvironmentRequestLogStorage(t *testing.T) {
 func TestToGcpEnvironmentRequestFreeIpa(t *testing.T) {
 	testObject := createFilledGcpEnvironmentResourceModel()
 
-	ctx := context.TODO()
+	ctx := context.Background()
 	result := toGcpEnvironmentRequest(ctx, testObject)
 
 	var freeIpaDetails FreeIpaDetails
@@ -109,7 +110,8 @@ func TestToGcpEnvironmentResourceRootFields(t *testing.T) {
 	testModel := &gcpEnvironmentResourceModel{}
 	testEnv := createFilledEnvironment()
 
-	toGcpEnvironmentResource(context.TODO(), testEnv, testModel, getTestPollingOption(), nil)
+	diag := &diag.Diagnostics{}
+	toGcpEnvironmentResource(context.Background(), testEnv, testModel, getTestPollingOption(), diag)
 
 	stringExists(t, *testEnv.Crn, testModel.Crn)
 	stringExists(t, *testEnv.Region, testModel.Region)
@@ -138,6 +140,7 @@ func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
 		"os":                      types.StringValue("someOs"),
 		"instances":               instances,
 		"multi_az":                types.BoolValue(true),
+		"architecture":            types.StringValue("X86_64"),
 	})
 	return &gcpEnvironmentResourceModel{
 		EnvironmentName: types.StringValue("someEnvironmentName"),

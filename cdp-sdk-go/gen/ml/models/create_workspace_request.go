@@ -41,6 +41,9 @@ type CreateWorkspaceRequest struct {
 	// The boolean flag is used to enable monitoring. By default, monitoring is disabled.
 	EnableMonitoring bool `json:"enableMonitoring,omitempty"`
 
+	// The boolean flag is used to enable yunikorn scheduling. By default, yunikorn scheduling is disabled.
+	EnableYunikorn bool `json:"enableYunikorn,omitempty"`
+
 	// The environment for the workbench to create.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`

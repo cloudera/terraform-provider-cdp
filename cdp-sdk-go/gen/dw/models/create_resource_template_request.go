@@ -25,7 +25,7 @@ type CreateResourceTemplateRequest struct {
 	// Entity type for which the template will be created. (Possible values: impala, hive, trino, hue, dbc, viz).
 	EntityType string `json:"entityType,omitempty"`
 
-	// ID of the template.
+	// DEPRECATED: ID of the template. This field is unused and always empty. Subject of removal.
 	ID string `json:"id,omitempty"`
 
 	// Name of the template.

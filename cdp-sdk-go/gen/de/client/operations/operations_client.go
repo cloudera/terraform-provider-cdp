@@ -80,6 +80,8 @@ type ClientService interface {
 
 	GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error)
 
+	GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error)
+
 	GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error)
 
 	ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error)
@@ -89,6 +91,8 @@ type ClientService interface {
 	ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsOK, error)
 
 	RestoreService(params *RestoreServiceParams, opts ...ClientOption) (*RestoreServiceOK, error)
+
+	SuspendResumeService(params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error)
 
 	UpdateService(params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error)
 
@@ -607,6 +611,45 @@ func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...Cl
 }
 
 /*
+GetSuspendResumeStatus gets c d e service suspend resume status
+
+The current status of the CDE Service suspend/resume process. After a particular step triggered by suspend-resume-service is completed, nextStep would point to the next step to take. If all the steps are completed, allStepsCompleted would be true.
+*/
+func (a *Client) GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetSuspendResumeStatusParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getSuspendResumeStatus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/de/getSuspendResumeStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetSuspendResumeStatusReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetSuspendResumeStatusOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*GetSuspendResumeStatusDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetUpgradeStatus gets c d e service upgrade status
 
 The current status of the CDE Service upgrade. If all the steps are completed allStepsCompleted would be true. After a particular step triggered by upgrade-service is completed nextStep would point to the next step to take.
@@ -798,6 +841,45 @@ func (a *Client) RestoreService(params *RestoreServiceParams, opts ...ClientOpti
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*RestoreServiceDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SuspendResumeService triggers a particular step of the suspend resume process
+
+Trigger a particular step of the multi-step suspend/resume service process.
+*/
+func (a *Client) SuspendResumeService(params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSuspendResumeServiceParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "suspendResumeService",
+		Method:             "POST",
+		PathPattern:        "/api/v1/de/suspendResumeService",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SuspendResumeServiceReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SuspendResumeServiceOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*SuspendResumeServiceDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

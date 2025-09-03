@@ -17,7 +17,10 @@ import (
 // swagger:model AwsCredentialProperties
 type AwsCredentialProperties struct {
 
-	// Flag that indicates that the given AWS credential is GovCloud specfic.
+	// The default region for the Credential to be used during API interactions.
+	DefaultRegion string `json:"defaultRegion,omitempty"`
+
+	// Flag that indicates that the given AWS credential is GovCloud specific.
 	GovCloud bool `json:"govCloud,omitempty"`
 
 	// The AWS role arn for the given credential.
