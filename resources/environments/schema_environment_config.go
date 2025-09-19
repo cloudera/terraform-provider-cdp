@@ -441,7 +441,7 @@ var FreeIpaConfigSchema = schema.SingleNestedAttribute{
 		"os": schema.StringAttribute{
 			Computed: true,
 		},
-		"instance_count_by_group": schema.Int64Attribute{
+		"instance_count_by_group": schema.Int32Attribute{
 			Computed: true,
 		},
 		"instance_type": schema.StringAttribute{

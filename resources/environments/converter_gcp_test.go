@@ -132,7 +132,7 @@ func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
 	var elems []attr.Value
 	instances, _ := types.SetValue(FreeIpaInstanceType, elems)
 	freeIpaObj, _ := basetypes.NewObjectValue(FreeIpaDetailsType.AttrTypes, map[string]attr.Value{
-		"instance_count_by_group": types.Int64Value(123),
+		"instance_count_by_group": types.Int32Value(123),
 		"recipes":                 createSetOfString(),
 		"instance_type":           types.StringValue("someInstanceType"),
 		"catalog":                 types.StringValue("someCatalog"),
