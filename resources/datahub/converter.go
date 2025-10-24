@@ -39,13 +39,26 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
+		var igRecipes []string
+		if len(group.Recipes) > 0 {
+			for _, recipe := range group.Recipes {
+				igRecipes = append(igRecipes, recipe.ValueString())
+			}
+		}
+		var igSubnetIds []string
+		if len(group.SubnetIds) > 0 {
+			for _, subnetId := range group.SubnetIds {
+				igSubnetIds = append(igSubnetIds, subnetId.ValueString())
+			}
+		}
 		ig := &datahubmodels.InstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
 			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
-			RecipeNames:                 utils.StringArrayToSlice(group.Recipes),
+			RecipeNames:                 igRecipes,
+			SubnetIds:                   igSubnetIds,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              group.RootVolumeSize.ValueInt32(),
 			VolumeEncryption: &datahubmodels.VolumeEncryptionRequest{

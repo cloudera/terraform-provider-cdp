@@ -160,6 +160,11 @@ var instanceGroupSchemaAttributes = map[string]schema.Attribute{
 					ElementType:         types.StringType,
 					Optional:            true,
 				},
+				"subnet_ids": schema.SetAttribute{
+					MarkdownDescription: "The set of subnet ids that are going to be applied on the given instance group in case of multi-availability zone setup",
+					ElementType:         types.StringType,
+					Optional:            true,
+				},
 				"availability_zones": schema.SetAttribute{
 					MarkdownDescription: "The set of availability zones that are going to be used for cluster creation on the given instance group.",
 					ElementType:         types.StringType,

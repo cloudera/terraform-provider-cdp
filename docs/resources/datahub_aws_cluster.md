@@ -324,6 +324,7 @@ Optional:
 
 - `availability_zones` (Set of String) The set of availability zones that are going to be used for cluster creation on the given instance group.
 - `recipes` (Set of String) The set of recipe names that are going to be applied on the given instance group.
+- `subnet_ids` (Set of String) The set of subnet ids that are going to be applied on the given instance group in case of multi-availability zone setup
 
 <a id="nestedatt--instance_group--attached_volume_configuration"></a>
 ### Nested Schema for `instance_group.attached_volume_configuration`
