@@ -96,6 +96,27 @@ func TestFromModelToRequestRecipe(t *testing.T) {
 	}
 }
 
+func TestFromModelToRequestSubnetId(t *testing.T) {
+	subnetIds := []types.String{types.StringValue("subnet1"), types.StringValue("subnet2")}
+	igs := []InstanceGroup{{SubnetIds: subnetIds}}
+	input := awsDatahubResourceModel{InstanceGroup: igs}
+
+	got := fromModelToAwsRequest(input, context.TODO())
+	test.CompareInts(len(got.InstanceGroups), len(input.InstanceGroup), t)
+	test.CompareInts(len(got.InstanceGroups[0].SubnetIds), len(input.InstanceGroup[0].SubnetIds), t)
+
+	for _, convertedSubnetId := range got.InstanceGroups[0].SubnetIds {
+		var contains bool
+		for _, originalSubnetId := range input.InstanceGroup[0].SubnetIds {
+			if originalSubnetId.ValueString() == convertedSubnetId {
+				contains = true
+			}
+		}
+		if !contains {
+			t.Errorf("Instance group does not contain subnetId: %s", convertedSubnetId)
+		}
+	}
+}
 func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 	avcs := []AttachedVolumeConfiguration{{
 		VolumeSize:  types.Int32Value(100),
