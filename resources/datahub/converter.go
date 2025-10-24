@@ -44,6 +44,12 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 				igRecipes = append(igRecipes, recipe.ValueString())
 			}
 		}
+		var igSubnetIds []string
+		if len(group.SubnetIds) > 0 {
+			for _, subnetId := range group.SubnetIds {
+				igSubnetIds = append(igSubnetIds, subnetId.ValueString())
+			}
+		}
 		ig := &datahubmodels.InstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
@@ -51,6 +57,7 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 			InstanceType:                group.InstanceType.ValueStringPointer(),
 			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
 			RecipeNames:                 igRecipes,
+			SubnetIds:                   igSubnetIds,
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              group.RootVolumeSize.ValueInt32(),
 			VolumeEncryption: &datahubmodels.VolumeEncryptionRequest{
