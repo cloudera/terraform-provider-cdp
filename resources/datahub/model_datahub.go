@@ -24,6 +24,7 @@ type InstanceGroup struct {
 	RecoveryMode                types.String                  `tfsdk:"recovery_mode"`
 	VolumeEncryption            VolumeEncryption              `tfsdk:"volume_encryption"`
 	Recipes                     []types.String                `tfsdk:"recipes"`
+	SubnetIds                   []types.String                `tfsdk:"subnet_ids"`
 	AvailabilityZones           []types.String                `tfsdk:"availability_zones"`
 }
 
