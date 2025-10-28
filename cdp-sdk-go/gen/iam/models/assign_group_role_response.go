@@ -8,4 +8,4 @@ package models
 // AssignGroupRoleResponse Response object for an assign group role request.
 //
 // swagger:model AssignGroupRoleResponse
-type AssignGroupRoleResponse interface{}
+type AssignGroupRoleResponse any

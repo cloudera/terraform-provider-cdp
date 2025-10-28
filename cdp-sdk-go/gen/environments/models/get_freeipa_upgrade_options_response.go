@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,11 +52,15 @@ func (m *GetFreeipaUpgradeOptionsResponse) validateCurrentImage(formats strfmt.R
 
 	if m.CurrentImage != nil {
 		if err := m.CurrentImage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("currentImage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("currentImage")
 			}
+
 			return err
 		}
 	}
@@ -75,11 +80,15 @@ func (m *GetFreeipaUpgradeOptionsResponse) validateImages(formats strfmt.Registr
 
 		if m.Images[i] != nil {
 			if err := m.Images[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("images" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("images" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -116,11 +125,15 @@ func (m *GetFreeipaUpgradeOptionsResponse) contextValidateCurrentImage(ctx conte
 		}
 
 		if err := m.CurrentImage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("currentImage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("currentImage")
 			}
+
 			return err
 		}
 	}
@@ -139,11 +152,15 @@ func (m *GetFreeipaUpgradeOptionsResponse) contextValidateImages(ctx context.Con
 			}
 
 			if err := m.Images[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("images" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("images" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

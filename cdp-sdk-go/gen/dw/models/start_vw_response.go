@@ -8,4 +8,4 @@ package models
 // StartVwResponse The response object for the startVw method.
 //
 // swagger:model StartVwResponse
-type StartVwResponse interface{}
+type StartVwResponse any

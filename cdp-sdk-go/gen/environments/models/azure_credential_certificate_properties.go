@@ -68,7 +68,7 @@ func (m *AzureCredentialCertificateProperties) validateExpirationDate(formats st
 	return nil
 }
 
-var azureCredentialCertificatePropertiesTypeStatusPropEnum []interface{}
+var azureCredentialCertificatePropertiesTypeStatusPropEnum []any
 
 func init() {
 	var res []string

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -64,11 +65,15 @@ func (m *AwsActivationOptions) validateNonTransparentProxy(formats strfmt.Regist
 
 	if m.NonTransparentProxy != nil {
 		if err := m.NonTransparentProxy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("nonTransparentProxy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("nonTransparentProxy")
 			}
+
 			return err
 		}
 	}
@@ -99,11 +104,15 @@ func (m *AwsActivationOptions) contextValidateNonTransparentProxy(ctx context.Co
 		}
 
 		if err := m.NonTransparentProxy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("nonTransparentProxy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("nonTransparentProxy")
 			}
+
 			return err
 		}
 	}

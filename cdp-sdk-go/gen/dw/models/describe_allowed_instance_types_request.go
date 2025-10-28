@@ -8,4 +8,4 @@ package models
 // DescribeAllowedInstanceTypesRequest Request object for the describeAllowedInstanceTypes method.
 //
 // swagger:model DescribeAllowedInstanceTypesRequest
-type DescribeAllowedInstanceTypesRequest interface{}
+type DescribeAllowedInstanceTypesRequest any

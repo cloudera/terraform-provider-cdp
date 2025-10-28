@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -103,11 +104,15 @@ func (m *InstanceGroupRequest) validateAttachedVolumeConfiguration(formats strfm
 
 		if m.AttachedVolumeConfiguration[i] != nil {
 			if err := m.AttachedVolumeConfiguration[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -160,11 +165,15 @@ func (m *InstanceGroupRequest) validateVolumeEncryption(formats strfmt.Registry)
 
 	if m.VolumeEncryption != nil {
 		if err := m.VolumeEncryption.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("volumeEncryption")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("volumeEncryption")
 			}
+
 			return err
 		}
 	}
@@ -201,11 +210,15 @@ func (m *InstanceGroupRequest) contextValidateAttachedVolumeConfiguration(ctx co
 			}
 
 			if err := m.AttachedVolumeConfiguration[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedVolumeConfiguration" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -224,11 +237,15 @@ func (m *InstanceGroupRequest) contextValidateVolumeEncryption(ctx context.Conte
 		}
 
 		if err := m.VolumeEncryption.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("volumeEncryption")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("volumeEncryption")
 			}
+
 			return err
 		}
 	}

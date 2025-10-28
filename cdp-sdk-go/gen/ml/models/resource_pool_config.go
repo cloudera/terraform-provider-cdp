@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -46,11 +47,15 @@ func (m *ResourcePoolConfig) validateWorkspaceQuota(formats strfmt.Registry) err
 
 	if m.WorkspaceQuota != nil {
 		if err := m.WorkspaceQuota.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workspaceQuota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workspaceQuota")
 			}
+
 			return err
 		}
 	}
@@ -81,11 +86,15 @@ func (m *ResourcePoolConfig) contextValidateWorkspaceQuota(ctx context.Context, 
 		}
 
 		if err := m.WorkspaceQuota.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workspaceQuota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workspaceQuota")
 			}
+
 			return err
 		}
 	}

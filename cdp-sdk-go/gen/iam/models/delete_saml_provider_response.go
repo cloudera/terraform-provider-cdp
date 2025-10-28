@@ -8,4 +8,4 @@ package models
 // DeleteSamlProviderResponse Response object for delete SAML provider request.
 //
 // swagger:model DeleteSamlProviderResponse
-type DeleteSamlProviderResponse interface{}
+type DeleteSamlProviderResponse any

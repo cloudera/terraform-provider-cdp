@@ -50,7 +50,7 @@ func (m *UpscaleFreeipaResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var upscaleFreeipaResponseTypeOriginalAvailabilityTypePropEnum []interface{}
+var upscaleFreeipaResponseTypeOriginalAvailabilityTypePropEnum []any
 
 func init() {
 	var res []string
@@ -92,7 +92,7 @@ func (m *UpscaleFreeipaResponse) validateOriginalAvailabilityType(formats strfmt
 	return nil
 }
 
-var upscaleFreeipaResponseTypeTargetAvailabilityTypePropEnum []interface{}
+var upscaleFreeipaResponseTypeTargetAvailabilityTypePropEnum []any
 
 func init() {
 	var res []string

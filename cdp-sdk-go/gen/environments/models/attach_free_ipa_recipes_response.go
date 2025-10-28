@@ -8,4 +8,4 @@ package models
 // AttachFreeIpaRecipesResponse Response object for attaching recipes to FreeIPA.
 //
 // swagger:model AttachFreeIpaRecipesResponse
-type AttachFreeIpaRecipesResponse interface{}
+type AttachFreeIpaRecipesResponse any

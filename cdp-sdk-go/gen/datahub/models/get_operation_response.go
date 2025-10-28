@@ -73,7 +73,7 @@ func (m *GetOperationResponse) validateEnded(formats strfmt.Registry) error {
 	return nil
 }
 
-var getOperationResponseTypeOperationStatusPropEnum []interface{}
+var getOperationResponseTypeOperationStatusPropEnum []any
 
 func init() {
 	var res []string

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -89,11 +90,15 @@ func (m *UpdateDatabaseRequest) validateAutoScalingParameters(formats strfmt.Reg
 
 	if m.AutoScalingParameters != nil {
 		if err := m.AutoScalingParameters.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoScalingParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoScalingParameters")
 			}
+
 			return err
 		}
 	}
@@ -126,11 +131,15 @@ func (m *UpdateDatabaseRequest) validateSwitchInstanceType(formats strfmt.Regist
 
 	if m.SwitchInstanceType != nil {
 		if err := m.SwitchInstanceType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("switchInstanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("switchInstanceType")
 			}
+
 			return err
 		}
 	}
@@ -144,11 +153,15 @@ func (m *UpdateDatabaseRequest) validateVerticalScale(formats strfmt.Registry) e
 	}
 
 	if err := m.VerticalScale.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("verticalScale")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("verticalScale")
 		}
+
 		return err
 	}
 
@@ -186,11 +199,15 @@ func (m *UpdateDatabaseRequest) contextValidateAutoScalingParameters(ctx context
 		}
 
 		if err := m.AutoScalingParameters.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoScalingParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoScalingParameters")
 			}
+
 			return err
 		}
 	}
@@ -207,11 +224,15 @@ func (m *UpdateDatabaseRequest) contextValidateSwitchInstanceType(ctx context.Co
 		}
 
 		if err := m.SwitchInstanceType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("switchInstanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("switchInstanceType")
 			}
+
 			return err
 		}
 	}
@@ -226,11 +247,15 @@ func (m *UpdateDatabaseRequest) contextValidateVerticalScale(ctx context.Context
 	}
 
 	if err := m.VerticalScale.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("verticalScale")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("verticalScale")
 		}
+
 		return err
 	}
 

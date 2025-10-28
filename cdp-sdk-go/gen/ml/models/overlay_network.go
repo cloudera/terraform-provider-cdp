@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -17,6 +18,9 @@ import (
 //
 // swagger:model OverlayNetwork
 type OverlayNetwork struct {
+
+	// The networking options for GCP platform.
+	Gcp *Gcp `json:"gcp,omitempty"`
 
 	// The plugin specifies specific cni vendor, ex: calico, weave etc.
 	Plugin string `json:"plugin,omitempty"`
@@ -29,6 +33,10 @@ type OverlayNetwork struct {
 func (m *OverlayNetwork) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateGcp(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateTopology(formats); err != nil {
 		res = append(res, err)
 	}
@@ -39,6 +47,29 @@ func (m *OverlayNetwork) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *OverlayNetwork) validateGcp(formats strfmt.Registry) error {
+	if swag.IsZero(m.Gcp) { // not required
+		return nil
+	}
+
+	if m.Gcp != nil {
+		if err := m.Gcp.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("gcp")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("gcp")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *OverlayNetwork) validateTopology(formats strfmt.Registry) error {
 	if swag.IsZero(m.Topology) { // not required
 		return nil
@@ -46,11 +77,15 @@ func (m *OverlayNetwork) validateTopology(formats strfmt.Registry) error {
 
 	if m.Topology != nil {
 		if err := m.Topology.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("topology")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("topology")
 			}
+
 			return err
 		}
 	}
@@ -62,6 +97,10 @@ func (m *OverlayNetwork) validateTopology(formats strfmt.Registry) error {
 func (m *OverlayNetwork) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateGcp(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateTopology(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -69,6 +108,31 @@ func (m *OverlayNetwork) ContextValidate(ctx context.Context, formats strfmt.Reg
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *OverlayNetwork) contextValidateGcp(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Gcp != nil {
+
+		if swag.IsZero(m.Gcp) { // not required
+			return nil
+		}
+
+		if err := m.Gcp.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("gcp")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("gcp")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -81,11 +145,15 @@ func (m *OverlayNetwork) contextValidateTopology(ctx context.Context, formats st
 		}
 
 		if err := m.Topology.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("topology")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("topology")
 			}
+
 			return err
 		}
 	}

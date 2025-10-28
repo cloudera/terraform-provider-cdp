@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var datalakeInstanceTypeEnum []interface{}
+var datalakeInstanceTypeEnum []any
 
 func init() {
 	var res []DatalakeInstanceType

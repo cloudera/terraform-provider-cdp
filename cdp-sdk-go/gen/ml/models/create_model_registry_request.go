@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -27,6 +28,9 @@ type CreateModelRegistryRequest struct {
 
 	// The creator of model registry.
 	CreatorCrn string `json:"creatorCrn,omitempty"`
+
+	// If true, opt out of enabling the object store CSI driver integration. CSI driver integration offers increased scalability but requires the "Storage Account Contributor" role on Azure.
+	DisableObjectStoreCsiDriver bool `json:"disableObjectStoreCsiDriver,omitempty"`
 
 	// The environment CRN of model registry.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
@@ -97,11 +101,15 @@ func (m *CreateModelRegistryRequest) validateOutboundTypes(formats strfmt.Regist
 	for i := 0; i < len(m.OutboundTypes); i++ {
 
 		if err := m.OutboundTypes[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
 			}
+
 			return err
 		}
 
@@ -117,11 +125,15 @@ func (m *CreateModelRegistryRequest) validateProvisionK8sRequest(formats strfmt.
 
 	if m.ProvisionK8sRequest != nil {
 		if err := m.ProvisionK8sRequest.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("provisionK8sRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("provisionK8sRequest")
 			}
+
 			return err
 		}
 	}
@@ -156,11 +168,15 @@ func (m *CreateModelRegistryRequest) contextValidateOutboundTypes(ctx context.Co
 		}
 
 		if err := m.OutboundTypes[i].ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
 			}
+
 			return err
 		}
 
@@ -178,11 +194,15 @@ func (m *CreateModelRegistryRequest) contextValidateProvisionK8sRequest(ctx cont
 		}
 
 		if err := m.ProvisionK8sRequest.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("provisionK8sRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("provisionK8sRequest")
 			}
+
 			return err
 		}
 	}

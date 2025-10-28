@@ -8,4 +8,4 @@ package models
 // RevokeWorkspaceAccessResponse Response object for the RevokeWorkspaceAccess method.
 //
 // swagger:model RevokeWorkspaceAccessResponse
-type RevokeWorkspaceAccessResponse interface{}
+type RevokeWorkspaceAccessResponse any

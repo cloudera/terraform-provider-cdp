@@ -62,7 +62,7 @@ func (m *RepairFreeipaRequest) validateEnvironmentName(formats strfmt.Registry) 
 	return nil
 }
 
-var repairFreeipaRequestTypeRepairTypePropEnum []interface{}
+var repairFreeipaRequestTypeRepairTypePropEnum []any
 
 func init() {
 	var res []string

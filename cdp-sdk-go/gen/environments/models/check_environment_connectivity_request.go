@@ -84,7 +84,7 @@ func (m *CheckEnvironmentConnectivityRequest) validateAuthenticationToken(format
 	return nil
 }
 
-var checkEnvironmentConnectivityRequestTypeAuthenticationTokenTypePropEnum []interface{}
+var checkEnvironmentConnectivityRequestTypeAuthenticationTokenTypePropEnum []any
 
 func init() {
 	var res []string

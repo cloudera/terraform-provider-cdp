@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -62,11 +63,15 @@ func (m *ServiceConfigReq) validateApplicationConfigs(formats strfmt.Registry) e
 		}
 		if val, ok := m.ApplicationConfigs[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("applicationConfigs" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("applicationConfigs" + "." + k)
 				}
+
 				return err
 			}
 		}
@@ -83,11 +88,15 @@ func (m *ServiceConfigReq) validateCommonConfigs(formats strfmt.Registry) error 
 
 	if m.CommonConfigs != nil {
 		if err := m.CommonConfigs.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("commonConfigs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("commonConfigs")
 			}
+
 			return err
 		}
 	}
@@ -137,11 +146,15 @@ func (m *ServiceConfigReq) contextValidateCommonConfigs(ctx context.Context, for
 		}
 
 		if err := m.CommonConfigs.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("commonConfigs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("commonConfigs")
 			}
+
 			return err
 		}
 	}

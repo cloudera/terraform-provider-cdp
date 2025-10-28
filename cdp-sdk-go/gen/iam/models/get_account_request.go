@@ -8,4 +8,4 @@ package models
 // GetAccountRequest Request object for a get account request.
 //
 // swagger:model GetAccountRequest
-type GetAccountRequest interface{}
+type GetAccountRequest any

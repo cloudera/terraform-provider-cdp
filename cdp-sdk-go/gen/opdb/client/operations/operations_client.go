@@ -125,7 +125,7 @@ AddCoprocessor adds a coprocessor for a specific table
 Adds a coprocessor for a specific table.
 */
 func (a *Client) AddCoprocessor(params *AddCoprocessorParams, opts ...ClientOption) (*AddCoprocessorOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddCoprocessorParams()
 	}
@@ -144,17 +144,22 @@ func (a *Client) AddCoprocessor(params *AddCoprocessorParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AddCoprocessorOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AddCoprocessorDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -164,7 +169,7 @@ CollectDiagnostics collects diagnostic data bundles from the database
 returns details of running command
 */
 func (a *Client) CollectDiagnostics(params *CollectDiagnosticsParams, opts ...ClientOption) (*CollectDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectDiagnosticsParams()
 	}
@@ -183,17 +188,22 @@ func (a *Client) CollectDiagnostics(params *CollectDiagnosticsParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CollectDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CollectDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -203,7 +213,7 @@ CreateDatabase creates op db
 Create a operational database in a environment
 */
 func (a *Client) CreateDatabase(params *CreateDatabaseParams, opts ...ClientOption) (*CreateDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDatabaseParams()
 	}
@@ -222,17 +232,22 @@ func (a *Client) CreateDatabase(params *CreateDatabaseParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -242,7 +257,7 @@ CreateSnapshot creates a snapshot for a specific table
 Returns id state and creation time.
 */
 func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOption) (*CreateSnapshotOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateSnapshotParams()
 	}
@@ -261,17 +276,22 @@ func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateSnapshotOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateSnapshotDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -281,7 +301,7 @@ DeleteSnapshot deletes a snapshot
 Returns the snapshot that is deleted.
 */
 func (a *Client) DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOption) (*DeleteSnapshotOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteSnapshotParams()
 	}
@@ -300,17 +320,22 @@ func (a *Client) DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteSnapshotOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteSnapshotDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -320,7 +345,7 @@ DescribeClientConnectivity returns client connectivity details
 Returns details to enable programmatic client connectivity for a database
 */
 func (a *Client) DescribeClientConnectivity(params *DescribeClientConnectivityParams, opts ...ClientOption) (*DescribeClientConnectivityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClientConnectivityParams()
 	}
@@ -339,17 +364,22 @@ func (a *Client) DescribeClientConnectivity(params *DescribeClientConnectivityPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeClientConnectivityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeClientConnectivityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -359,7 +389,7 @@ DescribeDatabase describes a op db
 Details about the operational database
 */
 func (a *Client) DescribeDatabase(params *DescribeDatabaseParams, opts ...ClientOption) (*DescribeDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatabaseParams()
 	}
@@ -378,17 +408,22 @@ func (a *Client) DescribeDatabase(params *DescribeDatabaseParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -398,7 +433,7 @@ DescribeHbaseConfiguration describes the configuration of h base
 Describes the selected configuration of the HBase cluster of an operational database in the environment.
 */
 func (a *Client) DescribeHbaseConfiguration(params *DescribeHbaseConfigurationParams, opts ...ClientOption) (*DescribeHbaseConfigurationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeHbaseConfigurationParams()
 	}
@@ -417,17 +452,22 @@ func (a *Client) DescribeHbaseConfiguration(params *DescribeHbaseConfigurationPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeHbaseConfigurationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeHbaseConfigurationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -437,7 +477,7 @@ DescribeUpgradeDatabase describes the upgrade availability
 Describes the upgrade availability for an operational database.
 */
 func (a *Client) DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, opts ...ClientOption) (*DescribeUpgradeDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeUpgradeDatabaseParams()
 	}
@@ -456,17 +496,22 @@ func (a *Client) DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeUpgradeDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeUpgradeDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -476,7 +521,7 @@ DropDatabase drops a op db
 drop the operational database
 */
 func (a *Client) DropDatabase(params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDropDatabaseParams()
 	}
@@ -495,17 +540,22 @@ func (a *Client) DropDatabase(params *DropDatabaseParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DropDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DropDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -515,7 +565,7 @@ ListCertificates lists certificates
 List SHA-1 fingerprints of certificates in Global Trust Store
 */
 func (a *Client) ListCertificates(params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCertificatesParams()
 	}
@@ -534,17 +584,22 @@ func (a *Client) ListCertificates(params *ListCertificatesParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListCertificatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListCertificatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -554,7 +609,7 @@ ListCoprocessors lists coprocessors in a database
 Lists coprocessors in a database.
 */
 func (a *Client) ListCoprocessors(params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCoprocessorsParams()
 	}
@@ -573,17 +628,22 @@ func (a *Client) ListCoprocessors(params *ListCoprocessorsParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListCoprocessorsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListCoprocessorsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -593,7 +653,7 @@ ListDatabases lists all op dbs in an environment
 Fetch a list of all operational databases in an environment
 */
 func (a *Client) ListDatabases(params *ListDatabasesParams, opts ...ClientOption) (*ListDatabasesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatabasesParams()
 	}
@@ -612,17 +672,22 @@ func (a *Client) ListDatabases(params *ListDatabasesParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDatabasesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDatabasesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -632,7 +697,7 @@ ListDiagnostics lists all diagnostics associated to the database
 returns list of diagnostics collections
 */
 func (a *Client) ListDiagnostics(params *ListDiagnosticsParams, opts ...ClientOption) (*ListDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDiagnosticsParams()
 	}
@@ -651,17 +716,22 @@ func (a *Client) ListDiagnostics(params *ListDiagnosticsParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -671,7 +741,7 @@ ListEdgeNodes lists edge nodes in a database
 Lists edge nodes in a database.
 */
 func (a *Client) ListEdgeNodes(params *ListEdgeNodesParams, opts ...ClientOption) (*ListEdgeNodesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEdgeNodesParams()
 	}
@@ -690,17 +760,22 @@ func (a *Client) ListEdgeNodes(params *ListEdgeNodesParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListEdgeNodesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListEdgeNodesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -710,7 +785,7 @@ ListEvents lists events
 Lists events in reverse chronological order for an operational database.
 */
 func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEventsParams()
 	}
@@ -729,17 +804,22 @@ func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*Li
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListEventsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListEventsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -749,7 +829,7 @@ ListRestoreSnapshots lists instances when a snapshot was restored to a database
 Returns a list of snapshots restored into a database.
 */
 func (a *Client) ListRestoreSnapshots(params *ListRestoreSnapshotsParams, opts ...ClientOption) (*ListRestoreSnapshotsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRestoreSnapshotsParams()
 	}
@@ -768,17 +848,22 @@ func (a *Client) ListRestoreSnapshots(params *ListRestoreSnapshotsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListRestoreSnapshotsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListRestoreSnapshotsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -788,7 +873,7 @@ ListScalingEvents lists scaling events
 Lists scaling events in reverse chronological order for an operational database.
 */
 func (a *Client) ListScalingEvents(params *ListScalingEventsParams, opts ...ClientOption) (*ListScalingEventsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListScalingEventsParams()
 	}
@@ -807,17 +892,22 @@ func (a *Client) ListScalingEvents(params *ListScalingEventsParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListScalingEventsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListScalingEventsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -827,7 +917,7 @@ ListSnapshots shows snapshot for a table name in a specific location
 Returns list of snapshot names.
 */
 func (a *Client) ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSnapshotsParams()
 	}
@@ -846,17 +936,22 @@ func (a *Client) ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListSnapshotsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListSnapshotsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -866,7 +961,7 @@ ListSupportedEnvironments lists of environments available for the database creat
 Fetches a list of environments available for the database creation
 */
 func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSupportedEnvironmentsParams()
 	}
@@ -885,17 +980,22 @@ func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListSupportedEnvironmentsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListSupportedEnvironmentsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -905,7 +1005,7 @@ ListSupportedInstanceTypes lists instance types supported by c o d
 Lists instance types supported by COD.
 */
 func (a *Client) ListSupportedInstanceTypes(params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSupportedInstanceTypesParams()
 	}
@@ -924,17 +1024,22 @@ func (a *Client) ListSupportedInstanceTypes(params *ListSupportedInstanceTypesPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListSupportedInstanceTypesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListSupportedInstanceTypesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -944,7 +1049,7 @@ PrepareUpgradeDatabase prepares database upgrade
 Running upgrade related validations and prepares the required parcels for the upgrade.
 */
 func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewPrepareUpgradeDatabaseParams()
 	}
@@ -963,17 +1068,22 @@ func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*PrepareUpgradeDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*PrepareUpgradeDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -983,7 +1093,7 @@ RemoveCoprocessor removes a coprocessor for a specific table
 Removes a coprocessor for a specific table.
 */
 func (a *Client) RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRemoveCoprocessorParams()
 	}
@@ -1002,17 +1112,22 @@ func (a *Client) RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RemoveCoprocessorOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RemoveCoprocessorDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1022,7 +1137,7 @@ RestoreSnapshot restores a snapshot
 Returns the snapshot that was restored.
 */
 func (a *Client) RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOption) (*RestoreSnapshotOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreSnapshotParams()
 	}
@@ -1041,17 +1156,22 @@ func (a *Client) RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestoreSnapshotOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestoreSnapshotDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1061,7 +1181,7 @@ StartDatabase starts the database
 Starts a previously stopped database
 */
 func (a *Client) StartDatabase(params *StartDatabaseParams, opts ...ClientOption) (*StartDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatabaseParams()
 	}
@@ -1080,17 +1200,22 @@ func (a *Client) StartDatabase(params *StartDatabaseParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1100,7 +1225,7 @@ StopDatabase stops the database
 Stops a running database
 */
 func (a *Client) StopDatabase(params *StopDatabaseParams, opts ...ClientOption) (*StopDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopDatabaseParams()
 	}
@@ -1119,17 +1244,22 @@ func (a *Client) StopDatabase(params *StopDatabaseParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StopDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StopDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1139,7 +1269,7 @@ UpdateDatabase updates the database
 Update an operational database in an environment
 */
 func (a *Client) UpdateDatabase(params *UpdateDatabaseParams, opts ...ClientOption) (*UpdateDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDatabaseParams()
 	}
@@ -1158,17 +1288,22 @@ func (a *Client) UpdateDatabase(params *UpdateDatabaseParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1178,7 +1313,7 @@ UpdateEdgeNodes updates edge nodes in a database
 Update edge nodes in a database.
 */
 func (a *Client) UpdateEdgeNodes(params *UpdateEdgeNodesParams, opts ...ClientOption) (*UpdateEdgeNodesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateEdgeNodesParams()
 	}
@@ -1197,17 +1332,22 @@ func (a *Client) UpdateEdgeNodes(params *UpdateEdgeNodesParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateEdgeNodesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateEdgeNodesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1217,7 +1357,7 @@ UpdateHbaseConfiguration updates the configuration of h base
 Updates the selected configuration of the HBase cluster of an operational database in the environment.
 */
 func (a *Client) UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams, opts ...ClientOption) (*UpdateHbaseConfigurationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateHbaseConfigurationParams()
 	}
@@ -1236,17 +1376,22 @@ func (a *Client) UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateHbaseConfigurationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateHbaseConfigurationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1256,7 +1401,7 @@ UpgradeDatabase upgrades the database
 Upgrades an operational database in an environment to a given runtime.
 */
 func (a *Client) UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOption) (*UpgradeDatabaseOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDatabaseParams()
 	}
@@ -1275,17 +1420,22 @@ func (a *Client) UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeDatabaseOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeDatabaseDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1295,7 +1445,7 @@ UploadCertificate uploads custom certificate
 Upload a custom certificate to Global Trust Store
 */
 func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUploadCertificateParams()
 	}
@@ -1314,17 +1464,22 @@ func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UploadCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UploadCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

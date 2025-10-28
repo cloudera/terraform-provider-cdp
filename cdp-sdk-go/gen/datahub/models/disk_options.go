@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -53,11 +54,15 @@ func (m *DiskOptions) validateAddDisks(formats strfmt.Registry) error {
 
 	if m.AddDisks != nil {
 		if err := m.AddDisks.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("addDisks")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("addDisks")
 			}
+
 			return err
 		}
 	}
@@ -72,11 +77,15 @@ func (m *DiskOptions) validateModifyDisks(formats strfmt.Registry) error {
 
 	if m.ModifyDisks != nil {
 		if err := m.ModifyDisks.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("modifyDisks")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("modifyDisks")
 			}
+
 			return err
 		}
 	}
@@ -111,11 +120,15 @@ func (m *DiskOptions) contextValidateAddDisks(ctx context.Context, formats strfm
 		}
 
 		if err := m.AddDisks.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("addDisks")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("addDisks")
 			}
+
 			return err
 		}
 	}
@@ -132,11 +145,15 @@ func (m *DiskOptions) contextValidateModifyDisks(ctx context.Context, formats st
 		}
 
 		if err := m.ModifyDisks.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("modifyDisks")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("modifyDisks")
 			}
+
 			return err
 		}
 	}

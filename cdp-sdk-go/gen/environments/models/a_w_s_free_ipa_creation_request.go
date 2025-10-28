@@ -51,7 +51,7 @@ func (m *AWSFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var aWSFreeIpaCreationRequestTypeArchitecturePropEnum []interface{}
+var aWSFreeIpaCreationRequestTypeArchitecturePropEnum []any
 
 func init() {
 	var res []string

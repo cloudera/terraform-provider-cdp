@@ -62,7 +62,7 @@ func (m *DownscaleFreeipaRequest) validateEnvironmentName(formats strfmt.Registr
 	return nil
 }
 
-var downscaleFreeipaRequestTypeTargetAvailabilityTypePropEnum []interface{}
+var downscaleFreeipaRequestTypeTargetAvailabilityTypePropEnum []any
 
 func init() {
 	var res []string

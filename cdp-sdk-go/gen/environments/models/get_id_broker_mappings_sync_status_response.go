@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -66,11 +67,15 @@ func (m *GetIDBrokerMappingsSyncStatusResponse) validateGlobalStatus(formats str
 
 	if m.GlobalStatus != nil {
 		if err := m.GlobalStatus.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("globalStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("globalStatus")
 			}
+
 			return err
 		}
 	}
@@ -91,11 +96,15 @@ func (m *GetIDBrokerMappingsSyncStatusResponse) validateStatuses(formats strfmt.
 		}
 		if val, ok := m.Statuses[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("statuses" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("statuses" + "." + k)
 				}
+
 				return err
 			}
 		}
@@ -137,11 +146,15 @@ func (m *GetIDBrokerMappingsSyncStatusResponse) contextValidateGlobalStatus(ctx 
 	if m.GlobalStatus != nil {
 
 		if err := m.GlobalStatus.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("globalStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("globalStatus")
 			}
+
 			return err
 		}
 	}

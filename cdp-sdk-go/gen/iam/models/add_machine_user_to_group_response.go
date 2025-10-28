@@ -8,4 +8,4 @@ package models
 // AddMachineUserToGroupResponse Response object for add machine user to group request.
 //
 // swagger:model AddMachineUserToGroupResponse
-type AddMachineUserToGroupResponse interface{}
+type AddMachineUserToGroupResponse any

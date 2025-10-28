@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.143 (BETA)
+  version: 0.9.148 (BETA)
   title: Cloudera Datalake Service
   license:
     name: Apache 2.0
@@ -606,6 +606,69 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/CancelRestoreResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/setBackupRestoreConfiguration:
+    post:
+      summary: Sets the backup and restore configuration for the datalake.
+      description: Sets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
+      operationId: setBackupRestoreConfiguration
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SetBackupRestoreConfigurationRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SetBackupRestoreConfigurationResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/getBackupRestoreConfiguration:
+    post:
+      summary: Gets the backup and restore configuration for the datalake.
+      description: Gets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
+      operationId: getBackupRestoreConfiguration
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetBackupRestoreConfigurationRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetBackupRestoreConfigurationResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datalake/deleteBackupRestoreConfiguration:
+    post:
+      summary: Deletes the backup and restore configuration for the datalake.
+      description: Deletes the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
+      operationId: deleteBackupRestoreConfiguration
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteBackupRestoreConfigurationRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DeleteBackupRestoreConfigurationResponse'
         default:
           description: The default response on an error.
           schema:
@@ -3021,6 +3084,7 @@ definitions:
         enum:
           - VERSION_11
           - VERSION_14
+          - VERSION_17
       force:
         type: boolean
         description: Start the database upgrade flow even if the source and target versions are the same. Can be used to reinitiate an upgrade after a failure.
@@ -3715,6 +3779,86 @@ definitions:
       operationId:
         type: string
         description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+  SetBackupRestoreConfigurationRequest:
+    type: object
+    description: Request object for setting backup and restore configuration for a datalake.
+    required:
+      - datalake
+    properties:
+      datalake:
+        type: string
+        description: The name or CRN of the Data Lake.
+      backupTempLocation:
+        type: string
+        description: The temporary location for backup files.
+      restoreTempLocation:
+        type: string
+        description: The temporary location for restore files.
+      backupTimeoutInMinutes:
+        type: integer
+        format: int32
+        description: The timeout for backup operations in minutes.
+      restoreTimeoutInMinutes:
+        type: integer
+        format: int32
+        description: The timeout for restore operations in minutes.
+  SetBackupRestoreConfigurationResponse:
+    type: object
+    description: Response object for setting backup and restore configuration for a datalake.
+    properties:
+      backupTempLocation:
+        type: string
+        description: The temporary location for backup files.
+      restoreTempLocation:
+        type: string
+        description: The temporary location for restore files.
+      backupTimeoutInMinutes:
+        type: integer
+        format: int32
+        description: The timeout for backup operations in minutes.
+      restoreTimeoutInMinutes:
+        type: integer
+        format: int32
+        description: The timeout for restore operations in minutes.
+  GetBackupRestoreConfigurationRequest:
+    type: object
+    description: Request object for backup and restore configuration for a datalake.
+    required:
+      - datalake
+    properties:
+      datalake:
+        type: string
+        description: The name or CRN of the datalake.
+  GetBackupRestoreConfigurationResponse:
+    type: object
+    description: Response object for get backup and restore configuration for a datalake.
+    properties:
+      backupTempLocation:
+        type: string
+        description: The temporary location for backup files.
+      restoreTempLocation:
+        type: string
+        description: The temporary location for restore files.
+      backupTimeoutInMinutes:
+        type: integer
+        format: int32
+        description: The timeout for backup operations in minutes.
+      restoreTimeoutInMinutes:
+        type: integer
+        format: int32
+        description: The timeout for restore operations in minutes.
+  DeleteBackupRestoreConfigurationRequest:
+    type: object
+    description: Request object for deleting backup and restore configuration for a datalake.
+    required:
+      - datalake
+    properties:
+      datalake:
+        type: string
+        description: The name or CRN of the datalake.
+  DeleteBackupRestoreConfigurationResponse:
+    type: object
+    description: Response object for deleting backup and restore configuration for a datalake.
   ReplaceRecipesRequest:
     type: object
     description: The request for replacing recipes.

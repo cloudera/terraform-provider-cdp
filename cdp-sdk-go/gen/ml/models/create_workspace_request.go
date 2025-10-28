@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -31,6 +32,9 @@ type CreateWorkspaceRequest struct {
 
 	// Enable Enhanced Performance Mode to maximize throughput and IOPS for root volumes attached to worker nodes.
 	EnableEnhancedPerformance bool `json:"enableEnhancedPerformance,omitempty"`
+
+	// Enable global access to the load balancer so the workbench is accessible from other regions.
+	EnableGlobalAccessLoadBalancer bool `json:"enableGlobalAccessLoadBalancer,omitempty"`
 
 	// Enables Cloudera AI governance by integrating with Cloudera Atlas. By default, this flag is disabled.
 	EnableGovernance bool `json:"enableGovernance,omitempty"`
@@ -142,11 +146,15 @@ func (m *CreateWorkspaceRequest) validateExistingDatabaseConfig(formats strfmt.R
 
 	if m.ExistingDatabaseConfig != nil {
 		if err := m.ExistingDatabaseConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("existingDatabaseConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("existingDatabaseConfig")
 			}
+
 			return err
 		}
 	}
@@ -162,11 +170,15 @@ func (m *CreateWorkspaceRequest) validateOutboundTypes(formats strfmt.Registry) 
 	for i := 0; i < len(m.OutboundTypes); i++ {
 
 		if err := m.OutboundTypes[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
 			}
+
 			return err
 		}
 
@@ -182,11 +194,15 @@ func (m *CreateWorkspaceRequest) validateProvisionK8sRequest(formats strfmt.Regi
 
 	if m.ProvisionK8sRequest != nil {
 		if err := m.ProvisionK8sRequest.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("provisionK8sRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("provisionK8sRequest")
 			}
+
 			return err
 		}
 	}
@@ -201,11 +217,15 @@ func (m *CreateWorkspaceRequest) validateResourcePoolConfig(formats strfmt.Regis
 
 	if m.ResourcePoolConfig != nil {
 		if err := m.ResourcePoolConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("resourcePoolConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("resourcePoolConfig")
 			}
+
 			return err
 		}
 	}
@@ -257,11 +277,15 @@ func (m *CreateWorkspaceRequest) contextValidateExistingDatabaseConfig(ctx conte
 		}
 
 		if err := m.ExistingDatabaseConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("existingDatabaseConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("existingDatabaseConfig")
 			}
+
 			return err
 		}
 	}
@@ -278,11 +302,15 @@ func (m *CreateWorkspaceRequest) contextValidateOutboundTypes(ctx context.Contex
 		}
 
 		if err := m.OutboundTypes[i].ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("outboundTypes" + "." + strconv.Itoa(i))
 			}
+
 			return err
 		}
 
@@ -300,11 +328,15 @@ func (m *CreateWorkspaceRequest) contextValidateProvisionK8sRequest(ctx context.
 		}
 
 		if err := m.ProvisionK8sRequest.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("provisionK8sRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("provisionK8sRequest")
 			}
+
 			return err
 		}
 	}
@@ -321,11 +353,15 @@ func (m *CreateWorkspaceRequest) contextValidateResourcePoolConfig(ctx context.C
 		}
 
 		if err := m.ResourcePoolConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("resourcePoolConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("resourcePoolConfig")
 			}
+
 			return err
 		}
 	}

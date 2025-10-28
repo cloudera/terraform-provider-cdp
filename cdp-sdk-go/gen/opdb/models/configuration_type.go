@@ -49,7 +49,7 @@ const (
 )
 
 // for schema
-var configurationTypeEnum []interface{}
+var configurationTypeEnum []any
 
 func init() {
 	var res []ConfigurationType

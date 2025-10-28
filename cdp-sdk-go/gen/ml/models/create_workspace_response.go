@@ -8,4 +8,4 @@ package models
 // CreateWorkspaceResponse Response object for the CreateWorkspace method.
 //
 // swagger:model CreateWorkspaceResponse
-type CreateWorkspaceResponse interface{}
+type CreateWorkspaceResponse any

@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -70,11 +71,15 @@ func (m *DatahubDiagnosticsCollectionResponse) validateCollectionDetails(formats
 
 	if m.CollectionDetails != nil {
 		if err := m.CollectionDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("collectionDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("collectionDetails")
 			}
+
 			return err
 		}
 	}
@@ -94,7 +99,7 @@ func (m *DatahubDiagnosticsCollectionResponse) validateCreated(formats strfmt.Re
 	return nil
 }
 
-var datahubDiagnosticsCollectionResponseTypeStatusPropEnum []interface{}
+var datahubDiagnosticsCollectionResponseTypeStatusPropEnum []any
 
 func init() {
 	var res []string
@@ -165,11 +170,15 @@ func (m *DatahubDiagnosticsCollectionResponse) contextValidateCollectionDetails(
 		}
 
 		if err := m.CollectionDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("collectionDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("collectionDetails")
 			}
+
 			return err
 		}
 	}

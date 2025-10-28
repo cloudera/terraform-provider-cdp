@@ -42,7 +42,7 @@ func (m *EnvValidation) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var envValidationTypeSeverityPropEnum []interface{}
+var envValidationTypeSeverityPropEnum []any
 
 func init() {
 	var res []string

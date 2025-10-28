@@ -43,7 +43,7 @@ const (
 )
 
 // for schema
-var storageTypeEnum []interface{}
+var storageTypeEnum []any
 
 func init() {
 	var res []StorageType

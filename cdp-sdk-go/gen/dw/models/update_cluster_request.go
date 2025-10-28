@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -78,11 +79,15 @@ func (m *UpdateClusterRequest) validateAwsUpdate(formats strfmt.Registry) error 
 
 	if m.AwsUpdate != nil {
 		if err := m.AwsUpdate.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsUpdate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsUpdate")
 			}
+
 			return err
 		}
 	}
@@ -97,11 +102,15 @@ func (m *UpdateClusterRequest) validateAzureUpdate(formats strfmt.Registry) erro
 
 	if m.AzureUpdate != nil {
 		if err := m.AzureUpdate.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureUpdate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureUpdate")
 			}
+
 			return err
 		}
 	}
@@ -125,11 +134,15 @@ func (m *UpdateClusterRequest) validateObservabilityConfig(formats strfmt.Regist
 
 	if m.ObservabilityConfig != nil {
 		if err := m.ObservabilityConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("observabilityConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("observabilityConfig")
 			}
+
 			return err
 		}
 	}
@@ -168,11 +181,15 @@ func (m *UpdateClusterRequest) contextValidateAwsUpdate(ctx context.Context, for
 		}
 
 		if err := m.AwsUpdate.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsUpdate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsUpdate")
 			}
+
 			return err
 		}
 	}
@@ -189,11 +206,15 @@ func (m *UpdateClusterRequest) contextValidateAzureUpdate(ctx context.Context, f
 		}
 
 		if err := m.AzureUpdate.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureUpdate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureUpdate")
 			}
+
 			return err
 		}
 	}
@@ -210,11 +231,15 @@ func (m *UpdateClusterRequest) contextValidateObservabilityConfig(ctx context.Co
 		}
 
 		if err := m.ObservabilityConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("observabilityConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("observabilityConfig")
 			}
+
 			return err
 		}
 	}
@@ -275,11 +300,15 @@ func (m *UpdateClusterRequestAwsUpdate) validateExternalBuckets(formats strfmt.R
 		}
 		if val, ok := m.ExternalBuckets[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("awsUpdate" + "." + "externalBuckets" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("awsUpdate" + "." + "externalBuckets" + "." + k)
 				}
+
 				return err
 			}
 		}

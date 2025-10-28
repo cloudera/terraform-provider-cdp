@@ -8,4 +8,4 @@ package models
 // RevokeMlServingAppAccessResponse Response object for the RevokeMlServingAppAccess method.
 //
 // swagger:model RevokeMlServingAppAccessResponse
-type RevokeMlServingAppAccessResponse interface{}
+type RevokeMlServingAppAccessResponse any

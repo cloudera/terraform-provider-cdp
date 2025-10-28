@@ -8,4 +8,4 @@ package models
 // DeleteBackupResponse Response object for Delete Backup command.
 //
 // swagger:model DeleteBackupResponse
-type DeleteBackupResponse interface{}
+type DeleteBackupResponse any

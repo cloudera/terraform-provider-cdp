@@ -267,7 +267,7 @@ AttachFreeIpaRecipes attaches recipes to free IP a
 Attach recipes to FreeIPA.
 */
 func (a *Client) AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAttachFreeIpaRecipesParams()
 	}
@@ -286,17 +286,22 @@ func (a *Client) AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AttachFreeIpaRecipesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AttachFreeIpaRecipesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -306,7 +311,7 @@ CancelFreeipaDiagnostics cancels running free IP a diagnostics collections
 Cancel running FreeIPA diagnostics collection
 */
 func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelFreeipaDiagnosticsParams()
 	}
@@ -325,17 +330,22 @@ func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CancelFreeipaDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CancelFreeipaDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -345,7 +355,7 @@ ChangeEnvironmentCredential changes the credential for an environment
 Changes the credential for an environment.
 */
 func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewChangeEnvironmentCredentialParams()
 	}
@@ -364,17 +374,22 @@ func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredential
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ChangeEnvironmentCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ChangeEnvironmentCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -384,7 +399,7 @@ CheckDatabaseConnectivity checks database connectivity based on the input parame
 Checks Database connectivity based on the input parameters.
 */
 func (a *Client) CheckDatabaseConnectivity(params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCheckDatabaseConnectivityParams()
 	}
@@ -403,17 +418,22 @@ func (a *Client) CheckDatabaseConnectivity(params *CheckDatabaseConnectivityPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CheckDatabaseConnectivityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CheckDatabaseConnectivityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -423,7 +443,7 @@ CheckEnvironmentConnectivity checks connectivity to a new private cloud environm
 Checks connectivity to a Private Cloud environment.
 */
 func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCheckEnvironmentConnectivityParams()
 	}
@@ -442,17 +462,22 @@ func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivi
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CheckEnvironmentConnectivityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CheckEnvironmentConnectivityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -462,7 +487,7 @@ CheckKubernetesConnectivity checks connectivity to a kubernetes address with pro
 Checks connectivity to a Kubernetes address with provided kubeconfig files.
 */
 func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCheckKubernetesConnectivityParams()
 	}
@@ -481,17 +506,22 @@ func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivity
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CheckKubernetesConnectivityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CheckKubernetesConnectivityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -501,7 +531,7 @@ CollectFreeipaDiagnostics starts free IP a diagnostics collection
 Start FreeIPA diagnostics collection
 */
 func (a *Client) CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectFreeipaDiagnosticsParams()
 	}
@@ -520,17 +550,22 @@ func (a *Client) CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CollectFreeipaDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CollectFreeipaDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -540,7 +575,7 @@ CreateAWSCredential creates a new a w s credential that can be attatched to an e
 Creates a new AWS credential.
 */
 func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSCredentialParams()
 	}
@@ -559,17 +594,22 @@ func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -579,7 +619,7 @@ CreateAWSEnvironment creates a new a w s environment by providing the cloud prov
 Creates a new AWS environment.
 */
 func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSEnvironmentParams()
 	}
@@ -598,17 +638,22 @@ func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -618,7 +663,7 @@ CreateAWSGovCloudCredential creates a new a w s credential for gov cloud that ca
 Creates a new AWS credential for GovCloud.
 */
 func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudCredentialParams()
 	}
@@ -637,17 +682,22 @@ func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredential
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSGovCloudCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSGovCloudCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -657,7 +707,7 @@ CreateAWSGovCloudEnvironment creates a new a w s gov cloud environment by provid
 Creates a new AWS GovCloud environment.
 */
 func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudEnvironmentParams()
 	}
@@ -676,17 +726,22 @@ func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironme
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSGovCloudEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSGovCloudEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -696,7 +751,7 @@ CreateAzureCredential creates a new azure credential that can be attached to an 
 Creates a new Azure credential.
 */
 func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureCredentialParams()
 	}
@@ -715,17 +770,22 @@ func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAzureCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAzureCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -735,7 +795,7 @@ CreateAzureEnvironment creates a new azure environment by providing the cloud pr
 Creates a new Azure environment.
 */
 func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureEnvironmentParams()
 	}
@@ -754,17 +814,22 @@ func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAzureEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAzureEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -774,7 +839,7 @@ CreateGCPCredential creates a new g c p credential that can be attatched to an e
 Creates a new GCP credential.
 */
 func (a *Client) CreateGCPCredential(params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPCredentialParams()
 	}
@@ -793,17 +858,22 @@ func (a *Client) CreateGCPCredential(params *CreateGCPCredentialParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateGCPCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateGCPCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -813,7 +883,7 @@ CreateGCPEnvironment creates a new g c p environment by providing the cloud prov
 Creates a new GCP environment.
 */
 func (a *Client) CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPEnvironmentParams()
 	}
@@ -832,17 +902,22 @@ func (a *Client) CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateGCPEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateGCPEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -852,7 +927,7 @@ CreatePrivateEnvironment creates a new private cloud environment by providing th
 Creates a new Private Cloud environment.
 */
 func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreatePrivateEnvironmentParams()
 	}
@@ -871,17 +946,22 @@ func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreatePrivateEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreatePrivateEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -891,7 +971,7 @@ CreateProxyConfig creates a new proxy config that can be attatched to an environ
 Creates a new proxy config.
 */
 func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateProxyConfigParams()
 	}
@@ -910,17 +990,22 @@ func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateProxyConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateProxyConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -930,7 +1015,7 @@ DeleteAuditCredential deletes an audit credential
 Deletes an audit credential.
 */
 func (a *Client) DeleteAuditCredential(params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteAuditCredentialParams()
 	}
@@ -949,17 +1034,22 @@ func (a *Client) DeleteAuditCredential(params *DeleteAuditCredentialParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteAuditCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteAuditCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -969,7 +1059,7 @@ DeleteCredential deletes a credential
 Deletes a credential.
 */
 func (a *Client) DeleteCredential(params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteCredentialParams()
 	}
@@ -988,17 +1078,22 @@ func (a *Client) DeleteCredential(params *DeleteCredentialParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1008,7 +1103,7 @@ DeleteEnvironment deletes an environment
 Deletes an environment.
 */
 func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteEnvironmentParams()
 	}
@@ -1027,17 +1122,22 @@ func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1047,7 +1147,7 @@ DeleteProxyConfig deletes a proxy config
 Deletes a proxy config.
 */
 func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteProxyConfigParams()
 	}
@@ -1066,17 +1166,22 @@ func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteProxyConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteProxyConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1086,7 +1191,7 @@ DescribeEnvironment describes an environment
 Describes an environment.
 */
 func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeEnvironmentParams()
 	}
@@ -1105,17 +1210,22 @@ func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1125,7 +1235,7 @@ DetachFreeIpaRecipes detaches recipes from free IP a
 Detach recipes from FreeIPA.
 */
 func (a *Client) DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDetachFreeIpaRecipesParams()
 	}
@@ -1144,27 +1254,32 @@ func (a *Client) DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DetachFreeIpaRecipesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DetachFreeIpaRecipesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
 /*
 DisableS3Guard disables the s3 guard for an environment
 
-Disables the S3Guard for an environment.
+Deprecated, S3Guard is no longer supported.
 */
 func (a *Client) DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableS3GuardParams()
 	}
@@ -1183,17 +1298,22 @@ func (a *Client) DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DisableS3GuardOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DisableS3GuardDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1203,7 +1323,7 @@ DownscaleFreeipa downscales free IP a instances
 FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
 */
 func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDownscaleFreeipaParams()
 	}
@@ -1222,17 +1342,22 @@ func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DownscaleFreeipaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DownscaleFreeipaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1242,7 +1367,7 @@ GetAccountTelemetry gets account level telemetry settings telemetry features and
 Get account level telemetry settings. (telemetry features and anonymization rules)
 */
 func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountTelemetryParams()
 	}
@@ -1261,17 +1386,22 @@ func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAccountTelemetryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAccountTelemetryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1281,7 +1411,7 @@ GetAccountTelemetryDefault gets default account level telemetry settings helps t
 Get default account level telemetry settings. Helps to set back the default values.
 */
 func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountTelemetryDefaultParams()
 	}
@@ -1300,17 +1430,22 @@ func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAccountTelemetryDefaultOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAccountTelemetryDefaultDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1320,7 +1455,7 @@ GetAuditCredentialPrerequisites this API provides the audit credential prerequis
 Provides the the audit credential prerequisites for the given cloud provider.
 */
 func (a *Client) GetAuditCredentialPrerequisites(params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAuditCredentialPrerequisitesParams()
 	}
@@ -1339,17 +1474,22 @@ func (a *Client) GetAuditCredentialPrerequisites(params *GetAuditCredentialPrere
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAuditCredentialPrerequisitesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAuditCredentialPrerequisitesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1359,7 +1499,7 @@ GetAutomatedSyncEnvironmentStatus gets the the automated sync status for the env
 Gets the the automated sync status for the environment.
 */
 func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAutomatedSyncEnvironmentStatusParams()
 	}
@@ -1378,17 +1518,22 @@ func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvir
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAutomatedSyncEnvironmentStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAutomatedSyncEnvironmentStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1398,7 +1543,7 @@ GetAzureImageTermsPolicy gets account level azure marketplace image policy c d p
 Gets account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
 */
 func (a *Client) GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAzureImageTermsPolicyParams()
 	}
@@ -1417,17 +1562,22 @@ func (a *Client) GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAzureImageTermsPolicyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAzureImageTermsPolicyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1437,7 +1587,7 @@ GetCredentialPrerequisites this API provides the credential prerequisites for th
 Provides the the credential prerequisites for the given cloud provider.
 */
 func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetCredentialPrerequisitesParams()
 	}
@@ -1456,17 +1606,22 @@ func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetCredentialPrerequisitesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetCredentialPrerequisitesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1476,7 +1631,7 @@ GetEnvironmentSetting reads a configuration setting from the environment service
 Read a configuration setting from the environment service.
 */
 func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetEnvironmentSettingParams()
 	}
@@ -1495,17 +1650,22 @@ func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetEnvironmentSettingOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetEnvironmentSettingDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1515,7 +1675,7 @@ GetEnvironmentUserSyncState returns the user synchronization state for an enviro
 Returns the user synchronization state for an environment.
 */
 func (a *Client) GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetEnvironmentUserSyncStateParams()
 	}
@@ -1534,17 +1694,22 @@ func (a *Client) GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncState
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetEnvironmentUserSyncStateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetEnvironmentUserSyncStateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1554,7 +1719,7 @@ GetFreeipaLogDescriptors gathers log descriptors that are used for diagnostics c
 Gather log descriptors that are used for diagnostics collection.
 */
 func (a *Client) GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetFreeipaLogDescriptorsParams()
 	}
@@ -1573,17 +1738,22 @@ func (a *Client) GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetFreeipaLogDescriptorsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetFreeipaLogDescriptorsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1593,7 +1763,7 @@ GetFreeipaStatus gets the status of the free IP a services
 Gets the status of the FreeIPA nodes services and connectivity.
 */
 func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetFreeipaStatusParams()
 	}
@@ -1612,17 +1782,22 @@ func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetFreeipaStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetFreeipaStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1632,7 +1807,7 @@ GetFreeipaUpgradeOptions gets available images for free IP a upgrade
 Get available images for FreeIPA upgrade. If catalog is defined use the catalog as image source.
 */
 func (a *Client) GetFreeipaUpgradeOptions(params *GetFreeipaUpgradeOptionsParams, opts ...ClientOption) (*GetFreeipaUpgradeOptionsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetFreeipaUpgradeOptionsParams()
 	}
@@ -1651,17 +1826,22 @@ func (a *Client) GetFreeipaUpgradeOptions(params *GetFreeipaUpgradeOptionsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetFreeipaUpgradeOptionsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetFreeipaUpgradeOptionsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1671,7 +1851,7 @@ GetGovCloudAuditCredentialPrerequisites this API provides the audit credential p
 Provides the the audit credential prerequisites for GovCloud for the enabled providers.
 */
 func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetGovCloudAuditCredentialPrerequisitesParams()
 	}
@@ -1690,17 +1870,22 @@ func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAudi
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetGovCloudAuditCredentialPrerequisitesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetGovCloudAuditCredentialPrerequisitesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1710,7 +1895,7 @@ GetGovCloudCredentialPrerequisites this API provides the credential prerequisite
 Provides the the credential prerequisites for GovCloud for the enabled providers.
 */
 func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetGovCloudCredentialPrerequisitesParams()
 	}
@@ -1729,17 +1914,22 @@ func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentia
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetGovCloudCredentialPrerequisitesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetGovCloudCredentialPrerequisitesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1749,7 +1939,7 @@ GetIDBrokerMappings gets all ID broker mappings for an environment
 Gets all ID Broker mappings for an environment.
 */
 func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetIDBrokerMappingsParams()
 	}
@@ -1768,17 +1958,22 @@ func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetIDBrokerMappingsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetIDBrokerMappingsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1788,7 +1983,7 @@ GetIDBrokerMappingsSyncStatus gets ID broker mappings sync status
 Gets the status of the most recent ID Broker mappings sync operation, if any.
 */
 func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetIDBrokerMappingsSyncStatusParams()
 	}
@@ -1807,17 +2002,22 @@ func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncSt
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetIDBrokerMappingsSyncStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetIDBrokerMappingsSyncStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1827,7 +2027,7 @@ GetKeytab retrieves a keytab for a user or machine user
 Retrieves a keytab for a user or machine user.
 */
 func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetKeytabParams()
 	}
@@ -1846,17 +2046,22 @@ func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetK
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetKeytabOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetKeytabDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1866,7 +2071,7 @@ GetOperation gets the latest in progress or finished operation for the environme
 Get the latest (in progress or finished) operation for the environment resource.
 */
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetOperationParams()
 	}
@@ -1885,17 +2090,22 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetOperationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetOperationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1905,7 +2115,7 @@ GetRepairFreeipaStatus returns status of the repair operation for the operation 
 Returns status of the repair operation for the operation id. Operation Id should be one of the previously requested repair operation ids.
 */
 func (a *Client) GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetRepairFreeipaStatusParams()
 	}
@@ -1924,17 +2134,22 @@ func (a *Client) GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetRepairFreeipaStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetRepairFreeipaStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1944,7 +2159,7 @@ GetRootCertificate this API provides contents of public certificate for an envir
 This API provides the contents of the root public certificate for an environment. The contents are a base64 encoded blob between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----. This certificate can be imported by end users to establish trust with environment resources.
 */
 func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetRootCertificateParams()
 	}
@@ -1963,17 +2178,22 @@ func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetRootCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetRootCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1983,7 +2203,7 @@ InitializeAWSComputeCluster initializes compute cluster for a w s environment
 Initialize compute cluster for AWS environment.
 */
 func (a *Client) InitializeAWSComputeCluster(params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewInitializeAWSComputeClusterParams()
 	}
@@ -2002,17 +2222,22 @@ func (a *Client) InitializeAWSComputeCluster(params *InitializeAWSComputeCluster
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*InitializeAWSComputeClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*InitializeAWSComputeClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2022,7 +2247,7 @@ InitializeAzureComputeCluster initializes compute cluster for azure environment
 Initialize compute cluster for Azure environment.
 */
 func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewInitializeAzureComputeClusterParams()
 	}
@@ -2041,17 +2266,22 @@ func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClu
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*InitializeAzureComputeClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*InitializeAzureComputeClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2061,7 +2291,7 @@ LastSyncStatus returns status of the sync operation for the environment crn
 Returns status of the sync operation for the environment based on crn.
 */
 func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewLastSyncStatusParams()
 	}
@@ -2080,17 +2310,22 @@ func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*LastSyncStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*LastSyncStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2100,7 +2335,7 @@ ListAuditCredentials lists audit credentials
 Lists audit credentials.
 */
 func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListAuditCredentialsParams()
 	}
@@ -2119,17 +2354,22 @@ func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListAuditCredentialsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListAuditCredentialsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2139,7 +2379,7 @@ ListConnectedDataServices returns the list of data services and their cluster na
 Returns the list of Data Services and their cluster names that are attached to the given environment.
 */
 func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListConnectedDataServicesParams()
 	}
@@ -2158,17 +2398,22 @@ func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListConnectedDataServicesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListConnectedDataServicesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2178,7 +2423,7 @@ ListCredentials lists credentials
 Lists credentials.
 */
 func (a *Client) ListCredentials(params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCredentialsParams()
 	}
@@ -2197,17 +2442,22 @@ func (a *Client) ListCredentials(params *ListCredentialsParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListCredentialsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListCredentialsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2217,7 +2467,7 @@ ListEnvironments lists environments
 Lists environments.
 */
 func (a *Client) ListEnvironments(params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEnvironmentsParams()
 	}
@@ -2236,17 +2486,22 @@ func (a *Client) ListEnvironments(params *ListEnvironmentsParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListEnvironmentsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListEnvironmentsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2256,7 +2511,7 @@ ListFreeipaDiagnostics lists recent free IP a diagnostics collections
 List recent FreeIPA diagnostics collection
 */
 func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListFreeipaDiagnosticsParams()
 	}
@@ -2275,17 +2530,22 @@ func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListFreeipaDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListFreeipaDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2295,7 +2555,7 @@ ListFreeipaSecretTypes lists all free IP a related secret types
 Lists FreeIPA related secret types for FreeIPA instances.
 */
 func (a *Client) ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListFreeipaSecretTypesParams()
 	}
@@ -2314,17 +2574,22 @@ func (a *Client) ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListFreeipaSecretTypesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListFreeipaSecretTypesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2334,7 +2599,7 @@ ListProxyConfigs lists proxy configs
 Lists proxy configs.
 */
 func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListProxyConfigsParams()
 	}
@@ -2353,17 +2618,22 @@ func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListProxyConfigsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListProxyConfigsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2373,7 +2643,7 @@ RebuildFreeipa recreates free IP a in case of disaster
 If FreeIPA backups are available and all of the FreeIPA nodes are lost, this command recreates FreeIPA from scratch and restores backup.
 */
 func (a *Client) RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildFreeipaParams()
 	}
@@ -2392,17 +2662,22 @@ func (a *Client) RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RebuildFreeipaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RebuildFreeipaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2412,7 +2687,7 @@ RepairFreeipa repairs the free IP a nodes
 Repairs the FreeIPA nodes if they are in a non working state.
 */
 func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRepairFreeipaParams()
 	}
@@ -2431,17 +2706,22 @@ func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RepairFreeipaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RepairFreeipaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2451,7 +2731,7 @@ RetryFreeipa retries the last failed operation on a free IP a
 Retries the last failed operation on a FreeIPA.
 */
 func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRetryFreeipaParams()
 	}
@@ -2470,17 +2750,22 @@ func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RetryFreeipaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RetryFreeipaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2490,7 +2775,7 @@ RotateFreeipaSecrets rotates free IP a related secret for free IP a instances
 Rotate FreeIPA related secrets for FreeIPA instances.
 */
 func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateFreeipaSecretsParams()
 	}
@@ -2509,17 +2794,22 @@ func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateFreeipaSecretsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateFreeipaSecretsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2529,7 +2819,7 @@ RotateSaltPassword rotates salt stack user password on free IP a instances
 Deprecated, please use rotateFreeipaSecrets with SALT_PASSWORD secretType instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSaltPasswordParams()
 	}
@@ -2548,17 +2838,22 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateSaltPasswordOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2568,7 +2863,7 @@ SetAWSAuditCredential creates or updates the a w s audit credential for the acco
 Creates or updates the AWS audit credential for the account. The response will only contain details appropriate to AWS.
 */
 func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAWSAuditCredentialParams()
 	}
@@ -2587,17 +2882,22 @@ func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetAWSAuditCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetAWSAuditCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2607,7 +2907,7 @@ SetAWSGovCloudAuditCredential creates or updates the a w s gov cloud audit crede
 Creates or updates the AWS GovCloud audit credential for the account. The response will only contain details appropriate to AWS.
 */
 func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAWSGovCloudAuditCredentialParams()
 	}
@@ -2626,17 +2926,22 @@ func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCreden
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetAWSGovCloudAuditCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetAWSGovCloudAuditCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2646,7 +2951,7 @@ SetAccountTelemetry sets account level telemetry settings telemetry features and
 Set account level telemetry settings. (telemetry features and anonymization rules)
 */
 func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAccountTelemetryParams()
 	}
@@ -2665,17 +2970,22 @@ func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetAccountTelemetryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetAccountTelemetryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2685,7 +2995,7 @@ SetAzureAuditCredential creates or updates the azure audit credential for the ac
 Creates or updates the Azure audit credential for the account. The response will only contain details appropriate to Azure.
 */
 func (a *Client) SetAzureAuditCredential(params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAzureAuditCredentialParams()
 	}
@@ -2704,17 +3014,22 @@ func (a *Client) SetAzureAuditCredential(params *SetAzureAuditCredentialParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetAzureAuditCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetAzureAuditCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2724,7 +3039,7 @@ SetCatalog sets a catalog for a free IP a installation
 Sets a catalog for a FreeIPA installation.
 */
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetCatalogParams()
 	}
@@ -2743,17 +3058,22 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetCatalogOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetCatalogDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2763,7 +3083,7 @@ SetEndpointAccessGateway sets endpoint access gateway settings for the environme
 Sets endpoint access gateway settings for the environment.
 */
 func (a *Client) SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetEndpointAccessGatewayParams()
 	}
@@ -2782,17 +3102,22 @@ func (a *Client) SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetEndpointAccessGatewayOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetEndpointAccessGatewayDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2802,7 +3127,7 @@ SetEnvironmentSetting reads a configuration setting from the environment service
 Read a configuration setting from the environment service.
 */
 func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetEnvironmentSettingParams()
 	}
@@ -2821,17 +3146,22 @@ func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetEnvironmentSettingOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetEnvironmentSettingDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2841,7 +3171,7 @@ SetGCPAuditCredential creates or updates the g c p audit credential for the acco
 Creates or updates the GCP audit credential for the account. The response will only contain details appropriate to GCP.
 */
 func (a *Client) SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetGCPAuditCredentialParams()
 	}
@@ -2860,17 +3190,22 @@ func (a *Client) SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetGCPAuditCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetGCPAuditCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2880,7 +3215,7 @@ SetIDBrokerMappings sets all ID broker mappings for an environment
 Sets all ID Broker mappings for an environment. Overwrites all existing mappings.
 */
 func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetIDBrokerMappingsParams()
 	}
@@ -2899,17 +3234,22 @@ func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetIDBrokerMappingsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetIDBrokerMappingsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2919,7 +3259,7 @@ SetPassword sets workload user s password and updates into all environments
 Deprecated. Use 'iam set-workload-password' command instead.
 */
 func (a *Client) SetPassword(params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetPasswordParams()
 	}
@@ -2938,17 +3278,22 @@ func (a *Client) SetPassword(params *SetPasswordParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetPasswordOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetPasswordDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2958,7 +3303,7 @@ SetTelemetryFeatures configures environment level telemetry feature setting
 Configure environment level telemetry feature setting.
 */
 func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetTelemetryFeaturesParams()
 	}
@@ -2977,17 +3322,22 @@ func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetTelemetryFeaturesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetTelemetryFeaturesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2997,7 +3347,7 @@ StartEnvironment starts an environment
 Start an environment.
 */
 func (a *Client) StartEnvironment(params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartEnvironmentParams()
 	}
@@ -3016,17 +3366,22 @@ func (a *Client) StartEnvironment(params *StartEnvironmentParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3036,7 +3391,7 @@ StartFreeIpaVerticalScaling initiates the vertical scaling on free IP a
 Initiates the vertical scaling on FreeIPA.
 */
 func (a *Client) StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartFreeIpaVerticalScalingParams()
 	}
@@ -3055,17 +3410,22 @@ func (a *Client) StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScaling
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartFreeIpaVerticalScalingOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartFreeIpaVerticalScalingDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3075,7 +3435,7 @@ StopEnvironment stops an environment
 Stop an environment.
 */
 func (a *Client) StopEnvironment(params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopEnvironmentParams()
 	}
@@ -3094,17 +3454,22 @@ func (a *Client) StopEnvironment(params *StopEnvironmentParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StopEnvironmentOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StopEnvironmentDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3114,7 +3479,7 @@ SyncAllUsers synchronizes environments with all users and groups state with c d 
 Synchronizes environments with all users and groups state with CDP.
 */
 func (a *Client) SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncAllUsersParams()
 	}
@@ -3133,17 +3498,22 @@ func (a *Client) SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SyncAllUsersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SyncAllUsersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3153,7 +3523,7 @@ SyncIDBrokerMappings syncs all ID broker mappings for an environment
 Syncs all ID Broker mappings to all datalake clusters in an environment.
 */
 func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncIDBrokerMappingsParams()
 	}
@@ -3172,17 +3542,22 @@ func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SyncIDBrokerMappingsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SyncIDBrokerMappingsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3192,7 +3567,7 @@ SyncStatus returns status of the sync operation for the operation id
 Returns status of the sync operation for the operation id. Operation Id should be one of the previously request sync operation.
 */
 func (a *Client) SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncStatusParams()
 	}
@@ -3211,17 +3586,22 @@ func (a *Client) SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*Sy
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SyncStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SyncStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3231,7 +3611,7 @@ SyncUser synchronizes environments with single user to the free IP a servers
 Synchronizes environments with single user to the FreeIPA servers.
 */
 func (a *Client) SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncUserParams()
 	}
@@ -3250,17 +3630,22 @@ func (a *Client) SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUs
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SyncUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SyncUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3270,7 +3655,7 @@ SynchronizeAllEnvironments synchronizes all environments in the calling account
 Invokes the automated user sync service to synchronize all environments in the calling account.
 */
 func (a *Client) SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSynchronizeAllEnvironmentsParams()
 	}
@@ -3289,17 +3674,22 @@ func (a *Client) SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SynchronizeAllEnvironmentsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SynchronizeAllEnvironmentsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3309,7 +3699,7 @@ TestAccountTelemetryRules tests anonymization rules for account telemetry agains
 Test anonymization rules (for account telemetry) against text input.
 */
 func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewTestAccountTelemetryRulesParams()
 	}
@@ -3328,17 +3718,22 @@ func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*TestAccountTelemetryRulesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*TestAccountTelemetryRulesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3348,7 +3743,7 @@ UpdateAwsCredential updates an a w s credential that can be attached to an envir
 Updates an AWS credential.
 */
 func (a *Client) UpdateAwsCredential(params *UpdateAwsCredentialParams, opts ...ClientOption) (*UpdateAwsCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAwsCredentialParams()
 	}
@@ -3367,17 +3762,22 @@ func (a *Client) UpdateAwsCredential(params *UpdateAwsCredentialParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAwsCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAwsCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3387,7 +3787,7 @@ UpdateAwsDiskEncryptionParameters updates the a w s encryption key a r n for the
 Updates the AWS encryption key ARN for the environment. Enables the server side encryption with CMK for newly created AWS resources for the existing environment.
 */
 func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAwsDiskEncryptionParametersParams()
 	}
@@ -3406,17 +3806,22 @@ func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncrypti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAwsDiskEncryptionParametersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAwsDiskEncryptionParametersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3426,7 +3831,7 @@ UpdateAzureAvailabilityZones updates the availability zones for the azure enviro
 Updates the Availability Zones for the Azure environment.
 */
 func (a *Client) UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureAvailabilityZonesParams()
 	}
@@ -3445,17 +3850,22 @@ func (a *Client) UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZon
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAzureAvailabilityZonesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAzureAvailabilityZonesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3465,7 +3875,7 @@ UpdateAzureCredential updates a new certificate based azure credential that can 
 Updates a certificate based Azure credential.
 */
 func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureCredentialParams()
 	}
@@ -3484,17 +3894,22 @@ func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAzureCredentialOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAzureCredentialDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3504,7 +3919,7 @@ UpdateAzureDatabaseResources updates the azure database resources for the enviro
 Updates the Azure database resources for the environment. Enables deploying private Flexible Server for the existing environment.
 */
 func (a *Client) UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureDatabaseResourcesParams()
 	}
@@ -3523,17 +3938,22 @@ func (a *Client) UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourc
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAzureDatabaseResourcesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAzureDatabaseResourcesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3543,7 +3963,7 @@ UpdateAzureEncryptionResources updates the azure encryption resources for the en
 Updates the Azure encryption resources for the environment. Enables the SSE with CMK for newly created Azure resources for the existing environment.
 */
 func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureEncryptionResourcesParams()
 	}
@@ -3562,17 +3982,22 @@ func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionRes
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAzureEncryptionResourcesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAzureEncryptionResourcesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3582,7 +4007,7 @@ UpdateAzureImageTermsPolicy updates account level azure marketplace image policy
 Updates account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
 */
 func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureImageTermsPolicyParams()
 	}
@@ -3601,17 +4026,22 @@ func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicy
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAzureImageTermsPolicyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAzureImageTermsPolicyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3621,7 +4051,7 @@ UpdateCustomDockerRegistry updates custom docker registry c r n of an environmen
 Updates custom docker registry CRN of an environment.
 */
 func (a *Client) UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateCustomDockerRegistryParams()
 	}
@@ -3640,17 +4070,22 @@ func (a *Client) UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateCustomDockerRegistryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateCustomDockerRegistryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3660,7 +4095,7 @@ UpdateDataServiceResources updates data service resources of an environment
 Updates Data Service resources of an environment.
 */
 func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDataServiceResourcesParams()
 	}
@@ -3679,17 +4114,22 @@ func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateDataServiceResourcesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateDataServiceResourcesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3699,7 +4139,7 @@ UpdateFreeipaToAwsImdsV1 updates free IP a a w s cluster to use i m d sv1
 Updates FreeIPA AWS cluster to use IMDSv1.
 */
 func (a *Client) UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateFreeipaToAwsImdsV1Params()
 	}
@@ -3718,17 +4158,22 @@ func (a *Client) UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateFreeipaToAwsImdsV1OK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateFreeipaToAwsImdsV1Default)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3738,7 +4183,7 @@ UpdateFreeipaToAwsImdsV2 updates free IP a a w s cluster to use i m d sv2
 Updates FreeIPA AWS cluster to use IMDSv2.
 */
 func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateFreeipaToAwsImdsV2Params()
 	}
@@ -3757,17 +4202,22 @@ func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateFreeipaToAwsImdsV2OK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateFreeipaToAwsImdsV2Default)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3777,7 +4227,7 @@ UpdateGcpAvailabilityZones updates the availability zones for the g c p environm
 Updates the Availability Zones for the GCP environment.
 */
 func (a *Client) UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateGcpAvailabilityZonesParams()
 	}
@@ -3796,17 +4246,22 @@ func (a *Client) UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateGcpAvailabilityZonesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateGcpAvailabilityZonesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3816,7 +4271,7 @@ UpdateOrchestratorState runs orchestrator engine state update on the free IP a c
 Run orchestrator engine state update on the FreeIPA cluster.
 */
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateOrchestratorStateParams()
 	}
@@ -3835,17 +4290,22 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateOrchestratorStateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3855,7 +4315,7 @@ UpdateProxyConfig updates the proxy config of the given environment the newly ad
 Updates the proxy config of the given environment. The newly added proxy configs will only be used for the Cloudera Data Hub clusters created within the environment after the new proxy configs were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the proxy configs originally defined during environment creation.
 */
 func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateProxyConfigParams()
 	}
@@ -3874,17 +4334,22 @@ func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateProxyConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateProxyConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3894,7 +4359,7 @@ UpdateSecurityAccess updates the security access settings of the given environme
 Updates the security access settings of the given environment. The newly added security groups will only be used for the Cloudera Data Hub clusters created within the environment after the new security groups were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the security groups originally defined during environment creation.
 */
 func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSecurityAccessParams()
 	}
@@ -3913,17 +4378,22 @@ func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateSecurityAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateSecurityAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3933,7 +4403,7 @@ UpdateSSHKey updates the designated SSH key for the given environment the newly 
 Updates the designated SSH key for the given environment. The newly added SSH key will only be used for the Cloudera Data Hub clusters created within the environment after the new SSH key were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the SSH key originally defined during environment creation.
 */
 func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSSHKeyParams()
 	}
@@ -3952,17 +4422,22 @@ func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateSSHKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateSSHKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3972,7 +4447,7 @@ UpdateSubnet updates the subnet s of the given environment the newly added subne
 Updates the subnet(s) of the given environment. The newly added subnets will only be used for the Cloudera Data Hub clusters created within the environment after the new subnets were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the subnets originally defined during environment creation.
 */
 func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSubnetParams()
 	}
@@ -3991,17 +4466,22 @@ func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateSubnetOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateSubnetDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4011,7 +4491,7 @@ UpdateTags updates the user defined tags of the given environment the newly adde
 Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation.
 */
 func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateTagsParams()
 	}
@@ -4030,17 +4510,22 @@ func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*Up
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateTagsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateTagsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4050,7 +4535,7 @@ UpgradeCcm upgrades cluster connectivity manager on the environment to the lates
 Upgrades Cluster Connectivity Manager on the environment to the latest available version.
 */
 func (a *Client) UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeCcmParams()
 	}
@@ -4069,17 +4554,22 @@ func (a *Client) UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*Up
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeCcmOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeCcmDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4089,7 +4579,7 @@ UpgradeFreeipa upgrades free IP a to the latest or defined image
 FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
 */
 func (a *Client) UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeFreeipaParams()
 	}
@@ -4108,17 +4598,22 @@ func (a *Client) UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeFreeipaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeFreeipaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4128,7 +4623,7 @@ UpscaleFreeipa upscales free IP a instances
 FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
 */
 func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpscaleFreeipaParams()
 	}
@@ -4147,17 +4642,22 @@ func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpscaleFreeipaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpscaleFreeipaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4167,7 +4667,7 @@ ValidateAwsCloudStorage validates a w s cloud storage settings of the given envi
 Validates AWS cloud storage settings of the given environment.
 */
 func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAwsCloudStorageParams()
 	}
@@ -4186,17 +4686,22 @@ func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ValidateAwsCloudStorageOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ValidateAwsCloudStorageDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4206,7 +4711,7 @@ ValidateAzureCloudStorage validates azure cloud storage settings of the given en
 Validates Azure cloud storage settings of the given environment.
 */
 func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAzureCloudStorageParams()
 	}
@@ -4225,17 +4730,22 @@ func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStoragePara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ValidateAzureCloudStorageOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ValidateAzureCloudStorageDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

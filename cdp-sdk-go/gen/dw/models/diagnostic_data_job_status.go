@@ -50,7 +50,7 @@ const (
 )
 
 // for schema
-var diagnosticDataJobStatusEnum []interface{}
+var diagnosticDataJobStatusEnum []any
 
 func init() {
 	var res []DiagnosticDataJobStatus

@@ -87,7 +87,7 @@ func (m *ClusterSummary) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var clusterSummaryTypeCertificateExpirationStatePropEnum []interface{}
+var clusterSummaryTypeCertificateExpirationStatePropEnum []any
 
 func init() {
 	var res []string

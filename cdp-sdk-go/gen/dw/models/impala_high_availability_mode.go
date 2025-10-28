@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var impalaHighAvailabilityModeEnum []interface{}
+var impalaHighAvailabilityModeEnum []any
 
 func init() {
 	var res []ImpalaHighAvailabilityMode

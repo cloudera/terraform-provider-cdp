@@ -8,4 +8,4 @@ package models
 // ListRecipesRequest Request object for list recipes request.
 //
 // swagger:model ListRecipesRequest
-type ListRecipesRequest interface{}
+type ListRecipesRequest any

@@ -8,4 +8,4 @@ package models
 // RefreshModelRegistryConfigmapResponse Response for refreshing workbench's model registry configmap.
 //
 // swagger:model RefreshModelRegistryConfigmapResponse
-type RefreshModelRegistryConfigmapResponse interface{}
+type RefreshModelRegistryConfigmapResponse any

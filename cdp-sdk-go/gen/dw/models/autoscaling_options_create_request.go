@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -26,7 +27,7 @@ type AutoscalingOptionsCreateRequest struct {
 	// Turn off auto suspend for Virtual Warehouse.
 	DisableAutoSuspend bool `json:"disableAutoSuspend,omitempty"`
 
-	// DEPRECATED in favor of the top level enableUnifiedAnalytics flag. Enable Unified Analytics. In case of Hive Virtual Warehouses this cannot be provided, because this value is inferred. In case of Impala this can be set. Passing --query-isolation-options will be considered if this flag is set to true. If Unified Analytics enabled then the "impalaEnableShutdownOfCoordinator" explicitly disabled and should not be provided, furthermore the "impalaHighAvailabilityMode" cannot be set to ACTIVE_ACTIVE.
+	// DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Enable Unified Analytics. In case of Hive Virtual Warehouses this cannot be provided, because this value is inferred. In case of Impala this can be set. Passing --query-isolation-options will be considered if this flag is set to true. If Unified Analytics enabled then the "impalaEnableShutdownOfCoordinator" explicitly disabled and should not be provided, furthermore the "impalaHighAvailabilityMode" cannot be set to ACTIVE_ACTIVE. FENG support will be removed in subsequent releases.
 	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
 
 	// Set Desired free capacity. Either "hiveScaleWaitTimeSeconds" or "hiveDesiredFreeCapacity" can be provided.
@@ -38,7 +39,7 @@ type AutoscalingOptionsCreateRequest struct {
 	// DEPRECATED in favor of the top level impalaHASettings object. Enables a backup instance for Impala catalog to ensure high availability.
 	ImpalaEnableCatalogHighAvailability bool `json:"impalaEnableCatalogHighAvailability,omitempty"`
 
-	// DEPRECATED in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator. If Unified Analytics enabled then this setting explicitly disabled and should not be provided.
+	// DEPRECATED: in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator. If Unified Analytics enabled then this setting explicitly disabled and should not be provided. FENG support will be removed in subsequent .
 	ImpalaEnableShutdownOfCoordinator bool `json:"impalaEnableShutdownOfCoordinator,omitempty"`
 
 	// Configures executor group sets for workload aware autoscaling.
@@ -60,10 +61,10 @@ type AutoscalingOptionsCreateRequest struct {
 	// DEPRECATED in favor of the top level impalaHASettings object. Delay in seconds before the shutdown of coordinator event happens.
 	ImpalaShutdownOfCoordinatorDelaySeconds int32 `json:"impalaShutdownOfCoordinatorDelaySeconds,omitempty"`
 
-	// Maximum number of available compute groups.
+	// Sets the maximum number of Executor Groups the Virtual Warehouse can scale up to. This value defines the upper boundary for autoscaling. The total node capacity is determined by this number multiplied by the number of nodes in the selected `--t-shirt-size`. NOTE: On Azure, all IPs for the maximum node count are pre-allocated. If you use the same `--instance-type` for multiple Virtual Warehouses, they will share the same underlying nodepool and its limit is calculated as the sum of all nodes required by the corresponding Virtual Warehouses.
 	MaxClusters *int32 `json:"maxClusters,omitempty"`
 
-	// Minimum number of available compute groups.
+	// Sets the minimum number of Executor Groups.
 	MinClusters *int32 `json:"minClusters,omitempty"`
 }
 
@@ -92,11 +93,15 @@ func (m *AutoscalingOptionsCreateRequest) validateImpalaExecutorGroupSets(format
 
 	if m.ImpalaExecutorGroupSets != nil {
 		if err := m.ImpalaExecutorGroupSets.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaExecutorGroupSets")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaExecutorGroupSets")
 			}
+
 			return err
 		}
 	}
@@ -104,7 +109,7 @@ func (m *AutoscalingOptionsCreateRequest) validateImpalaExecutorGroupSets(format
 	return nil
 }
 
-var autoscalingOptionsCreateRequestTypeImpalaHighAvailabilityModePropEnum []interface{}
+var autoscalingOptionsCreateRequestTypeImpalaHighAvailabilityModePropEnum []any
 
 func init() {
 	var res []string
@@ -172,11 +177,15 @@ func (m *AutoscalingOptionsCreateRequest) contextValidateImpalaExecutorGroupSets
 		}
 
 		if err := m.ImpalaExecutorGroupSets.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaExecutorGroupSets")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaExecutorGroupSets")
 			}
+
 			return err
 		}
 	}

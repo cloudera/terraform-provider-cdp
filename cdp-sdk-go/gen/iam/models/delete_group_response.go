@@ -8,4 +8,4 @@ package models
 // DeleteGroupResponse Response object for delete group request.
 //
 // swagger:model DeleteGroupResponse
-type DeleteGroupResponse interface{}
+type DeleteGroupResponse any

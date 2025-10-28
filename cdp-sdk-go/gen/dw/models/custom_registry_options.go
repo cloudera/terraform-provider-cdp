@@ -42,7 +42,7 @@ func (m *CustomRegistryOptions) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var customRegistryOptionsTypeRegistryTypePropEnum []interface{}
+var customRegistryOptionsTypeRegistryTypePropEnum []any
 
 func init() {
 	var res []string

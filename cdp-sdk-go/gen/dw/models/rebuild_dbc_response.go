@@ -8,4 +8,4 @@ package models
 // RebuildDbcResponse Response object for the rebuildDbc method.
 //
 // swagger:model RebuildDbcResponse
-type RebuildDbcResponse interface{}
+type RebuildDbcResponse any

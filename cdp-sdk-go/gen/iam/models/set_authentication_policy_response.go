@@ -8,4 +8,4 @@ package models
 // SetAuthenticationPolicyResponse Response object for a set authentication policy request.
 //
 // swagger:model SetAuthenticationPolicyResponse
-type SetAuthenticationPolicyResponse interface{}
+type SetAuthenticationPolicyResponse any

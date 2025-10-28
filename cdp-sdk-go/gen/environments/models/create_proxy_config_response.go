@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -46,11 +47,15 @@ func (m *CreateProxyConfigResponse) validateProxyConfig(formats strfmt.Registry)
 
 	if m.ProxyConfig != nil {
 		if err := m.ProxyConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("proxyConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("proxyConfig")
 			}
+
 			return err
 		}
 	}
@@ -77,11 +82,15 @@ func (m *CreateProxyConfigResponse) contextValidateProxyConfig(ctx context.Conte
 	if m.ProxyConfig != nil {
 
 		if err := m.ProxyConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("proxyConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("proxyConfig")
 			}
+
 			return err
 		}
 	}

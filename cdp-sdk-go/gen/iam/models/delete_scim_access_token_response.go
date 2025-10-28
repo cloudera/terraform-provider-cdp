@@ -8,4 +8,4 @@ package models
 // DeleteScimAccessTokenResponse Response object to delete the SCIM access token.
 //
 // swagger:model DeleteScimAccessTokenResponse
-type DeleteScimAccessTokenResponse interface{}
+type DeleteScimAccessTokenResponse any

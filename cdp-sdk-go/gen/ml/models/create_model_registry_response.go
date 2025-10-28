@@ -8,4 +8,4 @@ package models
 // CreateModelRegistryResponse Response for creating model registry request.
 //
 // swagger:model CreateModelRegistryResponse
-type CreateModelRegistryResponse interface{}
+type CreateModelRegistryResponse any

@@ -8,4 +8,4 @@ package models
 // DeleteWorkspaceResponse Response object for the DeleteWorkspace method.
 //
 // swagger:model DeleteWorkspaceResponse
-type DeleteWorkspaceResponse interface{}
+type DeleteWorkspaceResponse any

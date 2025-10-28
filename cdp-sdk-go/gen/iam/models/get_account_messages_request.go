@@ -8,4 +8,4 @@ package models
 // GetAccountMessagesRequest Request object for get account messages.
 //
 // swagger:model GetAccountMessagesRequest
-type GetAccountMessagesRequest interface{}
+type GetAccountMessagesRequest any

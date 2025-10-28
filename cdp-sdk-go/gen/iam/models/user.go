@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -145,11 +146,15 @@ func (m *User) validateAzureCloudIdentities(formats strfmt.Registry) error {
 
 		if m.AzureCloudIdentities[i] != nil {
 			if err := m.AzureCloudIdentities[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -245,11 +250,15 @@ func (m *User) validateWorkloadPasswordDetails(formats strfmt.Registry) error {
 
 	if m.WorkloadPasswordDetails != nil {
 		if err := m.WorkloadPasswordDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workloadPasswordDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workloadPasswordDetails")
 			}
+
 			return err
 		}
 	}
@@ -286,11 +295,15 @@ func (m *User) contextValidateAzureCloudIdentities(ctx context.Context, formats 
 			}
 
 			if err := m.AzureCloudIdentities[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("azureCloudIdentities" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -309,11 +322,15 @@ func (m *User) contextValidateWorkloadPasswordDetails(ctx context.Context, forma
 		}
 
 		if err := m.WorkloadPasswordDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workloadPasswordDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workloadPasswordDetails")
 			}
+
 			return err
 		}
 	}

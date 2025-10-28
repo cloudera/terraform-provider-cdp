@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -167,11 +168,15 @@ func (m *BackupDatalakeStatusResponse) validateOperationStates(formats strfmt.Re
 
 	if m.OperationStates != nil {
 		if err := m.OperationStates.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("operationStates")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("operationStates")
 			}
+
 			return err
 		}
 	}
@@ -225,11 +230,15 @@ func (m *BackupDatalakeStatusResponse) contextValidateOperationStates(ctx contex
 	if m.OperationStates != nil {
 
 		if err := m.OperationStates.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("operationStates")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("operationStates")
 			}
+
 			return err
 		}
 	}

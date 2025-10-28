@@ -27,6 +27,9 @@ type DeleteSnapshotRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Forcefully delete the snapshot.
+	Force bool `json:"force,omitempty"`
+
 	// The name of the snapshot.
 	// Required: true
 	SnapshotName *string `json:"snapshotName"`

@@ -8,4 +8,4 @@ package models
 // UnassignAzureCloudIdentityResponse Response object for an unassign Azure cloud identity request.
 //
 // swagger:model UnassignAzureCloudIdentityResponse
-type UnassignAzureCloudIdentityResponse interface{}
+type UnassignAzureCloudIdentityResponse any

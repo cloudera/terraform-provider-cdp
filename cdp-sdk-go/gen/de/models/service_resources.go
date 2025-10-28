@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -79,11 +80,15 @@ func (m *ServiceResources) validateAllPurposeInstanceGroupDetails(formats strfmt
 
 	if m.AllPurposeInstanceGroupDetails != nil {
 		if err := m.AllPurposeInstanceGroupDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("allPurposeInstanceGroupDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("allPurposeInstanceGroupDetails")
 			}
+
 			return err
 		}
 	}
@@ -114,11 +119,15 @@ func (m *ServiceResources) contextValidateAllPurposeInstanceGroupDetails(ctx con
 		}
 
 		if err := m.AllPurposeInstanceGroupDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("allPurposeInstanceGroupDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("allPurposeInstanceGroupDetails")
 			}
+
 			return err
 		}
 	}

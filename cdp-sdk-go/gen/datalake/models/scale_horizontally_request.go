@@ -84,7 +84,7 @@ func (m *ScaleHorizontallyRequest) validateInstanceGroupDesiredCount(formats str
 	return nil
 }
 
-var scaleHorizontallyRequestTypeInstanceGroupNamePropEnum []interface{}
+var scaleHorizontallyRequestTypeInstanceGroupNamePropEnum []any
 
 func init() {
 	var res []string

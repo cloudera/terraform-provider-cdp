@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -86,11 +87,15 @@ func (m *FreeipaDetails) validateImageDetails(formats strfmt.Registry) error {
 
 	if m.ImageDetails != nil {
 		if err := m.ImageDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("imageDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("imageDetails")
 			}
+
 			return err
 		}
 	}
@@ -114,11 +119,15 @@ func (m *FreeipaDetails) validateInstances(formats strfmt.Registry) error {
 
 		if m.Instances[i] != nil {
 			if err := m.Instances[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instances" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instances" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -135,11 +144,15 @@ func (m *FreeipaDetails) validateLoadBalancer(formats strfmt.Registry) error {
 
 	if m.LoadBalancer != nil {
 		if err := m.LoadBalancer.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("loadBalancer")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("loadBalancer")
 			}
+
 			return err
 		}
 	}
@@ -190,11 +203,15 @@ func (m *FreeipaDetails) contextValidateImageDetails(ctx context.Context, format
 		}
 
 		if err := m.ImageDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("imageDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("imageDetails")
 			}
+
 			return err
 		}
 	}
@@ -213,11 +230,15 @@ func (m *FreeipaDetails) contextValidateInstances(ctx context.Context, formats s
 			}
 
 			if err := m.Instances[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instances" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instances" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -236,11 +257,15 @@ func (m *FreeipaDetails) contextValidateLoadBalancer(ctx context.Context, format
 		}
 
 		if err := m.LoadBalancer.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("loadBalancer")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("loadBalancer")
 			}
+
 			return err
 		}
 	}

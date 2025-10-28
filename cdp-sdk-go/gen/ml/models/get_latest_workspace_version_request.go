@@ -8,4 +8,4 @@ package models
 // GetLatestWorkspaceVersionRequest Request object for GetLatestWorkspaceVersion.
 //
 // swagger:model GetLatestWorkspaceVersionRequest
-type GetLatestWorkspaceVersionRequest interface{}
+type GetLatestWorkspaceVersionRequest any

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -135,11 +136,15 @@ func (m *VcDescription) validateAccessControl(formats strfmt.Registry) error {
 
 	if m.AccessControl != nil {
 		if err := m.AccessControl.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("accessControl")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("accessControl")
 			}
+
 			return err
 		}
 	}
@@ -159,11 +164,15 @@ func (m *VcDescription) validateChartValueOverrides(formats strfmt.Registry) err
 
 		if m.ChartValueOverrides[i] != nil {
 			if err := m.ChartValueOverrides[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -189,11 +198,15 @@ func (m *VcDescription) validateResources(formats strfmt.Registry) error {
 
 	if m.Resources != nil {
 		if err := m.Resources.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("resources")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("resources")
 			}
+
 			return err
 		}
 	}
@@ -208,11 +221,15 @@ func (m *VcDescription) validateSMTPConfig(formats strfmt.Registry) error {
 
 	if m.SMTPConfig != nil {
 		if err := m.SMTPConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("smtpConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("smtpConfig")
 			}
+
 			return err
 		}
 	}
@@ -273,11 +290,15 @@ func (m *VcDescription) contextValidateAccessControl(ctx context.Context, format
 		}
 
 		if err := m.AccessControl.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("accessControl")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("accessControl")
 			}
+
 			return err
 		}
 	}
@@ -296,11 +317,15 @@ func (m *VcDescription) contextValidateChartValueOverrides(ctx context.Context, 
 			}
 
 			if err := m.ChartValueOverrides[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -319,11 +344,15 @@ func (m *VcDescription) contextValidateResources(ctx context.Context, formats st
 		}
 
 		if err := m.Resources.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("resources")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("resources")
 			}
+
 			return err
 		}
 	}
@@ -340,11 +369,15 @@ func (m *VcDescription) contextValidateSMTPConfig(ctx context.Context, formats s
 		}
 
 		if err := m.SMTPConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("smtpConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("smtpConfig")
 			}
+
 			return err
 		}
 	}

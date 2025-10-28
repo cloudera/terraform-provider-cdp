@@ -8,4 +8,4 @@ package models
 // DeleteSSHPublicKeyResponse Response object for delete SSH public key.
 //
 // swagger:model DeleteSshPublicKeyResponse
-type DeleteSSHPublicKeyResponse interface{}
+type DeleteSSHPublicKeyResponse any

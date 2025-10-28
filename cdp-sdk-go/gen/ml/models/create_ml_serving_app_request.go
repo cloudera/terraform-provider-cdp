@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -106,11 +107,15 @@ func (m *CreateMlServingAppRequest) validateOzoneS3Creds(formats strfmt.Registry
 
 	if m.OzoneS3Creds != nil {
 		if err := m.OzoneS3Creds.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("ozoneS3Creds")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("ozoneS3Creds")
 			}
+
 			return err
 		}
 	}
@@ -125,11 +130,15 @@ func (m *CreateMlServingAppRequest) validateProvisionK8sRequest(formats strfmt.R
 
 	if m.ProvisionK8sRequest != nil {
 		if err := m.ProvisionK8sRequest.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("provisionK8sRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("provisionK8sRequest")
 			}
+
 			return err
 		}
 	}
@@ -164,11 +173,15 @@ func (m *CreateMlServingAppRequest) contextValidateOzoneS3Creds(ctx context.Cont
 		}
 
 		if err := m.OzoneS3Creds.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("ozoneS3Creds")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("ozoneS3Creds")
 			}
+
 			return err
 		}
 	}
@@ -185,11 +198,15 @@ func (m *CreateMlServingAppRequest) contextValidateProvisionK8sRequest(ctx conte
 		}
 
 		if err := m.ProvisionK8sRequest.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("provisionK8sRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("provisionK8sRequest")
 			}
+
 			return err
 		}
 	}

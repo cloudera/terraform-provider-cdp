@@ -8,4 +8,4 @@ package models
 // AddUserToGroupResponse Response object for an add user to group request.
 //
 // swagger:model AddUserToGroupResponse
-type AddUserToGroupResponse interface{}
+type AddUserToGroupResponse any

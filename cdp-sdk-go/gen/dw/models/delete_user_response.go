@@ -8,4 +8,4 @@ package models
 // DeleteUserResponse Response object for the deleteUser method.
 //
 // swagger:model DeleteUserResponse
-type DeleteUserResponse interface{}
+type DeleteUserResponse any

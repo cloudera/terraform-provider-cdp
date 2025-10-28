@@ -45,7 +45,7 @@ func (m *GetUpgradeStatusResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var getUpgradeStatusResponseTypeNextStepPropEnum []interface{}
+var getUpgradeStatusResponseTypeNextStepPropEnum []any
 
 func init() {
 	var res []string

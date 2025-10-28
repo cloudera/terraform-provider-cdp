@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -78,11 +79,15 @@ func (m *AutoScalePolicyRequest) validateLoadBasedPolicy(formats strfmt.Registry
 
 	if m.LoadBasedPolicy != nil {
 		if err := m.LoadBasedPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("loadBasedPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("loadBasedPolicy")
 			}
+
 			return err
 		}
 	}
@@ -97,11 +102,15 @@ func (m *AutoScalePolicyRequest) validateScheduleBasedPolicy(formats strfmt.Regi
 
 	if m.ScheduleBasedPolicy != nil {
 		if err := m.ScheduleBasedPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("scheduleBasedPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("scheduleBasedPolicy")
 			}
+
 			return err
 		}
 	}
@@ -136,11 +145,15 @@ func (m *AutoScalePolicyRequest) contextValidateLoadBasedPolicy(ctx context.Cont
 		}
 
 		if err := m.LoadBasedPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("loadBasedPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("loadBasedPolicy")
 			}
+
 			return err
 		}
 	}
@@ -157,11 +170,15 @@ func (m *AutoScalePolicyRequest) contextValidateScheduleBasedPolicy(ctx context.
 		}
 
 		if err := m.ScheduleBasedPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("scheduleBasedPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("scheduleBasedPolicy")
 			}
+
 			return err
 		}
 	}

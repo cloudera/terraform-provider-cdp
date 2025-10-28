@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -102,11 +103,15 @@ func (m *Network) validateAws(formats strfmt.Registry) error {
 
 	if m.Aws != nil {
 		if err := m.Aws.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("aws")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("aws")
 			}
+
 			return err
 		}
 	}
@@ -121,11 +126,15 @@ func (m *Network) validateAzure(formats strfmt.Registry) error {
 
 	if m.Azure != nil {
 		if err := m.Azure.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azure")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azure")
 			}
+
 			return err
 		}
 	}
@@ -133,7 +142,7 @@ func (m *Network) validateAzure(formats strfmt.Registry) error {
 	return nil
 }
 
-var networkTypeEndpointAccessGatewaySchemePropEnum []interface{}
+var networkTypeEndpointAccessGatewaySchemePropEnum []any
 
 func init() {
 	var res []string
@@ -194,11 +203,15 @@ func (m *Network) validateGcp(formats strfmt.Registry) error {
 
 	if m.Gcp != nil {
 		if err := m.Gcp.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcp")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcp")
 			}
+
 			return err
 		}
 	}
@@ -240,11 +253,15 @@ func (m *Network) validateSubnetMetadata(formats strfmt.Registry) error {
 		}
 		if val, ok := m.SubnetMetadata[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("subnetMetadata" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("subnetMetadata" + "." + k)
 				}
+
 				return err
 			}
 		}
@@ -289,11 +306,15 @@ func (m *Network) contextValidateAws(ctx context.Context, formats strfmt.Registr
 		}
 
 		if err := m.Aws.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("aws")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("aws")
 			}
+
 			return err
 		}
 	}
@@ -310,11 +331,15 @@ func (m *Network) contextValidateAzure(ctx context.Context, formats strfmt.Regis
 		}
 
 		if err := m.Azure.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azure")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azure")
 			}
+
 			return err
 		}
 	}
@@ -331,11 +356,15 @@ func (m *Network) contextValidateGcp(ctx context.Context, formats strfmt.Registr
 		}
 
 		if err := m.Gcp.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcp")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcp")
 			}
+
 			return err
 		}
 	}

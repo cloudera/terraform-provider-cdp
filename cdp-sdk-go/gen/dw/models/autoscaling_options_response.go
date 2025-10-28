@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -26,7 +27,7 @@ type AutoscalingOptionsResponse struct {
 	// Turn off auto suspend for Virtual Warehouse.
 	DisableAutoSuspend bool `json:"disableAutoSuspend,omitempty"`
 
-	// DEPRECATED in favor of the top level enableUnifiedAnalytics flag. Whether the Unified Analytics is enabled.
+	// DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.
 	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
 
 	// Desired free capacity.
@@ -60,10 +61,10 @@ type AutoscalingOptionsResponse struct {
 	// DEPRECATED in favor of the top level impalaHASettings object. Delay in seconds before the shutdown of coordinator event happens.
 	ImpalaShutdownOfCoordinatorDelaySeconds int32 `json:"impalaShutdownOfCoordinatorDelaySeconds,omitempty"`
 
-	// Maximum number of available compute groups.
+	// Maximum number of available Executor Groups.
 	MaxClusters int32 `json:"maxClusters,omitempty"`
 
-	// Minimum number of available compute groups.
+	// Minimum number of available Executor Groups.
 	MinClusters int32 `json:"minClusters,omitempty"`
 }
 
@@ -92,11 +93,15 @@ func (m *AutoscalingOptionsResponse) validateImpalaExecutorGroupSets(formats str
 
 	if m.ImpalaExecutorGroupSets != nil {
 		if err := m.ImpalaExecutorGroupSets.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaExecutorGroupSets")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaExecutorGroupSets")
 			}
+
 			return err
 		}
 	}
@@ -104,7 +109,7 @@ func (m *AutoscalingOptionsResponse) validateImpalaExecutorGroupSets(formats str
 	return nil
 }
 
-var autoscalingOptionsResponseTypeImpalaHighAvailabilityModePropEnum []interface{}
+var autoscalingOptionsResponseTypeImpalaHighAvailabilityModePropEnum []any
 
 func init() {
 	var res []string
@@ -172,11 +177,15 @@ func (m *AutoscalingOptionsResponse) contextValidateImpalaExecutorGroupSets(ctx 
 		}
 
 		if err := m.ImpalaExecutorGroupSets.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaExecutorGroupSets")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaExecutorGroupSets")
 			}
+
 			return err
 		}
 	}

@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -132,7 +133,7 @@ func (m *CreatePrivateEnvironmentRequest) validateAuthenticationToken(formats st
 	return nil
 }
 
-var createPrivateEnvironmentRequestTypeAuthenticationTokenTypePropEnum []interface{}
+var createPrivateEnvironmentRequestTypeAuthenticationTokenTypePropEnum []any
 
 func init() {
 	var res []string
@@ -187,11 +188,15 @@ func (m *CreatePrivateEnvironmentRequest) validateDockerUserPass(formats strfmt.
 
 	if m.DockerUserPass != nil {
 		if err := m.DockerUserPass.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dockerUserPass")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dockerUserPass")
 			}
+
 			return err
 		}
 	}
@@ -215,11 +220,15 @@ func (m *CreatePrivateEnvironmentRequest) validateEnvironmentQuota(formats strfm
 
 	if m.EnvironmentQuota != nil {
 		if err := m.EnvironmentQuota.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("environmentQuota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("environmentQuota")
 			}
+
 			return err
 		}
 	}
@@ -263,11 +272,15 @@ func (m *CreatePrivateEnvironmentRequest) contextValidateDockerUserPass(ctx cont
 		}
 
 		if err := m.DockerUserPass.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dockerUserPass")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dockerUserPass")
 			}
+
 			return err
 		}
 	}
@@ -284,11 +297,15 @@ func (m *CreatePrivateEnvironmentRequest) contextValidateEnvironmentQuota(ctx co
 		}
 
 		if err := m.EnvironmentQuota.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("environmentQuota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("environmentQuota")
 			}
+
 			return err
 		}
 	}

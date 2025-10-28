@@ -57,7 +57,7 @@ func (m *UpdateAccessKeyRequest) validateAccessKeyID(formats strfmt.Registry) er
 	return nil
 }
 
-var updateAccessKeyRequestTypeStatusPropEnum []interface{}
+var updateAccessKeyRequestTypeStatusPropEnum []any
 
 func init() {
 	var res []string

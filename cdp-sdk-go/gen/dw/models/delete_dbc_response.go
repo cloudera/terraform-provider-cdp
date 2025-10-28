@@ -8,4 +8,4 @@ package models
 // DeleteDbcResponse Response object for the deleteDbc method.
 //
 // swagger:model DeleteDbcResponse
-type DeleteDbcResponse interface{}
+type DeleteDbcResponse any

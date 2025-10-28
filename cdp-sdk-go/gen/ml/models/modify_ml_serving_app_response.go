@@ -8,4 +8,4 @@ package models
 // ModifyMlServingAppResponse Response object for ModifyMlServingApp method.
 //
 // swagger:model ModifyMlServingAppResponse
-type ModifyMlServingAppResponse interface{}
+type ModifyMlServingAppResponse any

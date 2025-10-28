@@ -99,7 +99,7 @@ func (m *CollectCmDiagnosticsRequest) validateCrn(formats strfmt.Registry) error
 	return nil
 }
 
-var collectCmDiagnosticsRequestTypeDestinationPropEnum []interface{}
+var collectCmDiagnosticsRequestTypeDestinationPropEnum []any
 
 func init() {
 	var res []string

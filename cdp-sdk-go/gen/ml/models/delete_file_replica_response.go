@@ -8,4 +8,4 @@ package models
 // DeleteFileReplicaResponse Response object for DeleteFileReplica method.
 //
 // swagger:model DeleteFileReplicaResponse
-type DeleteFileReplicaResponse interface{}
+type DeleteFileReplicaResponse any

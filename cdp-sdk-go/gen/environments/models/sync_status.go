@@ -53,7 +53,7 @@ const (
 )
 
 // for schema
-var syncStatusEnum []interface{}
+var syncStatusEnum []any
 
 func init() {
 	var res []SyncStatus

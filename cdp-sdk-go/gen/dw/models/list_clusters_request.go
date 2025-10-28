@@ -56,7 +56,7 @@ func (m *ListClustersRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var listClustersRequestTypeCloudPlatformPropEnum []interface{}
+var listClustersRequestTypeCloudPlatformPropEnum []any
 
 func init() {
 	var res []string
@@ -98,7 +98,7 @@ func (m *ListClustersRequest) validateCloudPlatform(formats strfmt.Registry) err
 	return nil
 }
 
-var listClustersRequestTypeStatusPropEnum []interface{}
+var listClustersRequestTypeStatusPropEnum []any
 
 func init() {
 	var res []string

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -175,11 +176,15 @@ func (m *CreateDatabaseRequest) validateArchitecture(formats strfmt.Registry) er
 	}
 
 	if err := m.Architecture.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("architecture")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("architecture")
 		}
+
 		return err
 	}
 
@@ -193,11 +198,15 @@ func (m *CreateDatabaseRequest) validateAttachedStorageForWorkers(formats strfmt
 
 	if m.AttachedStorageForWorkers != nil {
 		if err := m.AttachedStorageForWorkers.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("attachedStorageForWorkers")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("attachedStorageForWorkers")
 			}
+
 			return err
 		}
 	}
@@ -212,11 +221,15 @@ func (m *CreateDatabaseRequest) validateAutoScalingParameters(formats strfmt.Reg
 
 	if m.AutoScalingParameters != nil {
 		if err := m.AutoScalingParameters.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoScalingParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoScalingParameters")
 			}
+
 			return err
 		}
 	}
@@ -231,11 +244,15 @@ func (m *CreateDatabaseRequest) validateCustomInstanceTypes(formats strfmt.Regis
 
 	if m.CustomInstanceTypes != nil {
 		if err := m.CustomInstanceTypes.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customInstanceTypes")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customInstanceTypes")
 			}
+
 			return err
 		}
 	}
@@ -255,11 +272,15 @@ func (m *CreateDatabaseRequest) validateCustomUserTags(formats strfmt.Registry) 
 
 		if m.CustomUserTags[i] != nil {
 			if err := m.CustomUserTags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customUserTags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customUserTags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -294,11 +315,15 @@ func (m *CreateDatabaseRequest) validateImage(formats strfmt.Registry) error {
 
 	if m.Image != nil {
 		if err := m.Image.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -318,11 +343,15 @@ func (m *CreateDatabaseRequest) validateRecipes(formats strfmt.Registry) error {
 
 		if m.Recipes[i] != nil {
 			if err := m.Recipes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("recipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("recipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -338,11 +367,15 @@ func (m *CreateDatabaseRequest) validateScaleType(formats strfmt.Registry) error
 	}
 
 	if err := m.ScaleType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("scaleType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("scaleType")
 		}
+
 		return err
 	}
 
@@ -356,11 +389,15 @@ func (m *CreateDatabaseRequest) validateSecurityRequest(formats strfmt.Registry)
 
 	if m.SecurityRequest != nil {
 		if err := m.SecurityRequest.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityRequest")
 			}
+
 			return err
 		}
 	}
@@ -374,11 +411,15 @@ func (m *CreateDatabaseRequest) validateStorageType(formats strfmt.Registry) err
 	}
 
 	if err := m.StorageType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("storageType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("storageType")
 		}
+
 		return err
 	}
 
@@ -397,11 +438,15 @@ func (m *CreateDatabaseRequest) validateVolumeEncryptions(formats strfmt.Registr
 
 		if m.VolumeEncryptions[i] != nil {
 			if err := m.VolumeEncryptions[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -472,11 +517,15 @@ func (m *CreateDatabaseRequest) contextValidateArchitecture(ctx context.Context,
 	}
 
 	if err := m.Architecture.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("architecture")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("architecture")
 		}
+
 		return err
 	}
 
@@ -492,11 +541,15 @@ func (m *CreateDatabaseRequest) contextValidateAttachedStorageForWorkers(ctx con
 		}
 
 		if err := m.AttachedStorageForWorkers.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("attachedStorageForWorkers")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("attachedStorageForWorkers")
 			}
+
 			return err
 		}
 	}
@@ -513,11 +566,15 @@ func (m *CreateDatabaseRequest) contextValidateAutoScalingParameters(ctx context
 		}
 
 		if err := m.AutoScalingParameters.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoScalingParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoScalingParameters")
 			}
+
 			return err
 		}
 	}
@@ -534,11 +591,15 @@ func (m *CreateDatabaseRequest) contextValidateCustomInstanceTypes(ctx context.C
 		}
 
 		if err := m.CustomInstanceTypes.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customInstanceTypes")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customInstanceTypes")
 			}
+
 			return err
 		}
 	}
@@ -557,11 +618,15 @@ func (m *CreateDatabaseRequest) contextValidateCustomUserTags(ctx context.Contex
 			}
 
 			if err := m.CustomUserTags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customUserTags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customUserTags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -580,11 +645,15 @@ func (m *CreateDatabaseRequest) contextValidateImage(ctx context.Context, format
 		}
 
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -603,11 +672,15 @@ func (m *CreateDatabaseRequest) contextValidateRecipes(ctx context.Context, form
 			}
 
 			if err := m.Recipes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("recipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("recipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -624,11 +697,15 @@ func (m *CreateDatabaseRequest) contextValidateScaleType(ctx context.Context, fo
 	}
 
 	if err := m.ScaleType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("scaleType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("scaleType")
 		}
+
 		return err
 	}
 
@@ -644,11 +721,15 @@ func (m *CreateDatabaseRequest) contextValidateSecurityRequest(ctx context.Conte
 		}
 
 		if err := m.SecurityRequest.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityRequest")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityRequest")
 			}
+
 			return err
 		}
 	}
@@ -663,11 +744,15 @@ func (m *CreateDatabaseRequest) contextValidateStorageType(ctx context.Context, 
 	}
 
 	if err := m.StorageType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("storageType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("storageType")
 		}
+
 		return err
 	}
 
@@ -685,11 +770,15 @@ func (m *CreateDatabaseRequest) contextValidateVolumeEncryptions(ctx context.Con
 			}
 
 			if err := m.VolumeEncryptions[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("volumeEncryptions" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

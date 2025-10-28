@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -133,11 +134,15 @@ func (m *AccessKey) validateLastUsage(formats strfmt.Registry) error {
 
 	if m.LastUsage != nil {
 		if err := m.LastUsage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("lastUsage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("lastUsage")
 			}
+
 			return err
 		}
 	}
@@ -145,7 +150,7 @@ func (m *AccessKey) validateLastUsage(formats strfmt.Registry) error {
 	return nil
 }
 
-var accessKeyTypeStatusPropEnum []interface{}
+var accessKeyTypeStatusPropEnum []any
 
 func init() {
 	var res []string
@@ -193,11 +198,15 @@ func (m *AccessKey) validateType(formats strfmt.Registry) error {
 	}
 
 	if err := m.Type.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("type")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("type")
 		}
+
 		return err
 	}
 
@@ -231,11 +240,15 @@ func (m *AccessKey) contextValidateLastUsage(ctx context.Context, formats strfmt
 		}
 
 		if err := m.LastUsage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("lastUsage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("lastUsage")
 			}
+
 			return err
 		}
 	}
@@ -250,11 +263,15 @@ func (m *AccessKey) contextValidateType(ctx context.Context, formats strfmt.Regi
 	}
 
 	if err := m.Type.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("type")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("type")
 		}
+
 		return err
 	}
 

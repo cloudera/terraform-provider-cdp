@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -18,6 +19,9 @@ import (
 //
 // swagger:model InstanceGroup
 type InstanceGroup struct {
+
+	// The accelerator, which refers to the GPU type configuration.
+	Accelerator *Accelerator `json:"accelerator,omitempty"`
 
 	// The auto scaling configuration.
 	Autoscaling *Autoscaling `json:"autoscaling,omitempty"`
@@ -46,6 +50,10 @@ type InstanceGroup struct {
 func (m *InstanceGroup) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAccelerator(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateAutoscaling(formats); err != nil {
 		res = append(res, err)
 	}
@@ -64,6 +72,29 @@ func (m *InstanceGroup) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *InstanceGroup) validateAccelerator(formats strfmt.Registry) error {
+	if swag.IsZero(m.Accelerator) { // not required
+		return nil
+	}
+
+	if m.Accelerator != nil {
+		if err := m.Accelerator.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("accelerator")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("accelerator")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *InstanceGroup) validateAutoscaling(formats strfmt.Registry) error {
 	if swag.IsZero(m.Autoscaling) { // not required
 		return nil
@@ -71,11 +102,15 @@ func (m *InstanceGroup) validateAutoscaling(formats strfmt.Registry) error {
 
 	if m.Autoscaling != nil {
 		if err := m.Autoscaling.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoscaling")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoscaling")
 			}
+
 			return err
 		}
 	}
@@ -99,11 +134,15 @@ func (m *InstanceGroup) validateRootVolume(formats strfmt.Registry) error {
 
 	if m.RootVolume != nil {
 		if err := m.RootVolume.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rootVolume")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rootVolume")
 			}
+
 			return err
 		}
 	}
@@ -114,6 +153,10 @@ func (m *InstanceGroup) validateRootVolume(formats strfmt.Registry) error {
 // ContextValidate validate this instance group based on the context it is used
 func (m *InstanceGroup) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.contextValidateAccelerator(ctx, formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.contextValidateAutoscaling(ctx, formats); err != nil {
 		res = append(res, err)
@@ -129,6 +172,31 @@ func (m *InstanceGroup) ContextValidate(ctx context.Context, formats strfmt.Regi
 	return nil
 }
 
+func (m *InstanceGroup) contextValidateAccelerator(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Accelerator != nil {
+
+		if swag.IsZero(m.Accelerator) { // not required
+			return nil
+		}
+
+		if err := m.Accelerator.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("accelerator")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("accelerator")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *InstanceGroup) contextValidateAutoscaling(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Autoscaling != nil {
@@ -138,11 +206,15 @@ func (m *InstanceGroup) contextValidateAutoscaling(ctx context.Context, formats 
 		}
 
 		if err := m.Autoscaling.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoscaling")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoscaling")
 			}
+
 			return err
 		}
 	}
@@ -159,11 +231,15 @@ func (m *InstanceGroup) contextValidateRootVolume(ctx context.Context, formats s
 		}
 
 		if err := m.RootVolume.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rootVolume")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rootVolume")
 			}
+
 			return err
 		}
 	}

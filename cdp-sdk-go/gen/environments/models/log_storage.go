@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -66,11 +67,15 @@ func (m *LogStorage) validateAwsDetails(formats strfmt.Registry) error {
 
 	if m.AwsDetails != nil {
 		if err := m.AwsDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsDetails")
 			}
+
 			return err
 		}
 	}
@@ -85,11 +90,15 @@ func (m *LogStorage) validateAzureDetails(formats strfmt.Registry) error {
 
 	if m.AzureDetails != nil {
 		if err := m.AzureDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureDetails")
 			}
+
 			return err
 		}
 	}
@@ -113,11 +122,15 @@ func (m *LogStorage) validateGcpDetails(formats strfmt.Registry) error {
 
 	if m.GcpDetails != nil {
 		if err := m.GcpDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcpDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcpDetails")
 			}
+
 			return err
 		}
 	}
@@ -156,11 +169,15 @@ func (m *LogStorage) contextValidateAwsDetails(ctx context.Context, formats strf
 		}
 
 		if err := m.AwsDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsDetails")
 			}
+
 			return err
 		}
 	}
@@ -177,11 +194,15 @@ func (m *LogStorage) contextValidateAzureDetails(ctx context.Context, formats st
 		}
 
 		if err := m.AzureDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureDetails")
 			}
+
 			return err
 		}
 	}
@@ -198,11 +219,15 @@ func (m *LogStorage) contextValidateGcpDetails(ctx context.Context, formats strf
 		}
 
 		if err := m.GcpDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcpDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcpDetails")
 			}
+
 			return err
 		}
 	}

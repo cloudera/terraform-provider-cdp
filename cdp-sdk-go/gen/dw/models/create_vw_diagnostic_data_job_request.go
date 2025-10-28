@@ -90,7 +90,7 @@ func (m *CreateVwDiagnosticDataJobRequest) validateClusterID(formats strfmt.Regi
 	return nil
 }
 
-var createVwDiagnosticDataJobRequestTypeDestinationPropEnum []interface{}
+var createVwDiagnosticDataJobRequestTypeDestinationPropEnum []any
 
 func init() {
 	var res []string

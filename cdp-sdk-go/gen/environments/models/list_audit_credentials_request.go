@@ -8,4 +8,4 @@ package models
 // ListAuditCredentialsRequest Request object for a list audit credentials request.
 //
 // swagger:model ListAuditCredentialsRequest
-type ListAuditCredentialsRequest interface{}
+type ListAuditCredentialsRequest any

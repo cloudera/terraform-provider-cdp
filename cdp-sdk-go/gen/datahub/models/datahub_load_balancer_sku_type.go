@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var datahubLoadBalancerSkuTypeEnum []interface{}
+var datahubLoadBalancerSkuTypeEnum []any
 
 func init() {
 	var res []DatahubLoadBalancerSkuType

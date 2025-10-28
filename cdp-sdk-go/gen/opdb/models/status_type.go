@@ -185,7 +185,7 @@ const (
 )
 
 // for schema
-var statusTypeEnum []interface{}
+var statusTypeEnum []any
 
 func init() {
 	var res []StatusType

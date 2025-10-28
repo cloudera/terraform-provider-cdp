@@ -8,4 +8,4 @@ package models
 // GetAzureImageTermsPolicyRequest Request object to retrieve current value of setting that controls automatic acceptance of Azure Marketplace image terms.
 //
 // swagger:model GetAzureImageTermsPolicyRequest
-type GetAzureImageTermsPolicyRequest interface{}
+type GetAzureImageTermsPolicyRequest any

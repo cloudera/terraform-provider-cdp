@@ -8,4 +8,4 @@ package models
 // SetDefaultIdentityProviderResponse Response object to set the default identity provider.
 //
 // swagger:model SetDefaultIdentityProviderResponse
-type SetDefaultIdentityProviderResponse interface{}
+type SetDefaultIdentityProviderResponse any

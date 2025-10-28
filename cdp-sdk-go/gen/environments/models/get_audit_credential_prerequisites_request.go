@@ -40,7 +40,7 @@ func (m *GetAuditCredentialPrerequisitesRequest) Validate(formats strfmt.Registr
 	return nil
 }
 
-var getAuditCredentialPrerequisitesRequestTypeCloudPlatformPropEnum []interface{}
+var getAuditCredentialPrerequisitesRequestTypeCloudPlatformPropEnum []any
 
 func init() {
 	var res []string

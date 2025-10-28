@@ -8,4 +8,4 @@ package models
 // DeleteClusterResponse Response object for the deleteCluster method.
 //
 // swagger:model DeleteClusterResponse
-type DeleteClusterResponse interface{}
+type DeleteClusterResponse any

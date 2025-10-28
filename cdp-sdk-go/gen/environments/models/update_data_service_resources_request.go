@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -54,11 +55,15 @@ func (m *UpdateDataServiceResourcesRequest) validateDataServices(formats strfmt.
 
 	if m.DataServices != nil {
 		if err := m.DataServices.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dataServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dataServices")
 			}
+
 			return err
 		}
 	}
@@ -94,11 +99,15 @@ func (m *UpdateDataServiceResourcesRequest) contextValidateDataServices(ctx cont
 	if m.DataServices != nil {
 
 		if err := m.DataServices.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dataServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dataServices")
 			}
+
 			return err
 		}
 	}

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -73,11 +74,15 @@ func (m *UpdateAzureCredentialRequest) validateAppBased(formats strfmt.Registry)
 
 	if m.AppBased != nil {
 		if err := m.AppBased.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("appBased")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("appBased")
 			}
+
 			return err
 		}
 	}
@@ -131,11 +136,15 @@ func (m *UpdateAzureCredentialRequest) contextValidateAppBased(ctx context.Conte
 	if m.AppBased != nil {
 
 		if err := m.AppBased.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("appBased")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("appBased")
 			}
+
 			return err
 		}
 	}
@@ -214,11 +223,15 @@ func (m *UpdateAzureCredentialRequestAppBased) validateAuthenticationType(format
 
 	if m.AuthenticationType != nil {
 		if err := m.AuthenticationType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("appBased" + "." + "authenticationType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("appBased" + "." + "authenticationType")
 			}
+
 			return err
 		}
 	}
@@ -245,11 +258,15 @@ func (m *UpdateAzureCredentialRequestAppBased) contextValidateAuthenticationType
 	if m.AuthenticationType != nil {
 
 		if err := m.AuthenticationType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("appBased" + "." + "authenticationType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("appBased" + "." + "authenticationType")
 			}
+
 			return err
 		}
 	}

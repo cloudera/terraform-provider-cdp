@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -123,11 +124,15 @@ func (m *ClusterSummaryResponse) validateAwsOptions(formats strfmt.Registry) err
 
 	if m.AwsOptions != nil {
 		if err := m.AwsOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsOptions")
 			}
+
 			return err
 		}
 	}
@@ -142,11 +147,15 @@ func (m *ClusterSummaryResponse) validateAzureOptions(formats strfmt.Registry) e
 
 	if m.AzureOptions != nil {
 		if err := m.AzureOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureOptions")
 			}
+
 			return err
 		}
 	}
@@ -173,11 +182,15 @@ func (m *ClusterSummaryResponse) validateCreator(formats strfmt.Registry) error 
 
 	if m.Creator != nil {
 		if err := m.Creator.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("creator")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("creator")
 			}
+
 			return err
 		}
 	}
@@ -197,11 +210,15 @@ func (m *ClusterSummaryResponse) validateExternalBuckets(formats strfmt.Registry
 
 		if m.ExternalBuckets[i] != nil {
 			if err := m.ExternalBuckets[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -218,11 +235,15 @@ func (m *ClusterSummaryResponse) validateProductSupport(formats strfmt.Registry)
 
 	if m.ProductSupport != nil {
 		if err := m.ProductSupport.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("productSupport")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("productSupport")
 			}
+
 			return err
 		}
 	}
@@ -269,11 +290,15 @@ func (m *ClusterSummaryResponse) contextValidateAwsOptions(ctx context.Context, 
 		}
 
 		if err := m.AwsOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsOptions")
 			}
+
 			return err
 		}
 	}
@@ -290,11 +315,15 @@ func (m *ClusterSummaryResponse) contextValidateAzureOptions(ctx context.Context
 		}
 
 		if err := m.AzureOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureOptions")
 			}
+
 			return err
 		}
 	}
@@ -311,11 +340,15 @@ func (m *ClusterSummaryResponse) contextValidateCreator(ctx context.Context, for
 		}
 
 		if err := m.Creator.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("creator")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("creator")
 			}
+
 			return err
 		}
 	}
@@ -334,11 +367,15 @@ func (m *ClusterSummaryResponse) contextValidateExternalBuckets(ctx context.Cont
 			}
 
 			if err := m.ExternalBuckets[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("externalBuckets" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -357,11 +394,15 @@ func (m *ClusterSummaryResponse) contextValidateProductSupport(ctx context.Conte
 		}
 
 		if err := m.ProductSupport.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("productSupport")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("productSupport")
 			}
+
 			return err
 		}
 	}

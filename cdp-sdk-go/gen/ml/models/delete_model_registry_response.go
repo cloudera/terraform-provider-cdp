@@ -8,4 +8,4 @@ package models
 // DeleteModelRegistryResponse Delete model registry response.
 //
 // swagger:model DeleteModelRegistryResponse
-type DeleteModelRegistryResponse interface{}
+type DeleteModelRegistryResponse any

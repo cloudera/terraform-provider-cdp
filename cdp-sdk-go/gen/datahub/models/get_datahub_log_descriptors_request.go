@@ -8,4 +8,4 @@ package models
 // GetDatahubLogDescriptorsRequest Request object for obtaining log descriptors. (that are used for diagnostics collection)
 //
 // swagger:model GetDatahubLogDescriptorsRequest
-type GetDatahubLogDescriptorsRequest interface{}
+type GetDatahubLogDescriptorsRequest any

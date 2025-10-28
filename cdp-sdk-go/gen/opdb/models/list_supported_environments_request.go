@@ -8,4 +8,4 @@ package models
 // ListSupportedEnvironmentsRequest A request to get a list of available environments
 //
 // swagger:model ListSupportedEnvironmentsRequest
-type ListSupportedEnvironmentsRequest interface{}
+type ListSupportedEnvironmentsRequest any

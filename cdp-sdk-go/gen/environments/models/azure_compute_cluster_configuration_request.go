@@ -48,7 +48,7 @@ func (m *AzureComputeClusterConfigurationRequest) Validate(formats strfmt.Regist
 	return nil
 }
 
-var azureComputeClusterConfigurationRequestTypeOutboundTypePropEnum []interface{}
+var azureComputeClusterConfigurationRequestTypeOutboundTypePropEnum []any
 
 func init() {
 	var res []string

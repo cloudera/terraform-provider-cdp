@@ -8,4 +8,4 @@ package models
 // UpgradeMlServingAppResponse Response object for the UpgradeMlServingApp method.
 //
 // swagger:model UpgradeMlServingAppResponse
-type UpgradeMlServingAppResponse interface{}
+type UpgradeMlServingAppResponse any

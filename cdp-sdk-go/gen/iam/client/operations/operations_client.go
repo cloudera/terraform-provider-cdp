@@ -78,6 +78,8 @@ type ClientService interface {
 
 	CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error)
 
+	CreateLdapProvider(params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error)
+
 	CreateMachineUser(params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error)
 
 	CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error)
@@ -212,6 +214,8 @@ type ClientService interface {
 
 	UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error)
 
+	UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error)
+
 	UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error)
 
 	UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error)
@@ -225,7 +229,7 @@ AddMachineUserToGroup adds a machine user to group
 Add a machine user to a group.
 */
 func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddMachineUserToGroupParams()
 	}
@@ -244,17 +248,22 @@ func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AddMachineUserToGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AddMachineUserToGroupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -264,7 +273,7 @@ AddSSHPublicKey adds an SSH public key for an actor
 Adds an SSH public key for an actor. The private key that corresponds to this public key can be used to SSH into any workload cluster that the actor is authorized to use.
 */
 func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddSSHPublicKeyParams()
 	}
@@ -283,17 +292,22 @@ func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AddSSHPublicKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AddSSHPublicKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -303,7 +317,7 @@ AddUserToGroup adds a user to a group
 Add a user to group.
 */
 func (a *Client) AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddUserToGroupParams()
 	}
@@ -322,17 +336,22 @@ func (a *Client) AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AddUserToGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AddUserToGroupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -342,7 +361,7 @@ AssignAzureCloudIdentity assigns an azure cloud identity to an actor or group
 Assign an Azure cloud identity, i.e. an object ID (OID), to an actor or group.
 */
 func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignAzureCloudIdentityParams()
 	}
@@ -361,17 +380,22 @@ func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignAzureCloudIdentityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignAzureCloudIdentityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -381,7 +405,7 @@ AssignGroupResourceRole assigns a resource role to a group
 Assign a resource role to a group. If the resource role is already assigned to the group the request will fail.
 */
 func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignGroupResourceRoleParams()
 	}
@@ -400,17 +424,22 @@ func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignGroupResourceRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignGroupResourceRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -420,7 +449,7 @@ AssignGroupRole assigns a role to a group
 Assign a role to a group. If the role is already assigned to the group the request will fail.
 */
 func (a *Client) AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignGroupRoleParams()
 	}
@@ -439,17 +468,22 @@ func (a *Client) AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignGroupRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignGroupRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -459,7 +493,7 @@ AssignMachineUserResourceRole assigns a resource role to a machine user
 Assign a resource role to a machine user. If the resource role is already assigned to the machine user the request will fail.
 */
 func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignMachineUserResourceRoleParams()
 	}
@@ -478,17 +512,22 @@ func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResource
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignMachineUserResourceRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignMachineUserResourceRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -498,7 +537,7 @@ AssignMachineUserRole assigns a role to a machine user
 Assign a role to a machine user. If the role is already assigned to the machine user the request will fail.
 */
 func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignMachineUserRoleParams()
 	}
@@ -517,17 +556,22 @@ func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignMachineUserRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignMachineUserRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -537,7 +581,7 @@ AssignServicePrincipalAzureCloudIdentity assigns an azure cloud identity to a se
 Assign an Azure cloud identity, i.e. an object ID (OID), to a service principal.
 */
 func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignServicePrincipalAzureCloudIdentityParams()
 	}
@@ -556,17 +600,22 @@ func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServiceP
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignServicePrincipalAzureCloudIdentityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignServicePrincipalAzureCloudIdentityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -576,7 +625,7 @@ AssignUserResourceRole assigns a resource role to a user
 Assign a resource role to a user. If the resource role is already assigned to the user the request will fail.
 */
 func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignUserResourceRoleParams()
 	}
@@ -595,17 +644,22 @@ func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignUserResourceRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignUserResourceRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -615,7 +669,7 @@ AssignUserRole assigns a role to a user
 Assign a role to a user. If the role is already assigned to the user the request will fail.
 */
 func (a *Client) AssignUserRole(params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignUserRoleParams()
 	}
@@ -634,17 +688,22 @@ func (a *Client) AssignUserRole(params *AssignUserRoleParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AssignUserRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AssignUserRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -654,7 +713,7 @@ CreateGroup creates a group
 Create a group. A group is a named collection of users and machine users. Roles and resource roles can be assigned to a group impacting all members of the group.
 */
 func (a *Client) CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGroupParams()
 	}
@@ -673,17 +732,66 @@ func (a *Client) CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateGroupDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CreateLdapProvider creates ldap provider
+
+Create an LDAP provider.
+*/
+func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewCreateLdapProviderParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createLdapProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/createLdapProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateLdapProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*CreateLdapProviderOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*CreateLdapProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -693,7 +801,7 @@ CreateMachineUser creates a machine user
 Creates a machine user in the account. A machine user can be used to access CDP API. A machine user can have access keys associated with it and can be assigned roles and resource roles. A machine user cannot login to the CDP console.
 */
 func (a *Client) CreateMachineUser(params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateMachineUserParams()
 	}
@@ -712,17 +820,22 @@ func (a *Client) CreateMachineUser(params *CreateMachineUserParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateMachineUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateMachineUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -732,7 +845,7 @@ CreateMachineUserAccessKey creates a new access key for a machine user
 Creates a new access key for a machine user.
 */
 func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateMachineUserAccessKeyParams()
 	}
@@ -751,17 +864,22 @@ func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateMachineUserAccessKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateMachineUserAccessKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -771,7 +889,7 @@ CreateSamlProvider creates a s a m l provider in c d p
 Creates a SAML provider in CDP.
 */
 func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateSamlProviderParams()
 	}
@@ -790,17 +908,22 @@ func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateSamlProviderOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateSamlProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -810,7 +933,7 @@ CreateScimAccessToken creates a s c i m access token for a s c i m enabled ident
 Creates a SCIM access token for a SCIM enabled identity provider. This token is used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government.
 */
 func (a *Client) CreateScimAccessToken(params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateScimAccessTokenParams()
 	}
@@ -829,17 +952,22 @@ func (a *Client) CreateScimAccessToken(params *CreateScimAccessTokenParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateScimAccessTokenOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateScimAccessTokenDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -849,7 +977,7 @@ CreateUser creates a user in c d p
 Creates a user in CDP.
 */
 func (a *Client) CreateUser(params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateUserParams()
 	}
@@ -868,17 +996,22 @@ func (a *Client) CreateUser(params *CreateUserParams, opts ...ClientOption) (*Cr
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -888,7 +1021,7 @@ CreateUserAccessKey creates a new access key for a user
 Creates a new access key for a user.
 */
 func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateUserAccessKeyParams()
 	}
@@ -907,17 +1040,22 @@ func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateUserAccessKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateUserAccessKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -927,7 +1065,7 @@ DeleteAccessKey deletes an access key
 Deletes an access key.
 */
 func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteAccessKeyParams()
 	}
@@ -946,17 +1084,22 @@ func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteAccessKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteAccessKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -966,7 +1109,7 @@ DeleteGroup deletes a group
 Delete a group.
 */
 func (a *Client) DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteGroupParams()
 	}
@@ -985,17 +1128,22 @@ func (a *Client) DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteGroupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1005,7 +1153,7 @@ DeleteMachineUser deletes a machine user
 Deletes a machine user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the machine user. The machine user is also removed from all groups it belongs to. If the call succeeds the machine user will not be able to use any access keys to access the CDP control plane. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the machine user loses access to all environments as soon as possible.
 */
 func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteMachineUserParams()
 	}
@@ -1024,17 +1172,22 @@ func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteMachineUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteMachineUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1044,7 +1197,7 @@ DeleteSamlProvider deletes a s a m l provider in c d p account
 Deletes a SAML provider in CDP account.
 */
 func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteSamlProviderParams()
 	}
@@ -1063,17 +1216,22 @@ func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteSamlProviderOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteSamlProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1083,7 +1241,7 @@ DeleteScimAccessToken deletes a s c i m access token
 Deletes a SCIM access token. This operation is not supported for Cloudera for Government.
 */
 func (a *Client) DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteScimAccessTokenParams()
 	}
@@ -1102,17 +1260,22 @@ func (a *Client) DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteScimAccessTokenOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteScimAccessTokenDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1122,7 +1285,7 @@ DeleteSSHPublicKey deletes an SSH public key for an actor
 Delete an SSH public key for an actor.
 */
 func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteSSHPublicKeyParams()
 	}
@@ -1141,17 +1304,22 @@ func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteSSHPublicKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteSSHPublicKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1161,7 +1329,7 @@ DeleteUser deletes a user and all associated resources
 Deletes a user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the user. The user is also removed from all groups it belongs to. If the call succeeds the user will not be able to login interactively, or use any access keys to access the CDP control plane. This feature is under development and some resources may be left behind after a successful call. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the user loses access to all environments as soon as possible.
 */
 func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteUserParams()
 	}
@@ -1180,17 +1348,22 @@ func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*De
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1200,7 +1373,7 @@ DescribeSamlProvider describes one s a m l provider
 Describes one SAML provider.
 */
 func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeSamlProviderParams()
 	}
@@ -1219,17 +1392,22 @@ func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeSamlProviderOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeSamlProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1239,7 +1417,7 @@ DescribeSSHPublicKey describes an SSH public key for an actor
 Describe an SSH public key for an actor.
 */
 func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeSSHPublicKeyParams()
 	}
@@ -1258,17 +1436,22 @@ func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeSSHPublicKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeSSHPublicKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1278,7 +1461,7 @@ DisableClouderaSSOLogin disables interactive login using cloudera s s o for this
 Disables interactive login using Cloudera SSO for this account. When disabled, only users who are designated account administrators will be able to use Cloudera SSO to interactively login to the CDP account. All other users will only be able to interactively login using SAML providers defined for the account. This is a no-op if login using Cloudera SSO are already disabled.
 */
 func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableClouderaSSOLoginParams()
 	}
@@ -1297,17 +1480,22 @@ func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DisableClouderaSSOLoginOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DisableClouderaSSOLoginDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1317,7 +1505,7 @@ DisableUserWorkloadPasswordChangedNotifications disables sending user workload p
 Disables sending user workload password changed email notifications for the account.
 */
 func (a *Client) DisableUserWorkloadPasswordChangedNotifications(params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableUserWorkloadPasswordChangedNotificationsParams()
 	}
@@ -1336,17 +1524,22 @@ func (a *Client) DisableUserWorkloadPasswordChangedNotifications(params *Disable
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DisableUserWorkloadPasswordChangedNotificationsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DisableUserWorkloadPasswordChangedNotificationsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1356,7 +1549,7 @@ EnableClouderaSSOLogin enables interactive login using cloudera s s o for this a
 Enables interactive login using Cloudera SSO for this account. This is a no-op if login using Cloudera SSO are already enabled.
 */
 func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableClouderaSSOLoginParams()
 	}
@@ -1375,17 +1568,22 @@ func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*EnableClouderaSSOLoginOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*EnableClouderaSSOLoginDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1395,7 +1593,7 @@ EnableUserWorkloadPasswordChangedNotifications enables sending user workload pas
 Enables sending user workload password change email notifications for the account.
 */
 func (a *Client) EnableUserWorkloadPasswordChangedNotifications(params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableUserWorkloadPasswordChangedNotificationsParams()
 	}
@@ -1414,17 +1612,22 @@ func (a *Client) EnableUserWorkloadPasswordChangedNotifications(params *EnableUs
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*EnableUserWorkloadPasswordChangedNotificationsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*EnableUserWorkloadPasswordChangedNotificationsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1434,7 +1637,7 @@ GenerateWorkloadAuthToken generates an authentication token for workload a p is
 Generates an authentication token which is required for sending requests to workload APIs.
 */
 func (a *Client) GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGenerateWorkloadAuthTokenParams()
 	}
@@ -1453,17 +1656,22 @@ func (a *Client) GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GenerateWorkloadAuthTokenOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GenerateWorkloadAuthTokenDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1473,7 +1681,7 @@ GetAccessKey gets information on an access key
 Gets information on an access key. If no access key ID is specified. Information on the access key used to make the request is returned.
 */
 func (a *Client) GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccessKeyParams()
 	}
@@ -1492,17 +1700,22 @@ func (a *Client) GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAccessKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAccessKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1512,7 +1725,7 @@ GetAccount retrieves information about the c d p account
 Retrieves information about the CDP account.
 */
 func (a *Client) GetAccount(params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountParams()
 	}
@@ -1531,17 +1744,22 @@ func (a *Client) GetAccount(params *GetAccountParams, opts ...ClientOption) (*Ge
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAccountOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAccountDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1551,7 +1769,7 @@ GetAccountMessages gets account messages
 Get account messages.
 */
 func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountMessagesParams()
 	}
@@ -1570,17 +1788,22 @@ func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAccountMessagesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAccountMessagesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1590,7 +1813,7 @@ GetDefaultIdentityProvider retrieves the c r n of the default identity provider
 Retrieves the CRN of the default identity provider used for CDP initiated login requests.
 */
 func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDefaultIdentityProviderParams()
 	}
@@ -1609,17 +1832,22 @@ func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetDefaultIdentityProviderOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetDefaultIdentityProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1629,7 +1857,7 @@ GetUser gets information on a user
 Gets information on a user. If no user name is specified. The user name is determined from the access key used to make the request.
 */
 func (a *Client) GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUserParams()
 	}
@@ -1648,17 +1876,22 @@ func (a *Client) GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserO
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1668,7 +1901,7 @@ ListAccessKeys lists access keys
 Lists access keys.
 */
 func (a *Client) ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListAccessKeysParams()
 	}
@@ -1687,17 +1920,22 @@ func (a *Client) ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListAccessKeysOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListAccessKeysDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1707,7 +1945,7 @@ ListGroupAssignedResourceRoles lists a group s assigned resource roles
 Lists a group's assigned resource roles.
 */
 func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupAssignedResourceRolesParams()
 	}
@@ -1726,17 +1964,22 @@ func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourc
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListGroupAssignedResourceRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListGroupAssignedResourceRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1746,7 +1989,7 @@ ListGroupAssignedRoles lists the group s assigned roles
 Lists the group's assigned roles.
 */
 func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupAssignedRolesParams()
 	}
@@ -1765,17 +2008,22 @@ func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListGroupAssignedRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListGroupAssignedRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1785,7 +2033,7 @@ ListGroupMembers lists the members of a group
 List the members of a group.
 */
 func (a *Client) ListGroupMembers(params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupMembersParams()
 	}
@@ -1804,17 +2052,22 @@ func (a *Client) ListGroupMembers(params *ListGroupMembersParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListGroupMembersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListGroupMembersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1824,7 +2077,7 @@ ListGroups lists groups
 Lists groups. If no group names are specified, the call lists all groups.
 */
 func (a *Client) ListGroups(params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupsParams()
 	}
@@ -1843,17 +2096,22 @@ func (a *Client) ListGroups(params *ListGroupsParams, opts ...ClientOption) (*Li
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListGroupsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListGroupsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1863,7 +2121,7 @@ ListGroupsForMachineUser lists the groups that the machine user belongs to
 List the groups that the machine user belongs to.
 */
 func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupsForMachineUserParams()
 	}
@@ -1882,17 +2140,22 @@ func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListGroupsForMachineUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListGroupsForMachineUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1902,7 +2165,7 @@ ListGroupsForUser lists the groups that the user belongs to
 List the groups that the user belongs to.
 */
 func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupsForUserParams()
 	}
@@ -1921,17 +2184,22 @@ func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListGroupsForUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListGroupsForUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1941,7 +2209,7 @@ ListMachineUserAssignedResourceRoles lists a machine user s assigned resource ro
 Lists a machine user's assigned resource roles.
 */
 func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMachineUserAssignedResourceRolesParams()
 	}
@@ -1960,17 +2228,22 @@ func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAss
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListMachineUserAssignedResourceRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListMachineUserAssignedResourceRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1980,7 +2253,7 @@ ListMachineUserAssignedRoles lists the machine user s assigned roles
 Lists the machine user's assigned roles.
 */
 func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMachineUserAssignedRolesParams()
 	}
@@ -1999,17 +2272,22 @@ func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRol
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListMachineUserAssignedRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListMachineUserAssignedRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2019,7 +2297,7 @@ ListMachineUsers lists machine users
 Lists machine users in the account.
 */
 func (a *Client) ListMachineUsers(params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMachineUsersParams()
 	}
@@ -2038,17 +2316,22 @@ func (a *Client) ListMachineUsers(params *ListMachineUsersParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListMachineUsersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListMachineUsersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2058,7 +2341,7 @@ ListResourceAssignees lists the resource assignees and their respective resource
 List the resource assignees and their respective resource roles for the resource.
 */
 func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListResourceAssigneesParams()
 	}
@@ -2077,17 +2360,22 @@ func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListResourceAssigneesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListResourceAssigneesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2097,7 +2385,7 @@ ListResourceRoles lists all the available resource roles
 Lists all the available resource roles. Resource roles grant rights over certain resources.
 */
 func (a *Client) ListResourceRoles(params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListResourceRolesParams()
 	}
@@ -2116,17 +2404,22 @@ func (a *Client) ListResourceRoles(params *ListResourceRolesParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListResourceRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListResourceRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2136,7 +2429,7 @@ ListRoles lists all the available roles
 Lists all the available roles. Roles grant rights to users via policies that are attached to the roles.
 */
 func (a *Client) ListRoles(params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRolesParams()
 	}
@@ -2155,17 +2448,22 @@ func (a *Client) ListRoles(params *ListRolesParams, opts ...ClientOption) (*List
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2175,7 +2473,7 @@ ListSamlProviders lists s a m l providers in c d p account
 Lists SAML providers in CDP account.
 */
 func (a *Client) ListSamlProviders(params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSamlProvidersParams()
 	}
@@ -2194,17 +2492,22 @@ func (a *Client) ListSamlProviders(params *ListSamlProvidersParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListSamlProvidersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListSamlProvidersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2214,7 +2517,7 @@ ListScimAccessTokens lists s c i m access tokens for a s c i m enabled identity 
 Lists SCIM access tokens for a SCIM enabled identity provider. These access tokens are used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government.
 */
 func (a *Client) ListScimAccessTokens(params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListScimAccessTokensParams()
 	}
@@ -2233,17 +2536,22 @@ func (a *Client) ListScimAccessTokens(params *ListScimAccessTokensParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListScimAccessTokensOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListScimAccessTokensDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2253,7 +2561,7 @@ ListServicePrincipalCloudIdentities lists cloud identity mappings for service pr
 List cloud identity mappings for service principals.
 */
 func (a *Client) ListServicePrincipalCloudIdentities(params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListServicePrincipalCloudIdentitiesParams()
 	}
@@ -2272,17 +2580,22 @@ func (a *Client) ListServicePrincipalCloudIdentities(params *ListServicePrincipa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListServicePrincipalCloudIdentitiesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListServicePrincipalCloudIdentitiesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2292,7 +2605,7 @@ ListSSHPublicKeys lists SSH public keys for an actor
 Lists SSH public keys for an actor.
 */
 func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSSHPublicKeysParams()
 	}
@@ -2311,17 +2624,22 @@ func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListSSHPublicKeysOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListSSHPublicKeysDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2331,7 +2649,7 @@ ListUserAssignedResourceRoles lists a user s assigned resource roles
 Lists a user's assigned resource roles.
 */
 func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUserAssignedResourceRolesParams()
 	}
@@ -2350,17 +2668,22 @@ func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceR
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListUserAssignedResourceRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListUserAssignedResourceRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2370,7 +2693,7 @@ ListUserAssignedRoles lists the user s assigned roles
 Lists the user's assigned roles.
 */
 func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUserAssignedRolesParams()
 	}
@@ -2389,17 +2712,22 @@ func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListUserAssignedRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListUserAssignedRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2409,7 +2737,7 @@ ListUsers lists users
 Lists users.
 */
 func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUsersParams()
 	}
@@ -2428,17 +2756,22 @@ func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*List
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListUsersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListUsersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2448,7 +2781,7 @@ MigrateUsersToIdentityProvider migrates all users from an identity provider conn
 Allow existing users to be associated with a different identity provider connector. It is required that the identity provider user ID for each user be the same in both identity providers. This is expected to be used for migration from LDAP authentication to SAML authentication for the same physical IdP. A new SAML connector would be created in CDP, integrated with the same IdP as the original LDAP connector. First the LDAP mapping would be set to use the planned SAML name id mapping. Then this method can switch users created via LDAP login to be associated with the SAML connector and enable SAML authentication instead of LDAP authentication.
 */
 func (a *Client) MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewMigrateUsersToIdentityProviderParams()
 	}
@@ -2467,17 +2800,22 @@ func (a *Client) MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityPr
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*MigrateUsersToIdentityProviderOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*MigrateUsersToIdentityProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2487,7 +2825,7 @@ RemoveMachineUserFromGroup removes a machine user from a group
 Remove a machine user from a group.
 */
 func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRemoveMachineUserFromGroupParams()
 	}
@@ -2506,17 +2844,22 @@ func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RemoveMachineUserFromGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RemoveMachineUserFromGroupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2526,7 +2869,7 @@ RemoveUserFromGroup removes a user from a group
 Remove a user from a group.
 */
 func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRemoveUserFromGroupParams()
 	}
@@ -2545,17 +2888,22 @@ func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RemoveUserFromGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RemoveUserFromGroupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2565,7 +2913,7 @@ SetAccountMessages sets messages for an account
 Set messages for an account.
 */
 func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAccountMessagesParams()
 	}
@@ -2584,17 +2932,22 @@ func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetAccountMessagesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetAccountMessagesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2604,7 +2957,7 @@ SetAuthenticationPolicy sets the authentication policy for the account
 Set the authentication policy for the account. Any parameters not specified in the request will be cleared, and their default values will be used for authentication. Changes to the authentication policy only affect authentications that are done after the policy has been updated.
 */
 func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAuthenticationPolicyParams()
 	}
@@ -2623,17 +2976,22 @@ func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetAuthenticationPolicyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetAuthenticationPolicyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2643,7 +3001,7 @@ SetDefaultIdentityProvider sets the default identity provider
 Sets the default identity provider used for CDP initiated login requests.
 */
 func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetDefaultIdentityProviderParams()
 	}
@@ -2662,17 +3020,22 @@ func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetDefaultIdentityProviderOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetDefaultIdentityProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2682,7 +3045,7 @@ SetWorkloadPassword sets the workload password for an actor
 Set the workload password for an actor. This will be the actor's password in all Environments they have access to, including Environments they are given access to after setting the password. The password plaintext is not kept.
 */
 func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetWorkloadPasswordParams()
 	}
@@ -2701,17 +3064,22 @@ func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetWorkloadPasswordOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetWorkloadPasswordDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2721,7 +3089,7 @@ SetWorkloadPasswordPolicy sets the workload password policy for the account
 Set the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated. By default, passwords never expire.
 */
 func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetWorkloadPasswordPolicyParams()
 	}
@@ -2740,17 +3108,22 @@ func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetWorkloadPasswordPolicyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetWorkloadPasswordPolicyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2760,7 +3133,7 @@ UnassignAzureCloudIdentity unassigns an azure cloud identity from an actor or gr
 Unassign an Azure cloud identity, i.e. an object ID (OID), from an actor or group.
 */
 func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignAzureCloudIdentityParams()
 	}
@@ -2779,17 +3152,22 @@ func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignAzureCloudIdentityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignAzureCloudIdentityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2799,7 +3177,7 @@ UnassignGroupResourceRole unassigns a resource role from a group
 Unassign a resource role from a group. If the resource role is not currently assigned to the group the request will fail.
 */
 func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignGroupResourceRoleParams()
 	}
@@ -2818,17 +3196,22 @@ func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRolePara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignGroupResourceRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignGroupResourceRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2838,7 +3221,7 @@ UnassignGroupRole unassigns a role from a group
 Unassign a role from a group. If the role is not currently assigned to the group the request will fail.
 */
 func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignGroupRoleParams()
 	}
@@ -2857,17 +3240,22 @@ func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignGroupRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignGroupRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2877,7 +3265,7 @@ UnassignMachineUserResourceRole unassigns a resource role from a machine user
 Unassign a resource role from a machine user. If the resource role is not currently assigned to the machine user the request will fail.
 */
 func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignMachineUserResourceRoleParams()
 	}
@@ -2896,17 +3284,22 @@ func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserReso
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignMachineUserResourceRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignMachineUserResourceRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2916,7 +3309,7 @@ UnassignMachineUserRole unassigns a role from a machine user
 Unassign a role from a machine user. If the role is not currently assigned to the machine user the request will fail.
 */
 func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignMachineUserRoleParams()
 	}
@@ -2935,17 +3328,22 @@ func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignMachineUserRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignMachineUserRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2955,7 +3353,7 @@ UnassignServicePrincipalAzureCloudIdentity unassigns an azure cloud identity fro
 Unassign an Azure cloud identity, i.e. an object ID (OID), from a service principal.
 */
 func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignServicePrincipalAzureCloudIdentityParams()
 	}
@@ -2974,17 +3372,22 @@ func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServ
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignServicePrincipalAzureCloudIdentityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignServicePrincipalAzureCloudIdentityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2994,7 +3397,7 @@ UnassignUserResourceRole unassigns a resource role from a user
 Unassign a resource role from a user. If the resource role is not currently assigned to the user the request will fail.
 */
 func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignUserResourceRoleParams()
 	}
@@ -3013,17 +3416,22 @@ func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignUserResourceRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignUserResourceRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3033,7 +3441,7 @@ UnassignUserRole unassigns a role from a user
 Unassign a role from a user. If the role is not currently assigned to the user the request will fail.
 */
 func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignUserRoleParams()
 	}
@@ -3052,17 +3460,22 @@ func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnassignUserRoleOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnassignUserRoleDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3072,7 +3485,7 @@ UnlockMachineUserInControlPlane unlocks machine user in the c d p control plane
 Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active. This operation is only supported on Cloudera for Government.
 */
 func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnlockMachineUserInControlPlaneParams()
 	}
@@ -3091,17 +3504,22 @@ func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInCont
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnlockMachineUserInControlPlaneOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnlockMachineUserInControlPlaneDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3111,7 +3529,7 @@ UnlockUserInControlPlane unlocks user in the c d p control plane
 Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active. This operation is only supported on Cloudera for Government.
 */
 func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnlockUserInControlPlaneParams()
 	}
@@ -3130,17 +3548,22 @@ func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnlockUserInControlPlaneOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnlockUserInControlPlaneDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3150,7 +3573,7 @@ UnsetWorkloadPasswordMinLifetime removes workload password minimum lifetime date
 Removes the workload password minimum lifetime date for an actor.
 */
 func (a *Client) UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnsetWorkloadPasswordMinLifetimeParams()
 	}
@@ -3169,17 +3592,22 @@ func (a *Client) UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordM
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnsetWorkloadPasswordMinLifetimeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnsetWorkloadPasswordMinLifetimeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3189,7 +3617,7 @@ UnsetWorkloadPasswordPolicy unsets workload password policy for the account
 Unset the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated.
 */
 func (a *Client) UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnsetWorkloadPasswordPolicyParams()
 	}
@@ -3208,17 +3636,22 @@ func (a *Client) UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicy
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UnsetWorkloadPasswordPolicyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UnsetWorkloadPasswordPolicyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3228,7 +3661,7 @@ UpdateAccessKey updates an access key
 Updates an access key.
 */
 func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAccessKeyParams()
 	}
@@ -3247,17 +3680,22 @@ func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAccessKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAccessKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3267,7 +3705,7 @@ UpdateGroup updates a group
 Update a group.
 */
 func (a *Client) UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateGroupParams()
 	}
@@ -3286,17 +3724,66 @@ func (a *Client) UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateGroupDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+UpdateLdapProvider updates ldap provider
+
+Update an LDAP provider.
+*/
+func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewUpdateLdapProviderParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateLdapProvider",
+		Method:             "POST",
+		PathPattern:        "/iam/updateLdapProvider",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdateLdapProviderReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*UpdateLdapProviderOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*UpdateLdapProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3306,7 +3793,7 @@ UpdateSamlProvider updates a s a m l provider in c d p
 Updates a SAML provider in CDP.
 */
 func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSamlProviderParams()
 	}
@@ -3325,17 +3812,22 @@ func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateSamlProviderOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateSamlProviderDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3345,7 +3837,7 @@ UpdateUser updates a user
 Updates a user. Updates request fields provided. An error is returned if no field updates are defined in the request.
 */
 func (a *Client) UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateUserParams()
 	}
@@ -3364,17 +3856,22 @@ func (a *Client) UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*Up
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

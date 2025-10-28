@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -46,11 +47,15 @@ func (m *DescribeSSHPublicKeyResponse) validateSSHPublicKey(formats strfmt.Regis
 
 	if m.SSHPublicKey != nil {
 		if err := m.SSHPublicKey.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("sshPublicKey")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("sshPublicKey")
 			}
+
 			return err
 		}
 	}
@@ -77,11 +82,15 @@ func (m *DescribeSSHPublicKeyResponse) contextValidateSSHPublicKey(ctx context.C
 	if m.SSHPublicKey != nil {
 
 		if err := m.SSHPublicKey.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("sshPublicKey")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("sshPublicKey")
 			}
+
 			return err
 		}
 	}

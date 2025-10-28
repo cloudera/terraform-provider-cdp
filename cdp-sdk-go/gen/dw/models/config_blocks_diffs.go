@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -79,11 +80,15 @@ func (m *ConfigBlocksDiffs) validateAdded(formats strfmt.Registry) error {
 
 		if m.Added[i] != nil {
 			if err := m.Added[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("added" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("added" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -105,11 +110,15 @@ func (m *ConfigBlocksDiffs) validateChanged(formats strfmt.Registry) error {
 
 		if m.Changed[i] != nil {
 			if err := m.Changed[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("changed" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("changed" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -140,11 +149,15 @@ func (m *ConfigBlocksDiffs) validateRemoved(formats strfmt.Registry) error {
 
 		if m.Removed[i] != nil {
 			if err := m.Removed[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("removed" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("removed" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -166,11 +179,15 @@ func (m *ConfigBlocksDiffs) validateSame(formats strfmt.Registry) error {
 
 		if m.Same[i] != nil {
 			if err := m.Same[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("same" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("same" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -217,11 +234,15 @@ func (m *ConfigBlocksDiffs) contextValidateAdded(ctx context.Context, formats st
 			}
 
 			if err := m.Added[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("added" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("added" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -242,11 +263,15 @@ func (m *ConfigBlocksDiffs) contextValidateChanged(ctx context.Context, formats 
 			}
 
 			if err := m.Changed[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("changed" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("changed" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -267,11 +292,15 @@ func (m *ConfigBlocksDiffs) contextValidateRemoved(ctx context.Context, formats 
 			}
 
 			if err := m.Removed[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("removed" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("removed" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -292,11 +321,15 @@ func (m *ConfigBlocksDiffs) contextValidateSame(ctx context.Context, formats str
 			}
 
 			if err := m.Same[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("same" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("same" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

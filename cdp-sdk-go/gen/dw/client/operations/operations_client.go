@@ -204,10 +204,6 @@ type ClientService interface {
 
 	ResetServerSettings(params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error)
 
-	RestartDbc(params *RestartDbcParams, opts ...ClientOption) (*RestartDbcOK, error)
-
-	RestartVw(params *RestartVwParams, opts ...ClientOption) (*RestartVwOK, error)
-
 	RestoreBackup(params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error)
 
 	RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error)
@@ -267,7 +263,7 @@ AddUser adds the given user to the cluster
 Adds the given user to the cluster. Please note that the user must pre-exist.
 */
 func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddUserParams()
 	}
@@ -286,17 +282,22 @@ func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserO
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AddUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AddUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -306,7 +307,7 @@ BackupCluster creates a backup from the cluster configuration and settings
 Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command. The CDW doesn't provide centralized management of the backups. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
 */
 func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupClusterParams()
 	}
@@ -325,17 +326,22 @@ func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*BackupClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*BackupClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -345,7 +351,7 @@ CreateAwsCluster creates an a w s cluster in the cloudera data warehouse
 Create an AWS cluster in the Cloudera Data Warehouse environment with the provided settings.
 */
 func (a *Client) CreateAwsCluster(params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAwsClusterParams()
 	}
@@ -364,17 +370,22 @@ func (a *Client) CreateAwsCluster(params *CreateAwsClusterParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAwsClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAwsClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -384,7 +395,7 @@ CreateAzureCluster creates an azure cluster in the cloudera data warehouse
 Create an Azure cluster in the Cloudera Data Warehouse environment with the provided settings.
 */
 func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureClusterParams()
 	}
@@ -403,17 +414,22 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAzureClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAzureClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -423,7 +439,7 @@ CreateBackup creates a backup for the data warehouse
 Creates an on-demand backup for the data warehouse including Kubernetes objects, persistent volumes, etc. Backup requests are processed asynchronously and instantaneously.
 */
 func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateBackupParams()
 	}
@@ -442,17 +458,22 @@ func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -462,7 +483,7 @@ CreateCluster creates a cloudera data warehouse cluster
 Create a Cloudera Data Warehouse cluster.
 */
 func (a *Client) CreateCluster(params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterParams()
 	}
@@ -481,17 +502,22 @@ func (a *Client) CreateCluster(params *CreateClusterParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -501,7 +527,7 @@ CreateClusterDiagnosticDataJob creates a diagnostic job for the given cluster
 Creates a diagnostic job for the given cluster. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
 */
 func (a *Client) CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterDiagnosticDataJobParams()
 	}
@@ -520,17 +546,22 @@ func (a *Client) CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticD
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateClusterDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateClusterDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -540,7 +571,7 @@ CreateDataVisualization creates a cloudera data visualization
 Creates a Cloudera Data Visualization.
 */
 func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDataVisualizationParams()
 	}
@@ -559,17 +590,22 @@ func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateDataVisualizationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateDataVisualizationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -579,7 +615,7 @@ CreateDbc creates a database catalog
 DEPRECATED: Create a Database Catalog. The Database Catalog creation is deprecated and will be removed in subsequent releases. The Default Database Catalog is getting created during the cluster activation (create-cluster).
 */
 func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDbcParams()
 	}
@@ -598,17 +634,22 @@ func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*Crea
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -618,7 +659,7 @@ CreateDbcDiagnosticDataJob creates a diagnostic job for the given database catal
 Creates a diagnostic job for the given database catalog. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
 */
 func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDbcDiagnosticDataJobParams()
 	}
@@ -637,17 +678,22 @@ func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateDbcDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateDbcDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -657,7 +703,7 @@ CreateHue creates hue query editor in a c d w cluster
 Create Hue Query Editor in a CDW cluster.
 */
 func (a *Client) CreateHue(params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateHueParams()
 	}
@@ -676,17 +722,22 @@ func (a *Client) CreateHue(params *CreateHueParams, opts ...ClientOption) (*Crea
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateHueOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateHueDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -696,7 +747,7 @@ CreatePrivateCluster creates a a private cloud cluster in the cloudera data ware
 Create a Private Cloud cluster in the Cloudera Data Warehouse environment with the provided settings.
 */
 func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreatePrivateClusterParams()
 	}
@@ -715,17 +766,22 @@ func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreatePrivateClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreatePrivateClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -735,7 +791,7 @@ CreateResourceTemplate creates a resource allocation template
 This command's purpose is to facilitate the creation of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command.
 */
 func (a *Client) CreateResourceTemplate(params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateResourceTemplateParams()
 	}
@@ -754,17 +810,22 @@ func (a *Client) CreateResourceTemplate(params *CreateResourceTemplateParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateResourceTemplateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateResourceTemplateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -774,7 +835,7 @@ CreateVw creates a virtual warehouse
 Create a Virtual Warehouse.
 */
 func (a *Client) CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateVwParams()
 	}
@@ -793,17 +854,22 @@ func (a *Client) CreateVw(params *CreateVwParams, opts ...ClientOption) (*Create
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -813,7 +879,7 @@ CreateVwDiagnosticDataJob creates a diagnostic job for the given virtual warehou
 Creates a job for the given Virtual Warehouse. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --hive-download-options, --impala-download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
 */
 func (a *Client) CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateVwDiagnosticDataJobParams()
 	}
@@ -832,17 +898,22 @@ func (a *Client) CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateVwDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateVwDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -852,7 +923,7 @@ DeleteBackup deletes a data warehouse backup
 Deletes an existing data warehouse backup. The call returns immediately.
 */
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteBackupParams()
 	}
@@ -871,17 +942,22 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -891,7 +967,7 @@ DeleteCluster deletes a cloudera data warehouse cluster
 Delete a Cloudera Data Warehouse cluster.
 */
 func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterParams()
 	}
@@ -910,17 +986,22 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -930,7 +1011,7 @@ DeleteClusterDiagnosticDataJob deletes a diagnostic job for the given cluster
 Deletes a diagnostic job for the given cluster. The job can be deleted even when its status is "Running".
 */
 func (a *Client) DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterDiagnosticDataJobParams()
 	}
@@ -949,17 +1030,22 @@ func (a *Client) DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticD
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteClusterDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteClusterDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -969,7 +1055,7 @@ DeleteDataVisualization asynchronous operation that deletes a cloudera data visu
 Asynchronous operation that deletes a Cloudera Data Visualization. When the DV is in deleting state, we can still use describe-data-visualization to check the status. Once it is deleted, the describe-data-visualization would return a not found error.
 */
 func (a *Client) DeleteDataVisualization(params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDataVisualizationParams()
 	}
@@ -988,17 +1074,22 @@ func (a *Client) DeleteDataVisualization(params *DeleteDataVisualizationParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteDataVisualizationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteDataVisualizationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1008,7 +1099,7 @@ DeleteDbc deletes a database catalog
 Delete a Database Catalog.
 */
 func (a *Client) DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDbcParams()
 	}
@@ -1027,17 +1118,22 @@ func (a *Client) DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*Dele
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1047,7 +1143,7 @@ DeleteDbcDiagnosticDataJob deletes a diagnostic job for the given database catal
 Deletes a diagnostic job for the given Database Catalog. The job can be deleted even when its status is "Running".
 */
 func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDbcDiagnosticDataJobParams()
 	}
@@ -1066,17 +1162,22 @@ func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteDbcDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteDbcDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1086,7 +1187,7 @@ DeleteHue asynchronous operation that deletes a hue query editor when the hue is
 Asynchronous operation that deletes a Hue Query Editor. When the Hue is in deleting state, we can still use describe-hue to check the status. Once it is deleted, the describe-hue would return a not found error.
 */
 func (a *Client) DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteHueParams()
 	}
@@ -1105,17 +1206,22 @@ func (a *Client) DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*Dele
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteHueOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteHueDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1125,7 +1231,7 @@ DeleteResourceTemplate deletes a resource allocation template
 This command's purpose is to facilitate the delete of resource templates in CDW.
 */
 func (a *Client) DeleteResourceTemplate(params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteResourceTemplateParams()
 	}
@@ -1144,17 +1250,22 @@ func (a *Client) DeleteResourceTemplate(params *DeleteResourceTemplateParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteResourceTemplateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteResourceTemplateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1164,7 +1275,7 @@ DeleteUser deletes the given user from the cluster
 Deletes the given user from the cluster. Please note that the user itself won't be deleted, only removed from the cluster.
 */
 func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteUserParams()
 	}
@@ -1183,17 +1294,22 @@ func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*De
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteUserOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteUserDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1203,7 +1319,7 @@ DeleteVw deletes a virtual warehouse
 Delete a Virtual Warehouse.
 */
 func (a *Client) DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteVwParams()
 	}
@@ -1222,17 +1338,22 @@ func (a *Client) DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*Delete
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1242,7 +1363,7 @@ DeleteVwDiagnosticDataJob deletes a diagnostic job for the given virtual warehou
 Delete a diagnostic job for the given Virtual Warehouse. The job can be deleted even when its status is "Running".
 */
 func (a *Client) DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteVwDiagnosticDataJobParams()
 	}
@@ -1261,17 +1382,22 @@ func (a *Client) DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteVwDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteVwDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1281,7 +1407,7 @@ DescribeAllowedInstanceTypes gets allowed compute instance types for both a w s 
 Get allowed compute instance types for both AWS and Azure cluster types and their default values.
 */
 func (a *Client) DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeAllowedInstanceTypesParams()
 	}
@@ -1300,17 +1426,22 @@ func (a *Client) DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTyp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeAllowedInstanceTypesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeAllowedInstanceTypesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1320,7 +1451,7 @@ DescribeBackup describes the backup
 Returns the description of an existing data warehouse backup.
 */
 func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeBackupParams()
 	}
@@ -1339,17 +1470,22 @@ func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1359,7 +1495,7 @@ DescribeCluster describes a cloudera data warehouse cluster
 Describe a Cloudera Data Warehouse cluster.
 */
 func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterParams()
 	}
@@ -1378,17 +1514,22 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1398,7 +1539,7 @@ DescribeClusterDiagnosticDataJob describes a diagnostic job for the given cluste
 Describes a diagnostic job for the given Cluster. The output includes a list of jobs along with their current status and some metadata related to each job.
 */
 func (a *Client) DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterDiagnosticDataJobParams()
 	}
@@ -1417,17 +1558,22 @@ func (a *Client) DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnos
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeClusterDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeClusterDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1437,7 +1583,7 @@ DescribeConfig describes a service configuration
 Describe a service configuration.
 */
 func (a *Client) DescribeConfig(params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeConfigParams()
 	}
@@ -1456,17 +1602,22 @@ func (a *Client) DescribeConfig(params *DescribeConfigParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1476,7 +1627,7 @@ DescribeConfigDiff gets differences between two service configurations
 Get differences between two service configurations.
 */
 func (a *Client) DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeConfigDiffParams()
 	}
@@ -1495,17 +1646,22 @@ func (a *Client) DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeConfigDiffOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeConfigDiffDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1515,7 +1671,7 @@ DescribeDataVisualization describes a cloudera data visualization
 Describes a Cloudera Data Visualization.
 */
 func (a *Client) DescribeDataVisualization(params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDataVisualizationParams()
 	}
@@ -1534,17 +1690,22 @@ func (a *Client) DescribeDataVisualization(params *DescribeDataVisualizationPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDataVisualizationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDataVisualizationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1554,7 +1715,7 @@ DescribeDbc describes a database catalog
 Describe a Database Catalog.
 */
 func (a *Client) DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDbcParams()
 	}
@@ -1573,17 +1734,22 @@ func (a *Client) DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1593,7 +1759,7 @@ DescribeDbcConfig describes the database catalog current configuration
 Describes the Database Catalog current configuration.
 */
 func (a *Client) DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDbcConfigParams()
 	}
@@ -1612,17 +1778,22 @@ func (a *Client) DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDbcConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDbcConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1632,7 +1803,7 @@ DescribeDbcDiagnosticDataJob describes a diagnostic job for the given database c
 Describes a diagnostic job for the given Database Catalog. The output includes a list of jobs along with their current status and some metadata related to each job.
 */
 func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDbcDiagnosticDataJobParams()
 	}
@@ -1651,17 +1822,22 @@ func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJ
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDbcDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDbcDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1671,7 +1847,7 @@ DescribeHue describes a hue query editor
 Describes a Hue Query Editor.
 */
 func (a *Client) DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeHueParams()
 	}
@@ -1690,17 +1866,22 @@ func (a *Client) DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeHueOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeHueDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1710,7 +1891,7 @@ DescribeKubeconfig gets kubeconfig for a cloudera data warehouse cluster
 Get Kubeconfig for a Cloudera Data Warehouse cluster.
 */
 func (a *Client) DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeKubeconfigParams()
 	}
@@ -1729,17 +1910,22 @@ func (a *Client) DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeKubeconfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeKubeconfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1749,7 +1935,7 @@ DescribeRestore describes the restore
 Returns the description of a data warehouse restore operation.
 */
 func (a *Client) DescribeRestore(params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeRestoreParams()
 	}
@@ -1768,17 +1954,22 @@ func (a *Client) DescribeRestore(params *DescribeRestoreParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeRestoreOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeRestoreDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1788,7 +1979,7 @@ DescribeServerSetting gets the d w x server settings
 Get the DWX server settings. This method can be used from DWX Private Cloud version 1.4.1.
 */
 func (a *Client) DescribeServerSetting(params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeServerSettingParams()
 	}
@@ -1807,17 +1998,22 @@ func (a *Client) DescribeServerSetting(params *DescribeServerSettingParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeServerSettingOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeServerSettingDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1827,7 +2023,7 @@ DescribeVw describes a virtual warehouse
 Describe a Virtual Warehouse.
 */
 func (a *Client) DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVwParams()
 	}
@@ -1846,17 +2042,22 @@ func (a *Client) DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*De
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1866,7 +2067,7 @@ DescribeVwConfig describes the current configuration of a hive or impala virtual
 Describes the current configuration of a Hive or Impala Virtual Warehouse.
 */
 func (a *Client) DescribeVwConfig(params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVwConfigParams()
 	}
@@ -1885,17 +2086,22 @@ func (a *Client) DescribeVwConfig(params *DescribeVwConfigParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeVwConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeVwConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1905,7 +2111,7 @@ DescribeVwDiagnosticDataJob describes a diagnostic jobs for the given virtual wa
 Describes a diagnostic job for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job.
 */
 func (a *Client) DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVwDiagnosticDataJobParams()
 	}
@@ -1924,17 +2130,22 @@ func (a *Client) DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJob
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeVwDiagnosticDataJobOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeVwDiagnosticDataJobDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1944,7 +2155,7 @@ GetDataVisualizationUpgradeVersion gets latest version and latest compatible ver
 Gets latest version and latest compatible version for Cloudera Data Visualization.
 */
 func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDataVisualizationUpgradeVersionParams()
 	}
@@ -1963,17 +2174,22 @@ func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualization
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetDataVisualizationUpgradeVersionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetDataVisualizationUpgradeVersionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1983,7 +2199,7 @@ GetHueUpgradeVersion gets latest version and latest compatible version for hue q
 Gets latest version and latest compatible version for Hue Query Editor.
 */
 func (a *Client) GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetHueUpgradeVersionParams()
 	}
@@ -2002,17 +2218,22 @@ func (a *Client) GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetHueUpgradeVersionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetHueUpgradeVersionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2022,7 +2243,7 @@ GetK8sCertJKS gets kubernetes certificates in j k s format
 Gets the Kubernetes certificate in a Java Truststore for the given cluster ID of the CDW environment.
 */
 func (a *Client) GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetK8sCertJKSParams()
 	}
@@ -2041,17 +2262,22 @@ func (a *Client) GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetK8sCertJKSOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetK8sCertJKSDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2061,7 +2287,7 @@ GetK8sCertPEM gets kubernetes certificate in p e m format
 Gets the Kubernetes certificate in PEM format for the given cluster ID of the CDW environment.
 */
 func (a *Client) GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetK8sCertPEMParams()
 	}
@@ -2080,17 +2306,22 @@ func (a *Client) GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetK8sCertPEMOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetK8sCertPEMDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2100,7 +2331,7 @@ GetLogs gets job logs
 Given the CRN, returns the corresponding job logs.
 */
 func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLogsParams()
 	}
@@ -2119,17 +2350,22 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetLogsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetLogsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2139,7 +2375,7 @@ GetUpgradeDbcVersions gets the latest version and latest compatible version for 
 Gets the latest version and latest compatible version for Database Catalog.
 */
 func (a *Client) GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUpgradeDbcVersionsParams()
 	}
@@ -2158,17 +2394,22 @@ func (a *Client) GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetUpgradeDbcVersionsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetUpgradeDbcVersionsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2178,7 +2419,7 @@ GetUpgradeVwVersions gets the latest version and latest compatible version for v
 Gets the latest version and latest compatible version for Virtual Warehouse.
 */
 func (a *Client) GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUpgradeVwVersionsParams()
 	}
@@ -2197,17 +2438,22 @@ func (a *Client) GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetUpgradeVwVersionsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetUpgradeVwVersionsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2217,7 +2463,7 @@ HealthCheck checks the health of the API
 Check the health of the API.
 */
 func (a *Client) HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewHealthCheckParams()
 	}
@@ -2236,17 +2482,22 @@ func (a *Client) HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*HealthCheckOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*HealthCheckDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2256,7 +2507,7 @@ ListBackupEntities lists potential backup entities associated with the data ware
 Lists potential backup entities associated with the data warehouse.
 */
 func (a *Client) ListBackupEntities(params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListBackupEntitiesParams()
 	}
@@ -2275,17 +2526,22 @@ func (a *Client) ListBackupEntities(params *ListBackupEntitiesParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListBackupEntitiesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListBackupEntitiesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2295,7 +2551,7 @@ ListBackups lists backups
 Lists backups associated with the data warehouse.
 */
 func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListBackupsParams()
 	}
@@ -2314,17 +2570,22 @@ func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListBackupsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListBackupsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2334,7 +2595,7 @@ ListClusterDiagnosticDataJobs gets a list of diagnostic jobs for the given clust
 Lists diagnostic jobs for the given cluster. The output includes a list of jobs along with their current status and metadata related to each job.
 */
 func (a *Client) ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterDiagnosticDataJobsParams()
 	}
@@ -2353,17 +2614,22 @@ func (a *Client) ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticData
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListClusterDiagnosticDataJobsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListClusterDiagnosticDataJobsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2373,7 +2639,7 @@ ListClusters lists cloudera data warehouse clusters
 List Cloudera Data Warehouse clusters.
 */
 func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClustersParams()
 	}
@@ -2392,17 +2658,22 @@ func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListClustersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListClustersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2412,7 +2683,7 @@ ListDataVisualizations lists cloudera data visualization in the provided c d w c
 Lists Cloudera Data Visualization in the provided CDW cluster.
 */
 func (a *Client) ListDataVisualizations(params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDataVisualizationsParams()
 	}
@@ -2431,17 +2702,22 @@ func (a *Client) ListDataVisualizations(params *ListDataVisualizationsParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDataVisualizationsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDataVisualizationsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2451,7 +2727,7 @@ ListDbcConfigs gets the configuration history of a database catalog
 Get the configuration history of a Database Catalog.
 */
 func (a *Client) ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcConfigsParams()
 	}
@@ -2470,17 +2746,22 @@ func (a *Client) ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDbcConfigsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDbcConfigsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2490,7 +2771,7 @@ ListDbcDiagnosticDataJobs gets a list of diagnostic jobs for the given database 
 Lists diagnostic jobs for the given Database Catalog. The output includes a list of jobs along with their current status and metadata related to each job.
 */
 func (a *Client) ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcDiagnosticDataJobsParams()
 	}
@@ -2509,17 +2790,22 @@ func (a *Client) ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDbcDiagnosticDataJobsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDbcDiagnosticDataJobsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2529,7 +2815,7 @@ ListDbcEvents gets the list of events for the given database catalog
 Get the list of events for the given Database Catalog.
 */
 func (a *Client) ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcEventsParams()
 	}
@@ -2548,17 +2834,22 @@ func (a *Client) ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDbcEventsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDbcEventsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2568,7 +2859,7 @@ ListDbcs lists database catalogs
 List Database Catalogs.
 */
 func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcsParams()
 	}
@@ -2587,17 +2878,22 @@ func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDb
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDbcsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDbcsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2607,7 +2903,7 @@ ListEvents gets the list of events
 Get the list of events for the given Operation or a specific Service (Cluster, Database Catalog, Virtual Warehouse, or Data Visualization App). Events can belong to a particular Operation which might span across multiple Services. This happens if the given operation affects one or more Services e.g.: restore-cluster. It is also possible to return the events only for a given Service, in this case it is enough to pass the Id of a Service (e.g.: env-sq7hfv, warehouse-1696571829-pps2, compute-1696571962-8dd8, impala-1696572085-cn44).
 */
 func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEventsParams()
 	}
@@ -2626,17 +2922,22 @@ func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*Li
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListEventsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListEventsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2646,7 +2947,7 @@ ListHues lists hue query editors in the provided c d w cluster
 List Hue Query Editors in the provided CDW cluster.
 */
 func (a *Client) ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListHuesParams()
 	}
@@ -2665,17 +2966,22 @@ func (a *Client) ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHu
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListHuesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListHuesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2685,7 +2991,7 @@ ListLatestVersions lists the latest version of the product if available for all 
 Lists the latest version of the product (if available) for all catalogs in the environment.
 */
 func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListLatestVersionsParams()
 	}
@@ -2704,17 +3010,22 @@ func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListLatestVersionsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListLatestVersionsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2724,7 +3035,7 @@ ListResourceTemplates gets default resource allocation templates
 This command provides a predefined set of available resource configuration in CDW. Users allowed to tailor these default CPU and Memory settings according their needs using the 'update-resource'  command. Setting up these values correctly is crucial when creating a Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object has to be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field respectively, in order to specify the chosen resource allocation size. Please note, the 'default' fields in the response denotes default supplied value if the 'template' not specified in the create commands. These templates are versioned, so users are able to roll-back to a particular version. Existing resources not affected by roll-back. Learn more about each of the resource allocations with the 'describe-resource' command.
 */
 func (a *Client) ListResourceTemplates(params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListResourceTemplatesParams()
 	}
@@ -2743,17 +3054,22 @@ func (a *Client) ListResourceTemplates(params *ListResourceTemplatesParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListResourceTemplatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListResourceTemplatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2763,7 +3079,7 @@ ListRestores lists restores
 Lists restores associated with the data warehouse.
 */
 func (a *Client) ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRestoresParams()
 	}
@@ -2782,17 +3098,22 @@ func (a *Client) ListRestores(params *ListRestoresParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListRestoresOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListRestoresDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2802,7 +3123,7 @@ ListUsers lists the users who have access to the cluster
 Lists the users who have access to the cluster.
 */
 func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUsersParams()
 	}
@@ -2821,17 +3142,22 @@ func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*List
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListUsersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListUsersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2841,7 +3167,7 @@ ListVwConfigs gets the configuration history of a virtual warehouse
 Get the configuration history of a Virtual Warehouse.
 */
 func (a *Client) ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwConfigsParams()
 	}
@@ -2860,17 +3186,22 @@ func (a *Client) ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListVwConfigsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListVwConfigsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2880,7 +3211,7 @@ ListVwDiagnosticDataJobs gets a list of diagnostic jobs for the given virtual wa
 Lists diagnostic jobs for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job.
 */
 func (a *Client) ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwDiagnosticDataJobsParams()
 	}
@@ -2899,17 +3230,22 @@ func (a *Client) ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListVwDiagnosticDataJobsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListVwDiagnosticDataJobsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2919,7 +3255,7 @@ ListVwEvents gets the list of events for the given virtual warehouse
 Get the list of events for the given Virtual Warehouse.
 */
 func (a *Client) ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwEventsParams()
 	}
@@ -2938,17 +3274,22 @@ func (a *Client) ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListVwEventsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListVwEventsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2958,7 +3299,7 @@ ListVws lists virtual warehouses
 List Virtual Warehouses.
 */
 func (a *Client) ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwsParams()
 	}
@@ -2977,17 +3318,22 @@ func (a *Client) ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsO
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListVwsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListVwsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2997,7 +3343,7 @@ RebuildDbc rebuilds a database catalog
 Rebuild a Database Catalog. Please use this feature for Database Catalogs which are in inconsistent or erroneous state. Running/Stopped Database Catalogs are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
 */
 func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildDbcParams()
 	}
@@ -3016,17 +3362,22 @@ func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*Re
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RebuildDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RebuildDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3036,7 +3387,7 @@ RebuildHue asynchronous operation that rebuilds a hue query editor keeping the s
 Asynchronous operation that rebuilds a Hue Query Editor keeping the same version. Please use this feature for Hue Query Editors which are in inconsistent or erroneous state. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
 */
 func (a *Client) RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildHueParams()
 	}
@@ -3055,17 +3406,22 @@ func (a *Client) RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*Re
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RebuildHueOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RebuildHueDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3075,7 +3431,7 @@ RebuildVw rebuilds a virtual warehouse
 Rebuild a Virtual Warehouse. Please use this feature for Virtual Warehouses which are in inconsistent or erroneous state. Running/Stopped Virtual Warehouses are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
 */
 func (a *Client) RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildVwParams()
 	}
@@ -3094,17 +3450,22 @@ func (a *Client) RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*Rebu
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RebuildVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RebuildVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3114,7 +3475,7 @@ RenewCertificates renews certificates for a cloudera data warehouse azure cluste
 Renew certificate for a Cloudera Data Warehouse Azure cluster.
 */
 func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewCertificatesParams()
 	}
@@ -3133,17 +3494,22 @@ func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RenewCertificatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RenewCertificatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3153,7 +3519,7 @@ ResetServerSettings restores the d w x server settings to the default values
 Restores the DWX server settings to the default values. Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server settings list returned by the describeServerSetting functionality.
 */
 func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResetServerSettingsParams()
 	}
@@ -3172,95 +3538,22 @@ func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ResetServerSettingsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ResetServerSettingsDefault)
-	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
-}
 
-/*
-RestartDbc restarts a database catalog
-
-DEPRECATED: Use the stop-dbc / start-dbc commands instead. Restart a Database Catalog.
-*/
-func (a *Client) RestartDbc(params *RestartDbcParams, opts ...ClientOption) (*RestartDbcOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewRestartDbcParams()
-	}
-	op := &runtime.ClientOperation{
-		ID:                 "restartDbc",
-		Method:             "POST",
-		PathPattern:        "/api/v1/dw/restartDbc",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"https"},
-		Params:             params,
-		Reader:             &RestartDbcReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*RestartDbcOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	unexpectedSuccess := result.(*RestartDbcDefault)
-	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
-}
-
-/*
-RestartVw restarts a virtual warehouse
-
-DEPRECATED: Use the suspend-vw / start-vw commands instead. Restart a Virtual Warehouse.
-*/
-func (a *Client) RestartVw(params *RestartVwParams, opts ...ClientOption) (*RestartVwOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewRestartVwParams()
-	}
-	op := &runtime.ClientOperation{
-		ID:                 "restartVw",
-		Method:             "POST",
-		PathPattern:        "/api/v1/dw/restartVw",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"https"},
-		Params:             params,
-		Reader:             &RestartVwReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*RestartVwOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	unexpectedSuccess := result.(*RestartVwDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3270,7 +3563,7 @@ RestoreBackup restores backup
 Restores the state of the data warehouse from an existing backup.
 */
 func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreBackupParams()
 	}
@@ -3289,17 +3582,22 @@ func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestoreBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestoreBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3309,7 +3607,7 @@ RestoreCluster restores the cluster from a backup data made by backup cluster co
 Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
 */
 func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreClusterParams()
 	}
@@ -3328,17 +3626,22 @@ func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestoreClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestoreClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3348,7 +3651,7 @@ ResumeCluster resumes cloudera data warehouse cluster
 Resume Cloudera Data Warehouse cluster. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS or EKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
 */
 func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResumeClusterParams()
 	}
@@ -3367,17 +3670,22 @@ func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ResumeClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ResumeClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3387,7 +3695,7 @@ StartDbc starts a database catalog
 Start a Database Catalog.
 */
 func (a *Client) StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDbcParams()
 	}
@@ -3406,17 +3714,22 @@ func (a *Client) StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartD
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3426,7 +3739,7 @@ StartVw starts a suspended virtual warehouse
 Starts a suspended Virtual Warehouse. Has no effect if the VW is already started.
 */
 func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartVwParams()
 	}
@@ -3445,17 +3758,22 @@ func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwO
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3465,7 +3783,7 @@ SuspendCluster suspends cloudera data warehouse cluster
 Suspend Cloudera Data Warehouse cluster. Suspend cluster requires a "Running" Azure or AWS CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS or EKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
 */
 func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendClusterParams()
 	}
@@ -3484,17 +3802,22 @@ func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SuspendClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SuspendClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3504,7 +3827,7 @@ SuspendDbc suspends a running database catalog
 Suspends a running Database Catalog. Has no effect if the DBC is already suspended.
 */
 func (a *Client) SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendDbcParams()
 	}
@@ -3523,17 +3846,22 @@ func (a *Client) SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*Su
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SuspendDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SuspendDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3543,7 +3871,7 @@ SuspendVw suspends a running virtual warehouse
 Suspends a running Virtual Warehouse. Has no effect if the VW is already suspended.
 */
 func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendVwParams()
 	}
@@ -3562,17 +3890,22 @@ func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*Susp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SuspendVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SuspendVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3582,7 +3915,7 @@ UpdateAwsCluster updates an a w s cluster in the cloudera data warehouse
 Update an AWS cluster in the Cloudera Data Warehouse with the provided settings.
 */
 func (a *Client) UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAwsClusterParams()
 	}
@@ -3601,17 +3934,22 @@ func (a *Client) UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAwsClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAwsClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3621,7 +3959,7 @@ UpdateAzureCluster updates an azure cluster in the cloudera data warehouse
 Update an Azure cluster in the Cloudera Data Warehouse with the provided settings.
 */
 func (a *Client) UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureClusterParams()
 	}
@@ -3640,17 +3978,22 @@ func (a *Client) UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAzureClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAzureClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3660,7 +4003,7 @@ UpdateCluster updates the cloudera data warehouse cluster
 Update the Cloudera Data Warehouse cluster.
 */
 func (a *Client) UpdateCluster(params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateClusterParams()
 	}
@@ -3679,17 +4022,22 @@ func (a *Client) UpdateCluster(params *UpdateClusterParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3699,7 +4047,7 @@ UpdateDataVisualization asynchronous operation that updates the configuration of
 Asynchronous operation that updates the configuration of a Cloudera Data Visualization. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization.
 */
 func (a *Client) UpdateDataVisualization(params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDataVisualizationParams()
 	}
@@ -3718,17 +4066,22 @@ func (a *Client) UpdateDataVisualization(params *UpdateDataVisualizationParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateDataVisualizationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateDataVisualizationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3738,7 +4091,7 @@ UpdateDbc updates the configuration of a database catalog
 Update the configuration of a Database Catalog.
 */
 func (a *Client) UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDbcParams()
 	}
@@ -3757,17 +4110,22 @@ func (a *Client) UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*Upda
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3777,7 +4135,7 @@ UpdateDbcConfig updates a database catalog configuration
 Update a Database Catalog configuration.
 */
 func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDbcConfigParams()
 	}
@@ -3796,17 +4154,22 @@ func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateDbcConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateDbcConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3816,7 +4179,7 @@ UpdateHue asynchronous operation that updates the configuration of a hue query e
 Asynchronous operation that updates the configuration of a Hue Query Editor. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
 */
 func (a *Client) UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateHueParams()
 	}
@@ -3835,17 +4198,22 @@ func (a *Client) UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*Upda
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateHueOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateHueDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3855,7 +4223,7 @@ UpdatePrivateCluster updates a private cloud pv c cluster in the cloudera data w
 Update a Private Cloud cluster (PvC) in the Cloudera Data Warehouse with the provided settings.
 */
 func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdatePrivateClusterParams()
 	}
@@ -3874,17 +4242,22 @@ func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdatePrivateClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdatePrivateClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3894,7 +4267,7 @@ UpdateResourceTemplate updates a resource allocation template
 This command's purpose is to facilitate the update of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command.
 */
 func (a *Client) UpdateResourceTemplate(params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateResourceTemplateParams()
 	}
@@ -3913,17 +4286,22 @@ func (a *Client) UpdateResourceTemplate(params *UpdateResourceTemplateParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateResourceTemplateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateResourceTemplateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3933,7 +4311,7 @@ UpdateServerSetting updates the d w x server settings
 Update the DWX server settings. The input list of server settings will be updated accordingly (turns on if enabled: true is set, turns off if enabled: false is set). Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server setting list returned by the describeServerSetting functionality. This method can be used from DWX Private Cloud version 1.4.1.
 */
 func (a *Client) UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateServerSettingParams()
 	}
@@ -3952,17 +4330,22 @@ func (a *Client) UpdateServerSetting(params *UpdateServerSettingParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateServerSettingOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateServerSettingDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -3972,7 +4355,7 @@ UpdateSSHKey updates the SSH key for a cloudera data warehouse cluster
 Update the SSH Key for a Cloudera Data Warehouse cluster
 */
 func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSSHKeyParams()
 	}
@@ -3991,17 +4374,22 @@ func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateSSHKeyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateSSHKeyDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4011,7 +4399,7 @@ UpdateVw updates the configuration of a virtual warehouse
 Update the configuration of a Virtual Warehouse.
 */
 func (a *Client) UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateVwParams()
 	}
@@ -4030,17 +4418,22 @@ func (a *Client) UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*Update
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4050,7 +4443,7 @@ UpdateVwConfig updates a virtual warehouse configuration
 Update a Virtual Warehouse configuration.
 */
 func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateVwConfigParams()
 	}
@@ -4069,17 +4462,22 @@ func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateVwConfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateVwConfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4089,7 +4487,7 @@ UpgradeDataVisualization asynchronous operation that upgrades a cloudera data vi
 Asynchronous operation that upgrades a Cloudera Data Visualization to a compatible version. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization.
 */
 func (a *Client) UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDataVisualizationParams()
 	}
@@ -4108,17 +4506,22 @@ func (a *Client) UpgradeDataVisualization(params *UpgradeDataVisualizationParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeDataVisualizationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeDataVisualizationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4128,7 +4531,7 @@ UpgradeDbc upgrades the database catalog to a compatible version
 Upgrades the Database Catalog to a compatible version.
 */
 func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDbcParams()
 	}
@@ -4147,17 +4550,22 @@ func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*Up
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeDbcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeDbcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4167,7 +4575,7 @@ UpgradeHue asynchronous operation that upgrades a hue query editor to a compatib
 Asynchronous operation that upgrades a Hue Query Editor to a compatible version. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
 */
 func (a *Client) UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeHueParams()
 	}
@@ -4186,17 +4594,22 @@ func (a *Client) UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*Up
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeHueOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeHueDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -4206,7 +4619,7 @@ UpgradeVw upgrades the virtual warehouse to a compatible version
 Upgrades the Virtual Warehouse to a compatible version.
 */
 func (a *Client) UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeVwParams()
 	}
@@ -4225,17 +4638,22 @@ func (a *Client) UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*Upgr
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeVwOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeVwDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

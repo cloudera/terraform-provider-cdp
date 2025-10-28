@@ -8,4 +8,4 @@ package models
 // UpdateProxyConfigResponse Response object for updating the proxy config of the given environment.
 //
 // swagger:model UpdateProxyConfigResponse
-type UpdateProxyConfigResponse interface{}
+type UpdateProxyConfigResponse any

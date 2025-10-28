@@ -8,4 +8,4 @@ package models
 // DeleteAccessKeyResponse Response object for a delete access key request.
 //
 // swagger:model DeleteAccessKeyResponse
-type DeleteAccessKeyResponse interface{}
+type DeleteAccessKeyResponse any

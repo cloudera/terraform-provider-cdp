@@ -8,4 +8,4 @@ package models
 // DeleteProxyConfigResponse Response object for a delete proxy config request.
 //
 // swagger:model DeleteProxyConfigResponse
-type DeleteProxyConfigResponse interface{}
+type DeleteProxyConfigResponse any

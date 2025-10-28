@@ -61,7 +61,7 @@ const (
 )
 
 // for schema
-var coprocessorStatusTypeEnum []interface{}
+var coprocessorStatusTypeEnum []any
 
 func init() {
 	var res []CoprocessorStatusType

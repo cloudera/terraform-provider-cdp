@@ -8,4 +8,4 @@ package models
 // ListModelRegistriesRequest Request object for deleting model registry.
 //
 // swagger:model ListModelRegistriesRequest
-type ListModelRegistriesRequest interface{}
+type ListModelRegistriesRequest any

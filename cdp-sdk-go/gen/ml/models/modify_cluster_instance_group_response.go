@@ -8,4 +8,4 @@ package models
 // ModifyClusterInstanceGroupResponse Response object for ModifyClusterInstanceGroup.
 //
 // swagger:model ModifyClusterInstanceGroupResponse
-type ModifyClusterInstanceGroupResponse interface{}
+type ModifyClusterInstanceGroupResponse any

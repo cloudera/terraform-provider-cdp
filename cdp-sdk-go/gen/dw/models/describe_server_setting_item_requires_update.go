@@ -53,7 +53,7 @@ const (
 )
 
 // for schema
-var describeServerSettingItemRequiresUpdateEnum []interface{}
+var describeServerSettingItemRequiresUpdateEnum []any
 
 func init() {
 	var res []DescribeServerSettingItemRequiresUpdate

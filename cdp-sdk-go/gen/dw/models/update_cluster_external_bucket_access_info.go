@@ -42,7 +42,7 @@ func (m *UpdateClusterExternalBucketAccessInfo) Validate(formats strfmt.Registry
 	return nil
 }
 
-var updateClusterExternalBucketAccessInfoTypeAccessModePropEnum []interface{}
+var updateClusterExternalBucketAccessInfoTypeAccessModePropEnum []any
 
 func init() {
 	var res []string

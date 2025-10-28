@@ -8,4 +8,4 @@ package models
 // SynchronizeAllEnvironmentsRequest Request object for synchronizing all environments.
 //
 // swagger:model SynchronizeAllEnvironmentsRequest
-type SynchronizeAllEnvironmentsRequest interface{}
+type SynchronizeAllEnvironmentsRequest any

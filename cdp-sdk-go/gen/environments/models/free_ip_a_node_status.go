@@ -63,7 +63,7 @@ func (m *FreeIPANodeStatus) validateHostname(formats strfmt.Registry) error {
 	return nil
 }
 
-var freeIpANodeStatusTypeStatusPropEnum []interface{}
+var freeIpANodeStatusTypeStatusPropEnum []any
 
 func init() {
 	var res []string

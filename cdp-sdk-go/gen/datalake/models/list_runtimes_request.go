@@ -8,4 +8,4 @@ package models
 // ListRuntimesRequest Request object for list datalake runtime versions.
 //
 // swagger:model ListRuntimesRequest
-type ListRuntimesRequest interface{}
+type ListRuntimesRequest any

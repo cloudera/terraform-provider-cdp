@@ -42,7 +42,7 @@ func (m *ExternalBucketAccessInfo) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var externalBucketAccessInfoTypeAccessModePropEnum []interface{}
+var externalBucketAccessInfoTypeAccessModePropEnum []any
 
 func init() {
 	var res []string

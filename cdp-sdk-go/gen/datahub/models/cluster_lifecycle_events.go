@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -37,7 +38,7 @@ type ClusterLifecycleEvents struct {
 	// Name of the cluster.
 	ClusterName string `json:"clusterName,omitempty"`
 
-	// Status of the cluster.
+	// Status of the cluster. It always returns the same value as the stackStatus field. Deprecated.
 	ClusterStatus StackStatus `json:"clusterStatus,omitempty"`
 
 	// Message from this event.
@@ -123,11 +124,15 @@ func (m *ClusterLifecycleEvents) validateClusterStatus(formats strfmt.Registry) 
 	}
 
 	if err := m.ClusterStatus.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("clusterStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("clusterStatus")
 		}
+
 		return err
 	}
 
@@ -153,11 +158,15 @@ func (m *ClusterLifecycleEvents) validateLdapDetails(formats strfmt.Registry) er
 
 	if m.LdapDetails != nil {
 		if err := m.LdapDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("ldapDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("ldapDetails")
 			}
+
 			return err
 		}
 	}
@@ -172,11 +181,15 @@ func (m *ClusterLifecycleEvents) validateRdsDetails(formats strfmt.Registry) err
 
 	if m.RdsDetails != nil {
 		if err := m.RdsDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rdsDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rdsDetails")
 			}
+
 			return err
 		}
 	}
@@ -190,11 +203,15 @@ func (m *ClusterLifecycleEvents) validateStackStatus(formats strfmt.Registry) er
 	}
 
 	if err := m.StackStatus.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("stackStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("stackStatus")
 		}
+
 		return err
 	}
 
@@ -234,11 +251,15 @@ func (m *ClusterLifecycleEvents) contextValidateClusterStatus(ctx context.Contex
 	}
 
 	if err := m.ClusterStatus.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("clusterStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("clusterStatus")
 		}
+
 		return err
 	}
 
@@ -254,11 +275,15 @@ func (m *ClusterLifecycleEvents) contextValidateLdapDetails(ctx context.Context,
 		}
 
 		if err := m.LdapDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("ldapDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("ldapDetails")
 			}
+
 			return err
 		}
 	}
@@ -275,11 +300,15 @@ func (m *ClusterLifecycleEvents) contextValidateRdsDetails(ctx context.Context, 
 		}
 
 		if err := m.RdsDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rdsDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rdsDetails")
 			}
+
 			return err
 		}
 	}
@@ -294,11 +323,15 @@ func (m *ClusterLifecycleEvents) contextValidateStackStatus(ctx context.Context,
 	}
 
 	if err := m.StackStatus.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("stackStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("stackStatus")
 		}
+
 		return err
 	}
 

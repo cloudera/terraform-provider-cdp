@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -82,11 +83,15 @@ func (m *UpdateAwsClusterRequest) validateExternalBuckets(formats strfmt.Registr
 		}
 		if val, ok := m.ExternalBuckets[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("externalBuckets" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("externalBuckets" + "." + k)
 				}
+
 				return err
 			}
 		}
@@ -103,11 +108,15 @@ func (m *UpdateAwsClusterRequest) validateObservabilityConfig(formats strfmt.Reg
 
 	if m.ObservabilityConfig != nil {
 		if err := m.ObservabilityConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("observabilityConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("observabilityConfig")
 			}
+
 			return err
 		}
 	}
@@ -157,11 +166,15 @@ func (m *UpdateAwsClusterRequest) contextValidateObservabilityConfig(ctx context
 		}
 
 		if err := m.ObservabilityConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("observabilityConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("observabilityConfig")
 			}
+
 			return err
 		}
 	}

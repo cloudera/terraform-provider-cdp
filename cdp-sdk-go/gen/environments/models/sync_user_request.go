@@ -8,4 +8,4 @@ package models
 // SyncUserRequest Request Object for single user sync operation.
 //
 // swagger:model SyncUserRequest
-type SyncUserRequest interface{}
+type SyncUserRequest any

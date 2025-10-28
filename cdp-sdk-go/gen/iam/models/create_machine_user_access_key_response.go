@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -54,11 +55,15 @@ func (m *CreateMachineUserAccessKeyResponse) validateAccessKey(formats strfmt.Re
 
 	if m.AccessKey != nil {
 		if err := m.AccessKey.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("accessKey")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("accessKey")
 			}
+
 			return err
 		}
 	}
@@ -94,11 +99,15 @@ func (m *CreateMachineUserAccessKeyResponse) contextValidateAccessKey(ctx contex
 	if m.AccessKey != nil {
 
 		if err := m.AccessKey.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("accessKey")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("accessKey")
 			}
+
 			return err
 		}
 	}

@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var datalakeLoadBalancerSkuTypeEnum []interface{}
+var datalakeLoadBalancerSkuTypeEnum []any
 
 func init() {
 	var res []DatalakeLoadBalancerSkuType

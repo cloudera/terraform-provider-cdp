@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -55,11 +56,15 @@ func (m *PrivateCloudActivationOptions) validateDbClientCredentials(formats strf
 
 	if m.DbClientCredentials != nil {
 		if err := m.DbClientCredentials.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dbClientCredentials")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dbClientCredentials")
 			}
+
 			return err
 		}
 	}
@@ -90,11 +95,15 @@ func (m *PrivateCloudActivationOptions) contextValidateDbClientCredentials(ctx c
 		}
 
 		if err := m.DbClientCredentials.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dbClientCredentials")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dbClientCredentials")
 			}
+
 			return err
 		}
 	}

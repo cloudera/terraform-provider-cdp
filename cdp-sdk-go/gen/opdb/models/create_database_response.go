@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -46,11 +47,15 @@ func (m *CreateDatabaseResponse) validateDatabaseDetails(formats strfmt.Registry
 
 	if m.DatabaseDetails != nil {
 		if err := m.DatabaseDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("databaseDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("databaseDetails")
 			}
+
 			return err
 		}
 	}
@@ -77,11 +82,15 @@ func (m *CreateDatabaseResponse) contextValidateDatabaseDetails(ctx context.Cont
 	if m.DatabaseDetails != nil {
 
 		if err := m.DatabaseDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("databaseDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("databaseDetails")
 			}
+
 			return err
 		}
 	}

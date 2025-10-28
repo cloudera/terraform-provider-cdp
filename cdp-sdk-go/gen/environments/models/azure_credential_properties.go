@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -58,11 +59,15 @@ func (m *AzureCredentialProperties) validateAuthenticationType(formats strfmt.Re
 	}
 
 	if err := m.AuthenticationType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("authenticationType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("authenticationType")
 		}
+
 		return err
 	}
 
@@ -76,11 +81,15 @@ func (m *AzureCredentialProperties) validateCertificate(formats strfmt.Registry)
 
 	if m.Certificate != nil {
 		if err := m.Certificate.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("certificate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("certificate")
 			}
+
 			return err
 		}
 	}
@@ -113,11 +122,15 @@ func (m *AzureCredentialProperties) contextValidateAuthenticationType(ctx contex
 	}
 
 	if err := m.AuthenticationType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("authenticationType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("authenticationType")
 		}
+
 		return err
 	}
 
@@ -133,11 +146,15 @@ func (m *AzureCredentialProperties) contextValidateCertificate(ctx context.Conte
 		}
 
 		if err := m.Certificate.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("certificate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("certificate")
 			}
+
 			return err
 		}
 	}

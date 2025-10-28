@@ -75,7 +75,7 @@ func (m *AzureActivationOptions) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var azureActivationOptionsTypeOutboundTypePropEnum []interface{}
+var azureActivationOptionsTypeOutboundTypePropEnum []any
 
 func init() {
 	var res []string

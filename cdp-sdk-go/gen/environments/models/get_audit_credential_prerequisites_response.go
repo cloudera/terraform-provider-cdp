@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -69,11 +70,15 @@ func (m *GetAuditCredentialPrerequisitesResponse) validateAws(formats strfmt.Reg
 
 	if m.Aws != nil {
 		if err := m.Aws.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("aws")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("aws")
 			}
+
 			return err
 		}
 	}
@@ -88,11 +93,15 @@ func (m *GetAuditCredentialPrerequisitesResponse) validateAzure(formats strfmt.R
 
 	if m.Azure != nil {
 		if err := m.Azure.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azure")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azure")
 			}
+
 			return err
 		}
 	}
@@ -116,11 +125,15 @@ func (m *GetAuditCredentialPrerequisitesResponse) validateGcp(formats strfmt.Reg
 
 	if m.Gcp != nil {
 		if err := m.Gcp.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcp")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcp")
 			}
+
 			return err
 		}
 	}
@@ -159,11 +172,15 @@ func (m *GetAuditCredentialPrerequisitesResponse) contextValidateAws(ctx context
 		}
 
 		if err := m.Aws.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("aws")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("aws")
 			}
+
 			return err
 		}
 	}
@@ -180,11 +197,15 @@ func (m *GetAuditCredentialPrerequisitesResponse) contextValidateAzure(ctx conte
 		}
 
 		if err := m.Azure.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azure")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azure")
 			}
+
 			return err
 		}
 	}
@@ -201,11 +222,15 @@ func (m *GetAuditCredentialPrerequisitesResponse) contextValidateGcp(ctx context
 		}
 
 		if err := m.Gcp.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcp")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcp")
 			}
+
 			return err
 		}
 	}

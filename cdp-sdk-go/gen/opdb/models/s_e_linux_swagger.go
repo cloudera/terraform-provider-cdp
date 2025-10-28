@@ -40,7 +40,7 @@ const (
 )
 
 // for schema
-var sELinuxEnum []interface{}
+var sELinuxEnum []any
 
 func init() {
 	var res []SELinux

@@ -8,4 +8,4 @@ package models
 // RollbackModelRegistryUpgradeResponse Response for rollback model registry request.
 //
 // swagger:model RollbackModelRegistryUpgradeResponse
-type RollbackModelRegistryUpgradeResponse interface{}
+type RollbackModelRegistryUpgradeResponse any

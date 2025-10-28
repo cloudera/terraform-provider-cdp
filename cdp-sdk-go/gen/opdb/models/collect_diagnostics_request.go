@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -19,15 +20,24 @@ import (
 // swagger:model CollectDiagnosticsRequest
 type CollectDiagnosticsRequest struct {
 
-	// The name of the database
+	// Bundle size limit.
+	BundleSizeBytes int64 `json:"bundleSizeBytes,omitempty"`
+
+	// The CSH case number to associate the bundle.
+	CaseNumber string `json:"caseNumber,omitempty"`
+
+	// The name of the database.
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
+
+	// This defines where to put the resulting bundle.
+	Destination DiagnosticDestination `json:"destination,omitempty"`
 
 	// The end time (in ISO 8601 format) of the period to collection statistics for.
 	// Required: true
 	EndTime *string `json:"endTime"`
 
-	// The name of the environment
+	// The name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
@@ -40,6 +50,10 @@ func (m *CollectDiagnosticsRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDatabaseName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDestination(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -66,6 +80,27 @@ func (m *CollectDiagnosticsRequest) validateDatabaseName(formats strfmt.Registry
 	return nil
 }
 
+func (m *CollectDiagnosticsRequest) validateDestination(formats strfmt.Registry) error {
+	if swag.IsZero(m.Destination) { // not required
+		return nil
+	}
+
+	if err := m.Destination.Validate(formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("destination")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("destination")
+		}
+
+		return err
+	}
+
+	return nil
+}
+
 func (m *CollectDiagnosticsRequest) validateEndTime(formats strfmt.Registry) error {
 
 	if err := validate.Required("endTime", "body", m.EndTime); err != nil {
@@ -84,8 +119,39 @@ func (m *CollectDiagnosticsRequest) validateEnvironmentName(formats strfmt.Regis
 	return nil
 }
 
-// ContextValidate validates this collect diagnostics request based on context it is used
+// ContextValidate validate this collect diagnostics request based on the context it is used
 func (m *CollectDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDestination(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CollectDiagnosticsRequest) contextValidateDestination(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Destination) { // not required
+		return nil
+	}
+
+	if err := m.Destination.ContextValidate(ctx, formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("destination")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("destination")
+		}
+
+		return err
+	}
+
 	return nil
 }
 

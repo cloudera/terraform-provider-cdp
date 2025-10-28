@@ -8,4 +8,4 @@ package models
 // SetCatalogResponse The response object to set catalog for a DataLake request.
 //
 // swagger:model SetCatalogResponse
-type SetCatalogResponse interface{}
+type SetCatalogResponse any

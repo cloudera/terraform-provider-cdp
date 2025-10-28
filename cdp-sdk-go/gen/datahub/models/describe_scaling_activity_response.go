@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -46,11 +47,15 @@ func (m *DescribeScalingActivityResponse) validateScalingActivity(formats strfmt
 
 	if m.ScalingActivity != nil {
 		if err := m.ScalingActivity.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("scalingActivity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("scalingActivity")
 			}
+
 			return err
 		}
 	}
@@ -77,11 +82,15 @@ func (m *DescribeScalingActivityResponse) contextValidateScalingActivity(ctx con
 	if m.ScalingActivity != nil {
 
 		if err := m.ScalingActivity.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("scalingActivity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("scalingActivity")
 			}
+
 			return err
 		}
 	}

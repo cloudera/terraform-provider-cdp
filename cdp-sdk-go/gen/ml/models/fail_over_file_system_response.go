@@ -8,4 +8,4 @@ package models
 // FailOverFileSystemResponse FailOverFileSystemResponse response to fallback to the replica.
 //
 // swagger:model FailOverFileSystemResponse
-type FailOverFileSystemResponse interface{}
+type FailOverFileSystemResponse any

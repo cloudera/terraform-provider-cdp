@@ -8,4 +8,4 @@ package models
 // UnassignMachineUserRoleResponse Response object for an unassign machine user role request.
 //
 // swagger:model UnassignMachineUserRoleResponse
-type UnassignMachineUserRoleResponse interface{}
+type UnassignMachineUserRoleResponse any

@@ -43,7 +43,7 @@ func (m *GetEnvironmentUserSyncStateResponse) Validate(formats strfmt.Registry) 
 	return nil
 }
 
-var getEnvironmentUserSyncStateResponseTypeStatePropEnum []interface{}
+var getEnvironmentUserSyncStateResponseTypeStatePropEnum []any
 
 func init() {
 	var res []string

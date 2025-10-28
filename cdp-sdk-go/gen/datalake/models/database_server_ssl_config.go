@@ -55,7 +55,7 @@ func (m *DatabaseServerSslConfig) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var databaseServerSslConfigTypeSslCertificateTypePropEnum []interface{}
+var databaseServerSslConfigTypeSslCertificateTypePropEnum []any
 
 func init() {
 	var res []string
@@ -112,7 +112,7 @@ func (m *DatabaseServerSslConfig) validateSslCertificates(formats strfmt.Registr
 	return nil
 }
 
-var databaseServerSslConfigTypeSslModePropEnum []interface{}
+var databaseServerSslConfigTypeSslModePropEnum []any
 
 func init() {
 	var res []string

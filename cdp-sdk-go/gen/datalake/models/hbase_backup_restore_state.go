@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -54,11 +55,15 @@ func (m *HbaseBackupRestoreState) validateAtlasEntityAuditEventTable(formats str
 
 	if m.AtlasEntityAuditEventTable != nil {
 		if err := m.AtlasEntityAuditEventTable.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("atlasEntityAuditEventTable")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("atlasEntityAuditEventTable")
 			}
+
 			return err
 		}
 	}
@@ -74,11 +79,15 @@ func (m *HbaseBackupRestoreState) validateAtlasJanusTable(formats strfmt.Registr
 
 	if m.AtlasJanusTable != nil {
 		if err := m.AtlasJanusTable.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("atlasJanusTable")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("atlasJanusTable")
 			}
+
 			return err
 		}
 	}
@@ -109,11 +118,15 @@ func (m *HbaseBackupRestoreState) contextValidateAtlasEntityAuditEventTable(ctx 
 	if m.AtlasEntityAuditEventTable != nil {
 
 		if err := m.AtlasEntityAuditEventTable.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("atlasEntityAuditEventTable")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("atlasEntityAuditEventTable")
 			}
+
 			return err
 		}
 	}
@@ -126,11 +139,15 @@ func (m *HbaseBackupRestoreState) contextValidateAtlasJanusTable(ctx context.Con
 	if m.AtlasJanusTable != nil {
 
 		if err := m.AtlasJanusTable.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("atlasJanusTable")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("atlasJanusTable")
 			}
+
 			return err
 		}
 	}

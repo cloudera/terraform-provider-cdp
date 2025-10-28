@@ -38,7 +38,7 @@ const (
 )
 
 // for schema
-var azureAuthenticationTypePropertiesEnum []interface{}
+var azureAuthenticationTypePropertiesEnum []any
 
 func init() {
 	var res []AzureAuthenticationTypeProperties

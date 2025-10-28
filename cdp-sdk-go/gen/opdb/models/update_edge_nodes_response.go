@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -75,11 +76,15 @@ func (m *UpdateEdgeNodesResponse) validateEdgeNodes(formats strfmt.Registry) err
 
 		if m.EdgeNodes[i] != nil {
 			if err := m.EdgeNodes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -123,11 +128,15 @@ func (m *UpdateEdgeNodesResponse) contextValidateEdgeNodes(ctx context.Context, 
 			}
 
 			if err := m.EdgeNodes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

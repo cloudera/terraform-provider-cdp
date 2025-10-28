@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -50,11 +51,15 @@ func (m *SetWorkloadPasswordPolicyRequest) validateGlobalPasswordPolicy(formats 
 
 	if m.GlobalPasswordPolicy != nil {
 		if err := m.GlobalPasswordPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("globalPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("globalPasswordPolicy")
 			}
+
 			return err
 		}
 	}
@@ -69,11 +74,15 @@ func (m *SetWorkloadPasswordPolicyRequest) validateMachineUsersPasswordPolicy(fo
 
 	if m.MachineUsersPasswordPolicy != nil {
 		if err := m.MachineUsersPasswordPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("machineUsersPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("machineUsersPasswordPolicy")
 			}
+
 			return err
 		}
 	}
@@ -108,11 +117,15 @@ func (m *SetWorkloadPasswordPolicyRequest) contextValidateGlobalPasswordPolicy(c
 		}
 
 		if err := m.GlobalPasswordPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("globalPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("globalPasswordPolicy")
 			}
+
 			return err
 		}
 	}
@@ -129,11 +142,15 @@ func (m *SetWorkloadPasswordPolicyRequest) contextValidateMachineUsersPasswordPo
 		}
 
 		if err := m.MachineUsersPasswordPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("machineUsersPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("machineUsersPasswordPolicy")
 			}
+
 			return err
 		}
 	}

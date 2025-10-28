@@ -8,4 +8,4 @@ package models
 // GetAccountTelemetryRequest Request object for get account level telemetry settings.
 //
 // swagger:model GetAccountTelemetryRequest
-type GetAccountTelemetryRequest interface{}
+type GetAccountTelemetryRequest any

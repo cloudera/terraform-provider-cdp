@@ -8,4 +8,4 @@ package models
 // StopDatalakeResponse Response object of stopping a datalake, deprecated.
 //
 // swagger:model StopDatalakeResponse
-type StopDatalakeResponse interface{}
+type StopDatalakeResponse any

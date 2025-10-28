@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -52,11 +53,15 @@ func (m *ApplicationConfigDiff) validateConfigBlocksDiffs(formats strfmt.Registr
 
 	if m.ConfigBlocksDiffs != nil {
 		if err := m.ConfigBlocksDiffs.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configBlocksDiffs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configBlocksDiffs")
 			}
+
 			return err
 		}
 	}
@@ -96,11 +101,15 @@ func (m *ApplicationConfigDiff) contextValidateConfigBlocksDiffs(ctx context.Con
 		}
 
 		if err := m.ConfigBlocksDiffs.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configBlocksDiffs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configBlocksDiffs")
 			}
+
 			return err
 		}
 	}

@@ -207,7 +207,7 @@ CancelDatahubDiagnostics cancels running datahub diagnostics collections
 Cancel running Datahub diagnostics collection
 */
 func (a *Client) CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams, opts ...ClientOption) (*CancelDatahubDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelDatahubDiagnosticsParams()
 	}
@@ -226,17 +226,22 @@ func (a *Client) CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CancelDatahubDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CancelDatahubDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -246,7 +251,7 @@ CollectCmDiagnostics starts datahub cloudera manager based diagnostics collectio
 Start Datahub Cloudera Manager based diagnostics collection
 */
 func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectCmDiagnosticsParams()
 	}
@@ -265,17 +270,22 @@ func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CollectCmDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CollectCmDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -285,7 +295,7 @@ CollectDatahubDiagnostics starts data hub diagnostics collection
 Start DataHub diagnostics collection
 */
 func (a *Client) CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsParams, opts ...ClientOption) (*CollectDatahubDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectDatahubDiagnosticsParams()
 	}
@@ -304,17 +314,22 @@ func (a *Client) CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CollectDatahubDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CollectDatahubDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -324,7 +339,7 @@ CreateAWSCluster creates an a w s workload cluster
 Creates an AWS workload cluster.
 */
 func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSClusterParams()
 	}
@@ -343,17 +358,22 @@ func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -363,7 +383,7 @@ CreateAWSGovCloudCluster creates an a w s data hub cluster for gov cloud
 Creates an AWS Data Hub cluster for GovCloud.
 */
 func (a *Client) CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudClusterParams()
 	}
@@ -382,17 +402,22 @@ func (a *Client) CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSGovCloudClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSGovCloudClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -402,7 +427,7 @@ CreateAutoScaleRules creates auto scaling rules for a data hub cluster
 Create Auto Scaling rules for a DataHub cluster.
 */
 func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAutoScaleRulesParams()
 	}
@@ -421,17 +446,22 @@ func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAutoScaleRulesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAutoScaleRulesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -441,7 +471,7 @@ CreateAzureCluster creates an azure workload cluster
 Creates an Azure workload cluster.
 */
 func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureClusterParams()
 	}
@@ -460,17 +490,22 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAzureClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAzureClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -480,7 +515,7 @@ CreateClusterDefinition creates a cluster definition a cluster definition is a r
 Creates a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
 */
 func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams, opts ...ClientOption) (*CreateClusterDefinitionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterDefinitionParams()
 	}
@@ -499,17 +534,22 @@ func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateClusterDefinitionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateClusterDefinitionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -519,7 +559,7 @@ CreateClusterTemplate creates a cluster template a cluster template is a reusabl
 Creates a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
 */
 func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams, opts ...ClientOption) (*CreateClusterTemplateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterTemplateParams()
 	}
@@ -538,17 +578,22 @@ func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateClusterTemplateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateClusterTemplateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -558,7 +603,7 @@ CreateCustomConfigurations creates custom configurations custom configurations a
 Creates custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
 func (a *Client) CreateCustomConfigurations(params *CreateCustomConfigurationsParams, opts ...ClientOption) (*CreateCustomConfigurationsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateCustomConfigurationsParams()
 	}
@@ -577,17 +622,22 @@ func (a *Client) CreateCustomConfigurations(params *CreateCustomConfigurationsPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateCustomConfigurationsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateCustomConfigurationsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -597,7 +647,7 @@ CreateGCPCluster creates a g c p workload cluster
 Creates a GCP workload cluster.
 */
 func (a *Client) CreateGCPCluster(params *CreateGCPClusterParams, opts ...ClientOption) (*CreateGCPClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPClusterParams()
 	}
@@ -616,17 +666,22 @@ func (a *Client) CreateGCPCluster(params *CreateGCPClusterParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateGCPClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateGCPClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -636,7 +691,7 @@ CreateRecipe creates recipe a recipe is a script that runs on all nodes of a spe
 Creates recipe. A recipe is a script that runs on all nodes of a specified instance group.
 */
 func (a *Client) CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) (*CreateRecipeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateRecipeParams()
 	}
@@ -655,17 +710,22 @@ func (a *Client) CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateRecipeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateRecipeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -675,7 +735,7 @@ DeleteAutoScaleRules deletes auto scaling policies for a data hub cluster
 Delete AutoScaling policies for a DataHub cluster
 */
 func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts ...ClientOption) (*DeleteAutoScaleRulesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteAutoScaleRulesParams()
 	}
@@ -694,17 +754,22 @@ func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteAutoScaleRulesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteAutoScaleRulesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -714,7 +779,7 @@ DeleteCluster deletes a workload cluster
 Deletes a workload cluster.
 */
 func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterParams()
 	}
@@ -733,17 +798,22 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -753,7 +823,7 @@ DeleteClusterDefinitions deletes cluster definitions a cluster definition is a r
 Deletes cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
 */
 func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams, opts ...ClientOption) (*DeleteClusterDefinitionsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterDefinitionsParams()
 	}
@@ -772,17 +842,22 @@ func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteClusterDefinitionsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteClusterDefinitionsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -792,7 +867,7 @@ DeleteClusterTemplates deletes cluster templates a cluster template is a reusabl
 Deletes cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
 */
 func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams, opts ...ClientOption) (*DeleteClusterTemplatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterTemplatesParams()
 	}
@@ -811,17 +886,22 @@ func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteClusterTemplatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteClusterTemplatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -831,7 +911,7 @@ DeleteCustomConfigurations deletes custom configurations custom configurations a
 Deletes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
 func (a *Client) DeleteCustomConfigurations(params *DeleteCustomConfigurationsParams, opts ...ClientOption) (*DeleteCustomConfigurationsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteCustomConfigurationsParams()
 	}
@@ -850,17 +930,22 @@ func (a *Client) DeleteCustomConfigurations(params *DeleteCustomConfigurationsPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteCustomConfigurationsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteCustomConfigurationsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -870,7 +955,7 @@ DeleteInstances deletes instances for the specified cluster
 Deletes instances for the specified cluster.
 */
 func (a *Client) DeleteInstances(params *DeleteInstancesParams, opts ...ClientOption) (*DeleteInstancesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteInstancesParams()
 	}
@@ -889,17 +974,22 @@ func (a *Client) DeleteInstances(params *DeleteInstancesParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteInstancesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteInstancesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -909,7 +999,7 @@ DeleteRecipes deletes recipes a recipe is a script that runs on all nodes of a s
 Deletes recipes. A recipe is a script that runs on all nodes of a specified instance group.
 */
 func (a *Client) DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption) (*DeleteRecipesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteRecipesParams()
 	}
@@ -928,17 +1018,22 @@ func (a *Client) DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteRecipesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteRecipesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -948,7 +1043,7 @@ DescribeAutoScaleRules describes the auto scaling policies for a data hub cluste
 Describe the AutoScaling policies for a DataHub cluster
 */
 func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, opts ...ClientOption) (*DescribeAutoScaleRulesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeAutoScaleRulesParams()
 	}
@@ -967,17 +1062,22 @@ func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeAutoScaleRulesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeAutoScaleRulesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -987,7 +1087,7 @@ DescribeCluster describes a workload cluster
 Describes a workload cluster.
 */
 func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterParams()
 	}
@@ -1006,17 +1106,22 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1026,7 +1131,7 @@ DescribeClusterDefinition describes a cluster definition a cluster definition is
 Describes a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
 */
 func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionParams, opts ...ClientOption) (*DescribeClusterDefinitionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterDefinitionParams()
 	}
@@ -1045,17 +1150,22 @@ func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeClusterDefinitionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeClusterDefinitionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1065,7 +1175,7 @@ DescribeClusterTemplate describes a cluster template a cluster template is a reu
 Describes a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
 */
 func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams, opts ...ClientOption) (*DescribeClusterTemplateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterTemplateParams()
 	}
@@ -1084,17 +1194,22 @@ func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeClusterTemplateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeClusterTemplateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1104,7 +1219,7 @@ DescribeCustomConfigurations describes custom configurations custom configuratio
 Describes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
 func (a *Client) DescribeCustomConfigurations(params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeCustomConfigurationsParams()
 	}
@@ -1123,17 +1238,22 @@ func (a *Client) DescribeCustomConfigurations(params *DescribeCustomConfiguratio
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeCustomConfigurationsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeCustomConfigurationsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1143,7 +1263,7 @@ DescribeDatabaseServer gets external database server details
 Gets external database server details for Data Hub cluster by cluster CRN
 */
 func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatabaseServerParams()
 	}
@@ -1162,17 +1282,22 @@ func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDatabaseServerOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDatabaseServerDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1182,7 +1307,7 @@ DescribeRecipe describes recipe a recipe is a script that runs on all nodes of a
 Describes recipe. A recipe is a script that runs on all nodes of a specified instance group.
 */
 func (a *Client) DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeRecipeParams()
 	}
@@ -1201,17 +1326,22 @@ func (a *Client) DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeRecipeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeRecipeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1221,7 +1351,7 @@ DescribeScalingActivity describes the scaling activity using cluster c r n or cl
 Describes the Scaling Activity using Cluster CRN or Cluster NAME and operation ID.
 */
 func (a *Client) DescribeScalingActivity(params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeScalingActivityParams()
 	}
@@ -1240,17 +1370,22 @@ func (a *Client) DescribeScalingActivity(params *DescribeScalingActivityParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeScalingActivityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeScalingActivityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1260,7 +1395,7 @@ GetClusterHostStatus gets cluster host status
 Gets the status of the hosts in a cluster.
 */
 func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterHostStatusParams()
 	}
@@ -1279,17 +1414,22 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetClusterHostStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetClusterHostStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1299,7 +1439,7 @@ GetClusterServiceStatus gets cluster service status
 Gets the status of the services in a cluster.
 */
 func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterServiceStatusParams()
 	}
@@ -1318,17 +1458,22 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetClusterServiceStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetClusterServiceStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1338,7 +1483,7 @@ GetCmRoles gathers cloudera manager roles that can be used for filtering in c m 
 Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection.
 */
 func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetCmRolesParams()
 	}
@@ -1357,17 +1502,22 @@ func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*Ge
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetCmRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetCmRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1377,7 +1527,7 @@ GetDatahubLogDescriptors gathers log descriptors that are used for diagnostics c
 Gather log descriptors that are used for diagnostics collection.
 */
 func (a *Client) GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDatahubLogDescriptorsParams()
 	}
@@ -1396,17 +1546,22 @@ func (a *Client) GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetDatahubLogDescriptorsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetDatahubLogDescriptorsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1416,7 +1571,7 @@ GetOperation gets the latest in progress or finished operation for the datahub c
 Get the latest (in progress or finished) operation for the datahub cluster.
 */
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetOperationParams()
 	}
@@ -1435,17 +1590,22 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetOperationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetOperationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1455,7 +1615,7 @@ GetVMTypes creates a recommendation that advises virtual machine types for the g
 Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
 */
 func (a *Client) GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetVMTypesParams()
 	}
@@ -1474,17 +1634,22 @@ func (a *Client) GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*Ge
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetVMTypesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetVMTypesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1494,7 +1659,7 @@ ListAutoScaleHistory lists auto scale history activity for a data hub cluster
 List AutoScale history activity for a DataHub cluster.
 */
 func (a *Client) ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListAutoScaleHistoryParams()
 	}
@@ -1513,17 +1678,22 @@ func (a *Client) ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListAutoScaleHistoryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListAutoScaleHistoryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1533,7 +1703,7 @@ ListClusterDefinitions lists cluster definitions a cluster definition is a reusa
 Lists cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
 */
 func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams, opts ...ClientOption) (*ListClusterDefinitionsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterDefinitionsParams()
 	}
@@ -1552,17 +1722,22 @@ func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListClusterDefinitionsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListClusterDefinitionsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1572,7 +1747,7 @@ ListClusterLifecycleEvents lists workload cluster lifecycle events
 Lists Workload cluster lifecycle events.
 */
 func (a *Client) ListClusterLifecycleEvents(params *ListClusterLifecycleEventsParams, opts ...ClientOption) (*ListClusterLifecycleEventsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterLifecycleEventsParams()
 	}
@@ -1591,17 +1766,22 @@ func (a *Client) ListClusterLifecycleEvents(params *ListClusterLifecycleEventsPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListClusterLifecycleEventsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListClusterLifecycleEventsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1611,7 +1791,7 @@ ListClusterTemplates lists cluster templates a cluster template is a reusable te
 Lists cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
 */
 func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams, opts ...ClientOption) (*ListClusterTemplatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterTemplatesParams()
 	}
@@ -1630,17 +1810,22 @@ func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListClusterTemplatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListClusterTemplatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1650,7 +1835,7 @@ ListClusters lists workload clusters
 Lists workload clusters.
 */
 func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClustersParams()
 	}
@@ -1669,17 +1854,22 @@ func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListClustersOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListClustersDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1689,7 +1879,7 @@ ListCustomConfigurations lists custom configurations custom configurations are s
 Lists custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
 */
 func (a *Client) ListCustomConfigurations(params *ListCustomConfigurationsParams, opts ...ClientOption) (*ListCustomConfigurationsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCustomConfigurationsParams()
 	}
@@ -1708,17 +1898,22 @@ func (a *Client) ListCustomConfigurations(params *ListCustomConfigurationsParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListCustomConfigurationsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListCustomConfigurationsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1728,7 +1923,7 @@ ListDatahubDiagnostics lists recent datahub diagnostics collections
 List recent Datahub diagnostics collection
 */
 func (a *Client) ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatahubDiagnosticsParams()
 	}
@@ -1747,17 +1942,22 @@ func (a *Client) ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDatahubDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDatahubDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1767,7 +1967,7 @@ ListDatahubSecretTypes lists all datahub related secret types
 Lists Datahub related secret types for Datahub instances.
 */
 func (a *Client) ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, opts ...ClientOption) (*ListDatahubSecretTypesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatahubSecretTypesParams()
 	}
@@ -1786,17 +1986,22 @@ func (a *Client) ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDatahubSecretTypesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDatahubSecretTypesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1806,7 +2011,7 @@ ListRecipes lists recipes a recipe is a script that runs on all nodes of a speci
 Lists recipes. A recipe is a script that runs on all nodes of a specified instance group.
 */
 func (a *Client) ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRecipesParams()
 	}
@@ -1825,17 +2030,22 @@ func (a *Client) ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListRecipesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListRecipesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1845,7 +2055,7 @@ ListScalingActivities lists scaling activities for a cluster
 Lists Scaling activities for a cluster.
 */
 func (a *Client) ListScalingActivities(params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListScalingActivitiesParams()
 	}
@@ -1864,17 +2074,22 @@ func (a *Client) ListScalingActivities(params *ListScalingActivitiesParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListScalingActivitiesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListScalingActivitiesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1884,7 +2099,7 @@ MigrateSkus migrates data hub cluster s k us
 Migrate Data Hub cluster SKUs.
 */
 func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewMigrateSkusParams()
 	}
@@ -1903,17 +2118,22 @@ func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*MigrateSkusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*MigrateSkusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1923,7 +2143,7 @@ PrepareClusterUpgrade runnings upgrade related validations and prepares the requ
 In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well.
 */
 func (a *Client) PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewPrepareClusterUpgradeParams()
 	}
@@ -1942,17 +2162,22 @@ func (a *Client) PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*PrepareClusterUpgradeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*PrepareClusterUpgradeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1962,7 +2187,7 @@ RenewCertificate renews certificate on datahub cluster by name or c r n
 Deprecated, please use renew-public-certificate command instead. Renew certificate on datahub cluster by name or CRN
 */
 func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewCertificateParams()
 	}
@@ -1981,17 +2206,22 @@ func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RenewCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RenewCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2001,7 +2231,7 @@ RenewPublicCertificate renews public certificate on a datahub cluster by name or
 Renews public certificate on a Datahub cluster by name or CRN.
 */
 func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewPublicCertificateParams()
 	}
@@ -2020,17 +2250,22 @@ func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RenewPublicCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RenewPublicCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2040,7 +2275,7 @@ RepairCluster repairs a cluster
 Repairs a cluster.
 */
 func (a *Client) RepairCluster(params *RepairClusterParams, opts ...ClientOption) (*RepairClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRepairClusterParams()
 	}
@@ -2059,17 +2294,22 @@ func (a *Client) RepairCluster(params *RepairClusterParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RepairClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RepairClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2079,7 +2319,7 @@ ReplaceRecipes replaces recipes for the given instance groups
 Replaces recipes for the given instance groups.
 */
 func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewReplaceRecipesParams()
 	}
@@ -2098,17 +2338,22 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ReplaceRecipesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ReplaceRecipesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2118,7 +2363,7 @@ RestartClusterInstances restarts instances of a cluster on cloud provider
 Restarts instances of a cluster on Cloud provider.
 */
 func (a *Client) RestartClusterInstances(params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestartClusterInstancesParams()
 	}
@@ -2137,17 +2382,22 @@ func (a *Client) RestartClusterInstances(params *RestartClusterInstancesParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestartClusterInstancesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestartClusterInstancesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2157,7 +2407,7 @@ RetryCluster retries creation of a failed workload cluster
 When stack provisioning or cluster creation fails, retryCluster allows you to resume the process from the last failed step.
 */
 func (a *Client) RetryCluster(params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRetryClusterParams()
 	}
@@ -2176,17 +2426,22 @@ func (a *Client) RetryCluster(params *RetryClusterParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RetryClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RetryClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2196,7 +2451,7 @@ RotateAutoTLSCertificates rotates autotls certificates on the datahub s hosts
 Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datahub's hosts
 */
 func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateAutoTLSCertificatesParams()
 	}
@@ -2215,17 +2470,22 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateAutoTLSCertificatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateAutoTLSCertificatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2235,7 +2495,7 @@ RotateDbCertificate rotates database ssl certificate for a specific data hub
 Rotates database ssl certificate for a specific Data Hub
 */
 func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateDbCertificateParams()
 	}
@@ -2254,17 +2514,22 @@ func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateDbCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateDbCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2274,7 +2539,7 @@ RotatePrivateCertificates rotates private certificates on the hosts of datahub
 Rotates private certificates on the hosts of Datahub.
 */
 func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotatePrivateCertificatesParams()
 	}
@@ -2293,17 +2558,22 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotatePrivateCertificatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotatePrivateCertificatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2313,7 +2583,7 @@ RotateSaltPassword rotates salt stack user password on data hub instances
 Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSaltPasswordParams()
 	}
@@ -2332,17 +2602,22 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateSaltPasswordOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2352,7 +2627,7 @@ RotateSecrets rotates secrets for a specific datahub
 Rotates secrets for a specific datahub based on what secret types are specified.
 */
 func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSecretsParams()
 	}
@@ -2371,17 +2646,22 @@ func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateSecretsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateSecretsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2391,7 +2671,7 @@ ScaleCluster scales a cluster by adding or removing cluster nodes
 Scales a cluster by adding or removing cluster nodes.
 */
 func (a *Client) ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewScaleClusterParams()
 	}
@@ -2410,17 +2690,22 @@ func (a *Client) ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ScaleClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ScaleClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2430,7 +2715,7 @@ SetCatalog sets a catalog for a data hub
 Sets a catalog for a DataHub.
 */
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetCatalogParams()
 	}
@@ -2449,17 +2734,22 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetCatalogOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetCatalogDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2469,7 +2759,7 @@ SetDefaultJavaVersion configures the default java version for the data hub
 Configures the default Java version for the Data Hub. This command updates the system's default Java version and will restart both the Cluster Manager and the services.
 */
 func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetDefaultJavaVersionParams()
 	}
@@ -2488,17 +2778,22 @@ func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetDefaultJavaVersionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetDefaultJavaVersionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2508,7 +2803,7 @@ StartCluster starts a stopped workload cluster
 Starts a stopped workload cluster.
 */
 func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) (*StartClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartClusterParams()
 	}
@@ -2527,17 +2822,22 @@ func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2547,7 +2847,7 @@ StartClusterVerticalScaling initiates the vertical scaling on data hub cluster
 Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'modifyDisks' or 'instanceTemplate' as parameter.
 */
 func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartClusterVerticalScalingParams()
 	}
@@ -2566,17 +2866,22 @@ func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScaling
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartClusterVerticalScalingOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartClusterVerticalScalingDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2586,7 +2891,7 @@ StartDatabaseUpgrade upgrades the database of the data hub cluster
 This command initiates the upgrade of the database of the Data Hub cluster.
 */
 func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatabaseUpgradeParams()
 	}
@@ -2605,17 +2910,22 @@ func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartDatabaseUpgradeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartDatabaseUpgradeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2625,7 +2935,7 @@ StartInstances starts instances of a particular host group in the data hub clust
 Starts instances of a particular host group in the Data Hub cluster.
 */
 func (a *Client) StartInstances(params *StartInstancesParams, opts ...ClientOption) (*StartInstancesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartInstancesParams()
 	}
@@ -2644,17 +2954,22 @@ func (a *Client) StartInstances(params *StartInstancesParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartInstancesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartInstancesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2664,7 +2979,7 @@ StopCluster stops a workload cluster
 Stops a workload cluster. When a cluster is put in the stopped state, cluster VMs are given back to the cloud provider. To provision new VMs, start the cluster.
 */
 func (a *Client) StopCluster(params *StopClusterParams, opts ...ClientOption) (*StopClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopClusterParams()
 	}
@@ -2683,17 +2998,22 @@ func (a *Client) StopCluster(params *StopClusterParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StopClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StopClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2703,7 +3023,7 @@ StopInstances stops instances of particular host group in the data hub cluster
 Stops instances of a particular host group in the Data Hub cluster.
 */
 func (a *Client) StopInstances(params *StopInstancesParams, opts ...ClientOption) (*StopInstancesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopInstancesParams()
 	}
@@ -2722,17 +3042,22 @@ func (a *Client) StopInstances(params *StopInstancesParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StopInstancesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StopInstancesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2742,7 +3067,7 @@ SyncCluster synchronizes the state of a cluster with the cloud provider and clou
 Synchronizes the state of a cluster with the cloud provider and Cloudera Manager.
 */
 func (a *Client) SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*SyncClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncClusterParams()
 	}
@@ -2761,17 +3086,22 @@ func (a *Client) SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SyncClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SyncClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2781,7 +3111,7 @@ SyncComponentVersionsFromCm syncs component versions from c m after a failed upg
 Syncs component versions from CM after a failed upgrade.
 */
 func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncComponentVersionsFromCmParams()
 	}
@@ -2800,17 +3130,22 @@ func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCm
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SyncComponentVersionsFromCmOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SyncComponentVersionsFromCmDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2820,7 +3155,7 @@ UpdateAutoScaleRules modifies auto scaling for a data hub cluster
 Modify AutoScaling for a DataHub cluster
 */
 func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts ...ClientOption) (*UpdateAutoScaleRulesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAutoScaleRulesParams()
 	}
@@ -2839,17 +3174,22 @@ func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateAutoScaleRulesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateAutoScaleRulesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2859,7 +3199,7 @@ UpdateOrchestratorState runs orchestrator engine state update on the data hub cl
 Run orchestrator engine state update on the Data Hub cluster.
 */
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateOrchestratorStateParams()
 	}
@@ -2878,17 +3218,22 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateOrchestratorStateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2898,7 +3243,7 @@ UpdateToAwsImdsV1 updates data hub a w s cluster to use i m d sv1
 Updates Data Hub AWS cluster to use IMDSv1.
 */
 func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV1Params()
 	}
@@ -2917,17 +3262,22 @@ func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateToAwsImdsV1OK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateToAwsImdsV1Default)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2937,7 +3287,7 @@ UpdateToAwsImdsV2 updates data hub a w s cluster to use i m d sv2
 Updates Data Hub AWS cluster to use IMDSv2.
 */
 func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV2Params()
 	}
@@ -2956,17 +3306,22 @@ func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateToAwsImdsV2OK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateToAwsImdsV2Default)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2976,7 +3331,7 @@ UpgradeCluster upgrades the o s or data platform on a datahub cluster
 Upgrades the OS or data platform on a datahub cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters.
 */
 func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeClusterParams()
 	}
@@ -2995,17 +3350,22 @@ func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeClusterOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeClusterDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

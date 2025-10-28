@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.143 (BETA)
+  version: 0.9.148 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -1081,28 +1081,6 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
-  /api/v1/dw/restartDbc:
-    post:
-      x-mutating: true
-      x-deprecated: true
-      summary: Restart a Database Catalog.
-      description: 'DEPRECATED: Use the stop-dbc / start-dbc commands instead. Restart a Database Catalog.'
-      operationId: restartDbc
-      parameters:
-        - name: input
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/RestartDbcRequest'
-      responses:
-        200:
-          description: Expected response to a valid request.
-          schema:
-            $ref: '#/definitions/RestartDbcResponse'
-        default:
-          description: The default response on an error.
-          schema:
-            $ref: '#/definitions/Error'
   /api/v1/dw/describeDbcConfig:
     post:
       x-mutating: false
@@ -1360,28 +1338,6 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/DeleteVwResponse'
-        default:
-          description: The default response on an error.
-          schema:
-            $ref: '#/definitions/Error'
-  /api/v1/dw/restartVw:
-    post:
-      x-mutating: true
-      x-deprecated: true
-      summary: Restart a Virtual Warehouse.
-      description: 'DEPRECATED: Use the suspend-vw / start-vw commands instead. Restart a Virtual Warehouse.'
-      operationId: restartVw
-      parameters:
-        - name: input
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/RestartVwRequest'
-      responses:
-        200:
-          description: Expected response to a valid request.
-          schema:
-            $ref: '#/definitions/RestartVwResponse'
         default:
           description: The default response on an error.
           schema:
@@ -4263,22 +4219,6 @@ definitions:
   StartDbcResponse:
     type: object
     description: Response object for the restartDbc method.
-  RestartDbcRequest:
-    type: object
-    description: Request object for the restartDbc method.
-    required:
-      - clusterId
-      - dbcId
-    properties:
-      clusterId:
-        type: string
-        description: ID of the Database Catalog's cluster.
-      dbcId:
-        type: string
-        description: The id of the Database Catalog to restart.
-  RestartDbcResponse:
-    type: object
-    description: Response object for the restartDbc method.
   VwType:
     type: string
     enum:
@@ -4293,12 +4233,12 @@ definitions:
         type: integer
         format: int32
         default: 1
-        description: Minimum number of available compute groups.
+        description: Sets the minimum number of Executor Groups.
       maxClusters:
         type: integer
         format: int32
-        default: 10
-        description: Maximum number of available compute groups.
+        default: 5
+        description: 'Sets the maximum number of Executor Groups the Virtual Warehouse can scale up to. This value defines the upper boundary for autoscaling. The total node capacity is determined by this number multiplied by the number of nodes in the selected `--t-shirt-size`. NOTE: On Azure, all IPs for the maximum node count are pre-allocated. If you use the same `--instance-type` for multiple Virtual Warehouses, they will share the same underlying nodepool and its limit is calculated as the sum of all nodes required by the corresponding Virtual Warehouses.'
       disableAutoSuspend:
         type: boolean
         description: Turn off auto suspend for Virtual Warehouse.
@@ -4309,7 +4249,7 @@ definitions:
       enableUnifiedAnalytics:
         x-deprecated: true
         type: boolean
-        description: DEPRECATED in favor of the top level enableUnifiedAnalytics flag. Enable Unified Analytics. In case of Hive Virtual Warehouses this cannot be provided, because this value is inferred. In case of Impala this can be set. Passing --query-isolation-options will be considered if this flag is set to true. If Unified Analytics enabled then the "impalaEnableShutdownOfCoordinator" explicitly disabled and should not be provided, furthermore the "impalaHighAvailabilityMode" cannot be set to ACTIVE_ACTIVE.
+        description: 'DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Enable Unified Analytics. In case of Hive Virtual Warehouses this cannot be provided, because this value is inferred. In case of Impala this can be set. Passing --query-isolation-options will be considered if this flag is set to true. If Unified Analytics enabled then the "impalaEnableShutdownOfCoordinator" explicitly disabled and should not be provided, furthermore the "impalaHighAvailabilityMode" cannot be set to ACTIVE_ACTIVE. FENG support will be removed in subsequent releases.'
       hiveScaleWaitTimeSeconds:
         type: integer
         format: int32
@@ -4337,7 +4277,7 @@ definitions:
       impalaEnableShutdownOfCoordinator:
         x-deprecated: true
         type: boolean
-        description: DEPRECATED in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator. If Unified Analytics enabled then this setting explicitly disabled and should not be provided.
+        description: 'DEPRECATED: in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator. If Unified Analytics enabled then this setting explicitly disabled and should not be provided. FENG support will be removed in subsequent .'
       impalaShutdownOfCoordinatorDelaySeconds:
         x-deprecated: true
         type: integer
@@ -4411,12 +4351,12 @@ definitions:
         type: integer
         format: int32
         default: 0
-        description: Minimum number of available compute groups. Zero means, the minClusters will not be updated.
+        description: Sets the minimum number of Executor Groups. Zero means the minClusters will not be updated.
       maxClusters:
         type: integer
         format: int32
         default: 0
-        description: Maximum number of available compute groups. Zero means, the maxClusters will not be updated..
+        description: 'Sets the maximum number of Executor Groups the Virtual Warehouse can scale up to. Zero means that this value will not be updated. This value defines the upper boundary for autoscaling. The total node capacity is determined by this number multiplied by the number of nodes in the selected `--t-shirt-size`. NOTE: On Azure, all IPs for the maximum node count are pre-allocated. If you use the same `--instance-type` for multiple Virtual Warehouses, they will share the same underlying nodepool and its limit is calculated as the sum of all nodes required by the corresponding Virtual Warehouses.'
       disableAutoSuspend:
         type: boolean
         description: Turn off auto suspend for Virtual Warehouse.
@@ -4472,11 +4412,11 @@ definitions:
       minClusters:
         type: integer
         format: int32
-        description: Minimum number of available compute groups.
+        description: Minimum number of available Executor Groups.
       maxClusters:
         type: integer
         format: int32
-        description: Maximum number of available compute groups.
+        description: Maximum number of available Executor Groups.
       disableAutoSuspend:
         type: boolean
         description: Turn off auto suspend for Virtual Warehouse.
@@ -4487,7 +4427,7 @@ definitions:
       enableUnifiedAnalytics:
         x-deprecated: true
         type: boolean
-        description: DEPRECATED in favor of the top level enableUnifiedAnalytics flag. Whether the Unified Analytics is enabled.
+        description: 'DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.'
       hiveScaleWaitTimeSeconds:
         type: integer
         format: int32
@@ -4662,8 +4602,9 @@ definitions:
         type: string
         description: This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets. In order to query possible options, see "availabilityZones" field of describe-cluster or list-clusters command response.
       enableUnifiedAnalytics:
+        x-deprecated: true
         type: boolean
-        description: Enable Unified Analytics. In the case of Hive Virtual Warehouses, this cannot be provided, because this value is inferred. In the case of Impala, this can be set. Passing --query-isolation-options will be considered only if this flag is set to true. If Unified Analytics is enabled then the "enableShutdownOfCoordinator" in --impala-ha-settings is explicitly disabled (ignored) and should not be provided, furthermore the "highAvailabilityMode" in --impala-ha-settings cannot be set to ACTIVE_ACTIVE.
+        description: 'DEPRECATED: Enable Unified Analytics. In the case of Hive Virtual Warehouses, this cannot be provided, because this value is inferred. In the case of Impala, this can be set. Passing --query-isolation-options will be considered only if this flag is set to true. If Unified Analytics is enabled then the "enableShutdownOfCoordinator" in --impala-ha-settings is explicitly disabled (ignored) and should not be provided, furthermore the "highAvailabilityMode" in --impala-ha-settings cannot be set to ACTIVE_ACTIVE. FENG support will be removed in subsequent releases.'
       impalaOptions:
         description: Impala specific options. It cannot be provided for Virtual Warehouse types other than Impala.
         $ref: '#/definitions/ImpalaOptionsCreateRequest'
@@ -5026,22 +4967,6 @@ definitions:
       userAssignedManagedIdentity:
         type: string
         description: The resource ID of the managed identity used by the AKS cluster.
-  RestartVwRequest:
-    type: object
-    description: Request object for the restartVw method.
-    required:
-      - clusterId
-      - vwId
-    properties:
-      clusterId:
-        type: string
-        description: ID of the Virtual Warehouse's cluster.
-      vwId:
-        type: string
-        description: The id of the Virtual Warehouse to restart.
-  RestartVwResponse:
-    type: object
-    description: Response object for the restartVw method.
   CreateVwDiagnosticDataJobRequest:
     type: object
     description: Request object for the createVwDiagnosticDataJob method.
@@ -5503,23 +5428,27 @@ definitions:
             x-form-factors: private
             description: JDBC URL for Impala Virtual Warehouses with Kerberos authentication.
           impalaFENGJdbc:
+            x-deprecated: true
             type: string
-            description: FENG JDBC URL for Impala Virtual Warehouses.
+            description: 'DEPRECATED: FENG JDBC URL for Impala Virtual Warehouses. FENG support will be removed in subsequent releases.'
           impalaFengKerberosJdbc:
+            x-deprecated: true
             type: string
             x-form-factors: private
-            description: Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud.
+            description: 'DEPRECATED: Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud. FENG support will be removed in subsequent releases.'
           impalaShell:
             type: string
             description: Command to use impala-shell for Impala Virtual Warehouses.
           fengImpalaShell:
+            x-deprecated: true
             type: string
             x-form-factors: private
-            description: Command to use impala-shell for Unified Analytics
+            description: 'DEPRECATED: Command to use impala-shell for Unified Analytics. FENG support will be removed in subsequent releases.'
           fengKerberosImpalaShell:
+            x-deprecated: true
             type: string
             x-form-factors: private
-            description: Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud.
+            description: 'DEPRECATED: Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud. FENG support will be removed in subsequent releases.'
           kerberosImpalaShell:
             type: string
             x-form-factors: private
@@ -5590,8 +5519,9 @@ definitions:
         type: boolean
         description: Denotes whether the Virtual Warehouse has Data Visualisation or not.
       enableUnifiedAnalytics:
+        x-deprecated: true
         type: boolean
-        description: Denotes whether the Unified Analytics is enabled.
+        description: 'DEPRECATED: Denotes whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.'
       autoscalingOptions:
         description: The current settings stored for autoscaling.
         $ref: '#/definitions/AutoscalingOptionsResponse'

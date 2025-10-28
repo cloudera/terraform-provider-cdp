@@ -8,4 +8,4 @@ package models
 // SetAccountMessagesResponse Response object for set account messages.
 //
 // swagger:model SetAccountMessagesResponse
-type SetAccountMessagesResponse interface{}
+type SetAccountMessagesResponse any

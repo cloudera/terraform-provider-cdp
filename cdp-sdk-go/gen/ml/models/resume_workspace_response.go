@@ -8,4 +8,4 @@ package models
 // ResumeWorkspaceResponse Response object for ResumeWorkspace.
 //
 // swagger:model ResumeWorkspaceResponse
-type ResumeWorkspaceResponse interface{}
+type ResumeWorkspaceResponse any

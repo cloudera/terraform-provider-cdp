@@ -8,4 +8,4 @@ package models
 // CancelDatahubDiagnosticsResponse Response object for cancel running Datahub diagnostics collections.
 //
 // swagger:model CancelDatahubDiagnosticsResponse
-type CancelDatahubDiagnosticsResponse interface{}
+type CancelDatahubDiagnosticsResponse any

@@ -8,4 +8,4 @@ package models
 // HealthCheckRequest Request object for the healthCheck method.
 //
 // swagger:model HealthCheckRequest
-type HealthCheckRequest interface{}
+type HealthCheckRequest any

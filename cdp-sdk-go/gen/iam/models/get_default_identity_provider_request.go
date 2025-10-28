@@ -8,4 +8,4 @@ package models
 // GetDefaultIdentityProviderRequest Request object to get the default identity provider.
 //
 // swagger:model GetDefaultIdentityProviderRequest
-type GetDefaultIdentityProviderRequest interface{}
+type GetDefaultIdentityProviderRequest any

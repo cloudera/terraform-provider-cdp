@@ -28,7 +28,7 @@ type StartDatabaseUpgradeRequest struct {
 	Force bool `json:"force,omitempty"`
 
 	// The database engine major version to upgrade to.
-	// Enum: ["VERSION_11","VERSION_14"]
+	// Enum: ["VERSION_11","VERSION_14","VERSION_17"]
 	TargetVersion string `json:"targetVersion,omitempty"`
 }
 
@@ -59,11 +59,11 @@ func (m *StartDatabaseUpgradeRequest) validateDatalake(formats strfmt.Registry) 
 	return nil
 }
 
-var startDatabaseUpgradeRequestTypeTargetVersionPropEnum []interface{}
+var startDatabaseUpgradeRequestTypeTargetVersionPropEnum []any
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["VERSION_11","VERSION_14"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["VERSION_11","VERSION_14","VERSION_17"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -78,6 +78,9 @@ const (
 
 	// StartDatabaseUpgradeRequestTargetVersionVERSION14 captures enum value "VERSION_14"
 	StartDatabaseUpgradeRequestTargetVersionVERSION14 string = "VERSION_14"
+
+	// StartDatabaseUpgradeRequestTargetVersionVERSION17 captures enum value "VERSION_17"
+	StartDatabaseUpgradeRequestTargetVersionVERSION17 string = "VERSION_17"
 )
 
 // prop value enum

@@ -8,4 +8,4 @@ package models
 // ListClusterDefinitionsRequest Request object for list cluster definitions request.
 //
 // swagger:model ListClusterDefinitionsRequest
-type ListClusterDefinitionsRequest interface{}
+type ListClusterDefinitionsRequest any

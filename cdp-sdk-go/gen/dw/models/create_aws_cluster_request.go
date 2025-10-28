@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -101,11 +102,15 @@ func (m *CreateAwsClusterRequest) validateCustomRegistryOptions(formats strfmt.R
 
 	if m.CustomRegistryOptions != nil {
 		if err := m.CustomRegistryOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customRegistryOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customRegistryOptions")
 			}
+
 			return err
 		}
 	}
@@ -129,11 +134,15 @@ func (m *CreateAwsClusterRequest) validateNonTransparentProxy(formats strfmt.Reg
 
 	if m.NonTransparentProxy != nil {
 		if err := m.NonTransparentProxy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("nonTransparentProxy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("nonTransparentProxy")
 			}
+
 			return err
 		}
 	}
@@ -168,11 +177,15 @@ func (m *CreateAwsClusterRequest) contextValidateCustomRegistryOptions(ctx conte
 		}
 
 		if err := m.CustomRegistryOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customRegistryOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customRegistryOptions")
 			}
+
 			return err
 		}
 	}
@@ -189,11 +202,15 @@ func (m *CreateAwsClusterRequest) contextValidateNonTransparentProxy(ctx context
 		}
 
 		if err := m.NonTransparentProxy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("nonTransparentProxy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("nonTransparentProxy")
 			}
+
 			return err
 		}
 	}

@@ -46,7 +46,7 @@ const (
 )
 
 // for schema
-var kindEnum []interface{}
+var kindEnum []any
 
 func init() {
 	var res []Kind

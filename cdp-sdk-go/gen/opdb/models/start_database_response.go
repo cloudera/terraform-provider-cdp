@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -45,11 +46,15 @@ func (m *StartDatabaseResponse) validatePreviousStatus(formats strfmt.Registry) 
 	}
 
 	if err := m.PreviousStatus.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("previousStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("previousStatus")
 		}
+
 		return err
 	}
 
@@ -77,11 +82,15 @@ func (m *StartDatabaseResponse) contextValidatePreviousStatus(ctx context.Contex
 	}
 
 	if err := m.PreviousStatus.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("previousStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("previousStatus")
 		}
+
 		return err
 	}
 

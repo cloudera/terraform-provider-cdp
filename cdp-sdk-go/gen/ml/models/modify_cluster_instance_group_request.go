@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -18,6 +19,9 @@ import (
 //
 // swagger:model ModifyClusterInstanceGroupRequest
 type ModifyClusterInstanceGroupRequest struct {
+
+	// The accelerator, which refers to the GPU type configuration.
+	Accelerator *Accelerator `json:"accelerator,omitempty"`
 
 	// The system-assigned name of the instance group in the workbench cluster to be modified.
 	// Required: true
@@ -47,6 +51,10 @@ type ModifyClusterInstanceGroupRequest struct {
 func (m *ModifyClusterInstanceGroupRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAccelerator(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateInstanceGroupName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -70,6 +78,29 @@ func (m *ModifyClusterInstanceGroupRequest) Validate(formats strfmt.Registry) er
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *ModifyClusterInstanceGroupRequest) validateAccelerator(formats strfmt.Registry) error {
+	if swag.IsZero(m.Accelerator) { // not required
+		return nil
+	}
+
+	if m.Accelerator != nil {
+		if err := m.Accelerator.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("accelerator")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("accelerator")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -118,8 +149,42 @@ func (m *ModifyClusterInstanceGroupRequest) validateWorkspaceCrn(formats strfmt.
 	return nil
 }
 
-// ContextValidate validates this modify cluster instance group request based on context it is used
+// ContextValidate validate this modify cluster instance group request based on the context it is used
 func (m *ModifyClusterInstanceGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAccelerator(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ModifyClusterInstanceGroupRequest) contextValidateAccelerator(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Accelerator != nil {
+
+		if swag.IsZero(m.Accelerator) { // not required
+			return nil
+		}
+
+		if err := m.Accelerator.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("accelerator")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("accelerator")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 

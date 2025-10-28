@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -95,11 +96,15 @@ func (m *GetFreeipaStatusResponse) validateInstances(formats strfmt.Registry) er
 		}
 		if val, ok := m.Instances[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instances" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instances" + "." + k)
 				}
+
 				return err
 			}
 		}
@@ -109,7 +114,7 @@ func (m *GetFreeipaStatusResponse) validateInstances(formats strfmt.Registry) er
 	return nil
 }
 
-var getFreeipaStatusResponseTypeStatusPropEnum []interface{}
+var getFreeipaStatusResponseTypeStatusPropEnum []any
 
 func init() {
 	var res []string

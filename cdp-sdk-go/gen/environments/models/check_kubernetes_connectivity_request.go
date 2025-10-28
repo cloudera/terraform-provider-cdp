@@ -47,7 +47,7 @@ func (m *CheckKubernetesConnectivityRequest) Validate(formats strfmt.Registry) e
 	return nil
 }
 
-var checkKubernetesConnectivityRequestTypeFormatPropEnum []interface{}
+var checkKubernetesConnectivityRequestTypeFormatPropEnum []any
 
 func init() {
 	var res []string

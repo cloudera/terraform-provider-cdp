@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -21,6 +22,9 @@ type GenerateWorkloadAuthTokenRequest struct {
 
 	// The environment CRN, required by DF.
 	EnvironmentCrn string `json:"environmentCrn,omitempty"`
+
+	// Whether to exclude 'groups' claim from the token.
+	ExcludeGroups bool `json:"excludeGroups,omitempty"`
 
 	// The workload name
 	// Required: true
@@ -53,11 +57,15 @@ func (m *GenerateWorkloadAuthTokenRequest) validateWorkloadName(formats strfmt.R
 
 	if m.WorkloadName != nil {
 		if err := m.WorkloadName.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workloadName")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workloadName")
 			}
+
 			return err
 		}
 	}
@@ -84,11 +92,15 @@ func (m *GenerateWorkloadAuthTokenRequest) contextValidateWorkloadName(ctx conte
 	if m.WorkloadName != nil {
 
 		if err := m.WorkloadName.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workloadName")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workloadName")
 			}
+
 			return err
 		}
 	}

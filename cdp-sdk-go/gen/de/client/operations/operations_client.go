@@ -109,7 +109,7 @@ CancelBackup cancels cloudera data engineering c d e service backup
 Cancel a currently running backup operation using the associated backup ID. The operation must be in a 'pending' state.
 */
 func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelBackupParams()
 	}
@@ -128,17 +128,22 @@ func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CancelBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CancelBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -148,7 +153,7 @@ CreateBackup backups cloudera data engineering c d e service
 Initiates service backup and returns a backup ID, which can be used for log retrieval, restoration, deletion, and backup cancellation. Service backup includes the definition of the Service and its Virtual Clusters along with Virtual Clusters contents (jobs, resources, and credentials).
 */
 func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateBackupParams()
 	}
@@ -167,17 +172,22 @@ func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -187,7 +197,7 @@ CreateVc creates virtual cluster
 Creates a virtual cluster and returns creation response.
 */
 func (a *Client) CreateVc(params *CreateVcParams, opts ...ClientOption) (*CreateVcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateVcParams()
 	}
@@ -206,17 +216,22 @@ func (a *Client) CreateVc(params *CreateVcParams, opts ...ClientOption) (*Create
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateVcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateVcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -226,7 +241,7 @@ DeleteBackup deletes cloudera data engineering c d e service backup
 Delete a backup using the associated backup ID.
 */
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteBackupParams()
 	}
@@ -245,17 +260,22 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -265,7 +285,7 @@ DeleteVc deletes virtual cluster
 Deletes a virtual cluster and returns deletion response.
 */
 func (a *Client) DeleteVc(params *DeleteVcParams, opts ...ClientOption) (*DeleteVcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteVcParams()
 	}
@@ -284,17 +304,22 @@ func (a *Client) DeleteVc(params *DeleteVcParams, opts ...ClientOption) (*Delete
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteVcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteVcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -304,7 +329,7 @@ DescribeBackup describes cloudera data engineering c d e service backup
 Describe a backup using the associated backup ID.
 */
 func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeBackupParams()
 	}
@@ -323,17 +348,22 @@ func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -343,7 +373,7 @@ DescribeService describes cloudera data engineering c d e service
 Returns details of CDE service.
 */
 func (a *Client) DescribeService(params *DescribeServiceParams, opts ...ClientOption) (*DescribeServiceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeServiceParams()
 	}
@@ -362,17 +392,22 @@ func (a *Client) DescribeService(params *DescribeServiceParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeServiceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeServiceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -382,7 +417,7 @@ DescribeVc describes virtual cluster
 Returns a description for the specified virtual cluster.
 */
 func (a *Client) DescribeVc(params *DescribeVcParams, opts ...ClientOption) (*DescribeVcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVcParams()
 	}
@@ -401,17 +436,22 @@ func (a *Client) DescribeVc(params *DescribeVcParams, opts ...ClientOption) (*De
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeVcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeVcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -421,7 +461,7 @@ DisableService disables cloudera data engineering c d e service
 Returns delete response.
 */
 func (a *Client) DisableService(params *DisableServiceParams, opts ...ClientOption) (*DisableServiceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableServiceParams()
 	}
@@ -440,17 +480,22 @@ func (a *Client) DisableService(params *DisableServiceParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DisableServiceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DisableServiceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -460,7 +505,7 @@ EnableService enables cloudera data engineering c d e service
 Returns enabling response.
 */
 func (a *Client) EnableService(params *EnableServiceParams, opts ...ClientOption) (*EnableServiceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableServiceParams()
 	}
@@ -479,17 +524,22 @@ func (a *Client) EnableService(params *EnableServiceParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*EnableServiceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*EnableServiceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -499,7 +549,7 @@ GetBackupLogs retrieves cloudera data engineering c d e service backup logs
 Retrieve backup logs using the associated backup ID.
 */
 func (a *Client) GetBackupLogs(params *GetBackupLogsParams, opts ...ClientOption) (*GetBackupLogsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetBackupLogsParams()
 	}
@@ -518,17 +568,22 @@ func (a *Client) GetBackupLogs(params *GetBackupLogsParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetBackupLogsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetBackupLogsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -538,7 +593,7 @@ GetKubeconfig gets kubeconfig for the c d e service
 Returns kubeconfig.
 */
 func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetKubeconfigParams()
 	}
@@ -557,17 +612,22 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetKubeconfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetKubeconfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -577,7 +637,7 @@ GetServiceInitLogs retrieves cloudera data engineering c d e service initializat
 Retrieve service initialization logs, if any.
 */
 func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetServiceInitLogsParams()
 	}
@@ -596,17 +656,22 @@ func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetServiceInitLogsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetServiceInitLogsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -616,7 +681,7 @@ GetSuspendResumeStatus gets c d e service suspend resume status
 The current status of the CDE Service suspend/resume process. After a particular step triggered by suspend-resume-service is completed, nextStep would point to the next step to take. If all the steps are completed, allStepsCompleted would be true.
 */
 func (a *Client) GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetSuspendResumeStatusParams()
 	}
@@ -635,17 +700,22 @@ func (a *Client) GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetSuspendResumeStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetSuspendResumeStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -655,7 +725,7 @@ GetUpgradeStatus gets c d e service upgrade status
 The current status of the CDE Service upgrade. If all the steps are completed allStepsCompleted would be true. After a particular step triggered by upgrade-service is completed nextStep would point to the next step to take.
 */
 func (a *Client) GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUpgradeStatusParams()
 	}
@@ -674,17 +744,22 @@ func (a *Client) GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetUpgradeStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetUpgradeStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -694,7 +769,7 @@ ListBackups lists cloudera data engineering c d e service backups
 List all service backups.
 */
 func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListBackupsParams()
 	}
@@ -713,17 +788,22 @@ func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListBackupsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListBackupsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -733,7 +813,7 @@ ListServices lists cloudera data engineering c d e services
 Returns list of cde services.
 */
 func (a *Client) ListServices(params *ListServicesParams, opts ...ClientOption) (*ListServicesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListServicesParams()
 	}
@@ -752,17 +832,22 @@ func (a *Client) ListServices(params *ListServicesParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListServicesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListServicesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -772,7 +857,7 @@ ListVcs lists virtual clusters
 Returns a list of virtual clusters for a given CDE service.
 */
 func (a *Client) ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVcsParams()
 	}
@@ -791,17 +876,22 @@ func (a *Client) ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsO
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListVcsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListVcsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -811,7 +901,7 @@ RestoreService restores cloudera data engineering c d e service
 Initiates the service restoration process and returns the ID of the service being restored.
 */
 func (a *Client) RestoreService(params *RestoreServiceParams, opts ...ClientOption) (*RestoreServiceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreServiceParams()
 	}
@@ -830,17 +920,22 @@ func (a *Client) RestoreService(params *RestoreServiceParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestoreServiceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestoreServiceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -850,7 +945,7 @@ SuspendResumeService triggers a particular step of the suspend resume process
 Trigger a particular step of the multi-step suspend/resume service process.
 */
 func (a *Client) SuspendResumeService(params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendResumeServiceParams()
 	}
@@ -869,17 +964,22 @@ func (a *Client) SuspendResumeService(params *SuspendResumeServiceParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SuspendResumeServiceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SuspendResumeServiceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -889,7 +989,7 @@ UpdateService updates cloudera data engineering c d e service
 Returns update response consisting of operation ID that can be used to log update events.
 */
 func (a *Client) UpdateService(params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateServiceParams()
 	}
@@ -908,17 +1008,22 @@ func (a *Client) UpdateService(params *UpdateServiceParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateServiceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateServiceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -928,7 +1033,7 @@ UpdateVc updates cloudera data engineering c d e virtual cluster
 Updates Cloudera Data Engineering (CDE) Virtual Cluster and returns details of updated CDE service.
 */
 func (a *Client) UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*UpdateVcOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateVcParams()
 	}
@@ -947,17 +1052,22 @@ func (a *Client) UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*Update
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateVcOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateVcDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -967,7 +1077,7 @@ UpgradeService triggers a particular step prepare backup upgrade resume of the u
 Trigger a particular step (prepare, backup, upgrade, resume) of the multi-step upgrade process. Use get-upgrade-status to know what is the next step to take.
 */
 func (a *Client) UpgradeService(params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeServiceParams()
 	}
@@ -986,17 +1096,22 @@ func (a *Client) UpgradeService(params *UpgradeServiceParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeServiceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeServiceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

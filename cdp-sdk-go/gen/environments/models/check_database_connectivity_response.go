@@ -43,7 +43,7 @@ func (m *CheckDatabaseConnectivityResponse) Validate(formats strfmt.Registry) er
 	return nil
 }
 
-var checkDatabaseConnectivityResponseTypeResultPropEnum []interface{}
+var checkDatabaseConnectivityResponseTypeResultPropEnum []any
 
 func init() {
 	var res []string

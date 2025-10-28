@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -58,11 +59,15 @@ func (m *IndividualScheduleResponse) validateConfiguration(formats strfmt.Regist
 
 	if m.Configuration != nil {
 		if err := m.Configuration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration")
 			}
+
 			return err
 		}
 	}
@@ -98,11 +103,15 @@ func (m *IndividualScheduleResponse) contextValidateConfiguration(ctx context.Co
 	if m.Configuration != nil {
 
 		if err := m.Configuration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration")
 			}
+
 			return err
 		}
 	}
@@ -168,11 +177,15 @@ func (m *IndividualScheduleResponseConfiguration) validateAction(formats strfmt.
 
 	if m.Action != nil {
 		if err := m.Action.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration" + "." + "action")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration" + "." + "action")
 			}
+
 			return err
 		}
 	}
@@ -188,11 +201,15 @@ func (m *IndividualScheduleResponseConfiguration) validateTrigger(formats strfmt
 
 	if m.Trigger != nil {
 		if err := m.Trigger.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration" + "." + "trigger")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration" + "." + "trigger")
 			}
+
 			return err
 		}
 	}
@@ -223,11 +240,15 @@ func (m *IndividualScheduleResponseConfiguration) contextValidateAction(ctx cont
 	if m.Action != nil {
 
 		if err := m.Action.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration" + "." + "action")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration" + "." + "action")
 			}
+
 			return err
 		}
 	}
@@ -240,11 +261,15 @@ func (m *IndividualScheduleResponseConfiguration) contextValidateTrigger(ctx con
 	if m.Trigger != nil {
 
 		if err := m.Trigger.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration" + "." + "trigger")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration" + "." + "trigger")
 			}
+
 			return err
 		}
 	}
@@ -302,7 +327,7 @@ func (m *IndividualScheduleResponseConfigurationAction) Validate(formats strfmt.
 	return nil
 }
 
-var individualScheduleResponseConfigurationActionTypeResourceAdjustmentTypePropEnum []interface{}
+var individualScheduleResponseConfigurationActionTypeResourceAdjustmentTypePropEnum []any
 
 func init() {
 	var res []string

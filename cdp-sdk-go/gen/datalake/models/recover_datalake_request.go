@@ -56,7 +56,7 @@ func (m *RecoverDatalakeRequest) validateDatalakeName(formats strfmt.Registry) e
 	return nil
 }
 
-var recoverDatalakeRequestTypeRecoveryTypePropEnum []interface{}
+var recoverDatalakeRequestTypeRecoveryTypePropEnum []any
 
 func init() {
 	var res []string

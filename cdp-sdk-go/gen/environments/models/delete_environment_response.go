@@ -8,4 +8,4 @@ package models
 // DeleteEnvironmentResponse Response object for a delete environment request.
 //
 // swagger:model DeleteEnvironmentResponse
-type DeleteEnvironmentResponse interface{}
+type DeleteEnvironmentResponse any

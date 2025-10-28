@@ -8,4 +8,4 @@ package models
 // CancelFreeipaDiagnosticsResponse Response object for cancel running FreeIPA diagnostics collections.
 //
 // swagger:model CancelFreeipaDiagnosticsResponse
-type CancelFreeipaDiagnosticsResponse interface{}
+type CancelFreeipaDiagnosticsResponse any

@@ -8,4 +8,4 @@ package models
 // UnsetWorkloadPasswordMinLifetimeResponse Response object for an unset workload password minimum lifetime request.
 //
 // swagger:model UnsetWorkloadPasswordMinLifetimeResponse
-type UnsetWorkloadPasswordMinLifetimeResponse interface{}
+type UnsetWorkloadPasswordMinLifetimeResponse any

@@ -8,4 +8,4 @@ package models
 // SyncClusterResponse Response object for sync cluster request.
 //
 // swagger:model SyncClusterResponse
-type SyncClusterResponse interface{}
+type SyncClusterResponse any

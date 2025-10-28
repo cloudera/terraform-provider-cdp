@@ -38,7 +38,7 @@ const (
 )
 
 // for schema
-var eventTypeEnum []interface{}
+var eventTypeEnum []any
 
 func init() {
 	var res []EventType
