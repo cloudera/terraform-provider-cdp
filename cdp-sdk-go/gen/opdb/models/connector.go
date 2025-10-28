@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -66,11 +67,15 @@ func (m *Connector) validateConfiguration(formats strfmt.Registry) error {
 
 	if m.Configuration != nil {
 		if err := m.Configuration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration")
 			}
+
 			return err
 		}
 	}
@@ -85,11 +90,15 @@ func (m *Connector) validateDependencies(formats strfmt.Registry) error {
 
 	if m.Dependencies != nil {
 		if err := m.Dependencies.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dependencies")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dependencies")
 			}
+
 			return err
 		}
 	}
@@ -103,11 +112,15 @@ func (m *Connector) validateKind(formats strfmt.Registry) error {
 	}
 
 	if err := m.Kind.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("kind")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("kind")
 		}
+
 		return err
 	}
 
@@ -145,11 +158,15 @@ func (m *Connector) contextValidateConfiguration(ctx context.Context, formats st
 		}
 
 		if err := m.Configuration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configuration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configuration")
 			}
+
 			return err
 		}
 	}
@@ -166,11 +183,15 @@ func (m *Connector) contextValidateDependencies(ctx context.Context, formats str
 		}
 
 		if err := m.Dependencies.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dependencies")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dependencies")
 			}
+
 			return err
 		}
 	}
@@ -185,11 +206,15 @@ func (m *Connector) contextValidateKind(ctx context.Context, formats strfmt.Regi
 	}
 
 	if err := m.Kind.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("kind")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("kind")
 		}
+
 		return err
 	}
 

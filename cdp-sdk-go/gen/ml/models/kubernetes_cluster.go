@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -86,11 +87,15 @@ func (m *KubernetesCluster) validateInstanceGroups(formats strfmt.Registry) erro
 
 		if m.InstanceGroups[i] != nil {
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -112,11 +117,15 @@ func (m *KubernetesCluster) validateTags(formats strfmt.Registry) error {
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -155,11 +164,15 @@ func (m *KubernetesCluster) contextValidateInstanceGroups(ctx context.Context, f
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -180,11 +193,15 @@ func (m *KubernetesCluster) contextValidateTags(ctx context.Context, formats str
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

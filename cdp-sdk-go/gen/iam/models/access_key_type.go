@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var accessKeyTypeEnum []interface{}
+var accessKeyTypeEnum []any
 
 func init() {
 	var res []AccessKeyType

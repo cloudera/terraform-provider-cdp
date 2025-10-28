@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -53,11 +54,15 @@ func (m *UpgradeFreeipaResponse) validateOriginalImage(formats strfmt.Registry) 
 
 	if m.OriginalImage != nil {
 		if err := m.OriginalImage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("originalImage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("originalImage")
 			}
+
 			return err
 		}
 	}
@@ -72,11 +77,15 @@ func (m *UpgradeFreeipaResponse) validateTargetImage(formats strfmt.Registry) er
 
 	if m.TargetImage != nil {
 		if err := m.TargetImage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("targetImage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("targetImage")
 			}
+
 			return err
 		}
 	}
@@ -111,11 +120,15 @@ func (m *UpgradeFreeipaResponse) contextValidateOriginalImage(ctx context.Contex
 		}
 
 		if err := m.OriginalImage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("originalImage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("originalImage")
 			}
+
 			return err
 		}
 	}
@@ -132,11 +145,15 @@ func (m *UpgradeFreeipaResponse) contextValidateTargetImage(ctx context.Context,
 		}
 
 		if err := m.TargetImage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("targetImage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("targetImage")
 			}
+
 			return err
 		}
 	}

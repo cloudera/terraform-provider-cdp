@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -177,11 +178,15 @@ func (m *CreateGCPEnvironmentRequest) validateCustomDockerRegistry(formats strfm
 
 	if m.CustomDockerRegistry != nil {
 		if err := m.CustomDockerRegistry.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDockerRegistry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDockerRegistry")
 			}
+
 			return err
 		}
 	}
@@ -189,7 +194,7 @@ func (m *CreateGCPEnvironmentRequest) validateCustomDockerRegistry(formats strfm
 	return nil
 }
 
-var createGCPEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum []interface{}
+var createGCPEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum []any
 
 func init() {
 	var res []string
@@ -248,11 +253,15 @@ func (m *CreateGCPEnvironmentRequest) validateExistingNetworkParams(formats strf
 
 	if m.ExistingNetworkParams != nil {
 		if err := m.ExistingNetworkParams.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("existingNetworkParams")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("existingNetworkParams")
 			}
+
 			return err
 		}
 	}
@@ -267,11 +276,15 @@ func (m *CreateGCPEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) e
 
 	if m.FreeIpa != nil {
 		if err := m.FreeIpa.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("freeIpa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("freeIpa")
 			}
+
 			return err
 		}
 	}
@@ -286,11 +299,15 @@ func (m *CreateGCPEnvironmentRequest) validateImage(formats strfmt.Registry) err
 
 	if m.Image != nil {
 		if err := m.Image.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -305,11 +322,15 @@ func (m *CreateGCPEnvironmentRequest) validateLogStorage(formats strfmt.Registry
 
 	if m.LogStorage != nil {
 		if err := m.LogStorage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("logStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("logStorage")
 			}
+
 			return err
 		}
 	}
@@ -342,11 +363,15 @@ func (m *CreateGCPEnvironmentRequest) validateSecurity(formats strfmt.Registry) 
 
 	if m.Security != nil {
 		if err := m.Security.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -361,11 +386,15 @@ func (m *CreateGCPEnvironmentRequest) validateSecurityAccess(formats strfmt.Regi
 
 	if m.SecurityAccess != nil {
 		if err := m.SecurityAccess.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityAccess")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityAccess")
 			}
+
 			return err
 		}
 	}
@@ -385,11 +414,15 @@ func (m *CreateGCPEnvironmentRequest) validateTags(formats strfmt.Registry) erro
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -459,11 +492,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateCustomDockerRegistry(ctx co
 		}
 
 		if err := m.CustomDockerRegistry.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDockerRegistry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDockerRegistry")
 			}
+
 			return err
 		}
 	}
@@ -476,11 +513,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateExistingNetworkParams(ctx c
 	if m.ExistingNetworkParams != nil {
 
 		if err := m.ExistingNetworkParams.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("existingNetworkParams")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("existingNetworkParams")
 			}
+
 			return err
 		}
 	}
@@ -497,11 +538,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateFreeIpa(ctx context.Context
 		}
 
 		if err := m.FreeIpa.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("freeIpa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("freeIpa")
 			}
+
 			return err
 		}
 	}
@@ -518,11 +563,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateImage(ctx context.Context, 
 		}
 
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -539,11 +588,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateLogStorage(ctx context.Cont
 		}
 
 		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("logStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("logStorage")
 			}
+
 			return err
 		}
 	}
@@ -560,11 +613,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateSecurity(ctx context.Contex
 		}
 
 		if err := m.Security.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -581,11 +638,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateSecurityAccess(ctx context.
 		}
 
 		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityAccess")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityAccess")
 			}
+
 			return err
 		}
 	}
@@ -604,11 +665,15 @@ func (m *CreateGCPEnvironmentRequest) contextValidateTags(ctx context.Context, f
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

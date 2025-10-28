@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -111,11 +112,15 @@ func (m *UpdateVwRequest) validateAutoscaling(formats strfmt.Registry) error {
 
 	if m.Autoscaling != nil {
 		if err := m.Autoscaling.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoscaling")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoscaling")
 			}
+
 			return err
 		}
 	}
@@ -139,11 +144,15 @@ func (m *UpdateVwRequest) validateConfig(formats strfmt.Registry) error {
 
 	if m.Config != nil {
 		if err := m.Config.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("config")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("config")
 			}
+
 			return err
 		}
 	}
@@ -158,11 +167,15 @@ func (m *UpdateVwRequest) validateImpalaHaSettings(formats strfmt.Registry) erro
 
 	if m.ImpalaHaSettings != nil {
 		if err := m.ImpalaHaSettings.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaHaSettings")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaHaSettings")
 			}
+
 			return err
 		}
 	}
@@ -177,11 +190,15 @@ func (m *UpdateVwRequest) validateQueryIsolationOptions(formats strfmt.Registry)
 
 	if m.QueryIsolationOptions != nil {
 		if err := m.QueryIsolationOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("queryIsolationOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("queryIsolationOptions")
 			}
+
 			return err
 		}
 	}
@@ -189,7 +206,7 @@ func (m *UpdateVwRequest) validateQueryIsolationOptions(formats strfmt.Registry)
 	return nil
 }
 
-var updateVwRequestTypeTShirtSizePropEnum []interface{}
+var updateVwRequestTypeTShirtSizePropEnum []any
 
 func init() {
 	var res []string
@@ -281,11 +298,15 @@ func (m *UpdateVwRequest) contextValidateAutoscaling(ctx context.Context, format
 		}
 
 		if err := m.Autoscaling.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoscaling")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoscaling")
 			}
+
 			return err
 		}
 	}
@@ -302,11 +323,15 @@ func (m *UpdateVwRequest) contextValidateConfig(ctx context.Context, formats str
 		}
 
 		if err := m.Config.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("config")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("config")
 			}
+
 			return err
 		}
 	}
@@ -323,11 +348,15 @@ func (m *UpdateVwRequest) contextValidateImpalaHaSettings(ctx context.Context, f
 		}
 
 		if err := m.ImpalaHaSettings.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaHaSettings")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaHaSettings")
 			}
+
 			return err
 		}
 	}
@@ -344,11 +373,15 @@ func (m *UpdateVwRequest) contextValidateQueryIsolationOptions(ctx context.Conte
 		}
 
 		if err := m.QueryIsolationOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("queryIsolationOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("queryIsolationOptions")
 			}
+
 			return err
 		}
 	}

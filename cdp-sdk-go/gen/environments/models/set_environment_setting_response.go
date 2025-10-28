@@ -8,4 +8,4 @@ package models
 // SetEnvironmentSettingResponse Response object to set configuration.
 //
 // swagger:model SetEnvironmentSettingResponse
-type SetEnvironmentSettingResponse interface{}
+type SetEnvironmentSettingResponse any

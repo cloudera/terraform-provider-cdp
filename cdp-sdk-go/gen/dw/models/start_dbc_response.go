@@ -8,4 +8,4 @@ package models
 // StartDbcResponse Response object for the restartDbc method.
 //
 // swagger:model StartDbcResponse
-type StartDbcResponse interface{}
+type StartDbcResponse any

@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -196,11 +197,15 @@ func (m *EnableServiceRequest) validateChartValueOverrides(formats strfmt.Regist
 
 		if m.ChartValueOverrides[i] != nil {
 			if err := m.ChartValueOverrides[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -217,11 +222,15 @@ func (m *EnableServiceRequest) validateCustomAzureFilesConfigs(formats strfmt.Re
 
 	if m.CustomAzureFilesConfigs != nil {
 		if err := m.CustomAzureFilesConfigs.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customAzureFilesConfigs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customAzureFilesConfigs")
 			}
+
 			return err
 		}
 	}
@@ -274,7 +283,7 @@ func (m *EnableServiceRequest) validateName(formats strfmt.Registry) error {
 	return nil
 }
 
-var enableServiceRequestTypeNetworkOutboundTypePropEnum []interface{}
+var enableServiceRequestTypeNetworkOutboundTypePropEnum []any
 
 func init() {
 	var res []string
@@ -342,11 +351,15 @@ func (m *EnableServiceRequest) contextValidateChartValueOverrides(ctx context.Co
 			}
 
 			if err := m.ChartValueOverrides[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -365,11 +378,15 @@ func (m *EnableServiceRequest) contextValidateCustomAzureFilesConfigs(ctx contex
 		}
 
 		if err := m.CustomAzureFilesConfigs.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customAzureFilesConfigs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customAzureFilesConfigs")
 			}
+
 			return err
 		}
 	}

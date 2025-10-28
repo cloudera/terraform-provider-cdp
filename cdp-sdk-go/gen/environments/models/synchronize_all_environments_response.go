@@ -8,4 +8,4 @@ package models
 // SynchronizeAllEnvironmentsResponse Response object for synchronizing all environments.
 //
 // swagger:model SynchronizeAllEnvironmentsResponse
-type SynchronizeAllEnvironmentsResponse interface{}
+type SynchronizeAllEnvironmentsResponse any

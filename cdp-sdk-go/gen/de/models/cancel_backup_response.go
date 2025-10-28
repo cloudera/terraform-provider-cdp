@@ -8,4 +8,4 @@ package models
 // CancelBackupResponse Response object for Cancel Backup command.
 //
 // swagger:model CancelBackupResponse
-type CancelBackupResponse interface{}
+type CancelBackupResponse any

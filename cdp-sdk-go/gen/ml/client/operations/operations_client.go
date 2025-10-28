@@ -171,7 +171,7 @@ AddInstanceGroups adds new cloudera a i workbench cluster instance groups
 Add new Cloudera AI workbench cluster instance groups.
 */
 func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddInstanceGroupsParams()
 	}
@@ -190,17 +190,22 @@ func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AddInstanceGroupsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AddInstanceGroupsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -210,7 +215,7 @@ AddInstanceGroupsMlServingApp adds instance group to an existing cloudera a i in
 Add instance group to an existing Cloudera AI Inference Service instance.
 */
 func (a *Client) AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddInstanceGroupsMlServingAppParams()
 	}
@@ -229,17 +234,22 @@ func (a *Client) AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServin
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*AddInstanceGroupsMlServingAppOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*AddInstanceGroupsMlServingAppDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -249,7 +259,7 @@ BackupWorkspace backups a cloudera a i workbench
 Backup a Cloudera AI workbench.
 */
 func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupWorkspaceParams()
 	}
@@ -268,17 +278,22 @@ func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*BackupWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*BackupWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -288,7 +303,7 @@ CreateFileReplica creates file system replica
 Creates a file system replication.
 */
 func (a *Client) CreateFileReplica(params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateFileReplicaParams()
 	}
@@ -307,17 +322,22 @@ func (a *Client) CreateFileReplica(params *CreateFileReplicaParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateFileReplicaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateFileReplicaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -327,7 +347,7 @@ CreateMlServingApp deploys cloudera a i inference service into an existing kuber
 Deploys Cloudera AI Inference Service into an existing Kubernetes cluster.
 */
 func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateMlServingAppParams()
 	}
@@ -346,17 +366,22 @@ func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateMlServingAppOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateMlServingAppDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -366,7 +391,7 @@ CreateModelRegistry creates a new model registry
 Create a new model registry by creating a new workbench and install model registry on it.
 */
 func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateModelRegistryParams()
 	}
@@ -385,17 +410,22 @@ func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateModelRegistryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateModelRegistryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -405,7 +435,7 @@ CreateWorkspace creates a cloudera a i workbench
 Provision a Kubernetes cluster and install the Cloudera AI application in it.
 */
 func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateWorkspaceParams()
 	}
@@ -424,17 +454,22 @@ func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -444,7 +479,7 @@ DeleteBackup deletes a backup snapshot
 Deletes a Cloudera AI workbench backup.
 */
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteBackupParams()
 	}
@@ -463,17 +498,22 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -483,7 +523,7 @@ DeleteFileReplica deletes existing replication for project files
 Delete existing replication configuration for project files.
 */
 func (a *Client) DeleteFileReplica(params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteFileReplicaParams()
 	}
@@ -502,17 +542,22 @@ func (a *Client) DeleteFileReplica(params *DeleteFileReplicaParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteFileReplicaOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteFileReplicaDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -522,7 +567,7 @@ DeleteInstanceGroup deletes an instance group from the cluster
 Deletes an instance group from a Cloudera AI workbench.
 */
 func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteInstanceGroupParams()
 	}
@@ -541,17 +586,22 @@ func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteInstanceGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteInstanceGroupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -561,7 +611,7 @@ DeleteInstanceGroupMlServingApp deletes an instance group from a cloudera a i in
 Deletes an instance group from a Cloudera AI Inference Service instance.
 */
 func (a *Client) DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteInstanceGroupMlServingAppParams()
 	}
@@ -580,17 +630,22 @@ func (a *Client) DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlSe
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteInstanceGroupMlServingAppOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteInstanceGroupMlServingAppDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -600,7 +655,7 @@ DeleteMlServingApp deletes cloudera a i inference service instance
 Gracefully deletes the Cloudera AI Inference Service instance without deleting the cluster.
 */
 func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteMlServingAppParams()
 	}
@@ -619,17 +674,22 @@ func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteMlServingAppOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteMlServingAppDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -639,7 +699,7 @@ DeleteModelRegistry deletes a model registry
 Delete a model registry.
 */
 func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteModelRegistryParams()
 	}
@@ -658,17 +718,22 @@ func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteModelRegistryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteModelRegistryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -678,7 +743,7 @@ DeleteWorkspace deletes cloudera a i workbench
 Deletes a Cloudera AI workbench.
 */
 func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteWorkspaceParams()
 	}
@@ -697,17 +762,22 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -717,7 +787,7 @@ DescribeMlServingApp describes cloudera a i inference service instance
 Describe Cloudera AI Inference Service instance.
 */
 func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeMlServingAppParams()
 	}
@@ -736,17 +806,22 @@ func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeMlServingAppOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeMlServingAppDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -756,7 +831,7 @@ DescribeModelRegistry deprecateds cloudera a i model registry is now deprecated
 Please use ListModelRegistries.
 */
 func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeModelRegistryParams()
 	}
@@ -775,17 +850,22 @@ func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeModelRegistryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeModelRegistryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -795,7 +875,7 @@ DescribeWorkspace describes cloudera a i workbench
 Describes a Cloudera AI workbench.
 */
 func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeWorkspaceParams()
 	}
@@ -814,17 +894,22 @@ func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -834,7 +919,7 @@ DescribeWorkspaceBackup describes backup snaphot of a workbench
 Describe backup snaphot of a workbench.
 */
 func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeWorkspaceBackupParams()
 	}
@@ -853,17 +938,22 @@ func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeWorkspaceBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeWorkspaceBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -873,7 +963,7 @@ FailOverFileSystem failovers to replica file system
 Failover to replica in case of a source file system disaster.
 */
 func (a *Client) FailOverFileSystem(params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewFailOverFileSystemParams()
 	}
@@ -892,17 +982,22 @@ func (a *Client) FailOverFileSystem(params *FailOverFileSystemParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*FailOverFileSystemOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*FailOverFileSystemDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -912,7 +1007,7 @@ GetAuditEvents gets all the events belong to a workbench crn
 Gets all the events belong to a workbench crn.
 */
 func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAuditEventsParams()
 	}
@@ -931,17 +1026,22 @@ func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetAuditEventsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetAuditEventsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -951,7 +1051,7 @@ GetKubeconfig lists workspace access cloudera a i workbench
 Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetKubeconfigParams()
 	}
@@ -970,17 +1070,22 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetKubeconfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetKubeconfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -990,7 +1095,7 @@ GetLatestModelRegistryVersion gets latest model registry version cloudera a i re
 Retrieves the latest version that Cloudera AI deploys to ModelRegistries.
 */
 func (a *Client) GetLatestModelRegistryVersion(params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLatestModelRegistryVersionParams()
 	}
@@ -1009,17 +1114,22 @@ func (a *Client) GetLatestModelRegistryVersion(params *GetLatestModelRegistryVer
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetLatestModelRegistryVersionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetLatestModelRegistryVersionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1029,7 +1139,7 @@ GetLatestWorkspaceVersion gets latest workspace version cloudera a i workbench
 Retrieves the latest version that Cloudera AI deploys to workbenches.
 */
 func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLatestWorkspaceVersionParams()
 	}
@@ -1048,17 +1158,22 @@ func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetLatestWorkspaceVersionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetLatestWorkspaceVersionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1068,7 +1183,7 @@ GetLogs gets all the logs belong to a request id
 Gets all the logs belong to a request id.
 */
 func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLogsParams()
 	}
@@ -1087,17 +1202,22 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetLogsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetLogsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1107,7 +1227,7 @@ GetMlServingAppKubeconfig returns kubeconfig for a cloudera a i inference servic
 Gets the Kubeconfig of the Cloudera AI Inference Service kubernetes cluster.
 */
 func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetMlServingAppKubeconfigParams()
 	}
@@ -1126,17 +1246,22 @@ func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetMlServingAppKubeconfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetMlServingAppKubeconfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1146,7 +1271,7 @@ GetModelRegistryKubeconfig gets model registry kubeconfig returns kube config fo
 Gets the Kubeconfig of the model registry cluster.
 */
 func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetModelRegistryKubeconfigParams()
 	}
@@ -1165,17 +1290,22 @@ func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetModelRegistryKubeconfigOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetModelRegistryKubeconfigDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1185,7 +1315,7 @@ GrantMlServingAppAccess grants admin access to a cloudera a i inference service 
 Grants an AWS user permissions to perform Kubernetes operations on a Cloudera AI Inference Service cluster.
 */
 func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGrantMlServingAppAccessParams()
 	}
@@ -1204,17 +1334,22 @@ func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GrantMlServingAppAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GrantMlServingAppAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1224,7 +1359,7 @@ GrantModelRegistryAccess grants model registry access cloudera a i model registr
 Grants an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS.
 */
 func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGrantModelRegistryAccessParams()
 	}
@@ -1243,17 +1378,22 @@ func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GrantModelRegistryAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GrantModelRegistryAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1263,7 +1403,7 @@ GrantWorkspaceAccess grants workspace access cloudera a i workbench
 Grants an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGrantWorkspaceAccessParams()
 	}
@@ -1282,17 +1422,22 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GrantWorkspaceAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GrantWorkspaceAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1302,7 +1447,7 @@ ListInstanceTypeConfiguration lists the instance configuration for a given insta
 List of instances.
 */
 func (a *Client) ListInstanceTypeConfiguration(params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListInstanceTypeConfigurationParams()
 	}
@@ -1321,17 +1466,22 @@ func (a *Client) ListInstanceTypeConfiguration(params *ListInstanceTypeConfigura
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListInstanceTypeConfigurationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListInstanceTypeConfigurationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1341,7 +1491,7 @@ ListMlServingAppAccess lists members that have kubernetes access to a cloudera a
 Lists users that can perform Kubernetes operations on a Cloudera AI Inference Service cluster.
 */
 func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMlServingAppAccessParams()
 	}
@@ -1360,17 +1510,22 @@ func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListMlServingAppAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListMlServingAppAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1380,7 +1535,7 @@ ListMlServingApps lists all cloudera a i inference service instances
 List all Cloudera AI Inference Service instances.
 */
 func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMlServingAppsParams()
 	}
@@ -1399,17 +1554,22 @@ func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListMlServingAppsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListMlServingAppsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1419,7 +1579,7 @@ ListModelRegistries lists all model registries
 List all model registries.
 */
 func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListModelRegistriesParams()
 	}
@@ -1438,17 +1598,22 @@ func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListModelRegistriesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListModelRegistriesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1458,7 +1623,7 @@ ListModelRegistryAccess lists workspace access cloudera a i model registry
 Lists users that can perform Kubernetes operations on a Cloudera AI model registry via EKS.
 */
 func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListModelRegistryAccessParams()
 	}
@@ -1477,17 +1642,22 @@ func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListModelRegistryAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListModelRegistryAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1497,7 +1667,7 @@ ListRelevantInstances lists the instance types for cloudera a i workbench creati
 List of relevant instance type for Cloudera AI workbench creation.
 */
 func (a *Client) ListRelevantInstances(params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRelevantInstancesParams()
 	}
@@ -1516,17 +1686,22 @@ func (a *Client) ListRelevantInstances(params *ListRelevantInstancesParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListRelevantInstancesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListRelevantInstancesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1536,7 +1711,7 @@ ListWorkspaceAccess lists workspace access cloudera a i workbench
 Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListWorkspaceAccessParams()
 	}
@@ -1555,17 +1730,22 @@ func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListWorkspaceAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListWorkspaceAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1575,7 +1755,7 @@ ListWorkspaceBackups lists backup snapshots of a workbench
 List backup snapshots of a workbench.
 */
 func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListWorkspaceBackupsParams()
 	}
@@ -1594,17 +1774,22 @@ func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListWorkspaceBackupsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListWorkspaceBackupsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1614,7 +1799,7 @@ ListWorkspaces lists cloudera a i workbenches
 List Cloudera AI workbenches.
 */
 func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListWorkspacesParams()
 	}
@@ -1633,17 +1818,22 @@ func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListWorkspacesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListWorkspacesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1653,7 +1843,7 @@ ModifyClusterInstanceGroup modifies cloudera a i workbench cluster instance grou
 Modify a Cloudera AI workbench cluster instance group.
 */
 func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyClusterInstanceGroupParams()
 	}
@@ -1672,17 +1862,22 @@ func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ModifyClusterInstanceGroupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ModifyClusterInstanceGroupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1692,7 +1887,7 @@ ModifyClusterSecurity modifies cloudera a i workbench cluster security
 Modify a Cloudera AI workbench cluster security.
 */
 func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyClusterSecurityParams()
 	}
@@ -1711,17 +1906,22 @@ func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ModifyClusterSecurityOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ModifyClusterSecurityDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1731,7 +1931,7 @@ ModifyMlServingApp modifies instance groups for a cloudera a i inference service
 Modify instance groups for a Cloudera AI Inference Service cluster.
 */
 func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyMlServingAppParams()
 	}
@@ -1750,17 +1950,22 @@ func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ModifyMlServingAppOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ModifyMlServingAppDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1770,7 +1975,7 @@ ModifyWorkspaceLoadBalancer modifies cloudera a i workbench loadbalancer
 Modify a Cloudera AI workbench loadbalancer.
 */
 func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyWorkspaceLoadBalancerParams()
 	}
@@ -1789,17 +1994,22 @@ func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancer
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ModifyWorkspaceLoadBalancerOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ModifyWorkspaceLoadBalancerDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1809,7 +2019,7 @@ RefreshModelRegistryConfigmap refreshes the model registry configmap of the work
 Refreshes the model registry configmap of the workbench from the control plane.
 */
 func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRefreshModelRegistryConfigmapParams()
 	}
@@ -1828,17 +2038,22 @@ func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfi
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RefreshModelRegistryConfigmapOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RefreshModelRegistryConfigmapDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1848,7 +2063,7 @@ RequestWorkflowCancellation requests a workflow cancellation
 Request a long running workflow cancellation by resource ID and workflow type.
 */
 func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRequestWorkflowCancellationParams()
 	}
@@ -1867,17 +2082,22 @@ func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellation
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RequestWorkflowCancellationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RequestWorkflowCancellationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1887,7 +2107,7 @@ RestoreWorkspace restores a cloudera a i workbench
 Create a new workbench based on an existing workbench backup snapshot.
 */
 func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreWorkspaceParams()
 	}
@@ -1906,17 +2126,22 @@ func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestoreWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestoreWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1926,7 +2151,7 @@ ResumeWorkspace resumes cloudera a i workbench
 Resume a Cloudera Machine Learnings workbench.
 */
 func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResumeWorkspaceParams()
 	}
@@ -1945,17 +2170,22 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ResumeWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ResumeWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1965,7 +2195,7 @@ RevokeMlServingAppAccess revokes access to a cloudera a i inference service clus
 Revokes an AWS user permissions on a Cloudera AI Inference Service cluster.
 */
 func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRevokeMlServingAppAccessParams()
 	}
@@ -1984,17 +2214,22 @@ func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RevokeMlServingAppAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RevokeMlServingAppAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2004,7 +2239,7 @@ RevokeModelRegistryAccess revokes model registry access cloudera a i model regis
 Revokes an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS.
 */
 func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRevokeModelRegistryAccessParams()
 	}
@@ -2023,17 +2258,22 @@ func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RevokeModelRegistryAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RevokeModelRegistryAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2043,7 +2283,7 @@ RevokeWorkspaceAccess revokes workspace access cloudera a i workbench
 Revokes an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS.
 */
 func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRevokeWorkspaceAccessParams()
 	}
@@ -2062,17 +2302,22 @@ func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RevokeWorkspaceAccessOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RevokeWorkspaceAccessDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2082,7 +2327,7 @@ RollbackModelRegistryUpgrade rollbacks a model registry upgrade restore prior mo
 Rollback a model registry upgrade. Restore prior model registry.
 */
 func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRollbackModelRegistryUpgradeParams()
 	}
@@ -2101,17 +2346,22 @@ func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgra
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RollbackModelRegistryUpgradeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RollbackModelRegistryUpgradeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2121,7 +2371,7 @@ SuspendWorkspace suspends cloudera a i workbench
 Suspend a Cloudera AI workbench.
 */
 func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendWorkspaceParams()
 	}
@@ -2140,17 +2390,22 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SuspendWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SuspendWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2160,7 +2415,7 @@ UpgradeMlServingApp upgrades a cloudera a i inference service instance
 Upgrade a Cloudera AI Inference Service instance to the latest available version.
 */
 func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeMlServingAppParams()
 	}
@@ -2179,17 +2434,22 @@ func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeMlServingAppOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeMlServingAppDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2199,7 +2459,7 @@ UpgradeModelRegistry upgrades a model registry
 Upgrade a model registry.
 */
 func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeModelRegistryParams()
 	}
@@ -2218,17 +2478,22 @@ func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeModelRegistryOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeModelRegistryDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2238,7 +2503,7 @@ UpgradeWorkspace upgrades cloudera a i workbench
 Upgrades a Cloudera AI workbench to the latest available version.
 */
 func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeWorkspaceParams()
 	}
@@ -2257,17 +2522,22 @@ func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeWorkspaceOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeWorkspaceDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

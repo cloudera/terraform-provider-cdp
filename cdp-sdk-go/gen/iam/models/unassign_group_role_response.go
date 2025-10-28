@@ -8,4 +8,4 @@ package models
 // UnassignGroupRoleResponse Response object for an unassign group role request.
 //
 // swagger:model UnassignGroupRoleResponse
-type UnassignGroupRoleResponse interface{}
+type UnassignGroupRoleResponse any

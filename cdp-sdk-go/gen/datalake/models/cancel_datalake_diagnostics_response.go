@@ -8,4 +8,4 @@ package models
 // CancelDatalakeDiagnosticsResponse Response object for cancel running Datalake diagnostics collections.
 //
 // swagger:model CancelDatalakeDiagnosticsResponse
-type CancelDatalakeDiagnosticsResponse interface{}
+type CancelDatalakeDiagnosticsResponse any

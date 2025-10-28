@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -52,11 +53,15 @@ func (m *GetVMTypesResponse) validateVMTypesWithMetadata(formats strfmt.Registry
 
 		if m.VMTypesWithMetadata[i] != nil {
 			if err := m.VMTypesWithMetadata[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("vmTypesWithMetadata" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("vmTypesWithMetadata" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -91,11 +96,15 @@ func (m *GetVMTypesResponse) contextValidateVMTypesWithMetadata(ctx context.Cont
 			}
 
 			if err := m.VMTypesWithMetadata[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("vmTypesWithMetadata" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("vmTypesWithMetadata" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

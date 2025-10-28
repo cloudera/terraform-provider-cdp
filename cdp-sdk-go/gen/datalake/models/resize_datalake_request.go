@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -86,11 +87,15 @@ func (m *ResizeDatalakeRequest) validateCustomDatabaseComputeStorage(formats str
 
 	if m.CustomDatabaseComputeStorage != nil {
 		if err := m.CustomDatabaseComputeStorage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDatabaseComputeStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDatabaseComputeStorage")
 			}
+
 			return err
 		}
 	}
@@ -110,11 +115,15 @@ func (m *ResizeDatalakeRequest) validateCustomInstanceDisks(formats strfmt.Regis
 
 		if m.CustomInstanceDisks[i] != nil {
 			if err := m.CustomInstanceDisks[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -136,11 +145,15 @@ func (m *ResizeDatalakeRequest) validateCustomInstanceTypes(formats strfmt.Regis
 
 		if m.CustomInstanceTypes[i] != nil {
 			if err := m.CustomInstanceTypes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -159,7 +172,7 @@ func (m *ResizeDatalakeRequest) validateDatalakeName(formats strfmt.Registry) er
 	return nil
 }
 
-var resizeDatalakeRequestTypeTargetSizePropEnum []interface{}
+var resizeDatalakeRequestTypeTargetSizePropEnum []any
 
 func init() {
 	var res []string
@@ -233,11 +246,15 @@ func (m *ResizeDatalakeRequest) contextValidateCustomDatabaseComputeStorage(ctx 
 		}
 
 		if err := m.CustomDatabaseComputeStorage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDatabaseComputeStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDatabaseComputeStorage")
 			}
+
 			return err
 		}
 	}
@@ -256,11 +273,15 @@ func (m *ResizeDatalakeRequest) contextValidateCustomInstanceDisks(ctx context.C
 			}
 
 			if err := m.CustomInstanceDisks[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customInstanceDisks" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -281,11 +302,15 @@ func (m *ResizeDatalakeRequest) contextValidateCustomInstanceTypes(ctx context.C
 			}
 
 			if err := m.CustomInstanceTypes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customInstanceTypes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

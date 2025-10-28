@@ -7,6 +7,7 @@ package operations
 
 import (
 	"encoding/json"
+	stderrors "errors"
 	"fmt"
 	"io"
 
@@ -22,7 +23,7 @@ type CreateAWSGovCloudDatalakeReader struct {
 }
 
 // ReadResponse reads a server response into the received o.
-func (o *CreateAWSGovCloudDatalakeReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
+func (o *CreateAWSGovCloudDatalakeReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (any, error) {
 	switch response.Code() {
 	case 200:
 		result := NewCreateAWSGovCloudDatalakeOK()
@@ -105,7 +106,7 @@ func (o *CreateAWSGovCloudDatalakeOK) readResponse(response runtime.ClientRespon
 	o.Payload = new(models.CreateAWSGovCloudDatalakeResponse)
 
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && !stderrors.Is(err, io.EOF) {
 		return err
 	}
 
@@ -179,7 +180,7 @@ func (o *CreateAWSGovCloudDatalakeDefault) readResponse(response runtime.ClientR
 	o.Payload = new(models.Error)
 
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && !stderrors.Is(err, io.EOF) {
 		return err
 	}
 

@@ -61,7 +61,7 @@ const (
 )
 
 // for schema
-var snapshotStatusTypeEnum []interface{}
+var snapshotStatusTypeEnum []any
 
 func init() {
 	var res []SnapshotStatusType

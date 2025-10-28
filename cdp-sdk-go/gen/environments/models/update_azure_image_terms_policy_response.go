@@ -8,4 +8,4 @@ package models
 // UpdateAzureImageTermsPolicyResponse Response object to enable or disable automatic acceptance of Azure Marketplace image terms.
 //
 // swagger:model UpdateAzureImageTermsPolicyResponse
-type UpdateAzureImageTermsPolicyResponse interface{}
+type UpdateAzureImageTermsPolicyResponse any

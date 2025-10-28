@@ -8,4 +8,4 @@ package models
 // AddInstanceGroupsMlServingAppResponse Response object for AddInstanceGroupsMlServingApp method.
 //
 // swagger:model AddInstanceGroupsMlServingAppResponse
-type AddInstanceGroupsMlServingAppResponse interface{}
+type AddInstanceGroupsMlServingAppResponse any

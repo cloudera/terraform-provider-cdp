@@ -64,7 +64,7 @@ func (m *AddDisks) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var addDisksTypeCloudVolumeUsageTypePropEnum []interface{}
+var addDisksTypeCloudVolumeUsageTypePropEnum []any
 
 func init() {
 	var res []string

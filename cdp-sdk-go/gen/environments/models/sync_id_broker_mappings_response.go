@@ -8,4 +8,4 @@ package models
 // SyncIDBrokerMappingsResponse Response object for synchronizing ID Broker mappings for an environment.
 //
 // swagger:model SyncIdBrokerMappingsResponse
-type SyncIDBrokerMappingsResponse interface{}
+type SyncIDBrokerMappingsResponse any

@@ -8,4 +8,4 @@ package models
 // ListResourceTemplatesRequest Request object for the listResourceTemplates method.
 //
 // swagger:model ListResourceTemplatesRequest
-type ListResourceTemplatesRequest interface{}
+type ListResourceTemplatesRequest any

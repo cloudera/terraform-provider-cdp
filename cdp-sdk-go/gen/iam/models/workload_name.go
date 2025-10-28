@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var workloadNameEnum []interface{}
+var workloadNameEnum []any
 
 func init() {
 	var res []WorkloadName

@@ -7,7 +7,9 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -17,17 +19,89 @@ import (
 // swagger:model UpgradeModelRegistryRequest
 type UpgradeModelRegistryRequest struct {
 
+	// AzureUpgradeOptions options for model registry upgrade when using User Defined Routing (UDR).
+	AzureOptions *AzureUpgradeOptions `json:"azureOptions,omitempty"`
+
 	// The CRN of the model registry to be upgraded.
 	Crn string `json:"crn,omitempty"`
+
+	// If true, opt out of enabling the object store CSI driver integration. CSI driver integration offers increased scalability but requires the "Storage Account Contributor" role on Azure.
+	DisableObjectStoreCsiDriver bool `json:"disableObjectStoreCsiDriver,omitempty"`
 }
 
 // Validate validates this upgrade model registry request
 func (m *UpgradeModelRegistryRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateAzureOptions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this upgrade model registry request based on context it is used
+func (m *UpgradeModelRegistryRequest) validateAzureOptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.AzureOptions) { // not required
+		return nil
+	}
+
+	if m.AzureOptions != nil {
+		if err := m.AzureOptions.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("azureOptions")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("azureOptions")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this upgrade model registry request based on the context it is used
 func (m *UpgradeModelRegistryRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAzureOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *UpgradeModelRegistryRequest) contextValidateAzureOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AzureOptions != nil {
+
+		if swag.IsZero(m.AzureOptions) { // not required
+			return nil
+		}
+
+		if err := m.AzureOptions.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("azureOptions")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("azureOptions")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 

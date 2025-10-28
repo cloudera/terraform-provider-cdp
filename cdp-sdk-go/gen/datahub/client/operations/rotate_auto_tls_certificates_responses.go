@@ -7,6 +7,7 @@ package operations
 
 import (
 	"encoding/json"
+	stderrors "errors"
 	"fmt"
 	"io"
 
@@ -22,7 +23,7 @@ type RotateAutoTLSCertificatesReader struct {
 }
 
 // ReadResponse reads a server response into the received o.
-func (o *RotateAutoTLSCertificatesReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
+func (o *RotateAutoTLSCertificatesReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (any, error) {
 	switch response.Code() {
 	case 200:
 		result := NewRotateAutoTLSCertificatesOK()
@@ -105,7 +106,7 @@ func (o *RotateAutoTLSCertificatesOK) readResponse(response runtime.ClientRespon
 	o.Payload = new(models.RotateAutoTLSCertificatesResponse)
 
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && !stderrors.Is(err, io.EOF) {
 		return err
 	}
 
@@ -179,7 +180,7 @@ func (o *RotateAutoTLSCertificatesDefault) readResponse(response runtime.ClientR
 	o.Payload = new(models.Error)
 
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && !stderrors.Is(err, io.EOF) {
 		return err
 	}
 

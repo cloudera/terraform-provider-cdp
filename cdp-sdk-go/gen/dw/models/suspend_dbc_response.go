@@ -8,4 +8,4 @@ package models
 // SuspendDbcResponse The response object for the suspendDbc method.
 //
 // swagger:model SuspendDbcResponse
-type SuspendDbcResponse interface{}
+type SuspendDbcResponse any

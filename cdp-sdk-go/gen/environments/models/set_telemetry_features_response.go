@@ -8,4 +8,4 @@ package models
 // SetTelemetryFeaturesResponse Response object to enable environment level telemetry features.
 //
 // swagger:model SetTelemetryFeaturesResponse
-type SetTelemetryFeaturesResponse interface{}
+type SetTelemetryFeaturesResponse any

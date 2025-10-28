@@ -8,4 +8,4 @@ package models
 // DeleteInstanceGroupMlServingAppResponse Response object for the DeleteInstanceGroupMlServingApp method.
 //
 // swagger:model DeleteInstanceGroupMlServingAppResponse
-type DeleteInstanceGroupMlServingAppResponse interface{}
+type DeleteInstanceGroupMlServingAppResponse any

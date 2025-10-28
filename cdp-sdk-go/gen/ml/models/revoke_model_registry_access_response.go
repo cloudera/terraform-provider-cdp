@@ -8,4 +8,4 @@ package models
 // RevokeModelRegistryAccessResponse Response object for the RevokeModelRegistryAccess method.
 //
 // swagger:model RevokeModelRegistryAccessResponse
-type RevokeModelRegistryAccessResponse interface{}
+type RevokeModelRegistryAccessResponse any

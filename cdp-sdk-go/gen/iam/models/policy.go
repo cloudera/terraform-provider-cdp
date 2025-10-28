@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -69,11 +70,15 @@ func (m *Policy) validatePolicyStatements(formats strfmt.Registry) error {
 
 		if m.PolicyStatements[i] != nil {
 			if err := m.PolicyStatements[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("policyStatements" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("policyStatements" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -108,11 +113,15 @@ func (m *Policy) contextValidatePolicyStatements(ctx context.Context, formats st
 			}
 
 			if err := m.PolicyStatements[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("policyStatements" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("policyStatements" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

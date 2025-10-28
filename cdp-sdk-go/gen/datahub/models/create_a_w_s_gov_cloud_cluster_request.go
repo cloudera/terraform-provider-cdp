@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -116,11 +117,15 @@ func (m *CreateAWSGovCloudClusterRequest) validateClusterExtension(formats strfm
 
 	if m.ClusterExtension != nil {
 		if err := m.ClusterExtension.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("clusterExtension")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("clusterExtension")
 			}
+
 			return err
 		}
 	}
@@ -150,11 +155,15 @@ func (m *CreateAWSGovCloudClusterRequest) validateDatahubDatabase(formats strfmt
 	}
 
 	if err := m.DatahubDatabase.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("datahubDatabase")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("datahubDatabase")
 		}
+
 		return err
 	}
 
@@ -168,11 +177,15 @@ func (m *CreateAWSGovCloudClusterRequest) validateImage(formats strfmt.Registry)
 
 	if m.Image != nil {
 		if err := m.Image.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -192,11 +205,15 @@ func (m *CreateAWSGovCloudClusterRequest) validateInstanceGroups(formats strfmt.
 
 		if m.InstanceGroups[i] != nil {
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -213,11 +230,15 @@ func (m *CreateAWSGovCloudClusterRequest) validateSecurity(formats strfmt.Regist
 
 	if m.Security != nil {
 		if err := m.Security.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -237,11 +258,15 @@ func (m *CreateAWSGovCloudClusterRequest) validateTags(formats strfmt.Registry) 
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -294,11 +319,15 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateClusterExtension(ctx co
 		}
 
 		if err := m.ClusterExtension.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("clusterExtension")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("clusterExtension")
 			}
+
 			return err
 		}
 	}
@@ -313,11 +342,15 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateDatahubDatabase(ctx con
 	}
 
 	if err := m.DatahubDatabase.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("datahubDatabase")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("datahubDatabase")
 		}
+
 		return err
 	}
 
@@ -333,11 +366,15 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateImage(ctx context.Conte
 		}
 
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -356,11 +393,15 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateInstanceGroups(ctx cont
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -379,11 +420,15 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateSecurity(ctx context.Co
 		}
 
 		if err := m.Security.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -402,11 +447,15 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateTags(ctx context.Contex
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -14,12 +15,12 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// ListDiagnosticsResponse The list of in-progress diagnostic bundle operations
+// ListDiagnosticsResponse The list of in-progress diagnostic bundle operations.
 //
 // swagger:model ListDiagnosticsResponse
 type ListDiagnosticsResponse struct {
 
-	// List of diagnostics operations
+	// List of diagnostics operations.
 	DiagnosticsBundles []*DiagnosticsBundle `json:"diagnosticsBundles"`
 }
 
@@ -49,11 +50,15 @@ func (m *ListDiagnosticsResponse) validateDiagnosticsBundles(formats strfmt.Regi
 
 		if m.DiagnosticsBundles[i] != nil {
 			if err := m.DiagnosticsBundles[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("diagnosticsBundles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("diagnosticsBundles" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -88,11 +93,15 @@ func (m *ListDiagnosticsResponse) contextValidateDiagnosticsBundles(ctx context.
 			}
 
 			if err := m.DiagnosticsBundles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("diagnosticsBundles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("diagnosticsBundles" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

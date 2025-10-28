@@ -8,4 +8,4 @@ package models
 // StartDatalakeResponse Response object of starting a datalake, deprecated.
 //
 // swagger:model StartDatalakeResponse
-type StartDatalakeResponse interface{}
+type StartDatalakeResponse any

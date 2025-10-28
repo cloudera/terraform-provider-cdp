@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -96,11 +97,15 @@ func (m *RestoreClusterResponse) validateCdwHueRestorePlans(formats strfmt.Regis
 
 		if m.CdwHueRestorePlans[i] != nil {
 			if err := m.CdwHueRestorePlans[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -122,11 +127,15 @@ func (m *RestoreClusterResponse) validateDbcRestorePlans(formats strfmt.Registry
 
 		if m.DbcRestorePlans[i] != nil {
 			if err := m.DbcRestorePlans[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("dbcRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("dbcRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -148,11 +157,15 @@ func (m *RestoreClusterResponse) validateHiveRestorePlans(formats strfmt.Registr
 
 		if m.HiveRestorePlans[i] != nil {
 			if err := m.HiveRestorePlans[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -174,11 +187,15 @@ func (m *RestoreClusterResponse) validateHueRestorePlans(formats strfmt.Registry
 
 		if m.HueRestorePlans[i] != nil {
 			if err := m.HueRestorePlans[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -200,11 +217,15 @@ func (m *RestoreClusterResponse) validateImpalaRestorePlans(formats strfmt.Regis
 
 		if m.ImpalaRestorePlans[i] != nil {
 			if err := m.ImpalaRestorePlans[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("impalaRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("impalaRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -226,11 +247,15 @@ func (m *RestoreClusterResponse) validateVizRestorePlans(formats strfmt.Registry
 
 		if m.VizRestorePlans[i] != nil {
 			if err := m.VizRestorePlans[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("vizRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("vizRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -285,11 +310,15 @@ func (m *RestoreClusterResponse) contextValidateCdwHueRestorePlans(ctx context.C
 			}
 
 			if err := m.CdwHueRestorePlans[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("cdwHueRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -310,11 +339,15 @@ func (m *RestoreClusterResponse) contextValidateDbcRestorePlans(ctx context.Cont
 			}
 
 			if err := m.DbcRestorePlans[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("dbcRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("dbcRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -335,11 +368,15 @@ func (m *RestoreClusterResponse) contextValidateHiveRestorePlans(ctx context.Con
 			}
 
 			if err := m.HiveRestorePlans[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("hiveRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -360,11 +397,15 @@ func (m *RestoreClusterResponse) contextValidateHueRestorePlans(ctx context.Cont
 			}
 
 			if err := m.HueRestorePlans[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("hueRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -385,11 +426,15 @@ func (m *RestoreClusterResponse) contextValidateImpalaRestorePlans(ctx context.C
 			}
 
 			if err := m.ImpalaRestorePlans[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("impalaRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("impalaRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -410,11 +455,15 @@ func (m *RestoreClusterResponse) contextValidateVizRestorePlans(ctx context.Cont
 			}
 
 			if err := m.VizRestorePlans[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("vizRestorePlans" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("vizRestorePlans" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

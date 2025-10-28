@@ -8,4 +8,4 @@ package models
 // UpdateClusterResponse Response object for the updateCluster method.
 //
 // swagger:model UpdateClusterResponse
-type UpdateClusterResponse interface{}
+type UpdateClusterResponse any

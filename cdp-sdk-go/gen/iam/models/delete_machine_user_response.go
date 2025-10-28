@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -94,11 +95,15 @@ func (m *DeleteMachineUserResponse) validateResourcesUnassigned(formats strfmt.R
 
 		if m.ResourcesUnassigned[i] != nil {
 			if err := m.ResourcesUnassigned[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("resourcesUnassigned" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("resourcesUnassigned" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -142,11 +147,15 @@ func (m *DeleteMachineUserResponse) contextValidateResourcesUnassigned(ctx conte
 			}
 
 			if err := m.ResourcesUnassigned[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("resourcesUnassigned" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("resourcesUnassigned" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

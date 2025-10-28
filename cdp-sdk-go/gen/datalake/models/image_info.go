@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -55,11 +56,15 @@ func (m *ImageInfo) validateComponentVersions(formats strfmt.Registry) error {
 
 	if m.ComponentVersions != nil {
 		if err := m.ComponentVersions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("componentVersions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("componentVersions")
 			}
+
 			return err
 		}
 	}
@@ -90,11 +95,15 @@ func (m *ImageInfo) contextValidateComponentVersions(ctx context.Context, format
 		}
 
 		if err := m.ComponentVersions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("componentVersions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("componentVersions")
 			}
+
 			return err
 		}
 	}

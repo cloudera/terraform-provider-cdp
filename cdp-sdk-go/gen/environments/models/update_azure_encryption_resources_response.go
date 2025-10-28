@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -53,11 +54,15 @@ func (m *UpdateAzureEncryptionResourcesResponse) validateEnvironment(formats str
 
 	if m.Environment != nil {
 		if err := m.Environment.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("environment")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("environment")
 			}
+
 			return err
 		}
 	}
@@ -72,11 +77,15 @@ func (m *UpdateAzureEncryptionResourcesResponse) validateResourceEncryptionParam
 
 	if m.ResourceEncryptionParameters != nil {
 		if err := m.ResourceEncryptionParameters.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("resourceEncryptionParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("resourceEncryptionParameters")
 			}
+
 			return err
 		}
 	}
@@ -107,11 +116,15 @@ func (m *UpdateAzureEncryptionResourcesResponse) contextValidateEnvironment(ctx 
 	if m.Environment != nil {
 
 		if err := m.Environment.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("environment")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("environment")
 			}
+
 			return err
 		}
 	}
@@ -128,11 +141,15 @@ func (m *UpdateAzureEncryptionResourcesResponse) contextValidateResourceEncrypti
 		}
 
 		if err := m.ResourceEncryptionParameters.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("resourceEncryptionParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("resourceEncryptionParameters")
 			}
+
 			return err
 		}
 	}

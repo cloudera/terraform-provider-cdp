@@ -8,4 +8,4 @@ package models
 // ListEnvironmentsRequest Request object for a list environments request.
 //
 // swagger:model ListEnvironmentsRequest
-type ListEnvironmentsRequest interface{}
+type ListEnvironmentsRequest any

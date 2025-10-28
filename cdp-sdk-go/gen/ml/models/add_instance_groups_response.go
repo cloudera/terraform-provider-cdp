@@ -8,4 +8,4 @@ package models
 // AddInstanceGroupsResponse Response object for AddInstanceGroups.
 //
 // swagger:model AddInstanceGroupsResponse
-type AddInstanceGroupsResponse interface{}
+type AddInstanceGroupsResponse any

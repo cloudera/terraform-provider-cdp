@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -63,11 +64,15 @@ func (m *AllowedInstanceTypes) validateHive(formats strfmt.Registry) error {
 
 	if m.Hive != nil {
 		if err := m.Hive.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("hive")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("hive")
 			}
+
 			return err
 		}
 	}
@@ -82,11 +87,15 @@ func (m *AllowedInstanceTypes) validateImpala(formats strfmt.Registry) error {
 
 	if m.Impala != nil {
 		if err := m.Impala.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impala")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impala")
 			}
+
 			return err
 		}
 	}
@@ -101,11 +110,15 @@ func (m *AllowedInstanceTypes) validateTrino(formats strfmt.Registry) error {
 
 	if m.Trino != nil {
 		if err := m.Trino.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("trino")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("trino")
 			}
+
 			return err
 		}
 	}
@@ -144,11 +157,15 @@ func (m *AllowedInstanceTypes) contextValidateHive(ctx context.Context, formats 
 		}
 
 		if err := m.Hive.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("hive")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("hive")
 			}
+
 			return err
 		}
 	}
@@ -165,11 +182,15 @@ func (m *AllowedInstanceTypes) contextValidateImpala(ctx context.Context, format
 		}
 
 		if err := m.Impala.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impala")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impala")
 			}
+
 			return err
 		}
 	}
@@ -186,11 +207,15 @@ func (m *AllowedInstanceTypes) contextValidateTrino(ctx context.Context, formats
 		}
 
 		if err := m.Trino.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("trino")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("trino")
 			}
+
 			return err
 		}
 	}

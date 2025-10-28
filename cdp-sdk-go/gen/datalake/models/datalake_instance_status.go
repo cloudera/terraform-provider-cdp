@@ -77,7 +77,7 @@ const (
 )
 
 // for schema
-var datalakeInstanceStatusEnum []interface{}
+var datalakeInstanceStatusEnum []any
 
 func init() {
 	var res []DatalakeInstanceStatus

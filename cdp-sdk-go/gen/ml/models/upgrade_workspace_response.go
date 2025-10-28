@@ -8,4 +8,4 @@ package models
 // UpgradeWorkspaceResponse Response object for the UpgradeWorkspace method.
 //
 // swagger:model UpgradeWorkspaceResponse
-type UpgradeWorkspaceResponse interface{}
+type UpgradeWorkspaceResponse any

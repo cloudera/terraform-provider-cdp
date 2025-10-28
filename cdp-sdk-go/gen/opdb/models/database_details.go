@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -151,11 +152,15 @@ func (m *DatabaseDetails) validateArchitecture(formats strfmt.Registry) error {
 	}
 
 	if err := m.Architecture.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("architecture")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("architecture")
 		}
+
 		return err
 	}
 
@@ -169,11 +174,15 @@ func (m *DatabaseDetails) validateAutoScalingConfig(formats strfmt.Registry) err
 
 	if m.AutoScalingConfig != nil {
 		if err := m.AutoScalingConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoScalingConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoScalingConfig")
 			}
+
 			return err
 		}
 	}
@@ -227,11 +236,15 @@ func (m *DatabaseDetails) validateScaleType(formats strfmt.Registry) error {
 	}
 
 	if err := m.ScaleType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("scaleType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("scaleType")
 		}
+
 		return err
 	}
 
@@ -245,11 +258,15 @@ func (m *DatabaseDetails) validateSecurityResponse(formats strfmt.Registry) erro
 
 	if m.SecurityResponse != nil {
 		if err := m.SecurityResponse.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityResponse")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityResponse")
 			}
+
 			return err
 		}
 	}
@@ -263,11 +280,15 @@ func (m *DatabaseDetails) validateStatus(formats strfmt.Registry) error {
 	}
 
 	if err := m.Status.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("status")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("status")
 		}
+
 		return err
 	}
 
@@ -286,11 +307,15 @@ func (m *DatabaseDetails) validateStorageDetailsForWorkers(formats strfmt.Regist
 
 		if m.StorageDetailsForWorkers[i] != nil {
 			if err := m.StorageDetailsForWorkers[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("storageDetailsForWorkers" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("storageDetailsForWorkers" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -341,11 +366,15 @@ func (m *DatabaseDetails) contextValidateArchitecture(ctx context.Context, forma
 	}
 
 	if err := m.Architecture.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("architecture")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("architecture")
 		}
+
 		return err
 	}
 
@@ -361,11 +390,15 @@ func (m *DatabaseDetails) contextValidateAutoScalingConfig(ctx context.Context, 
 		}
 
 		if err := m.AutoScalingConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoScalingConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoScalingConfig")
 			}
+
 			return err
 		}
 	}
@@ -380,11 +413,15 @@ func (m *DatabaseDetails) contextValidateScaleType(ctx context.Context, formats 
 	}
 
 	if err := m.ScaleType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("scaleType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("scaleType")
 		}
+
 		return err
 	}
 
@@ -400,11 +437,15 @@ func (m *DatabaseDetails) contextValidateSecurityResponse(ctx context.Context, f
 		}
 
 		if err := m.SecurityResponse.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityResponse")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityResponse")
 			}
+
 			return err
 		}
 	}
@@ -419,11 +460,15 @@ func (m *DatabaseDetails) contextValidateStatus(ctx context.Context, formats str
 	}
 
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("status")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("status")
 		}
+
 		return err
 	}
 
@@ -441,11 +486,15 @@ func (m *DatabaseDetails) contextValidateStorageDetailsForWorkers(ctx context.Co
 			}
 
 			if err := m.StorageDetailsForWorkers[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("storageDetailsForWorkers" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("storageDetailsForWorkers" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

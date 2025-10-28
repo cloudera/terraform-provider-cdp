@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -235,11 +236,15 @@ func (m *Environment) validateAuthentication(formats strfmt.Registry) error {
 
 	if m.Authentication != nil {
 		if err := m.Authentication.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("authentication")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("authentication")
 			}
+
 			return err
 		}
 	}
@@ -254,11 +259,15 @@ func (m *Environment) validateAwsComputeClusterConfiguration(formats strfmt.Regi
 
 	if m.AwsComputeClusterConfiguration != nil {
 		if err := m.AwsComputeClusterConfiguration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsComputeClusterConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsComputeClusterConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -273,11 +282,15 @@ func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
 
 	if m.AwsDetails != nil {
 		if err := m.AwsDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsDetails")
 			}
+
 			return err
 		}
 	}
@@ -292,11 +305,15 @@ func (m *Environment) validateAzureComputeClusterConfiguration(formats strfmt.Re
 
 	if m.AzureComputeClusterConfiguration != nil {
 		if err := m.AzureComputeClusterConfiguration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureComputeClusterConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureComputeClusterConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -311,11 +328,15 @@ func (m *Environment) validateAzureDetails(formats strfmt.Registry) error {
 
 	if m.AzureDetails != nil {
 		if err := m.AzureDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureDetails")
 			}
+
 			return err
 		}
 	}
@@ -330,11 +351,15 @@ func (m *Environment) validateBackupStorage(formats strfmt.Registry) error {
 
 	if m.BackupStorage != nil {
 		if err := m.BackupStorage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("backupStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("backupStorage")
 			}
+
 			return err
 		}
 	}
@@ -388,11 +413,15 @@ func (m *Environment) validateCustomDockerRegistry(formats strfmt.Registry) erro
 
 	if m.CustomDockerRegistry != nil {
 		if err := m.CustomDockerRegistry.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDockerRegistry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDockerRegistry")
 			}
+
 			return err
 		}
 	}
@@ -407,11 +436,15 @@ func (m *Environment) validateDataServices(formats strfmt.Registry) error {
 
 	if m.DataServices != nil {
 		if err := m.DataServices.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dataServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dataServices")
 			}
+
 			return err
 		}
 	}
@@ -435,11 +468,15 @@ func (m *Environment) validateFreeipa(formats strfmt.Registry) error {
 
 	if m.Freeipa != nil {
 		if err := m.Freeipa.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("freeipa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("freeipa")
 			}
+
 			return err
 		}
 	}
@@ -454,11 +491,15 @@ func (m *Environment) validateGcpDetails(formats strfmt.Registry) error {
 
 	if m.GcpDetails != nil {
 		if err := m.GcpDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcpDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcpDetails")
 			}
+
 			return err
 		}
 	}
@@ -474,11 +515,15 @@ func (m *Environment) validateLogStorage(formats strfmt.Registry) error {
 
 	if m.LogStorage != nil {
 		if err := m.LogStorage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("logStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("logStorage")
 			}
+
 			return err
 		}
 	}
@@ -494,11 +539,15 @@ func (m *Environment) validateNetwork(formats strfmt.Registry) error {
 
 	if m.Network != nil {
 		if err := m.Network.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("network")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("network")
 			}
+
 			return err
 		}
 	}
@@ -513,11 +562,15 @@ func (m *Environment) validateProxyConfig(formats strfmt.Registry) error {
 
 	if m.ProxyConfig != nil {
 		if err := m.ProxyConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("proxyConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("proxyConfig")
 			}
+
 			return err
 		}
 	}
@@ -541,11 +594,15 @@ func (m *Environment) validateSecurity(formats strfmt.Registry) error {
 
 	if m.Security != nil {
 		if err := m.Security.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -560,11 +617,15 @@ func (m *Environment) validateSecurityAccess(formats strfmt.Registry) error {
 
 	if m.SecurityAccess != nil {
 		if err := m.SecurityAccess.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityAccess")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityAccess")
 			}
+
 			return err
 		}
 	}
@@ -588,11 +649,15 @@ func (m *Environment) validateTags(formats strfmt.Registry) error {
 
 	if m.Tags != nil {
 		if err := m.Tags.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("tags")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("tags")
 			}
+
 			return err
 		}
 	}
@@ -606,11 +671,15 @@ func (m *Environment) validateTunnelType(formats strfmt.Registry) error {
 	}
 
 	if err := m.TunnelType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("tunnelType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("tunnelType")
 		}
+
 		return err
 	}
 
@@ -704,11 +773,15 @@ func (m *Environment) contextValidateAuthentication(ctx context.Context, formats
 		}
 
 		if err := m.Authentication.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("authentication")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("authentication")
 			}
+
 			return err
 		}
 	}
@@ -725,11 +798,15 @@ func (m *Environment) contextValidateAwsComputeClusterConfiguration(ctx context.
 		}
 
 		if err := m.AwsComputeClusterConfiguration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsComputeClusterConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsComputeClusterConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -746,11 +823,15 @@ func (m *Environment) contextValidateAwsDetails(ctx context.Context, formats str
 		}
 
 		if err := m.AwsDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsDetails")
 			}
+
 			return err
 		}
 	}
@@ -767,11 +848,15 @@ func (m *Environment) contextValidateAzureComputeClusterConfiguration(ctx contex
 		}
 
 		if err := m.AzureComputeClusterConfiguration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureComputeClusterConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureComputeClusterConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -788,11 +873,15 @@ func (m *Environment) contextValidateAzureDetails(ctx context.Context, formats s
 		}
 
 		if err := m.AzureDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureDetails")
 			}
+
 			return err
 		}
 	}
@@ -809,11 +898,15 @@ func (m *Environment) contextValidateBackupStorage(ctx context.Context, formats 
 		}
 
 		if err := m.BackupStorage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("backupStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("backupStorage")
 			}
+
 			return err
 		}
 	}
@@ -830,11 +923,15 @@ func (m *Environment) contextValidateCustomDockerRegistry(ctx context.Context, f
 		}
 
 		if err := m.CustomDockerRegistry.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDockerRegistry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDockerRegistry")
 			}
+
 			return err
 		}
 	}
@@ -851,11 +948,15 @@ func (m *Environment) contextValidateDataServices(ctx context.Context, formats s
 		}
 
 		if err := m.DataServices.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dataServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dataServices")
 			}
+
 			return err
 		}
 	}
@@ -872,11 +973,15 @@ func (m *Environment) contextValidateFreeipa(ctx context.Context, formats strfmt
 		}
 
 		if err := m.Freeipa.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("freeipa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("freeipa")
 			}
+
 			return err
 		}
 	}
@@ -893,11 +998,15 @@ func (m *Environment) contextValidateGcpDetails(ctx context.Context, formats str
 		}
 
 		if err := m.GcpDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcpDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcpDetails")
 			}
+
 			return err
 		}
 	}
@@ -910,11 +1019,15 @@ func (m *Environment) contextValidateLogStorage(ctx context.Context, formats str
 	if m.LogStorage != nil {
 
 		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("logStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("logStorage")
 			}
+
 			return err
 		}
 	}
@@ -927,11 +1040,15 @@ func (m *Environment) contextValidateNetwork(ctx context.Context, formats strfmt
 	if m.Network != nil {
 
 		if err := m.Network.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("network")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("network")
 			}
+
 			return err
 		}
 	}
@@ -948,11 +1065,15 @@ func (m *Environment) contextValidateProxyConfig(ctx context.Context, formats st
 		}
 
 		if err := m.ProxyConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("proxyConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("proxyConfig")
 			}
+
 			return err
 		}
 	}
@@ -969,11 +1090,15 @@ func (m *Environment) contextValidateSecurity(ctx context.Context, formats strfm
 		}
 
 		if err := m.Security.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -990,11 +1115,15 @@ func (m *Environment) contextValidateSecurityAccess(ctx context.Context, formats
 		}
 
 		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityAccess")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityAccess")
 			}
+
 			return err
 		}
 	}
@@ -1011,11 +1140,15 @@ func (m *Environment) contextValidateTags(ctx context.Context, formats strfmt.Re
 		}
 
 		if err := m.Tags.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("tags")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("tags")
 			}
+
 			return err
 		}
 	}
@@ -1030,11 +1163,15 @@ func (m *Environment) contextValidateTunnelType(ctx context.Context, formats str
 	}
 
 	if err := m.TunnelType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("tunnelType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("tunnelType")
 		}
+
 		return err
 	}
 
@@ -1129,11 +1266,15 @@ func (m *EnvironmentAzureDetails) validateResourceEncryptionParameters(formats s
 
 	if m.ResourceEncryptionParameters != nil {
 		if err := m.ResourceEncryptionParameters.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
 			}
+
 			return err
 		}
 	}
@@ -1164,11 +1305,15 @@ func (m *EnvironmentAzureDetails) contextValidateResourceEncryptionParameters(ct
 		}
 
 		if err := m.ResourceEncryptionParameters.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureDetails" + "." + "resourceEncryptionParameters")
 			}
+
 			return err
 		}
 	}

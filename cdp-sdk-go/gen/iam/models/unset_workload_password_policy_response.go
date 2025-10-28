@@ -8,4 +8,4 @@ package models
 // UnsetWorkloadPasswordPolicyResponse Response object for a unset workload password policy request.
 //
 // swagger:model UnsetWorkloadPasswordPolicyResponse
-type UnsetWorkloadPasswordPolicyResponse interface{}
+type UnsetWorkloadPasswordPolicyResponse any

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -76,11 +77,15 @@ func (m *StartDatalakeVerticalScalingRequest) validateDiskOptions(formats strfmt
 
 	if m.DiskOptions != nil {
 		if err := m.DiskOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("diskOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("diskOptions")
 			}
+
 			return err
 		}
 	}
@@ -104,11 +109,15 @@ func (m *StartDatalakeVerticalScalingRequest) validateInstanceTemplate(formats s
 
 	if m.InstanceTemplate != nil {
 		if err := m.InstanceTemplate.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("instanceTemplate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("instanceTemplate")
 			}
+
 			return err
 		}
 	}
@@ -143,11 +152,15 @@ func (m *StartDatalakeVerticalScalingRequest) contextValidateDiskOptions(ctx con
 		}
 
 		if err := m.DiskOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("diskOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("diskOptions")
 			}
+
 			return err
 		}
 	}
@@ -164,11 +177,15 @@ func (m *StartDatalakeVerticalScalingRequest) contextValidateInstanceTemplate(ct
 		}
 
 		if err := m.InstanceTemplate.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("instanceTemplate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("instanceTemplate")
 			}
+
 			return err
 		}
 	}

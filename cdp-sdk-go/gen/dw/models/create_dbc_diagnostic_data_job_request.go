@@ -99,7 +99,7 @@ func (m *CreateDbcDiagnosticDataJobRequest) validateDbcID(formats strfmt.Registr
 	return nil
 }
 
-var createDbcDiagnosticDataJobRequestTypeDestinationPropEnum []interface{}
+var createDbcDiagnosticDataJobRequestTypeDestinationPropEnum []any
 
 func init() {
 	var res []string

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -110,11 +111,15 @@ func (m *LastSyncStatusResponse) validateFailure(formats strfmt.Registry) error 
 
 		if m.Failure[i] != nil {
 			if err := m.Failure[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("failure" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("failure" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -139,11 +144,15 @@ func (m *LastSyncStatusResponse) validateOperationType(formats strfmt.Registry) 
 	}
 
 	if err := m.OperationType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("operationType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("operationType")
 		}
+
 		return err
 	}
 
@@ -168,11 +177,15 @@ func (m *LastSyncStatusResponse) validateStatus(formats strfmt.Registry) error {
 	}
 
 	if err := m.Status.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("status")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("status")
 		}
+
 		return err
 	}
 
@@ -191,11 +204,15 @@ func (m *LastSyncStatusResponse) validateSuccess(formats strfmt.Registry) error 
 
 		if m.Success[i] != nil {
 			if err := m.Success[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("success" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("success" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -242,11 +259,15 @@ func (m *LastSyncStatusResponse) contextValidateFailure(ctx context.Context, for
 			}
 
 			if err := m.Failure[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("failure" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("failure" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -263,11 +284,15 @@ func (m *LastSyncStatusResponse) contextValidateOperationType(ctx context.Contex
 	}
 
 	if err := m.OperationType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("operationType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("operationType")
 		}
+
 		return err
 	}
 
@@ -281,11 +306,15 @@ func (m *LastSyncStatusResponse) contextValidateStatus(ctx context.Context, form
 	}
 
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("status")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("status")
 		}
+
 		return err
 	}
 
@@ -303,11 +332,15 @@ func (m *LastSyncStatusResponse) contextValidateSuccess(ctx context.Context, for
 			}
 
 			if err := m.Success[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("success" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("success" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

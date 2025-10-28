@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -71,11 +72,15 @@ func (m *AttachedStorageForWorkers) validateVolumeType(formats strfmt.Registry) 
 	}
 
 	if err := m.VolumeType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("volumeType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("volumeType")
 		}
+
 		return err
 	}
 
@@ -103,11 +108,15 @@ func (m *AttachedStorageForWorkers) contextValidateVolumeType(ctx context.Contex
 	}
 
 	if err := m.VolumeType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("volumeType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("volumeType")
 		}
+
 		return err
 	}
 

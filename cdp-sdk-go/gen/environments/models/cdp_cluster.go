@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -68,11 +69,15 @@ func (m *CdpCluster) validateClusterValidationMessages(formats strfmt.Registry) 
 
 		if m.ClusterValidationMessages[i] != nil {
 			if err := m.ClusterValidationMessages[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -94,11 +99,15 @@ func (m *CdpCluster) validateExposedServices(formats strfmt.Registry) error {
 
 		if m.ExposedServices[i] != nil {
 			if err := m.ExposedServices[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("exposedServices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("exposedServices" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -137,11 +146,15 @@ func (m *CdpCluster) contextValidateClusterValidationMessages(ctx context.Contex
 			}
 
 			if err := m.ClusterValidationMessages[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("clusterValidationMessages" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -162,11 +175,15 @@ func (m *CdpCluster) contextValidateExposedServices(ctx context.Context, formats
 			}
 
 			if err := m.ExposedServices[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("exposedServices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("exposedServices" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

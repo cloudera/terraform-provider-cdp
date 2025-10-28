@@ -8,4 +8,4 @@ package models
 // DeleteAutoScaleRulesResponse Response object for DeleteAutoScalesRulesRequest
 //
 // swagger:model DeleteAutoScaleRulesResponse
-type DeleteAutoScaleRulesResponse interface{}
+type DeleteAutoScaleRulesResponse any

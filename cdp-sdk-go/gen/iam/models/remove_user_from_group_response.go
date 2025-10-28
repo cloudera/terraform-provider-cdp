@@ -8,4 +8,4 @@ package models
 // RemoveUserFromGroupResponse Response object for a remove user from group request.
 //
 // swagger:model RemoveUserFromGroupResponse
-type RemoveUserFromGroupResponse interface{}
+type RemoveUserFromGroupResponse any

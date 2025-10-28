@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -97,11 +98,15 @@ func (m *DbcSummary) validateCreator(formats strfmt.Registry) error {
 
 	if m.Creator != nil {
 		if err := m.Creator.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("creator")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("creator")
 			}
+
 			return err
 		}
 	}
@@ -121,11 +126,15 @@ func (m *DbcSummary) validateResources(formats strfmt.Registry) error {
 		}
 		if val, ok := m.Resources[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("resources" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("resources" + "." + k)
 				}
+
 				return err
 			}
 		}
@@ -174,11 +183,15 @@ func (m *DbcSummary) contextValidateCreator(ctx context.Context, formats strfmt.
 		}
 
 		if err := m.Creator.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("creator")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("creator")
 			}
+
 			return err
 		}
 	}

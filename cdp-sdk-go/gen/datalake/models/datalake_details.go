@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -156,11 +157,15 @@ func (m *DatalakeDetails) validateAwsConfiguration(formats strfmt.Registry) erro
 
 	if m.AwsConfiguration != nil {
 		if err := m.AwsConfiguration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -175,11 +180,15 @@ func (m *DatalakeDetails) validateAzureConfiguration(formats strfmt.Registry) er
 
 	if m.AzureConfiguration != nil {
 		if err := m.AzureConfiguration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -194,11 +203,15 @@ func (m *DatalakeDetails) validateClouderaManager(formats strfmt.Registry) error
 
 	if m.ClouderaManager != nil {
 		if err := m.ClouderaManager.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("clouderaManager")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("clouderaManager")
 			}
+
 			return err
 		}
 	}
@@ -243,11 +256,15 @@ func (m *DatalakeDetails) validateEndpoints(formats strfmt.Registry) error {
 
 	if m.Endpoints != nil {
 		if err := m.Endpoints.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("endpoints")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("endpoints")
 			}
+
 			return err
 		}
 	}
@@ -262,11 +279,15 @@ func (m *DatalakeDetails) validateGcpConfiguration(formats strfmt.Registry) erro
 
 	if m.GcpConfiguration != nil {
 		if err := m.GcpConfiguration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcpConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcpConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -281,11 +302,15 @@ func (m *DatalakeDetails) validateImageDetails(formats strfmt.Registry) error {
 
 	if m.ImageDetails != nil {
 		if err := m.ImageDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("imageDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("imageDetails")
 			}
+
 			return err
 		}
 	}
@@ -305,11 +330,15 @@ func (m *DatalakeDetails) validateInstanceGroups(formats strfmt.Registry) error 
 
 		if m.InstanceGroups[i] != nil {
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -331,11 +360,15 @@ func (m *DatalakeDetails) validateProductVersions(formats strfmt.Registry) error
 
 		if m.ProductVersions[i] != nil {
 			if err := m.ProductVersions[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("productVersions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("productVersions" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -351,11 +384,15 @@ func (m *DatalakeDetails) validateShape(formats strfmt.Registry) error {
 	}
 
 	if err := m.Shape.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("shape")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("shape")
 		}
+
 		return err
 	}
 
@@ -374,11 +411,15 @@ func (m *DatalakeDetails) validateTags(formats strfmt.Registry) error {
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -447,11 +488,15 @@ func (m *DatalakeDetails) contextValidateAwsConfiguration(ctx context.Context, f
 		}
 
 		if err := m.AwsConfiguration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -468,11 +513,15 @@ func (m *DatalakeDetails) contextValidateAzureConfiguration(ctx context.Context,
 		}
 
 		if err := m.AzureConfiguration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -489,11 +538,15 @@ func (m *DatalakeDetails) contextValidateClouderaManager(ctx context.Context, fo
 		}
 
 		if err := m.ClouderaManager.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("clouderaManager")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("clouderaManager")
 			}
+
 			return err
 		}
 	}
@@ -510,11 +563,15 @@ func (m *DatalakeDetails) contextValidateEndpoints(ctx context.Context, formats 
 		}
 
 		if err := m.Endpoints.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("endpoints")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("endpoints")
 			}
+
 			return err
 		}
 	}
@@ -531,11 +588,15 @@ func (m *DatalakeDetails) contextValidateGcpConfiguration(ctx context.Context, f
 		}
 
 		if err := m.GcpConfiguration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("gcpConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("gcpConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -552,11 +613,15 @@ func (m *DatalakeDetails) contextValidateImageDetails(ctx context.Context, forma
 		}
 
 		if err := m.ImageDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("imageDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("imageDetails")
 			}
+
 			return err
 		}
 	}
@@ -575,11 +640,15 @@ func (m *DatalakeDetails) contextValidateInstanceGroups(ctx context.Context, for
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -600,11 +669,15 @@ func (m *DatalakeDetails) contextValidateProductVersions(ctx context.Context, fo
 			}
 
 			if err := m.ProductVersions[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("productVersions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("productVersions" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -621,11 +694,15 @@ func (m *DatalakeDetails) contextValidateShape(ctx context.Context, formats strf
 	}
 
 	if err := m.Shape.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("shape")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("shape")
 		}
+
 		return err
 	}
 
@@ -643,11 +720,15 @@ func (m *DatalakeDetails) contextValidateTags(ctx context.Context, formats strfm
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

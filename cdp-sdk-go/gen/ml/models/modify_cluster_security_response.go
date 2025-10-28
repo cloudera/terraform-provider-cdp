@@ -8,4 +8,4 @@ package models
 // ModifyClusterSecurityResponse Response object for ModifyClusterSecurity.
 //
 // swagger:model ModifyClusterSecurityResponse
-type ModifyClusterSecurityResponse interface{}
+type ModifyClusterSecurityResponse any

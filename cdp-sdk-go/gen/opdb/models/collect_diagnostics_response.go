@@ -7,18 +7,19 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
-// CollectDiagnosticsResponse Information about diagnostic bundle generation
+// CollectDiagnosticsResponse Information about diagnostic bundle generation.
 //
 // swagger:model CollectDiagnosticsResponse
 type CollectDiagnosticsResponse struct {
 
-	// Details of requested diagnostic bundle collection
+	// Details of requested diagnostic bundle collection.
 	DiagnosticsBundle *DiagnosticsBundle `json:"diagnosticsBundle,omitempty"`
 }
 
@@ -43,11 +44,15 @@ func (m *CollectDiagnosticsResponse) validateDiagnosticsBundle(formats strfmt.Re
 
 	if m.DiagnosticsBundle != nil {
 		if err := m.DiagnosticsBundle.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("diagnosticsBundle")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("diagnosticsBundle")
 			}
+
 			return err
 		}
 	}
@@ -78,11 +83,15 @@ func (m *CollectDiagnosticsResponse) contextValidateDiagnosticsBundle(ctx contex
 		}
 
 		if err := m.DiagnosticsBundle.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("diagnosticsBundle")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("diagnosticsBundle")
 			}
+
 			return err
 		}
 	}

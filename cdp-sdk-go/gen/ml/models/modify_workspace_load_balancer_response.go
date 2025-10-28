@@ -8,4 +8,4 @@ package models
 // ModifyWorkspaceLoadBalancerResponse Response object for ModifyWorkspaceLoadBalancer.
 //
 // swagger:model ModifyWorkspaceLoadBalancerResponse
-type ModifyWorkspaceLoadBalancerResponse interface{}
+type ModifyWorkspaceLoadBalancerResponse any

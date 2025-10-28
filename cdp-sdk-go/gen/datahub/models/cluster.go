@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -30,7 +31,7 @@ type Cluster struct {
 	// Required: true
 	ClusterName *string `json:"clusterName"`
 
-	// The status of the cluster.
+	// The status of the cluster. It always returns the same value as the status field. Deprecated.
 	ClusterStatus string `json:"clusterStatus,omitempty"`
 
 	// The CRN of the cluster template used for the cluster creation.
@@ -133,11 +134,15 @@ func (m *Cluster) validateClouderaManager(formats strfmt.Registry) error {
 
 	if m.ClouderaManager != nil {
 		if err := m.ClouderaManager.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("clouderaManager")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("clouderaManager")
 			}
+
 			return err
 		}
 	}
@@ -182,11 +187,15 @@ func (m *Cluster) validateEndpoints(formats strfmt.Registry) error {
 
 	if m.Endpoints != nil {
 		if err := m.Endpoints.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("endpoints")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("endpoints")
 			}
+
 			return err
 		}
 	}
@@ -201,11 +210,15 @@ func (m *Cluster) validateImageDetails(formats strfmt.Registry) error {
 
 	if m.ImageDetails != nil {
 		if err := m.ImageDetails.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("imageDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("imageDetails")
 			}
+
 			return err
 		}
 	}
@@ -225,11 +238,15 @@ func (m *Cluster) validateInstanceGroups(formats strfmt.Registry) error {
 
 		if m.InstanceGroups[i] != nil {
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -246,11 +263,15 @@ func (m *Cluster) validateSecurity(formats strfmt.Registry) error {
 
 	if m.Security != nil {
 		if err := m.Security.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -297,11 +318,15 @@ func (m *Cluster) contextValidateClouderaManager(ctx context.Context, formats st
 		}
 
 		if err := m.ClouderaManager.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("clouderaManager")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("clouderaManager")
 			}
+
 			return err
 		}
 	}
@@ -318,11 +343,15 @@ func (m *Cluster) contextValidateEndpoints(ctx context.Context, formats strfmt.R
 		}
 
 		if err := m.Endpoints.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("endpoints")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("endpoints")
 			}
+
 			return err
 		}
 	}
@@ -339,11 +368,15 @@ func (m *Cluster) contextValidateImageDetails(ctx context.Context, formats strfm
 		}
 
 		if err := m.ImageDetails.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("imageDetails")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("imageDetails")
 			}
+
 			return err
 		}
 	}
@@ -362,11 +395,15 @@ func (m *Cluster) contextValidateInstanceGroups(ctx context.Context, formats str
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -385,11 +422,15 @@ func (m *Cluster) contextValidateSecurity(ctx context.Context, formats strfmt.Re
 		}
 
 		if err := m.Security.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}

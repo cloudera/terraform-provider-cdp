@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -59,11 +60,15 @@ func (m *InstanceTemplate) validateAttachedVolumes(formats strfmt.Registry) erro
 
 		if m.AttachedVolumes[i] != nil {
 			if err := m.AttachedVolumes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -80,11 +85,15 @@ func (m *InstanceTemplate) validateAwsProperties(formats strfmt.Registry) error 
 
 	if m.AwsProperties != nil {
 		if err := m.AwsProperties.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsProperties")
 			}
+
 			return err
 		}
 	}
@@ -121,11 +130,15 @@ func (m *InstanceTemplate) contextValidateAttachedVolumes(ctx context.Context, f
 			}
 
 			if err := m.AttachedVolumes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -144,11 +157,15 @@ func (m *InstanceTemplate) contextValidateAwsProperties(ctx context.Context, for
 		}
 
 		if err := m.AwsProperties.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsProperties")
 			}
+
 			return err
 		}
 	}

@@ -43,7 +43,7 @@ const (
 )
 
 // for schema
-var volumeTypeEnum []interface{}
+var volumeTypeEnum []any
 
 func init() {
 	var res []VolumeType

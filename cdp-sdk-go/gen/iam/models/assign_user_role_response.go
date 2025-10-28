@@ -8,4 +8,4 @@ package models
 // AssignUserRoleResponse Response object for an assign user role request.
 //
 // swagger:model AssignUserRoleResponse
-type AssignUserRoleResponse interface{}
+type AssignUserRoleResponse any

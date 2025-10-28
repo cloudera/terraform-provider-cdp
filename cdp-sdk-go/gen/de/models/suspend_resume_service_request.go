@@ -60,7 +60,7 @@ func (m *SuspendResumeServiceRequest) validateClusterID(formats strfmt.Registry)
 	return nil
 }
 
-var suspendResumeServiceRequestTypeStepPropEnum []interface{}
+var suspendResumeServiceRequestTypeStepPropEnum []any
 
 func init() {
 	var res []string

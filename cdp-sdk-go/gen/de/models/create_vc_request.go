@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -155,11 +156,15 @@ func (m *CreateVcRequest) validateChartValueOverrides(formats strfmt.Registry) e
 
 		if m.ChartValueOverrides[i] != nil {
 			if err := m.ChartValueOverrides[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -205,7 +210,7 @@ func (m *CreateVcRequest) validateName(formats strfmt.Registry) error {
 	return nil
 }
 
-var createVcRequestTypeRuntimeSpotComponentPropEnum []interface{}
+var createVcRequestTypeRuntimeSpotComponentPropEnum []any
 
 func init() {
 	var res []string
@@ -254,11 +259,15 @@ func (m *CreateVcRequest) validateSMTPConfigs(formats strfmt.Registry) error {
 
 	if m.SMTPConfigs != nil {
 		if err := m.SMTPConfigs.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("smtpConfigs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("smtpConfigs")
 			}
+
 			return err
 		}
 	}
@@ -266,7 +275,7 @@ func (m *CreateVcRequest) validateSMTPConfigs(formats strfmt.Registry) error {
 	return nil
 }
 
-var createVcRequestTypeSparkOSNamePropEnum []interface{}
+var createVcRequestTypeSparkOSNamePropEnum []any
 
 func init() {
 	var res []string
@@ -308,7 +317,7 @@ func (m *CreateVcRequest) validateSparkOSName(formats strfmt.Registry) error {
 	return nil
 }
 
-var createVcRequestTypeSparkVersionPropEnum []interface{}
+var createVcRequestTypeSparkVersionPropEnum []any
 
 func init() {
 	var res []string
@@ -368,7 +377,7 @@ func (m *CreateVcRequest) validateSparkVersion(formats strfmt.Registry) error {
 	return nil
 }
 
-var createVcRequestTypeVcTierPropEnum []interface{}
+var createVcRequestTypeVcTierPropEnum []any
 
 func init() {
 	var res []string
@@ -439,11 +448,15 @@ func (m *CreateVcRequest) contextValidateChartValueOverrides(ctx context.Context
 			}
 
 			if err := m.ChartValueOverrides[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("chartValueOverrides" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -462,11 +475,15 @@ func (m *CreateVcRequest) contextValidateSMTPConfigs(ctx context.Context, format
 		}
 
 		if err := m.SMTPConfigs.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("smtpConfigs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("smtpConfigs")
 			}
+
 			return err
 		}
 	}

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -49,11 +50,15 @@ func (m *CreateGCPDatalakeResponse) validateDatalake(formats strfmt.Registry) er
 
 	if m.Datalake != nil {
 		if err := m.Datalake.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("datalake")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("datalake")
 			}
+
 			return err
 		}
 	}
@@ -80,11 +85,15 @@ func (m *CreateGCPDatalakeResponse) contextValidateDatalake(ctx context.Context,
 	if m.Datalake != nil {
 
 		if err := m.Datalake.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("datalake")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("datalake")
 			}
+
 			return err
 		}
 	}

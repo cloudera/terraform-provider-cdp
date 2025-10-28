@@ -8,4 +8,4 @@ package models
 // GetLatestModelRegistryVersionRequest Request object for GetLatestModelRegistryVersion.
 //
 // swagger:model GetLatestModelRegistryVersionRequest
-type GetLatestModelRegistryVersionRequest interface{}
+type GetLatestModelRegistryVersionRequest any

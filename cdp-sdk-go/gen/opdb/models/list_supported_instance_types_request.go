@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -74,11 +75,15 @@ func (m *ListSupportedInstanceTypesRequest) validateArchitecture(formats strfmt.
 	}
 
 	if err := m.Architecture.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("architecture")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("architecture")
 		}
+
 		return err
 	}
 
@@ -97,11 +102,15 @@ func (m *ListSupportedInstanceTypesRequest) validateCloudPlatform(formats strfmt
 
 	if m.CloudPlatform != nil {
 		if err := m.CloudPlatform.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("cloudPlatform")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("cloudPlatform")
 			}
+
 			return err
 		}
 	}
@@ -115,11 +124,15 @@ func (m *ListSupportedInstanceTypesRequest) validateInstanceGroup(formats strfmt
 	}
 
 	if err := m.InstanceGroup.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("instanceGroup")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("instanceGroup")
 		}
+
 		return err
 	}
 
@@ -138,11 +151,15 @@ func (m *ListSupportedInstanceTypesRequest) validateScaleType(formats strfmt.Reg
 
 	if m.ScaleType != nil {
 		if err := m.ScaleType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("scaleType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("scaleType")
 			}
+
 			return err
 		}
 	}
@@ -162,11 +179,15 @@ func (m *ListSupportedInstanceTypesRequest) validateStorageType(formats strfmt.R
 
 	if m.StorageType != nil {
 		if err := m.StorageType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("storageType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("storageType")
 			}
+
 			return err
 		}
 	}
@@ -211,11 +232,15 @@ func (m *ListSupportedInstanceTypesRequest) contextValidateArchitecture(ctx cont
 	}
 
 	if err := m.Architecture.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("architecture")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("architecture")
 		}
+
 		return err
 	}
 
@@ -227,11 +252,15 @@ func (m *ListSupportedInstanceTypesRequest) contextValidateCloudPlatform(ctx con
 	if m.CloudPlatform != nil {
 
 		if err := m.CloudPlatform.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("cloudPlatform")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("cloudPlatform")
 			}
+
 			return err
 		}
 	}
@@ -246,11 +275,15 @@ func (m *ListSupportedInstanceTypesRequest) contextValidateInstanceGroup(ctx con
 	}
 
 	if err := m.InstanceGroup.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("instanceGroup")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("instanceGroup")
 		}
+
 		return err
 	}
 
@@ -262,11 +295,15 @@ func (m *ListSupportedInstanceTypesRequest) contextValidateScaleType(ctx context
 	if m.ScaleType != nil {
 
 		if err := m.ScaleType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("scaleType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("scaleType")
 			}
+
 			return err
 		}
 	}
@@ -279,11 +316,15 @@ func (m *ListSupportedInstanceTypesRequest) contextValidateStorageType(ctx conte
 	if m.StorageType != nil {
 
 		if err := m.StorageType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("storageType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("storageType")
 			}
+
 			return err
 		}
 	}

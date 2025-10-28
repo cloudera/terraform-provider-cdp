@@ -176,7 +176,7 @@ const (
 )
 
 // for schema
-var stackStatusEnum []interface{}
+var stackStatusEnum []any
 
 func init() {
 	var res []StackStatus

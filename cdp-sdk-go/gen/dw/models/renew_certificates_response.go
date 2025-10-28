@@ -8,4 +8,4 @@ package models
 // RenewCertificatesResponse Response object for the renewCertificates method.
 //
 // swagger:model RenewCertificatesResponse
-type RenewCertificatesResponse interface{}
+type RenewCertificatesResponse any

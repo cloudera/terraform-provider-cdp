@@ -8,4 +8,4 @@ package models
 // SuspendWorkspaceResponse Response object for SuspendWorkspace.
 //
 // swagger:model SuspendWorkspaceResponse
-type SuspendWorkspaceResponse interface{}
+type SuspendWorkspaceResponse any

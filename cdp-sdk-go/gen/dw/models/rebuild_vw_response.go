@@ -8,4 +8,4 @@ package models
 // RebuildVwResponse Response object for the rebuildVw method.
 //
 // swagger:model RebuildVwResponse
-type RebuildVwResponse interface{}
+type RebuildVwResponse any

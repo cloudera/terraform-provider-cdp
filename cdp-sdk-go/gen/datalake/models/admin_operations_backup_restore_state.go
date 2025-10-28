@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -76,11 +77,15 @@ func (m *AdminOperationsBackupRestoreState) validateDryRunValidation(formats str
 
 	if m.DryRunValidation != nil {
 		if err := m.DryRunValidation.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dryRunValidation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dryRunValidation")
 			}
+
 			return err
 		}
 	}
@@ -96,11 +101,15 @@ func (m *AdminOperationsBackupRestoreState) validatePrecheckStoragePermission(fo
 
 	if m.PrecheckStoragePermission != nil {
 		if err := m.PrecheckStoragePermission.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("precheckStoragePermission")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("precheckStoragePermission")
 			}
+
 			return err
 		}
 	}
@@ -116,11 +125,15 @@ func (m *AdminOperationsBackupRestoreState) validateRangerAuditCollectionValidat
 
 	if m.RangerAuditCollectionValidation != nil {
 		if err := m.RangerAuditCollectionValidation.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rangerAuditCollectionValidation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rangerAuditCollectionValidation")
 			}
+
 			return err
 		}
 	}
@@ -136,11 +149,15 @@ func (m *AdminOperationsBackupRestoreState) validateStartServices(formats strfmt
 
 	if m.StartServices != nil {
 		if err := m.StartServices.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("startServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("startServices")
 			}
+
 			return err
 		}
 	}
@@ -156,11 +173,15 @@ func (m *AdminOperationsBackupRestoreState) validateStopServices(formats strfmt.
 
 	if m.StopServices != nil {
 		if err := m.StopServices.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("stopServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("stopServices")
 			}
+
 			return err
 		}
 	}
@@ -207,11 +228,15 @@ func (m *AdminOperationsBackupRestoreState) contextValidateDryRunValidation(ctx 
 		}
 
 		if err := m.DryRunValidation.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("dryRunValidation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("dryRunValidation")
 			}
+
 			return err
 		}
 	}
@@ -224,11 +249,15 @@ func (m *AdminOperationsBackupRestoreState) contextValidatePrecheckStoragePermis
 	if m.PrecheckStoragePermission != nil {
 
 		if err := m.PrecheckStoragePermission.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("precheckStoragePermission")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("precheckStoragePermission")
 			}
+
 			return err
 		}
 	}
@@ -241,11 +270,15 @@ func (m *AdminOperationsBackupRestoreState) contextValidateRangerAuditCollection
 	if m.RangerAuditCollectionValidation != nil {
 
 		if err := m.RangerAuditCollectionValidation.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rangerAuditCollectionValidation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rangerAuditCollectionValidation")
 			}
+
 			return err
 		}
 	}
@@ -258,11 +291,15 @@ func (m *AdminOperationsBackupRestoreState) contextValidateStartServices(ctx con
 	if m.StartServices != nil {
 
 		if err := m.StartServices.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("startServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("startServices")
 			}
+
 			return err
 		}
 	}
@@ -275,11 +312,15 @@ func (m *AdminOperationsBackupRestoreState) contextValidateStopServices(ctx cont
 	if m.StopServices != nil {
 
 		if err := m.StopServices.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("stopServices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("stopServices")
 			}
+
 			return err
 		}
 	}

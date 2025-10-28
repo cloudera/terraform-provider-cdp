@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -75,11 +76,15 @@ func (m *Account) validateAuthenticationPolicy(formats strfmt.Registry) error {
 
 	if m.AuthenticationPolicy != nil {
 		if err := m.AuthenticationPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("authenticationPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("authenticationPolicy")
 			}
+
 			return err
 		}
 	}
@@ -112,11 +117,15 @@ func (m *Account) validateMachineUserWorkloadPasswordPolicy(formats strfmt.Regis
 
 	if m.MachineUserWorkloadPasswordPolicy != nil {
 		if err := m.MachineUserWorkloadPasswordPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("machineUserWorkloadPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("machineUserWorkloadPasswordPolicy")
 			}
+
 			return err
 		}
 	}
@@ -132,11 +141,15 @@ func (m *Account) validateWorkloadPasswordPolicy(formats strfmt.Registry) error 
 
 	if m.WorkloadPasswordPolicy != nil {
 		if err := m.WorkloadPasswordPolicy.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workloadPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workloadPasswordPolicy")
 			}
+
 			return err
 		}
 	}
@@ -175,11 +188,15 @@ func (m *Account) contextValidateAuthenticationPolicy(ctx context.Context, forma
 		}
 
 		if err := m.AuthenticationPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("authenticationPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("authenticationPolicy")
 			}
+
 			return err
 		}
 	}
@@ -196,11 +213,15 @@ func (m *Account) contextValidateMachineUserWorkloadPasswordPolicy(ctx context.C
 		}
 
 		if err := m.MachineUserWorkloadPasswordPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("machineUserWorkloadPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("machineUserWorkloadPasswordPolicy")
 			}
+
 			return err
 		}
 	}
@@ -213,11 +234,15 @@ func (m *Account) contextValidateWorkloadPasswordPolicy(ctx context.Context, for
 	if m.WorkloadPasswordPolicy != nil {
 
 		if err := m.WorkloadPasswordPolicy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("workloadPasswordPolicy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("workloadPasswordPolicy")
 			}
+
 			return err
 		}
 	}

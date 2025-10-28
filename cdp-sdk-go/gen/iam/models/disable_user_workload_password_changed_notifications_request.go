@@ -8,4 +8,4 @@ package models
 // DisableUserWorkloadPasswordChangedNotificationsRequest Request object to disable user workload password changed notifications.
 //
 // swagger:model DisableUserWorkloadPasswordChangedNotificationsRequest
-type DisableUserWorkloadPasswordChangedNotificationsRequest interface{}
+type DisableUserWorkloadPasswordChangedNotificationsRequest any

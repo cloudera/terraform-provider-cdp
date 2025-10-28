@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -58,11 +59,15 @@ func (m *CustomRecipe) validateInstanceGroup(formats strfmt.Registry) error {
 
 	if m.InstanceGroup != nil {
 		if err := m.InstanceGroup.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("instanceGroup")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("instanceGroup")
 			}
+
 			return err
 		}
 	}
@@ -98,11 +103,15 @@ func (m *CustomRecipe) contextValidateInstanceGroup(ctx context.Context, formats
 	if m.InstanceGroup != nil {
 
 		if err := m.InstanceGroup.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("instanceGroup")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("instanceGroup")
 			}
+
 			return err
 		}
 	}

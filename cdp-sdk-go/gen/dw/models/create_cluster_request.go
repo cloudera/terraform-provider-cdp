@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -100,11 +101,15 @@ func (m *CreateClusterRequest) validateAwsOptions(formats strfmt.Registry) error
 
 	if m.AwsOptions != nil {
 		if err := m.AwsOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsOptions")
 			}
+
 			return err
 		}
 	}
@@ -119,11 +124,15 @@ func (m *CreateClusterRequest) validateAzureOptions(formats strfmt.Registry) err
 
 	if m.AzureOptions != nil {
 		if err := m.AzureOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureOptions")
 			}
+
 			return err
 		}
 	}
@@ -138,11 +147,15 @@ func (m *CreateClusterRequest) validateCustomRegistryOptions(formats strfmt.Regi
 
 	if m.CustomRegistryOptions != nil {
 		if err := m.CustomRegistryOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customRegistryOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customRegistryOptions")
 			}
+
 			return err
 		}
 	}
@@ -166,11 +179,15 @@ func (m *CreateClusterRequest) validatePrivateCloudOptions(formats strfmt.Regist
 
 	if m.PrivateCloudOptions != nil {
 		if err := m.PrivateCloudOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("privateCloudOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("privateCloudOptions")
 			}
+
 			return err
 		}
 	}
@@ -213,11 +230,15 @@ func (m *CreateClusterRequest) contextValidateAwsOptions(ctx context.Context, fo
 		}
 
 		if err := m.AwsOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("awsOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("awsOptions")
 			}
+
 			return err
 		}
 	}
@@ -234,11 +255,15 @@ func (m *CreateClusterRequest) contextValidateAzureOptions(ctx context.Context, 
 		}
 
 		if err := m.AzureOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("azureOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("azureOptions")
 			}
+
 			return err
 		}
 	}
@@ -255,11 +280,15 @@ func (m *CreateClusterRequest) contextValidateCustomRegistryOptions(ctx context.
 		}
 
 		if err := m.CustomRegistryOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customRegistryOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customRegistryOptions")
 			}
+
 			return err
 		}
 	}
@@ -276,11 +305,15 @@ func (m *CreateClusterRequest) contextValidatePrivateCloudOptions(ctx context.Co
 		}
 
 		if err := m.PrivateCloudOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("privateCloudOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("privateCloudOptions")
 			}
+
 			return err
 		}
 	}

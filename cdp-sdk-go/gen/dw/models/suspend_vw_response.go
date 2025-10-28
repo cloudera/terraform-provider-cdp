@@ -8,4 +8,4 @@ package models
 // SuspendVwResponse The response object for the suspendVw method.
 //
 // swagger:model SuspendVwResponse
-type SuspendVwResponse interface{}
+type SuspendVwResponse any

@@ -38,7 +38,7 @@ const (
 )
 
 // for schema
-var outboundTypesEnum []interface{}
+var outboundTypesEnum []any
 
 func init() {
 	var res []OutboundTypes

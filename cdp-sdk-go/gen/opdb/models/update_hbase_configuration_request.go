@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -95,11 +96,15 @@ func (m *UpdateHbaseConfigurationRequest) validateConfigurationType(formats strf
 
 	if m.ConfigurationType != nil {
 		if err := m.ConfigurationType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configurationType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configurationType")
 			}
+
 			return err
 		}
 	}
@@ -144,11 +149,15 @@ func (m *UpdateHbaseConfigurationRequest) contextValidateConfigurationType(ctx c
 	if m.ConfigurationType != nil {
 
 		if err := m.ConfigurationType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("configurationType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("configurationType")
 			}
+
 			return err
 		}
 	}

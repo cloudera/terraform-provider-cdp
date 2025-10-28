@@ -40,7 +40,7 @@ const (
 )
 
 // for schema
-var groupTypeEnum []interface{}
+var groupTypeEnum []any
 
 func init() {
 	var res []GroupType

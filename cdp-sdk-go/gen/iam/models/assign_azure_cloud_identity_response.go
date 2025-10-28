@@ -8,4 +8,4 @@ package models
 // AssignAzureCloudIdentityResponse Response object for an assign Azure cloud identity request.
 //
 // swagger:model AssignAzureCloudIdentityResponse
-type AssignAzureCloudIdentityResponse interface{}
+type AssignAzureCloudIdentityResponse any

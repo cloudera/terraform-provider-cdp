@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -113,11 +114,15 @@ func (m *Instance) validateAttachedVolumes(formats strfmt.Registry) error {
 
 		if m.AttachedVolumes[i] != nil {
 			if err := m.AttachedVolumes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -142,11 +147,15 @@ func (m *Instance) validateInstanceStatus(formats strfmt.Registry) error {
 	}
 
 	if err := m.InstanceStatus.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("instanceStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("instanceStatus")
 		}
+
 		return err
 	}
 
@@ -159,11 +168,15 @@ func (m *Instance) validateInstanceTypeVal(formats strfmt.Registry) error {
 	}
 
 	if err := m.InstanceTypeVal.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("instanceTypeVal")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("instanceTypeVal")
 		}
+
 		return err
 	}
 
@@ -212,11 +225,15 @@ func (m *Instance) contextValidateAttachedVolumes(ctx context.Context, formats s
 			}
 
 			if err := m.AttachedVolumes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedVolumes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -233,11 +250,15 @@ func (m *Instance) contextValidateInstanceStatus(ctx context.Context, formats st
 	}
 
 	if err := m.InstanceStatus.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("instanceStatus")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("instanceStatus")
 		}
+
 		return err
 	}
 
@@ -251,11 +272,15 @@ func (m *Instance) contextValidateInstanceTypeVal(ctx context.Context, formats s
 	}
 
 	if err := m.InstanceTypeVal.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("instanceTypeVal")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("instanceTypeVal")
 		}
+
 		return err
 	}
 

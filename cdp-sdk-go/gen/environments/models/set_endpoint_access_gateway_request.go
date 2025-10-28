@@ -51,7 +51,7 @@ func (m *SetEndpointAccessGatewayRequest) Validate(formats strfmt.Registry) erro
 	return nil
 }
 
-var setEndpointAccessGatewayRequestTypeEndpointAccessGatewaySchemePropEnum []interface{}
+var setEndpointAccessGatewayRequestTypeEndpointAccessGatewaySchemePropEnum []any
 
 func init() {
 	var res []string

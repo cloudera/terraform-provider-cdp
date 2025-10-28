@@ -8,4 +8,4 @@ package models
 // DeleteDbcDiagnosticDataJobResponse Response object for the deleteDbcDiagnosticDataJobRequest method.
 //
 // swagger:model DeleteDbcDiagnosticDataJobResponse
-type DeleteDbcDiagnosticDataJobResponse interface{}
+type DeleteDbcDiagnosticDataJobResponse any

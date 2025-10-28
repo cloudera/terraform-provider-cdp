@@ -8,4 +8,4 @@ package models
 // DeleteVwDiagnosticDataJobResponse Response object for the deleteVwDiagnosticDataJobRequest method.
 //
 // swagger:model DeleteVwDiagnosticDataJobResponse
-type DeleteVwDiagnosticDataJobResponse interface{}
+type DeleteVwDiagnosticDataJobResponse any

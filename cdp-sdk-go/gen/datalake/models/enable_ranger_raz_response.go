@@ -8,4 +8,4 @@ package models
 // EnableRangerRazResponse The enable Ranger Raz response.
 //
 // swagger:model EnableRangerRazResponse
-type EnableRangerRazResponse interface{}
+type EnableRangerRazResponse any

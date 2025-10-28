@@ -8,4 +8,4 @@ package models
 // ListClusterTemplatesRequest Request object for list cluster templates request.
 //
 // swagger:model ListClusterTemplatesRequest
-type ListClusterTemplatesRequest interface{}
+type ListClusterTemplatesRequest any

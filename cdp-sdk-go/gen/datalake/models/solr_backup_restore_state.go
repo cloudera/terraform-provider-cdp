@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -98,11 +99,15 @@ func (m *SolrBackupRestoreState) validateEdgeIndexCollection(formats strfmt.Regi
 
 	if m.EdgeIndexCollection != nil {
 		if err := m.EdgeIndexCollection.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("edgeIndexCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("edgeIndexCollection")
 			}
+
 			return err
 		}
 	}
@@ -117,11 +122,15 @@ func (m *SolrBackupRestoreState) validateEdgeIndexCollectionDelete(formats strfm
 
 	if m.EdgeIndexCollectionDelete != nil {
 		if err := m.EdgeIndexCollectionDelete.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("edgeIndexCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("edgeIndexCollectionDelete")
 			}
+
 			return err
 		}
 	}
@@ -137,11 +146,15 @@ func (m *SolrBackupRestoreState) validateFulltextIndexCollection(formats strfmt.
 
 	if m.FulltextIndexCollection != nil {
 		if err := m.FulltextIndexCollection.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("fulltextIndexCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("fulltextIndexCollection")
 			}
+
 			return err
 		}
 	}
@@ -156,11 +169,15 @@ func (m *SolrBackupRestoreState) validateFulltextIndexCollectionDelete(formats s
 
 	if m.FulltextIndexCollectionDelete != nil {
 		if err := m.FulltextIndexCollectionDelete.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("fulltextIndexCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("fulltextIndexCollectionDelete")
 			}
+
 			return err
 		}
 	}
@@ -176,11 +193,15 @@ func (m *SolrBackupRestoreState) validateRangerAuditsCollection(formats strfmt.R
 
 	if m.RangerAuditsCollection != nil {
 		if err := m.RangerAuditsCollection.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rangerAuditsCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rangerAuditsCollection")
 			}
+
 			return err
 		}
 	}
@@ -195,11 +216,15 @@ func (m *SolrBackupRestoreState) validateRangerAuditsCollectionDelete(formats st
 
 	if m.RangerAuditsCollectionDelete != nil {
 		if err := m.RangerAuditsCollectionDelete.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rangerAuditsCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rangerAuditsCollectionDelete")
 			}
+
 			return err
 		}
 	}
@@ -215,11 +240,15 @@ func (m *SolrBackupRestoreState) validateVertexIndexCollection(formats strfmt.Re
 
 	if m.VertexIndexCollection != nil {
 		if err := m.VertexIndexCollection.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("vertexIndexCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("vertexIndexCollection")
 			}
+
 			return err
 		}
 	}
@@ -234,11 +263,15 @@ func (m *SolrBackupRestoreState) validateVertexIndexCollectionDelete(formats str
 
 	if m.VertexIndexCollectionDelete != nil {
 		if err := m.VertexIndexCollectionDelete.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("vertexIndexCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("vertexIndexCollectionDelete")
 			}
+
 			return err
 		}
 	}
@@ -293,11 +326,15 @@ func (m *SolrBackupRestoreState) contextValidateEdgeIndexCollection(ctx context.
 	if m.EdgeIndexCollection != nil {
 
 		if err := m.EdgeIndexCollection.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("edgeIndexCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("edgeIndexCollection")
 			}
+
 			return err
 		}
 	}
@@ -314,11 +351,15 @@ func (m *SolrBackupRestoreState) contextValidateEdgeIndexCollectionDelete(ctx co
 		}
 
 		if err := m.EdgeIndexCollectionDelete.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("edgeIndexCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("edgeIndexCollectionDelete")
 			}
+
 			return err
 		}
 	}
@@ -331,11 +372,15 @@ func (m *SolrBackupRestoreState) contextValidateFulltextIndexCollection(ctx cont
 	if m.FulltextIndexCollection != nil {
 
 		if err := m.FulltextIndexCollection.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("fulltextIndexCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("fulltextIndexCollection")
 			}
+
 			return err
 		}
 	}
@@ -352,11 +397,15 @@ func (m *SolrBackupRestoreState) contextValidateFulltextIndexCollectionDelete(ct
 		}
 
 		if err := m.FulltextIndexCollectionDelete.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("fulltextIndexCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("fulltextIndexCollectionDelete")
 			}
+
 			return err
 		}
 	}
@@ -369,11 +418,15 @@ func (m *SolrBackupRestoreState) contextValidateRangerAuditsCollection(ctx conte
 	if m.RangerAuditsCollection != nil {
 
 		if err := m.RangerAuditsCollection.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rangerAuditsCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rangerAuditsCollection")
 			}
+
 			return err
 		}
 	}
@@ -390,11 +443,15 @@ func (m *SolrBackupRestoreState) contextValidateRangerAuditsCollectionDelete(ctx
 		}
 
 		if err := m.RangerAuditsCollectionDelete.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("rangerAuditsCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("rangerAuditsCollectionDelete")
 			}
+
 			return err
 		}
 	}
@@ -407,11 +464,15 @@ func (m *SolrBackupRestoreState) contextValidateVertexIndexCollection(ctx contex
 	if m.VertexIndexCollection != nil {
 
 		if err := m.VertexIndexCollection.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("vertexIndexCollection")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("vertexIndexCollection")
 			}
+
 			return err
 		}
 	}
@@ -428,11 +489,15 @@ func (m *SolrBackupRestoreState) contextValidateVertexIndexCollectionDelete(ctx 
 		}
 
 		if err := m.VertexIndexCollectionDelete.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("vertexIndexCollectionDelete")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("vertexIndexCollectionDelete")
 			}
+
 			return err
 		}
 	}

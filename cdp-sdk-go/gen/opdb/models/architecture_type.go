@@ -40,7 +40,7 @@ const (
 )
 
 // for schema
-var architectureTypeEnum []interface{}
+var architectureTypeEnum []any
 
 func init() {
 	var res []ArchitectureType

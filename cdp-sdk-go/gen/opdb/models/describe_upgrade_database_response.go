@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -65,11 +66,15 @@ func (m *DescribeUpgradeDatabaseResponse) validateAvailableComponentVersions(for
 
 		if m.AvailableComponentVersions[i] != nil {
 			if err := m.AvailableComponentVersions[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("availableComponentVersions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("availableComponentVersions" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -86,11 +91,15 @@ func (m *DescribeUpgradeDatabaseResponse) validateCurrentComponentVersion(format
 
 	if m.CurrentComponentVersion != nil {
 		if err := m.CurrentComponentVersion.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("currentComponentVersion")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("currentComponentVersion")
 			}
+
 			return err
 		}
 	}
@@ -127,11 +136,15 @@ func (m *DescribeUpgradeDatabaseResponse) contextValidateAvailableComponentVersi
 			}
 
 			if err := m.AvailableComponentVersions[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("availableComponentVersions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("availableComponentVersions" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -150,11 +163,15 @@ func (m *DescribeUpgradeDatabaseResponse) contextValidateCurrentComponentVersion
 		}
 
 		if err := m.CurrentComponentVersion.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("currentComponentVersion")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("currentComponentVersion")
 			}
+
 			return err
 		}
 	}

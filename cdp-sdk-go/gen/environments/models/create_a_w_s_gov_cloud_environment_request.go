@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -175,11 +176,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateAuthentication(formats str
 
 	if m.Authentication != nil {
 		if err := m.Authentication.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("authentication")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("authentication")
 			}
+
 			return err
 		}
 	}
@@ -203,11 +208,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateCustomDockerRegistry(forma
 
 	if m.CustomDockerRegistry != nil {
 		if err := m.CustomDockerRegistry.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDockerRegistry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDockerRegistry")
 			}
+
 			return err
 		}
 	}
@@ -215,7 +224,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateCustomDockerRegistry(forma
 	return nil
 }
 
-var createAWSGovCloudEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum []interface{}
+var createAWSGovCloudEnvironmentRequestTypeEndpointAccessGatewaySchemePropEnum []any
 
 func init() {
 	var res []string
@@ -273,11 +282,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateFreeIpa(formats strfmt.Reg
 
 	if m.FreeIpa != nil {
 		if err := m.FreeIpa.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("freeIpa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("freeIpa")
 			}
+
 			return err
 		}
 	}
@@ -292,11 +305,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateImage(formats strfmt.Regis
 
 	if m.Image != nil {
 		if err := m.Image.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -312,11 +329,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateLogStorage(formats strfmt.
 
 	if m.LogStorage != nil {
 		if err := m.LogStorage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("logStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("logStorage")
 			}
+
 			return err
 		}
 	}
@@ -340,11 +361,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateSecurity(formats strfmt.Re
 
 	if m.Security != nil {
 		if err := m.Security.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -360,11 +385,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateSecurityAccess(formats str
 
 	if m.SecurityAccess != nil {
 		if err := m.SecurityAccess.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityAccess")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityAccess")
 			}
+
 			return err
 		}
 	}
@@ -396,11 +425,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateTags(formats strfmt.Regist
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -457,11 +490,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateAuthentication(ctx 
 	if m.Authentication != nil {
 
 		if err := m.Authentication.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("authentication")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("authentication")
 			}
+
 			return err
 		}
 	}
@@ -478,11 +515,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateCustomDockerRegistr
 		}
 
 		if err := m.CustomDockerRegistry.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customDockerRegistry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customDockerRegistry")
 			}
+
 			return err
 		}
 	}
@@ -499,11 +540,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateFreeIpa(ctx context
 		}
 
 		if err := m.FreeIpa.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("freeIpa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("freeIpa")
 			}
+
 			return err
 		}
 	}
@@ -520,11 +565,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateImage(ctx context.C
 		}
 
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -537,11 +586,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateLogStorage(ctx cont
 	if m.LogStorage != nil {
 
 		if err := m.LogStorage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("logStorage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("logStorage")
 			}
+
 			return err
 		}
 	}
@@ -558,11 +611,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateSecurity(ctx contex
 		}
 
 		if err := m.Security.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -575,11 +632,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateSecurityAccess(ctx 
 	if m.SecurityAccess != nil {
 
 		if err := m.SecurityAccess.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("securityAccess")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("securityAccess")
 			}
+
 			return err
 		}
 	}
@@ -598,11 +659,15 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateTags(ctx context.Co
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

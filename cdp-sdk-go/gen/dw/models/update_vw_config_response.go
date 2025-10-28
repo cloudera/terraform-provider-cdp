@@ -8,4 +8,4 @@ package models
 // UpdateVwConfigResponse Response object for the updateVwConfig method.
 //
 // swagger:model UpdateVwConfigResponse
-type UpdateVwConfigResponse interface{}
+type UpdateVwConfigResponse any

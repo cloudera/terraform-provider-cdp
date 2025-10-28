@@ -8,4 +8,4 @@ package models
 // SetWorkloadPasswordPolicyResponse Response object for a set workload password policy request.
 //
 // swagger:model SetWorkloadPasswordPolicyResponse
-type SetWorkloadPasswordPolicyResponse interface{}
+type SetWorkloadPasswordPolicyResponse any

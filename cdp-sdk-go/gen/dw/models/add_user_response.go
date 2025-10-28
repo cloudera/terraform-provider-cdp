@@ -8,4 +8,4 @@ package models
 // AddUserResponse Response object for the addUser method.
 //
 // swagger:model AddUserResponse
-type AddUserResponse interface{}
+type AddUserResponse any

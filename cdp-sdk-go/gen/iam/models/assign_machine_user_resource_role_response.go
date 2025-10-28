@@ -8,4 +8,4 @@ package models
 // AssignMachineUserResourceRoleResponse Response object for an assign machine user resource role request.
 //
 // swagger:model AssignMachineUserResourceRoleResponse
-type AssignMachineUserResourceRoleResponse interface{}
+type AssignMachineUserResourceRoleResponse any

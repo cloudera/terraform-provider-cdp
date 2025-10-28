@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -125,11 +126,15 @@ func (m *CreateAzureClusterRequest) validateCustomRegistryOptions(formats strfmt
 
 	if m.CustomRegistryOptions != nil {
 		if err := m.CustomRegistryOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customRegistryOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customRegistryOptions")
 			}
+
 			return err
 		}
 	}
@@ -146,7 +151,7 @@ func (m *CreateAzureClusterRequest) validateEnvironmentCrn(formats strfmt.Regist
 	return nil
 }
 
-var createAzureClusterRequestTypeOutboundTypePropEnum []interface{}
+var createAzureClusterRequestTypeOutboundTypePropEnum []any
 
 func init() {
 	var res []string
@@ -232,11 +237,15 @@ func (m *CreateAzureClusterRequest) contextValidateCustomRegistryOptions(ctx con
 		}
 
 		if err := m.CustomRegistryOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("customRegistryOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("customRegistryOptions")
 			}
+
 			return err
 		}
 	}

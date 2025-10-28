@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -59,11 +60,15 @@ func (m *ApplicationResources) validateBreakdown(formats strfmt.Registry) error 
 
 	if m.Breakdown != nil {
 		if err := m.Breakdown.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("breakdown")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("breakdown")
 			}
+
 			return err
 		}
 	}
@@ -78,11 +83,15 @@ func (m *ApplicationResources) validateLocalStorageSize(formats strfmt.Registry)
 
 	if m.LocalStorageSize != nil {
 		if err := m.LocalStorageSize.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("localStorageSize")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("localStorageSize")
 			}
+
 			return err
 		}
 	}
@@ -117,11 +126,15 @@ func (m *ApplicationResources) contextValidateBreakdown(ctx context.Context, for
 		}
 
 		if err := m.Breakdown.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("breakdown")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("breakdown")
 			}
+
 			return err
 		}
 	}
@@ -138,11 +151,15 @@ func (m *ApplicationResources) contextValidateLocalStorageSize(ctx context.Conte
 		}
 
 		if err := m.LocalStorageSize.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("localStorageSize")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("localStorageSize")
 			}
+
 			return err
 		}
 	}

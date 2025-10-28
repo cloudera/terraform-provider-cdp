@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -14,35 +15,45 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// DiagnosticsBundle Describe a diagnostics bundle
+// DiagnosticsBundle Describe a diagnostics bundle.
 //
 // swagger:model DiagnosticsBundle
 type DiagnosticsBundle struct {
 
-	// The object on which diagnostics was collected
+	// CSH case number.
+	CaseNumber string `json:"caseNumber,omitempty"`
+
+	// The object on which diagnostics was collected.
 	Crn string `json:"crn,omitempty"`
+
+	// Requested destination of the bundle.
+	Destination DiagnosticDestination `json:"destination,omitempty"`
 
 	// The end time, if the command is finished.
 	// Format: date-time
 	EndTime strfmt.DateTime `json:"endTime,omitempty"`
 
-	// Identifier for each bundle collection
+	// Identifier for each bundle collection.
 	ID string `json:"id,omitempty"`
 
-	// If this is a download, a link to the download location of the bundle
+	// If this is a download, a link to the download location of the bundle.
 	Result string `json:"result,omitempty"`
 
-	// Start time
+	// Start time.
 	// Format: date-time
 	StartTime strfmt.DateTime `json:"startTime,omitempty"`
 
-	// A status of the diagnostics collection process
+	// A status of the diagnostics collection process.
 	Status string `json:"status,omitempty"`
 }
 
 // Validate validates this diagnostics bundle
 func (m *DiagnosticsBundle) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateDestination(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateEndTime(formats); err != nil {
 		res = append(res, err)
@@ -55,6 +66,27 @@ func (m *DiagnosticsBundle) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *DiagnosticsBundle) validateDestination(formats strfmt.Registry) error {
+	if swag.IsZero(m.Destination) { // not required
+		return nil
+	}
+
+	if err := m.Destination.Validate(formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("destination")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("destination")
+		}
+
+		return err
+	}
+
 	return nil
 }
 
@@ -82,8 +114,39 @@ func (m *DiagnosticsBundle) validateStartTime(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this diagnostics bundle based on context it is used
+// ContextValidate validate this diagnostics bundle based on the context it is used
 func (m *DiagnosticsBundle) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDestination(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *DiagnosticsBundle) contextValidateDestination(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Destination) { // not required
+		return nil
+	}
+
+	if err := m.Destination.ContextValidate(ctx, formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("destination")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("destination")
+		}
+
+		return err
+	}
+
 	return nil
 }
 

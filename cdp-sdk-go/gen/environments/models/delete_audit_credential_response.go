@@ -8,4 +8,4 @@ package models
 // DeleteAuditCredentialResponse Response object for a delete audit credential request.
 //
 // swagger:model DeleteAuditCredentialResponse
-type DeleteAuditCredentialResponse interface{}
+type DeleteAuditCredentialResponse any

@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.143 (BETA)
+  version: 0.9.148 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -401,10 +401,11 @@ paths:
   /api/v1/environments2/disableS3Guard:
     post:
       summary: Disable the S3Guard for an environment.
-      description: Disables the S3Guard for an environment.
+      description: Deprecated, S3Guard is no longer supported.
       operationId: disableS3Guard
       x-mutating: true
       x-entitlement: CDP_RAW_S3
+      x-deprecated: true
       parameters:
         - name: input
           in: body
@@ -3333,6 +3334,7 @@ definitions:
       - securityAccess
       - usePublicIp
       - logStorage
+      - existingNetworkParams
     properties:
       environmentName:
         type: string

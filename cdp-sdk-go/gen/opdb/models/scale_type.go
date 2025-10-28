@@ -43,7 +43,7 @@ const (
 )
 
 // for schema
-var scaleTypeEnum []interface{}
+var scaleTypeEnum []any
 
 func init() {
 	var res []ScaleType

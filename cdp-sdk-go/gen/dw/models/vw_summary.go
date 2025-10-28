@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,7 +52,7 @@ type VwSummary struct {
 	// Provides EBS gp3 volume as temporary storage space for Hive LLAP cache, and improves query performance. Configurable only at Virtual Warehouse creation. Using EBS volumes incurs additional costs.
 	EbsLLAPSpillGB int32 `json:"ebsLLAPSpillGB,omitempty"`
 
-	// Denotes whether the Unified Analytics is enabled.
+	// DEPRECATED: Denotes whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.
 	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
 
 	// endpoints
@@ -201,11 +202,15 @@ func (m *VwSummary) validateAutoscalingOptions(formats strfmt.Registry) error {
 
 	if m.AutoscalingOptions != nil {
 		if err := m.AutoscalingOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoscalingOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoscalingOptions")
 			}
+
 			return err
 		}
 	}
@@ -232,11 +237,15 @@ func (m *VwSummary) validateCreator(formats strfmt.Registry) error {
 
 	if m.Creator != nil {
 		if err := m.Creator.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("creator")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("creator")
 			}
+
 			return err
 		}
 	}
@@ -251,11 +260,15 @@ func (m *VwSummary) validateEndpoints(formats strfmt.Registry) error {
 
 	if m.Endpoints != nil {
 		if err := m.Endpoints.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("endpoints")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("endpoints")
 			}
+
 			return err
 		}
 	}
@@ -270,11 +283,15 @@ func (m *VwSummary) validateImpalaHaSettingsOptions(formats strfmt.Registry) err
 
 	if m.ImpalaHaSettingsOptions != nil {
 		if err := m.ImpalaHaSettingsOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaHaSettingsOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaHaSettingsOptions")
 			}
+
 			return err
 		}
 	}
@@ -289,11 +306,15 @@ func (m *VwSummary) validateImpalaOptions(formats strfmt.Registry) error {
 
 	if m.ImpalaOptions != nil {
 		if err := m.ImpalaOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaOptions")
 			}
+
 			return err
 		}
 	}
@@ -308,11 +329,15 @@ func (m *VwSummary) validateJwtAuth(formats strfmt.Registry) error {
 
 	if m.JwtAuth != nil {
 		if err := m.JwtAuth.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("jwtAuth")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("jwtAuth")
 			}
+
 			return err
 		}
 	}
@@ -327,11 +352,15 @@ func (m *VwSummary) validateQueryIsolationOptions(formats strfmt.Registry) error
 
 	if m.QueryIsolationOptions != nil {
 		if err := m.QueryIsolationOptions.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("queryIsolationOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("queryIsolationOptions")
 			}
+
 			return err
 		}
 	}
@@ -346,11 +375,15 @@ func (m *VwSummary) validateReplicaStatus(formats strfmt.Registry) error {
 
 	if m.ReplicaStatus != nil {
 		if err := m.ReplicaStatus.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("replicaStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("replicaStatus")
 			}
+
 			return err
 		}
 	}
@@ -370,11 +403,15 @@ func (m *VwSummary) validateResources(formats strfmt.Registry) error {
 		}
 		if val, ok := m.Resources[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("resources" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("resources" + "." + k)
 				}
+
 				return err
 			}
 		}
@@ -403,11 +440,15 @@ func (m *VwSummary) validateSupportedAuthMethods(formats strfmt.Registry) error 
 
 	if m.SupportedAuthMethods != nil {
 		if err := m.SupportedAuthMethods.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("supportedAuthMethods")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("supportedAuthMethods")
 			}
+
 			return err
 		}
 	}
@@ -427,11 +468,15 @@ func (m *VwSummary) validateTags(formats strfmt.Registry) error {
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -447,11 +492,15 @@ func (m *VwSummary) validateVwType(formats strfmt.Registry) error {
 	}
 
 	if err := m.VwType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("vwType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("vwType")
 		}
+
 		return err
 	}
 
@@ -525,11 +574,15 @@ func (m *VwSummary) contextValidateAutoscalingOptions(ctx context.Context, forma
 		}
 
 		if err := m.AutoscalingOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("autoscalingOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoscalingOptions")
 			}
+
 			return err
 		}
 	}
@@ -546,11 +599,15 @@ func (m *VwSummary) contextValidateCreator(ctx context.Context, formats strfmt.R
 		}
 
 		if err := m.Creator.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("creator")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("creator")
 			}
+
 			return err
 		}
 	}
@@ -567,11 +624,15 @@ func (m *VwSummary) contextValidateEndpoints(ctx context.Context, formats strfmt
 		}
 
 		if err := m.Endpoints.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("endpoints")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("endpoints")
 			}
+
 			return err
 		}
 	}
@@ -588,11 +649,15 @@ func (m *VwSummary) contextValidateImpalaHaSettingsOptions(ctx context.Context, 
 		}
 
 		if err := m.ImpalaHaSettingsOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaHaSettingsOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaHaSettingsOptions")
 			}
+
 			return err
 		}
 	}
@@ -609,11 +674,15 @@ func (m *VwSummary) contextValidateImpalaOptions(ctx context.Context, formats st
 		}
 
 		if err := m.ImpalaOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaOptions")
 			}
+
 			return err
 		}
 	}
@@ -630,11 +699,15 @@ func (m *VwSummary) contextValidateJwtAuth(ctx context.Context, formats strfmt.R
 		}
 
 		if err := m.JwtAuth.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("jwtAuth")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("jwtAuth")
 			}
+
 			return err
 		}
 	}
@@ -651,11 +724,15 @@ func (m *VwSummary) contextValidateQueryIsolationOptions(ctx context.Context, fo
 		}
 
 		if err := m.QueryIsolationOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("queryIsolationOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("queryIsolationOptions")
 			}
+
 			return err
 		}
 	}
@@ -672,11 +749,15 @@ func (m *VwSummary) contextValidateReplicaStatus(ctx context.Context, formats st
 		}
 
 		if err := m.ReplicaStatus.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("replicaStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("replicaStatus")
 			}
+
 			return err
 		}
 	}
@@ -708,11 +789,15 @@ func (m *VwSummary) contextValidateSupportedAuthMethods(ctx context.Context, for
 		}
 
 		if err := m.SupportedAuthMethods.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("supportedAuthMethods")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("supportedAuthMethods")
 			}
+
 			return err
 		}
 	}
@@ -731,11 +816,15 @@ func (m *VwSummary) contextValidateTags(ctx context.Context, formats strfmt.Regi
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -752,11 +841,15 @@ func (m *VwSummary) contextValidateVwType(ctx context.Context, formats strfmt.Re
 	}
 
 	if err := m.VwType.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("vwType")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("vwType")
 		}
+
 		return err
 	}
 
@@ -789,10 +882,10 @@ type VwSummaryEndpoints struct {
 	// URL of Data Analytics Studio for Hive Virtual Warehouses.
 	Das string `json:"das,omitempty"`
 
-	// Command to use impala-shell for Unified Analytics
+	// DEPRECATED: Command to use impala-shell for Unified Analytics. FENG support will be removed in subsequent releases.
 	FengImpalaShell string `json:"fengImpalaShell,omitempty"`
 
-	// Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud.
+	// DEPRECATED: Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud. FENG support will be removed in subsequent releases.
 	FengKerberosImpalaShell string `json:"fengKerberosImpalaShell,omitempty"`
 
 	// JDBC URL for Hive Virtual Warehouses.
@@ -807,10 +900,10 @@ type VwSummaryEndpoints struct {
 	// URL of Hue for both Hive and Impala Virtual Warehouses.
 	Hue string `json:"hue,omitempty"`
 
-	// FENG JDBC URL for Impala Virtual Warehouses.
+	// DEPRECATED: FENG JDBC URL for Impala Virtual Warehouses. FENG support will be removed in subsequent releases.
 	ImpalaFENGJdbc string `json:"impalaFENGJdbc,omitempty"`
 
-	// Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud.
+	// DEPRECATED: Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud. FENG support will be removed in subsequent releases.
 	ImpalaFengKerberosJdbc string `json:"impalaFengKerberosJdbc,omitempty"`
 
 	// JDBC URL for Impala Virtual Warehouses.

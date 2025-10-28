@@ -8,4 +8,4 @@ package models
 // UpdateDbcConfigResponse Response object for the updateDbcConfig method.
 //
 // swagger:model UpdateDbcConfigResponse
-type UpdateDbcConfigResponse interface{}
+type UpdateDbcConfigResponse any

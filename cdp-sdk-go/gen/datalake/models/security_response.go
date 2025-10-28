@@ -39,7 +39,7 @@ func (m *SecurityResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var securityResponseTypeSeLinuxPropEnum []interface{}
+var securityResponseTypeSeLinuxPropEnum []any
 
 func init() {
 	var res []string

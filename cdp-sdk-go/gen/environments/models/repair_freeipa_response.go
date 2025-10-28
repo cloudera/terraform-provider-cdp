@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -98,11 +99,15 @@ func (m *RepairFreeipaResponse) validateFailureOperationDetails(formats strfmt.R
 
 		if m.FailureOperationDetails[i] != nil {
 			if err := m.FailureOperationDetails[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("failureOperationDetails" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("failureOperationDetails" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -130,11 +135,15 @@ func (m *RepairFreeipaResponse) validateStatus(formats strfmt.Registry) error {
 	}
 
 	if err := m.Status.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("status")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("status")
 		}
+
 		return err
 	}
 
@@ -153,11 +162,15 @@ func (m *RepairFreeipaResponse) validateSuccessfulOperationDetails(formats strfm
 
 		if m.SuccessfulOperationDetails[i] != nil {
 			if err := m.SuccessfulOperationDetails[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("successfulOperationDetails" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("successfulOperationDetails" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -200,11 +213,15 @@ func (m *RepairFreeipaResponse) contextValidateFailureOperationDetails(ctx conte
 			}
 
 			if err := m.FailureOperationDetails[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("failureOperationDetails" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("failureOperationDetails" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -221,11 +238,15 @@ func (m *RepairFreeipaResponse) contextValidateStatus(ctx context.Context, forma
 	}
 
 	if err := m.Status.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("status")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("status")
 		}
+
 		return err
 	}
 
@@ -243,11 +264,15 @@ func (m *RepairFreeipaResponse) contextValidateSuccessfulOperationDetails(ctx co
 			}
 
 			if err := m.SuccessfulOperationDetails[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("successfulOperationDetails" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("successfulOperationDetails" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

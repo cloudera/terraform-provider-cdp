@@ -19,11 +19,11 @@ import (
 // swagger:model ListDiagnosticsRequest
 type ListDiagnosticsRequest struct {
 
-	// The name of the database
+	// The name of the database.
 	// Required: true
 	DatabaseName *string `json:"databaseName"`
 
-	// The name of the environment
+	// The name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 }

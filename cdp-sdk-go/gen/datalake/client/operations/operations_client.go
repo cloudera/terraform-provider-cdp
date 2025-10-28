@@ -76,6 +76,8 @@ type ClientService interface {
 
 	CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error)
 
+	DeleteBackupRestoreConfiguration(params *DeleteBackupRestoreConfigurationParams, opts ...ClientOption) (*DeleteBackupRestoreConfigurationOK, error)
+
 	DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error)
 
 	DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
@@ -83,6 +85,8 @@ type ClientService interface {
 	DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error)
 
 	EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error)
+
+	GetBackupRestoreConfiguration(params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error)
 
 	GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
 
@@ -140,6 +144,8 @@ type ClientService interface {
 
 	ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error)
 
+	SetBackupRestoreConfiguration(params *SetBackupRestoreConfigurationParams, opts ...ClientOption) (*SetBackupRestoreConfigurationOK, error)
+
 	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
 
 	SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error)
@@ -175,7 +181,7 @@ BackupDatalake creates backup of datalake
 Takes a backup of all the data in the datalake.
 */
 func (a *Client) BackupDatalake(params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupDatalakeParams()
 	}
@@ -194,17 +200,22 @@ func (a *Client) BackupDatalake(params *BackupDatalakeParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*BackupDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*BackupDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -214,7 +225,7 @@ BackupDatalakeStatus checks the status of a datalake backup operation performed
 Identifies the backup operation based on the inputs provided and gets the status. BackupName and BackupId are mutually exclusive. Only one of them can be provided.
 */
 func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupDatalakeStatusParams()
 	}
@@ -233,17 +244,22 @@ func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*BackupDatalakeStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*BackupDatalakeStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -253,7 +269,7 @@ CancelBackup cancels the specified ongoing backup operation
 Cancels a currently running backup operation. The operation must be in a STARTED or IN_PROGRESS state. Pending sub-operations will be ignored and marked as cancelled. The operation does not wait for the currently running sub-operation(s) to complete.
 */
 func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelBackupParams()
 	}
@@ -272,17 +288,22 @@ func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CancelBackupOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CancelBackupDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -292,7 +313,7 @@ CancelDatalakeDiagnostics cancels running datalake diagnostics collections
 Cancel running Datalake diagnostics collection
 */
 func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelDatalakeDiagnosticsParams()
 	}
@@ -311,17 +332,22 @@ func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CancelDatalakeDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CancelDatalakeDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -331,7 +357,7 @@ CancelRestore cancels the restore that was performed
 Cancels a currently running restore operation. The operation must be in a STARTED or IN_PROGRESS state.
 */
 func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelRestoreParams()
 	}
@@ -350,17 +376,22 @@ func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CancelRestoreOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CancelRestoreDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -370,7 +401,7 @@ CollectCmDiagnostics starts data lake cloudera manager based diagnostics collect
 Start Datalake Cloudera Manager based diagnostics collection
 */
 func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectCmDiagnosticsParams()
 	}
@@ -389,17 +420,22 @@ func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CollectCmDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CollectCmDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -409,7 +445,7 @@ CollectDatalakeDiagnostics starts data lake diagnostics collection
 Start Datalake diagnostics collection
 */
 func (a *Client) CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectDatalakeDiagnosticsParams()
 	}
@@ -428,17 +464,22 @@ func (a *Client) CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsPa
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CollectDatalakeDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CollectDatalakeDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -448,7 +489,7 @@ CreateAWSDatalake creates an a w s datalake
 Creates an AWS datalake.
 */
 func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSDatalakeParams()
 	}
@@ -467,17 +508,22 @@ func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -487,7 +533,7 @@ CreateAWSGovCloudDatalake creates a data lake on a w s gov cloud
 Creates a Data Lake on AWS GovCloud.
 */
 func (a *Client) CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudDatalakeParams()
 	}
@@ -506,17 +552,22 @@ func (a *Client) CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakePara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAWSGovCloudDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAWSGovCloudDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -526,7 +577,7 @@ CreateAzureDatalake creates an azure datalake
 Creates an Azure datalake.
 */
 func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureDatalakeParams()
 	}
@@ -545,17 +596,22 @@ func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateAzureDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateAzureDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -565,7 +621,7 @@ CreateGCPDatalake creates an g c p data lake
 Creates an GCP Data Lake.
 */
 func (a *Client) CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPDatalakeParams()
 	}
@@ -584,17 +640,66 @@ func (a *Client) CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*CreateGCPDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateGCPDatalakeDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+DeleteBackupRestoreConfiguration deletes the backup and restore configuration for the datalake
+
+Deletes the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
+*/
+func (a *Client) DeleteBackupRestoreConfiguration(params *DeleteBackupRestoreConfigurationParams, opts ...ClientOption) (*DeleteBackupRestoreConfigurationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewDeleteBackupRestoreConfigurationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "deleteBackupRestoreConfiguration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/deleteBackupRestoreConfiguration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &DeleteBackupRestoreConfigurationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*DeleteBackupRestoreConfigurationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*DeleteBackupRestoreConfigurationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -604,7 +709,7 @@ DeleteDatalake deletes a datalake
 Deletes a datalake.
 */
 func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDatalakeParams()
 	}
@@ -623,17 +728,22 @@ func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DeleteDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DeleteDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -643,7 +753,7 @@ DescribeDatabaseServer gets external database server details
 Gets external database server details for Data Lake by cluster CRN
 */
 func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatabaseServerParams()
 	}
@@ -662,17 +772,22 @@ func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDatabaseServerOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDatabaseServerDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -682,7 +797,7 @@ DescribeDatalake describes a datalake
 Describes a datalake.
 */
 func (a *Client) DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatalakeParams()
 	}
@@ -701,17 +816,22 @@ func (a *Client) DescribeDatalake(params *DescribeDatalakeParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*DescribeDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*DescribeDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -721,7 +841,7 @@ EnableRangerRaz sets the ranger raz enabled flag to true if raz is manually inst
 Sets the Ranger Raz enabled flag to true if Raz is manually installed on the datalake.
 */
 func (a *Client) EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableRangerRazParams()
 	}
@@ -740,17 +860,66 @@ func (a *Client) EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*EnableRangerRazOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*EnableRangerRazDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetBackupRestoreConfiguration gets the backup and restore configuration for the datalake
+
+Gets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
+*/
+func (a *Client) GetBackupRestoreConfiguration(params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewGetBackupRestoreConfigurationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getBackupRestoreConfiguration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/getBackupRestoreConfiguration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetBackupRestoreConfigurationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*GetBackupRestoreConfigurationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*GetBackupRestoreConfigurationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -760,7 +929,7 @@ GetClusterHostStatus gets cluster host status
 Gets the status of the hosts in a cluster.
 */
 func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterHostStatusParams()
 	}
@@ -779,17 +948,22 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetClusterHostStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetClusterHostStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -799,7 +973,7 @@ GetClusterServiceStatus gets cluster service status
 Gets the status of the services in a cluster.
 */
 func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterServiceStatusParams()
 	}
@@ -818,17 +992,22 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetClusterServiceStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetClusterServiceStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -838,7 +1017,7 @@ GetCmRoles gathers cloudera manager roles that can be used for filtering in c m 
 Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection.
 */
 func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetCmRolesParams()
 	}
@@ -857,17 +1036,22 @@ func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*Ge
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetCmRolesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetCmRolesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -877,7 +1061,7 @@ GetDatalakeLogDescriptors gathers log descriptors that are used for diagnostics 
 Gather log descriptors that are used for diagnostics collection.
 */
 func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDatalakeLogDescriptorsParams()
 	}
@@ -896,17 +1080,22 @@ func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetDatalakeLogDescriptorsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetDatalakeLogDescriptorsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -916,7 +1105,7 @@ GetOperation useds for retrieving operation status for the datalake cluster defa
 Used for retrieving operation status for the datalake cluster, defaulting to the most recent operation. Provide an operationId to view details of a specific historical operation.
 */
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetOperationParams()
 	}
@@ -935,17 +1124,22 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*GetOperationOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*GetOperationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -955,7 +1149,7 @@ ListDatalakeBackups lists all the backup operations that were performed on the d
 List all the backup operations that were performed on the datalake.
 */
 func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakeBackupsParams()
 	}
@@ -974,17 +1168,22 @@ func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDatalakeBackupsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDatalakeBackupsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -994,7 +1193,7 @@ ListDatalakeDiagnostics lists recent datalake diagnostics collections
 List recent Datalake diagnostics collection
 */
 func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakeDiagnosticsParams()
 	}
@@ -1013,17 +1212,22 @@ func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDatalakeDiagnosticsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDatalakeDiagnosticsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1033,7 +1237,7 @@ ListDatalakeSecretTypes lists all datalake related secret types
 Lists Datalake related secret types for Datalake instances.
 */
 func (a *Client) ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakeSecretTypesParams()
 	}
@@ -1052,17 +1256,22 @@ func (a *Client) ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDatalakeSecretTypesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDatalakeSecretTypesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1072,7 +1281,7 @@ ListDatalakes lists datalakes
 Lists datalakes.
 */
 func (a *Client) ListDatalakes(params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakesParams()
 	}
@@ -1091,17 +1300,22 @@ func (a *Client) ListDatalakes(params *ListDatalakesParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListDatalakesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListDatalakesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1111,7 +1325,7 @@ ListRuntimes lists the datalake versions
 Lists the available datalake runtime versions.
 */
 func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRuntimesParams()
 	}
@@ -1130,17 +1344,22 @@ func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ListRuntimesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListRuntimesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1150,7 +1369,7 @@ MigrateSkus migrates the data lake to a new s k u
 Migrate the Data Lake to a new SKU.
 */
 func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewMigrateSkusParams()
 	}
@@ -1169,17 +1388,22 @@ func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*MigrateSkusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*MigrateSkusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1189,7 +1413,7 @@ PrepareDatalakeUpgrade prepares the data lake cluster for upgrade
 In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well.
 */
 func (a *Client) PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewPrepareDatalakeUpgradeParams()
 	}
@@ -1208,17 +1432,22 @@ func (a *Client) PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*PrepareDatalakeUpgradeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*PrepareDatalakeUpgradeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1228,7 +1457,7 @@ RecoverDatalake recovers data lake to the original version after a failed upgrad
 Recover data lake to the original version after a failed upgrade.
 */
 func (a *Client) RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRecoverDatalakeParams()
 	}
@@ -1247,17 +1476,22 @@ func (a *Client) RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RecoverDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RecoverDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1267,7 +1501,7 @@ RenewCertificate renews certificate on datalake cluster by name or c r n
 Deprecated, please use renew-public-certificate command instead. Renew certificate on Datalake cluster by name or CRN.
 */
 func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewCertificateParams()
 	}
@@ -1286,17 +1520,22 @@ func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...Client
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RenewCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RenewCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1306,7 +1545,7 @@ RenewPublicCertificate renews public certificate on datalake cluster by name or 
 Renews public certificate on Datalake cluster by name or CRN.
 */
 func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewPublicCertificateParams()
 	}
@@ -1325,17 +1564,22 @@ func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, op
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RenewPublicCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RenewPublicCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1345,7 +1589,7 @@ RepairDatalake repairs a datalake
 Repairs a datalake.
 */
 func (a *Client) RepairDatalake(params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRepairDatalakeParams()
 	}
@@ -1364,17 +1608,22 @@ func (a *Client) RepairDatalake(params *RepairDatalakeParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RepairDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RepairDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1384,7 +1633,7 @@ ReplaceRecipes replaces recipes for the given instance groups
 Replaces recipes for the given instance groups.
 */
 func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewReplaceRecipesParams()
 	}
@@ -1403,17 +1652,22 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ReplaceRecipesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ReplaceRecipesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1423,7 +1677,7 @@ ResizeDatalake resizes the given datalake to the given target size
 Resizes the datalake to the given size.
 */
 func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResizeDatalakeParams()
 	}
@@ -1442,17 +1696,22 @@ func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOpti
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ResizeDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ResizeDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1462,7 +1721,7 @@ RestartDatalakeInstances restarts instances of a datalake on cloud provider
 Restarts instances of a datalake on Cloud provider.
 */
 func (a *Client) RestartDatalakeInstances(params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestartDatalakeInstancesParams()
 	}
@@ -1481,17 +1740,22 @@ func (a *Client) RestartDatalakeInstances(params *RestartDatalakeInstancesParams
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestartDatalakeInstancesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestartDatalakeInstancesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1501,7 +1765,7 @@ RestoreDatalake restores the datalake from backup taken
 Restore the datalake from a backup that was taken. Backup to be used for restore is identified based on the information provided in the restore request. BackupId and BackupName are mutually exclusive. Only one of them can be provided. If both are provided, BackupId takes precedence.
 */
 func (a *Client) RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreDatalakeParams()
 	}
@@ -1520,17 +1784,22 @@ func (a *Client) RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestoreDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestoreDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1540,7 +1809,7 @@ RestoreDatalakeStatus checks the status of datalake restore operation
 Identifies the restore operation based on the inputs provided and gets the status. RestoreId and BackupName are mutually exclusive. Only one of them can be provided.
 */
 func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreDatalakeStatusParams()
 	}
@@ -1559,17 +1828,22 @@ func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RestoreDatalakeStatusOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RestoreDatalakeStatusDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1579,7 +1853,7 @@ RetryDatalake retries last failed operation on a datalake
 Retry last failed operation on a datalake.
 */
 func (a *Client) RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRetryDatalakeParams()
 	}
@@ -1598,17 +1872,22 @@ func (a *Client) RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RetryDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RetryDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1618,7 +1897,7 @@ RotateAutoTLSCertificates rotates autotls certificates on the datalake s hosts
 Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datalake's hosts
 */
 func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateAutoTLSCertificatesParams()
 	}
@@ -1637,17 +1916,22 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateAutoTLSCertificatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateAutoTLSCertificatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1657,7 +1941,7 @@ RotateDbCertificate rotates database ssl certificate for a specific data lake
 Rotates database ssl certificate for a specific Data Lake.
 */
 func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateDbCertificateParams()
 	}
@@ -1676,17 +1960,22 @@ func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateDbCertificateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateDbCertificateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1696,7 +1985,7 @@ RotatePrivateCertificates rotates private certificates on the datalake s hosts
 Rotates private certificates on the datalake's hosts.
 */
 func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotatePrivateCertificatesParams()
 	}
@@ -1715,17 +2004,22 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotatePrivateCertificatesOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotatePrivateCertificatesDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1735,7 +2029,7 @@ RotateSaltPassword rotates salt stack user password on data lake instances
 Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSaltPasswordParams()
 	}
@@ -1754,17 +2048,22 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateSaltPasswordOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateSaltPasswordDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1774,7 +2073,7 @@ RotateSecrets rotates secrets for a specific datalake
 Rotates secrets for a specific Datalake based on what secret types are specified.
 */
 func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSecretsParams()
 	}
@@ -1793,17 +2092,22 @@ func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*RotateSecretsOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RotateSecretsDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1813,7 +2117,7 @@ ScaleHorizontally horizontallies scale the data lake nodes to add additional com
 Horizontally scale the target host group in the Data Lake cluster. The possible option for the instance group are raz_scale_out, hms_scale_out, kafka_scale_out, solr_scale_out, storage_scale_out
 */
 func (a *Client) ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewScaleHorizontallyParams()
 	}
@@ -1832,17 +2136,66 @@ func (a *Client) ScaleHorizontally(params *ScaleHorizontallyParams, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ScaleHorizontallyOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ScaleHorizontallyDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetBackupRestoreConfiguration sets the backup and restore configuration for the datalake
+
+Sets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
+*/
+func (a *Client) SetBackupRestoreConfiguration(params *SetBackupRestoreConfigurationParams, opts ...ClientOption) (*SetBackupRestoreConfigurationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewSetBackupRestoreConfigurationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setBackupRestoreConfiguration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/setBackupRestoreConfiguration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetBackupRestoreConfigurationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*SetBackupRestoreConfigurationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*SetBackupRestoreConfigurationDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1852,7 +2205,7 @@ SetCatalog sets a catalog for a data lake
 Sets a catalog for a DataLake.
 */
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetCatalogParams()
 	}
@@ -1871,17 +2224,22 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetCatalogOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetCatalogDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1891,7 +2249,7 @@ SetDefaultJavaVersion configures the default java version for the data lake
 Configures the default Java version for the Data Lake. This command updates the system's default Java version and will restart both the Cluster Manager and the services.
 */
 func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetDefaultJavaVersionParams()
 	}
@@ -1910,17 +2268,22 @@ func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SetDefaultJavaVersionOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetDefaultJavaVersionDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1930,7 +2293,7 @@ StartDatabaseUpgrade upgrades the database of the data lake cluster
 This command initiates the upgrade of the database of the Data Lake cluster.
 */
 func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatabaseUpgradeParams()
 	}
@@ -1949,17 +2312,22 @@ func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts .
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartDatabaseUpgradeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartDatabaseUpgradeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -1969,7 +2337,7 @@ StartDatalake starts datalake
 Deprecated, please use 'cdp environments start-environment' instead.
 */
 func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatalakeParams()
 	}
@@ -1988,17 +2356,22 @@ func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2008,7 +2381,7 @@ StartDatalakeVerticalScaling initiates the vertical scaling on data lake
 Initiates the vertical scaling on Data Lake. You have the option to specify 'modifyDisks' or 'instanceTemplate' as parameter.
 */
 func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatalakeVerticalScalingParams()
 	}
@@ -2027,17 +2400,22 @@ func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScali
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StartDatalakeVerticalScalingOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StartDatalakeVerticalScalingDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2047,7 +2425,7 @@ StopDatalake stops datalake
 Deprecated, please use 'cdp environments stop-environment' instead.
 */
 func (a *Client) StopDatalake(params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopDatalakeParams()
 	}
@@ -2066,17 +2444,22 @@ func (a *Client) StopDatalake(params *StopDatalakeParams, opts ...ClientOption) 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*StopDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*StopDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2086,7 +2469,7 @@ SyncComponentVersionsFromCm syncs component versions from c m after a failed upg
 Syncs component versions from CM after a failed upgrade.
 */
 func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncComponentVersionsFromCmParams()
 	}
@@ -2105,17 +2488,22 @@ func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCm
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*SyncComponentVersionsFromCmOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SyncComponentVersionsFromCmDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2125,7 +2513,7 @@ UpdateOrchestratorState runs orchestrator engine state update on the data lake c
 Run orchestrator engine state update on the Data Lake cluster.
 */
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateOrchestratorStateParams()
 	}
@@ -2144,17 +2532,22 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateOrchestratorStateOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2164,7 +2557,7 @@ UpdateToAwsImdsV1 updates data lake a w s cluster to use i m d sv1
 Updates Data Lake AWS cluster to use IMDSv1.
 */
 func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV1Params()
 	}
@@ -2183,17 +2576,22 @@ func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateToAwsImdsV1OK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateToAwsImdsV1Default)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2203,7 +2601,7 @@ UpdateToAwsImdsV2 updates data lake a w s cluster to use i m d sv2
 Updates Data Lake AWS cluster to use IMDSv2.
 */
 func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV2Params()
 	}
@@ -2222,17 +2620,22 @@ func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...Clie
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpdateToAwsImdsV2OK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateToAwsImdsV2Default)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2242,7 +2645,7 @@ UpgradeDatalake os s or data platform upgrade for the s d x cluster
 OS or data platform upgrade for the SDX cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters.
 */
 func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDatalakeParams()
 	}
@@ -2261,17 +2664,22 @@ func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOp
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*UpgradeDatalakeOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeDatalakeDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2281,7 +2689,7 @@ ValidateAwsCloudStorage validates a w s cloud storage
 Validates AWS cloud storage for Data Lake.
 */
 func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAwsCloudStorageParams()
 	}
@@ -2300,17 +2708,22 @@ func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, 
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ValidateAwsCloudStorageOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ValidateAwsCloudStorageDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
@@ -2320,7 +2733,7 @@ ValidateAzureCloudStorage validates azure cloud storage
 Validates Azure cloud storage for Data Lake.
 */
 func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
-	// TODO: Validate the params before sending
+	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAzureCloudStorageParams()
 	}
@@ -2339,17 +2752,22 @@ func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStoragePara
 	for _, opt := range opts {
 		opt(op)
 	}
-
 	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
+
+	// only one success response has to be checked
 	success, ok := result.(*ValidateAzureCloudStorageOK)
 	if ok {
 		return success, nil
 	}
-	// unexpected success response
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ValidateAzureCloudStorageDefault)
+
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 

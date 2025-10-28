@@ -8,4 +8,4 @@ package models
 // GetAccountTelemetryDefaultRequest Request object for get default account level telemetry settings.
 //
 // swagger:model GetAccountTelemetryDefaultRequest
-type GetAccountTelemetryDefaultRequest interface{}
+type GetAccountTelemetryDefaultRequest any

@@ -8,4 +8,4 @@ package models
 // DetachFreeIpaRecipesResponse Response object for detaching recipes from FreeIPA.
 //
 // swagger:model DetachFreeIpaRecipesResponse
-type DetachFreeIpaRecipesResponse interface{}
+type DetachFreeIpaRecipesResponse any

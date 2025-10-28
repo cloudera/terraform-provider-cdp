@@ -82,7 +82,7 @@ func (m *CreateClusterDiagnosticDataJobRequest) validateClusterID(formats strfmt
 	return nil
 }
 
-var createClusterDiagnosticDataJobRequestTypeDestinationPropEnum []interface{}
+var createClusterDiagnosticDataJobRequestTypeDestinationPropEnum []any
 
 func init() {
 	var res []string

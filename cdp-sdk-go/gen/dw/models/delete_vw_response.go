@@ -8,4 +8,4 @@ package models
 // DeleteVwResponse Response object for the deleteVw method.
 //
 // swagger:model DeleteVwResponse
-type DeleteVwResponse interface{}
+type DeleteVwResponse any

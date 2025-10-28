@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -19,6 +20,9 @@ import (
 //
 // swagger:model WorkspaceInstanceGroup
 type WorkspaceInstanceGroup struct {
+
+	// The accelerator, which refers to the GPU type configuration.
+	Accelerator *AcceleratorResponse `json:"accelerator,omitempty"`
 
 	// Number of CPUs attached to this instance type.
 	CPU string `json:"cpu,omitempty"`
@@ -68,6 +72,10 @@ type WorkspaceInstanceGroup struct {
 func (m *WorkspaceInstanceGroup) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAccelerator(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateInstanceCount(formats); err != nil {
 		res = append(res, err)
 	}
@@ -99,6 +107,29 @@ func (m *WorkspaceInstanceGroup) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *WorkspaceInstanceGroup) validateAccelerator(formats strfmt.Registry) error {
+	if swag.IsZero(m.Accelerator) { // not required
+		return nil
+	}
+
+	if m.Accelerator != nil {
+		if err := m.Accelerator.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("accelerator")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("accelerator")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -142,11 +173,15 @@ func (m *WorkspaceInstanceGroup) validateInstances(formats strfmt.Registry) erro
 
 		if m.Instances[i] != nil {
 			if err := m.Instances[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instances" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instances" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -187,11 +222,15 @@ func (m *WorkspaceInstanceGroup) validateTags(formats strfmt.Registry) error {
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -204,6 +243,10 @@ func (m *WorkspaceInstanceGroup) validateTags(formats strfmt.Registry) error {
 // ContextValidate validate this workspace instance group based on the context it is used
 func (m *WorkspaceInstanceGroup) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.contextValidateAccelerator(ctx, formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.contextValidateInstances(ctx, formats); err != nil {
 		res = append(res, err)
@@ -219,6 +262,31 @@ func (m *WorkspaceInstanceGroup) ContextValidate(ctx context.Context, formats st
 	return nil
 }
 
+func (m *WorkspaceInstanceGroup) contextValidateAccelerator(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Accelerator != nil {
+
+		if swag.IsZero(m.Accelerator) { // not required
+			return nil
+		}
+
+		if err := m.Accelerator.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("accelerator")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("accelerator")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *WorkspaceInstanceGroup) contextValidateInstances(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Instances); i++ {
@@ -230,11 +298,15 @@ func (m *WorkspaceInstanceGroup) contextValidateInstances(ctx context.Context, f
 			}
 
 			if err := m.Instances[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instances" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instances" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -255,11 +327,15 @@ func (m *WorkspaceInstanceGroup) contextValidateTags(ctx context.Context, format
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

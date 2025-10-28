@@ -8,4 +8,4 @@ package models
 // ResetServerSettingsRequest Request object for the resetServerSettings method.
 //
 // swagger:model ResetServerSettingsRequest
-type ResetServerSettingsRequest interface{}
+type ResetServerSettingsRequest any

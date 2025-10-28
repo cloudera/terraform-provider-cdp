@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -43,11 +44,15 @@ func (m *DescribeVwDiagnosticDataJobResponse) validateJob(formats strfmt.Registr
 
 	if m.Job != nil {
 		if err := m.Job.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("job")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("job")
 			}
+
 			return err
 		}
 	}
@@ -78,11 +83,15 @@ func (m *DescribeVwDiagnosticDataJobResponse) contextValidateJob(ctx context.Con
 		}
 
 		if err := m.Job.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("job")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("job")
 			}
+
 			return err
 		}
 	}

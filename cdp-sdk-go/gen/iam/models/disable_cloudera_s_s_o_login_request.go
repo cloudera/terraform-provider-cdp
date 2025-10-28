@@ -8,4 +8,4 @@ package models
 // DisableClouderaSSOLoginRequest Request object for a disable Cloudera SSO login request.
 //
 // swagger:model DisableClouderaSSOLoginRequest
-type DisableClouderaSSOLoginRequest interface{}
+type DisableClouderaSSOLoginRequest any

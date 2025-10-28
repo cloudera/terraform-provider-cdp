@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -55,11 +56,15 @@ func (m *ListScalingActivitiesResponse) validateScalingActivity(formats strfmt.R
 
 		if m.ScalingActivity[i] != nil {
 			if err := m.ScalingActivity[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("scalingActivity" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("scalingActivity" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -94,11 +99,15 @@ func (m *ListScalingActivitiesResponse) contextValidateScalingActivity(ctx conte
 			}
 
 			if err := m.ScalingActivity[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("scalingActivity" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("scalingActivity" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

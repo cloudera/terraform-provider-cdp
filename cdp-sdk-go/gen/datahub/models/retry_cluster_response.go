@@ -8,4 +8,4 @@ package models
 // RetryClusterResponse Response object for retry cluster request.
 //
 // swagger:model RetryClusterResponse
-type RetryClusterResponse interface{}
+type RetryClusterResponse any

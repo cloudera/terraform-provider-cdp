@@ -52,7 +52,7 @@ func (m *LastAutomatedSyncDetails) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var lastAutomatedSyncDetailsTypeStatusPropEnum []interface{}
+var lastAutomatedSyncDetailsTypeStatusPropEnum []any
 
 func init() {
 	var res []string

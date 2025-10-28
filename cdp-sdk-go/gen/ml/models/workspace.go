@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -50,6 +51,9 @@ type Workspace struct {
 	// The CRN of the workbench.
 	// Required: true
 	Crn *string `json:"crn"`
+
+	// Enable global access to the load balancer so the workbench is accessible from other regions.
+	EnableGlobalAccessLoadBalancer bool `json:"enableGlobalAccessLoadBalancer,omitempty"`
 
 	// To check if the cluster is publicly accessible or not.
 	// Required: true
@@ -127,6 +131,9 @@ type Workspace struct {
 
 	// Resource Pool for the workbench.
 	ResourcePoolName string `json:"resourcePoolName,omitempty"`
+
+	// Secondary range names for kubernetes pod CIDR in GCP.
+	SecondaryPodRangeNames []string `json:"secondaryPodRangeNames"`
 
 	// The subnets of the workbench.
 	Subnets []string `json:"subnets"`
@@ -254,11 +261,15 @@ func (m *Workspace) validateAvailableQuota(formats strfmt.Registry) error {
 
 	if m.AvailableQuota != nil {
 		if err := m.AvailableQuota.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("availableQuota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("availableQuota")
 			}
+
 			return err
 		}
 	}
@@ -273,11 +284,15 @@ func (m *Workspace) validateBackupMetadata(formats strfmt.Registry) error {
 
 	if m.BackupMetadata != nil {
 		if err := m.BackupMetadata.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("backupMetadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("backupMetadata")
 			}
+
 			return err
 		}
 	}
@@ -372,11 +387,15 @@ func (m *Workspace) validateHealthInfoLists(formats strfmt.Registry) error {
 
 		if m.HealthInfoLists[i] != nil {
 			if err := m.HealthInfoLists[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -408,11 +427,15 @@ func (m *Workspace) validateInstanceGroups(formats strfmt.Registry) error {
 
 		if m.InstanceGroups[i] != nil {
 			if err := m.InstanceGroups[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -474,11 +497,15 @@ func (m *Workspace) validateQuota(formats strfmt.Registry) error {
 
 	if m.Quota != nil {
 		if err := m.Quota.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("quota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("quota")
 			}
+
 			return err
 		}
 	}
@@ -499,11 +526,15 @@ func (m *Workspace) validateTags(formats strfmt.Registry) error {
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -520,11 +551,15 @@ func (m *Workspace) validateUpgradeState(formats strfmt.Registry) error {
 
 	if m.UpgradeState != nil {
 		if err := m.UpgradeState.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("upgradeState")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("upgradeState")
 			}
+
 			return err
 		}
 	}
@@ -588,11 +623,15 @@ func (m *Workspace) contextValidateAvailableQuota(ctx context.Context, formats s
 		}
 
 		if err := m.AvailableQuota.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("availableQuota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("availableQuota")
 			}
+
 			return err
 		}
 	}
@@ -609,11 +648,15 @@ func (m *Workspace) contextValidateBackupMetadata(ctx context.Context, formats s
 		}
 
 		if err := m.BackupMetadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("backupMetadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("backupMetadata")
 			}
+
 			return err
 		}
 	}
@@ -632,11 +675,15 @@ func (m *Workspace) contextValidateHealthInfoLists(ctx context.Context, formats 
 			}
 
 			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -657,11 +704,15 @@ func (m *Workspace) contextValidateInstanceGroups(ctx context.Context, formats s
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("instanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -680,11 +731,15 @@ func (m *Workspace) contextValidateQuota(ctx context.Context, formats strfmt.Reg
 		}
 
 		if err := m.Quota.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("quota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("quota")
 			}
+
 			return err
 		}
 	}
@@ -703,11 +758,15 @@ func (m *Workspace) contextValidateTags(ctx context.Context, formats strfmt.Regi
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -726,11 +785,15 @@ func (m *Workspace) contextValidateUpgradeState(ctx context.Context, formats str
 		}
 
 		if err := m.UpgradeState.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("upgradeState")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("upgradeState")
 			}
+
 			return err
 		}
 	}

@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var tunnelTypeEnum []interface{}
+var tunnelTypeEnum []any
 
 func init() {
 	var res []TunnelType

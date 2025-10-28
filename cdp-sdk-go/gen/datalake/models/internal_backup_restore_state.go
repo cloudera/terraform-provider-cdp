@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -70,11 +71,15 @@ func (m *InternalBackupRestoreState) validateAdminOperations(formats strfmt.Regi
 
 	if m.AdminOperations != nil {
 		if err := m.AdminOperations.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("adminOperations")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("adminOperations")
 			}
+
 			return err
 		}
 	}
@@ -90,11 +95,15 @@ func (m *InternalBackupRestoreState) validateDatabase(formats strfmt.Registry) e
 
 	if m.Database != nil {
 		if err := m.Database.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("database")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("database")
 			}
+
 			return err
 		}
 	}
@@ -110,11 +119,15 @@ func (m *InternalBackupRestoreState) validateHbase(formats strfmt.Registry) erro
 
 	if m.Hbase != nil {
 		if err := m.Hbase.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("hbase")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("hbase")
 			}
+
 			return err
 		}
 	}
@@ -130,11 +143,15 @@ func (m *InternalBackupRestoreState) validateSolr(formats strfmt.Registry) error
 
 	if m.Solr != nil {
 		if err := m.Solr.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("solr")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("solr")
 			}
+
 			return err
 		}
 	}
@@ -173,11 +190,15 @@ func (m *InternalBackupRestoreState) contextValidateAdminOperations(ctx context.
 	if m.AdminOperations != nil {
 
 		if err := m.AdminOperations.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("adminOperations")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("adminOperations")
 			}
+
 			return err
 		}
 	}
@@ -190,11 +211,15 @@ func (m *InternalBackupRestoreState) contextValidateDatabase(ctx context.Context
 	if m.Database != nil {
 
 		if err := m.Database.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("database")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("database")
 			}
+
 			return err
 		}
 	}
@@ -207,11 +232,15 @@ func (m *InternalBackupRestoreState) contextValidateHbase(ctx context.Context, f
 	if m.Hbase != nil {
 
 		if err := m.Hbase.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("hbase")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("hbase")
 			}
+
 			return err
 		}
 	}
@@ -224,11 +253,15 @@ func (m *InternalBackupRestoreState) contextValidateSolr(ctx context.Context, fo
 	if m.Solr != nil {
 
 		if err := m.Solr.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("solr")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("solr")
 			}
+
 			return err
 		}
 	}

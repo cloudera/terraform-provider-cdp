@@ -8,4 +8,4 @@ package models
 // ListBackupEntitiesRequest Request object for the list backup entities request.
 //
 // swagger:model ListBackupEntitiesRequest
-type ListBackupEntitiesRequest interface{}
+type ListBackupEntitiesRequest any

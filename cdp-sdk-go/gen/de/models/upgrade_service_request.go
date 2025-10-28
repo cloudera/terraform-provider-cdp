@@ -57,7 +57,7 @@ func (m *UpgradeServiceRequest) validateClusterID(formats strfmt.Registry) error
 	return nil
 }
 
-var upgradeServiceRequestTypeStepPropEnum []interface{}
+var upgradeServiceRequestTypeStepPropEnum []any
 
 func init() {
 	var res []string

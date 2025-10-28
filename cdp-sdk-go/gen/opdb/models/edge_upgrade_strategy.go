@@ -40,7 +40,7 @@ const (
 )
 
 // for schema
-var edgeUpgradeStrategyEnum []interface{}
+var edgeUpgradeStrategyEnum []any
 
 func init() {
 	var res []EdgeUpgradeStrategy

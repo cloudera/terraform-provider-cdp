@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -56,11 +57,15 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) validateLastSyncStatus(forma
 
 	if m.LastSyncStatus != nil {
 		if err := m.LastSyncStatus.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("lastSyncStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("lastSyncStatus")
 			}
+
 			return err
 		}
 	}
@@ -68,7 +73,7 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) validateLastSyncStatus(forma
 	return nil
 }
 
-var getAutomatedSyncEnvironmentStatusResponseTypeSyncPendingStatePropEnum []interface{}
+var getAutomatedSyncEnvironmentStatusResponseTypeSyncPendingStatePropEnum []any
 
 func init() {
 	var res []string
@@ -139,11 +144,15 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) contextValidateLastSyncStatu
 		}
 
 		if err := m.LastSyncStatus.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("lastSyncStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("lastSyncStatus")
 			}
+
 			return err
 		}
 	}

@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -138,11 +139,15 @@ func (m *CreateAzureDatalakeRequest) validateCloudProviderConfiguration(formats 
 
 	if m.CloudProviderConfiguration != nil {
 		if err := m.CloudProviderConfiguration.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("cloudProviderConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("cloudProviderConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -162,11 +167,15 @@ func (m *CreateAzureDatalakeRequest) validateCustomInstanceGroups(formats strfmt
 
 		if m.CustomInstanceGroups[i] != nil {
 			if err := m.CustomInstanceGroups[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customInstanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customInstanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -176,7 +185,7 @@ func (m *CreateAzureDatalakeRequest) validateCustomInstanceGroups(formats strfmt
 	return nil
 }
 
-var createAzureDatalakeRequestTypeDatabaseTypePropEnum []interface{}
+var createAzureDatalakeRequestTypeDatabaseTypePropEnum []any
 
 func init() {
 	var res []string
@@ -251,11 +260,15 @@ func (m *CreateAzureDatalakeRequest) validateImage(formats strfmt.Registry) erro
 
 	if m.Image != nil {
 		if err := m.Image.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -269,11 +282,15 @@ func (m *CreateAzureDatalakeRequest) validateLoadBalancerSku(formats strfmt.Regi
 	}
 
 	if err := m.LoadBalancerSku.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("loadBalancerSku")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("loadBalancerSku")
 		}
+
 		return err
 	}
 
@@ -292,11 +309,15 @@ func (m *CreateAzureDatalakeRequest) validateRecipes(formats strfmt.Registry) er
 
 		if m.Recipes[i] != nil {
 			if err := m.Recipes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("recipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("recipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -312,11 +333,15 @@ func (m *CreateAzureDatalakeRequest) validateScale(formats strfmt.Registry) erro
 	}
 
 	if err := m.Scale.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("scale")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("scale")
 		}
+
 		return err
 	}
 
@@ -330,11 +355,15 @@ func (m *CreateAzureDatalakeRequest) validateSecurity(formats strfmt.Registry) e
 
 	if m.Security != nil {
 		if err := m.Security.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -354,11 +383,15 @@ func (m *CreateAzureDatalakeRequest) validateTags(formats strfmt.Registry) error
 
 		if m.Tags[i] != nil {
 			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -415,11 +448,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateCloudProviderConfiguration(c
 	if m.CloudProviderConfiguration != nil {
 
 		if err := m.CloudProviderConfiguration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("cloudProviderConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("cloudProviderConfiguration")
 			}
+
 			return err
 		}
 	}
@@ -438,11 +475,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateCustomInstanceGroups(ctx con
 			}
 
 			if err := m.CustomInstanceGroups[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("customInstanceGroups" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("customInstanceGroups" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -461,11 +502,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateImage(ctx context.Context, f
 		}
 
 		if err := m.Image.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("image")
 			}
+
 			return err
 		}
 	}
@@ -480,11 +525,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateLoadBalancerSku(ctx context.
 	}
 
 	if err := m.LoadBalancerSku.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("loadBalancerSku")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("loadBalancerSku")
 		}
+
 		return err
 	}
 
@@ -502,11 +551,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateRecipes(ctx context.Context,
 			}
 
 			if err := m.Recipes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("recipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("recipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -523,11 +576,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateScale(ctx context.Context, f
 	}
 
 	if err := m.Scale.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
 			return ve.ValidateName("scale")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
 			return ce.ValidateName("scale")
 		}
+
 		return err
 	}
 
@@ -543,11 +600,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateSecurity(ctx context.Context
 		}
 
 		if err := m.Security.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("security")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("security")
 			}
+
 			return err
 		}
 	}
@@ -566,11 +627,15 @@ func (m *CreateAzureDatalakeRequest) contextValidateTags(ctx context.Context, fo
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

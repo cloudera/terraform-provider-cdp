@@ -8,4 +8,4 @@ package models
 // GetDatalakeLogDescriptorsRequest Request object for obtaining log descriptors. (that are used for diagnostics collection)
 //
 // swagger:model GetDatalakeLogDescriptorsRequest
-type GetDatalakeLogDescriptorsRequest interface{}
+type GetDatalakeLogDescriptorsRequest any

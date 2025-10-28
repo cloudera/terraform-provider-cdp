@@ -38,7 +38,7 @@ const (
 )
 
 // for schema
-var vwTypeEnum []interface{}
+var vwTypeEnum []any
 
 func init() {
 	var res []VwType

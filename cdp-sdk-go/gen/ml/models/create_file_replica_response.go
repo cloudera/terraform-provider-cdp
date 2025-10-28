@@ -8,4 +8,4 @@ package models
 // CreateFileReplicaResponse Response object for the CreateFileReplica method.
 //
 // swagger:model CreateFileReplicaResponse
-type CreateFileReplicaResponse interface{}
+type CreateFileReplicaResponse any

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -56,11 +57,15 @@ func (m *ReplaceRecipesResponse) validateAttachedRecipes(formats strfmt.Registry
 
 		if m.AttachedRecipes[i] != nil {
 			if err := m.AttachedRecipes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedRecipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedRecipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -82,11 +87,15 @@ func (m *ReplaceRecipesResponse) validateDetachedRecipes(formats strfmt.Registry
 
 		if m.DetachedRecipes[i] != nil {
 			if err := m.DetachedRecipes[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("detachedRecipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("detachedRecipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -125,11 +134,15 @@ func (m *ReplaceRecipesResponse) contextValidateAttachedRecipes(ctx context.Cont
 			}
 
 			if err := m.AttachedRecipes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("attachedRecipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("attachedRecipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -150,11 +163,15 @@ func (m *ReplaceRecipesResponse) contextValidateDetachedRecipes(ctx context.Cont
 			}
 
 			if err := m.DetachedRecipes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("detachedRecipes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("detachedRecipes" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}

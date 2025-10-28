@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -71,11 +72,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom1(formats strfmt.Re
 
 	if m.Custom1 != nil {
 		if err := m.Custom1.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("custom1")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("custom1")
 			}
+
 			return err
 		}
 	}
@@ -90,11 +95,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom2(formats strfmt.Re
 
 	if m.Custom2 != nil {
 		if err := m.Custom2.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("custom2")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("custom2")
 			}
+
 			return err
 		}
 	}
@@ -109,11 +118,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom3(formats strfmt.Re
 
 	if m.Custom3 != nil {
 		if err := m.Custom3.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("custom3")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("custom3")
 			}
+
 			return err
 		}
 	}
@@ -128,11 +141,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateLarge(formats strfmt.Regi
 
 	if m.Large != nil {
 		if err := m.Large.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("large")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("large")
 			}
+
 			return err
 		}
 	}
@@ -147,11 +164,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateSmall(formats strfmt.Regi
 
 	if m.Small != nil {
 		if err := m.Small.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("small")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("small")
 			}
+
 			return err
 		}
 	}
@@ -198,11 +219,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateCustom1(ctx contex
 		}
 
 		if err := m.Custom1.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("custom1")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("custom1")
 			}
+
 			return err
 		}
 	}
@@ -219,11 +244,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateCustom2(ctx contex
 		}
 
 		if err := m.Custom2.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("custom2")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("custom2")
 			}
+
 			return err
 		}
 	}
@@ -240,11 +269,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateCustom3(ctx contex
 		}
 
 		if err := m.Custom3.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("custom3")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("custom3")
 			}
+
 			return err
 		}
 	}
@@ -261,11 +294,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateLarge(ctx context.
 		}
 
 		if err := m.Large.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("large")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("large")
 			}
+
 			return err
 		}
 	}
@@ -282,11 +319,15 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateSmall(ctx context.
 		}
 
 		if err := m.Small.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("small")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("small")
 			}
+
 			return err
 		}
 	}

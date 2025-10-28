@@ -50,7 +50,7 @@ func (m *ModifyDisks) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var modifyDisksTypeDiskTypePropEnum []interface{}
+var modifyDisksTypeDiskTypePropEnum []any
 
 func init() {
 	var res []string

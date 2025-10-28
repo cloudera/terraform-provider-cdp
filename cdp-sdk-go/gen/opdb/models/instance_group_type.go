@@ -52,7 +52,7 @@ const (
 )
 
 // for schema
-var instanceGroupTypeEnum []interface{}
+var instanceGroupTypeEnum []any
 
 func init() {
 	var res []InstanceGroupType

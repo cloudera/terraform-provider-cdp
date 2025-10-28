@@ -8,4 +8,4 @@ package models
 // EnableClouderaSSOLoginRequest Request object for an enable Cloudera SSO login request.
 //
 // swagger:model EnableClouderaSSOLoginRequest
-type EnableClouderaSSOLoginRequest interface{}
+type EnableClouderaSSOLoginRequest any

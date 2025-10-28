@@ -8,4 +8,4 @@ package models
 // DescribeServerSettingRequest Request object for the describeServerSetting method.
 //
 // swagger:model DescribeServerSettingRequest
-type DescribeServerSettingRequest interface{}
+type DescribeServerSettingRequest any

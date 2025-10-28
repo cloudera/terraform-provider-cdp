@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -45,10 +46,10 @@ type AutoscalingOptionsUpdateRequest struct {
 	// DEPRECATED in favor of the top level impalaHASettings object. Delay in seconds before the shutdown of coordinator event happens.
 	ImpalaShutdownOfCoordinatorDelaySeconds int32 `json:"impalaShutdownOfCoordinatorDelaySeconds,omitempty"`
 
-	// Maximum number of available compute groups. Zero means, the maxClusters will not be updated..
+	// Sets the maximum number of Executor Groups the Virtual Warehouse can scale up to. Zero means that this value will not be updated. This value defines the upper boundary for autoscaling. The total node capacity is determined by this number multiplied by the number of nodes in the selected `--t-shirt-size`. NOTE: On Azure, all IPs for the maximum node count are pre-allocated. If you use the same `--instance-type` for multiple Virtual Warehouses, they will share the same underlying nodepool and its limit is calculated as the sum of all nodes required by the corresponding Virtual Warehouses.
 	MaxClusters int32 `json:"maxClusters,omitempty"`
 
-	// Minimum number of available compute groups. Zero means, the minClusters will not be updated.
+	// Sets the minimum number of Executor Groups. Zero means the minClusters will not be updated.
 	MinClusters int32 `json:"minClusters,omitempty"`
 }
 
@@ -73,11 +74,15 @@ func (m *AutoscalingOptionsUpdateRequest) validateImpalaExecutorGroupSets(format
 
 	if m.ImpalaExecutorGroupSets != nil {
 		if err := m.ImpalaExecutorGroupSets.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaExecutorGroupSets")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaExecutorGroupSets")
 			}
+
 			return err
 		}
 	}
@@ -108,11 +113,15 @@ func (m *AutoscalingOptionsUpdateRequest) contextValidateImpalaExecutorGroupSets
 		}
 
 		if err := m.ImpalaExecutorGroupSets.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("impalaExecutorGroupSets")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("impalaExecutorGroupSets")
 			}
+
 			return err
 		}
 	}

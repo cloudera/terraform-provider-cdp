@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -189,11 +190,15 @@ func (m *WorkspaceSummary) validateBackupMetadata(formats strfmt.Registry) error
 
 	if m.BackupMetadata != nil {
 		if err := m.BackupMetadata.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("backupMetadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("backupMetadata")
 			}
+
 			return err
 		}
 	}
@@ -279,11 +284,15 @@ func (m *WorkspaceSummary) validateHealthInfoLists(formats strfmt.Registry) erro
 
 		if m.HealthInfoLists[i] != nil {
 			if err := m.HealthInfoLists[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -354,11 +363,15 @@ func (m *WorkspaceSummary) validateUpgradeState(formats strfmt.Registry) error {
 
 	if m.UpgradeState != nil {
 		if err := m.UpgradeState.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("upgradeState")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("upgradeState")
 			}
+
 			return err
 		}
 	}
@@ -406,11 +419,15 @@ func (m *WorkspaceSummary) contextValidateBackupMetadata(ctx context.Context, fo
 		}
 
 		if err := m.BackupMetadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("backupMetadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("backupMetadata")
 			}
+
 			return err
 		}
 	}
@@ -429,11 +446,15 @@ func (m *WorkspaceSummary) contextValidateHealthInfoLists(ctx context.Context, f
 			}
 
 			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
 					return ve.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
 					return ce.ValidateName("healthInfoLists" + "." + strconv.Itoa(i))
 				}
+
 				return err
 			}
 		}
@@ -452,11 +473,15 @@ func (m *WorkspaceSummary) contextValidateUpgradeState(ctx context.Context, form
 		}
 
 		if err := m.UpgradeState.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
 				return ve.ValidateName("upgradeState")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
 				return ce.ValidateName("upgradeState")
 			}
+
 			return err
 		}
 	}

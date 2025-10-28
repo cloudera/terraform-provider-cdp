@@ -41,7 +41,7 @@ const (
 )
 
 // for schema
-var datahubDatabaseTypeEnum []interface{}
+var datahubDatabaseTypeEnum []any
 
 func init() {
 	var res []DatahubDatabaseType
