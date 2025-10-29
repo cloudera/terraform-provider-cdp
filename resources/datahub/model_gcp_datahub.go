@@ -43,6 +43,7 @@ type GcpInstanceGroup struct {
 	InstanceGroupType           types.String                  `tfsdk:"instance_group_type"`
 	InstanceType                types.String                  `tfsdk:"instance_type"`
 	Recipes                     []types.String                `tfsdk:"recipes"`
+	AvailabilityZones           []types.String                `tfsdk:"availability_zones"`
 	AttachedVolumeConfiguration []AttachedVolumeConfiguration `tfsdk:"attached_volume_configuration"`
 	RootVolumeSize              types.Int32                   `tfsdk:"root_volume_size"`
 	RecoveryMode                types.String                  `tfsdk:"recovery_mode"`

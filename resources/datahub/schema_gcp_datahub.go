@@ -50,6 +50,11 @@ var gcpInstanceGroupSchemaAttributes = map[string]schema.Attribute{
 					ElementType:         types.StringType,
 					Optional:            true,
 				},
+				"availability_zones": schema.SetAttribute{
+					MarkdownDescription: "List of availability zones that this instance group is associated with.",
+					ElementType:         types.StringType,
+					Optional:            true,
+				},
 				"attached_volume_configuration": schema.ListNestedAttribute{
 					Required:            true,
 					MarkdownDescription: "Configuration regarding the attached volume to the specific instance group.",

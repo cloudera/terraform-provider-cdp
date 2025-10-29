@@ -19,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *datahubmodels.CreateAWSClusterRequest {
@@ -38,19 +39,13 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
-		var igRecipes []string
-		if len(group.Recipes) > 0 {
-			for _, recipe := range group.Recipes {
-				igRecipes = append(igRecipes, recipe.ValueString())
-			}
-		}
 		ig := &datahubmodels.InstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
 			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
-			RecipeNames:                 igRecipes,
+			RecipeNames:                 utils.StringArrayToSlice(group.Recipes),
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              group.RootVolumeSize.ValueInt32(),
 			VolumeEncryption: &datahubmodels.VolumeEncryptionRequest{
@@ -120,20 +115,15 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
-		var igRecipes []string
-		if len(group.Recipes) > 0 {
-			for _, recipe := range group.Recipes {
-				igRecipes = append(igRecipes, recipe.ValueString())
-			}
-		}
 		volumeSize := group.RootVolumeSize.ValueInt32Pointer()
 		ig := &datahubmodels.GCPInstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
+			AvailabilityZones:           utils.StringArrayToSlice(group.AvailabilityZones),
 			InstanceGroupName:           group.InstanceGroupName.ValueStringPointer(),
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
 			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
-			RecipeNames:                 igRecipes,
+			RecipeNames:                 utils.StringArrayToSlice(group.Recipes),
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              volumeSize,
 		}
@@ -194,18 +184,6 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 			tflog.Debug(ctx, fmt.Sprintf("Converting AttachedVolumeConfiguration: %+v.", vrs))
 			volReqs = append(volReqs, createAttachedVolumeRequest(vrs))
 		}
-		var igRecipes []string
-		if len(group.Recipes) > 0 {
-			for _, recipe := range group.Recipes {
-				igRecipes = append(igRecipes, recipe.ValueString())
-			}
-		}
-		var azs []string
-		if len(group.AvailabilityZones) > 0 {
-			for _, az := range group.AvailabilityZones {
-				azs = append(azs, az.ValueString())
-			}
-		}
 		rootVolumeSize := group.RootVolumeSize.ValueInt32()
 		ig := &datahubmodels.AzureInstanceGroupRequest{
 			AttachedVolumeConfiguration: volReqs,
@@ -213,10 +191,10 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 			InstanceGroupType:           group.InstanceGroupType.ValueStringPointer(),
 			InstanceType:                group.InstanceType.ValueStringPointer(),
 			NodeCount:                   group.NodeCount.ValueInt32Pointer(),
-			RecipeNames:                 igRecipes,
+			RecipeNames:                 utils.StringArrayToSlice(group.Recipes),
 			RecoveryMode:                group.RecoveryMode.ValueString(),
 			RootVolumeSize:              &rootVolumeSize,
-			AvailabilityZones:           azs,
+			AvailabilityZones:           utils.StringArrayToSlice(group.AvailabilityZones),
 		}
 		igs = append(igs, ig)
 	}
