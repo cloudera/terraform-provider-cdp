@@ -68,7 +68,7 @@ func (r *dwDatabaseCatalogResource) Create(ctx context.Context, req resource.Cre
 
 	clusterID := plan.ClusterID.ValueStringPointer()
 
-	if opts := plan.PollingOptions; !(opts != nil && opts.Async.ValueBool()) {
+	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Loading", "Starting"},

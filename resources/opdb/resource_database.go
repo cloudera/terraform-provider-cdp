@@ -83,7 +83,7 @@ func (r *databaseResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	if !(data.PollingOptions != nil && data.PollingOptions.Async.ValueBool()) {
+	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
 		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
 		tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 		data.Status = types.StringValue(status)
@@ -189,7 +189,7 @@ func (r *databaseResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	if !(data.PollingOptions != nil && data.PollingOptions.Async.ValueBool()) {
+	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
 		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
 		tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 		data.Status = types.StringValue(status)
@@ -230,7 +230,7 @@ func (r *databaseResource) Delete(ctx context.Context, req resource.DeleteReques
 		return
 	}
 
-	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
+	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		err = waitForToBeDeleted(state.DatabaseName.ValueString(), state.Environment.ValueString(), r.client.Opdb, ctx, state.PollingOptions)
 
 		if err != nil {

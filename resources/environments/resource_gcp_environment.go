@@ -96,7 +96,7 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 	if err != nil {
 		return
 	}
-	if !(data.PollingOptions != nil && data.PollingOptions.Async.ValueBool()) {
+	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
 		stateSaver := func(env *environmentsmodels.Environment) {
 			toGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, describeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, data)

@@ -88,7 +88,7 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 		Instances:            ipaInstances,
 		MultiAz:              types.BoolValue(ipaResp.MultiAz),
 		Recipes:              recipes,
-		Architecture:         types.StringValue(freeIpaDetails.Architecture.ValueString()),
+		Architecture:         getStringValueIfNotEmpty(freeIpaDetails.Architecture.ValueString()),
 	})
 	diags.Append(ipaDiags...)
 

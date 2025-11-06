@@ -140,7 +140,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
+	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
 			datalakeDetailsToAwsDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, state)

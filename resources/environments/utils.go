@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -70,4 +71,12 @@ func safeIntToInt32(n int) (int32, error) {
 		return 0, fmt.Errorf("value %d out of int32 range", n)
 	}
 	return int32(n), nil
+}
+
+func getStringValueIfNotEmpty(s string) types.String {
+	val := strings.TrimSpace(s)
+	if len(val) > 0 {
+		return types.StringValue(val)
+	}
+	return types.StringNull()
 }

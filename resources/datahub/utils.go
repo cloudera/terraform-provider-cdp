@@ -19,7 +19,7 @@ import (
 
 func checkIfClusterCreationFailed(resp *operations.DescribeClusterOK) (interface{}, string, error) {
 	if utils.ContainsAsSubstring(failedStatusKeywords, resp.GetPayload().Cluster.Status) {
-		return nil, "", fmt.Errorf("Cluster status became unacceptable: %s", resp.GetPayload().Cluster.Status)
+		return nil, "", fmt.Errorf("cluster status became unacceptable: %s", resp.GetPayload().Cluster.Status)
 	}
 	return resp, resp.GetPayload().Cluster.Status, nil
 }

@@ -111,7 +111,7 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	if !(plan.PollingOptions != nil && plan.PollingOptions.Async.ValueBool()) {
+	if plan.PollingOptions == nil || !plan.PollingOptions.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
@@ -168,7 +168,7 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
-	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
+	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Deleting", "Running"},

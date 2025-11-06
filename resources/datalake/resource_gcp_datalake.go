@@ -87,7 +87,7 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
+	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
 			datalakeDetailsToGcpDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, state)
