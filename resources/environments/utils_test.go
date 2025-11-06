@@ -31,6 +31,39 @@ func TestConvertTagsWhenInputIsEmpty(t *testing.T) {
 	}
 }
 
+func TestGetStringValueIfNotEmpty(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected types.String
+	}{
+		{
+			name:     "Empty string",
+			input:    "",
+			expected: types.StringNull(),
+		},
+		{
+			name:     "Normal content",
+			input:    "arm",
+			expected: types.StringValue("arm"),
+		},
+		{
+			name:     "String with spaces",
+			input:    "   ",
+			expected: types.StringNull(),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := getStringValueIfNotEmpty(tt.input)
+			if result != tt.expected {
+				t.Errorf("Unexpected result for input '%s'. Expected: %v, got: %v", tt.input, tt.expected, result)
+			}
+		})
+	}
+}
+
 func TestConvertTagsWhenInputIsNotEmpty(t *testing.T) {
 	key, value := "someKey-1", "someValue-1"
 	inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{key: types.StringValue(value)})

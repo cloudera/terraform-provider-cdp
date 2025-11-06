@@ -43,7 +43,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Run linters
-        uses: golangci/golangci-lint-action@2226d7cb06a077cd73e56eedd38eecad18e5d837 # v6.5.0
+        uses: golangci/golangci-lint-action@v8.0.0
         with:
           args: --timeout 3m
 
@@ -67,7 +67,7 @@ jobs:
         with:
           go-version-file: 'go.mod'
       - name: Run linters
-        uses: golangci/golangci-lint-action@2226d7cb06a077cd73e56eedd38eecad18e5d837 # v6.5.0
+        uses: golangci/golangci-lint-action@v8.0.0
         with:
           args: --timeout 3m
 

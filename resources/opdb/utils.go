@@ -21,7 +21,7 @@ import (
 
 func checkIfDatabaseCreationFailed(resp *operations.DescribeDatabaseOK) (interface{}, string, error) {
 	if utils.ContainsAsSubstring(failedStatusKeywords, string(resp.GetPayload().DatabaseDetails.Status)) {
-		return nil, "", fmt.Errorf("Cluster status became unacceptable: %s", types.StringValue(string(resp.GetPayload().DatabaseDetails.Status)))
+		return nil, "", fmt.Errorf("cluster status became unacceptable: %s", types.StringValue(string(resp.GetPayload().DatabaseDetails.Status)))
 	}
 	return resp, string(resp.GetPayload().DatabaseDetails.Status), nil
 }

@@ -151,7 +151,7 @@ func (r *userSyncResource) Create(ctx context.Context, req resource.CreateReques
 
 	opID := res.Payload.OperationID
 	tflog.Debug(ctx, fmt.Sprintf("User sync operation ID: %s", *opID))
-	if !(state.PollingOptions != nil && state.PollingOptions.Async.ValueBool()) {
+	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		tflog.Debug(ctx, "User sync polling starts")
 		err = waitForUserSync(*opID, time.Hour*1, callFailureThreshold, r.client.Environments, ctx, state.PollingOptions)
 		if err != nil {
