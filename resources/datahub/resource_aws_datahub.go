@@ -28,20 +28,10 @@ import (
 var (
 	_ resource.ResourceWithConfigure   = &awsDatahubResource{}
 	_ resource.ResourceWithImportState = &awsDatahubResource{}
-	_ resource.ResourceWithModifyPlan  = &awsDatahubResource{}
 )
 
 type awsDatahubResource struct {
 	client *cdp.Client
-}
-
-func (r *awsDatahubResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
-	if !req.State.Raw.IsNull() {
-		resp.Diagnostics.AddError(
-			"Resource Update Considerations",
-			"Due to provider limitations of this technical preview, modifications are not possible. "+
-				"Use the web interface or the CLI to update this resource.")
-	}
 }
 
 func (r *awsDatahubResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
