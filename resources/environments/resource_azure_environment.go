@@ -29,7 +29,6 @@ import (
 var (
 	_ resource.ResourceWithConfigure   = &azureEnvironmentResource{}
 	_ resource.ResourceWithImportState = &azureEnvironmentResource{}
-	_ resource.ResourceWithModifyPlan  = &azureEnvironmentResource{}
 )
 
 type azureEnvironmentResource struct {
@@ -54,15 +53,6 @@ func (r *azureEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRe
 
 func (r *azureEnvironmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
-}
-
-func (r *azureEnvironmentResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
-	if !req.State.Raw.IsNull() {
-		resp.Diagnostics.AddWarning(
-			"Resource Update Considerations",
-			"Due to provider limitations of this technical preview resource modifications are limited to enabling compute clusters. "+
-				"Use the web interface or the CLI to update this resource.")
-	}
 }
 
 func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
