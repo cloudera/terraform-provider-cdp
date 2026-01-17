@@ -47,6 +47,8 @@ type awsDatalakeResourceModel struct {
 
 	Recipes []*instanceGroupRecipe `tfsdk:"recipes"`
 
+	CustomInstanceGroups []*customInstanceGroup `tfsdk:"custom_instance_groups"`
+
 	Runtime types.String `tfsdk:"runtime"`
 
 	Scale types.String `tfsdk:"scale"`
@@ -98,4 +100,9 @@ type instance struct {
 	State types.String `tfsdk:"state"`
 
 	StatusReason types.String `tfsdk:"status_reason"`
+}
+
+type customInstanceGroup struct {
+	Name         types.String `tfsdk:"name"`
+	InstanceType types.String `tfsdk:"instance_type"`
 }

@@ -99,6 +99,13 @@ var (
 			AttributeType:    schema.SetNestedAttribute{},
 		},
 		{
+			Name:             "'custom_instance_groups' should exist",
+			Field:            "custom_instance_groups",
+			Computed:         false,
+			ShouldBeRequired: false,
+			AttributeType:    schema.SetNestedAttribute{},
+		},
+		{
 			Name:             "'runtime' should exist",
 			Field:            "runtime",
 			Computed:         false,

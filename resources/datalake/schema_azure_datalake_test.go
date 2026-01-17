@@ -74,6 +74,15 @@ func TestAzureSpecificElements(t *testing.T) {
 	}
 }
 
+func TestAzureDatalakeSchemaAttributeNumber(t *testing.T) {
+	expected := 24
+	attrs := createFilledAzureTestObject()
+	if len(attrs) != expected {
+		t.Errorf("The number of fields in the AzureDatalakeSchema schema should be: %d but it is: %d", expected, len(attrs))
+		t.FailNow()
+	}
+}
+
 func createFilledAzureTestObject() map[string]schema.Attribute {
 	res := &azureDatalakeResource{}
 	schemaResponse := &resource.SchemaResponse{}
