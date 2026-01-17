@@ -70,6 +70,7 @@ output "recipes" {
 
 ### Optional
 
+- `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `database_type` (String) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
 - `enable_ranger_raz` (Boolean)
 - `flexible_server_delegated_subnet_id` (String) This  argument  allows  you  to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
@@ -92,6 +93,15 @@ output "recipes" {
 - `id` (String) The ID of this resource.
 - `status` (String)
 - `status_reason` (String)
+
+<a id="nestedatt--custom_instance_groups"></a>
+### Nested Schema for `custom_instance_groups`
+
+Required:
+
+- `instance_type` (String) The instance type for the custom instance group.
+- `name` (String) The name of the custom instance group.
+
 
 <a id="nestedatt--image"></a>
 ### Nested Schema for `image`

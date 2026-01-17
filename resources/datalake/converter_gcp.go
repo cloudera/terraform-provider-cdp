@@ -61,6 +61,13 @@ func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) 
 			RecipeNames:       utils.FromSetValueToStringList(v.RecipeNames),
 		}
 	}
+	req.CustomInstanceGroups = make([]*datalakemodels.SdxInstanceGroupRequest, len(model.CustomInstanceGroups))
+	for i, v := range model.CustomInstanceGroups {
+		req.CustomInstanceGroups[i] = &datalakemodels.SdxInstanceGroupRequest{
+			Name:         v.Name.ValueStringPointer(),
+			InstanceType: v.InstanceType.ValueString(),
+		}
+	}
 	req.Runtime = model.Runtime.ValueString()
 	req.Scale = datalakemodels.DatalakeScaleType(model.Scale.ValueString())
 	if !model.Tags.IsNull() {
