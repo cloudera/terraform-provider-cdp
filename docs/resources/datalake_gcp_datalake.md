@@ -59,6 +59,7 @@ output "storage_location" {
 
 ### Optional
 
+- `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `enable_ranger_raz` (Boolean)
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)
@@ -85,6 +86,15 @@ Required:
 
 - `service_account_email` (String)
 - `storage_location` (String)
+
+
+<a id="nestedatt--custom_instance_groups"></a>
+### Nested Schema for `custom_instance_groups`
+
+Required:
+
+- `instance_type` (String) The instance type for the custom instance group.
+- `name` (String) The name of the custom instance group.
 
 
 <a id="nestedatt--image"></a>

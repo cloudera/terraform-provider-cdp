@@ -43,6 +43,8 @@ type gcpDatalakeResourceModel struct {
 
 	Recipes []*instanceGroupRecipe `tfsdk:"recipes"`
 
+	CustomInstanceGroups []*customInstanceGroup `tfsdk:"custom_instance_groups"`
+
 	Runtime types.String `tfsdk:"runtime"`
 
 	Scale types.String `tfsdk:"scale"`

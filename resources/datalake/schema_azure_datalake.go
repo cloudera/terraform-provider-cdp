@@ -136,6 +136,21 @@ var azureDatalakeResourceSchema = schema.Schema{
 				},
 			},
 		},
+		"custom_instance_groups": schema.SetNestedAttribute{
+			Optional: true,
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: map[string]schema.Attribute{
+					"name": schema.StringAttribute{
+						MarkdownDescription: "The name of the custom instance group.",
+						Required:            true,
+					},
+					"instance_type": schema.StringAttribute{
+						MarkdownDescription: "The instance type for the custom instance group.",
+						Required:            true,
+					},
+				},
+			},
+		},
 		"runtime": schema.StringAttribute{
 			Optional: true,
 		},
