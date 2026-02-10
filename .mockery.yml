@@ -1,20 +1,27 @@
-structname: '{{.InterfaceName}}'
-pkgname: mocks
 template: testify
 template-data:
   unroll-variadic: true
+include-auto-generated: true
+dir: ./mocks
+pkgname: mocks
 packages:
   github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations:
+    config:
+      filename: dw_clientservice.go
     interfaces:
       ClientService:
         config:
           structname: MockDw{{.InterfaceName}}
   github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations:
+    config:
+      filename: environments_clientservice.go
     interfaces:
       ClientService:
         config:
           structname: MockEnvironment{{.InterfaceName}}
   github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations:
+    config:
+      filename: iam_clientservice.go
     interfaces:
       ClientService:
         config:

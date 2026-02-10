@@ -21,7 +21,7 @@ import (
 
 var (
 	skippedPrefixes = []string{".", "_"}
-	skippedPaths    = []string{"/testdata/", "/gen/", "/dist/", "/resources/swagger/"}
+	skippedPaths    = []string{"/testdata/", "/gen/", "/dist/", "/resources/swagger/", "/mocks/"}
 
 	copyrightRe = regexp.MustCompile(`[[:graph:]]+ Copyright \d{4} Cloudera\. All Rights Reserved\.\s+[[:graph:]]+\s+[[:graph:]]+ This file is licensed under the Apache License Version 2\.0 \(the "License"\)\.\s+[[:graph:]]+ You may not use this file except in compliance with the License.\s+[[:graph:]]+ You may obtain a copy of the License at http:\/\/www\.apache\.org\/licenses\/LICENSE-2\.0\.\s+[[:graph:]]+\s+[[:graph:]]+ This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS\s+[[:graph:]]+ OF ANY KIND, either express or implied. Refer to the License for the specific\s+[[:graph:]]+ permissions and limitations governing your use of the file\.`)
 )

@@ -24,7 +24,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
-	mocks "github.com/cloudera/terraform-provider-cdp/mocks/github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	"github.com/cloudera/terraform-provider-cdp/mocks"
 )
 
 func createRawAzureEnvironmentResource() tftypes.Value {

@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.148 (BETA)
+  version: 0.9.152 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -924,6 +924,163 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/RebuildHueResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/registerSecret:
+    post:
+      x-form-factors: public
+      x-mutating: true
+      summary: Registers a reference to a secret stored in the vault of the cloud provider.
+      description: Registers a reference to a secret stored in the vault of the cloud provider and stores its metadata in the database. The secret is used to connect to an external data source.
+      operationId: registerSecret
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RegisterSecretRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RegisterSecretResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/listSecrets:
+    post:
+      x-form-factors: public,private
+      x-mutating: false
+      summary: Lists all secrets.
+      description: Lists all the cloud provider secrets in a particular environment.
+      operationId: listSecrets
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListSecretsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListSecretsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/deleteSecret:
+    post:
+      x-form-factors: public,private
+      x-mutating: true
+      summary: Deletes a secret.
+      description: Deletes a secret from the database.
+      operationId: deleteSecret
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteSecretRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DeleteSecretResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/createConnector:
+    post:
+      x-no-compatibility-guarantee: true
+      summary: Creates a Connector
+      description: Creates a new Connector in the specified cluster.
+      operationId: createConnector
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateConnectorRequest'
+      responses:
+        '200':
+          description: Connector created successfully.
+          schema:
+            $ref: '#/definitions/CreateConnectorResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: true
+      x-form-factors: public,private
+  /api/v1/dw/listConnectors:
+    post:
+      x-no-compatibility-guarantee: true
+      summary: Lists Database Connectors.
+      description: Lists Database Connectors.
+      operationId: listConnectors
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListConnectorsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListConnectorsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: false
+      x-form-factors: public,private
+  /api/v1/dw/deleteConnector:
+    post:
+      x-no-compatibility-guarantee: true
+      summary: Deletes a Database connector.
+      description: Deletes a Database connector.
+      operationId: deleteConnector
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteConnectorRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/DeleteConnectorResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+      x-mutating: true
+      x-form-factors: public,private
+  /api/v1/dw/updateConnector:
+    post:
+      x-mutating: true
+      x-form-factors: public,private
+      summary: Updates the Cloudera Data Warehouse connector.
+      description: Update the Cloudera Data Warehouse connector.
+      operationId: updateConnector
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateConnectorRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/UpdateConnectorResponse'
         default:
           description: The default response on an error.
           schema:
@@ -2434,6 +2591,9 @@ definitions:
       serviceId:
         type: string
         description: Filters events based on the service ID. It can be Cluster ID, Database Catalog ID, Virtual Warehouse ID or Data Visualization App ID.
+      event:
+        type: string
+        description: 'Filters events based on the event. Case-insensitive filter, it matches sub-strings as well. Filtering for "comp" will return all the events containing the "comp" sub-string e.g.: "Completed".'
       limit:
         type: integer
         format: int32
@@ -2758,14 +2918,6 @@ definitions:
       environmentCrn:
         type: string
         description: The CRN of the environment for the cluster to create.
-      delegationUsername:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.'
-      delegationPassword:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
       storageClass:
         type: string
         description: The storage class for the Local Storage Operator.
@@ -2867,6 +3019,11 @@ definitions:
         description: The plan for the restoration of the Hue Query Editors.
         items:
           $ref: '#/definitions/RestoreClusterEntityPlan'
+      dwxSecretsRestorePlans:
+        type: array
+        description: The plan for the restoration of the DWX Secrets.
+        items:
+          type: string
   RestoreClusterEntityPlan:
     type: object
     description: Entity status after the restore operation.
@@ -3001,14 +3158,6 @@ definitions:
     description: Options for activating a Private Cloud environment.
     x-form-factors: private
     properties:
-      delegationUsername:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Name of delegation user. This user is used between Hue - Impala to create a session, as Hue should not pass the user credentials, instead Hue authenticates with the delegation user, then this user will impersonate the logged in user. This means that the Delegation User and Password should be able to authenticate through LDAP.'
-      delegationPassword:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. Password of delegation user.'
       storageClass:
         type: string
         description: The storage class for the Local Storage Operator.
@@ -3112,7 +3261,8 @@ definitions:
             default: false
             description: Renew Azure cluster certificate.
       observabilityConfig:
-        description: Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
+        x-deprecated: true
+        description: 'DEPRECATED: This feature wil be removed in subsequent releases. Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html'
         $ref: '#/definitions/UpdateClusterObservabilityConfig'
   UpdateAwsClusterRequest:
     type: object
@@ -3137,7 +3287,8 @@ definitions:
           type: string
         description: List of IP address CIDRs to whitelist for workload access.
       observabilityConfig:
-        description: Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
+        x-deprecated: true
+        description: 'DEPRECATED: This feature wil be removed in subsequent releases. Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html'
         $ref: '#/definitions/UpdateClusterObservabilityConfig'
       externalBuckets:
         type: object
@@ -3168,7 +3319,8 @@ definitions:
           type: string
         description: List of IP address CIDRs to whitelist for workload access.
       observabilityConfig:
-        description: Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html
+        x-deprecated: true
+        description: 'DEPRECATED: This feature wil be removed in subsequent releases. Cluster observability configurations to update. You can forward logs from environments activated in Cloudera Data Warehouse (CDW) to observability and monitoring systems such as Datadog, New Relic, or Splunk. Please refer to the following Cloudera documentation for more info. https://docs.cloudera.com/data-warehouse/cloud/monitoring/topics/dw-observability-log-forwarding.html'
         $ref: '#/definitions/UpdateClusterObservabilityConfig'
       renewCertificate:
         type: boolean
@@ -3187,14 +3339,6 @@ definitions:
       description:
         type: string
         description: Cluster description.
-      delegationUsername:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The user name to update for delegation user. Setting it to the same value as the existing delegation user name will be a no-op.'
-      delegationPassword:
-        x-deprecated: true
-        type: string
-        description: 'DEPRECATED: As of PVC 1.5.4 we no longer use delegation user. The password to update for delegation user. Setting it to the same value as the existing password will be a no-op.'
       dedicatedExecutorNodes:
         x-deprecated: true
         type: boolean
@@ -3321,6 +3465,10 @@ definitions:
       resourceTemplate:
         type: string
         description: The name of the available resource template to use for the Cloudera Data Visualization.
+      resourcePool:
+        type: string
+        description: The Resource Pool of the Cloudera Data Visualization.
+        x-form-factors: private
   CreateDataVisualizationResponse:
     type: object
     description: Response object for the createDataVisualization method.
@@ -3553,11 +3701,6 @@ definitions:
         items:
           type: string
         description: User groups that are allowed to access to Hue Query Editor.
-      resourcePool:
-        type: string
-        description: 'DEPRECATED: This functionality will be removed in the next release. The Resource Pool of the Hue Query Editor.'
-        x-form-factors: private
-        x-deprecated: true
       config:
         $ref: '#/definitions/ServiceConfigReq'
         description: The service configuration to update the Hue Query Editor with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
@@ -3632,6 +3775,97 @@ definitions:
       status:
         type: string
         description: The status of asynchronous rebuild request for Hue Query Editor. To find the latest status please use describe-hue.
+  RegisterSecretRequest:
+    type: object
+    description: Request object for creating secret.
+    properties:
+      secretName:
+        type: string
+        description: Name of the secret.
+      clusterId:
+        type: string
+        description: The ID of the cluster.
+      secretProviderKey:
+        type: string
+        description: Key of the Secret Provider.
+      azureVaultName:
+        type: string
+        description: Name of the Azure vault.
+  RegisterSecretResponse:
+    type: object
+    description: Response object for registering secret.
+    properties:
+      result:
+        description: Result of the operation.
+        $ref: '#/definitions/Secret'
+  ListSecretsRequest:
+    type: object
+    description: Request object for listing secrets.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster.
+  ListSecretsResponse:
+    type: object
+    description: Response object for listing secrets.
+    properties:
+      result:
+        type: array
+        items:
+          $ref: '#/definitions/Secret'
+        description: The list of secrets.
+  DeleteSecretRequest:
+    type: object
+    description: Request object for deleting secret.
+    required:
+      - clusterId
+      - secretName
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster.
+      secretName:
+        type: string
+        description: Name of the secret.
+  DeleteSecretResponse:
+    type: object
+    description: Response object for deleting secret.
+    properties:
+      result:
+        type: object
+        description: Result of the operation.
+        properties:
+          secretName:
+            type: string
+            description: Name of the secret.
+  Secret:
+    type: object
+    description: Details of a single DWX secret.
+    properties:
+      secretName:
+        type: string
+        description: The user-facing name of the secret.
+      secretProviderKey:
+        type: string
+        description: The provider key name associated with the secret.
+      createdBy:
+        type: string
+        description: The CRN of the user who created the secret.
+      properties:
+        type: object
+        description: The properties of the secret.
+        properties:
+          cloudProvider:
+            type: string
+            description: The cloud provider associated with the secret.
+          version:
+            type: string
+            description: The version of the secret.
+          azureVaultName:
+            type: string
+            description: The name of the Azure Key Vault.
   CreateDbcRequest:
     type: object
     description: Request object for the createDbc method.
@@ -4100,6 +4334,10 @@ definitions:
       imageVersion:
         type: string
         description: Image version of the Cloudera Data Visualization to upgrade to.
+      resourcePool:
+        type: string
+        description: The name of the Resource Pool the Cloudera Data Visualization will be assigned to.
+        x-form-factors: private
   UpgradeDataVisualizationResponse:
     type: object
     description: Response object for the upgradeDataVisualization method.
@@ -4114,6 +4352,148 @@ definitions:
       dbcId:
         type: string
         description: ID of the new Database Catalog.
+  Connector:
+    x-form-factors: public,private
+    type: object
+    description: Represents the details of a connector used to integrate external systems or data sources with Cloudera Data Warehouse. A connector defines the configuration, and connection properties required to establish and manage connectivity.
+    properties:
+      crn:
+        type: string
+        description: The CRN of the connector.
+      id:
+        type: string
+        description: Unique per-cluster connector ID.
+      name:
+        type: string
+        description: Display name.
+      template:
+        type: string
+        description: The template of the connector.
+      config:
+        type: object
+        description: 'The connector configuration in key-value format. For example, { "connector.name": "hive", "fs.cache.directories": "/data/trino/fs_cache_hive", "fs.cache.enabled": "true", "fs.cache.max-disk-usage-percentages": "30", "fs.cache.preferred-hosts-count": "2", "fs.cache.ttl": "7d", "hive.allow-drop-table": "true", "hive.collect-column-statistics-on-write": "false", "hive.metastore.uri": "thrift://metastore-service.{{ .Values.warehouseId }}.svc.cluster.local:9083", "hive.non-managed-table-writes-enabled": "true", "hive.security": "{{ .Values.authorizationMode }}", "ranger.audit_config": "ranger-hive-audit.xml", "ranger.hadoop_config": "core-site.xml", "ranger.policy_mgr_ssl_config": "ranger-policymgr-ssl.xml", "ranger.security_config": "ranger-hive-security.xml", "ranger.service_name": "{{ .Values.rangerHiveSvcName }}" }.'
+        additionalProperties:
+          type: string
+      description:
+        type: string
+        description: User-provided description.
+      createdBy:
+        type: string
+        description: The CRN of the user who created the connector.
+      createdAt:
+        type: integer
+        format: int64
+        description: The timestamp when the connector was created.
+      updatedAt:
+        type: integer
+        format: int64
+        description: The timestamp when the connector was last updated.
+      updatedBy:
+        type: string
+        description: The CRN of the user who last updated the connector.
+  ListConnectorsRequest:
+    x-form-factors: public,private
+    type: object
+    description: Request for listing connectors configured in Cloudera Data Warehouse.
+    required:
+      - clusterId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster to list.
+  ListConnectorsResponse:
+    x-form-factors: public,private
+    type: object
+    description: Response object for the listConnectors method. This object contains the list of all connectors configured in the specified Cloudera Data Warehouse cluster.
+    properties:
+      connectors:
+        type: array
+        items:
+          $ref: '#/definitions/Connector'
+        description: The list of Database Connectors.
+  CreateConnectorRequest:
+    x-form-factors: public,private
+    type: object
+    description: Request object to create a new connector for integrating external systems or data sources with Cloudera Data Warehouse.
+    required:
+      - name
+      - template
+    properties:
+      name:
+        type: string
+        description: The name of the connector.
+      template:
+        type: string
+        description: The template of the connector.
+      clusterId:
+        type: string
+        description: THe ID of the Database Catalog's cluster.
+      config:
+        type: object
+        description: 'The connector configuration in key-value format. For example, { "connector.name": "iceberg", "fs.cache.directories": "/data/trino/fs_cache_iceberg", "fs.cache.enabled": "true", "fs.cache.max-disk-usage-percentages": "30", "fs.cache.preferred-hosts-count": "2", "fs.cache.ttl": "7d", "hive.metastore.uri": "thrift://metastore-service.{{ .Values.warehouseId }}.svc.cluster.local:9083", "iceberg.catalog.type": "hive_metastore", "iceberg.security": "{{ .Values.authorizationMode }}", "ranger.audit_config": "ranger-hive-audit.xml", "ranger.hadoop_config": "core-site.xml", "ranger.policy_mgr_ssl_config": "ranger-policymgr-ssl.xml", "ranger.security_config": "ranger-hive-security.xml", "ranger.service_name": "{{ .Values.rangerHiveSvcName }}" }'
+        additionalProperties:
+          type: string
+      description:
+        type: string
+        description: User-provided description.
+  CreateConnectorResponse:
+    x-form-factors: public,private
+    type: object
+    description: Response for the createConnector call.
+    properties:
+      result:
+        description: The ID of the newly created Connector.
+        $ref: '#/definitions/Connector'
+  DeleteConnectorRequest:
+    x-form-factors: public,private
+    type: object
+    description: Request object for the deleteConnectorById method.
+    required:
+      - clusterId
+      - connectorId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the Database Catalog's cluster.
+      connectorId:
+        type: string
+        description: The ID of the Database connector to delete.
+  DeleteConnectorResponse:
+    x-form-factors: public,private
+    type: object
+    description: Response object for the deleteConnector method.
+  UpdateConnectorRequest:
+    x-form-factors: public,private
+    type: object
+    description: Request object for the updateConnector method.
+    required:
+      - clusterId
+      - connectorId
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster to update.
+      connectorId:
+        type: string
+        description: The ID of the connector to update.
+      description:
+        type: string
+        description: Cluster description.
+      name:
+        type: string
+        description: The name of the connector.
+      template:
+        type: string
+        description: The template of the connector.
+      config:
+        type: object
+        description: Key-value type configurations.
+        additionalProperties:
+          type: string
+  UpdateConnectorResponse:
+    x-form-factors: public,private
+    type: object
+    description: Response object for the updateConnector method.
   ListDbcsRequest:
     type: object
     description: Request object for the listDbcs method.
@@ -4405,6 +4785,9 @@ definitions:
         type: integer
         format: int32
         description: The number of active coordinators.
+      impalaEnableGlobalAdmissionController:
+        type: boolean
+        description: Set whether the Impala Global Admission Controller is enabled. Once disabled, it cannot be re-enabled.
   AutoscalingOptionsResponse:
     type: object
     description: Auto-scaling configuration for a Virtual Warehouse.
@@ -4497,6 +4880,9 @@ definitions:
       enableStatestoreHighAvailability:
         type: boolean
         description: Denotes whether a backup instance for Impala Statestore is enabled.
+      impalaEnableGlobalAdmissionController:
+        type: boolean
+        description: Denotes whether the Impala Global Admission Controller is enabled.
   ImpalaHighAvailabilityMode:
     type: string
     enum:
@@ -4844,6 +5230,10 @@ definitions:
   RebuildVwResponse:
     type: object
     description: Response object for the rebuildVw method.
+    properties:
+      warning:
+        type: string
+        description: Warning message during Virtual Warehouse rebuild
   DeleteVwRequest:
     type: object
     description: Request object for the deleteVw method.
@@ -4860,6 +5250,10 @@ definitions:
   DeleteVwResponse:
     type: object
     description: Response object for the deleteVw method.
+    properties:
+      warning:
+        type: string
+        description: Warning message during Virtual Warehouse deletion
   ActorResponse:
     type: object
     description: A CDP actor (user or machine user).
@@ -4909,6 +5303,9 @@ definitions:
       nonTransparentProxy:
         description: Non-transparent proxy settings.
         $ref: '#/definitions/AwsOptionsNonTransparentProxyResponse'
+      kmsKey:
+        type: string
+        description: KMS key used in encryption of EBS, EFS, RDS and EKS Secrets.
   AwsOptionsNonTransparentProxyResponse:
     type: object
     description: 'Non-transparent proxy settings. Read more: https://docs.cloudera.com/data-warehouse/cloud/aws-environments/topics/dw-aws-use-non-transparent-proxy.html'
@@ -5810,11 +6207,6 @@ definitions:
         x-nullable: true
         type: boolean
         description: Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine.
-      resourcePool:
-        type: string
-        description: 'DEPRECATED: This functionality will be removed in the next release. Used to set the resource pool of the Virtual Warehouses that are not enrolled for quota management.'
-        x-form-factors: private
-        x-deprecated: true
       hiveServerHaMode:
         type: string
         x-nullable: true
@@ -5823,6 +6215,13 @@ definitions:
   UpdateVwResponse:
     type: object
     description: Response object for the updateVw method.
+    properties:
+      message:
+        type: string
+        description: Success message
+      warning:
+        type: string
+        description: Warning message during Virtual Warehouse update
   UpdateDbcRequest:
     type: object
     description: Request object for the updateDbc method.
@@ -5839,11 +6238,6 @@ definitions:
       resourceTemplateId:
         type: string
         description: The resource template of the Database Catalog.
-      resourcePool:
-        type: string
-        description: 'DEPRECATED: This functionality will be removed in the next release. Sets the resource pool of the Database Catalog. Updating an already set resource pool for a Database Catalog is not supported.'
-        x-form-factors: private
-        x-deprecated: true
       config:
         description: The service configuration to update the DBC with. This will be applied on top of the existing configuration so there's no need to list configurations that stay the same.
         $ref: '#/definitions/ServiceConfigReq'
@@ -5890,6 +6284,7 @@ definitions:
         additionalProperties:
           description: Key-value type configurations.
           type: string
+          x-no-paramfile: true
       text:
         type: string
         description: Text type configuration.
@@ -5951,11 +6346,6 @@ definitions:
         items:
           type: string
         description: Admin groups to allow configuration access to Data Visualization for selected users
-      resourcePool:
-        type: string
-        description: 'DEPRECATED: This functionality for update will be removed in the next release. For create, please use the new resourcePool field. The Resource Pool of the Cloudera Data Visualization.'
-        x-form-factors: private
-        x-deprecated: true
   ConfigContentDiff:
     type: object
     description: Difference between two ConfigContents.
@@ -6148,6 +6538,13 @@ definitions:
   SuspendVwResponse:
     type: object
     description: The response object for the suspendVw method.
+    properties:
+      message:
+        type: string
+        description: Success message
+      warning:
+        type: string
+        description: Warning message during Virtual Warehouse suspend
   AddUserRequest:
     type: object
     description: Request object for the addUser method.
@@ -6448,6 +6845,10 @@ definitions:
       imageVersion:
         type: string
         description: The version to which the Virtual Warehouse should be upgraded.
+      resourcePool:
+        type: string
+        description: The name of the Resource Pool the Cloudera Data Visualization will be assigned to.
+        x-form-factors: private
   UpgradeVwResponse:
     type: object
     description: Response object for the upgradeVw method.
@@ -6464,6 +6865,9 @@ definitions:
       serviceUnhealthy:
         type: boolean
         description: True, if the service is in unhealthy state, false or omitted otherwise.
+      warning:
+        type: string
+        description: Warning message during Virtual Warehouse upgrade.
   GetUpgradeVwVersionsRequest:
     type: object
     description: Request object for the getUpgradeVwVersions method.
@@ -6707,6 +7111,9 @@ definitions:
         description: A list of namespaces of the potential candidates for restore. If not set, all of the Data Warehouse namespaces within the backup CRN will be restored.
         items:
           type: string
+      rebuild:
+        description: Rebuilds the Database Catalogs, Cloudera Data Visualizations, Hive Virtual Warehouses and Impala Virtual Warehouses restored from the backup. This option cannot be used for automatic backups.
+        type: boolean
   RestoreBackupResponse:
     type: object
     x-form-factors: private
@@ -6717,6 +7124,9 @@ definitions:
       restoreCrn:
         type: string
         description: The CRN of the restore.
+      message:
+        type: string
+        description: Additional message from the restore process.
   DescribeRestoreRequest:
     type: object
     x-form-factors: private

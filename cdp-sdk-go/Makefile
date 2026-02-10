@@ -11,7 +11,7 @@
 GO_FLAGS:=""
 
 SWAGGER_REPO_RAW=https://raw.githubusercontent.com/cloudera/cdp-dev-docs/refs/tags
-API_DEFINITION_TAG ?= cdp-api-0.9.148-beta
+API_DEFINITION_TAG ?= cdp-api-0.9.153-beta
 SWAGGER=$(SWAGGER_REPO_RAW)/$(API_DEFINITION_TAG)/api-docs-beta/swagger
 
 all: check-go test build
@@ -76,4 +76,4 @@ clone-swagger-%:
 	wget $(SWAGGER)/$*.yaml -O resources/swagger/$*.yaml
 
 swagger-gen-%: mkdir-%
-	go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f resources/swagger/$*.yaml -A $* -t gen/$*/
+	go run github.com/go-swagger/go-swagger/cmd/swagger@master generate client -f resources/swagger/$*.yaml -A $* -t gen/$*/

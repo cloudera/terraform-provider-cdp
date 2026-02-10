@@ -118,7 +118,11 @@ jobs:
           cover-pkg: ./...
           ignore-pattern: |
             /cdp-sdk-go/ 
+            /generated/
             /main.go$
+            /testdata/
+            /mocks/
+            /gen/
   deadcode:
     name: 'Terraform Provider Quality Gate :: Dead code analysis'
     needs: build
