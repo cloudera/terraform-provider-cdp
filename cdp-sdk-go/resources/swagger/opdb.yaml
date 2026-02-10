@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.148 (BETA)
+  version: 0.9.152 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -1018,6 +1018,16 @@ definitions:
     enum:
       - PERMISSIVE
       - ENFORCING
+  CustomInstanceType:
+    type: object
+    description: Parameters to configure custom VM Instance Types.
+    properties:
+      instanceGroup:
+        description: The Instance Group Type.
+        $ref: '#/definitions/InstanceGroupType'
+      instanceType:
+        type: string
+        description: The Custom VM Instance Type.
   UpdateDatabaseRequest:
     type: object
     description: A request to update the database
@@ -1055,18 +1065,8 @@ definitions:
         type: boolean
         description: Removes any REST Worker nodes provisioned for this database. Requires the COD_RESTWORKERS entitlement.
       switchInstanceType:
-        description: Provide custom VM instance types to switch instance types for instance groups. Requires COD_USE_CUSTOM_INSTANCE_TYPES entitlement.
+        description: Provide custom VM instance types to switch instance types for instance groups.
         $ref: '#/definitions/CustomInstanceType'
-  CustomInstanceType:
-    type: object
-    description: Parameters to configure custom VM Instance Types.
-    properties:
-      instanceGroup:
-        description: The Instance Group Type.
-        $ref: '#/definitions/InstanceGroupType'
-      instanceType:
-        type: string
-        description: The Custom VM Instance Type.
   AutoScalingParameters:
     type: object
     description: A Parameters to configure AutoScaling

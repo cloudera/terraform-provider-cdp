@@ -11,6 +11,8 @@
 GO_FLAGS:=""
 TESTARGS:=""
 GOPATH ?= $(shell go env GOPATH)
+EXCLUDE_PKGS_REGEX := '/mocks($$|/)|/generated($$|/)|/gen($$|/)|/testdata($$|/)'
+PKGS := $(shell go list ./... | grep -vE $(EXCLUDE_PKGS_REGEX))
 
 all: check-go test main
 
@@ -23,11 +25,11 @@ endif
 
 # Run tests
 test: generate fmt vet
-	go test $(GO_FLAGS) ./... $(TESTARGS)
+	go test $(GO_FLAGS) $(PKGS) $(TESTARGS)
 
 # Run tests with coverage
 test-with-coverage: generate fmt vet
-	go test -v -coverprofile coverage.out ./...
+	go test $(GO_FLAGS) $(PKGS) $(TESTARGS) -v -coverprofile coverage.out ./...
 	go tool cover -html coverage.out -o coverage.html
 
 # Run terraform provider acceptance tests

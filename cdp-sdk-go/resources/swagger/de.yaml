@@ -5,7 +5,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.148 (BETA)
+  version: 0.9.152 (BETA)
   title: Cloudera Data Engineering
   license:
     name: Apache 2.0
@@ -480,6 +480,50 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/SuspendResumeServiceResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/suspendVc:
+    post:
+      summary: Initiates suspend on the requested VC.
+      description: Initiates suspend on the requested VC.
+      operationId: suspendVc
+      x-mutating: true
+      x-form-factors: public
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SuspendVcRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/SuspendVcResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/de/resumeVc:
+    post:
+      summary: Initiates resume on the requested VC.
+      description: Initiates resume on the requested VC.
+      operationId: resumeVc
+      x-mutating: true
+      x-form-factors: public
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ResumeVcRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ResumeVcResponse'
         default:
           description: The default response on an error.
           schema:
@@ -1368,7 +1412,7 @@ definitions:
         description: Cluster id of the CDE service where vc was created.
       vcId:
         type: string
-        description: Virtual cluster id.
+        description: Virtual Cluster ID.
   DescribeVcResponse:
     type: object
     description: DescribeVc response object.
@@ -1429,7 +1473,7 @@ definitions:
           - NONE
       sparkVersion:
         type: string
-        description: Spark version for the virtual cluster. Currently supported Spark versions are SPARK2(deprecated), SPARK3, SPARK3_3 and SPARK3_5. This feature is only supported in CDE-1.7.0 and later. SPARK3_3 is supported in CDE-1.19 and later. SPARK3_5 is supported in CDE-1.21 and later.
+        description: Spark version for the virtual cluster. Currently supported Spark versions are SPARK2(deprecated), SPARK3, SPARK3_3 and SPARK3_5. This feature is only supported in CDE-1.7.0 and later. SPARK3_3 is supported in CDE-1.19 and later. SPARK3_5 is supported in CDE-1.21 and later. SPARK3_5_4 is supported in CDE-1.25 and later. With Datalake 7.3.1 and later, SPARK3_5_4 must be used instead of SPARK3_5.
         enum:
           - SPARK2
           - SPARK2_4
@@ -1439,6 +1483,7 @@ definitions:
           - SPARK3_2
           - SPARK3_3
           - SPARK3_5
+          - SPARK3_5_4
       sparkOSName:
         type: string
         description: Spark os name for the virtual cluster. Currently supported types are SECURITYHARDENED(chainguard) and REDHAT(will be deprecated, and we will use INSECURE). The default value is SECURITYHARDENED.
@@ -1914,6 +1959,33 @@ definitions:
       serviceID:
         type: string
         description: The ID of the service being restored.
+  SuspendVcRequest:
+    type: object
+    description: Request object for suspending a virtual cluster.
+    required:
+      - clusterId
+      - vcId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster ID of the service.
+      vcId:
+        type: string
+        description: Virtual Cluster ID.
+  ResumeVcRequest:
+    type: object
+    description: Request object for suspending a virtual cluster.
+    x-form-factors: public
+    required:
+      - clusterId
+      - vcId
+    properties:
+      clusterId:
+        type: string
+        description: Cluster ID of the service.
+      vcId:
+        type: string
+        description: Virtual Cluster ID.
   SuspendResumeServiceRequest:
     type: object
     description: Request object for suspending/resuming a service.
@@ -1944,6 +2016,22 @@ definitions:
       status:
         type: string
         description: The status message of suspend/resume operation.
+  SuspendVcResponse:
+    type: object
+    description: Response object for SuspendVc request.
+    x-form-factors: public
+    properties:
+      status:
+        type: string
+        description: The status message of vc suspend operation.
+  ResumeVcResponse:
+    type: object
+    description: Response object for ResumeVc request.
+    x-form-factors: public
+    properties:
+      status:
+        type: string
+        description: The status message of vc resume operation.
   GetSuspendResumeStatusRequest:
     type: object
     description: Request object for GetSuspendResumeStatus method.
@@ -1954,6 +2042,9 @@ definitions:
       clusterId:
         type: string
         description: Cluster ID of the service.
+      vcId:
+        type: string
+        description: Virtual Cluster ID.
   GetSuspendResumeStatusResponse:
     type: object
     description: Response object for GetSuspendResumeStatus request.
