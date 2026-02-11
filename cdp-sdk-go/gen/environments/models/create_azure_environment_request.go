@@ -73,6 +73,10 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Environment type which can be hybrid or public cloud.
+	// Enum: ["PUBLIC_CLOUD","HYBRID"]
+	EnvironmentType string `json:"environmentType,omitempty"`
+
 	// Parameters needed to use an existing VNet and Subnets.
 	// Required: true
 	ExistingNetworkParams *ExistingAzureNetworkRequest `json:"existingNetworkParams"`
@@ -153,6 +157,10 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 	}
 
 	if err := m.validateEnvironmentName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateEnvironmentType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -325,6 +333,48 @@ func (m *CreateAzureEnvironmentRequest) validateEndpointAccessGatewayScheme(form
 func (m *CreateAzureEnvironmentRequest) validateEnvironmentName(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentName", "body", m.EnvironmentName); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var createAzureEnvironmentRequestTypeEnvironmentTypePropEnum []any
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["PUBLIC_CLOUD","HYBRID"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createAzureEnvironmentRequestTypeEnvironmentTypePropEnum = append(createAzureEnvironmentRequestTypeEnvironmentTypePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateAzureEnvironmentRequestEnvironmentTypePUBLICCLOUD captures enum value "PUBLIC_CLOUD"
+	CreateAzureEnvironmentRequestEnvironmentTypePUBLICCLOUD string = "PUBLIC_CLOUD"
+
+	// CreateAzureEnvironmentRequestEnvironmentTypeHYBRID captures enum value "HYBRID"
+	CreateAzureEnvironmentRequestEnvironmentTypeHYBRID string = "HYBRID"
+)
+
+// prop value enum
+func (m *CreateAzureEnvironmentRequest) validateEnvironmentTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createAzureEnvironmentRequestTypeEnvironmentTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateAzureEnvironmentRequest) validateEnvironmentType(formats strfmt.Registry) error {
+	if swag.IsZero(m.EnvironmentType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateEnvironmentTypeEnum("environmentType", "body", m.EnvironmentType); err != nil {
 		return err
 	}
 

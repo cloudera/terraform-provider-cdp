@@ -17,8 +17,8 @@ import (
 // swagger:model ModifyDisks
 type ModifyDisks struct {
 
-	// Whether to modify the root disk or additional disks.
-	// Enum: ["ROOT_DISK","ADDITIONAL_DISK"]
+	// Whether to modify the root disk, database disk or additional disks.
+	// Enum: ["ROOT_DISK","ADDITIONAL_DISK","DATABASE_DISK"]
 	DiskType string `json:"diskType,omitempty"`
 
 	// Size of disks to modify on all the instances in a group in GB.
@@ -51,7 +51,7 @@ var modifyDisksTypeDiskTypePropEnum []any
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["ROOT_DISK","ADDITIONAL_DISK"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["ROOT_DISK","ADDITIONAL_DISK","DATABASE_DISK"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -66,6 +66,9 @@ const (
 
 	// ModifyDisksDiskTypeADDITIONALDISK captures enum value "ADDITIONAL_DISK"
 	ModifyDisksDiskTypeADDITIONALDISK string = "ADDITIONAL_DISK"
+
+	// ModifyDisksDiskTypeDATABASEDISK captures enum value "DATABASE_DISK"
+	ModifyDisksDiskTypeDATABASEDISK string = "DATABASE_DISK"
 )
 
 // prop value enum

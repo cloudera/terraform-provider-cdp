@@ -105,6 +105,8 @@ type ClientService interface {
 
 	DescribeScalingActivity(params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error)
 
+	FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error)
+
 	GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
 
 	GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
@@ -139,6 +141,8 @@ type ClientService interface {
 
 	MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
 
+	MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error)
+
 	PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error)
 
 	RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
@@ -152,6 +156,8 @@ type ClientService interface {
 	RestartClusterInstances(params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error)
 
 	RetryCluster(params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error)
+
+	RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error)
 
 	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
 
@@ -1387,6 +1393,50 @@ func (a *Client) DescribeScalingActivity(params *DescribeScalingActivityParams, 
 }
 
 /*
+FinalizeZookeeperToKraftMigration finalizes the migration from zookeeper to k raft broker
+
+Initiates the finalization of the migration from Zookeeper to KRaft broker.
+*/
+func (a *Client) FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewFinalizeZookeeperToKraftMigrationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "finalizeZookeeperToKraftMigration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/finalizeZookeeperToKraftMigration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &FinalizeZookeeperToKraftMigrationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*FinalizeZookeeperToKraftMigrationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*FinalizeZookeeperToKraftMigrationDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetClusterHostStatus gets cluster host status
 
 Gets the status of the hosts in a cluster.
@@ -2135,6 +2185,50 @@ func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*
 }
 
 /*
+MigrateZookeeperToKraft migrates from zookeeper to k raft broker
+
+Initiate the migration from Zookeeper to KRaft broker on the given cluster.
+*/
+func (a *Client) MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewMigrateZookeeperToKraftParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "migrateZookeeperToKraft",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/migrateZookeeperToKraft",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MigrateZookeeperToKraftReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*MigrateZookeeperToKraftOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*MigrateZookeeperToKraftDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 PrepareClusterUpgrade runnings upgrade related validations and prepares the required parcels for the upgrade
 
 In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well.
@@ -2438,6 +2532,50 @@ func (a *Client) RetryCluster(params *RetryClusterParams, opts ...ClientOption) 
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RetryClusterDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RollbackZookeeperToKraftMigration rollbacks the migration from zookeeper to k raft broker
+
+Initiates the rollback of the migration from Zookeeper to KRaft broker.
+*/
+func (a *Client) RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewRollbackZookeeperToKraftMigrationParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "rollbackZookeeperToKraftMigration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/rollbackZookeeperToKraftMigration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RollbackZookeeperToKraftMigrationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*RollbackZookeeperToKraftMigrationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*RollbackZookeeperToKraftMigrationDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

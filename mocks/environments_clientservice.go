@@ -199,6 +199,87 @@ func (_c *MockEnvironmentClientService_CancelFreeipaDiagnostics_Call) RunAndRetu
 	return _c
 }
 
+// CancelTrust provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CancelTrust(params *operations.CancelTrustParams, opts ...operations.ClientOption) (*operations.CancelTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CancelTrust")
+	}
+
+	var r0 *operations.CancelTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.CancelTrustParams, ...operations.ClientOption) (*operations.CancelTrustOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.CancelTrustParams, ...operations.ClientOption) *operations.CancelTrustOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CancelTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.CancelTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CancelTrust_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CancelTrust'
+type MockEnvironmentClientService_CancelTrust_Call struct {
+	*mock.Call
+}
+
+// CancelTrust is a helper method to define mock.On call
+//   - params *operations.CancelTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CancelTrust(params interface{}, opts ...interface{}) *MockEnvironmentClientService_CancelTrust_Call {
+	return &MockEnvironmentClientService_CancelTrust_Call{Call: _e.mock.On("CancelTrust",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CancelTrust_Call) Run(run func(params *operations.CancelTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CancelTrust_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.CancelTrustParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.CancelTrustParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CancelTrust_Call) Return(cancelTrustOK *operations.CancelTrustOK, err error) *MockEnvironmentClientService_CancelTrust_Call {
+	_c.Call.Return(cancelTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CancelTrust_Call) RunAndReturn(run func(params *operations.CancelTrustParams, opts ...operations.ClientOption) (*operations.CancelTrustOK, error)) *MockEnvironmentClientService_CancelTrust_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ChangeEnvironmentCredential provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ChangeEnvironmentCredential(params *operations.ChangeEnvironmentCredentialParams, opts ...operations.ClientOption) (*operations.ChangeEnvironmentCredentialOK, error) {
 	// operations.ClientOption
@@ -2062,6 +2143,87 @@ func (_c *MockEnvironmentClientService_DownscaleFreeipa_Call) RunAndReturn(run f
 	return _c
 }
 
+// FinishSetupTrust provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) FinishSetupTrust(params *operations.FinishSetupTrustParams, opts ...operations.ClientOption) (*operations.FinishSetupTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for FinishSetupTrust")
+	}
+
+	var r0 *operations.FinishSetupTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.FinishSetupTrustParams, ...operations.ClientOption) (*operations.FinishSetupTrustOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.FinishSetupTrustParams, ...operations.ClientOption) *operations.FinishSetupTrustOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.FinishSetupTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.FinishSetupTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_FinishSetupTrust_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'FinishSetupTrust'
+type MockEnvironmentClientService_FinishSetupTrust_Call struct {
+	*mock.Call
+}
+
+// FinishSetupTrust is a helper method to define mock.On call
+//   - params *operations.FinishSetupTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) FinishSetupTrust(params interface{}, opts ...interface{}) *MockEnvironmentClientService_FinishSetupTrust_Call {
+	return &MockEnvironmentClientService_FinishSetupTrust_Call{Call: _e.mock.On("FinishSetupTrust",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_FinishSetupTrust_Call) Run(run func(params *operations.FinishSetupTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_FinishSetupTrust_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.FinishSetupTrustParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.FinishSetupTrustParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_FinishSetupTrust_Call) Return(finishSetupTrustOK *operations.FinishSetupTrustOK, err error) *MockEnvironmentClientService_FinishSetupTrust_Call {
+	_c.Call.Return(finishSetupTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_FinishSetupTrust_Call) RunAndReturn(run func(params *operations.FinishSetupTrustParams, opts ...operations.ClientOption) (*operations.FinishSetupTrustOK, error)) *MockEnvironmentClientService_FinishSetupTrust_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetAccountTelemetry provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetAccountTelemetry(params *operations.GetAccountTelemetryParams, opts ...operations.ClientOption) (*operations.GetAccountTelemetryOK, error) {
 	// operations.ClientOption
@@ -3601,6 +3763,168 @@ func (_c *MockEnvironmentClientService_GetRootCertificate_Call) RunAndReturn(run
 	return _c
 }
 
+// GetTrustCleanupCommands provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetTrustCleanupCommands(params *operations.GetTrustCleanupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustCleanupCommandsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTrustCleanupCommands")
+	}
+
+	var r0 *operations.GetTrustCleanupCommandsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.GetTrustCleanupCommandsParams, ...operations.ClientOption) (*operations.GetTrustCleanupCommandsOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.GetTrustCleanupCommandsParams, ...operations.ClientOption) *operations.GetTrustCleanupCommandsOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetTrustCleanupCommandsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.GetTrustCleanupCommandsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetTrustCleanupCommands_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTrustCleanupCommands'
+type MockEnvironmentClientService_GetTrustCleanupCommands_Call struct {
+	*mock.Call
+}
+
+// GetTrustCleanupCommands is a helper method to define mock.On call
+//   - params *operations.GetTrustCleanupCommandsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetTrustCleanupCommands(params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetTrustCleanupCommands_Call {
+	return &MockEnvironmentClientService_GetTrustCleanupCommands_Call{Call: _e.mock.On("GetTrustCleanupCommands",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetTrustCleanupCommands_Call) Run(run func(params *operations.GetTrustCleanupCommandsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetTrustCleanupCommands_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.GetTrustCleanupCommandsParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.GetTrustCleanupCommandsParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustCleanupCommands_Call) Return(getTrustCleanupCommandsOK *operations.GetTrustCleanupCommandsOK, err error) *MockEnvironmentClientService_GetTrustCleanupCommands_Call {
+	_c.Call.Return(getTrustCleanupCommandsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustCleanupCommands_Call) RunAndReturn(run func(params *operations.GetTrustCleanupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustCleanupCommandsOK, error)) *MockEnvironmentClientService_GetTrustCleanupCommands_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetTrustSetupCommands provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetTrustSetupCommands(params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTrustSetupCommands")
+	}
+
+	var r0 *operations.GetTrustSetupCommandsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.GetTrustSetupCommandsParams, ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.GetTrustSetupCommandsParams, ...operations.ClientOption) *operations.GetTrustSetupCommandsOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetTrustSetupCommandsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.GetTrustSetupCommandsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetTrustSetupCommands_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTrustSetupCommands'
+type MockEnvironmentClientService_GetTrustSetupCommands_Call struct {
+	*mock.Call
+}
+
+// GetTrustSetupCommands is a helper method to define mock.On call
+//   - params *operations.GetTrustSetupCommandsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetTrustSetupCommands(params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetTrustSetupCommands_Call {
+	return &MockEnvironmentClientService_GetTrustSetupCommands_Call{Call: _e.mock.On("GetTrustSetupCommands",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetTrustSetupCommands_Call) Run(run func(params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetTrustSetupCommands_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.GetTrustSetupCommandsParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.GetTrustSetupCommandsParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustSetupCommands_Call) Return(getTrustSetupCommandsOK *operations.GetTrustSetupCommandsOK, err error) *MockEnvironmentClientService_GetTrustSetupCommands_Call {
+	_c.Call.Return(getTrustSetupCommandsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustSetupCommands_Call) RunAndReturn(run func(params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error)) *MockEnvironmentClientService_GetTrustSetupCommands_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // InitializeAWSComputeCluster provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) InitializeAWSComputeCluster(params *operations.InitializeAWSComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAWSComputeClusterOK, error) {
 	// operations.ClientOption
@@ -4569,6 +4893,87 @@ func (_c *MockEnvironmentClientService_RepairFreeipa_Call) Return(repairFreeipaO
 }
 
 func (_c *MockEnvironmentClientService_RepairFreeipa_Call) RunAndReturn(run func(params *operations.RepairFreeipaParams, opts ...operations.ClientOption) (*operations.RepairFreeipaOK, error)) *MockEnvironmentClientService_RepairFreeipa_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RepairTrust provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) RepairTrust(params *operations.RepairTrustParams, opts ...operations.ClientOption) (*operations.RepairTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RepairTrust")
+	}
+
+	var r0 *operations.RepairTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.RepairTrustParams, ...operations.ClientOption) (*operations.RepairTrustOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.RepairTrustParams, ...operations.ClientOption) *operations.RepairTrustOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RepairTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.RepairTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RepairTrust_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RepairTrust'
+type MockEnvironmentClientService_RepairTrust_Call struct {
+	*mock.Call
+}
+
+// RepairTrust is a helper method to define mock.On call
+//   - params *operations.RepairTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RepairTrust(params interface{}, opts ...interface{}) *MockEnvironmentClientService_RepairTrust_Call {
+	return &MockEnvironmentClientService_RepairTrust_Call{Call: _e.mock.On("RepairTrust",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RepairTrust_Call) Run(run func(params *operations.RepairTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RepairTrust_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.RepairTrustParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.RepairTrustParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RepairTrust_Call) Return(repairTrustOK *operations.RepairTrustOK, err error) *MockEnvironmentClientService_RepairTrust_Call {
+	_c.Call.Return(repairTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RepairTrust_Call) RunAndReturn(run func(params *operations.RepairTrustParams, opts ...operations.ClientOption) (*operations.RepairTrustOK, error)) *MockEnvironmentClientService_RepairTrust_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5744,6 +6149,168 @@ func (_c *MockEnvironmentClientService_SetTransport_Call) Return() *MockEnvironm
 
 func (_c *MockEnvironmentClientService_SetTransport_Call) RunAndReturn(run func(transport runtime.ClientTransport)) *MockEnvironmentClientService_SetTransport_Call {
 	_c.Run(run)
+	return _c
+}
+
+// SetupActiveDirectoryTrust provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetupActiveDirectoryTrust(params *operations.SetupActiveDirectoryTrustParams, opts ...operations.ClientOption) (*operations.SetupActiveDirectoryTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetupActiveDirectoryTrust")
+	}
+
+	var r0 *operations.SetupActiveDirectoryTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.SetupActiveDirectoryTrustParams, ...operations.ClientOption) (*operations.SetupActiveDirectoryTrustOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.SetupActiveDirectoryTrustParams, ...operations.ClientOption) *operations.SetupActiveDirectoryTrustOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetupActiveDirectoryTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.SetupActiveDirectoryTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetupActiveDirectoryTrust_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetupActiveDirectoryTrust'
+type MockEnvironmentClientService_SetupActiveDirectoryTrust_Call struct {
+	*mock.Call
+}
+
+// SetupActiveDirectoryTrust is a helper method to define mock.On call
+//   - params *operations.SetupActiveDirectoryTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetupActiveDirectoryTrust(params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call {
+	return &MockEnvironmentClientService_SetupActiveDirectoryTrust_Call{Call: _e.mock.On("SetupActiveDirectoryTrust",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call) Run(run func(params *operations.SetupActiveDirectoryTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.SetupActiveDirectoryTrustParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.SetupActiveDirectoryTrustParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call) Return(setupActiveDirectoryTrustOK *operations.SetupActiveDirectoryTrustOK, err error) *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call {
+	_c.Call.Return(setupActiveDirectoryTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call) RunAndReturn(run func(params *operations.SetupActiveDirectoryTrustParams, opts ...operations.ClientOption) (*operations.SetupActiveDirectoryTrustOK, error)) *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetupMitTrust provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetupMitTrust(params *operations.SetupMitTrustParams, opts ...operations.ClientOption) (*operations.SetupMitTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetupMitTrust")
+	}
+
+	var r0 *operations.SetupMitTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.SetupMitTrustParams, ...operations.ClientOption) (*operations.SetupMitTrustOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.SetupMitTrustParams, ...operations.ClientOption) *operations.SetupMitTrustOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetupMitTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.SetupMitTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetupMitTrust_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetupMitTrust'
+type MockEnvironmentClientService_SetupMitTrust_Call struct {
+	*mock.Call
+}
+
+// SetupMitTrust is a helper method to define mock.On call
+//   - params *operations.SetupMitTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetupMitTrust(params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetupMitTrust_Call {
+	return &MockEnvironmentClientService_SetupMitTrust_Call{Call: _e.mock.On("SetupMitTrust",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetupMitTrust_Call) Run(run func(params *operations.SetupMitTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetupMitTrust_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.SetupMitTrustParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.SetupMitTrustParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupMitTrust_Call) Return(setupMitTrustOK *operations.SetupMitTrustOK, err error) *MockEnvironmentClientService_SetupMitTrust_Call {
+	_c.Call.Return(setupMitTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupMitTrust_Call) RunAndReturn(run func(params *operations.SetupMitTrustParams, opts ...operations.ClientOption) (*operations.SetupMitTrustOK, error)) *MockEnvironmentClientService_SetupMitTrust_Call {
+	_c.Call.Return(run)
 	return _c
 }
 
