@@ -49,6 +49,10 @@ type CreateGCPEnvironmentRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Environment type which can be hybrid or public cloud.
+	// Enum: ["PUBLIC_CLOUD","HYBRID"]
+	EnvironmentType string `json:"environmentType,omitempty"`
+
 	// Parameters needed to use an existing VPC and Subnets. For now only existing network params is supported.
 	// Required: true
 	ExistingNetworkParams *ExistingGCPNetworkRequest `json:"existingNetworkParams"`
@@ -110,6 +114,10 @@ func (m *CreateGCPEnvironmentRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateEnvironmentName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateEnvironmentType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -236,6 +244,48 @@ func (m *CreateGCPEnvironmentRequest) validateEndpointAccessGatewayScheme(format
 func (m *CreateGCPEnvironmentRequest) validateEnvironmentName(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentName", "body", m.EnvironmentName); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var createGCPEnvironmentRequestTypeEnvironmentTypePropEnum []any
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["PUBLIC_CLOUD","HYBRID"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createGCPEnvironmentRequestTypeEnvironmentTypePropEnum = append(createGCPEnvironmentRequestTypeEnvironmentTypePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateGCPEnvironmentRequestEnvironmentTypePUBLICCLOUD captures enum value "PUBLIC_CLOUD"
+	CreateGCPEnvironmentRequestEnvironmentTypePUBLICCLOUD string = "PUBLIC_CLOUD"
+
+	// CreateGCPEnvironmentRequestEnvironmentTypeHYBRID captures enum value "HYBRID"
+	CreateGCPEnvironmentRequestEnvironmentTypeHYBRID string = "HYBRID"
+)
+
+// prop value enum
+func (m *CreateGCPEnvironmentRequest) validateEnvironmentTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createGCPEnvironmentRequestTypeEnvironmentTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateGCPEnvironmentRequest) validateEnvironmentType(formats strfmt.Registry) error {
+	if swag.IsZero(m.EnvironmentType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateEnvironmentTypeEnum("environmentType", "body", m.EnvironmentType); err != nil {
 		return err
 	}
 

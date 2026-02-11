@@ -62,6 +62,10 @@ type CreateAWSEnvironmentRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
+	// Environment type which can be hybrid or public cloud.
+	// Enum: ["PUBLIC_CLOUD","HYBRID"]
+	EnvironmentType string `json:"environmentType,omitempty"`
+
 	// The FreeIPA creation request for the environment
 	FreeIpa *AWSFreeIpaCreationRequest `json:"freeIpa,omitempty"`
 
@@ -131,6 +135,10 @@ func (m *CreateAWSEnvironmentRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateEnvironmentName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateEnvironmentType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -296,6 +304,48 @@ func (m *CreateAWSEnvironmentRequest) validateEndpointAccessGatewayScheme(format
 func (m *CreateAWSEnvironmentRequest) validateEnvironmentName(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentName", "body", m.EnvironmentName); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var createAWSEnvironmentRequestTypeEnvironmentTypePropEnum []any
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["PUBLIC_CLOUD","HYBRID"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createAWSEnvironmentRequestTypeEnvironmentTypePropEnum = append(createAWSEnvironmentRequestTypeEnvironmentTypePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateAWSEnvironmentRequestEnvironmentTypePUBLICCLOUD captures enum value "PUBLIC_CLOUD"
+	CreateAWSEnvironmentRequestEnvironmentTypePUBLICCLOUD string = "PUBLIC_CLOUD"
+
+	// CreateAWSEnvironmentRequestEnvironmentTypeHYBRID captures enum value "HYBRID"
+	CreateAWSEnvironmentRequestEnvironmentTypeHYBRID string = "HYBRID"
+)
+
+// prop value enum
+func (m *CreateAWSEnvironmentRequest) validateEnvironmentTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createAWSEnvironmentRequestTypeEnvironmentTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateAWSEnvironmentRequest) validateEnvironmentType(formats strfmt.Registry) error {
+	if swag.IsZero(m.EnvironmentType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateEnvironmentTypeEnum("environmentType", "body", m.EnvironmentType); err != nil {
 		return err
 	}
 

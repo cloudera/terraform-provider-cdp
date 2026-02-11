@@ -4,6 +4,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	stderrors "errors"
 	"strconv"
 
@@ -17,6 +18,10 @@ import (
 //
 // swagger:model CreateAWSDatalakeRequest
 type CreateAWSDatalakeRequest struct {
+
+	// Specifies the CPU architecture of the data lake cluster. Values are ARM64, X86_64.
+	// Enum: ["ARM64","X86_64"]
+	Architecture string `json:"architecture,omitempty"`
 
 	// AWS configuration.
 	// Required: true
@@ -70,6 +75,10 @@ type CreateAWSDatalakeRequest struct {
 func (m *CreateAWSDatalakeRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateArchitecture(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCloudProviderConfiguration(formats); err != nil {
 		res = append(res, err)
 	}
@@ -109,6 +118,48 @@ func (m *CreateAWSDatalakeRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+var createAWSDatalakeRequestTypeArchitecturePropEnum []any
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["ARM64","X86_64"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		createAWSDatalakeRequestTypeArchitecturePropEnum = append(createAWSDatalakeRequestTypeArchitecturePropEnum, v)
+	}
+}
+
+const (
+
+	// CreateAWSDatalakeRequestArchitectureARM64 captures enum value "ARM64"
+	CreateAWSDatalakeRequestArchitectureARM64 string = "ARM64"
+
+	// CreateAWSDatalakeRequestArchitectureX8664 captures enum value "X86_64"
+	CreateAWSDatalakeRequestArchitectureX8664 string = "X86_64"
+)
+
+// prop value enum
+func (m *CreateAWSDatalakeRequest) validateArchitectureEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, createAWSDatalakeRequestTypeArchitecturePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *CreateAWSDatalakeRequest) validateArchitecture(formats strfmt.Registry) error {
+	if swag.IsZero(m.Architecture) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateArchitectureEnum("architecture", "body", m.Architecture); err != nil {
+		return err
+	}
+
 	return nil
 }
 

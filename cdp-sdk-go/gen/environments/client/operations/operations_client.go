@@ -55,6 +55,8 @@ type ClientService interface {
 
 	CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error)
 
+	CancelTrust(params *CancelTrustParams, opts ...ClientOption) (*CancelTrustOK, error)
+
 	ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error)
 
 	CheckDatabaseConnectivity(params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error)
@@ -101,6 +103,8 @@ type ClientService interface {
 
 	DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error)
 
+	FinishSetupTrust(params *FinishSetupTrustParams, opts ...ClientOption) (*FinishSetupTrustOK, error)
+
 	GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error)
 
 	GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error)
@@ -139,6 +143,10 @@ type ClientService interface {
 
 	GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error)
 
+	GetTrustCleanupCommands(params *GetTrustCleanupCommandsParams, opts ...ClientOption) (*GetTrustCleanupCommandsOK, error)
+
+	GetTrustSetupCommands(params *GetTrustSetupCommandsParams, opts ...ClientOption) (*GetTrustSetupCommandsOK, error)
+
 	InitializeAWSComputeCluster(params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error)
 
 	InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error)
@@ -162,6 +170,8 @@ type ClientService interface {
 	RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error)
 
 	RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error)
+
+	RepairTrust(params *RepairTrustParams, opts ...ClientOption) (*RepairTrustOK, error)
 
 	RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error)
 
@@ -190,6 +200,10 @@ type ClientService interface {
 	SetPassword(params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error)
 
 	SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error)
+
+	SetupActiveDirectoryTrust(params *SetupActiveDirectoryTrustParams, opts ...ClientOption) (*SetupActiveDirectoryTrustOK, error)
+
+	SetupMitTrust(params *SetupMitTrustParams, opts ...ClientOption) (*SetupMitTrustOK, error)
 
 	StartEnvironment(params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error)
 
@@ -344,6 +358,50 @@ func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CancelFreeipaDiagnosticsDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+CancelTrust cancels cross realm trust for free IP a
+
+Cancel cross-realm trust setup between FreeIPA and Active Directory.
+*/
+func (a *Client) CancelTrust(params *CancelTrustParams, opts ...ClientOption) (*CancelTrustOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewCancelTrustParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "cancelTrust",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/cancelTrust",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CancelTrustReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*CancelTrustOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*CancelTrustDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
@@ -1361,6 +1419,50 @@ func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...Client
 }
 
 /*
+FinishSetupTrust completes cross realm trust setup for free IP a
+
+Completes and validates the cross-realm trust setup initiated by setupTrust. Call this after configuring the Active Directory side of the trust relationship. This operation tests the bidirectional trust and activates it for production use.
+*/
+func (a *Client) FinishSetupTrust(params *FinishSetupTrustParams, opts ...ClientOption) (*FinishSetupTrustOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewFinishSetupTrustParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "finishSetupTrust",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/finishSetupTrust",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &FinishSetupTrustReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*FinishSetupTrustOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*FinishSetupTrustDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 GetAccountTelemetry gets account level telemetry settings telemetry features and anonymization rules
 
 Get account level telemetry settings. (telemetry features and anonymization rules)
@@ -2197,6 +2299,94 @@ func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...Cl
 }
 
 /*
+GetTrustCleanupCommands gets the commands to be run for cross realm trust clean up
+
+Retrieves the commands necessary for clean up cross-realm trust between FreeIPA and Active Directory.
+*/
+func (a *Client) GetTrustCleanupCommands(params *GetTrustCleanupCommandsParams, opts ...ClientOption) (*GetTrustCleanupCommandsOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewGetTrustCleanupCommandsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getTrustCleanupCommands",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getTrustCleanupCommands",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetTrustCleanupCommandsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*GetTrustCleanupCommandsOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*GetTrustCleanupCommandsDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+GetTrustSetupCommands lists the commands to be executed for cross realm trust setup
+
+Lists the commands necessary for setting up cross-realm trust between FreeIPA and Active Directory.
+*/
+func (a *Client) GetTrustSetupCommands(params *GetTrustSetupCommandsParams, opts ...ClientOption) (*GetTrustSetupCommandsOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewGetTrustSetupCommandsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getTrustSetupCommands",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getTrustSetupCommands",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetTrustSetupCommandsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*GetTrustSetupCommandsOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*GetTrustSetupCommandsDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
 InitializeAWSComputeCluster initializes compute cluster for a w s environment
 
 Initialize compute cluster for AWS environment.
@@ -2720,6 +2910,50 @@ func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RepairFreeipaDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+RepairTrust repairs cross realm trust of free IP a with an active directory server
+
+Repairs cross-realm trust of FreeIPA with an Active Directory Server by resetting the trust secret on the FreeIPA side.
+*/
+func (a *Client) RepairTrust(params *RepairTrustParams, opts ...ClientOption) (*RepairTrustOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewRepairTrustParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "repairTrust",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/repairTrust",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RepairTrustReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*RepairTrustOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*RepairTrustDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
@@ -3336,6 +3570,94 @@ func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts .
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*SetTelemetryFeaturesDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetupActiveDirectoryTrust setups cross realm trust between free IP a and active directory
+
+Initiates cross-realm trust setup between FreeIPA and Active Directory. After this operation completes, configure the Active Directory side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use.
+*/
+func (a *Client) SetupActiveDirectoryTrust(params *SetupActiveDirectoryTrustParams, opts ...ClientOption) (*SetupActiveDirectoryTrustOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewSetupActiveDirectoryTrustParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setupActiveDirectoryTrust",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setupActiveDirectoryTrust",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetupActiveDirectoryTrustReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*SetupActiveDirectoryTrustOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*SetupActiveDirectoryTrustDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+SetupMitTrust setups cross realm trust between free IP a and m i t kerberos
+
+Initiates cross-realm trust setup between FreeIPA and MIT Kerberos. After this operation completes, configure the MIT Kerberos side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use.
+*/
+func (a *Client) SetupMitTrust(params *SetupMitTrustParams, opts ...ClientOption) (*SetupMitTrustOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewSetupMitTrustParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "setupMitTrust",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/setupMitTrust",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetupMitTrustReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*SetupMitTrustOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*SetupMitTrustDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

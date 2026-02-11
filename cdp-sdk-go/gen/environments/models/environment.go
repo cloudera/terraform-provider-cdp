@@ -4,6 +4,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	stderrors "errors"
 
 	"github.com/go-openapi/errors"
@@ -69,6 +70,10 @@ type Environment struct {
 	// Name of the environment.
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
+
+	// Environment type which can be hybrid or public cloud.
+	// Enum: ["PUBLIC_CLOUD","HYBRID"]
+	EnvironmentType string `json:"environmentType,omitempty"`
 
 	// Details of FreeIPA instance associated with this environment.
 	Freeipa *FreeipaDetails `json:"freeipa,omitempty"`
@@ -173,6 +178,10 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateEnvironmentName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateEnvironmentType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -452,6 +461,48 @@ func (m *Environment) validateDataServices(formats strfmt.Registry) error {
 func (m *Environment) validateEnvironmentName(formats strfmt.Registry) error {
 
 	if err := validate.Required("environmentName", "body", m.EnvironmentName); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var environmentTypeEnvironmentTypePropEnum []any
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["PUBLIC_CLOUD","HYBRID"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		environmentTypeEnvironmentTypePropEnum = append(environmentTypeEnvironmentTypePropEnum, v)
+	}
+}
+
+const (
+
+	// EnvironmentEnvironmentTypePUBLICCLOUD captures enum value "PUBLIC_CLOUD"
+	EnvironmentEnvironmentTypePUBLICCLOUD string = "PUBLIC_CLOUD"
+
+	// EnvironmentEnvironmentTypeHYBRID captures enum value "HYBRID"
+	EnvironmentEnvironmentTypeHYBRID string = "HYBRID"
+)
+
+// prop value enum
+func (m *Environment) validateEnvironmentTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, environmentTypeEnvironmentTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *Environment) validateEnvironmentType(formats strfmt.Registry) error {
+	if swag.IsZero(m.EnvironmentType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateEnvironmentTypeEnum("environmentType", "body", m.EnvironmentType); err != nil {
 		return err
 	}
 
