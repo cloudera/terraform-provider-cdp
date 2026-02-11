@@ -23,12 +23,13 @@ import (
 
 func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceModel) *environmentsmodels.CreateGCPEnvironmentRequest {
 	req := &environmentsmodels.CreateGCPEnvironmentRequest{
-		CredentialName:              model.CredentialName.ValueStringPointer(),
-		Description:                 model.Description.ValueString(),
-		EnableTunnel:                model.EnableTunnel.ValueBoolPointer(),
-		EncryptionKey:               model.EncryptionKey.ValueString(),
-		EndpointAccessGatewayScheme: model.EndpointAccessGatewayScheme.ValueString(),
-		EnvironmentName:             model.EnvironmentName.ValueStringPointer(),
+		CredentialName:                 model.CredentialName.ValueStringPointer(),
+		Description:                    model.Description.ValueString(),
+		EnableTunnel:                   model.EnableTunnel.ValueBoolPointer(),
+		EncryptionKey:                  model.EncryptionKey.ValueString(),
+		EndpointAccessGatewayScheme:    model.EndpointAccessGatewayScheme.ValueString(),
+		EndpointAccessGatewaySubnetIds: utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds),
+		EnvironmentName:                model.EnvironmentName.ValueStringPointer(),
 		ExistingNetworkParams: &environmentsmodels.ExistingGCPNetworkRequest{
 			NetworkName:     model.ExistingNetworkParams.NetworkName.ValueStringPointer(),
 			SharedProjectID: model.ExistingNetworkParams.SharedProjectId.ValueString(),
@@ -40,7 +41,21 @@ func toGcpEnvironmentRequest(ctx context.Context, model *gcpEnvironmentResourceM
 		UsePublicIP:       model.UsePublicIp.ValueBoolPointer(),
 		WorkloadAnalytics: model.WorkloadAnalytics.ValueBool(),
 		AvailabilityZones: utils.FromTfStringSliceToStringSlice(model.AvailabilityZones),
+		EnvironmentType:   model.EnvironmentType.ValueString(),
 	}
+
+	if model.Security != nil {
+		req.Security = &environmentsmodels.SecurityRequest{
+			SeLinux: model.Security.Crn.ValueString(),
+		}
+	}
+
+	if model.CustomDockerRegistry != nil {
+		req.CustomDockerRegistry = &environmentsmodels.CustomDockerRegistryRequest{
+			Crn: model.CustomDockerRegistry.Crn.ValueStringPointer(),
+		}
+	}
+
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
 		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)
 		req.FreeIpa = &environmentsmodels.GCPFreeIpaCreationRequest{

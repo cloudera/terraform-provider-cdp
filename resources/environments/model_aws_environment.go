@@ -76,6 +76,12 @@ type awsEnvironmentResourceModel struct {
 	WorkloadAnalytics types.Bool `tfsdk:"workload_analytics"`
 
 	ComputeCluster *AwsComputeCluster `tfsdk:"compute_cluster"`
+
+	CustomDockerRegistry *CustomDockerRegistry `tfsdk:"custom_docker_registry"`
+
+	Security *Security `tfsdk:"security"`
+
+	EnvironmentType types.String `tfsdk:"environment_type"`
 }
 
 type Authentication struct {

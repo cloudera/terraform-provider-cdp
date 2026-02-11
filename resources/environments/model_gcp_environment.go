@@ -51,6 +51,8 @@ type gcpEnvironmentResourceModel struct {
 
 	EndpointAccessGatewayScheme types.String `tfsdk:"endpoint_access_gateway_scheme"`
 
+	EndpointAccessGatewaySubnetIds types.Set `tfsdk:"endpoint_access_gateway_subnet_ids"`
+
 	Tags types.Map `tfsdk:"tags"`
 
 	ProxyConfigName types.String `tfsdk:"proxy_config_name"`
@@ -66,6 +68,12 @@ type gcpEnvironmentResourceModel struct {
 	Status types.String `tfsdk:"status"`
 
 	StatusReason types.String `tfsdk:"status_reason"`
+
+	CustomDockerRegistry *CustomDockerRegistry `tfsdk:"custom_docker_registry"`
+
+	Security *Security `tfsdk:"security"`
+
+	EnvironmentType types.String `tfsdk:"environment_type"`
 }
 
 type ExistingNetworkParams struct {

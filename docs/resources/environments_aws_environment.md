@@ -82,16 +82,19 @@ output "environment" {
 - `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_subnets` (Boolean)
 - `create_service_endpoints` (Boolean)
+- `custom_docker_registry` (Attributes) The desired custom docker registry for data services to be used. (see [below for nested schema](#nestedatt--custom_docker_registry))
 - `delete_options` (Attributes) Options for deleting the environment. (see [below for nested schema](#nestedatt--delete_options))
 - `description` (String)
 - `enable_tunnel` (Boolean)
 - `encryption_key_arn` (String)
 - `endpoint_access_gateway_scheme` (String)
 - `endpoint_access_gateway_subnet_ids` (Set of String)
+- `environment_type` (String) Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
 - `s3_guard_table_name` (String)
+- `security` (Attributes) Security related configuration for Data Hub cluster. (see [below for nested schema](#nestedatt--security))
 - `tags` (Map of String)
 - `workload_analytics` (Boolean)
 
@@ -160,6 +163,14 @@ Optional:
 
 
 
+<a id="nestedatt--custom_docker_registry"></a>
+### Nested Schema for `custom_docker_registry`
+
+Required:
+
+- `crn` (String) The CRN of the desired custom docker registry for data services to be used.
+
+
 <a id="nestedatt--delete_options"></a>
 ### Nested Schema for `delete_options`
 
@@ -216,3 +227,11 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--security"></a>
+### Nested Schema for `security`
+
+Required:
+
+- `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING

@@ -37,7 +37,7 @@ const (
 )
 
 type metastr struct {
-	AccessKey  string `json:"access_key_id"`
+	AccessKey  string `json:"access_key_id"` // #nosec G117 -- not a hardcoded secret; user-supplied credential identifier
 	AuthMethod string `json:"auth_method"`
 }
 

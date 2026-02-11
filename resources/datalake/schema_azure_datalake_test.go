@@ -27,32 +27,32 @@ func TestAzureCommonSchemaElementsExist(t *testing.T) {
 func TestAzureSpecificElements(t *testing.T) {
 	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			Name:             "'database_type' should exist",
-			Field:            "database_type",
-			Computed:         false,
-			ShouldBeRequired: false,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'database_type' should exist",
+			Field:         "database_type",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'load_balancer_sku' should exist",
-			Field:            "load_balancer_sku",
-			Computed:         false,
-			ShouldBeRequired: false,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'load_balancer_sku' should exist",
+			Field:         "load_balancer_sku",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'flexible_server_delegated_subnet_id' should exist",
-			Field:            "flexible_server_delegated_subnet_id",
-			Computed:         false,
-			ShouldBeRequired: false,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'flexible_server_delegated_subnet_id' should exist",
+			Field:         "flexible_server_delegated_subnet_id",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'multi_az' should exist",
-			Field:            "multi_az",
-			Computed:         false,
-			ShouldBeRequired: false,
-			AttributeType:    schema.BoolAttribute{},
+			Name:          "'multi_az' should exist",
+			Field:         "multi_az",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.BoolAttribute{},
 		},
 	}
 
@@ -64,8 +64,8 @@ func TestAzureSpecificElements(t *testing.T) {
 				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
-			if underTestAttributes[toTest.Field].IsRequired() != toTest.ShouldBeRequired {
-				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.ShouldBeRequired)
+			if underTestAttributes[toTest.Field].IsRequired() != toTest.Required {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.Required)
 			}
 			if underTestAttributes[toTest.Field].IsComputed() != toTest.Computed {
 				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)

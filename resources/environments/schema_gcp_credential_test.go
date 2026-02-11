@@ -27,11 +27,11 @@ func TestGcpCredentialCommonSchemaElementsExist(t *testing.T) {
 func TestGcpCredentialSpecificElements(t *testing.T) {
 	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			Name:             "'credential_key' should exist",
-			Field:            "credential_key",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'credential_key' should exist",
+			Field:         "credential_key",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.StringAttribute{},
 		},
 	}
 

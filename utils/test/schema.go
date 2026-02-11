@@ -18,11 +18,11 @@ import (
 )
 
 type ResourceSchemaTestCaseStructure struct {
-	Name             string
-	Field            string
-	Computed         bool
-	ShouldBeRequired bool
-	AttributeType    schema.Attribute
+	Name          string
+	Field         string
+	Computed      bool
+	Required      bool
+	AttributeType schema.Attribute
 }
 
 func PerformResourceSchemaValidation(t *testing.T, resourceSchema map[string]schema.Attribute, expectedElements []ResourceSchemaTestCaseStructure) {
@@ -32,8 +32,8 @@ func PerformResourceSchemaValidation(t *testing.T, resourceSchema map[string]sch
 				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
-			if resourceSchema[toTest.Field].IsRequired() != toTest.ShouldBeRequired {
-				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.ShouldBeRequired)
+			if resourceSchema[toTest.Field].IsRequired() != toTest.Required {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.Required)
 			}
 			if resourceSchema[toTest.Field].IsComputed() != toTest.Computed {
 				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)

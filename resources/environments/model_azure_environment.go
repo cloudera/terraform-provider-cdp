@@ -80,6 +80,24 @@ type azureEnvironmentResourceModel struct {
 	EncryptionUserManagedIdentity types.String `tfsdk:"encryption_user_managed_identity"`
 
 	ComputeCluster *AzureComputeCluster `tfsdk:"compute_cluster"`
+
+	CustomDockerRegistry *CustomDockerRegistry `tfsdk:"custom_docker_registry"`
+
+	Security *Security `tfsdk:"security"`
+
+	EnvironmentType types.String `tfsdk:"environment_type"`
+
+	DataServices *DataServices `tfsdk:"data_services"`
+
+	FlexibleServerSubnetIds types.Set `tfsdk:"flexible_server_subnet_ids"`
+
+	AvailabilityZones types.Set `tfsdk:"availability_zones"`
+}
+
+type DataServices struct {
+	SharedManagedIdentity types.String `tfsdk:"shared_managed_identity"`
+
+	AksPrivateDnsZoneId types.String `tfsdk:"aks_private_dns_zone_id"`
 }
 
 type existingAzureNetwork struct {

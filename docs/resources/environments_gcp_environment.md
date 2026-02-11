@@ -88,15 +88,19 @@ output "shared_project_id" {
 
 - `availability_zones` (Set of String) The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
 - `cascading_delete` (Boolean, Deprecated)
+- `custom_docker_registry` (Attributes) The desired custom docker registry for data services to be used. (see [below for nested schema](#nestedatt--custom_docker_registry))
 - `delete_options` (Attributes) Options for deleting the environment. (see [below for nested schema](#nestedatt--delete_options))
 - `description` (String) A description of the environment.
 - `enable_tunnel` (Boolean) Whether to enable SSH tunneling for the environment.
 - `encryption_key` (String) Key Resource ID of the customer managed encryption key to encrypt GCP resources.
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
+- `endpoint_access_gateway_subnet_ids` (Set of String) The subnets to use for endpoint access gateway.
+- `environment_type` (String) Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `log_storage` (Attributes) GCP storage configuration for cluster and audit logs. (see [below for nested schema](#nestedatt--log_storage))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String) Name of the proxy config to use for the environment.
+- `security` (Attributes) Security related configuration for Data Hub cluster. (see [below for nested schema](#nestedatt--security))
 - `security_access` (Attributes) Firewall rules for FreeIPA, Data Lake and Data Hub deployment. (see [below for nested schema](#nestedatt--security_access))
 - `tags` (Map of String) Tags that can be attached to GCP resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.
 - `workload_analytics` (Boolean) When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
@@ -117,6 +121,14 @@ Required:
 - `network_name` (String) The name of the GCP VPC.
 - `shared_project_id` (String) The ID of the Google project associated with the VPC.
 - `subnet_names` (List of String) One or more subnet names within the VPC. Google VPCs are global, please give subnets from single geographic region only to reduce latency.
+
+
+<a id="nestedatt--custom_docker_registry"></a>
+### Nested Schema for `custom_docker_registry`
+
+Required:
+
+- `crn` (String) The CRN of the desired custom docker registry for data services to be used.
 
 
 <a id="nestedatt--delete_options"></a>
@@ -188,6 +200,14 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--security"></a>
+### Nested Schema for `security`
+
+Required:
+
+- `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING
 
 
 <a id="nestedatt--security_access"></a>

@@ -89,9 +89,12 @@ output "environment" {
 
 ### Optional
 
+- `availability_zones` (Set of String) The zones of the environment in the given region.
 - `cascading_delete` (Boolean, Deprecated)
 - `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_endpoints` (Boolean)
+- `custom_docker_registry` (Attributes) The desired custom docker registry for data services to be used. (see [below for nested schema](#nestedatt--custom_docker_registry))
+- `data_services` (Attributes) Azure-specific Data Service parameters request. (see [below for nested schema](#nestedatt--data_services))
 - `delete_options` (Attributes) Options for deleting the environment. (see [below for nested schema](#nestedatt--delete_options))
 - `description` (String)
 - `enable_outbound_load_balancer` (Boolean)
@@ -102,10 +105,13 @@ output "environment" {
 - `encryption_user_managed_identity` (String)
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 - `endpoint_access_gateway_subnet_ids` (Set of String) The subnets to use for endpoint access gateway.
+- `environment_type` (String) Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID
+- `flexible_server_subnet_ids` (Set of String) The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String)
 - `resource_group_name` (String)
+- `security` (Attributes) Security related configuration for Data Hub cluster. (see [below for nested schema](#nestedatt--security))
 - `tags` (Map of String)
 - `workload_analytics` (Boolean)
 
@@ -181,6 +187,26 @@ Optional:
 
 
 
+<a id="nestedatt--custom_docker_registry"></a>
+### Nested Schema for `custom_docker_registry`
+
+Required:
+
+- `crn` (String) The CRN of the desired custom docker registry for data services to be used.
+
+
+<a id="nestedatt--data_services"></a>
+### Nested Schema for `data_services`
+
+Required:
+
+- `shared_managed_identity` (String) User-assigned managed identity used by the AKS control plane.
+
+Optional:
+
+- `aks_private_dns_zone_id` (String) The full Azure resource ID of an existing Private DNS zone used for the AKS.
+
+
 <a id="nestedatt--delete_options"></a>
 ### Nested Schema for `delete_options`
 
@@ -237,3 +263,11 @@ Optional:
 - `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--security"></a>
+### Nested Schema for `security`
+
+Required:
+
+- `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING

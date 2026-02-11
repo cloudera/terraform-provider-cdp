@@ -201,6 +201,11 @@ var GcpEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
+		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
+			MarkdownDescription: "The subnets to use for endpoint access gateway.",
+			Optional:            true,
+			ElementType:         types.StringType,
+		},
 		"tags": schema.MapAttribute{
 			MarkdownDescription: "Tags that can be attached to GCP resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.",
 			Optional:            true,
@@ -251,6 +256,39 @@ var GcpEnvironmentSchema = schema.Schema{
 		"status_reason": schema.StringAttribute{
 			MarkdownDescription: "The last known detailed status reason for the environment.",
 			Computed:            true,
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
+		"custom_docker_registry": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "The desired custom docker registry for data services to be used.",
+			Attributes: map[string]schema.Attribute{
+				"crn": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "The CRN of the desired custom docker registry for data services to be used.",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"security": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Security related configuration for Data Hub cluster.",
+			Attributes: map[string]schema.Attribute{
+				"se_linux": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"environment_type": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID",
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
