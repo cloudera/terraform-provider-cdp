@@ -27,25 +27,25 @@ func TestAwsCommonSchemaElementsExist(t *testing.T) {
 func TestAwsSpecificElements(t *testing.T) {
 	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			Name:             "'certificate_expiration_state' should exist",
-			Field:            "certificate_expiration_state",
-			Computed:         true,
-			ShouldBeRequired: false,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'certificate_expiration_state' should exist",
+			Field:         "certificate_expiration_state",
+			Computed:      true,
+			Required:      false,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'storage_location_base' should exist",
-			Field:            "storage_location_base",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'storage_location_base' should exist",
+			Field:         "storage_location_base",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'instance_profile' should exist",
-			Field:            "instance_profile",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'instance_profile' should exist",
+			Field:         "instance_profile",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.StringAttribute{},
 		},
 	}
 

@@ -16,3 +16,11 @@ type DeleteOptions struct {
 	Cascading types.Bool `tfsdk:"cascading"`
 	Forced    types.Bool `tfsdk:"forced"`
 }
+
+type CustomDockerRegistry struct {
+	Crn types.String `tfsdk:"crn"`
+}
+
+type Security struct {
+	Crn types.String `tfsdk:"se_linux"`
+}

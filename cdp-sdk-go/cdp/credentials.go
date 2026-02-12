@@ -37,7 +37,7 @@ const (
 
 type Credentials struct {
 	AccessKeyId string
-	PrivateKey  string
+	PrivateKey  string // #nosec G117 -- required credential field; not logged; only sent to backend for auth
 }
 
 func (credentials *Credentials) String() string {

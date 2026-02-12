@@ -27,25 +27,25 @@ func TestAzureCredentialCommonSchemaElementsExist(t *testing.T) {
 func TestAzureCredentialSpecificElements(t *testing.T) {
 	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			Name:             "'subscription_id' should exist",
-			Field:            "subscription_id",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'subscription_id' should exist",
+			Field:         "subscription_id",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'tenant_id' should exist",
-			Field:            "tenant_id",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'tenant_id' should exist",
+			Field:         "tenant_id",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'app_based' should exist",
-			Field:            "app_based",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.SingleNestedAttribute{},
+			Name:          "'app_based' should exist",
+			Field:         "app_based",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.SingleNestedAttribute{},
 		},
 	}
 

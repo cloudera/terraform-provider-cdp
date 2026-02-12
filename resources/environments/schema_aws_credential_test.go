@@ -27,25 +27,25 @@ func TestAwsCredentialCommonSchemaElementsExist(t *testing.T) {
 func TestAwsCredentialSpecificElements(t *testing.T) {
 	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			Name:             "'role_arn' should exist",
-			Field:            "role_arn",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.StringAttribute{},
+			Name:          "'role_arn' should exist",
+			Field:         "role_arn",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:             "'skip_org_policy_decisions' should exist",
-			Field:            "skip_org_policy_decisions",
-			Computed:         true,
-			ShouldBeRequired: false,
-			AttributeType:    schema.BoolAttribute{},
+			Name:          "'skip_org_policy_decisions' should exist",
+			Field:         "skip_org_policy_decisions",
+			Computed:      true,
+			Required:      false,
+			AttributeType: schema.BoolAttribute{},
 		},
 		{
-			Name:             "'verify_permissions' should exist",
-			Field:            "verify_permissions",
-			Computed:         true,
-			ShouldBeRequired: false,
-			AttributeType:    schema.BoolAttribute{},
+			Name:          "'verify_permissions' should exist",
+			Field:         "verify_permissions",
+			Computed:      true,
+			Required:      false,
+			AttributeType: schema.BoolAttribute{},
 		},
 	}
 

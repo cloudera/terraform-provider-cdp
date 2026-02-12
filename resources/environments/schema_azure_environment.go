@@ -336,6 +336,69 @@ var AzureEnvironmentSchema = schema.Schema{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
+		"custom_docker_registry": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "The desired custom docker registry for data services to be used.",
+			Attributes: map[string]schema.Attribute{
+				"crn": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "The CRN of the desired custom docker registry for data services to be used.",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"security": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Security related configuration for Data Hub cluster.",
+			Attributes: map[string]schema.Attribute{
+				"se_linux": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"environment_type": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID",
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
+		"data_services": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Azure-specific Data Service parameters request.",
+			Attributes: map[string]schema.Attribute{
+				"shared_managed_identity": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "User-assigned managed identity used by the AKS control plane.",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+				"aks_private_dns_zone_id": schema.StringAttribute{
+					Optional:            true,
+					MarkdownDescription: "The full Azure resource ID of an existing Private DNS zone used for the AKS.",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"flexible_server_subnet_ids": schema.SetAttribute{
+			Optional:    true,
+			ElementType: types.StringType,
+			Description: "The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.",
+		},
+		"availability_zones": schema.SetAttribute{
+			Optional:    true,
+			ElementType: types.StringType,
+			Description: "The zones of the environment in the given region.",
+		},
 	},
 }
 
@@ -353,6 +416,8 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
 	req.EncryptionAtHost = model.EncryptionAtHost.ValueBool()
 	req.UserManagedIdentity = model.EncryptionUserManagedIdentity.ValueString()
+	req.EnvironmentType = model.EnvironmentType.ValueString()
+
 	var existingNetworkParams existingAzureNetwork
 	diag := model.ExistingNetworkParams.As(ctx, &existingNetworkParams, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 	if diag.HasError() {
@@ -370,6 +435,29 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 		SubnetIds:                utils.FromSetValueToStringList(existingNetworkParams.SubnetIds),
 	}
 	req.FlexibleServerSubnetIds = utils.FromSetValueToStringList(existingNetworkParams.FlexibleServerSubnetIds)
+
+	if model.Security != nil {
+		req.Security = &environmentsmodels.SecurityRequest{
+			SeLinux: model.Security.Crn.ValueString(),
+		}
+	}
+	if model.CustomDockerRegistry != nil {
+		req.CustomDockerRegistry = &environmentsmodels.CustomDockerRegistryRequest{
+			Crn: model.CustomDockerRegistry.Crn.ValueStringPointer(),
+		}
+	}
+	if !model.FlexibleServerSubnetIds.IsNull() && !model.FlexibleServerSubnetIds.IsUnknown() {
+		req.FlexibleServerSubnetIds = utils.FromSetValueToStringList(model.FlexibleServerSubnetIds)
+	}
+	if !model.AvailabilityZones.IsNull() && !model.AvailabilityZones.IsUnknown() {
+		req.AvailabilityZones = utils.FromSetValueToStringList(model.AvailabilityZones)
+	}
+	if model.DataServices != nil {
+		req.DataServices = &environmentsmodels.DataServicesRequest{Azure: &environmentsmodels.AzureDataServicesParametersRequest{
+			AksPrivateDNSZoneID:   model.DataServices.AksPrivateDnsZoneId.ValueString(),
+			SharedManagedIdentity: model.DataServices.SharedManagedIdentity.ValueStringPointer(),
+		}}
+	}
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
 		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)

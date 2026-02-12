@@ -92,6 +92,29 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 				"endpoint_access_gateway_scheme":   tftypes.String,
 				"enable_outbound_load_balancer":    tftypes.Bool,
 				"encryption_user_managed_identity": tftypes.String,
+				"security": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"se_linux": tftypes.String,
+					},
+				},
+				"custom_docker_registry": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"crn": tftypes.String,
+					},
+				},
+				"environment_type": tftypes.String,
+				"data_services": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"shared_managed_identity": tftypes.String,
+						"aks_private_dns_zone_id": tftypes.String,
+					},
+				},
+				"flexible_server_subnet_ids": tftypes.Set{
+					ElementType: tftypes.String,
+				},
+				"availability_zones": tftypes.Set{
+					ElementType: tftypes.String,
+				},
 				"existing_network_params": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"aks_private_dns_zone_id":      tftypes.String,
@@ -245,6 +268,36 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 					ElementType: tftypes.String,
 				}, []tftypes.Value{}),
 			}),
+			"security": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"se_linux": tftypes.String,
+				},
+			}, map[string]tftypes.Value{
+				"se_linux": tftypes.NewValue(tftypes.String, ""),
+			}),
+			"custom_docker_registry": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"crn": tftypes.String,
+				},
+			}, map[string]tftypes.Value{
+				"crn": tftypes.NewValue(tftypes.String, ""),
+			}),
+			"data_services": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"shared_managed_identity": tftypes.String,
+					"aks_private_dns_zone_id": tftypes.String,
+				},
+			}, map[string]tftypes.Value{
+				"shared_managed_identity": tftypes.NewValue(tftypes.String, ""),
+				"aks_private_dns_zone_id": tftypes.NewValue(tftypes.String, ""),
+			}),
+			"flexible_server_subnet_ids": tftypes.NewValue(tftypes.Set{
+				ElementType: tftypes.String,
+			}, []tftypes.Value{}),
+			"environment_type": tftypes.NewValue(tftypes.String, ""),
+			"availability_zones": tftypes.NewValue(tftypes.Set{
+				ElementType: tftypes.String,
+			}, []tftypes.Value{}),
 			"endpoint_access_gateway_subnet_ids": tftypes.NewValue(tftypes.Set{
 				ElementType: tftypes.String,
 			}, []tftypes.Value{}),

@@ -322,6 +322,39 @@ var AwsEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
+		"custom_docker_registry": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "The desired custom docker registry for data services to be used.",
+			Attributes: map[string]schema.Attribute{
+				"crn": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "The CRN of the desired custom docker registry for data services to be used.",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"security": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Security related configuration for Data Hub cluster.",
+			Attributes: map[string]schema.Attribute{
+				"se_linux": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"environment_type": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID",
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
+		},
 	},
 }
 
@@ -340,6 +373,21 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 	req.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
 	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
 	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	req.EnvironmentType = model.EnvironmentType.ValueString()
+
+	if model.Security != nil {
+		req.Security = &environmentsmodels.SecurityRequest{
+			SeLinux: model.Security.Crn.ValueString(),
+		}
+	}
+	if model.CustomDockerRegistry != nil {
+		req.CustomDockerRegistry = &environmentsmodels.CustomDockerRegistryRequest{
+			Crn: model.CustomDockerRegistry.Crn.ValueStringPointer(),
+		}
+	}
+	if !model.EndpointAccessGatewaySubnetIds.IsNull() && !model.EndpointAccessGatewaySubnetIds.IsUnknown() {
+		req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
+	}
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
 		trans, img := FreeIpaModelToRequest(&model.FreeIpa, ctx)

@@ -23,11 +23,11 @@ import (
 func TestRuntimeSchemaElements(t *testing.T) {
 	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			Name:             "versions should exist",
-			Field:            "versions",
-			Computed:         true,
-			ShouldBeRequired: false,
-			AttributeType:    schema.SetNestedAttribute{},
+			Name:          "versions should exist",
+			Field:         "versions",
+			Computed:      true,
+			Required:      false,
+			AttributeType: schema.SetNestedAttribute{},
 		},
 	}
 
@@ -39,8 +39,8 @@ func TestRuntimeSchemaElements(t *testing.T) {
 				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
-			if underTestAttributes[toTest.Field].IsRequired() != toTest.ShouldBeRequired {
-				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.ShouldBeRequired)
+			if underTestAttributes[toTest.Field].IsRequired() != toTest.Required {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.Required)
 			}
 			if underTestAttributes[toTest.Field].IsComputed() != toTest.Computed {
 				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)

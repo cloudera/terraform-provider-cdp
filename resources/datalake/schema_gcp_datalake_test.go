@@ -27,11 +27,11 @@ func TestCommonSchemaElementsExist(t *testing.T) {
 func TestGcpSpecificElements(t *testing.T) {
 	cases := []test.ResourceSchemaTestCaseStructure{
 		{
-			Name:             "cloud_provider_configuration should exist",
-			Field:            "cloud_provider_configuration",
-			Computed:         false,
-			ShouldBeRequired: true,
-			AttributeType:    schema.SingleNestedAttribute{},
+			Name:          "cloud_provider_configuration should exist",
+			Field:         "cloud_provider_configuration",
+			Computed:      false,
+			Required:      true,
+			AttributeType: schema.SingleNestedAttribute{},
 		},
 	}
 
@@ -43,8 +43,8 @@ func TestGcpSpecificElements(t *testing.T) {
 				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
-			if underTestAttributes[toTest.Field].IsRequired() != toTest.ShouldBeRequired {
-				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.ShouldBeRequired)
+			if underTestAttributes[toTest.Field].IsRequired() != toTest.Required {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.Required)
 			}
 			if underTestAttributes[toTest.Field].IsComputed() != toTest.Computed {
 				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)
