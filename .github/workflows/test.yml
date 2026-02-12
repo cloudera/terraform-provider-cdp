@@ -28,7 +28,7 @@ jobs:
 
     strategy:
       matrix:
-        go-version: ['1.23', '1.24']
+        go-version: [ '1.23', '1.24','1.25', '1.26' ]
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -43,7 +43,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Run linters
-        uses: golangci/golangci-lint-action@v8.0.0
+        uses: golangci/golangci-lint-action@v9
         with:
           args: --timeout 3m
 
@@ -67,7 +67,7 @@ jobs:
         with:
           go-version-file: 'go.mod'
       - name: Run linters
-        uses: golangci/golangci-lint-action@v8.0.0
+        uses: golangci/golangci-lint-action@v9
         with:
           args: --timeout 3m
 
@@ -84,7 +84,7 @@ jobs:
           - macos-latest
           - windows-latest
           - ubuntu-latest
-        go-version: ['1.23', '1.24']
+        go-version: [ '1.23', '1.24','1.25', '1.26' ]
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -96,7 +96,7 @@ jobs:
         run: |
           go test -count=1 -parallel=4 -timeout 10m -json -v ./... 2>&1 | tee TestResults-${{ matrix.os }}_${{ matrix.go-version }}.log
       - name: Upload test log
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: TestResults-${{ matrix.os }}_${{ matrix.go-version }}.log
@@ -145,7 +145,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34 # v5.3.0
         with:
-          go-version: 1.24
+          go-version: 1.26
       - name: Run documentation generation
         run: |
           make docs
