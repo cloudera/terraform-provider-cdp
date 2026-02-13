@@ -138,7 +138,7 @@ func (t *LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, erro
 	duration := time.Since(startTime)
 
 	if err != nil {
-		t.logger.Debugf(req.Context(), "HTTP Request URL=%s method=%s error=%s resp=%v durationMs=%d", req.URL, req.Method, resp, err.Error(), duration)
+		t.logger.Debugf(req.Context(), "HTTP Request URL=%s method=%s error=%+v resp=%v durationMs=%d", req.URL, req.Method, resp, err.Error(), duration)
 	} else {
 		t.logger.Debugf(req.Context(), "HTTP Request URL=%s method=%s status=%d resp=%v durationMs=%d", req.URL, req.Method, resp.StatusCode, resp, duration)
 	}

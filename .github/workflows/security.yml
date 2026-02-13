@@ -1,19 +1,27 @@
 name: Security Scan
+permissions:
+  contents: read
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 jobs:
-  tests:
-    name: 'Gosec scan'
+  gosec:
+    name: Gosec scan
     runs-on: ubuntu-latest
     env:
-      GO111MODULE: on
       GOFLAGS: -buildvcs=false
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Run Gosec Security Scanner
-        uses: securego/gosec@master
+      - uses: actions/checkout@v6
+      - name: Set up Go
+        uses: actions/setup-go@v6
         with:
-          args: -exclude-generated -exclude-dir=cdp-sdk-go/gen -exclude-dir=mocks ./...
+          go-version-file: go.mod
+          cache: true
+      - name: Install gosec
+        run: go install github.com/securego/gosec/v2/cmd/gosec@v2.23.0
+      - name: Run gosec
+        run: |
+          gosec -exclude-generated \
+            -exclude-dir=cdp-sdk-go/gen \
+            -exclude-dir=mocks \
+            ./...
