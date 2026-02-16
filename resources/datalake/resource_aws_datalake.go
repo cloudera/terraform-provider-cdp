@@ -73,6 +73,13 @@ func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) 
 			Os:          model.Image.Os.ValueString(),
 		}
 	}
+	if model.Security != nil {
+		req.Security = &datalakemodels.SecurityRequest{
+			SeLinux: model.Security.SeLinux.ValueString(),
+		}
+	}
+	req.EnableRangerRms = model.EnableRangerRms.ValueBool()
+	req.Architecture = model.Architecture.ValueString()
 	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.MultiAz = model.MultiAz.ValueBool()
 	req.Recipes = make([]*datalakemodels.InstanceGroupRecipeRequest, len(model.Recipes))
@@ -344,10 +351,14 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 		dlName = state.ID.ValueString()
 	}
 	client := r.client.Datalake
+	forceDelete := false
+	if state.DeleteOptions != nil {
+		forceDelete = state.DeleteOptions.Forced.ValueBool()
+	}
 	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
 	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
 		DatalakeName: &dlName,
-		Force:        false,
+		Force:        forceDelete,
 	})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {

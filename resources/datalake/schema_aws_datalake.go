@@ -15,6 +15,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 
@@ -36,6 +38,22 @@ func (r *awsDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest
 		},
 		"instance_profile": schema.StringAttribute{
 			Required: true,
+		},
+		"enable_ranger_rms": schema.BoolAttribute{
+			Optional:            true,
+			Computed:            true,
+			MarkdownDescription: "Whether to enable Ranger RMS for the datalake. Defaults to not being enabled.",
+			Default:             booldefault.StaticBool(false),
+			PlanModifiers: []planmodifier.Bool{
+				boolplanmodifier.UseStateForUnknown(),
+			},
+		},
+		"architecture": schema.StringAttribute{
+			Optional:            true,
+			MarkdownDescription: "Specifies the CPU architecture of the data lake cluster. Values are ARM64, X86_64.",
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.UseStateForUnknown(),
+			},
 		},
 	})
 	resp.Schema = schema.Schema{

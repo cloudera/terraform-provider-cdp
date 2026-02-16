@@ -64,6 +64,10 @@ type azureDatalakeResourceModel struct {
 	FlexibleServerDelegatedSubnetId types.String `tfsdk:"flexible_server_delegated_subnet_id"`
 
 	MultiAz types.Bool `tfsdk:"multi_az"`
+
+	Security *Security `tfsdk:"security"`
+
+	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
 }
 
 type azureDatalakeImage struct {

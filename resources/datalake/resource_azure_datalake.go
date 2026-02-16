@@ -74,6 +74,11 @@ func toAzureDatalakeRequest(ctx context.Context, model *azureDatalakeResourceMod
 			Os:          model.Image.Os.ValueString(),
 		}
 	}
+	if model.Security != nil {
+		req.Security = &datalakemodels.SecurityRequest{
+			SeLinux: model.Security.SeLinux.ValueString(),
+		}
+	}
 	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.Recipes = make([]*datalakemodels.InstanceGroupRecipeRequest, len(model.Recipes))
 	for i, v := range model.Recipes {
@@ -296,9 +301,13 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 
 	client := r.client.Datalake
 	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	forceDelete := false
+	if state.DeleteOptions != nil {
+		forceDelete = state.DeleteOptions.Forced.ValueBool()
+	}
 	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
 		DatalakeName: state.DatalakeName.ValueStringPointer(),
-		Force:        false,
+		Force:        forceDelete,
 	})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {

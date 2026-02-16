@@ -53,7 +53,7 @@ func TestAwsSpecificElements(t *testing.T) {
 }
 
 func TestAwsDatalakeSchemaAttributeNumber(t *testing.T) {
-	expected := 21
+	expected := 25
 	attrs := createFilledAwsTestObject()
 	if len(attrs) != expected {
 		t.Errorf("The number of fields in the AwsDatalakeSchema schema should be: %d but it is: %d", expected, len(attrs))

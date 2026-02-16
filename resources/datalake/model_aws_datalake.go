@@ -58,6 +58,14 @@ type awsDatalakeResourceModel struct {
 	StatusReason types.String `tfsdk:"status_reason"`
 
 	Tags types.Map `tfsdk:"tags"`
+
+	Security *Security `tfsdk:"security"`
+
+	EnableRangerRms types.Bool `tfsdk:"enable_ranger_rms"`
+
+	Architecture types.String `tfsdk:"architecture"`
+
+	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
 }
 
 type awsDatalakeImage struct {

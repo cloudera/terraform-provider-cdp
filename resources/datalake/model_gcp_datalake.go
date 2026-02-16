@@ -54,6 +54,10 @@ type gcpDatalakeResourceModel struct {
 	StatusReason types.String `tfsdk:"status_reason"`
 
 	Tags types.Map `tfsdk:"tags"`
+
+	Security *Security `tfsdk:"security"`
+
+	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
 }
 
 type gcpConfiguration struct {

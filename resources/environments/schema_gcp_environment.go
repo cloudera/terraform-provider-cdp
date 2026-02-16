@@ -278,7 +278,9 @@ var GcpEnvironmentSchema = schema.Schema{
 			MarkdownDescription: "Security related configuration for Data Hub cluster.",
 			Attributes: map[string]schema.Attribute{
 				"se_linux": schema.StringAttribute{
-					Required:            true,
+					Optional:            true,
+					Computed:            true,
+					Default:             stringdefault.StaticString("PERMISSIVE"),
 					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),

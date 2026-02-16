@@ -147,6 +147,20 @@ var (
 			Required:      false,
 			AttributeType: schema.MapAttribute{},
 		},
+		{
+			Name:          "'security' should exist",
+			Field:         "security",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.SingleNestedAttribute{},
+		},
+		{
+			Name:          "'delete_options' should exist",
+			Field:         "delete_options",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.SingleNestedAttribute{},
+		},
 	}
 )
 
