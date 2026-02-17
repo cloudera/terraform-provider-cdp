@@ -60,6 +60,7 @@ output "storage_location" {
 ### Optional
 
 - `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
+- `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
 - `enable_ranger_raz` (Boolean)
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number)
@@ -68,6 +69,7 @@ output "storage_location" {
 - `recipes` (Attributes Set) (see [below for nested schema](#nestedatt--recipes))
 - `runtime` (String)
 - `scale` (String)
+- `security` (Attributes) Security related configuration for Datalake. (see [below for nested schema](#nestedatt--security))
 - `tags` (Map of String)
 
 ### Read-Only
@@ -97,6 +99,14 @@ Required:
 - `name` (String) The name of the custom instance group.
 
 
+<a id="nestedatt--delete_options"></a>
+### Nested Schema for `delete_options`
+
+Optional:
+
+- `forced` (Boolean) Whether the datalake should be force deleted. This option can be used when cluster deletion fails. This removes the entry from Cloudera Datalake service. Any lingering resources have to be deleted from the cloud provider manually. The default is false.
+
+
 <a id="nestedatt--image"></a>
 ### Nested Schema for `image`
 
@@ -124,3 +134,11 @@ Required:
 
 - `instance_group_name` (String) The name of the designated instance group.
 - `recipe_names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
+
+
+<a id="nestedatt--security"></a>
+### Nested Schema for `security`
+
+Optional:
+
+- `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Values are: PERMISSIVE, ENFORCING

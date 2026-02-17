@@ -21,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -354,7 +355,9 @@ var AzureEnvironmentSchema = schema.Schema{
 			MarkdownDescription: "Security related configuration for Data Hub cluster.",
 			Attributes: map[string]schema.Attribute{
 				"se_linux": schema.StringAttribute{
-					Required:            true,
+					Optional:            true,
+					Computed:            true,
+					Default:             stringdefault.StaticString("PERMISSIVE"),
 					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),

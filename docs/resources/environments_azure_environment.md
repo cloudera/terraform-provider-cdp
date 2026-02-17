@@ -268,6 +268,6 @@ Optional:
 <a id="nestedatt--security"></a>
 ### Nested Schema for `security`
 
-Required:
+Optional:
 
 - `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING

@@ -340,8 +340,10 @@ var AwsEnvironmentSchema = schema.Schema{
 			MarkdownDescription: "Security related configuration for Data Hub cluster.",
 			Attributes: map[string]schema.Attribute{
 				"se_linux": schema.StringAttribute{
-					Required:            true,
+					Optional:            true,
+					Computed:            true,
 					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+					Default:             stringdefault.StaticString("PERMISSIVE"),
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},

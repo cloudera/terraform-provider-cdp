@@ -79,7 +79,7 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 
 	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
-			datalakeDetailsToGcpDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
+			datalakeDetailsToGcpDatalakeResourceModel(dlDtl, &state, state.PollingOptions)
 			diags = resp.State.Set(ctx, state)
 			resp.Diagnostics.Append(diags...)
 		}
@@ -98,7 +98,7 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	descDlResp := descResponseOk.Payload
-	datalakeDetailsToGcpDatalakeResourceModel(ctx, descDlResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
+	datalakeDetailsToGcpDatalakeResourceModel(descDlResp.Datalake, &state, state.PollingOptions)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -140,7 +140,7 @@ func (r *gcpDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	datalakeResp := responseOk.Payload
-	datalakeDetailsToGcpDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
+	datalakeDetailsToGcpDatalakeResourceModel(datalakeResp.Datalake, &state, state.PollingOptions)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -149,7 +149,7 @@ func (r *gcpDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 }
 
-func (r *gcpDatalakeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *gcpDatalakeResource) Update(_ context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
 }
 
 func (r *gcpDatalakeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -161,10 +161,14 @@ func (r *gcpDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	}
 
 	client := r.client.Datalake
+	forceDelete := false
+	if state.DeleteOptions != nil {
+		forceDelete = state.DeleteOptions.Forced.ValueBool()
+	}
 	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
 	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
 		DatalakeName: state.DatalakeName.ValueStringPointer(),
-		Force:        false,
+		Force:        forceDelete,
 	})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {

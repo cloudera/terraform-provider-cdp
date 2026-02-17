@@ -13,7 +13,6 @@ package datalake
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
@@ -21,7 +20,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+func datalakeDetailsToGcpDatalakeResourceModel(resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, pollingOptions *utils.PollingOptions) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
 	model.Crn = types.StringPointerValue(resp.Crn)
@@ -35,17 +34,25 @@ func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datala
 }
 
 func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) *datalakemodels.CreateGCPDatalakeRequest {
-	req := &datalakemodels.CreateGCPDatalakeRequest{}
+	req := &datalakemodels.CreateGCPDatalakeRequest{
+		EnvironmentName: model.EnvironmentName.ValueStringPointer(),
+		DatalakeName:    model.DatalakeName.ValueStringPointer(),
+		EnableRangerRaz: model.EnableRangerRaz.ValueBool(),
+		JavaVersion:     model.JavaVersion.ValueInt32(),
+		MultiAz:         model.MultiAz.ValueBoolPointer(),
+		Runtime:         model.Runtime.ValueString(),
+	}
+	if model.Security != nil {
+		req.Security = &datalakemodels.SecurityRequest{
+			SeLinux: model.Security.SeLinux.ValueString(),
+		}
+	}
 	if model.CloudProviderConfiguration != nil {
 		req.CloudProviderConfiguration = &datalakemodels.GCPConfigurationRequest{
 			ServiceAccountEmail: model.CloudProviderConfiguration.ServiceAccountEmail.ValueStringPointer(),
 			StorageLocation:     model.CloudProviderConfiguration.StorageLocation.ValueStringPointer(),
 		}
 	}
-	req.DatalakeName = model.DatalakeName.ValueStringPointer()
-	req.EnableRangerRaz = model.EnableRangerRaz.ValueBool()
-	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
-	req.MultiAz = model.MultiAz.ValueBoolPointer()
 	if model.Image != nil {
 		req.Image = &datalakemodels.ImageRequest{
 			CatalogName: model.Image.CatalogName.ValueStringPointer(),
@@ -53,7 +60,6 @@ func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) 
 			Os:          model.Image.Os.ValueString(),
 		}
 	}
-	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.Recipes = make([]*datalakemodels.InstanceGroupRecipeRequest, len(model.Recipes))
 	for i, v := range model.Recipes {
 		req.Recipes[i] = &datalakemodels.InstanceGroupRecipeRequest{
@@ -68,7 +74,6 @@ func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) 
 			InstanceType: v.InstanceType.ValueString(),
 		}
 	}
-	req.Runtime = model.Runtime.ValueString()
 	req.Scale = datalakemodels.DatalakeScaleType(model.Scale.ValueString())
 	if !model.Tags.IsNull() {
 		req.Tags = make([]*datalakemodels.DatalakeResourceGCPTagRequest, len(model.Tags.Elements()))
