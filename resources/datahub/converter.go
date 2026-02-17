@@ -70,6 +70,10 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 	req.InstanceGroups = igs
 	req.JavaVersion = model.JavaVersion.ValueInt32()
 	req.SubnetID = model.SubnetId.ValueString()
+	if model.Security != nil {
+		req.Security = &datahubmodels.SecurityRequest{SeLinux: model.Security.SeLinux.ValueString()}
+	}
+	req.Architecture = model.Architecture.ValueString()
 	subnetIds := make([]string, len(model.SubnetIds.Elements()))
 	for i, v := range model.SubnetIds.Elements() {
 		subnetIds[i] = v.(types.String).ValueString()
@@ -143,6 +147,10 @@ func fromModelToGcpRequest(model gcpDatahubResourceModel, ctx context.Context) *
 		igs = append(igs, ig)
 	}
 	req.InstanceGroups = igs
+	if model.Security != nil {
+		req.Security = &datahubmodels.SecurityRequest{SeLinux: model.Security.SeLinux.ValueString()}
+	}
+	req.MultiAz = model.MultiAz.ValueBoolPointer()
 	req.CustomConfigurationsName = model.CustomConfigurationsName.ValueString()
 	var image datahubImage
 	model.Image.As(ctx, &image, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
@@ -219,6 +227,9 @@ func fromModelToAzureRequest(model azureDatahubResourceModel, ctx context.Contex
 		CatalogName: image.CatalogName.ValueString(),
 		ID:          image.ID.ValueString(),
 		Os:          image.Os.ValueString(),
+	}
+	if model.Security != nil {
+		req.Security = &datahubmodels.SecurityRequest{SeLinux: model.Security.SeLinux.ValueString()}
 	}
 	req.RequestTemplate = model.RequestTemplate.ValueString()
 	req.DatahubDatabase = datahubmodels.DatahubDatabaseType(model.DatahubDatabase.ValueString())

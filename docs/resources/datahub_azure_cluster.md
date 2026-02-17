@@ -205,6 +205,7 @@ output "encryption" {
 - `multi_az` (Boolean) Flag  that toggles the multi availability zone for the given datahub cluster when you are not sure what subnet IDs can be used. This  way the subnet IDs will be used what the environment suggests.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `request_template` (String) JSON  template  to  use for cluster creation. This is different from cluster template and would be removed in the future.
+- `security` (Attributes) Security related configuration for the given cluster. (see [below for nested schema](#nestedatt--security))
 - `subnet_id` (String) The subnet id.
 - `tags` (Map of String)
 
@@ -288,3 +289,11 @@ Optional:
 
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--security"></a>
+### Nested Schema for `security`
+
+Optional:
+
+- `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING

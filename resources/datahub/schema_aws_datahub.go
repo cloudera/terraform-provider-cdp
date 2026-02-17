@@ -26,15 +26,15 @@ func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 	utils.Append(attr, instanceGroupSchemaAttributes)
 	utils.Append(attr, map[string]schema.Attribute{
 		"cluster_template": schema.StringAttribute{
-			MarkdownDescription: "The name of the cluster template.",
+			MarkdownDescription: "The name or CRN of the cluster template.",
 			Optional:            true,
 		},
 		"cluster_definition": schema.StringAttribute{
-			MarkdownDescription: "The name of the cluster definition.",
+			MarkdownDescription: "The name or CRN of the cluster definition.",
 			Optional:            true,
 		},
 		"environment": schema.StringAttribute{
-			MarkdownDescription: "The name of the environment where the cluster will belong to.",
+			MarkdownDescription: "The name or CRN of the environment where the cluster will belong to.",
 			Required:            true,
 		},
 		"subnet_id": schema.StringAttribute{
@@ -42,7 +42,7 @@ func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 			Optional:            true,
 		},
 		"subnet_ids": schema.SetAttribute{
-			MarkdownDescription: "The subnet ids.",
+			MarkdownDescription: "List of subnet IDs in case of multi availability zone setup.",
 			Optional:            true,
 			ElementType:         types.StringType,
 		},
@@ -52,6 +52,10 @@ func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 		},
 		"enable_load_balancer": schema.BoolAttribute{
 			MarkdownDescription: "Flag that decides whether to provision a load-balancer to front var- ious service endpoints for the given datahub. This will typically be used for HA cluster shapes.",
+			Optional:            true,
+		},
+		"architecture": schema.StringAttribute{
+			MarkdownDescription: "Specifies the CPU architecture of the cluster. Values are ARM64, X86_64.",
 			Optional:            true,
 		},
 	})

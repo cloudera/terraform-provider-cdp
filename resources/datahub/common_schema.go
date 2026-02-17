@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -127,6 +128,21 @@ var generalAttributes = map[string]schema.Attribute{
 	"tags": schema.MapAttribute{
 		Optional:    true,
 		ElementType: types.StringType,
+	},
+	"security": schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Security related configuration for the given cluster.",
+		Attributes: map[string]schema.Attribute{
+			"se_linux": schema.StringAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+				Default:             stringdefault.StaticString("PERMISSIVE"),
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+		},
 	},
 }
 

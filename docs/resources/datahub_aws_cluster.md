@@ -249,14 +249,15 @@ output "encryption" {
 
 ### Required
 
-- `environment` (String) The name of the environment where the cluster will belong to.
+- `environment` (String) The name or CRN of the environment where the cluster will belong to.
 - `name` (String) The name of the cluster.
 
 ### Optional
 
-- `cluster_definition` (String) The name of the cluster definition.
+- `architecture` (String) Specifies the CPU architecture of the cluster. Values are ARM64, X86_64.
+- `cluster_definition` (String) The name or CRN of the cluster definition.
 - `cluster_extension` (Attributes) (see [below for nested schema](#nestedatt--cluster_extension))
-- `cluster_template` (String) The name of the cluster template.
+- `cluster_template` (String) The name or CRN of the cluster template.
 - `custom_configurations_name` (String) The name of the custom configurations to use for cluster creation.
 - `datahub_database` (String) Database type for datahub. Currently supported values: NONE, NON_HA, HA
 - `destroy_options` (Attributes) Cluster deletion options. (see [below for nested schema](#nestedatt--destroy_options))
@@ -267,8 +268,9 @@ output "encryption" {
 - `multi_az` (Boolean) Flag  that toggles the multi availability zone for the given datahub cluster when you are not sure what subnet IDs can be used. This  way the subnet IDs will be used what the environment suggests.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `request_template` (String) JSON  template  to  use for cluster creation. This is different from cluster template and would be removed in the future.
+- `security` (Attributes) Security related configuration for the given cluster. (see [below for nested schema](#nestedatt--security))
 - `subnet_id` (String) The subnet id.
-- `subnet_ids` (Set of String) The subnet ids.
+- `subnet_ids` (Set of String) List of subnet IDs in case of multi availability zone setup.
 - `tags` (Map of String)
 
 ### Read-Only
@@ -352,3 +354,11 @@ Optional:
 
 - `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
 - `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+
+
+<a id="nestedatt--security"></a>
+### Nested Schema for `security`
+
+Optional:
+
+- `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING
