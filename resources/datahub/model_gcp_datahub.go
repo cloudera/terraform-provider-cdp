@@ -33,8 +33,10 @@ type gcpDatahubResourceModel struct {
 	DatahubDatabase          types.String          `tfsdk:"datahub_database"`
 	ClusterExtension         types.Object          `tfsdk:"cluster_extension"`
 	SubnetName               types.String          `tfsdk:"subnet_name"`
+	MultiAz                  types.Bool            `tfsdk:"multi_az"`
 	JavaVersion              types.Int32           `tfsdk:"java_version"`
 	Tags                     types.Map             `tfsdk:"tags"`
+	Security                 *Security             `tfsdk:"security"`
 }
 
 type GcpInstanceGroup struct {

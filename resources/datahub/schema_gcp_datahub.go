@@ -15,6 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -81,6 +82,12 @@ var gcpInstanceGroupSchemaAttributes = map[string]schema.Attribute{
 				},
 			},
 		},
+	},
+	"multi_az": schema.BoolAttribute{
+		MarkdownDescription: "Creates the Data Hub distributed across multiple availability zones in GCP region",
+		Optional:            true,
+		Computed:            true,
+		Default:             booldefault.StaticBool(false),
 	},
 }
 

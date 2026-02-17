@@ -40,6 +40,7 @@ type azureDatahubResourceModel struct {
 	EnableLoadBalancer              types.Bool            `tfsdk:"enable_load_balancer"`
 	LoadBalancerSku                 types.String          `tfsdk:"load_balancer_sku"`
 	FlexibleServerDelegatedSubnetId types.String          `tfsdk:"flexible_server_delegated_subnet_id"`
+	Security                        *Security             `tfsdk:"security"`
 }
 
 func (d *azureDatahubResourceModel) forceDeleteRequested() bool {

@@ -14,6 +14,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
+type Security struct {
+	SeLinux types.String `tfsdk:"se_linux"`
+}
+
 type InstanceGroup struct {
 	NodeCount                   types.Int32                   `tfsdk:"node_count"`
 	InstanceGroupName           types.String                  `tfsdk:"instance_group_name"`

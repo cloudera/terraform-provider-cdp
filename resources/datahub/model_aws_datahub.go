@@ -38,6 +38,8 @@ type awsDatahubResourceModel struct {
 	JavaVersion              types.Int32           `tfsdk:"java_version"`
 	Tags                     types.Map             `tfsdk:"tags"`
 	EnableLoadBalancer       types.Bool            `tfsdk:"enable_load_balancer"`
+	Architecture             types.String          `tfsdk:"architecture"`
+	Security                 *Security             `tfsdk:"security"`
 }
 
 type datahubImage struct {
