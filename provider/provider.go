@@ -261,8 +261,11 @@ func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSou
 	return []func() datasource.DataSource{
 		environments.NewAWSCredentialPrerequisitesDataSource,
 		environments.NewEnvironmentConfigDataSource,
+		environments.NewListEnvironmentsDataSource,
 		environments.NewKeytabDataSource,
 		datalake.NewListRuntimeDataSource,
+		datalake.NewListDatalakesDataSource,
+		datahub.NewListDatahubsDataSource,
 		iam.NewGroupDataSource,
 	}
 }

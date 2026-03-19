@@ -184,7 +184,7 @@ func SchemaContainsCommonElements(t *testing.T, providerSpecificSchema map[strin
 			var currentType = reflect.TypeOf(providerSpecificSchema[toTest.Field])
 			var expectedType = reflect.TypeOf(toTest.AttributeType)
 			if currentType != expectedType {
-				t.Errorf("The '%s' field's type should be: %t, instead of %t", toTest.Field, expectedType, currentType)
+				t.Errorf("The '%s' field's type should be: %v, instead of %t", toTest.Field, expectedType, currentType)
 			}
 		})
 	}

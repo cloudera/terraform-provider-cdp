@@ -14,7 +14,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	datasourceSchemaModel "github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	resourceSchemaModel "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
 type ResourceSchemaTestCaseStructure struct {
@@ -22,14 +23,22 @@ type ResourceSchemaTestCaseStructure struct {
 	Field         string
 	Computed      bool
 	Required      bool
-	AttributeType schema.Attribute
+	AttributeType resourceSchemaModel.Attribute
 }
 
-func PerformResourceSchemaValidation(t *testing.T, resourceSchema map[string]schema.Attribute, expectedElements []ResourceSchemaTestCaseStructure) {
+type DataSourceSchemaTestCaseStructure struct {
+	Name          string
+	Field         string
+	Computed      bool
+	Required      bool
+	AttributeType datasourceSchemaModel.Attribute
+}
+
+func PerformResourceSchemaValidation(t *testing.T, resourceSchema map[string]resourceSchemaModel.Attribute, expectedElements []ResourceSchemaTestCaseStructure) {
 	for _, toTest := range expectedElements {
 		t.Run(toTest.Name, func(t *testing.T) {
 			if resourceSchema[toTest.Field] == nil {
-				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
+				t.Errorf("The following field does not exist, however it should: %s", toTest.Field)
 				t.FailNow()
 			}
 			if resourceSchema[toTest.Field].IsRequired() != toTest.Required {
@@ -41,7 +50,29 @@ func PerformResourceSchemaValidation(t *testing.T, resourceSchema map[string]sch
 			var currentType = reflect.TypeOf(resourceSchema[toTest.Field])
 			var expectedType = reflect.TypeOf(toTest.AttributeType)
 			if currentType != expectedType {
-				t.Errorf("The '%s' field's type should be: %t, instead of %t", toTest.Field, expectedType, currentType)
+				t.Errorf("The '%s' field's type should be: %v, instead of %t", toTest.Field, expectedType, currentType)
+			}
+		})
+	}
+}
+
+func PerformDataSourceSchemaValidation(t *testing.T, datasourceSchema map[string]datasourceSchemaModel.Attribute, expectedElements []DataSourceSchemaTestCaseStructure) {
+	for _, toTest := range expectedElements {
+		t.Run(toTest.Name, func(t *testing.T) {
+			if datasourceSchema[toTest.Field] == nil {
+				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
+				t.FailNow()
+			}
+			if datasourceSchema[toTest.Field].IsRequired() != toTest.Required {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.Required)
+			}
+			if datasourceSchema[toTest.Field].IsComputed() != toTest.Computed {
+				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)
+			}
+			var currentType = reflect.TypeOf(datasourceSchema[toTest.Field])
+			var expectedType = reflect.TypeOf(toTest.AttributeType)
+			if currentType != expectedType {
+				t.Errorf("The '%s' field's type should be: %v, instead of %t", toTest.Field, expectedType, currentType)
 			}
 		})
 	}
