@@ -77,3 +77,25 @@ func PerformDataSourceSchemaValidation(t *testing.T, datasourceSchema map[string
 		})
 	}
 }
+
+func PerformDataSourceSchemaValidation(t *testing.T, datasourceSchema map[string]datasourceSchemaModel.Attribute, expectedElements []DataSourceSchemaTestCaseStructure) {
+	for _, toTest := range expectedElements {
+		t.Run(toTest.Name, func(t *testing.T) {
+			if datasourceSchema[toTest.Field] == nil {
+				t.Errorf("The following field does not exists, however it should: %s", toTest.Field)
+				t.FailNow()
+			}
+			if datasourceSchema[toTest.Field].IsRequired() != toTest.Required {
+				t.Errorf("The '%s' field's >required< property should be: %t", toTest.Field, toTest.Required)
+			}
+			if datasourceSchema[toTest.Field].IsComputed() != toTest.Computed {
+				t.Errorf("The '%s' field's >Computed< property should be: %t", toTest.Field, toTest.Computed)
+			}
+			var currentType = reflect.TypeOf(datasourceSchema[toTest.Field])
+			var expectedType = reflect.TypeOf(toTest.AttributeType)
+			if currentType != expectedType {
+				t.Errorf("The '%s' field's type should be: %t, instead of %t", toTest.Field, expectedType, currentType)
+			}
+		})
+	}
+}
