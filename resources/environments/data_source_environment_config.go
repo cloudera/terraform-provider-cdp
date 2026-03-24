@@ -37,10 +37,6 @@ func (e *environmentConfigDataSource) Metadata(_ context.Context, req datasource
 	resp.TypeName = req.ProviderTypeName + "_environments_config"
 }
 
-func (e *environmentConfigDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	resp.Schema = EnvironmentConfigSchema
-}
-
 func (e *environmentConfigDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	e.client = utils.GetCdpClientForDataSource(req, resp)
 }
@@ -50,8 +46,21 @@ func (e *environmentConfigDataSource) Read(ctx context.Context, req datasource.R
 	config := req.Config.Get(ctx, &data)
 	resp.Diagnostics.Append(config...)
 
-	envName := data.Name.ValueString()
-	env, err := describeEnvironmentWithDiagnosticHandle(envName, "", ctx, e.client, &resp.Diagnostics, &resp.State)
+	var environment string
+	if utils.IsStringTypeHasValue(data.Crn) && utils.IsStringTypeHasValue(data.Name) {
+		resp.Diagnostics.AddError("Too many identifier provided.", "Only the environment\\'s name or its CRN should be given but not both.")
+		return
+	}
+	if !utils.IsStringTypeHasValue(data.Crn) && !utils.IsStringTypeHasValue(data.Name) {
+		resp.Diagnostics.AddError("No identifier provided", "Either the CRN or the name of an environment has to be given to be able to successfully collect data. In case of hybrid environments this can be only CRN.")
+		return
+	}
+	if utils.IsStringTypeHasValue(data.Crn) {
+		environment = data.Crn.ValueString()
+	} else {
+		environment = data.Name.ValueString()
+	}
+	env, err := describeEnvironmentWithDiagnosticHandle(environment, "", ctx, e.client, &resp.Diagnostics, &resp.State)
 	if err != nil {
 		return
 	}

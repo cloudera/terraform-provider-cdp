@@ -23,8 +23,8 @@ import (
 
 func (r *gcpCredentialResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalCredentialSchema)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalCredentialSchema)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"credential_key": schema.StringAttribute{
 			MarkdownDescription: "The GCP credential JSON content encoded in Base64",
 			Required:            true,

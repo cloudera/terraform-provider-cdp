@@ -14,6 +14,7 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type EnvironmentConfigModel struct {
 	Name  types.String                   `tfsdk:"name"`
+	Crn   types.String                   `tfsdk:"crn"`
 	Aws   *awsEnvironmentResourceModel   `tfsdk:"aws"`
 	Azure *azureEnvironmentResourceModel `tfsdk:"azure"`
 	Gcp   *gcpEnvironmentResourceModel   `tfsdk:"gcp"`

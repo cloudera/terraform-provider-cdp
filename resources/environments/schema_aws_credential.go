@@ -22,8 +22,8 @@ import (
 
 func (r *awsCredentialResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalCredentialSchema)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalCredentialSchema)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"role_arn": schema.StringAttribute{
 			Required: true,
 		},

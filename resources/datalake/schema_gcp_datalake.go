@@ -21,8 +21,8 @@ import (
 
 func (r *gcpDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalAttributes)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalAttributes)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"cloud_provider_configuration": schema.SingleNestedAttribute{
 			Required: true,
 			Attributes: map[string]schema.Attribute{

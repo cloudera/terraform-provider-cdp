@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -189,4 +190,8 @@ func GetCallFailureThreshold[T HasPollingOptions](p T, fallback int) int {
 		return 0
 	}
 	return threshold
+}
+
+func IsStringTypeHasValue(value types.String) bool {
+	return !value.IsNull() && !value.IsUnknown() && len(strings.TrimSpace(value.ValueString())) > 0
 }
