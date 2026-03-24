@@ -272,5 +272,11 @@ func toAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.TunnelType = types.StringValue(string(env.TunnelType))
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
+	if env.Authentication != nil {
+		model.Authentication = &Authentication{
+			PublicKey:   utils.GetStringValue(env.Authentication.PublicKey, true),
+			PublicKeyID: utils.GetStringValue(env.Authentication.PublicKeyID, true),
+		}
+	}
 	utils.LogEnvironmentSilently(ctx, env, "Environment conversion finished: ")
 }

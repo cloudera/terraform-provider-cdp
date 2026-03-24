@@ -190,3 +190,13 @@ func GetCallFailureThreshold[T HasPollingOptions](p T, fallback int) int {
 	}
 	return threshold
 }
+
+func GetStringValue(value string, returnNullIfEmpty bool) types.String {
+	if returnNullIfEmpty {
+		if len(value) > 0 {
+			return types.StringValue(value)
+		}
+		return types.StringNull()
+	}
+	return types.StringValue(value)
+}

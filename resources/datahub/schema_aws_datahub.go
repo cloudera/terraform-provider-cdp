@@ -22,9 +22,9 @@ import (
 
 func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalAttributes)
-	utils.Append(attr, instanceGroupSchemaAttributes)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalAttributes)
+	utils.AppendToResourceSchema(attr, instanceGroupSchemaAttributes)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"cluster_template": schema.StringAttribute{
 			MarkdownDescription: "The name or CRN of the cluster template.",
 			Optional:            true,

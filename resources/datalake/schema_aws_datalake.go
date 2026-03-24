@@ -25,8 +25,8 @@ import (
 
 func (r *awsDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalAttributes)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalAttributes)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"certificate_expiration_state": schema.StringAttribute{
 			Computed: true,
 			PlanModifiers: []planmodifier.String{

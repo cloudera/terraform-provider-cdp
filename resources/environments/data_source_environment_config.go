@@ -37,10 +37,6 @@ func (e *environmentConfigDataSource) Metadata(_ context.Context, req datasource
 	resp.TypeName = req.ProviderTypeName + "_environments_config"
 }
 
-func (e *environmentConfigDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	resp.Schema = EnvironmentConfigSchema
-}
-
 func (e *environmentConfigDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	e.client = utils.GetCdpClientForDataSource(req, resp)
 }
