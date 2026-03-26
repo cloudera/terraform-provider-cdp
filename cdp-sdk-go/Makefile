@@ -60,6 +60,7 @@ swagger-gen: swagger-gen-datalake
 swagger-gen: swagger-gen-datahub
 swagger-gen: swagger-gen-ml
 swagger-gen: swagger-gen-de
+swagger-gen: swagger-gen-df
 swagger-gen: swagger-gen-dw
 swagger-gen: swagger-gen-opdb
 
@@ -69,6 +70,7 @@ clone-swaggers: clone-swagger-datalake
 clone-swaggers: clone-swagger-datahub
 clone-swaggers: clone-swagger-ml
 clone-swaggers: clone-swagger-de
+clone-swaggers: clone-swagger-df
 clone-swaggers: clone-swagger-dw
 clone-swaggers: clone-swagger-opdb
 

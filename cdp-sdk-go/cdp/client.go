@@ -11,9 +11,15 @@
 package cdp
 
 import (
+	"net/http"
+
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/client"
+
 	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
 	declient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/client"
+	dfclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/df/client"
 	dwclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client"
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	iamclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client"
@@ -30,7 +36,20 @@ type Client struct {
 	Iam          *iamclient.Iam
 	Ml           *mlclient.Ml
 	De           *declient.De
+	Df           *dfclient.Df
 	Dw           *dwclient.Dw
+}
+
+func (c *Client) GetCredentials() (*Credentials, error) {
+	return c.config.GetCredentials()
+}
+
+func (c *Client) GetCdpApiEndpoint() (string, error) {
+	return c.config.GetCdpApiEndpoint()
+}
+
+func (c *Client) GetLogger() Logger {
+	return c.config.Logger
 }
 
 func NewClient(config *Config) (*Client, error) {
@@ -72,6 +91,11 @@ func NewClient(config *Config) (*Client, error) {
 		return nil, err
 	}
 
+	dfClient, err := NewDfClient(config)
+	if err != nil {
+		return nil, err
+	}
+
 	dwClient, err := NewDwClient(config)
 	if err != nil {
 		return nil, err
@@ -86,6 +110,7 @@ func NewClient(config *Config) (*Client, error) {
 		Iam:          iamClient,
 		Ml:           mlClient,
 		De:           deClient,
+		Df:           dfClient,
 		Dw:           dwClient,
 	}, nil
 }
@@ -172,6 +197,53 @@ func NewDeClient(config *Config) (*declient.De, error) {
 		return nil, err
 	}
 	return declient.New(transport, nil), nil
+}
+
+func NewDfClient(config *Config) (*dfclient.Df, error) {
+	apiEndpoint, err := config.GetEndpoint("df", false)
+	if err != nil {
+		return nil, err
+	}
+	credentials, err := config.GetCredentials()
+	if err != nil {
+		return nil, err
+	}
+
+	tlsClientOptions := client.TLSClientOptions{
+		InsecureSkipVerify: config.GetLocalEnvironment(),
+	}
+	cfg, err := client.TLSClientAuth(tlsClientOptions)
+	if err != nil {
+		return nil, err
+	}
+
+	baseTransport := &http.Transport{Proxy: http.ProxyFromEnvironment, TLSClientConfig: cfg}
+
+	redirectTransport := &RedirectSigningTransport{
+		transport:   baseTransport,
+		credentials: credentials,
+		logger:      config.Logger,
+		baseAPIPath: config.BaseApiPath,
+	}
+
+	retryableTransport := &RetryableTransport{transport: redirectTransport}
+
+	baseApiPath := config.BaseApiPath
+	address, basePath := cutAndTrimAddress(apiEndpoint)
+	rtChain := buildInterceptorChain(config, retryableTransport)
+
+	httpClient := &http.Client{
+		Transport: rtChain,
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
+
+	ct := &ClientTransport{client.NewWithClient(address, basePath+baseApiPath, []string{"https"}, httpClient)}
+	ct.Runtime.DefaultAuthentication = requestSigWriter(config.Context, config.Logger, baseApiPath, credentials)
+	ct.Runtime.Consumers["text/plain"] = runtime.JSONConsumer()
+	ct.Runtime.Consumers["text/html"] = runtime.JSONConsumer()
+	return dfclient.New(ct, nil), nil
 }
 
 func NewDwClient(config *Config) (*dwclient.Dw, error) {

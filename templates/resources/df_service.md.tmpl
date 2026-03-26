@@ -1,0 +1,24 @@
+---
+page_title: "cdp_df_service Resource - terraform-provider-cdp"
+subcategory: "DataFlow"
+description: |-
+{{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
+---
+
+# cdp_df_service (Resource)
+
+{{ .Description | trimspace }}
+
+## Example Usage
+
+{{ tffile (printf "examples/resources/%s/resource.tf" .Name) }}
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+terraform import cdp_df_service.example <service-crn>
+```
