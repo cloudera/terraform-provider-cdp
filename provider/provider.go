@@ -278,6 +278,7 @@ func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSou
 		dfdatasources.NewDfFlowDefinitionsDataSource,
 		dfdatasources.NewDfReadyflowsDataSource,
 		dfdatasources.NewDfProjectDataSource,
+		dfdatasources.NewDfCollectionDataSource,
 	}
 }
 
