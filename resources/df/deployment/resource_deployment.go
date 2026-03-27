@@ -427,33 +427,48 @@ func (r *dfDeploymentResource) findDeploymentByName(ctx context.Context, name st
 
 	dbg.Printf("Looking for deployment name=%s service_crn=%s", name, serviceCrn)
 
-	listParams := operations.NewListDeploymentsParamsWithContext(ctx).WithInput(&dfmodels.ListDeploymentsRequest{})
-	listResp, err := r.client.Df.Operations.ListDeployments(listParams)
-	if err != nil {
-		dbg.Printf("ERROR ListDeployments: %s", err)
-		return ""
-	}
-	for _, dep := range listResp.GetPayload().Deployments {
-		depName := ""
-		depSvcCrn := ""
-		depCrn := ""
-		if dep.Name != nil {
-			depName = *dep.Name
+	var nextToken string
+	for {
+		input := &dfmodels.ListDeploymentsRequest{}
+		if nextToken != "" {
+			input.StartingToken = nextToken
 		}
-		if dep.Service != nil && dep.Service.Crn != nil {
-			depSvcCrn = *dep.Service.Crn
+		listParams := operations.NewListDeploymentsParamsWithContext(ctx).WithInput(input)
+		listResp, err := r.client.Df.Operations.ListDeployments(listParams)
+		if err != nil {
+			dbg.Printf("ERROR ListDeployments: %s", err)
+			return ""
 		}
-		if dep.Crn != nil {
-			depCrn = *dep.Crn
-		}
-		dbg.Printf("Found deployment: name=%s service_crn=%s crn=%s", depName, depSvcCrn, depCrn)
-		if depName == name {
-			if serviceCrn == "" || depSvcCrn == serviceCrn {
-				dbg.Printf("MATCH found: %s", depCrn)
-				return depCrn
+
+		for _, dep := range listResp.GetPayload().Deployments {
+			depName := ""
+			depSvcCrn := ""
+			depCrn := ""
+			if dep.Name != nil {
+				depName = *dep.Name
+			}
+			if dep.Service != nil && dep.Service.Crn != nil {
+				depSvcCrn = *dep.Service.Crn
+			}
+			if dep.Crn != nil {
+				depCrn = *dep.Crn
+			}
+			dbg.Printf("Found deployment: name=%s service_crn=%s crn=%s", depName, depSvcCrn, depCrn)
+			if depName == name {
+				if serviceCrn == "" || depSvcCrn == serviceCrn {
+					dbg.Printf("MATCH found: %s", depCrn)
+					return depCrn
+				}
 			}
 		}
+
+		nextToken = listResp.GetPayload().NextToken
+		if nextToken == "" {
+			break
+		}
+		dbg.Printf("Fetching next page, token=%s", nextToken)
 	}
+
 	dbg.Printf("No match found")
 	return ""
 }
