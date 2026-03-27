@@ -487,7 +487,10 @@ func (r *dfFlowDefinitionResource) dfUpload(ctx context.Context, apiPath string,
 	}
 
 	date = cdp.FormatDate()
-	redirectPath := redirectURL.Path
+	redirectPath := redirectURL.RawPath
+	if redirectPath == "" {
+		redirectPath = redirectURL.Path
+	}
 	if redirectURL.RawQuery != "" {
 		redirectPath = redirectPath + "?" + redirectURL.RawQuery
 	}
