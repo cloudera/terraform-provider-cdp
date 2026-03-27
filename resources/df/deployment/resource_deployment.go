@@ -70,6 +70,55 @@ func (r *dfDeploymentResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
+	// Check if a deployment with this name already exists
+	existingCrn := r.findDeploymentByName(ctx, plan.DeploymentName.ValueString(), plan.ServiceCrn.ValueString())
+	if existingCrn != "" {
+		// Adopt the existing deployment and do a change-flow-version
+		tflog.Info(ctx, fmt.Sprintf("Deployment %s already exists (crn=%s), adopting and changing flow version", plan.DeploymentName.ValueString(), existingCrn))
+
+		plan.DeploymentCrn = types.StringValue(existingCrn)
+		plan.ID = types.StringValue(existingCrn)
+
+		// Read current state to populate service_crn
+		state := plan
+		state.DeploymentCrn = types.StringValue(existingCrn)
+		if err := r.refreshState(ctx, &state); err != nil {
+			resp.Diagnostics.AddError("Error reading existing deployment", err.Error())
+			return
+		}
+
+		// Change flow version if different
+		if plan.FlowVersionCrn.ValueString() != state.FlowVersionCrn.ValueString() {
+			if err := r.changeFlowVersion(ctx, &state, &plan); err != nil {
+				resp.Diagnostics.AddError("Error changing flow version on existing deployment", err.Error())
+				return
+			}
+
+			timeout := time.Duration(plan.PollingTimeout.ValueInt64()) * time.Second
+			callFailedCount := 0
+			stateConf := &retry.StateChangeConf{
+				Pending:      []string{"DEPLOYING", "STARTING_FLOW", "IMPORTING_FLOW", "UPDATING"},
+				Target:       []string{"GOOD_HEALTH", "CONCERNING_HEALTH"},
+				Delay:        30 * time.Second,
+				Timeout:      timeout,
+				PollInterval: 30 * time.Second,
+				Refresh:      r.stateRefresh(ctx, &existingCrn, &callFailedCount, 3),
+			}
+			if _, err := stateConf.WaitForStateContext(ctx); err != nil {
+				resp.Diagnostics.AddError("Error waiting for deployment after flow version change", err.Error())
+				return
+			}
+		}
+
+		if err := r.refreshState(ctx, &plan); err != nil {
+			resp.Diagnostics.AddError("Error reading deployment after adoption", err.Error())
+			return
+		}
+		computeParameterGroupsSha(&plan)
+		resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
+		return
+	}
+
 	// Step 1: Initiate deployment on control plane
 	params := operations.NewInitiateDeploymentParamsWithContext(ctx).WithInput(&dfmodels.InitiateDeploymentRequest{
 		ServiceCrn:     plan.ServiceCrn.ValueStringPointer(),
@@ -368,6 +417,45 @@ func (r *dfDeploymentResource) changeFlowVersion(ctx context.Context, state *dep
 	}
 
 	return nil
+}
+
+// findDeploymentByName searches for an existing deployment by name on a service and returns its CRN.
+func (r *dfDeploymentResource) findDeploymentByName(ctx context.Context, name string, serviceCrn string) string {
+	logFile, _ := os.OpenFile("/tmp/df_deployment_find.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	defer logFile.Close()
+	dbg := dlog.New(logFile, "", dlog.LstdFlags)
+
+	dbg.Printf("Looking for deployment name=%s service_crn=%s", name, serviceCrn)
+
+	listParams := operations.NewListDeploymentsParamsWithContext(ctx).WithInput(&dfmodels.ListDeploymentsRequest{})
+	listResp, err := r.client.Df.Operations.ListDeployments(listParams)
+	if err != nil {
+		dbg.Printf("ERROR ListDeployments: %s", err)
+		return ""
+	}
+	for _, dep := range listResp.GetPayload().Deployments {
+		depName := ""
+		depSvcCrn := ""
+		depCrn := ""
+		if dep.Name != nil {
+			depName = *dep.Name
+		}
+		if dep.Service != nil && dep.Service.Crn != nil {
+			depSvcCrn = *dep.Service.Crn
+		}
+		if dep.Crn != nil {
+			depCrn = *dep.Crn
+		}
+		dbg.Printf("Found deployment: name=%s service_crn=%s crn=%s", depName, depSvcCrn, depCrn)
+		if depName == name {
+			if serviceCrn == "" || depSvcCrn == serviceCrn {
+				dbg.Printf("MATCH found: %s", depCrn)
+				return depCrn
+			}
+		}
+	}
+	dbg.Printf("No match found")
+	return ""
 }
 
 // getEnvironmentCrn resolves the environment CRN from a service CRN.
