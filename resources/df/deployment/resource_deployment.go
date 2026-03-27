@@ -360,10 +360,14 @@ func (r *dfDeploymentResource) Update(ctx context.Context, req resource.UpdateRe
 
 	plan.DeploymentCrn = state.DeploymentCrn
 	plan.ID = state.ID
+	plannedFlowVersionCrn := plan.FlowVersionCrn
 	if err := r.refreshState(ctx, &plan); err != nil {
 		resp.Diagnostics.AddError("Error reading deployment after update", err.Error())
 		return
 	}
+	// Preserve the planned flow_version_crn — the API may still report the old version
+	// while the change-flow-version is propagating
+	plan.FlowVersionCrn = plannedFlowVersionCrn
 	computeParameterGroupsSha(&plan)
 	resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
 }
