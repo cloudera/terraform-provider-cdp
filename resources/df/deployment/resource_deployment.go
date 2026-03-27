@@ -17,7 +17,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	dlog "log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -440,14 +442,46 @@ func (r *dfDeploymentResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	// The DF API does not have a direct "delete deployment" operation.
-	// Deployments are terminated when the service is disabled with terminateDeployments=true,
-	// or the deployment transitions to TERMINATING state via the dfx-local API.
-	// For now, we log a warning. The service resource handles cleanup.
-	tflog.Warn(ctx, fmt.Sprintf("DataFlow deployment %s will be terminated when the parent service is disabled. "+
-		"Direct deployment deletion is managed through the DataFlow service lifecycle.", state.DeploymentCrn.ValueString()))
+	logFile, _ := os.OpenFile("/tmp/df_deployment_delete.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	defer logFile.Close()
+	dbg := dlog.New(logFile, "", dlog.LstdFlags)
 
-	// Poll until deployment is gone
+	dbg.Printf("Starting delete for deployment_crn=%s service_crn=%s", state.DeploymentCrn.ValueString(), state.ServiceCrn.ValueString())
+
+	environmentCrn, err := r.getEnvironmentCrn(ctx, state.ServiceCrn.ValueString())
+	if err != nil {
+		dbg.Printf("ERROR getEnvironmentCrn: %s", err)
+		resp.Diagnostics.AddError("Error getting environment CRN for termination", err.Error())
+		return
+	}
+	dbg.Printf("Got environmentCrn=%s", environmentCrn)
+
+	workloadURL, bearerToken, err := r.getWorkloadAuth(ctx, environmentCrn)
+	if err != nil {
+		dbg.Printf("ERROR getWorkloadAuth: %s", err)
+		resp.Diagnostics.AddError("Error getting workload auth for termination", err.Error())
+		return
+	}
+	dbg.Printf("Got workloadURL=%s", workloadURL)
+
+	dbg.Printf("Calling terminate-deployment")
+	err = r.workloadPost(ctx, workloadURL, bearerToken,
+		"/dfx/api/rpc-v1/deployments/terminate-deployment",
+		map[string]interface{}{
+			"environmentCrn": environmentCrn,
+			"deploymentCrn":  state.DeploymentCrn.ValueString(),
+		}, nil)
+	if err != nil {
+		dbg.Printf("ERROR terminate-deployment: %s", err)
+		if !strings.Contains(err.Error(), "NOT_FOUND") {
+			resp.Diagnostics.AddError("Error terminating DataFlow deployment", err.Error())
+			return
+		}
+		dbg.Printf("Deployment already gone")
+		return
+	}
+	dbg.Printf("Terminate sent successfully, polling")
+
 	timeout := time.Duration(state.PollingTimeout.ValueInt64()) * time.Second
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
@@ -459,11 +493,12 @@ func (r *dfDeploymentResource) Delete(ctx context.Context, req resource.DeleteRe
 		Refresh:      r.stateRefresh(ctx, state.DeploymentCrn.ValueStringPointer(), &callFailedCount, 3),
 	}
 	if _, err := stateConf.WaitForStateContext(ctx); err != nil {
-		// If the deployment is already gone, that's fine
+		dbg.Printf("ERROR polling: %s", err)
 		if !strings.Contains(err.Error(), "NOT_FOUND") {
 			resp.Diagnostics.AddError("Error waiting for DataFlow deployment to terminate", err.Error())
 		}
 	}
+	dbg.Printf("Delete complete")
 }
 
 func (r *dfDeploymentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
