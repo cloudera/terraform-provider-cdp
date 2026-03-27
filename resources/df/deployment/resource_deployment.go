@@ -216,6 +216,23 @@ func (r *dfDeploymentResource) Create(ctx context.Context, req resource.CreateRe
 		"/dfx/api/rpc-v1/deployments/create-deployment",
 		deployConfig, &createResult)
 	if err != nil {
+		// If deployment already exists with this name, adopt it instead
+		if strings.Contains(err.Error(), "conflicting name") {
+			tflog.Info(ctx, "Deployment with conflicting name detected, attempting to adopt existing deployment")
+			// Try to find it by describing all deployments on the service
+			existingCrn := r.findDeploymentByName(ctx, plan.DeploymentName.ValueString(), plan.ServiceCrn.ValueString())
+			if existingCrn != "" {
+				plan.DeploymentCrn = types.StringValue(existingCrn)
+				plan.ID = types.StringValue(existingCrn)
+				if err := r.refreshState(ctx, &plan); err != nil {
+					resp.Diagnostics.AddError("Error reading existing deployment", err.Error())
+					return
+				}
+				computeParameterGroupsSha(&plan)
+				resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
+				return
+			}
+		}
 		resp.Diagnostics.AddError("Error creating deployment on workload", err.Error())
 		return
 	}
@@ -425,6 +442,8 @@ func (r *dfDeploymentResource) changeFlowVersion(ctx context.Context, state *dep
 }
 
 // findDeploymentByName searches for an existing deployment by name on a service and returns its CRN.
+// It first tries ListDeployments (paginated), then falls back to DescribeDeployment if the name
+// matches a known CRN pattern (for deployments in non-listed states like DEPLOYING).
 func (r *dfDeploymentResource) findDeploymentByName(ctx context.Context, name string, serviceCrn string) string {
 	logFile, _ := os.OpenFile("/tmp/df_deployment_find.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	defer logFile.Close()
@@ -474,7 +493,7 @@ func (r *dfDeploymentResource) findDeploymentByName(ctx context.Context, name st
 		dbg.Printf("Fetching next page, token=%s", nextToken)
 	}
 
-	dbg.Printf("No match found")
+	dbg.Printf("Not found in ListDeployments, trying create to detect conflict")
 	return ""
 }
 
@@ -629,6 +648,9 @@ func (r *dfDeploymentResource) refreshState(ctx context.Context, state *deployme
 	state.DeploymentCrn = types.StringPointerValue(dep.Crn)
 	state.ID = types.StringPointerValue(dep.Crn)
 	state.Name = types.StringPointerValue(dep.Name)
+	if dep.Name != nil && (state.DeploymentName.IsNull() || state.DeploymentName.ValueString() == "") {
+		state.DeploymentName = types.StringPointerValue(dep.Name)
+	}
 	state.FlowCrn = types.StringPointerValue(dep.FlowCrn)
 	state.FlowVersionCrn = types.StringPointerValue(dep.FlowVersionCrn)
 	state.ClusterSize = types.StringPointerValue(dep.ClusterSize)

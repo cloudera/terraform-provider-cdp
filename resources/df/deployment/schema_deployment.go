@@ -43,8 +43,7 @@ var deploymentSchema = schema.Schema{
 			Required:            true,
 			MarkdownDescription: "The name of the deployment.",
 			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.RequiresReplaceIfConfigured(),
-				stringplanmodifier.UseStateForUnknown(),
+				stringplanmodifier.RequiresReplace(),
 			},
 		},
 		"deployment_crn": schema.StringAttribute{
