@@ -288,6 +288,11 @@ func (r *dfDeploymentResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
+	// On import, deployment_crn may be empty but id is set
+	if state.DeploymentCrn.IsNull() || state.DeploymentCrn.ValueString() == "" {
+		state.DeploymentCrn = state.ID
+	}
+
 	if err := r.refreshState(ctx, &state); err != nil {
 		if strings.Contains(err.Error(), "NOT_FOUND") {
 			resp.State.RemoveResource(ctx)
@@ -605,7 +610,8 @@ func (r *dfDeploymentResource) Delete(ctx context.Context, req resource.DeleteRe
 }
 
 func (r *dfDeploymentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("deployment_crn"), req.ID)...)
 }
 
 func (r *dfDeploymentResource) refreshState(ctx context.Context, state *deploymentModel) error {
