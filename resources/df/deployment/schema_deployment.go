@@ -31,7 +31,8 @@ var deploymentSchema = schema.Schema{
 			Required:            true,
 			MarkdownDescription: "The CRN of the DataFlow service where the deployment will be created.",
 			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.RequiresReplace(),
+				stringplanmodifier.RequiresReplaceIfConfigured(),
+				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"flow_version_crn": schema.StringAttribute{
@@ -42,7 +43,8 @@ var deploymentSchema = schema.Schema{
 			Required:            true,
 			MarkdownDescription: "The name of the deployment.",
 			PlanModifiers: []planmodifier.String{
-				stringplanmodifier.RequiresReplace(),
+				stringplanmodifier.RequiresReplaceIfConfigured(),
+				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"deployment_crn": schema.StringAttribute{

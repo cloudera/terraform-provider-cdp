@@ -119,62 +119,135 @@ func (r *dfFlowDefinitionResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	jsonParams := map[string]string{
-		"file": "flow.json",
-		"name": plan.Name.ValueString(),
-	}
-	if !plan.Description.IsNull() && plan.Description.ValueString() != "" {
-		jsonParams["description"] = plan.Description.ValueString()
-	}
-	if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
-		jsonParams["comments"] = plan.Comments.ValueString()
-	}
-	if !plan.CollectionCrn.IsNull() && plan.CollectionCrn.ValueString() != "" {
-		jsonParams["collectionCrn"] = plan.CollectionCrn.ValueString()
+	// Check if a flow with this name already exists
+	existingCrn := r.findFlowByName(ctx, plan.Name.ValueString())
+
+	if existingCrn != "" {
+		// Flow exists — import a new version instead of creating a new flow
+		jsonParams := map[string]string{
+			"file":    "flow.json",
+			"flowCrn": existingCrn,
+		}
+		if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
+			jsonParams["comments"] = plan.Comments.ValueString()
+		}
+
+		headers := map[string]string{}
+		if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
+			headers["Flow-Definition-Comments"] = url.PathEscape(plan.Comments.ValueString())
+		}
+
+		_, err := r.dfUpload(ctx, "/api/v1/df/importFlowDefinitionVersion", jsonParams, headers, plan.File.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Error importing new flow definition version", err.Error())
+			return
+		}
+
+		// Read back the flow to get updated state
+		descParams := operations.NewDescribeFlowParamsWithContext(ctx).WithInput(&dfmodels.DescribeFlowRequest{
+			FlowCrn: &existingCrn,
+		})
+		descResult, err := r.client.Df.Operations.DescribeFlow(descParams)
+		if err != nil {
+			resp.Diagnostics.AddError("Error reading flow definition after version import", err.Error())
+			return
+		}
+
+		flow := descResult.GetPayload().FlowDetail
+		plan.Crn = types.StringPointerValue(flow.Crn)
+		plan.ID = types.StringPointerValue(flow.Crn)
+		plan.Name = types.StringPointerValue(flow.Name)
+		plan.VersionCount = types.Int32PointerValue(flow.VersionCount)
+		plan.FlowVersionCrn = types.StringValue(latestFlowVersionCrn(flow.Versions))
+
+		// Assign to collection if specified
+		if !plan.CollectionCrn.IsNull() && plan.CollectionCrn.ValueString() != "" {
+			assignParams := operations.NewAssignToCollectionParamsWithContext(ctx).WithInput(&dfmodels.AssignToCollectionRequest{
+				CatalogCollectionCrn: plan.CollectionCrn.ValueString(),
+				FlowCrn:              flow.Crn,
+			})
+			_, err := r.client.Df.Operations.AssignToCollection(assignParams)
+			if err != nil && !strings.Contains(err.Error(), "already assigned") {
+				resp.Diagnostics.AddError("Error assigning flow to collection", err.Error())
+				return
+			}
+		}
+	} else {
+		// Flow doesn't exist — create a new one
+		jsonParams := map[string]string{
+			"file": "flow.json",
+			"name": plan.Name.ValueString(),
+		}
+		if !plan.Description.IsNull() && plan.Description.ValueString() != "" {
+			jsonParams["description"] = plan.Description.ValueString()
+		}
+		if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
+			jsonParams["comments"] = plan.Comments.ValueString()
+		}
+		if !plan.CollectionCrn.IsNull() && plan.CollectionCrn.ValueString() != "" {
+			jsonParams["collectionCrn"] = plan.CollectionCrn.ValueString()
+		}
+
+		headers := map[string]string{}
+		if v := plan.Name.ValueString(); v != "" {
+			headers["Flow-Definition-Name"] = url.PathEscape(v)
+		}
+		if !plan.Description.IsNull() && plan.Description.ValueString() != "" {
+			headers["Flow-Definition-Description"] = url.PathEscape(plan.Description.ValueString())
+		}
+		if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
+			headers["Flow-Definition-Comments"] = url.PathEscape(plan.Comments.ValueString())
+		}
+		if !plan.CollectionCrn.IsNull() && plan.CollectionCrn.ValueString() != "" {
+			headers["Flow-Definition-Collection-Identifier"] = url.PathEscape(plan.CollectionCrn.ValueString())
+		}
+
+		respBody, err := r.dfUpload(ctx, "/api/v1/df/importFlowDefinition", jsonParams, headers, plan.File.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Error importing flow definition", err.Error())
+			return
+		}
+
+		var result struct {
+			Crn          string `json:"crn"`
+			Name         string `json:"name"`
+			VersionCount int32  `json:"versionCount"`
+			Versions     []struct {
+				Crn     string `json:"crn"`
+				Version int32  `json:"version"`
+			} `json:"versions"`
+		}
+		if err := json.Unmarshal(respBody, &result); err != nil {
+			resp.Diagnostics.AddError("Error parsing response", fmt.Sprintf("%s (body: %s)", err, string(respBody)))
+			return
+		}
+
+		plan.Crn = types.StringValue(result.Crn)
+		plan.ID = types.StringValue(result.Crn)
+		plan.Name = types.StringValue(result.Name)
+		plan.VersionCount = types.Int32Value(result.VersionCount)
+		plan.FlowVersionCrn = types.StringValue(latestVersionCrn(result.Versions))
 	}
 
-	headers := map[string]string{}
-	if v := plan.Name.ValueString(); v != "" {
-		headers["Flow-Definition-Name"] = url.PathEscape(v)
-	}
-	if !plan.Description.IsNull() && plan.Description.ValueString() != "" {
-		headers["Flow-Definition-Description"] = url.PathEscape(plan.Description.ValueString())
-	}
-	if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
-		headers["Flow-Definition-Comments"] = url.PathEscape(plan.Comments.ValueString())
-	}
-	if !plan.CollectionCrn.IsNull() && plan.CollectionCrn.ValueString() != "" {
-		headers["Flow-Definition-Collection-Identifier"] = url.PathEscape(plan.CollectionCrn.ValueString())
-	}
-
-	respBody, err := r.dfUpload(ctx, "/api/v1/df/importFlowDefinition", jsonParams, headers, plan.File.ValueString())
-	if err != nil {
-		resp.Diagnostics.AddError("Error importing flow definition", err.Error())
-		return
-	}
-
-	var result struct {
-		Crn          string `json:"crn"`
-		Name         string `json:"name"`
-		VersionCount int32  `json:"versionCount"`
-		Versions     []struct {
-			Crn     string `json:"crn"`
-			Version int32  `json:"version"`
-		} `json:"versions"`
-	}
-	if err := json.Unmarshal(respBody, &result); err != nil {
-		resp.Diagnostics.AddError("Error parsing response", fmt.Sprintf("%s (body: %s)", err, string(respBody)))
-		return
-	}
-
-	plan.Crn = types.StringValue(result.Crn)
-	plan.ID = types.StringValue(result.Crn)
-	plan.Name = types.StringValue(result.Name)
-	plan.VersionCount = types.Int32Value(result.VersionCount)
-	plan.FlowVersionCrn = types.StringValue(latestVersionCrn(result.Versions))
 	computeFlowFileSha(&plan)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
+}
+
+// findFlowByName searches for an existing flow definition by name and returns its CRN, or empty string if not found.
+func (r *dfFlowDefinitionResource) findFlowByName(ctx context.Context, name string) string {
+	params := operations.NewListFlowDefinitionsParamsWithContext(ctx).WithInput(&dfmodels.ListFlowDefinitionsRequest{})
+	result, err := r.client.Df.Operations.ListFlowDefinitions(params)
+	if err != nil {
+		return ""
+	}
+	for _, f := range result.GetPayload().Flows {
+		if f.Name != nil && *f.Name == name {
+			if f.Crn != nil {
+				return *f.Crn
+			}
+		}
+	}
+	return ""
 }
 
 // computeFlowFileSha sets the SHA256 hash of the file content.
