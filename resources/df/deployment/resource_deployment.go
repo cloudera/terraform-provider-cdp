@@ -458,6 +458,11 @@ func (r *dfDeploymentResource) changeFlowVersion(ctx context.Context, state *dep
 		"/dfx/api/rpc-v1/deployments/change-flow-version",
 		cfvBody, nil)
 	if err != nil {
+		// Gateway timeouts mean the operation likely started — let the caller poll
+		if strings.Contains(err.Error(), "gateway timeout") {
+			tflog.Warn(ctx, "changeFlowVersion returned gateway timeout, operation may have started — will poll for status")
+			return nil
+		}
 		return fmt.Errorf("changeFlowVersion: %w", err)
 	}
 
@@ -564,7 +569,8 @@ func (r *dfDeploymentResource) workloadPost(ctx context.Context, baseURL, bearer
 	httpReq.Header.Set("Authorization", bearerToken)
 	httpReq.ContentLength = int64(len(jsonBody))
 
-	httpResp, err := http.DefaultClient.Do(httpReq)
+	httpClient := &http.Client{Timeout: 5 * time.Minute}
+	httpResp, err := httpClient.Do(httpReq)
 	if err != nil {
 		return err
 	}
@@ -573,6 +579,11 @@ func (r *dfDeploymentResource) workloadPost(ctx context.Context, baseURL, bearer
 	respBody, err := io.ReadAll(httpResp.Body)
 	if err != nil {
 		return err
+	}
+
+	// 502/503/504 are retriable gateway errors — the operation may have started
+	if httpResp.StatusCode == 502 || httpResp.StatusCode == 503 || httpResp.StatusCode == 504 {
+		return fmt.Errorf("gateway timeout (status %d) — the operation may have started; re-run to check status", httpResp.StatusCode)
 	}
 
 	if httpResp.StatusCode >= 400 {
