@@ -47,8 +47,8 @@ checksum:
   name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
 
 release:
-  # If set to true, will not auto-publish the release.
-  draft: true
+  # Publish immediately so the Registry webhook sees all assets
+  draft: false
   # Whether to remove existing draft releases with the same name before creating
   # a new one.
   replace_existing_draft: true
