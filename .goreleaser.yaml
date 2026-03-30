@@ -47,8 +47,8 @@ checksum:
   name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
 
 release:
-  # Publish immediately so the Registry webhook sees all assets
-  draft: false
+  # Create as draft, then publish via GitHub Actions step after all assets uploaded
+  draft: true
   # Whether to remove existing draft releases with the same name before creating
   # a new one.
   replace_existing_draft: true
