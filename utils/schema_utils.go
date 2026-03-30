@@ -10,9 +10,20 @@
 
 package utils
 
-import "github.com/hashicorp/terraform-plugin-framework/resource/schema"
+import (
+	dataSourceSchema "github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	resourceSchema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
+)
 
-func Append(to map[string]schema.Attribute, from map[string]schema.Attribute) {
+func AppendToResourceSchema(to map[string]resourceSchema.Attribute, from map[string]resourceSchema.Attribute) {
+	if from != nil && to != nil {
+		for key, attribute := range from {
+			to[key] = attribute
+		}
+	}
+}
+
+func AppendToDataSourceSchema(to map[string]dataSourceSchema.Attribute, from map[string]dataSourceSchema.Attribute) {
 	if from != nil && to != nil {
 		for key, attribute := range from {
 			to[key] = attribute

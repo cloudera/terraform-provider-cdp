@@ -3,12 +3,12 @@
 page_title: "cdp_environments_config Data Source - CDP"
 subcategory: ""
 description: |-
-  
+  Collects environment information for re-creation purposes.
 ---
 
 # cdp_environments_config (Data Source)
 
-
+Collects environment information for re-creation purposes.
 
 ## Example Usage
 
@@ -67,8 +67,8 @@ output "env" {
 
 ### Optional
 
-- `crn` (String)
-- `name` (String)
+- `crn` (String) The CRN of the environment. Either this or the name must be specified - but not both -. In case of hybrid environments this can be only CRN.
+- `name` (String) The name of the environment. Either this or the CRN must be specified - but not both -. In case of hybrid environments this can be only CRN.
 
 ### Read-Only
 
@@ -83,25 +83,29 @@ Read-Only:
 
 - `authentication` (Attributes) (see [below for nested schema](#nestedatt--aws--authentication))
 - `cascading_delete` (Boolean)
+- `compute_cluster` (Attributes) (see [below for nested schema](#nestedatt--aws--compute_cluster))
 - `create_private_subnets` (Boolean)
 - `create_service_endpoints` (Boolean)
 - `credential_name` (String)
 - `crn` (String)
+- `custom_docker_registry` (Attributes) (see [below for nested schema](#nestedatt--aws--custom_docker_registry))
+- `delete_options` (Attributes) (see [below for nested schema](#nestedatt--aws--delete_options))
 - `description` (String)
 - `enable_tunnel` (Boolean)
 - `encryption_key_arn` (String)
 - `endpoint_access_gateway_scheme` (String)
 - `endpoint_access_gateway_subnet_ids` (Set of String)
 - `environment_name` (String)
+- `environment_type` (String)
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--aws--freeipa))
 - `id` (String)
 - `log_storage` (Attributes) (see [below for nested schema](#nestedatt--aws--log_storage))
-- `network_cidr` (String)
 - `polling_options` (Attributes) (see [below for nested schema](#nestedatt--aws--polling_options))
 - `proxy_config_name` (String)
 - `region` (String)
 - `report_deployment_logs` (Boolean)
 - `s3_guard_table_name` (String)
+- `security` (Attributes) (see [below for nested schema](#nestedatt--aws--security))
 - `security_access` (Attributes) (see [below for nested schema](#nestedatt--aws--security_access))
 - `status` (String)
 - `status_reason` (String)
@@ -120,11 +124,48 @@ Optional:
 - `public_key_id` (String)
 
 
+<a id="nestedatt--aws--compute_cluster"></a>
+### Nested Schema for `aws.compute_cluster`
+
+Read-Only:
+
+- `configuration` (Attributes) (see [below for nested schema](#nestedatt--aws--compute_cluster--configuration))
+- `enabled` (Boolean)
+
+<a id="nestedatt--aws--compute_cluster--configuration"></a>
+### Nested Schema for `aws.compute_cluster.configuration`
+
+Read-Only:
+
+- `kube_api_authorized_ip_ranges` (Set of String)
+- `private_cluster` (Boolean)
+- `worker_node_subnets` (Set of String)
+
+
+
+<a id="nestedatt--aws--custom_docker_registry"></a>
+### Nested Schema for `aws.custom_docker_registry`
+
+Read-Only:
+
+- `crn` (String)
+
+
+<a id="nestedatt--aws--delete_options"></a>
+### Nested Schema for `aws.delete_options`
+
+Read-Only:
+
+- `cascading` (Boolean)
+- `forced` (Boolean)
+
+
 <a id="nestedatt--aws--freeipa"></a>
 ### Nested Schema for `aws.freeipa`
 
 Read-Only:
 
+- `architecture` (String)
 - `catalog` (String)
 - `image_id` (String)
 - `instance_count_by_group` (Number)
@@ -175,6 +216,14 @@ Read-Only:
 - `polling_timeout` (Number)
 
 
+<a id="nestedatt--aws--security"></a>
+### Nested Schema for `aws.security`
+
+Read-Only:
+
+- `se_linux` (String)
+
+
 <a id="nestedatt--aws--security_access"></a>
 ### Nested Schema for `aws.security_access`
 
@@ -201,10 +250,15 @@ Optional:
 
 Read-Only:
 
+- `availability_zones` (Set of String)
 - `cascading_delete` (Boolean)
+- `compute_cluster` (Attributes) (see [below for nested schema](#nestedatt--azure--compute_cluster))
 - `create_private_endpoints` (Boolean)
 - `credential_name` (String)
 - `crn` (String)
+- `custom_docker_registry` (Attributes) (see [below for nested schema](#nestedatt--azure--custom_docker_registry))
+- `data_services` (Attributes) (see [below for nested schema](#nestedatt--azure--data_services))
+- `delete_options` (Attributes) (see [below for nested schema](#nestedatt--azure--delete_options))
 - `description` (String)
 - `enable_outbound_load_balancer` (Boolean)
 - `enable_tunnel` (Boolean)
@@ -213,20 +267,71 @@ Read-Only:
 - `endpoint_access_gateway_scheme` (String)
 - `endpoint_access_gateway_subnet_ids` (Set of String)
 - `environment_name` (String)
+- `environment_type` (String)
 - `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--azure--existing_network_params))
+- `flexible_server_subnet_ids` (Set of String)
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--azure--freeipa))
+- `id` (String)
 - `log_storage` (Attributes) (see [below for nested schema](#nestedatt--azure--log_storage))
+- `polling_options` (Attributes) (see [below for nested schema](#nestedatt--azure--polling_options))
 - `proxy_config_name` (String)
 - `public_key` (String)
 - `region` (String)
 - `report_deployment_logs` (Boolean)
 - `resource_group_name` (String)
+- `security` (Attributes) (see [below for nested schema](#nestedatt--azure--security))
 - `security_access` (Attributes) (see [below for nested schema](#nestedatt--azure--security_access))
 - `status` (String)
 - `status_reason` (String)
 - `tags` (Map of String)
 - `use_public_ip` (Boolean)
 - `workload_analytics` (Boolean)
+
+<a id="nestedatt--azure--compute_cluster"></a>
+### Nested Schema for `azure.compute_cluster`
+
+Read-Only:
+
+- `configuration` (Attributes) (see [below for nested schema](#nestedatt--azure--compute_cluster--configuration))
+- `enabled` (Boolean)
+
+<a id="nestedatt--azure--compute_cluster--configuration"></a>
+### Nested Schema for `azure.compute_cluster.configuration`
+
+Read-Only:
+
+- `kube_api_authorized_ip_ranges` (Set of String)
+- `outbound_type` (String)
+- `private_cluster` (Boolean)
+- `worker_node_subnets` (Set of String)
+
+
+
+<a id="nestedatt--azure--custom_docker_registry"></a>
+### Nested Schema for `azure.custom_docker_registry`
+
+Read-Only:
+
+- `crn` (String)
+
+
+<a id="nestedatt--azure--data_services"></a>
+### Nested Schema for `azure.data_services`
+
+Read-Only:
+
+- `aks_private_dns_zone_id` (String)
+- `shared_managed_identity` (String)
+
+
+<a id="nestedatt--azure--delete_options"></a>
+### Nested Schema for `azure.delete_options`
+
+Read-Only:
+
+- `cascading` (Boolean)
+- `forced` (Boolean)
+
 
 <a id="nestedatt--azure--existing_network_params"></a>
 ### Nested Schema for `azure.existing_network_params`
@@ -246,6 +351,7 @@ Read-Only:
 
 Read-Only:
 
+- `architecture` (String)
 - `catalog` (String)
 - `image_id` (String)
 - `instance_count_by_group` (Number)
@@ -286,6 +392,24 @@ Read-Only:
 - `storage_location_base` (String)
 
 
+<a id="nestedatt--azure--polling_options"></a>
+### Nested Schema for `azure.polling_options`
+
+Read-Only:
+
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
+- `polling_timeout` (Number)
+
+
+<a id="nestedatt--azure--security"></a>
+### Nested Schema for `azure.security`
+
+Read-Only:
+
+- `se_linux` (String)
+
+
 <a id="nestedatt--azure--security_access"></a>
 ### Nested Schema for `azure.security_access`
 
@@ -305,20 +429,21 @@ Read-Only:
 <a id="nestedatt--gcp"></a>
 ### Nested Schema for `gcp`
 
-Required:
-
-- `environment_name` (String)
-
 Read-Only:
 
 - `availability_zones` (List of String)
 - `cascading_delete` (Boolean)
 - `credential_name` (String)
 - `crn` (String)
+- `custom_docker_registry` (Attributes) (see [below for nested schema](#nestedatt--gcp--custom_docker_registry))
+- `delete_options` (Attributes) (see [below for nested schema](#nestedatt--gcp--delete_options))
 - `description` (String)
 - `enable_tunnel` (Boolean)
 - `encryption_key` (String)
 - `endpoint_access_gateway_scheme` (String)
+- `endpoint_access_gateway_subnet_ids` (Set of String)
+- `environment_name` (String)
+- `environment_type` (String)
 - `existing_network_params` (Attributes) (see [below for nested schema](#nestedatt--gcp--existing_network_params))
 - `freeipa` (Attributes) (see [below for nested schema](#nestedatt--gcp--freeipa))
 - `id` (String)
@@ -328,12 +453,30 @@ Read-Only:
 - `public_key` (String)
 - `region` (String)
 - `report_deployment_logs` (Boolean)
+- `security` (Attributes) (see [below for nested schema](#nestedatt--gcp--security))
 - `security_access` (Attributes) (see [below for nested schema](#nestedatt--gcp--security_access))
 - `status` (String)
 - `status_reason` (String)
 - `tags` (Map of String)
 - `use_public_ip` (Boolean)
 - `workload_analytics` (Boolean)
+
+<a id="nestedatt--gcp--custom_docker_registry"></a>
+### Nested Schema for `gcp.custom_docker_registry`
+
+Read-Only:
+
+- `crn` (String)
+
+
+<a id="nestedatt--gcp--delete_options"></a>
+### Nested Schema for `gcp.delete_options`
+
+Read-Only:
+
+- `cascading` (Boolean)
+- `forced` (Boolean)
+
 
 <a id="nestedatt--gcp--existing_network_params"></a>
 ### Nested Schema for `gcp.existing_network_params`
@@ -350,6 +493,7 @@ Read-Only:
 
 Read-Only:
 
+- `architecture` (String)
 - `catalog` (String)
 - `image_id` (String)
 - `instance_count_by_group` (Number)
@@ -398,6 +542,14 @@ Read-Only:
 - `async` (Boolean)
 - `call_failure_threshold` (Number)
 - `polling_timeout` (Number)
+
+
+<a id="nestedatt--gcp--security"></a>
+### Nested Schema for `gcp.security`
+
+Read-Only:
+
+- `se_linux` (String)
 
 
 <a id="nestedatt--gcp--security_access"></a>

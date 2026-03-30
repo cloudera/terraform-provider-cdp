@@ -93,9 +93,9 @@ var gcpInstanceGroupSchemaAttributes = map[string]schema.Attribute{
 
 func (r *gcpDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalAttributes)
-	utils.Append(attr, gcpInstanceGroupSchemaAttributes)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalAttributes)
+	utils.AppendToResourceSchema(attr, gcpInstanceGroupSchemaAttributes)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"cluster_template_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the cluster template.",
 			Optional:            true,

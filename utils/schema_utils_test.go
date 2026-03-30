@@ -45,7 +45,7 @@ func TestWithNoErrorAndAction(t *testing.T) {
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
-			Append(test.target, test.source)
+			AppendToResourceSchema(test.target, test.source)
 
 			if len(test.target) > 0 {
 				t.Errorf("Target got extended eventhough it should've left untouched.")
@@ -64,7 +64,7 @@ func TestAppendSchemaWhenNoOverlapThenSimpleCopyHappens(t *testing.T) {
 		sourceKey: schema.StringAttribute{},
 	}
 
-	Append(target, source)
+	AppendToResourceSchema(target, source)
 
 	if len(target) != initialLength+len(source) {
 		t.Errorf("Map did not get updated!")
@@ -89,7 +89,7 @@ func TestAppendSchemaWhenOverlapThenOverwriteHappens(t *testing.T) {
 		},
 	}
 
-	Append(target, source)
+	AppendToResourceSchema(target, source)
 
 	if len(target) != initialLength {
 		t.Errorf("Map got extended but should not be!")

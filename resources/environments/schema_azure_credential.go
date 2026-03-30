@@ -23,8 +23,8 @@ import (
 
 func (r *azureCredentialResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalCredentialSchema)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalCredentialSchema)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"subscription_id": schema.StringAttribute{
 			Description: "The Azure subscription ID. Required for secret based credentials and should look like the following example: a8d4457d-310v-41p6-sc53-14g8d733e514",
 			PlanModifiers: []planmodifier.String{

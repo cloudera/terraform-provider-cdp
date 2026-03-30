@@ -30,8 +30,8 @@ import (
 
 func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
-	utils.Append(attr, generalAttributes)
-	utils.Append(attr, map[string]schema.Attribute{
+	utils.AppendToResourceSchema(attr, generalAttributes)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"database_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the database.",
 			Required:            true,
