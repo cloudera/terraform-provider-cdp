@@ -25,14 +25,14 @@ builds:
     ldflags:
       - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}'
     goos:
-      - freebsd
+      # - freebsd
       - linux
-      - windows
+      # - windows
       - darwin
     goarch:
       - amd64
-      - '386'
-      - arm
+      # - '386'
+      # - arm
       - arm64
     ignore:
       - goos: darwin
@@ -41,6 +41,9 @@ builds:
         goarch: arm
 checksum:
   algorithm: sha256
+  extra_files:
+    - glob: 'terraform-registry-manifest.json'
+      name_template: '{{ .ProjectName }}_{{ .Version }}_manifest.json'
   name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
 
 release:
@@ -56,6 +59,7 @@ release:
 
 signs:
   - artifacts: checksum
+    signature: "${artifact}.sig"
     args:
       - "--batch"
       - "--pinentry-mode"
