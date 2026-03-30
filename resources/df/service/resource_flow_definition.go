@@ -294,6 +294,10 @@ func (r *dfFlowDefinitionResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
+	if state.Crn.IsNull() || state.Crn.ValueString() == "" {
+		state.Crn = state.ID
+	}
+
 	params := operations.NewDescribeFlowParamsWithContext(ctx).WithInput(&dfmodels.DescribeFlowRequest{
 		FlowCrn: state.Crn.ValueStringPointer(),
 	})
@@ -391,7 +395,8 @@ func (r *dfFlowDefinitionResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *dfFlowDefinitionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("crn"), req.ID)...)
 }
 
 // latestVersionCrn returns the CRN of the highest-versioned entry from the import response.
