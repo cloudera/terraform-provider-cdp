@@ -49,9 +49,6 @@ checksum:
 release:
   # Create as draft, then publish via GitHub Actions step after all assets uploaded
   draft: true
-  # Whether to remove existing draft releases with the same name before creating
-  # a new one.
-  replace_existing_draft: true
   extra_files:
     - glob: 'terraform-registry-manifest.json'
       name_template: '{{ .ProjectName }}_{{ .Version }}_manifest.json'
