@@ -28,6 +28,9 @@ import (
 
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
+	dfdatasources "github.com/cloudera/terraform-provider-cdp/resources/df/datasources"
+	dfdeployment "github.com/cloudera/terraform-provider-cdp/resources/df/deployment"
+	dfservice "github.com/cloudera/terraform-provider-cdp/resources/df/service"
 	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
 	dwdatabasecatalog "github.com/cloudera/terraform-provider-cdp/resources/dw/databasecatalog"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/dataviz"
@@ -640,6 +643,12 @@ func TestCdpProvider_Resources(t *testing.T) {
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 		recipe.NewRecipeResource,
+		dfservice.NewDfServiceResource,
+		dfdeployment.NewDfDeploymentResource,
+		dfservice.NewDfFlowDefinitionResource,
+		dfservice.NewDfAddedReadyflowResource,
+		dfservice.NewDfProjectResource,
+		dfservice.NewDfCollectionResource,
 	}
 
 	provider := CdpProvider{testVersion}
@@ -725,6 +734,9 @@ func TestCdpProvider_DataSources(t *testing.T) {
 		datalake.NewListDatalakesDataSource,
 		datahub.NewListDatahubsDataSource,
 		iam.NewGroupDataSource,
+		dfdatasources.NewDfServicesDataSource,
+		dfdatasources.NewDfFlowDefinitionsDataSource,
+		dfdatasources.NewDfReadyflowsDataSource,
 	}
 
 	provider := CdpProvider{testVersion}
