@@ -59,11 +59,8 @@ release:
 
 signs:
   - artifacts: checksum
-    signature: "${artifact}.sig"
     args:
       - "--batch"
-      - "--pinentry-mode"
-      - "loopback"
       - "--local-user"
       - "{{ .Env.GPG_FINGERPRINT }}"
       - "--output"
