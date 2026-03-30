@@ -123,55 +123,8 @@ func (r *dfFlowDefinitionResource) Create(ctx context.Context, req resource.Crea
 	existingCrn := r.findFlowByName(ctx, plan.Name.ValueString())
 
 	if existingCrn != "" {
-		// Flow exists — import a new version instead of creating a new flow
-		jsonParams := map[string]string{
-			"file":    "flow.json",
-			"flowCrn": existingCrn,
-		}
-		if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
-			jsonParams["comments"] = plan.Comments.ValueString()
-		}
-
-		headers := map[string]string{}
-		if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
-			headers["Flow-Definition-Comments"] = url.PathEscape(plan.Comments.ValueString())
-		}
-
-		_, err := r.dfUpload(ctx, "/api/v1/df/importFlowDefinitionVersion", jsonParams, headers, plan.File.ValueString())
-		if err != nil {
-			resp.Diagnostics.AddError("Error importing new flow definition version", err.Error())
-			return
-		}
-
-		// Read back the flow to get updated state
-		descParams := operations.NewDescribeFlowParamsWithContext(ctx).WithInput(&dfmodels.DescribeFlowRequest{
-			FlowCrn: &existingCrn,
-		})
-		descResult, err := r.client.Df.Operations.DescribeFlow(descParams)
-		if err != nil {
-			resp.Diagnostics.AddError("Error reading flow definition after version import", err.Error())
-			return
-		}
-
-		flow := descResult.GetPayload().FlowDetail
-		plan.Crn = types.StringPointerValue(flow.Crn)
-		plan.ID = types.StringPointerValue(flow.Crn)
-		plan.Name = types.StringPointerValue(flow.Name)
-		plan.VersionCount = types.Int32PointerValue(flow.VersionCount)
-		plan.FlowVersionCrn = types.StringValue(latestFlowVersionCrn(flow.Versions))
-
-		// Assign to collection if specified
-		if !plan.CollectionCrn.IsNull() && plan.CollectionCrn.ValueString() != "" {
-			assignParams := operations.NewAssignToCollectionParamsWithContext(ctx).WithInput(&dfmodels.AssignToCollectionRequest{
-				CatalogCollectionCrn: plan.CollectionCrn.ValueString(),
-				FlowCrn:              flow.Crn,
-			})
-			_, err := r.client.Df.Operations.AssignToCollection(assignParams)
-			if err != nil && !strings.Contains(err.Error(), "already assigned") {
-				resp.Diagnostics.AddError("Error assigning flow to collection", err.Error())
-				return
-			}
-		}
+		r.createExistingFlow(ctx, &plan, existingCrn, resp)
+		return
 	} else {
 		// Flow doesn't exist — create a new one
 		jsonParams := map[string]string{
@@ -204,6 +157,16 @@ func (r *dfFlowDefinitionResource) Create(ctx context.Context, req resource.Crea
 
 		respBody, err := r.dfUpload(ctx, "/api/v1/df/importFlowDefinition", jsonParams, headers, plan.File.ValueString())
 		if err != nil {
+			// 409 = flow already exists but wasn't found by ListFlowDefinitions
+			if strings.Contains(err.Error(), "409") || strings.Contains(err.Error(), "already exists") {
+				// Retry lookup — it might be on a later page or just appeared
+				retryExistingCrn := r.findFlowByName(ctx, plan.Name.ValueString())
+				if retryExistingCrn != "" {
+					// Recurse into the existing-flow path
+					r.createExistingFlow(ctx, &plan, retryExistingCrn, resp)
+					return
+				}
+			}
 			resp.Diagnostics.AddError("Error importing flow definition", err.Error())
 			return
 		}
@@ -234,17 +197,81 @@ func (r *dfFlowDefinitionResource) Create(ctx context.Context, req resource.Crea
 }
 
 // findFlowByName searches for an existing flow definition by name and returns its CRN, or empty string if not found.
-func (r *dfFlowDefinitionResource) findFlowByName(ctx context.Context, name string) string {
-	params := operations.NewListFlowDefinitionsParamsWithContext(ctx).WithInput(&dfmodels.ListFlowDefinitionsRequest{})
-	result, err := r.client.Df.Operations.ListFlowDefinitions(params)
-	if err != nil {
-		return ""
+// createExistingFlow handles the case where a flow with the given name already exists.
+func (r *dfFlowDefinitionResource) createExistingFlow(ctx context.Context, plan *flowDefinitionModel, existingCrn string, resp *resource.CreateResponse) {
+	jsonParams := map[string]string{
+		"file":    "flow.json",
+		"flowCrn": existingCrn,
 	}
-	for _, f := range result.GetPayload().Flows {
-		if f.Name != nil && *f.Name == name {
-			if f.Crn != nil {
-				return *f.Crn
+	if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
+		jsonParams["comments"] = plan.Comments.ValueString()
+	}
+
+	headers := map[string]string{}
+	if !plan.Comments.IsNull() && plan.Comments.ValueString() != "" {
+		headers["Flow-Definition-Comments"] = url.PathEscape(plan.Comments.ValueString())
+	}
+
+	_, err := r.dfUpload(ctx, "/api/v1/df/importFlowDefinitionVersion", jsonParams, headers, plan.File.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Error importing new flow definition version", err.Error())
+		return
+	}
+
+	descParams := operations.NewDescribeFlowParamsWithContext(ctx).WithInput(&dfmodels.DescribeFlowRequest{
+		FlowCrn: &existingCrn,
+	})
+	descResult, err := r.client.Df.Operations.DescribeFlow(descParams)
+	if err != nil {
+		resp.Diagnostics.AddError("Error reading flow definition after version import", err.Error())
+		return
+	}
+
+	flow := descResult.GetPayload().FlowDetail
+	plan.Crn = types.StringPointerValue(flow.Crn)
+	plan.ID = types.StringPointerValue(flow.Crn)
+	plan.Name = types.StringPointerValue(flow.Name)
+	plan.VersionCount = types.Int32PointerValue(flow.VersionCount)
+	plan.FlowVersionCrn = types.StringValue(latestFlowVersionCrn(flow.Versions))
+
+	if !plan.CollectionCrn.IsNull() && plan.CollectionCrn.ValueString() != "" {
+		assignParams := operations.NewAssignToCollectionParamsWithContext(ctx).WithInput(&dfmodels.AssignToCollectionRequest{
+			CatalogCollectionCrn: plan.CollectionCrn.ValueString(),
+			FlowCrn:              flow.Crn,
+		})
+		_, err := r.client.Df.Operations.AssignToCollection(assignParams)
+		if err != nil && !strings.Contains(err.Error(), "already assigned") {
+			resp.Diagnostics.AddError("Error assigning flow to collection", err.Error())
+			return
+		}
+	}
+
+	computeFlowFileSha(plan)
+	resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
+}
+
+func (r *dfFlowDefinitionResource) findFlowByName(ctx context.Context, name string) string {
+	var nextToken string
+	for {
+		input := &dfmodels.ListFlowDefinitionsRequest{}
+		if nextToken != "" {
+			input.StartingToken = nextToken
+		}
+		params := operations.NewListFlowDefinitionsParamsWithContext(ctx).WithInput(input)
+		result, err := r.client.Df.Operations.ListFlowDefinitions(params)
+		if err != nil {
+			return ""
+		}
+		for _, f := range result.GetPayload().Flows {
+			if f.Name != nil && *f.Name == name {
+				if f.Crn != nil {
+					return *f.Crn
+				}
 			}
+		}
+		nextToken = result.GetPayload().NextToken
+		if nextToken == "" {
+			break
 		}
 	}
 	return ""
