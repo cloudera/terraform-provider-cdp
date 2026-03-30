@@ -110,9 +110,17 @@ func (r *dfDeploymentResource) Create(ctx context.Context, req resource.CreateRe
 			}
 		}
 
+		plannedCfmNifi := plan.CfmNifiVersion
+		plannedFlowVer := plan.FlowVersionCrn
 		if err := r.refreshState(ctx, &plan); err != nil {
 			resp.Diagnostics.AddError("Error reading deployment after adoption", err.Error())
 			return
+		}
+		if !plannedCfmNifi.IsNull() && plannedCfmNifi.ValueString() != "" {
+			plan.CfmNifiVersion = plannedCfmNifi
+		}
+		if !plannedFlowVer.IsNull() && plannedFlowVer.ValueString() != "" {
+			plan.FlowVersionCrn = plannedFlowVer
 		}
 		computeParameterGroupsSha(&plan)
 		resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
@@ -280,9 +288,18 @@ func (r *dfDeploymentResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
+	plannedCfmNifiVersion := plan.CfmNifiVersion
+	plannedFlowVersionCrn := plan.FlowVersionCrn
 	if err = r.refreshState(ctx, &plan); err != nil {
 		resp.Diagnostics.AddError("Error reading DataFlow deployment after create", err.Error())
 		return
+	}
+	// Preserve planned values that the API may report differently during transition
+	if !plannedCfmNifiVersion.IsNull() && plannedCfmNifiVersion.ValueString() != "" {
+		plan.CfmNifiVersion = plannedCfmNifiVersion
+	}
+	if !plannedFlowVersionCrn.IsNull() && plannedFlowVersionCrn.ValueString() != "" {
+		plan.FlowVersionCrn = plannedFlowVersionCrn
 	}
 	computeParameterGroupsSha(&plan)
 	resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
@@ -361,13 +378,15 @@ func (r *dfDeploymentResource) Update(ctx context.Context, req resource.UpdateRe
 	plan.DeploymentCrn = state.DeploymentCrn
 	plan.ID = state.ID
 	plannedFlowVersionCrn := plan.FlowVersionCrn
+	plannedCfmNifiVersion := plan.CfmNifiVersion
 	if err := r.refreshState(ctx, &plan); err != nil {
 		resp.Diagnostics.AddError("Error reading deployment after update", err.Error())
 		return
 	}
-	// Preserve the planned flow_version_crn — the API may still report the old version
-	// while the change-flow-version is propagating
 	plan.FlowVersionCrn = plannedFlowVersionCrn
+	if !plannedCfmNifiVersion.IsNull() && plannedCfmNifiVersion.ValueString() != "" {
+		plan.CfmNifiVersion = plannedCfmNifiVersion
+	}
 	computeParameterGroupsSha(&plan)
 	resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
 }
