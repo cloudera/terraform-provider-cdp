@@ -58,15 +58,7 @@ release:
   prerelease: auto
 
 signs:
-  - artifacts: checksum
-    args:
-      - "--batch"
-      - "--local-user"
-      - "{{ .Env.GPG_FINGERPRINT }}"
-      - "--output"
-      - "${signature}"
-      - "--detach-sign"
-      - "${artifact}"
+  - artifacts: none
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 
