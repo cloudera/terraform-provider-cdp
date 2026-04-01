@@ -41,6 +41,10 @@ type awsDatalakeResource struct {
 	client *cdp.Client
 }
 
+func (r *awsDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, response *resource.SchemaResponse) {
+	response.Schema = awsDatalakeSchema
+}
+
 func (r *awsDatalakeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
@@ -335,7 +339,7 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 	}
 }
 
-func (r *awsDatalakeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *awsDatalakeResource) Update(_ context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
 }
 
 func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

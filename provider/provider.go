@@ -265,6 +265,7 @@ func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSou
 		environments.NewKeytabDataSource,
 		datalake.NewListRuntimeDataSource,
 		datalake.NewListDatalakesDataSource,
+		datalake.NewDatalakeConfigDataSource,
 		datahub.NewListDatahubsDataSource,
 		iam.NewGroupDataSource,
 	}

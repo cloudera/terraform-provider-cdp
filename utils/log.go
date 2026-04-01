@@ -17,10 +17,21 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
+	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 func LogEnvironmentSilently(ctx context.Context, content *environmentsmodels.Environment, messagePrefix string) *environmentsmodels.Environment {
+	encoded, err := json.Marshal(content)
+	if err != nil {
+		tflog.Info(ctx, "Logging content as JSON failed due to: "+err.Error())
+		return content
+	}
+	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
+	return content
+}
+
+func LogDatalakeSilently(ctx context.Context, content *datalakemodels.DatalakeDetails, messagePrefix string) *datalakemodels.DatalakeDetails {
 	encoded, err := json.Marshal(content)
 	if err != nil {
 		tflog.Info(ctx, "Logging content as JSON failed due to: "+err.Error())
