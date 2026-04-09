@@ -47,6 +47,13 @@ func TestAwsSpecificElements(t *testing.T) {
 			Required:      true,
 			AttributeType: schema.StringAttribute{},
 		},
+		{
+			Name:          "'architecture' should exist",
+			Field:         "architecture",
+			Computed:      true,
+			Required:      false,
+			AttributeType: schema.StringAttribute{},
+		},
 	}
 
 	test.PerformResourceSchemaValidation(t, createFilledAwsTestObject(), cases)

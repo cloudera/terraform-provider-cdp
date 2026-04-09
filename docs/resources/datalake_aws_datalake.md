@@ -84,7 +84,7 @@ output "recipes" {
 
 ### Optional
 
-- `architecture` (String) Specifies the CPU architecture of the data lake cluster. Values are ARM64, X86_64.
+- `architecture` (String) Specifies the CPU architecture of the data lake cluster. Accepted values are `ARM64` and `X86_64`.
 - `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
 - `enable_ranger_raz` (Boolean)

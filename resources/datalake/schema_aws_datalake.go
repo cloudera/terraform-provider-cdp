@@ -11,11 +11,13 @@
 package datalake
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
@@ -49,7 +51,11 @@ func getAwsResourceSchema() schema.Schema {
 		},
 		"architecture": schema.StringAttribute{
 			Optional:            true,
-			MarkdownDescription: "Specifies the CPU architecture of the data lake cluster. Values are ARM64, X86_64.",
+			Computed:            true,
+			MarkdownDescription: "Specifies the CPU architecture of the data lake cluster. Accepted values are `ARM64` and `X86_64`.",
+			Validators: []validator.String{
+				stringvalidator.OneOf("ARM64", "X86_64"),
+			},
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
