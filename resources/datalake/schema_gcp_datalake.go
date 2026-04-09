@@ -40,3 +40,27 @@ func (r *gcpDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest
 		Attributes:          attr,
 	}
 }
+
+var gcpDatalakeSchema = getGcpResourceSchema()
+
+func getGcpResourceSchema() schema.Schema {
+	attr := map[string]schema.Attribute{}
+	utils.AppendToResourceSchema(attr, generalAttributes)
+	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
+		"cloud_provider_configuration": schema.SingleNestedAttribute{
+			Required: true,
+			Attributes: map[string]schema.Attribute{
+				"service_account_email": schema.StringAttribute{
+					Required: true,
+				},
+				"storage_location": schema.StringAttribute{
+					Required: true,
+				},
+			},
+		},
+	})
+	return schema.Schema{
+		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
+		Attributes:          attr,
+	}
+}

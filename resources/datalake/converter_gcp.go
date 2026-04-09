@@ -13,6 +13,8 @@ package datalake
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
@@ -20,7 +22,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func datalakeDetailsToGcpDatalakeResourceModel(resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, pollingOptions *utils.PollingOptions) {
+func datalakeDetailsToGcpDatalakeResourceModelFromCreation(resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, pollingOptions *utils.PollingOptions) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
 	model.Crn = types.StringPointerValue(resp.Crn)
@@ -31,6 +33,64 @@ func datalakeDetailsToGcpDatalakeResourceModel(resp *datalakemodels.DatalakeDeta
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
+}
+
+func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+	model.ID = types.StringPointerValue(resp.Crn)
+	if resp.GcpConfiguration != nil {
+		model.CloudProviderConfiguration.ServiceAccountEmail = types.StringValue(resp.GcpConfiguration.ServiceAccountEmail)
+	}
+	model.CreationDate = types.StringValue(resp.CreationDate.String())
+	model.Crn = types.StringPointerValue(resp.Crn)
+	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
+	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
+	model.PollingOptions = pollingOptions
+	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
+	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
+	for i, v := range resp.InstanceGroups {
+		instanceGroups[i] = &instanceGroup{
+			Name: types.StringPointerValue(v.Name),
+		}
+
+		instances := make([]*instance, 0, len(v.Instances))
+		for _, ins := range v.Instances {
+			if ins == nil || ins.ID == nil || len(*ins.ID) == 0 {
+				continue
+			}
+			instances = append(instances, &instance{
+				DiscoveryFQDN:   types.StringValue(ins.DiscoveryFQDN),
+				ID:              types.StringPointerValue(ins.ID),
+				InstanceGroup:   types.StringValue(ins.InstanceGroup),
+				InstanceStatus:  types.StringValue(string(ins.InstanceStatus)),
+				InstanceTypeVal: types.StringValue(string(ins.InstanceTypeVal)),
+				PrivateIP:       types.StringValue(ins.PrivateIP),
+				PublicIP:        types.StringValue(ins.PublicIP),
+				SSHPort:         types.Int64Value(int64(ins.SSHPort)),
+				State:           types.StringPointerValue(ins.State),
+				StatusReason:    types.StringValue(ins.StatusReason),
+			})
+		}
+		var instDiags diag.Diagnostics
+		instanceGroups[i].Instances, instDiags = types.SetValueFrom(ctx, types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"discovery_fqdn":    types.StringType,
+				"id":                types.StringType,
+				"instance_group":    types.StringType,
+				"instance_status":   types.StringType,
+				"instance_type_val": types.StringType,
+				"private_ip":        types.StringType,
+				"public_ip":         types.StringType,
+				"ssh_port":          types.Int64Type,
+				"state":             types.StringType,
+				"status_reason":     types.StringType,
+			},
+		}, instances)
+		diags.Append(instDiags...)
+	}
+	model.Scale = types.StringValue(string(resp.Shape))
+	model.Status = types.StringValue(resp.Status)
+	model.StatusReason = types.StringValue(resp.StatusReason)
+	model.CloudProviderConfiguration.StorageLocation = types.StringValue(resp.CloudStorageBaseLocation)
 }
 
 func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) *datalakemodels.CreateGCPDatalakeRequest {

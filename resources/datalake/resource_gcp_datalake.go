@@ -12,6 +12,7 @@ package datalake
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -79,12 +80,12 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 
 	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
-			datalakeDetailsToGcpDatalakeResourceModel(dlDtl, &state, state.PollingOptions)
+			datalakeDetailsToGcpDatalakeResourceModelFromCreation(dlDtl, &state, state.PollingOptions)
 			diags = resp.State.Set(ctx, state)
 			resp.Diagnostics.Append(diags...)
 		}
 		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, callFailureThreshold, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
-			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
+			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create GCP Datalake")
 			return
 		}
 	}
@@ -98,7 +99,7 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	descDlResp := descResponseOk.Payload
-	datalakeDetailsToGcpDatalakeResourceModel(descDlResp.Datalake, &state, state.PollingOptions)
+	datalakeDetailsToGcpDatalakeResourceModelFromCreation(descDlResp.Datalake, &state, state.PollingOptions)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -125,7 +126,8 @@ func (r *gcpDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &dlName})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
-		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+		var dlErr *operations.DescribeDatalakeDefault
+		if errors.As(err, &dlErr) {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				resp.Diagnostics.AddWarning("Resource not found on provider", "Data lake not found, removing from state.")
 				tflog.Warn(ctx, "Data lake not found, removing from state", map[string]interface{}{
@@ -140,7 +142,7 @@ func (r *gcpDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	datalakeResp := responseOk.Payload
-	datalakeDetailsToGcpDatalakeResourceModel(datalakeResp.Datalake, &state, state.PollingOptions)
+	datalakeDetailsToGcpDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, state.PollingOptions, &diags)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -172,7 +174,8 @@ func (r *gcpDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	})
 	_, err := client.Operations.DeleteDatalake(params)
 	if err != nil {
-		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+		var dlErr *operations.DescribeDatalakeDefault
+		if errors.As(err, &dlErr) {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				tflog.Info(ctx, "Data lake already deleted", map[string]interface{}{
 					"id": state.ID.ValueString(),

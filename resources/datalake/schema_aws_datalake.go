@@ -11,9 +11,6 @@
 package datalake
 
 import (
-	"context"
-
-	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -23,7 +20,9 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func (r *awsDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+var awsDatalakeSchema = getAwsResourceSchema()
+
+func getAwsResourceSchema() schema.Schema {
 	attr := map[string]schema.Attribute{}
 	utils.AppendToResourceSchema(attr, generalAttributes)
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
@@ -56,7 +55,7 @@ func (r *awsDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest
 			},
 		},
 	})
-	resp.Schema = schema.Schema{
+	return schema.Schema{
 		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
 		Attributes:          attr,
 	}
