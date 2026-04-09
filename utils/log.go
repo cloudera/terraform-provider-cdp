@@ -17,14 +17,27 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
+	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
+const failureMsgBase = "Logging content as JSON failed due to: "
+
 func LogEnvironmentSilently(ctx context.Context, content *environmentsmodels.Environment, messagePrefix string) *environmentsmodels.Environment {
 	encoded, err := json.Marshal(content)
 	if err != nil {
-		tflog.Info(ctx, "Logging content as JSON failed due to: "+err.Error())
+		tflog.Info(ctx, fmt.Sprintf("%s%s", failureMsgBase, err.Error()))
+		return content
+	}
+	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
+	return content
+}
+
+func LogDatahubSilently(ctx context.Context, content *datahubmodels.Cluster, messagePrefix string) *datahubmodels.Cluster {
+	encoded, err := json.Marshal(content)
+	if err != nil {
+		tflog.Info(ctx, fmt.Sprintf("%s%s", failureMsgBase, err.Error()))
 		return content
 	}
 	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
@@ -34,7 +47,7 @@ func LogEnvironmentSilently(ctx context.Context, content *environmentsmodels.Env
 func LogDatalakeSilently(ctx context.Context, content *datalakemodels.DatalakeDetails, messagePrefix string) *datalakemodels.DatalakeDetails {
 	encoded, err := json.Marshal(content)
 	if err != nil {
-		tflog.Info(ctx, "Logging content as JSON failed due to: "+err.Error())
+		tflog.Info(ctx, fmt.Sprintf("%s%s", failureMsgBase, err.Error()))
 		return content
 	}
 	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
@@ -44,7 +57,7 @@ func LogDatalakeSilently(ctx context.Context, content *datalakemodels.DatalakeDe
 func LogSilently(ctx context.Context, messagePrefix string, in any) {
 	encoded, err := json.Marshal(in)
 	if err != nil {
-		tflog.Info(ctx, "Logging content as JSON failed due to: "+err.Error())
+		tflog.Info(ctx, fmt.Sprintf("%s%s", failureMsgBase, err.Error()))
 	}
 	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
 }

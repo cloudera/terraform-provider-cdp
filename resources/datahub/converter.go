@@ -13,6 +13,7 @@ package datahub
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -268,4 +269,151 @@ func createAttachedVolumeRequest(attachedVolumeConfig AttachedVolumeConfiguratio
 		VolumeSize:  attachedVolumeConfig.VolumeSize.ValueInt32Pointer(),
 		VolumeType:  attachedVolumeConfig.VolumeType.ValueStringPointer(),
 	}
+}
+
+func toAwsDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *awsDatahubResourceModel, pollingOptions *utils.PollingOptions) {
+	utils.LogDatahubSilently(ctx, dh, "Converting datahub: ")
+
+	model.ID = types.StringPointerValue(dh.Crn)
+	model.Crn = types.StringPointerValue(dh.Crn)
+	model.Name = types.StringPointerValue(dh.ClusterName)
+	model.Status = types.StringValue(dh.Status)
+	model.PollingOptions = pollingOptions
+	model.ClusterTemplate = getStringValue(dh.ClusterTemplateCrn)
+	model.Environment = getStringValue(dh.EnvironmentName)
+
+	if dh.MultiAz != nil {
+		model.MultiAz = types.BoolPointerValue(dh.MultiAz)
+	}
+
+	if dh.Security != nil {
+		model.Security = &Security{
+			SeLinux: getStringValue(dh.Security.SeLinux),
+		}
+	}
+
+	if len(dh.InstanceGroups) > 0 {
+		model.InstanceGroup = toDatahubInstanceGroups(dh.InstanceGroups, dh.NodeCount)
+	}
+
+	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
+}
+
+func toAzureDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *azureDatahubResourceModel, pollingOptions *utils.PollingOptions) {
+	utils.LogDatahubSilently(ctx, dh, "Converting datahub: ")
+
+	model.ID = types.StringPointerValue(dh.Crn)
+	model.Crn = types.StringPointerValue(dh.Crn)
+	model.Name = types.StringPointerValue(dh.ClusterName)
+	model.Status = types.StringValue(dh.Status)
+	model.PollingOptions = pollingOptions
+	model.ClusterTemplate = getStringValue(dh.ClusterTemplateCrn)
+	model.Environment = getStringValue(dh.EnvironmentName)
+
+	if dh.MultiAz != nil {
+		model.MultiAz = types.BoolPointerValue(dh.MultiAz)
+	}
+
+	if dh.Security != nil {
+		model.Security = &Security{
+			SeLinux: getStringValue(dh.Security.SeLinux),
+		}
+	}
+
+	if len(dh.InstanceGroups) > 0 {
+		model.InstanceGroup = toDatahubInstanceGroups(dh.InstanceGroups, dh.NodeCount)
+	}
+
+	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
+}
+
+func toGcpDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *gcpDatahubResourceModel, pollingOptions *utils.PollingOptions) {
+	utils.LogDatahubSilently(ctx, dh, "Converting datahub: ")
+
+	model.ID = types.StringPointerValue(dh.Crn)
+	model.Crn = types.StringPointerValue(dh.Crn)
+	model.Name = types.StringPointerValue(dh.ClusterName)
+	model.Status = types.StringValue(dh.Status)
+	model.PollingOptions = pollingOptions
+	model.ClusterTemplate = getStringValue(dh.ClusterTemplateCrn)
+	model.Environment = getStringValue(dh.EnvironmentName)
+
+	if dh.MultiAz != nil {
+		model.MultiAz = types.BoolPointerValue(dh.MultiAz)
+	}
+
+	if dh.Security != nil {
+		model.Security = &Security{
+			SeLinux: getStringValue(dh.Security.SeLinux),
+		}
+	}
+
+	if len(dh.InstanceGroups) > 0 {
+		model.InstanceGroup = toDatahubGcpInstanceGroups(dh.InstanceGroups, dh.NodeCount)
+	}
+
+	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
+}
+
+func toDatahubInstanceGroups(groups []*datahubmodels.InstanceGroup, nodeCount int32) []InstanceGroup {
+	result := make([]InstanceGroup, 0, len(groups))
+	for _, group := range groups {
+		if group == nil {
+			continue
+		}
+
+		tfGroup := InstanceGroup{}
+
+		if group.Name != nil {
+			tfGroup.InstanceGroupName = types.StringPointerValue(group.Name)
+		}
+
+		if len(group.AvailabilityZones) > 0 {
+			tfGroup.AvailabilityZones = toTypesStringSlice(group.AvailabilityZones)
+		}
+
+		tfGroup.NodeCount = types.Int32Value(nodeCount)
+
+		result = append(result, tfGroup)
+	}
+	return result
+}
+
+func toTypesStringSlice(values []string) []types.String {
+	result := make([]types.String, 0, len(values))
+	for _, value := range values {
+		result = append(result, types.StringValue(value))
+	}
+	return result
+}
+
+func toDatahubGcpInstanceGroups(groups []*datahubmodels.InstanceGroup, nodeCount int32) []GcpInstanceGroup {
+	result := make([]GcpInstanceGroup, 0, len(groups))
+	for _, group := range groups {
+		if group == nil {
+			continue
+		}
+
+		tfGroup := GcpInstanceGroup{}
+
+		if group.Name != nil {
+			tfGroup.InstanceGroupName = types.StringPointerValue(group.Name)
+		}
+
+		if len(group.AvailabilityZones) > 0 {
+			tfGroup.AvailabilityZones = toTypesStringSlice(group.AvailabilityZones)
+		}
+
+		tfGroup.NodeCount = types.Int32Value(nodeCount)
+
+		result = append(result, tfGroup)
+	}
+	return result
+}
+
+func getStringValue(value string) types.String {
+	if len(strings.TrimSpace(value)) == 0 {
+		return types.StringNull()
+	}
+	return types.StringValue(value)
 }
