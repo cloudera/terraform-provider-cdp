@@ -724,6 +724,7 @@ func TestCdpProvider_DataSources(t *testing.T) {
 		datalake.NewListRuntimeDataSource,
 		datalake.NewListDatalakesDataSource,
 		datalake.NewDatalakeConfigDataSource,
+		datahub.NewDatahubConfigDataSource,
 		datahub.NewListDatahubsDataSource,
 		iam.NewGroupDataSource,
 	}

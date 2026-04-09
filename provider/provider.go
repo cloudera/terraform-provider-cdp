@@ -266,13 +266,14 @@ func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSou
 		datalake.NewListRuntimeDataSource,
 		datalake.NewListDatalakesDataSource,
 		datalake.NewDatalakeConfigDataSource,
+		datahub.NewDatahubConfigDataSource,
 		datahub.NewListDatahubsDataSource,
 		iam.NewGroupDataSource,
 	}
 }
 
 // getUserAgent returns a string to be set for the User-Agent header in HTTP requests. We follow the same format
-// with the python based CDP CLI and Java based CDP SDK. However, there is no easy way to detect the OS version without
+// with the Python-based CDP CLI and Java-based CDP SDK. However, there is no easy way to detect the OS version without
 // running uname, so we don't do that. Can be added later if needed.
 func getUserAgent(version string, terraformVersion string) string {
 	return fmt.Sprintf("CDPTFPROVIDER/%s Terraform/%s Go/%s %s_%s", version, terraformVersion, runtime.Version(), runtime.GOOS, runtime.GOARCH)
