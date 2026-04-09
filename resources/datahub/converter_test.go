@@ -17,6 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
+	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
@@ -445,4 +447,190 @@ func TestFromModelToAzureRequestClusterDefinition(t *testing.T) {
 	got := fromModelToAzureRequest(input, context.TODO())
 
 	test.CompareStrings(got.ClusterDefinitionName, input.ClusterDefinition.ValueString(), t)
+}
+
+func TestToAwsDatahubResource(t *testing.T) {
+	clusterCrn := "crn:cdp:datahub:us-west-1:123:cluster:cluster-1"
+	clusterName := "aws-datahub"
+	clusterStatus := "AVAILABLE"
+	clusterTemplateCrn := "crn:cdp:datahub:us-west-1:123:clusterTemplate:template-1"
+	environmentName := "test-env"
+	multiAz := true
+	seLinux := "ENFORCING"
+	instanceGroupName := "master"
+	availabilityZones := []string{"us-west-1a", "us-west-1b"}
+	nodeCount := int32(3)
+
+	dh := &datahubmodels.Cluster{
+		Crn:                &clusterCrn,
+		ClusterName:        &clusterName,
+		Status:             clusterStatus,
+		ClusterTemplateCrn: clusterTemplateCrn,
+		EnvironmentName:    environmentName,
+		MultiAz:            &multiAz,
+		NodeCount:          nodeCount,
+		Security: &datahubmodels.SecurityResponse{
+			SeLinux: seLinux,
+		},
+		InstanceGroups: []*datahubmodels.InstanceGroup{
+			{
+				Name:              &instanceGroupName,
+				AvailabilityZones: availabilityZones,
+			},
+		},
+	}
+
+	pollingOptions := &utils.PollingOptions{}
+	model := &awsDatahubResourceModel{}
+
+	toAwsDatahubResource(context.TODO(), dh, model, pollingOptions)
+
+	test.CompareStrings(model.ID.ValueString(), clusterCrn, t)
+	test.CompareStrings(model.Crn.ValueString(), clusterCrn, t)
+	test.CompareStrings(model.Name.ValueString(), clusterName, t)
+	test.CompareStrings(model.Status.ValueString(), clusterStatus, t)
+	test.CompareStrings(model.ClusterTemplate.ValueString(), clusterTemplateCrn, t)
+	test.CompareStrings(model.Environment.ValueString(), environmentName, t)
+	test.CompareBools(model.MultiAz.ValueBool(), multiAz, t)
+
+	if model.PollingOptions != pollingOptions {
+		t.Errorf("Assertion error! Expected polling options to be assigned")
+	}
+
+	if model.Security == nil {
+		t.Fatalf("Assertion error! Expected security to be assigned")
+	}
+	test.CompareStrings(model.Security.SeLinux.ValueString(), seLinux, t)
+
+	test.CompareInts(len(model.InstanceGroup), 1, t)
+	test.CompareStrings(model.InstanceGroup[0].InstanceGroupName.ValueString(), instanceGroupName, t)
+	test.CompareInt32PointerToTypesInt32(&nodeCount, model.InstanceGroup[0].NodeCount, t)
+	test.CompareInts(len(model.InstanceGroup[0].AvailabilityZones), len(availabilityZones), t)
+	for i, zone := range availabilityZones {
+		test.CompareStrings(model.InstanceGroup[0].AvailabilityZones[i].ValueString(), zone, t)
+	}
+}
+
+func TestToAzureDatahubResource(t *testing.T) {
+	clusterCrn := "crn:cdp:datahub:us-west-1:123:cluster:cluster-azure-1"
+	clusterName := "azure-datahub"
+	clusterStatus := "AVAILABLE"
+	clusterTemplateCrn := "crn:cdp:datahub:us-west-1:123:clusterTemplate:template-azure-1"
+	environmentName := "test-azure-env"
+	multiAz := true
+	seLinux := "PERMISSIVE"
+	instanceGroupName := "compute"
+	availabilityZones := []string{"1", "2"}
+	nodeCount := int32(5)
+
+	dh := &datahubmodels.Cluster{
+		Crn:                &clusterCrn,
+		ClusterName:        &clusterName,
+		Status:             clusterStatus,
+		ClusterTemplateCrn: clusterTemplateCrn,
+		EnvironmentName:    environmentName,
+		MultiAz:            &multiAz,
+		NodeCount:          nodeCount,
+		Security: &datahubmodels.SecurityResponse{
+			SeLinux: seLinux,
+		},
+		InstanceGroups: []*datahubmodels.InstanceGroup{
+			{
+				Name:              &instanceGroupName,
+				AvailabilityZones: availabilityZones,
+			},
+		},
+	}
+
+	pollingOptions := &utils.PollingOptions{}
+	model := &azureDatahubResourceModel{}
+
+	toAzureDatahubResource(context.TODO(), dh, model, pollingOptions)
+
+	test.CompareStrings(model.ID.ValueString(), clusterCrn, t)
+	test.CompareStrings(model.Crn.ValueString(), clusterCrn, t)
+	test.CompareStrings(model.Name.ValueString(), clusterName, t)
+	test.CompareStrings(model.Status.ValueString(), clusterStatus, t)
+	test.CompareStrings(model.ClusterTemplate.ValueString(), clusterTemplateCrn, t)
+	test.CompareStrings(model.Environment.ValueString(), environmentName, t)
+	test.CompareBools(model.MultiAz.ValueBool(), multiAz, t)
+
+	if model.PollingOptions != pollingOptions {
+		t.Errorf("Assertion error! Expected polling options to be assigned")
+	}
+
+	if model.Security == nil {
+		t.Fatalf("Assertion error! Expected security to be assigned")
+	}
+	test.CompareStrings(model.Security.SeLinux.ValueString(), seLinux, t)
+
+	test.CompareInts(len(model.InstanceGroup), 1, t)
+	test.CompareStrings(model.InstanceGroup[0].InstanceGroupName.ValueString(), instanceGroupName, t)
+	test.CompareInt32PointerToTypesInt32(&nodeCount, model.InstanceGroup[0].NodeCount, t)
+	test.CompareInts(len(model.InstanceGroup[0].AvailabilityZones), len(availabilityZones), t)
+	for i, zone := range availabilityZones {
+		test.CompareStrings(model.InstanceGroup[0].AvailabilityZones[i].ValueString(), zone, t)
+	}
+}
+
+func TestToGcpDatahubResource(t *testing.T) {
+	clusterCrn := "crn:cdp:datahub:us-west-1:123:cluster:cluster-gcp-1"
+	clusterName := "gcp-datahub"
+	clusterStatus := "AVAILABLE"
+	clusterTemplateCrn := "crn:cdp:datahub:us-west-1:123:clusterTemplate:template-gcp-1"
+	environmentName := "test-gcp-env"
+	multiAz := false
+	seLinux := "ENFORCING"
+	instanceGroupName := "worker"
+	availabilityZones := []string{"us-central1-a", "us-central1-b"}
+	nodeCount := int32(4)
+
+	dh := &datahubmodels.Cluster{
+		Crn:                &clusterCrn,
+		ClusterName:        &clusterName,
+		Status:             clusterStatus,
+		ClusterTemplateCrn: clusterTemplateCrn,
+		EnvironmentName:    environmentName,
+		MultiAz:            &multiAz,
+		NodeCount:          nodeCount,
+		Security: &datahubmodels.SecurityResponse{
+			SeLinux: seLinux,
+		},
+		InstanceGroups: []*datahubmodels.InstanceGroup{
+			{
+				Name:              &instanceGroupName,
+				AvailabilityZones: availabilityZones,
+			},
+		},
+	}
+
+	pollingOptions := &utils.PollingOptions{}
+	model := &gcpDatahubResourceModel{}
+
+	toGcpDatahubResource(context.TODO(), dh, model, pollingOptions)
+
+	test.CompareStrings(model.ID.ValueString(), clusterCrn, t)
+	test.CompareStrings(model.Crn.ValueString(), clusterCrn, t)
+	test.CompareStrings(model.Name.ValueString(), clusterName, t)
+	test.CompareStrings(model.Status.ValueString(), clusterStatus, t)
+	test.CompareStrings(model.ClusterTemplate.ValueString(), clusterTemplateCrn, t)
+	test.CompareStrings(model.Environment.ValueString(), environmentName, t)
+	test.CompareBools(model.MultiAz.ValueBool(), multiAz, t)
+
+	if model.PollingOptions != pollingOptions {
+		t.Errorf("Assertion error! Expected polling options to be assigned")
+	}
+
+	if model.Security == nil {
+		t.Fatalf("Assertion error! Expected security to be assigned")
+	}
+	test.CompareStrings(model.Security.SeLinux.ValueString(), seLinux, t)
+
+	test.CompareInts(len(model.InstanceGroup), 1, t)
+	test.CompareStrings(model.InstanceGroup[0].InstanceGroupName.ValueString(), instanceGroupName, t)
+	test.CompareInt32PointerToTypesInt32(&nodeCount, model.InstanceGroup[0].NodeCount, t)
+	test.CompareInts(len(model.InstanceGroup[0].AvailabilityZones), len(availabilityZones), t)
+	for i, zone := range availabilityZones {
+		test.CompareStrings(model.InstanceGroup[0].AvailabilityZones[i].ValueString(), zone, t)
+	}
 }
