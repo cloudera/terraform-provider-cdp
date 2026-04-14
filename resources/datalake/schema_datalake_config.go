@@ -255,6 +255,15 @@ var azureSchema = schema.SingleNestedAttribute{
 		"multi_az": schema.BoolAttribute{
 			Computed: true,
 		},
+		"security": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"se_linux": schema.StringAttribute{
+					Computed: true,
+				},
+			},
+		},
+		"delete_options": deleteOptionsSchema,
 	},
 }
 

@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -184,6 +185,33 @@ var azureDatalakeResourceSchema = schema.Schema{
 		"multi_az": schema.BoolAttribute{
 			MarkdownDescription: "Creates CDP datalake distributed across multiple availability  zones in an Azure region.",
 			Optional:            true,
+		},
+		"security": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: "Security related configuration for Datalake.",
+			Attributes: map[string]schema.Attribute{
+				"se_linux": schema.StringAttribute{
+					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Values are: PERMISSIVE, ENFORCING",
+					Optional:            true,
+					Computed:            true,
+					Default:             stringdefault.StaticString("PERMISSIVE"),
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				},
+			},
+		},
+		"delete_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Options for deleting the Datalake.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"forced": schema.BoolAttribute{
+					MarkdownDescription: "Whether the datalake should be force deleted. This option can be used when cluster deletion fails. This removes the entry from Cloudera Datalake service. Any lingering resources have to be deleted from the cloud provider manually. The default is false.",
+					Optional:            true,
+					Computed:            true,
+					Default:             booldefault.StaticBool(false),
+				},
+			},
 		},
 	},
 }

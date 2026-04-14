@@ -54,6 +54,20 @@ func TestAzureSpecificElements(t *testing.T) {
 			Required:      false,
 			AttributeType: schema.BoolAttribute{},
 		},
+		{
+			Name:          "'security' should exist",
+			Field:         "security",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.SingleNestedAttribute{},
+		},
+		{
+			Name:          "'delete_options' should exist",
+			Field:         "delete_options",
+			Computed:      false,
+			Required:      false,
+			AttributeType: schema.SingleNestedAttribute{},
+		},
 	}
 
 	underTestAttributes := createFilledAzureTestObject()
@@ -75,7 +89,7 @@ func TestAzureSpecificElements(t *testing.T) {
 }
 
 func TestAzureDatalakeSchemaAttributeNumber(t *testing.T) {
-	expected := 24
+	expected := 26
 	attrs := createFilledAzureTestObject()
 	if len(attrs) != expected {
 		t.Errorf("The number of fields in the AzureDatalakeSchema schema should be: %d but it is: %d", expected, len(attrs))
