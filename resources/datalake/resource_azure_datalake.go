@@ -12,6 +12,7 @@ package datalake
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -45,11 +46,11 @@ func NewAzureDatalakeResource() resource.Resource {
 	return &azureDatalakeResource{}
 }
 
-func (r *azureDatalakeResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *azureDatalakeResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_datalake_azure_datalake"
 }
 
-func (r *azureDatalakeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *azureDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = azureDatalakeResourceSchema
 }
 
@@ -174,18 +175,6 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	}
 }
 
-func toAzureDatalakeResourceModel(resp *datalakemodels.CreateAzureDatalakeResponse, model *azureDatalakeResourceModel) {
-	model.ID = types.StringPointerValue(resp.Datalake.DatalakeName)
-	model.CertificateExpirationState = types.StringValue(resp.Datalake.CertificateExpirationState)
-	model.CreationDate = types.StringValue(resp.Datalake.CreationDate.String())
-	model.Crn = types.StringPointerValue(resp.Datalake.Crn)
-	model.DatalakeName = types.StringPointerValue(resp.Datalake.DatalakeName)
-	model.EnableRangerRaz = types.BoolValue(resp.Datalake.EnableRangerRaz)
-	model.EnvironmentCrn = types.StringValue(resp.Datalake.EnvironmentCrn)
-	model.Status = types.StringValue(resp.Datalake.Status)
-	model.StatusReason = types.StringValue(resp.Datalake.StatusReason)
-}
-
 func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state azureDatalakeResourceModel
 	diags := req.State.Get(ctx, &state)
@@ -204,7 +193,7 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &dlName})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
-		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+		if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				resp.Diagnostics.AddWarning("Resource not found on provider", "Data lake not found, removing from state.")
 				tflog.Warn(ctx, "Data lake not found, removing from state", map[string]interface{}{
@@ -226,6 +215,59 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	if resp.Diagnostics.HasError() {
 		return
 	}
+}
+
+func (r *azureDatalakeResource) Update(_ context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
+}
+
+func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state azureDatalakeResourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client := r.client.Datalake
+	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	forceDelete := false
+	if state.DeleteOptions != nil {
+		forceDelete = state.DeleteOptions.Forced.ValueBool()
+	}
+	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
+		DatalakeName: state.DatalakeName.ValueStringPointer(),
+		Force:        forceDelete,
+	})
+	_, err := client.Operations.DeleteDatalake(params)
+	if err != nil {
+		if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
+			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
+				tflog.Info(ctx, "Data lake already deleted", map[string]interface{}{
+					"id": state.ID.ValueString(),
+				})
+				return
+			}
+		}
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
+		return
+	}
+
+	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
+		return
+	}
+}
+
+func toAzureDatalakeResourceModel(resp *datalakemodels.CreateAzureDatalakeResponse, model *azureDatalakeResourceModel) {
+	model.ID = types.StringPointerValue(resp.Datalake.DatalakeName)
+	model.CertificateExpirationState = types.StringValue(resp.Datalake.CertificateExpirationState)
+	model.CreationDate = types.StringValue(resp.Datalake.CreationDate.String())
+	model.Crn = types.StringPointerValue(resp.Datalake.Crn)
+	model.DatalakeName = types.StringPointerValue(resp.Datalake.DatalakeName)
+	model.EnableRangerRaz = types.BoolValue(resp.Datalake.EnableRangerRaz)
+	model.EnvironmentCrn = types.StringValue(resp.Datalake.EnvironmentCrn)
+	model.Status = types.StringValue(resp.Datalake.Status)
+	model.StatusReason = types.StringValue(resp.Datalake.StatusReason)
 }
 
 func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
@@ -286,46 +328,4 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 	if model.CertificateExpirationState.IsUnknown() {
 		model.CertificateExpirationState = types.StringNull()
 	}
-}
-
-func (r *azureDatalakeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-}
-
-func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var state azureDatalakeResourceModel
-	diags := req.State.Get(ctx, &state)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	client := r.client.Datalake
-	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
-	forceDelete := false
-	if state.DeleteOptions != nil {
-		forceDelete = state.DeleteOptions.Forced.ValueBool()
-	}
-	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
-		DatalakeName: state.DatalakeName.ValueStringPointer(),
-		Force:        forceDelete,
-	})
-	_, err := client.Operations.DeleteDatalake(params)
-	if err != nil {
-		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
-			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
-				tflog.Info(ctx, "Data lake already deleted", map[string]interface{}{
-					"id": state.ID.ValueString(),
-				})
-				return
-			}
-		}
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
-		return
-	}
-
-	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
-		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
-		return
-	}
-
 }

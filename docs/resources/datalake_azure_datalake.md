@@ -72,6 +72,7 @@ output "recipes" {
 
 - `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `database_type` (String) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
+- `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
 - `enable_ranger_raz` (Boolean)
 - `flexible_server_delegated_subnet_id` (String) This  argument  allows  you  to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
 - `image` (Attributes) (see [below for nested schema](#nestedatt--image))
@@ -82,6 +83,7 @@ output "recipes" {
 - `recipes` (Attributes Set) (see [below for nested schema](#nestedatt--recipes))
 - `runtime` (String)
 - `scale` (String)
+- `security` (Attributes) Security related configuration for Datalake. (see [below for nested schema](#nestedatt--security))
 - `tags` (Map of String)
 
 ### Read-Only
@@ -101,6 +103,14 @@ Required:
 
 - `instance_type` (String) The instance type for the custom instance group.
 - `name` (String) The name of the custom instance group.
+
+
+<a id="nestedatt--delete_options"></a>
+### Nested Schema for `delete_options`
+
+Optional:
+
+- `forced` (Boolean) Whether the datalake should be force deleted. This option can be used when cluster deletion fails. This removes the entry from Cloudera Datalake service. Any lingering resources have to be deleted from the cloud provider manually. The default is false.
 
 
 <a id="nestedatt--image"></a>
@@ -130,3 +140,11 @@ Required:
 
 - `instance_group_name` (String) The name of the designated instance group.
 - `recipe_names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
+
+
+<a id="nestedatt--security"></a>
+### Nested Schema for `security`
+
+Optional:
+
+- `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Values are: PERMISSIVE, ENFORCING
