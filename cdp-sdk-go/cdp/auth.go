@@ -47,7 +47,7 @@ func newMetastr(accessKeyID string) *metastr {
 
 func requestSigWriter(ctx context.Context, logger Logger, baseAPIPath string, credentials *Credentials) runtime.ClientAuthInfoWriter {
 	return runtime.ClientAuthInfoWriterFunc(func(r runtime.ClientRequest, _ strfmt.Registry) error {
-		date := formatDate()
+		date := FormatDate()
 		auth, err := authHeader(ctx, logger, credentials.AccessKeyId, credentials.PrivateKey, r.GetMethod(), resourcePath(baseAPIPath, r.GetPath(), r.GetQueryParams().Encode()), date)
 		if err != nil {
 			return err
@@ -122,6 +122,10 @@ func urlSafeBase64Encode(data []byte) string {
 	return base64.URLEncoding.EncodeToString(data)
 }
 
-func formatDate() string {
+func FormatDate() string {
 	return time.Now().UTC().Format(layout)
+}
+
+func AuthHeader(ctx context.Context, logger Logger, accessKeyID, privateKey, method, path, date string) (string, error) {
+	return authHeader(ctx, logger, accessKeyID, privateKey, method, path, date)
 }
