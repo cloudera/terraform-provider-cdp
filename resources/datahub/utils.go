@@ -11,6 +11,7 @@
 package datahub
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client/operations"
@@ -25,21 +26,21 @@ func checkIfClusterCreationFailed(resp *operations.DescribeClusterOK) (interface
 }
 
 func isNotFoundError(err error) bool {
-	if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
+	if d, ok := errors.AsType[*operations.DescribeClusterDefault](err); ok && d.GetPayload() != nil {
 		return d.GetPayload().Code == "NOT_FOUND"
 	}
 	return false
 }
 
 func isInternalServerError(err error) bool {
-	if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
+	if d, ok := errors.AsType[*operations.DescribeClusterDefault](err); ok && d.GetPayload() != nil {
 		return d.GetPayload().Code == "UNKNOWN"
 	}
 	return false
 }
 
 func isTimeoutError(err error) bool {
-	if d, ok := err.(*operations.DescribeClusterDefault); ok && d.GetPayload() != nil {
+	if d, ok := errors.AsType[*operations.DescribeClusterDefault](err); ok && d.GetPayload() != nil {
 		return d.GetPayload().Code == "TIMEOUT"
 	}
 	return false

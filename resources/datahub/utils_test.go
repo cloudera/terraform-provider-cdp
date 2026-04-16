@@ -108,6 +108,39 @@ func TestIsInternalServerError(t *testing.T) {
 	}
 }
 
+func TestIsTimeoutError(t *testing.T) {
+	type testCase struct {
+		description    string
+		input          operations.DescribeClusterDefault
+		expectedResult bool
+	}
+
+	for _, scenario := range []testCase{
+		{
+			description:    "Test with status: TIMEOUT",
+			input:          createDefaultInputWithStatus("TIMEOUT", "Request timed out."),
+			expectedResult: true,
+		},
+		{
+			description:    "Test with status: NOT_FOUND",
+			input:          createDefaultInputWithStatus("NOT_FOUND", "Cluster cannot be found."),
+			expectedResult: false,
+		},
+		{
+			description:    "Test with empty error payload",
+			input:          operations.DescribeClusterDefault{},
+			expectedResult: false,
+		},
+	} {
+		t.Run(scenario.description, func(t *testing.T) {
+			result := isTimeoutError(&scenario.input)
+			if scenario.expectedResult != result {
+				t.Errorf("Test result ('%t') does not match with the expectation ('%t')", result, scenario.expectedResult)
+			}
+		})
+	}
+}
+
 func createOkInputWithStatus(status string) operations.DescribeClusterOK {
 	sum := &models.Cluster{Status: status}
 	pl := &models.DescribeClusterResponse{Cluster: sum}
