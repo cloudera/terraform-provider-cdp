@@ -26,6 +26,18 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
+var (
+	envCreatePendingStatuses = []string{"CREATION_INITIATED",
+		"NETWORK_CREATION_IN_PROGRESS",
+		"PUBLICKEY_CREATE_IN_PROGRESS",
+		"ENVIRONMENT_RESOURCE_ENCRYPTION_INITIALIZATION_IN_PROGRESS",
+		"ENVIRONMENT_VALIDATION_IN_PROGRESS",
+		"ENVIRONMENT_INITIALIZATION_IN_PROGRESS",
+		"COMPUTE_CLUSTER_CREATION_IN_PROGRESS",
+		"FREEIPA_CREATION_IN_PROGRESS"}
+	envCreateTargetStatuses = []string{"AVAILABLE", "TRUST_SETUP_REQUIRED"}
+)
+
 func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.Duration, callFailureThresholdDefault int, client *client.Environments, ctx context.Context, options *utils.PollingOptions) error {
 	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackTimeout)
 	callFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThresholdDefault)
@@ -68,8 +80,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
 				tflog.Warn(ctx, fmt.Sprintf("Error describing environment: %s", err))
-				var envErr *operations.DescribeEnvironmentDefault
-				if errors.As(err, &envErr) {
+				if envErr, ok := errors.AsType[*operations.DescribeEnvironmentDefault](err); ok {
 					if isEnvNotFoundError(envErr) {
 						return nil, "", nil
 					}
@@ -107,15 +118,8 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 	}
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
-		Pending: []string{"CREATION_INITIATED",
-			"NETWORK_CREATION_IN_PROGRESS",
-			"PUBLICKEY_CREATE_IN_PROGRESS",
-			"ENVIRONMENT_RESOURCE_ENCRYPTION_INITIALIZATION_IN_PROGRESS",
-			"ENVIRONMENT_VALIDATION_IN_PROGRESS",
-			"ENVIRONMENT_INITIALIZATION_IN_PROGRESS",
-			"COMPUTE_CLUSTER_CREATION_IN_PROGRESS",
-			"FREEIPA_CREATION_IN_PROGRESS"},
-		Target:       []string{"AVAILABLE"},
+		Pending:      envCreatePendingStatuses,
+		Target:       envCreateTargetStatuses,
 		Delay:        5 * time.Second,
 		Timeout:      *timeout,
 		PollInterval: 10 * time.Second,
@@ -125,8 +129,8 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
-				// Envs that have just been created may not be returned from Describe Environment request because of eventual
-				// consistency. We return an empty state to retry.
+				// Envs that have just been created may not be returned from the Describe Environment request because of eventual
+				// consistency. We return to an empty state to retry.
 
 				if isEnvNotFoundError(err) {
 					tflog.Debug(ctx, fmt.Sprintf("Recoverable error describing environment: %s", err))

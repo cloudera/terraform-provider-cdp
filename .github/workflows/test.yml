@@ -146,6 +146,15 @@ jobs:
         uses: actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34 # v5.3.0
         with:
           go-version: 1.26
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: '1.14.9'
+          terraform_wrapper: 'false'
+      - name: Verify Terraform is on PATH
+        run: |
+          which terraform
+          terraform version
       - name: Run documentation generation
         run: |
           make docs
