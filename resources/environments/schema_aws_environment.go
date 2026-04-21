@@ -398,6 +398,7 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *awsEnvironmentResourceM
 			InstanceType:         trans.InstanceType,
 			MultiAz:              trans.MultiAz,
 			Recipes:              trans.Recipes,
+			Architecture:         trans.Architecture,
 		}
 		req.Image = img
 	}
