@@ -86,7 +86,6 @@ generate:
 
 docs:
 	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate \
-		--tf-version 1.4.5 \
 		--rendered-provider-name CDP \
 		--website-source-dir templates
 
