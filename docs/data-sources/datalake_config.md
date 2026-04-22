@@ -127,6 +127,7 @@ Read-Only:
 - `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--azure--custom_instance_groups))
 - `database_type` (String)
 - `datalake_name` (String)
+- `delete_options` (Attributes) (see [below for nested schema](#nestedatt--azure--delete_options))
 - `enable_ranger_raz` (Boolean)
 - `environment_crn` (String)
 - `flexible_server_delegated_subnet_id` (String)
@@ -140,6 +141,7 @@ Read-Only:
 - `recipes` (Attributes Set) (see [below for nested schema](#nestedatt--azure--recipes))
 - `runtime` (String)
 - `scale` (String)
+- `security` (Attributes) (see [below for nested schema](#nestedatt--azure--security))
 - `status` (String)
 - `status_reason` (String)
 - `storage_location_base` (String)
@@ -152,6 +154,14 @@ Read-Only:
 
 - `instance_type` (String)
 - `name` (String)
+
+
+<a id="nestedatt--azure--delete_options"></a>
+### Nested Schema for `azure.delete_options`
+
+Read-Only:
+
+- `forced` (Boolean)
 
 
 <a id="nestedatt--azure--image"></a>
@@ -181,6 +191,14 @@ Read-Only:
 
 - `instance_group_name` (String)
 - `recipe_names` (Set of String)
+
+
+<a id="nestedatt--azure--security"></a>
+### Nested Schema for `azure.security`
+
+Read-Only:
+
+- `se_linux` (String)
 
 
 
