@@ -50,6 +50,71 @@ The modules for creating cloud provider prerequisites and consecutively deployin
 
 Combining the prerequisite and CDP deployment modules in turn allows you to deploy CDP from scratch in a fully automated way. The [CDP quickstart using the Terraform Module for CDP Prerequisites](https://github.com/cloudera-labs/cdp-tf-quickstarts) is an example for how this can be done.
 
+## DataFlow Resources
+
+The provider includes comprehensive support for CDP DataFlow (CDF) resources, enabling you to manage NiFi flow definitions, deployments, collections, and projects entirely through Terraform.
+
+### Example: Full DataFlow Workflow
+
+```terraform
+# Look up the DataFlow service by name
+data "cdp_df_service" "example" {
+  name = "my-df-service"
+}
+
+# Create a project for organizing deployments
+resource "cdp_df_project" "example" {
+  name        = "my-project"
+  service_crn = data.cdp_df_service.example.crn
+}
+
+# Create a collection for organizing flow definitions
+resource "cdp_df_collection" "example" {
+  name        = "my-collection"
+  description = "Collection for my NiFi flows"
+}
+
+# Import a NiFi flow definition and assign it to a collection
+resource "cdp_df_flow_definition" "example" {
+  name           = "my-nifi-flow"
+  file           = file("flow.json")
+  description    = "My NiFi flow"
+  comments       = "Initial version"
+  collection_crn = cdp_df_collection.example.crn
+}
+
+# Deploy the flow
+resource "cdp_df_deployment" "example" {
+  service_crn      = data.cdp_df_service.example.crn
+  flow_version_crn = cdp_df_flow_definition.example.flow_version_crn
+  deployment_name  = "my-deployment"
+  cluster_size     = "EXTRA_SMALL"
+  auto_start_flow  = false
+  project_crn      = cdp_df_project.example.crn
+  parameter_groups = file("parameters.json")
+}
+```
+
+### DataFlow Resources
+
+| Resource | Description |
+|---|---|
+| `cdp_df_service` | Enable/manage a DataFlow service on a CDP environment |
+| `cdp_df_flow_definition` | Import NiFi flow definitions into the DataFlow catalog |
+| `cdp_df_collection` | Create catalog collections for organizing flows |
+| `cdp_df_project` | Create projects within a DataFlow service |
+| `cdp_df_deployment` | Deploy a flow definition version with full configuration |
+
+### DataFlow Data Sources
+
+| Data Source | Description |
+|---|---|
+| `data.cdp_df_service` | Look up a single DataFlow service by name |
+| `data.cdp_df_services` | List all DataFlow services (optional name filter) |
+| `data.cdp_df_project` | Look up a DataFlow project by name |
+| `data.cdp_df_flow_definitions` | List all flow definitions in the catalog |
+| `data.cdp_df_readyflows` | List available ReadyFlows |
+
 ## Provider Documentation
 
 Documentation for the latest release can be found at [CDP docs at the Terraform Registry](https://registry.terraform.io/providers/cloudera/cdp/latest/docs)

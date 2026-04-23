@@ -25,18 +25,20 @@ builds:
     ldflags:
       - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}'
     goos:
-      - freebsd
+      # - freebsd
       - linux
-      - windows
+      # - windows
       - darwin
     goarch:
       - amd64
-      - '386'
-      - arm
+      # - '386'
+      # - arm
       - arm64
     ignore:
       - goos: darwin
         goarch: '386'
+      - goos: windows
+        goarch: arm
 checksum:
   algorithm: sha256
   extra_files:
@@ -45,11 +47,8 @@ checksum:
   name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
 
 release:
-  # If set to true, will not auto-publish the release.
+  # Create as draft, then publish via GitHub Actions step after all assets uploaded
   draft: true
-  # Whether to remove existing draft releases with the same name before creating
-  # a new one.
-  replace_existing_draft: true
   extra_files:
     - glob: 'terraform-registry-manifest.json'
       name_template: '{{ .ProjectName }}_{{ .Version }}_manifest.json'
@@ -59,17 +58,7 @@ release:
   prerelease: auto
 
 signs:
-  - artifacts: checksum
-    args:
-      # if you are using this in a GitHub action or some other automated pipeline, you
-      # need to pass the batch flag to indicate its not interactive.
-      - "--batch"
-      - "--local-user"
-      - "{{ .Env.GPG_FINGERPRINT }}" # set this environment variable for your signing key
-      - "--output"
-      - "${signature}"
-      - "--detach-sign"
-      - "${artifact}"
+  - artifacts: none
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 

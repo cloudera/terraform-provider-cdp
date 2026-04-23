@@ -36,6 +36,19 @@ jobs:
         with:
           args: release --clean
         env:
-          # GitHub sets the GITHUB_TOKEN secret automatically.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+      - name: Sign checksums
+        run: |
+          # Download the SHA256SUMS from the draft release
+          gh release download ${{ github.ref_name }} -p '*SHA256SUMS' -D /tmp/sign
+          # Sign it
+          gpg --batch --local-user ${{ steps.import_gpg.outputs.fingerprint }} --output /tmp/sign/terraform-provider-cdp_${GITHUB_REF_NAME#v}_SHA256SUMS.sig --detach-sign /tmp/sign/terraform-provider-cdp_${GITHUB_REF_NAME#v}_SHA256SUMS
+          # Upload the signature to the release
+          gh release upload ${{ github.ref_name }} /tmp/sign/terraform-provider-cdp_${GITHUB_REF_NAME#v}_SHA256SUMS.sig --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish Release
+        run: gh release edit ${{ github.ref_name }} --draft=false
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
