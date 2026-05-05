@@ -96,7 +96,7 @@ output "shared_project_id" {
 - `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
 - `endpoint_access_gateway_subnet_ids` (Set of String) The subnets to use for endpoint access gateway.
 - `environment_type` (String) Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID
-- `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
+- `freeipa` (Attributes) Request object for creating FreeIPA in the environment. (see [below for nested schema](#nestedatt--freeipa))
 - `log_storage` (Attributes) GCP storage configuration for cluster and audit logs. (see [below for nested schema](#nestedatt--log_storage))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String) Name of the proxy config to use for the environment.
@@ -108,7 +108,7 @@ output "shared_project_id" {
 ### Read-Only
 
 - `crn` (String) The CRN of the environment resource.
-- `id` (String) The ID of this resource.
+- `id` (String) The id of the environment associated by Terraform
 - `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String) The last known status for the environment.
 - `status_reason` (String) The last known detailed status reason for the environment.
@@ -145,37 +145,37 @@ Optional:
 
 Optional:
 
-- `architecture` (String) CPU architecture of the freeipa instance. Can be either X86_64 or ARM64.
-- `catalog` (String)
-- `image_id` (String)
-- `instance_count_by_group` (Number)
-- `instance_type` (String)
-- `multi_az` (Boolean)
-- `os` (String)
-- `recipes` (Set of String)
+- `architecture` (String) CPU architecture of the FreeIPA instance. Can be either X86_64 or ARM64.
+- `catalog` (String) Image catalog to use for FreeIPA image selection.
+- `image_id` (String) Image ID to use for creating FreeIPA instances.
+- `instance_count_by_group` (Number) The number of FreeIPA instances to create per group when creating FreeIPA in the environment
+- `instance_type` (String) Custom instance type of FreeIPA instances.
+- `multi_az` (Boolean) Flag that enables deployment of the FreeIPA in a multi-availability zone.
+- `os` (String) The OS to use for creating FreeIPA instances.
+- `recipes` (Set of String) The recipes for the FreeIPA cluster.
 
 Read-Only:
 
-- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--freeipa--instances))
+- `instances` (Attributes Set) The instances of the FreeIPA cluster. (see [below for nested schema](#nestedatt--freeipa--instances))
 
 <a id="nestedatt--freeipa--instances"></a>
 ### Nested Schema for `freeipa.instances`
 
 Read-Only:
 
-- `availability_zone` (String)
-- `discovery_fqdn` (String)
-- `instance_group` (String)
-- `instance_id` (String)
-- `instance_status` (String)
-- `instance_status_reason` (String)
-- `instance_type` (String)
-- `instance_vm_type` (String)
-- `life_cycle` (String)
-- `private_ip` (String)
-- `public_ip` (String)
-- `ssh_port` (Number)
-- `subnet_id` (String)
+- `availability_zone` (String) The availability zone of the instance.
+- `discovery_fqdn` (String) The fully qualified domain name of the instance in the service discovery cluster.
+- `instance_group` (String) The instance group that contains the instance.
+- `instance_id` (String) The instance ID for the instance.
+- `instance_status` (String) The status of the instance.
+- `instance_status_reason` (String) The status reason for the instance.
+- `instance_type` (String) The type of the instance (either GATEWAY or GATEWAY_PRIMARY).
+- `instance_vm_type` (String) The VM type of the instance. Supported values depend on the cloud platform.
+- `life_cycle` (String) The life cycle type for the instance (either NORMAL or SPOT).
+- `private_ip` (String) The private IP of the instance.
+- `public_ip` (String) The public IP of the instance.
+- `ssh_port` (Number) The SSH port of the instance.
+- `subnet_id` (String) The subnet ID of the instance.
 
 
 

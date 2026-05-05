@@ -54,40 +54,40 @@ output "storage_location" {
 ### Required
 
 - `cloud_provider_configuration` (Attributes) (see [below for nested schema](#nestedatt--cloud_provider_configuration))
-- `datalake_name` (String)
-- `environment_name` (String)
+- `datalake_name` (String) The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
+- `environment_name` (String) The name or CRN of the environment where the datalake will be created.
 
 ### Optional
 
-- `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
+- `custom_instance_groups` (Attributes Set) Request object for host group level custom configurations. (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
-- `enable_ranger_raz` (Boolean)
-- `image` (Attributes) (see [below for nested schema](#nestedatt--image))
-- `java_version` (Number)
-- `multi_az` (Boolean)
+- `enable_ranger_raz` (Boolean) Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
+- `image` (Attributes) The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image. (see [below for nested schema](#nestedatt--image))
+- `java_version` (Number) Configure the major version of Java on the cluster.
+- `multi_az` (Boolean) Controls if the datalake is deployed in a multi-availability zone way.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
-- `recipes` (Attributes Set) (see [below for nested schema](#nestedatt--recipes))
-- `runtime` (String)
-- `scale` (String)
+- `recipes` (Attributes Set) Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker'). (see [below for nested schema](#nestedatt--recipes))
+- `runtime` (String) Cloudera Runtime version.
+- `scale` (String) Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.
 - `security` (Attributes) Security related configuration for Datalake. (see [below for nested schema](#nestedatt--security))
-- `tags` (Map of String)
+- `tags` (Map of String) Tags to be added to Data Lake related resources.
 
 ### Read-Only
 
-- `creation_date` (String)
-- `crn` (String)
+- `creation_date` (String) The date when the datalake was created.
+- `crn` (String) The CRN of the datalake.
 - `environment_crn` (String)
 - `id` (String) The ID of this resource.
-- `status` (String)
-- `status_reason` (String)
+- `status` (String) The status of the datalake.
+- `status_reason` (String) The reason for the status of the datalake.
 
 <a id="nestedatt--cloud_provider_configuration"></a>
 ### Nested Schema for `cloud_provider_configuration`
 
 Required:
 
-- `service_account_email` (String)
-- `storage_location` (String)
+- `service_account_email` (String) Email id of the service account to be associated with the datalake IdBroker instance. This service account should have "token.creator" role for one or more storage accounts that has access to storage.
+- `storage_location` (String) The location of the GCS bucket to be used as storage. The location has to start with gs:// followed by the bucket name.
 
 
 <a id="nestedatt--custom_instance_groups"></a>
@@ -112,9 +112,9 @@ Optional:
 
 Optional:
 
-- `catalog_name` (String)
-- `id` (String)
-- `os` (String)
+- `catalog_name` (String) The name of the custom image catalog to use, defaulting to 'cdp-default' if not present.
+- `id` (String) The image ID from the catalog. The corresponding image will be used for the created cluster machines.
+- `os` (String) The OS of the image used for cluster instances.
 
 
 <a id="nestedatt--polling_options"></a>

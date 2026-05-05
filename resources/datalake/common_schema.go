@@ -11,6 +11,9 @@
 package datalake
 
 import (
+	"regexp"
+
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -18,7 +21,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	datalakevalidators "github.com/cloudera/terraform-provider-cdp/resources/datalake/validators"
 )
 
 var generalAttributes = map[string]schema.Attribute{
@@ -28,51 +34,39 @@ var generalAttributes = map[string]schema.Attribute{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
-	"polling_options": schema.SingleNestedAttribute{
-		MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
-		Optional:            true,
-		Attributes: map[string]schema.Attribute{
-			"async": schema.BoolAttribute{
-				MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
-				Optional:            true,
-				Computed:            true,
-				Default:             booldefault.StaticBool(false),
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
-			},
-			"polling_timeout": schema.Int64Attribute{
-				MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
-				Default:             int64default.StaticInt64(60),
-				Computed:            true,
-				Optional:            true,
-			},
-			"call_failure_threshold": schema.Int64Attribute{
-				MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
-				Default:             int64default.StaticInt64(3),
-				Computed:            true,
-				Optional:            true,
-			},
-		},
-	},
 	"creation_date": schema.StringAttribute{
-		Computed: true,
+		MarkdownDescription: "The date when the datalake was created.",
+		Description:         "The date when the datalake was created.",
+		Computed:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"crn": schema.StringAttribute{
-		Computed: true,
+		MarkdownDescription: "The CRN of the datalake.",
+		Description:         "The CRN of the datalake.",
+		Computed:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"datalake_name": schema.StringAttribute{
-		Required: true,
+		MarkdownDescription: "The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.",
+		Description:         "The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.",
+		Required:            true,
+		Validators: []validator.String{
+			stringvalidator.LengthBetween(5, 40),
+			stringvalidator.RegexMatches(
+				regexp.MustCompile(`^[a-z0-9-]+$`),
+				"must contain only lowercase letters, numbers and hyphens",
+			),
+		},
 	},
 	"enable_ranger_raz": schema.BoolAttribute{
-		Optional: true,
-		Computed: true,
+		MarkdownDescription: "Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.",
+		Description:         "Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.",
+		Optional:            true,
+		Computed:            true,
 		PlanModifiers: []planmodifier.Bool{
 			boolplanmodifier.UseStateForUnknown(),
 		},
@@ -84,35 +78,56 @@ var generalAttributes = map[string]schema.Attribute{
 		},
 	},
 	"environment_name": schema.StringAttribute{
-		Required: true,
+		MarkdownDescription: "The name or CRN of the environment where the datalake will be created.",
+		Description:         "The name or CRN of the environment where the datalake will be created.",
+		Required:            true,
 	},
 	"image": schema.SingleNestedAttribute{
-		Optional: true,
+		MarkdownDescription: "The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.",
+		Description:         "The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.",
+		Optional:            true,
+		Validators: []validator.Object{
+			datalakevalidators.ImageRuntimeCompatibilityValidator(),
+		},
 		Attributes: map[string]schema.Attribute{
 			"catalog_name": schema.StringAttribute{
-				Optional: true,
+				MarkdownDescription: "The name of the custom image catalog to use, defaulting to 'cdp-default' if not present.",
+				Description:         "The name of the custom image catalog to use, defaulting to 'cdp-default' if not present.",
+				Default:             stringdefault.StaticString("cdp-default"),
+				Computed:            true,
+				Optional:            true,
 			},
 			"id": schema.StringAttribute{
-				Optional: true,
+				MarkdownDescription: "The image ID from the catalog. The corresponding image will be used for the created cluster machines.",
+				Description:         "The image ID from the catalog. The corresponding image will be used for the created cluster machines.",
+				Optional:            true,
 			},
 			"os": schema.StringAttribute{
-				Optional: true,
+				MarkdownDescription: "The OS of the image used for cluster instances.",
+				Description:         "The OS of the image used for cluster instances.",
+				Optional:            true,
 			},
 		},
 	},
 	"java_version": schema.Int32Attribute{
-		Optional: true,
+		MarkdownDescription: "Configure the major version of Java on the cluster.",
+		Description:         "Configure the major version of Java on the cluster.",
+		Optional:            true,
 	},
 	"recipes": schema.SetNestedAttribute{
-		Optional: true,
+		MarkdownDescription: "Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker').",
+		Description:         "Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker').",
+		Optional:            true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
 				"instance_group_name": schema.StringAttribute{
 					MarkdownDescription: "The name of the designated instance group.",
+					Description:         "The name of the designated instance group.",
 					Required:            true,
 				},
 				"recipe_names": schema.SetAttribute{
 					MarkdownDescription: "The set of recipe names that are going to be applied on the given instance group.",
+					Description:         "The set of recipe names that are going to be applied on the given instance group.",
 					ElementType:         types.StringType,
 					Required:            true,
 				},
@@ -120,49 +135,69 @@ var generalAttributes = map[string]schema.Attribute{
 		},
 	},
 	"custom_instance_groups": schema.SetNestedAttribute{
-		Optional: true,
+		MarkdownDescription: "Request object for host group level custom configurations.",
+		Description:         "Request object for host group level custom configurations.",
+		Optional:            true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
 				"name": schema.StringAttribute{
 					MarkdownDescription: "The name of the custom instance group.",
+					Description:         "The name of the custom instance group.",
 					Required:            true,
 				},
 				"instance_type": schema.StringAttribute{
 					MarkdownDescription: "The instance type for the custom instance group.",
+					Description:         "The instance type for the custom instance group.",
 					Required:            true,
 				},
 			},
 		},
 	},
 	"runtime": schema.StringAttribute{
-		Optional: true,
+		MarkdownDescription: "Cloudera Runtime version.",
+		Description:         "Cloudera Runtime version.",
+		Optional:            true,
 	},
 	"scale": schema.StringAttribute{
+		MarkdownDescription: "Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.",
+		Description:         "Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.",
+		Validators: []validator.String{
+			stringvalidator.OneOf("LIGHT_DUTY", "MEDIUM_DUTY_HA", "ENTERPRISE"),
+		},
+		Default:  stringdefault.StaticString("LIGHT_DUTY"),
 		Computed: true,
 		Optional: true,
 	},
 	"status": schema.StringAttribute{
-		Computed: true,
+		MarkdownDescription: "The status of the datalake.",
+		Description:         "The status of the datalake.",
+		Computed:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"status_reason": schema.StringAttribute{
-		Computed: true,
+		MarkdownDescription: "The reason for the status of the datalake.",
+		Description:         "The reason for the status of the datalake.",
+		Computed:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"multi_az": schema.BoolAttribute{
-		Optional: true,
-		Computed: true,
+		MarkdownDescription: "Controls if the datalake is deployed in a multi-availability zone way.",
+		Description:         "Controls if the datalake is deployed in a multi-availability zone way.",
+		Optional:            true,
+		Computed:            true,
 		PlanModifiers: []planmodifier.Bool{
 			boolplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"tags": schema.MapAttribute{
-		Optional:    true,
-		ElementType: types.StringType,
+		MarkdownDescription: "Tags to be added to Data Lake related resources.",
+		Description:         "Tags to be added to Data Lake related resources.",
+		Optional:            true,
+		ElementType:         types.StringType,
 	},
 	"security": schema.SingleNestedAttribute{
 		Optional:            true,
@@ -173,6 +208,9 @@ var generalAttributes = map[string]schema.Attribute{
 				Optional:            true,
 				Computed:            true,
 				Default:             stringdefault.StaticString("PERMISSIVE"),
+				Validators: []validator.String{
+					stringvalidator.OneOf("PERMISSIVE", "ENFORCING"),
+				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -188,6 +226,37 @@ var generalAttributes = map[string]schema.Attribute{
 				Optional:            true,
 				Computed:            true,
 				Default:             booldefault.StaticBool(false),
+			},
+		},
+	},
+	"polling_options": schema.SingleNestedAttribute{
+		MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		Description:         "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		Optional:            true,
+		Attributes: map[string]schema.Attribute{
+			"async": schema.BoolAttribute{
+				MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+				Description:         "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+				Optional:            true,
+				Computed:            true,
+				Default:             booldefault.StaticBool(false),
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"polling_timeout": schema.Int64Attribute{
+				MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+				Description:         "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+				Default:             int64default.StaticInt64(60),
+				Computed:            true,
+				Optional:            true,
+			},
+			"call_failure_threshold": schema.Int64Attribute{
+				MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+				Description:         "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+				Default:             int64default.StaticInt64(3),
+				Computed:            true,
+				Optional:            true,
 			},
 		},
 	},

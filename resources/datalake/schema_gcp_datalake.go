@@ -20,25 +20,7 @@ import (
 )
 
 func (r *gcpDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	attr := map[string]schema.Attribute{}
-	utils.AppendToResourceSchema(attr, generalAttributes)
-	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
-		"cloud_provider_configuration": schema.SingleNestedAttribute{
-			Required: true,
-			Attributes: map[string]schema.Attribute{
-				"service_account_email": schema.StringAttribute{
-					Required: true,
-				},
-				"storage_location": schema.StringAttribute{
-					Required: true,
-				},
-			},
-		},
-	})
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
-		Attributes:          attr,
-	}
+	resp.Schema = gcpDatalakeSchema
 }
 
 var gcpDatalakeSchema = getGcpResourceSchema()
@@ -51,16 +33,21 @@ func getGcpResourceSchema() schema.Schema {
 			Required: true,
 			Attributes: map[string]schema.Attribute{
 				"service_account_email": schema.StringAttribute{
-					Required: true,
+					MarkdownDescription: "Email id of the service account to be associated with the datalake IdBroker instance. This service account should have \"token.creator\" role for one or more storage accounts that has access to storage.",
+					Description:         "Email id of the service account to be associated with the datalake IdBroker instance. This service account should have \"token.creator\" role for one or more storage accounts that has access to storage.",
+					Required:            true,
 				},
 				"storage_location": schema.StringAttribute{
-					Required: true,
+					MarkdownDescription: "The location of the GCS bucket to be used as storage. The location has to start with gs:// followed by the bucket name.",
+					Description:         "The location of the GCS bucket to be used as storage. The location has to start with gs:// followed by the bucket name.",
+					Required:            true,
 				},
 			},
 		},
 	})
 	return schema.Schema{
 		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
+		Description:         "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
 		Attributes:          attr,
 	}
 }

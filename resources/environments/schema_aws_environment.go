@@ -12,7 +12,9 @@ package environments
 
 import (
 	"context"
+	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -22,9 +24,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/validators"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
@@ -32,23 +36,29 @@ var AwsEnvironmentSchema = schema.Schema{
 	MarkdownDescription: "The environment is a logical entity that represents the association of your user account with multiple compute resources using which you can provision and manage workloads.",
 	Attributes: map[string]schema.Attribute{
 		"id": schema.StringAttribute{
-			Computed: true,
+			MarkdownDescription: "The id of the environment associated by Terraform",
+			Description:         "The id of the environment associated by Terraform",
+			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"crn": schema.StringAttribute{
-			Computed: true,
+			MarkdownDescription: "The CRN of the environment.",
+			Description:         "The CRN of the environment.",
+			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+			Description:         "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"async": schema.BoolAttribute{
 					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+					Description:         "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
 					Optional:            true,
 					Computed:            true,
 					Default:             booldefault.StaticBool(false),
@@ -58,12 +68,14 @@ var AwsEnvironmentSchema = schema.Schema{
 				},
 				"polling_timeout": schema.Int64Attribute{
 					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+					Description:         "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
 					Default:             int64default.StaticInt64(60),
 					Computed:            true,
 					Optional:            true,
 				},
 				"call_failure_threshold": schema.Int64Attribute{
 					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+					Description:         "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
 					Default:             int64default.StaticInt64(3),
 					Computed:            true,
 					Optional:            true,
@@ -71,18 +83,26 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"authentication": schema.SingleNestedAttribute{
-			Required: true,
+			MarkdownDescription: "Authentication configuration for the environment.",
+			Description:         "Authentication configuration for the environment.",
+			Required:            true,
 			Attributes: map[string]schema.Attribute{
 				"public_key": schema.StringAttribute{
-					Optional: true,
+					MarkdownDescription: "Public SSH key string. The associated private key can be used to get root-level access to the Data Lake instance and Data Hub cluster instances.",
+					Description:         "Public SSH key string. The associated private key can be used to get root-level access to the Data Lake instance and Data Hub cluster instances.",
+					Optional:            true,
 				},
 				"public_key_id": schema.StringAttribute{
-					Optional: true,
+					MarkdownDescription: "Identifier of the uploaded public SSH key.",
+					Description:         "Identifier of the uploaded public SSH key.",
+					Optional:            true,
+					Computed:            true,
 				},
 			},
 		},
 		"compute_cluster": schema.SingleNestedAttribute{
 			MarkdownDescription: "Option to set up Externalized compute cluster for the environment.",
+			Description:         "Option to set up Externalized compute cluster for the environment.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"enabled": schema.BoolAttribute{
@@ -90,21 +110,28 @@ var AwsEnvironmentSchema = schema.Schema{
 				},
 				"configuration": schema.SingleNestedAttribute{
 					MarkdownDescription: "The Externalized k8s configuration for the environment.",
+					Description:         "The Externalized k8s configuration for the environment.",
 					Optional:            true,
 					Attributes: map[string]schema.Attribute{
 						"private_cluster": schema.BoolAttribute{
 							MarkdownDescription: "If true, creates private cluster. False, if not specified",
+							Description:         "If true, creates private cluster. False, if not specified",
 							Default:             booldefault.StaticBool(false),
 							Computed:            true,
 							Optional:            true,
 						},
 						"kube_api_authorized_ip_ranges": schema.SetAttribute{
 							MarkdownDescription: "Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster.",
+							Description:         "Kubernetes API authorized IP ranges in CIDR notation. Mutually exclusive with privateCluster.",
 							ElementType:         types.StringType,
-							Optional:            true,
+							Validators: []validator.Set{
+								validators.KubeAPIAuthorizedIPRangesMustBeEmptyWhenPrivateClusterTrue(),
+							},
+							Optional: true,
 						},
 						"worker_node_subnets": schema.SetAttribute{
 							MarkdownDescription: "Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.",
+							Description:         "Specify subnets for Kubernetes Worker Nodes. If not specified, then the environment's subnet(s) will be used.",
 							PlanModifiers: []planmodifier.Set{
 								setplanmodifier.UseStateForUnknown(),
 							},
@@ -117,67 +144,96 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"create_private_subnets": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
-			Default:  booldefault.StaticBool(false),
+			MarkdownDescription: "When this is enabled, private subnets will be created for the environment.",
+			Description:         "When this is enabled, private subnets will be created for the environment.",
+			Optional:            true,
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"create_service_endpoints": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
-			Default:  booldefault.StaticBool(false),
+			MarkdownDescription: "Whether or not service endpoints should be created for the environment.",
+			Description:         "Whether or not service endpoints should be created for the environment.",
+			Optional:            true,
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"s3_guard_table_name": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			Default:  stringdefault.StaticString(""),
+			MarkdownDescription: "Name of the DynamoDB table to be used for S3Guard.",
+			Description:         "Name of the DynamoDB table to be used for S3Guard.",
+			Optional:            true,
+			Computed:            true,
+			Default:             stringdefault.StaticString(""),
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"credential_name": schema.StringAttribute{
-			Required: true,
+			MarkdownDescription: "Name of the credential to use for the environment.",
+			Description:         "Name of the credential to use for the environment.",
+			Required:            true,
 		},
 		"description": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
+			MarkdownDescription: "Description of the environment.",
+			Description:         "Description of the environment.",
+			Optional:            true,
+			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"enable_tunnel": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
-			Default:  booldefault.StaticBool(true),
+			MarkdownDescription: "Whether to enable SSH tunneling for the environment.",
+			Description:         "Whether to enable SSH tunneling for the environment.",
+			Optional:            true,
+			Computed:            true,
+			Default:             booldefault.StaticBool(true),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"encryption_key_arn": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			Default:  stringdefault.StaticString(""),
+			MarkdownDescription: "ARN of the key which will be used to encrypt cloud resources, if entitlement has been granted.",
+			Description:         "ARN of the key which will be used to encrypt cloud resources, if entitlement has been granted.",
+			Optional:            true,
+			Computed:            true,
+			Default:             stringdefault.StaticString(""),
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"endpoint_access_gateway_scheme": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
+			MarkdownDescription: "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
+			Description:         "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
+			Optional:            true,
+			Computed:            true,
+			Validators: []validator.String{
+				stringvalidator.OneOf("PUBLIC", "PRIVATE"),
+			},
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
-			Optional:    true,
-			ElementType: types.StringType,
+			MarkdownDescription: "The subnets to use for endpoint access gateway.",
+			Description:         "The subnets to use for endpoint access gateway.",
+			Optional:            true,
+			ElementType:         types.StringType,
 		},
 		"environment_name": schema.StringAttribute{
+			MarkdownDescription: "The name of the environment. Must contain only lowercase letters, numbers and hyphens.",
+			Description:         "The name of the environment. Must contain only lowercase letters, numbers and hyphens.",
+			Validators: []validator.String{
+				stringvalidator.RegexMatches(
+					regexp.MustCompile(`^[a-z0-9-]+$`),
+					"must contain only lowercase letters, numbers and hyphens",
+				),
+			},
 			Required: true,
 		},
 		"cascading_delete": schema.BoolAttribute{
@@ -188,16 +244,19 @@ var AwsEnvironmentSchema = schema.Schema{
 		},
 		"delete_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Options for deleting the environment.",
+			Description:         "Options for deleting the environment.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"cascading": schema.BoolAttribute{
 					MarkdownDescription: "If true, all resources in the environment will be deleted.",
+					Description:         "If true, all resources in the environment will be deleted.",
 					Optional:            true,
 					Computed:            true,
 					Default:             booldefault.StaticBool(true),
 				},
 				"forced": schema.BoolAttribute{
 					MarkdownDescription: "Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.",
+					Description:         "Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.",
 					Optional:            true,
 					Computed:            true,
 					Default:             booldefault.StaticBool(false),
@@ -206,17 +265,25 @@ var AwsEnvironmentSchema = schema.Schema{
 		},
 		"freeipa": FreeIpaSchema,
 		"log_storage": schema.SingleNestedAttribute{
-			Required: true,
+			MarkdownDescription: "AWS storage configuration for cluster and audit logs.",
+			Description:         "AWS storage configuration for cluster and audit logs.",
+			Required:            true,
 			Attributes: map[string]schema.Attribute{
 				"instance_profile": schema.StringAttribute{
-					Required: true,
+					MarkdownDescription: "The instance profile associated with the logger.",
+					Description:         "The instance profile associated with the logger.",
+					Required:            true,
 				},
 				"storage_location_base": schema.StringAttribute{
-					Required: true,
+					MarkdownDescription: "The storage location to use for cluster and audit logs.",
+					Description:         "The storage location to use for cluster and audit logs.",
+					Required:            true,
 				},
 				"backup_storage_location_base": schema.StringAttribute{
-					Optional: true,
-					Computed: true,
+					MarkdownDescription: "The storage location to use for backups.",
+					Description:         "The storage location to use for backups.",
+					Optional:            true,
+					Computed:            true,
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
@@ -224,11 +291,13 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"region": schema.StringAttribute{
-			Required: true,
+			MarkdownDescription: "The region of the environment.",
+			Description:         "The region of the environment.",
+			Required:            true,
 		},
 		"report_deployment_logs": schema.BoolAttribute{
-			// report_deployment_logs is a deprecated field and should not be used
 			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
+			Description:         " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
 			DeprecationMessage:  "report_deployment_logs is a deprecated field and should not be used. ",
 			Computed:            true,
 			Default:             booldefault.StaticBool(false),
@@ -237,67 +306,44 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"proxy_config_name": schema.StringAttribute{
-			Optional: true,
-			Computed: true,
-			Default:  stringdefault.StaticString(""),
+			MarkdownDescription: "Name of the proxy config to use for the environment.",
+			Description:         "Name of the proxy config to use for the environment.",
+			Optional:            true,
+			Computed:            true,
+			Default:             stringdefault.StaticString(""),
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"security_access": schema.SingleNestedAttribute{
-			Required: true,
-			Attributes: map[string]schema.Attribute{
-				"cidr": schema.StringAttribute{
-					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"default_security_group_id": schema.StringAttribute{
-					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"default_security_group_ids": schema.SetAttribute{
-					Optional:    true,
-					ElementType: types.StringType,
-				},
-				"security_group_id_for_knox": schema.StringAttribute{
-					Optional: true,
-					Computed: true,
-					PlanModifiers: []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"security_group_ids_for_knox": schema.SetAttribute{
-					Optional:    true,
-					ElementType: types.StringType,
-				},
-			},
-		},
+		"security_access": securityAccess,
 		"status": schema.StringAttribute{
-			Computed: true,
+			MarkdownDescription: "The current status of the environment.",
+			Description:         "The current status of the environment.",
+			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"status_reason": schema.StringAttribute{
-			Computed: true,
+			MarkdownDescription: "The detailed status reason of the environment.",
+			Description:         "The detailed status reason of the environment.",
+			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"subnet_ids": schema.SetAttribute{
-			Required:    true,
-			ElementType: types.StringType,
+			MarkdownDescription: "One or more subnet ids within the VPC.",
+			Description:         "One or more subnet ids within the VPC.",
+			Required:            true,
+			ElementType:         types.StringType,
 		},
 		"tags": schema.MapAttribute{
-			Optional:    true,
-			Computed:    true,
-			ElementType: types.StringType,
+			MarkdownDescription: "Tags associated with the resources.",
+			Description:         "Tags associated with the resources.",
+			Optional:            true,
+			Computed:            true,
+			ElementType:         types.StringType,
 			PlanModifiers: []planmodifier.Map{
 				mapplanmodifier.UseStateForUnknown(),
 			},
@@ -310,14 +356,18 @@ var AwsEnvironmentSchema = schema.Schema{
 			},
 		},
 		"workload_analytics": schema.BoolAttribute{
-			Optional: true,
-			Computed: true,
+			MarkdownDescription: "When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.",
+			Description:         "When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.",
+			Optional:            true,
+			Computed:            true,
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"vpc_id": schema.StringAttribute{
-			Required: true,
+			MarkdownDescription: "The id of the AWS VPC.",
+			Description:         "The id of the AWS VPC.",
+			Required:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
@@ -325,10 +375,12 @@ var AwsEnvironmentSchema = schema.Schema{
 		"custom_docker_registry": schema.SingleNestedAttribute{
 			Optional:            true,
 			MarkdownDescription: "The desired custom docker registry for data services to be used.",
+			Description:         "The desired custom docker registry for data services to be used.",
 			Attributes: map[string]schema.Attribute{
 				"crn": schema.StringAttribute{
 					Required:            true,
 					MarkdownDescription: "The CRN of the desired custom docker registry for data services to be used.",
+					Description:         "The CRN of the desired custom docker registry for data services to be used.",
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
@@ -338,12 +390,17 @@ var AwsEnvironmentSchema = schema.Schema{
 		"security": schema.SingleNestedAttribute{
 			Optional:            true,
 			MarkdownDescription: "Security related configuration for Data Hub cluster.",
+			Description:         "Security related configuration for Data Hub cluster.",
 			Attributes: map[string]schema.Attribute{
 				"se_linux": schema.StringAttribute{
 					Optional:            true,
 					Computed:            true,
 					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+					Description:         "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
 					Default:             stringdefault.StaticString("PERMISSIVE"),
+					Validators: []validator.String{
+						stringvalidator.OneOf("PERMISSIVE", "ENFORCING"),
+					},
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
@@ -353,6 +410,10 @@ var AwsEnvironmentSchema = schema.Schema{
 		"environment_type": schema.StringAttribute{
 			Optional:            true,
 			MarkdownDescription: "Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID",
+			Description:         "Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID",
+			Validators: []validator.String{
+				stringvalidator.OneOf("PUBLIC_CLOUD", "HYBRID"),
+			},
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},

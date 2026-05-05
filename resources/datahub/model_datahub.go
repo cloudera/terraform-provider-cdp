@@ -18,7 +18,7 @@ type Security struct {
 	SeLinux types.String `tfsdk:"se_linux"`
 }
 
-type InstanceGroup struct {
+type AwsInstanceGroup struct {
 	NodeCount                   types.Int32                   `tfsdk:"node_count"`
 	InstanceGroupName           types.String                  `tfsdk:"instance_group_name"`
 	InstanceGroupType           types.String                  `tfsdk:"instance_group_type"`
@@ -26,7 +26,20 @@ type InstanceGroup struct {
 	RootVolumeSize              types.Int32                   `tfsdk:"root_volume_size"`
 	AttachedVolumeConfiguration []AttachedVolumeConfiguration `tfsdk:"attached_volume_configuration"`
 	RecoveryMode                types.String                  `tfsdk:"recovery_mode"`
-	VolumeEncryption            VolumeEncryption              `tfsdk:"volume_encryption"`
+	VolumeEncryption            AwsVolumeEncryption           `tfsdk:"volume_encryption"`
+	Recipes                     []types.String                `tfsdk:"recipes"`
+	SubnetIds                   []types.String                `tfsdk:"subnet_ids"`
+	AvailabilityZones           []types.String                `tfsdk:"availability_zones"`
+}
+
+type AzureInstanceGroup struct {
+	NodeCount                   types.Int32                   `tfsdk:"node_count"`
+	InstanceGroupName           types.String                  `tfsdk:"instance_group_name"`
+	InstanceGroupType           types.String                  `tfsdk:"instance_group_type"`
+	InstanceType                types.String                  `tfsdk:"instance_type"`
+	RootVolumeSize              types.Int32                   `tfsdk:"root_volume_size"`
+	AttachedVolumeConfiguration []AttachedVolumeConfiguration `tfsdk:"attached_volume_configuration"`
+	RecoveryMode                types.String                  `tfsdk:"recovery_mode"`
 	Recipes                     []types.String                `tfsdk:"recipes"`
 	SubnetIds                   []types.String                `tfsdk:"subnet_ids"`
 	AvailabilityZones           []types.String                `tfsdk:"availability_zones"`
@@ -38,8 +51,9 @@ type AttachedVolumeConfiguration struct {
 	VolumeType  types.String `tfsdk:"volume_type"`
 }
 
-type VolumeEncryption struct {
-	Encryption types.Bool `tfsdk:"encryption"`
+type AwsVolumeEncryption struct {
+	Encryption    types.Bool   `tfsdk:"encryption"`
+	EncryptionKey types.String `tfsdk:"encryption_key"`
 }
 
 type DestroyOptions struct {

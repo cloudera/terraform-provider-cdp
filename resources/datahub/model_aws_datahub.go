@@ -21,7 +21,7 @@ type awsDatahubResourceModel struct {
 	Crn                      types.String          `tfsdk:"crn"`
 	Name                     types.String          `tfsdk:"name"`
 	Status                   types.String          `tfsdk:"status"`
-	InstanceGroup            []InstanceGroup       `tfsdk:"instance_group"`
+	InstanceGroup            []AwsInstanceGroup    `tfsdk:"instance_group"`
 	PollingOptions           *utils.PollingOptions `tfsdk:"polling_options"`
 	DestroyOptions           *DestroyOptions       `tfsdk:"destroy_options"`
 	ClusterDefinition        types.String          `tfsdk:"cluster_definition"`

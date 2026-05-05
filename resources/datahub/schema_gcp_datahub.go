@@ -13,9 +13,11 @@ package datahub
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/int32validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -28,49 +30,69 @@ var gcpInstanceGroupSchemaAttributes = map[string]schema.Attribute{
 			Attributes: map[string]schema.Attribute{
 				"node_count": schema.Int32Attribute{
 					MarkdownDescription: "The cluster node count. Has to be greater or equal than 0 and less than 100,000.",
-					Required:            true,
+					Description:         "The cluster node count. Has to be greater or equal than 0 and less than 100,000.",
+					Validators: []validator.Int32{
+						int32validator.Between(0, 100000),
+					},
+					Required: true,
 				},
 				"instance_group_name": schema.StringAttribute{
 					MarkdownDescription: "The name of the instance group.",
+					Description:         "The name of the instance group.",
 					Required:            true,
 				},
 				"instance_group_type": schema.StringAttribute{
 					MarkdownDescription: "The type of the instance group.",
+					Description:         "The type of the instance group.",
 					Required:            true,
 				},
 				"instance_type": schema.StringAttribute{
 					MarkdownDescription: "The cloud provider-side instance type.",
+					Description:         "The cloud provider-side instance type.",
 					Required:            true,
 				},
 				"root_volume_size": schema.Int32Attribute{
 					MarkdownDescription: "The size of the root volume in GB",
+					Description:         "The size of the root volume in GB",
 					Required:            true,
 				},
 				"recipes": schema.SetAttribute{
 					MarkdownDescription: "The set of recipe names that are going to be applied on the given instance group.",
+					Description:         "The set of recipe names that are going to be applied on the given instance group.",
 					ElementType:         types.StringType,
 					Optional:            true,
 				},
 				"availability_zones": schema.SetAttribute{
 					MarkdownDescription: "List of availability zones that this instance group is associated with.",
+					Description:         "List of availability zones that this instance group is associated with.",
 					ElementType:         types.StringType,
 					Optional:            true,
 				},
 				"attached_volume_configuration": schema.ListNestedAttribute{
 					Required:            true,
 					MarkdownDescription: "Configuration regarding the attached volume to the specific instance group.",
+					Description:         "Configuration regarding the attached volume to the specific instance group.",
 					NestedObject: schema.NestedAttributeObject{
 						Attributes: map[string]schema.Attribute{
 							"volume_size": schema.Int32Attribute{
 								MarkdownDescription: "The size of the volume in GB.",
-								Required:            true,
+								Description:         "The size of the volume in GB.",
+								Validators: []validator.Int32{
+									int32validator.AtLeast(0),
+								},
+								Required: true,
 							},
 							"volume_count": schema.Int32Attribute{
 								MarkdownDescription: "The number of volumes to be attached.",
-								Required:            true,
+								Description:         "The number of volumes to be attached.",
+								Validators: []validator.Int32{
+									int32validator.AtLeast(0),
+								},
+								Required: true,
 							},
 							"volume_type": schema.StringAttribute{
 								MarkdownDescription: "The - cloud provider - type of the volume.",
+								Description:         "The - cloud provider - type of the volume.",
 								Required:            true,
 							},
 						},
@@ -78,6 +100,7 @@ var gcpInstanceGroupSchemaAttributes = map[string]schema.Attribute{
 				},
 				"recovery_mode": schema.StringAttribute{
 					MarkdownDescription: "The type of the recovery mode.",
+					Description:         "The type of the recovery mode.",
 					Required:            true,
 				},
 			},
@@ -85,6 +108,7 @@ var gcpInstanceGroupSchemaAttributes = map[string]schema.Attribute{
 	},
 	"multi_az": schema.BoolAttribute{
 		MarkdownDescription: "Creates the Data Hub distributed across multiple availability zones in GCP region",
+		Description:         "Creates the Data Hub distributed across multiple availability zones in GCP region",
 		Optional:            true,
 		Computed:            true,
 		Default:             booldefault.StaticBool(false),
@@ -98,24 +122,29 @@ func (r *gcpDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest,
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"cluster_template_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the cluster template.",
+			Description:         "The name of the cluster template.",
 			Optional:            true,
 		},
 		"cluster_definition_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the cluster definition.",
+			Description:         "The name of the cluster definition.",
 			Optional:            true,
 		},
 		"environment_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the environment where the cluster will belong to.",
+			Description:         "The name of the environment where the cluster will belong to.",
 			Required:            true,
 		},
 		"subnet_name": schema.StringAttribute{
 			MarkdownDescription: "The subnet name.",
+			Description:         "The subnet name.",
 			Optional:            true,
 		},
 	})
 	removeRequiredNonGcpAttributes(attr)
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Creates an GCP Data hub cluster.",
+		Description:         "Creates an GCP Data hub cluster.",
 		Attributes:          attr,
 	}
 }

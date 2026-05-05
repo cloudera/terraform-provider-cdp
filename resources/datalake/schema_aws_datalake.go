@@ -29,21 +29,31 @@ func getAwsResourceSchema() schema.Schema {
 	utils.AppendToResourceSchema(attr, generalAttributes)
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"certificate_expiration_state": schema.StringAttribute{
+			MarkdownDescription: "Indicates the certificate status on the cluster.",
+			Description:         "Indicates the certificate status on the cluster.",
+			Validators: []validator.String{
+				stringvalidator.OneOf("VALID", "HOST_CERT_EXPIRING"),
+			},
 			Computed: true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"storage_location_base": schema.StringAttribute{
-			Required: true,
+			MarkdownDescription: "The location of the S3 bucket to be used as storage. The location has to start with s3a:// followed by the bucket name.",
+			Description:         "The location of the S3 bucket to be used as storage. The location has to start with s3a:// followed by the bucket name.",
+			Required:            true,
 		},
 		"instance_profile": schema.StringAttribute{
-			Required: true,
+			MarkdownDescription: "The ARN of an IAM instance profile.",
+			Description:         "The ARN of an IAM instance profile.",
+			Required:            true,
 		},
 		"enable_ranger_rms": schema.BoolAttribute{
 			Optional:            true,
 			Computed:            true,
 			MarkdownDescription: "Whether to enable Ranger RMS for the datalake. Defaults to not being enabled.",
+			Description:         "Whether to enable Ranger RMS for the datalake. Defaults to not being enabled.",
 			Default:             booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
 				boolplanmodifier.UseStateForUnknown(),
@@ -53,6 +63,7 @@ func getAwsResourceSchema() schema.Schema {
 			Optional:            true,
 			Computed:            false,
 			MarkdownDescription: "Specifies the CPU architecture of the data lake cluster. Accepted values are `ARM64` and `X86_64`.",
+			Description:         "Specifies the CPU architecture of the data lake cluster. Accepted values are `ARM64` and `X86_64`.",
 			Validators: []validator.String{
 				stringvalidator.OneOf("ARM64", "X86_64"),
 			},
@@ -63,6 +74,7 @@ func getAwsResourceSchema() schema.Schema {
 	})
 	return schema.Schema{
 		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
+		Description:         "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
 		Attributes:          attr,
 	}
 }

@@ -21,7 +21,7 @@ type azureDatahubResourceModel struct {
 	Crn                             types.String          `tfsdk:"crn"`
 	Name                            types.String          `tfsdk:"name"`
 	Status                          types.String          `tfsdk:"status"`
-	InstanceGroup                   []InstanceGroup       `tfsdk:"instance_group"`
+	InstanceGroup                   []AzureInstanceGroup  `tfsdk:"instance_group"`
 	PollingOptions                  *utils.PollingOptions `tfsdk:"polling_options"`
 	DestroyOptions                  *DestroyOptions       `tfsdk:"destroy_options"`
 	Environment                     types.String          `tfsdk:"environment"`

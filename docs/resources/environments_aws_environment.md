@@ -67,44 +67,44 @@ output "environment" {
 
 ### Required
 
-- `authentication` (Attributes) (see [below for nested schema](#nestedatt--authentication))
-- `credential_name` (String)
-- `environment_name` (String)
-- `log_storage` (Attributes) (see [below for nested schema](#nestedatt--log_storage))
-- `region` (String)
-- `security_access` (Attributes) (see [below for nested schema](#nestedatt--security_access))
-- `subnet_ids` (Set of String)
-- `vpc_id` (String)
+- `authentication` (Attributes) Authentication configuration for the environment. (see [below for nested schema](#nestedatt--authentication))
+- `credential_name` (String) Name of the credential to use for the environment.
+- `environment_name` (String) The name of the environment. Must contain only lowercase letters, numbers and hyphens.
+- `log_storage` (Attributes) AWS storage configuration for cluster and audit logs. (see [below for nested schema](#nestedatt--log_storage))
+- `region` (String) The region of the environment.
+- `security_access` (Attributes) Security control configuration for FreeIPA and Datalake deployment. Choosing a CIDR will automatically create security groups. Alternatively existing security groups can be specified. (see [below for nested schema](#nestedatt--security_access))
+- `subnet_ids` (Set of String) One or more subnet ids within the VPC.
+- `vpc_id` (String) The id of the AWS VPC.
 
 ### Optional
 
 - `cascading_delete` (Boolean, Deprecated)
 - `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
-- `create_private_subnets` (Boolean)
-- `create_service_endpoints` (Boolean)
+- `create_private_subnets` (Boolean) When this is enabled, private subnets will be created for the environment.
+- `create_service_endpoints` (Boolean) Whether or not service endpoints should be created for the environment.
 - `custom_docker_registry` (Attributes) The desired custom docker registry for data services to be used. (see [below for nested schema](#nestedatt--custom_docker_registry))
 - `delete_options` (Attributes) Options for deleting the environment. (see [below for nested schema](#nestedatt--delete_options))
-- `description` (String)
-- `enable_tunnel` (Boolean)
-- `encryption_key_arn` (String)
-- `endpoint_access_gateway_scheme` (String)
-- `endpoint_access_gateway_subnet_ids` (Set of String)
+- `description` (String) Description of the environment.
+- `enable_tunnel` (Boolean) Whether to enable SSH tunneling for the environment.
+- `encryption_key_arn` (String) ARN of the key which will be used to encrypt cloud resources, if entitlement has been granted.
+- `endpoint_access_gateway_scheme` (String) The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.
+- `endpoint_access_gateway_subnet_ids` (Set of String) The subnets to use for endpoint access gateway.
 - `environment_type` (String) Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID
-- `freeipa` (Attributes) (see [below for nested schema](#nestedatt--freeipa))
+- `freeipa` (Attributes) Request object for creating FreeIPA in the environment. (see [below for nested schema](#nestedatt--freeipa))
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
-- `proxy_config_name` (String)
-- `s3_guard_table_name` (String)
+- `proxy_config_name` (String) Name of the proxy config to use for the environment.
+- `s3_guard_table_name` (String) Name of the DynamoDB table to be used for S3Guard.
 - `security` (Attributes) Security related configuration for Data Hub cluster. (see [below for nested schema](#nestedatt--security))
-- `tags` (Map of String)
-- `workload_analytics` (Boolean)
+- `tags` (Map of String) Tags associated with the resources.
+- `workload_analytics` (Boolean) When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
 
 ### Read-Only
 
-- `crn` (String)
-- `id` (String) The ID of this resource.
+- `crn` (String) The CRN of the environment.
+- `id` (String) The id of the environment associated by Terraform
 - `report_deployment_logs` (Boolean, Deprecated) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
-- `status` (String)
-- `status_reason` (String)
+- `status` (String) The current status of the environment.
+- `status_reason` (String) The detailed status reason of the environment.
 - `tunnel_type` (String)
 
 <a id="nestedatt--authentication"></a>
@@ -112,8 +112,8 @@ output "environment" {
 
 Optional:
 
-- `public_key` (String)
-- `public_key_id` (String)
+- `public_key` (String) Public SSH key string. The associated private key can be used to get root-level access to the Data Lake instance and Data Hub cluster instances.
+- `public_key_id` (String) Identifier of the uploaded public SSH key.
 
 
 <a id="nestedatt--log_storage"></a>
@@ -121,12 +121,12 @@ Optional:
 
 Required:
 
-- `instance_profile` (String)
-- `storage_location_base` (String)
+- `instance_profile` (String) The instance profile associated with the logger.
+- `storage_location_base` (String) The storage location to use for cluster and audit logs.
 
 Optional:
 
-- `backup_storage_location_base` (String)
+- `backup_storage_location_base` (String) The storage location to use for backups.
 
 
 <a id="nestedatt--security_access"></a>
@@ -134,11 +134,11 @@ Optional:
 
 Optional:
 
-- `cidr` (String)
-- `default_security_group_id` (String)
-- `default_security_group_ids` (Set of String)
-- `security_group_id_for_knox` (String)
-- `security_group_ids_for_knox` (Set of String)
+- `cidr` (String) CIDR range which is allowed for inbound traffic. Either IPv4 or IPv6 is allowed.
+- `default_security_group_id` (String) Security group where all other hosts are placed. Mutually exclusive with cidr.
+- `default_security_group_ids` (Set of String) Security group IDs where all other hosts are placed. Mutually exclusive with CIDR.
+- `security_group_id_for_knox` (String) Security group where Knox-enabled hosts are placed. Mutually exclusive with cidr.
+- `security_group_ids_for_knox` (Set of String) Security group IDs where Knox-enabled hosts are placed. Mutually exclusive with CIDR.
 
 
 <a id="nestedatt--compute_cluster"></a>
@@ -185,37 +185,37 @@ Optional:
 
 Optional:
 
-- `architecture` (String) CPU architecture of the freeipa instance. Can be either X86_64 or ARM64.
-- `catalog` (String)
-- `image_id` (String)
-- `instance_count_by_group` (Number)
-- `instance_type` (String)
-- `multi_az` (Boolean)
-- `os` (String)
-- `recipes` (Set of String)
+- `architecture` (String) CPU architecture of the FreeIPA instance. Can be either X86_64 or ARM64.
+- `catalog` (String) Image catalog to use for FreeIPA image selection.
+- `image_id` (String) Image ID to use for creating FreeIPA instances.
+- `instance_count_by_group` (Number) The number of FreeIPA instances to create per group when creating FreeIPA in the environment
+- `instance_type` (String) Custom instance type of FreeIPA instances.
+- `multi_az` (Boolean) Flag that enables deployment of the FreeIPA in a multi-availability zone.
+- `os` (String) The OS to use for creating FreeIPA instances.
+- `recipes` (Set of String) The recipes for the FreeIPA cluster.
 
 Read-Only:
 
-- `instances` (Attributes Set) (see [below for nested schema](#nestedatt--freeipa--instances))
+- `instances` (Attributes Set) The instances of the FreeIPA cluster. (see [below for nested schema](#nestedatt--freeipa--instances))
 
 <a id="nestedatt--freeipa--instances"></a>
 ### Nested Schema for `freeipa.instances`
 
 Read-Only:
 
-- `availability_zone` (String)
-- `discovery_fqdn` (String)
-- `instance_group` (String)
-- `instance_id` (String)
-- `instance_status` (String)
-- `instance_status_reason` (String)
-- `instance_type` (String)
-- `instance_vm_type` (String)
-- `life_cycle` (String)
-- `private_ip` (String)
-- `public_ip` (String)
-- `ssh_port` (Number)
-- `subnet_id` (String)
+- `availability_zone` (String) The availability zone of the instance.
+- `discovery_fqdn` (String) The fully qualified domain name of the instance in the service discovery cluster.
+- `instance_group` (String) The instance group that contains the instance.
+- `instance_id` (String) The instance ID for the instance.
+- `instance_status` (String) The status of the instance.
+- `instance_status_reason` (String) The status reason for the instance.
+- `instance_type` (String) The type of the instance (either GATEWAY or GATEWAY_PRIMARY).
+- `instance_vm_type` (String) The VM type of the instance. Supported values depend on the cloud platform.
+- `life_cycle` (String) The life cycle type for the instance (either NORMAL or SPOT).
+- `private_ip` (String) The private IP of the instance.
+- `public_ip` (String) The public IP of the instance.
+- `ssh_port` (Number) The SSH port of the instance.
+- `subnet_id` (String) The subnet ID of the instance.
 
 
 

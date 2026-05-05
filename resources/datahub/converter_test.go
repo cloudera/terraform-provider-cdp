@@ -77,7 +77,7 @@ func TestFromModelToRequestBasicFields(t *testing.T) {
 
 func TestFromModelToRequestRecipe(t *testing.T) {
 	recipes := []types.String{types.StringValue("recipe1"), types.StringValue("recipe2")}
-	igs := []InstanceGroup{{Recipes: recipes}}
+	igs := []AwsInstanceGroup{{Recipes: recipes}}
 	input := awsDatahubResourceModel{InstanceGroup: igs}
 
 	got := fromModelToAwsRequest(input, context.TODO())
@@ -100,7 +100,7 @@ func TestFromModelToRequestRecipe(t *testing.T) {
 
 func TestFromModelToRequestSubnetId(t *testing.T) {
 	subnetIds := []types.String{types.StringValue("subnet1"), types.StringValue("subnet2")}
-	igs := []InstanceGroup{{SubnetIds: subnetIds}}
+	igs := []AwsInstanceGroup{{SubnetIds: subnetIds}}
 	input := awsDatahubResourceModel{InstanceGroup: igs}
 
 	got := fromModelToAwsRequest(input, context.TODO())
@@ -125,7 +125,7 @@ func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 		VolumeCount: types.Int32Value(1),
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
-	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
+	igs := []AwsInstanceGroup{{AttachedVolumeConfiguration: avcs}}
 	input := awsDatahubResourceModel{InstanceGroup: igs}
 
 	got := fromModelToAwsRequest(input, context.TODO())
@@ -140,7 +140,7 @@ func TestFromModelToRequestAttachedVolumeConfiguration(t *testing.T) {
 }
 
 func TestFromModelToRequestInstanceGroups(t *testing.T) {
-	igs := []InstanceGroup{{
+	igs := []AwsInstanceGroup{{
 		NodeCount:         types.Int32Value(1),
 		InstanceGroupName: types.StringValue("gateway"),
 		InstanceGroupType: types.StringValue("CORE"),
@@ -163,8 +163,8 @@ func TestFromModelToRequestInstanceGroups(t *testing.T) {
 }
 
 func TestFromModelToRequestVolumeEncryption(t *testing.T) {
-	igs := []InstanceGroup{{
-		VolumeEncryption: VolumeEncryption{Encryption: types.BoolValue(true)},
+	igs := []AwsInstanceGroup{{
+		VolumeEncryption: AwsVolumeEncryption{Encryption: types.BoolValue(true)},
 	}}
 
 	input := awsDatahubResourceModel{InstanceGroup: igs}
@@ -378,7 +378,7 @@ func TestFromModelToAzureRequestBasicFields(t *testing.T) {
 
 func TestFromModelToAzureRequestRecipe(t *testing.T) {
 	recipes := []types.String{types.StringValue("recipe1"), types.StringValue("recipe2")}
-	igs := []InstanceGroup{{Recipes: recipes}}
+	igs := []AzureInstanceGroup{{Recipes: recipes}}
 	input := azureDatahubResourceModel{InstanceGroup: igs}
 
 	got := fromModelToAzureRequest(input, context.TODO())
@@ -405,7 +405,7 @@ func TestFromModelToAzureRequestAttachedVolumeConfiguration(t *testing.T) {
 		VolumeCount: types.Int32Value(1),
 		VolumeType:  types.StringValue("ephemeral"),
 	}}
-	igs := []InstanceGroup{{AttachedVolumeConfiguration: avcs}}
+	igs := []AzureInstanceGroup{{AttachedVolumeConfiguration: avcs}}
 	input := azureDatahubResourceModel{InstanceGroup: igs}
 
 	got := fromModelToAzureRequest(input, context.TODO())
@@ -420,7 +420,7 @@ func TestFromModelToAzureRequestAttachedVolumeConfiguration(t *testing.T) {
 }
 
 func TestFromModelToAzureRequestInstanceGroups(t *testing.T) {
-	igs := []InstanceGroup{{
+	igs := []AzureInstanceGroup{{
 		NodeCount:         types.Int32Value(1),
 		InstanceGroupName: types.StringValue("gateway"),
 		InstanceGroupType: types.StringValue("CORE"),
