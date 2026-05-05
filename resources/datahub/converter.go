@@ -64,6 +64,7 @@ func fromModelToAwsRequest(model awsDatahubResourceModel, ctx context.Context) *
 			RootVolumeSize:              group.RootVolumeSize.ValueInt32(),
 			VolumeEncryption: &datahubmodels.VolumeEncryptionRequest{
 				EnableEncryption: group.VolumeEncryption.Encryption.ValueBoolPointer(),
+				EncryptionKey:    group.VolumeEncryption.EncryptionKey.ValueString(),
 			},
 		}
 		igs = append(igs, ig)
@@ -293,7 +294,7 @@ func toAwsDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model 
 	}
 
 	if len(dh.InstanceGroups) > 0 {
-		model.InstanceGroup = toDatahubInstanceGroups(dh.InstanceGroups, dh.NodeCount)
+		model.InstanceGroup = toAwsDatahubInstanceGroups(dh.InstanceGroups, dh.NodeCount)
 	}
 
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
@@ -321,7 +322,7 @@ func toAzureDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, mode
 	}
 
 	if len(dh.InstanceGroups) > 0 {
-		model.InstanceGroup = toDatahubInstanceGroups(dh.InstanceGroups, dh.NodeCount)
+		model.InstanceGroup = toAzureDatahubInstanceGroups(dh.InstanceGroups, dh.NodeCount)
 	}
 
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
@@ -355,14 +356,38 @@ func toGcpDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model 
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
 }
 
-func toDatahubInstanceGroups(groups []*datahubmodels.InstanceGroup, nodeCount int32) []InstanceGroup {
-	result := make([]InstanceGroup, 0, len(groups))
+func toAwsDatahubInstanceGroups(groups []*datahubmodels.InstanceGroup, nodeCount int32) []AwsInstanceGroup {
+	result := make([]AwsInstanceGroup, 0, len(groups))
 	for _, group := range groups {
 		if group == nil {
 			continue
 		}
 
-		tfGroup := InstanceGroup{}
+		tfGroup := AwsInstanceGroup{}
+
+		if group.Name != nil {
+			tfGroup.InstanceGroupName = types.StringPointerValue(group.Name)
+		}
+
+		if len(group.AvailabilityZones) > 0 {
+			tfGroup.AvailabilityZones = toTypesStringSlice(group.AvailabilityZones)
+		}
+
+		tfGroup.NodeCount = types.Int32Value(nodeCount)
+
+		result = append(result, tfGroup)
+	}
+	return result
+}
+
+func toAzureDatahubInstanceGroups(groups []*datahubmodels.InstanceGroup, nodeCount int32) []AzureInstanceGroup {
+	result := make([]AzureInstanceGroup, 0, len(groups))
+	for _, group := range groups {
+		if group == nil {
+			continue
+		}
+
+		tfGroup := AzureInstanceGroup{}
 
 		if group.Name != nil {
 			tfGroup.InstanceGroupName = types.StringPointerValue(group.Name)

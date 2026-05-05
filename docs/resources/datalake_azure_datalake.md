@@ -63,38 +63,38 @@ output "recipes" {
 
 ### Required
 
-- `datalake_name` (String)
-- `environment_name` (String)
-- `managed_identity` (String)
-- `storage_location_base` (String)
+- `datalake_name` (String) The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
+- `environment_name` (String) The name or CRN of the environment where the datalake will be created.
+- `managed_identity` (String) The managed identity to use. The assumer should have Virtual Machine Contributor and Managed Identity Operator roles on subscription level.
+- `storage_location_base` (String) The storage location to use. The location has to be in the following format abfs://filesystem@storage-account-name.dfs.core.windows.net. The filesystem must already exist and the storage account must be StorageV2.
 
 ### Optional
 
-- `custom_instance_groups` (Attributes Set) (see [below for nested schema](#nestedatt--custom_instance_groups))
-- `database_type` (String) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations. SINGLE_SERVER is a fully managed database service with minimal requirements for customizations of the database.
+- `custom_instance_groups` (Attributes Set) Request object for host group level custom configurations. (see [below for nested schema](#nestedatt--custom_instance_groups))
+- `database_type` (String) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations.
 - `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
-- `enable_ranger_raz` (Boolean)
+- `enable_ranger_raz` (Boolean) Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
 - `flexible_server_delegated_subnet_id` (String) This  argument  allows  you  to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
-- `image` (Attributes) (see [below for nested schema](#nestedatt--image))
-- `java_version` (Number)
+- `image` (Attributes) The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image. (see [below for nested schema](#nestedatt--image))
+- `java_version` (Number) Configure the major version of Java on the cluster.
 - `load_balancer_sku` (String) Represents the Azure load balancer SKU type. The current default  is BASIC. To disable the load balancer, use type NONE. Possible values: BASIC, STANDARD, NONE
 - `multi_az` (Boolean) Creates CDP datalake distributed across multiple availability  zones in an Azure region.
 - `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
-- `recipes` (Attributes Set) (see [below for nested schema](#nestedatt--recipes))
-- `runtime` (String)
-- `scale` (String)
+- `recipes` (Attributes Set) Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker'). (see [below for nested schema](#nestedatt--recipes))
+- `runtime` (String) Cloudera Runtime version.
+- `scale` (String) Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.
 - `security` (Attributes) Security related configuration for Datalake. (see [below for nested schema](#nestedatt--security))
-- `tags` (Map of String)
+- `tags` (Map of String) Tags to be added to Data Lake related resources.
 
 ### Read-Only
 
-- `certificate_expiration_state` (String)
-- `creation_date` (String)
-- `crn` (String)
+- `certificate_expiration_state` (String) Indicates the certificate status on the cluster.
+- `creation_date` (String) The date when the datalake was created.
+- `crn` (String) The CRN of the datalake.
 - `environment_crn` (String)
 - `id` (String) The ID of this resource.
-- `status` (String)
-- `status_reason` (String)
+- `status` (String) The status of the datalake.
+- `status_reason` (String) The reason for the status of the datalake.
 
 <a id="nestedatt--custom_instance_groups"></a>
 ### Nested Schema for `custom_instance_groups`
@@ -118,9 +118,9 @@ Optional:
 
 Optional:
 
-- `catalog_name` (String)
-- `id` (String)
-- `os` (String)
+- `catalog_name` (String) The name of the custom image catalog to use, defaulting to 'cdp-default' if not present.
+- `id` (String) The image ID from the catalog. The corresponding image will be used for the created cluster machines.
+- `os` (String) The OS of the image used for cluster instances.
 
 
 <a id="nestedatt--polling_options"></a>

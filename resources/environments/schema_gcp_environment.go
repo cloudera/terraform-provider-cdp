@@ -11,6 +11,9 @@
 package environments
 
 import (
+	"regexp"
+
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -19,15 +22,26 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/validators"
 )
 
 var GcpEnvironmentSchema = schema.Schema{
 	MarkdownDescription: "The environment is a logical entity that represents the association of your user account with multiple compute resources using which you can provision and manage workloads.",
+	Description:         "The environment is a logical entity that represents the association of your user account with multiple compute resources using which you can provision and manage workloads.",
 	Attributes: map[string]schema.Attribute{
 		"environment_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the environment. Must contain only lowercase letters, numbers and hyphens.",
-			Required:            true,
+			Description:         "The name of the environment. Must contain only lowercase letters, numbers and hyphens.",
+			Validators: []validator.String{
+				stringvalidator.RegexMatches(
+					regexp.MustCompile(`^[a-z0-9-]+$`),
+					"must contain only lowercase letters, numbers and hyphens",
+				),
+			},
+			Required: true,
 		},
 		"cascading_delete": schema.BoolAttribute{
 			Optional:           true,
@@ -37,16 +51,19 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"delete_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Options for deleting the environment.",
+			Description:         "Options for deleting the environment.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"cascading": schema.BoolAttribute{
 					MarkdownDescription: "If true, all resources in the environment will be deleted.",
+					Description:         "If true, all resources in the environment will be deleted.",
 					Optional:            true,
 					Computed:            true,
 					Default:             booldefault.StaticBool(true),
 				},
 				"forced": schema.BoolAttribute{
 					MarkdownDescription: "Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.",
+					Description:         "Force delete action removes CDP resources and may leave cloud provider resources running even if the deletion did not succeed.",
 					Optional:            true,
 					Computed:            true,
 					Default:             booldefault.StaticBool(false),
@@ -55,10 +72,12 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"polling_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+			Description:         "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"async": schema.BoolAttribute{
 					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
+					Description:         "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
 					Optional:            true,
 					Computed:            true,
 					Default:             booldefault.StaticBool(false),
@@ -68,12 +87,14 @@ var GcpEnvironmentSchema = schema.Schema{
 				},
 				"polling_timeout": schema.Int64Attribute{
 					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
+					Description:         "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
 					Default:             int64default.StaticInt64(60),
 					Computed:            true,
 					Optional:            true,
 				},
 				"call_failure_threshold": schema.Int64Attribute{
 					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
+					Description:         "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
 					Default:             int64default.StaticInt64(3),
 					Computed:            true,
 					Optional:            true,
@@ -82,45 +103,55 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"credential_name": schema.StringAttribute{
 			MarkdownDescription: "Name of the credential to use for the environment.",
+			Description:         "Name of the credential to use for the environment.",
 			Required:            true,
 		},
 		"region": schema.StringAttribute{
 			MarkdownDescription: "The region of the environment.",
+			Description:         "The region of the environment.",
 			Required:            true,
 		},
 		"public_key": schema.StringAttribute{
 			MarkdownDescription: "Public SSH key string. The associated private key can be used to get root-level access to the Data Lake instance and Data Hub cluster instances.",
+			Description:         "Public SSH key string. The associated private key can be used to get root-level access to the Data Lake instance and Data Hub cluster instances.",
 			Required:            true,
 		},
 		"use_public_ip": schema.BoolAttribute{
 			MarkdownDescription: "Whether to associate public IPs to the resources within the network or not.",
+			Description:         "Whether to associate public IPs to the resources within the network or not.",
 			Required:            true,
 		},
 		"existing_network_params": schema.SingleNestedAttribute{
 			MarkdownDescription: "Parameters needed to use an existing VPC and Subnets. For now only existing network params is supported.",
+			Description:         "Parameters needed to use an existing VPC and Subnets. For now only existing network params is supported.",
 			Required:            true,
 			Attributes: map[string]schema.Attribute{
 				"network_name": schema.StringAttribute{
 					MarkdownDescription: "The name of the GCP VPC.",
+					Description:         "The name of the GCP VPC.",
 					Required:            true,
 				},
 				"subnet_names": schema.ListAttribute{
 					MarkdownDescription: "One or more subnet names within the VPC. Google VPCs are global, please give subnets from single geographic region only to reduce latency.",
+					Description:         "One or more subnet names within the VPC. Google VPCs are global, please give subnets from single geographic region only to reduce latency.",
 					Required:            true,
 					ElementType:         types.StringType,
 				},
 				"shared_project_id": schema.StringAttribute{
 					MarkdownDescription: "The ID of the Google project associated with the VPC.",
+					Description:         "The ID of the Google project associated with the VPC.",
 					Required:            true,
 				},
 			},
 		},
 		"security_access": schema.SingleNestedAttribute{
 			MarkdownDescription: "Firewall rules for FreeIPA, Data Lake and Data Hub deployment.",
+			Description:         "Firewall rules for FreeIPA, Data Lake and Data Hub deployment.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"security_group_id_for_knox": schema.StringAttribute{
 					MarkdownDescription: "Firewall rule for Knox hosts.",
+					Description:         "Firewall rule for Knox hosts.",
 					Optional:            true,
 					Computed:            true,
 					PlanModifiers: []planmodifier.String{
@@ -129,6 +160,7 @@ var GcpEnvironmentSchema = schema.Schema{
 				},
 				"default_security_group_id": schema.StringAttribute{
 					MarkdownDescription: "Firewall rule for other hosts.",
+					Description:         "Firewall rule for other hosts.",
 					Optional:            true,
 					Computed:            true,
 					PlanModifiers: []planmodifier.String{
@@ -139,18 +171,22 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"log_storage": schema.SingleNestedAttribute{
 			MarkdownDescription: "GCP storage configuration for cluster and audit logs.",
+			Description:         "GCP storage configuration for cluster and audit logs.",
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"storage_location_base": schema.StringAttribute{
 					MarkdownDescription: "The Google storage bucket to use. This should be a gs:// url.",
+					Description:         "The Google storage bucket to use. This should be a gs:// url.",
 					Required:            true,
 				},
 				"service_account_email": schema.StringAttribute{
 					MarkdownDescription: "Email id of the service account to be associated with the instances. This service account should have \"storage.ObjectCreator\" role on the given storage bucket.",
+					Description:         "Email id of the service account to be associated with the instances. This service account should have \"storage.ObjectCreator\" role on the given storage bucket.",
 					Required:            true,
 				},
 				"backup_storage_location_base": schema.StringAttribute{
 					MarkdownDescription: "The Google storage bucket to use. This should be a gs:// url.",
+					Description:         "The Google storage bucket to use. This should be a gs:// url.",
 					Optional:            true,
 					Computed:            true,
 					PlanModifiers: []planmodifier.String{
@@ -161,6 +197,7 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"description": schema.StringAttribute{
 			MarkdownDescription: "A description of the environment.",
+			Description:         "A description of the environment.",
 			Optional:            true,
 			Computed:            true,
 			PlanModifiers: []planmodifier.String{
@@ -169,6 +206,7 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"enable_tunnel": schema.BoolAttribute{
 			MarkdownDescription: "Whether to enable SSH tunneling for the environment.",
+			Description:         "Whether to enable SSH tunneling for the environment.",
 			Optional:            true,
 			Computed:            true,
 			Default:             booldefault.StaticBool(true),
@@ -178,6 +216,7 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"workload_analytics": schema.BoolAttribute{
 			MarkdownDescription: "When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.",
+			Description:         "When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.",
 			Optional:            true,
 			Computed:            true,
 			PlanModifiers: []planmodifier.Bool{
@@ -187,6 +226,7 @@ var GcpEnvironmentSchema = schema.Schema{
 		"report_deployment_logs": schema.BoolAttribute{
 			// report_deployment_logs is a deprecated field and should not be used
 			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
+			Description:         " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
 			Computed:            true,
 			Default:             booldefault.StaticBool(false),
 			PlanModifiers: []planmodifier.Bool{
@@ -196,18 +236,24 @@ var GcpEnvironmentSchema = schema.Schema{
 		"freeipa": FreeIpaSchema,
 		"endpoint_access_gateway_scheme": schema.StringAttribute{
 			MarkdownDescription: "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
+			Description:         "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
 			Optional:            true,
+			Validators: []validator.String{
+				stringvalidator.OneOf("PUBLIC", "PRIVATE"),
+			},
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"endpoint_access_gateway_subnet_ids": schema.SetAttribute{
 			MarkdownDescription: "The subnets to use for endpoint access gateway.",
+			Description:         "The subnets to use for endpoint access gateway.",
 			Optional:            true,
 			ElementType:         types.StringType,
 		},
 		"tags": schema.MapAttribute{
 			MarkdownDescription: "Tags that can be attached to GCP resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.",
+			Description:         "Tags that can be attached to GCP resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.",
 			Optional:            true,
 			Computed:            true,
 			ElementType:         types.StringType,
@@ -217,10 +263,12 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"proxy_config_name": schema.StringAttribute{
 			MarkdownDescription: "Name of the proxy config to use for the environment.",
+			Description:         "Name of the proxy config to use for the environment.",
 			Optional:            true,
 		},
 		"encryption_key": schema.StringAttribute{
 			MarkdownDescription: "Key Resource ID of the customer managed encryption key to encrypt GCP resources.",
+			Description:         "Key Resource ID of the customer managed encryption key to encrypt GCP resources.",
 			Optional:            true,
 			Computed:            true,
 			Default:             stringdefault.StaticString(""),
@@ -230,17 +278,24 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"availability_zones": schema.SetAttribute{
 			MarkdownDescription: "The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.",
+			Description:         "The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.",
 			Optional:            true,
 			ElementType:         types.StringType,
+			Validators: []validator.Set{
+				validators.GCPAvailabilityZonesSingleZoneValidator(),
+			},
 		},
 		"id": schema.StringAttribute{
-			Computed: true,
+			MarkdownDescription: "The id of the environment associated by Terraform",
+			Description:         "The id of the environment associated by Terraform",
+			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
 		"crn": schema.StringAttribute{
 			MarkdownDescription: "The CRN of the environment resource.",
+			Description:         "The CRN of the environment resource.",
 			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
@@ -248,6 +303,7 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"status": schema.StringAttribute{
 			MarkdownDescription: "The last known status for the environment.",
+			Description:         "The last known status for the environment.",
 			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
@@ -255,6 +311,7 @@ var GcpEnvironmentSchema = schema.Schema{
 		},
 		"status_reason": schema.StringAttribute{
 			MarkdownDescription: "The last known detailed status reason for the environment.",
+			Description:         "The last known detailed status reason for the environment.",
 			Computed:            true,
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
@@ -263,10 +320,12 @@ var GcpEnvironmentSchema = schema.Schema{
 		"custom_docker_registry": schema.SingleNestedAttribute{
 			Optional:            true,
 			MarkdownDescription: "The desired custom docker registry for data services to be used.",
+			Description:         "The desired custom docker registry for data services to be used.",
 			Attributes: map[string]schema.Attribute{
 				"crn": schema.StringAttribute{
 					Required:            true,
 					MarkdownDescription: "The CRN of the desired custom docker registry for data services to be used.",
+					Description:         "The CRN of the desired custom docker registry for data services to be used.",
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
@@ -276,12 +335,17 @@ var GcpEnvironmentSchema = schema.Schema{
 		"security": schema.SingleNestedAttribute{
 			Optional:            true,
 			MarkdownDescription: "Security related configuration for Data Hub cluster.",
+			Description:         "Security related configuration for Data Hub cluster.",
 			Attributes: map[string]schema.Attribute{
 				"se_linux": schema.StringAttribute{
 					Optional:            true,
 					Computed:            true,
 					Default:             stringdefault.StaticString("PERMISSIVE"),
 					MarkdownDescription: "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+					Description:         "Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING",
+					Validators: []validator.String{
+						stringvalidator.OneOf("PERMISSIVE", "ENFORCING"),
+					},
 					PlanModifiers: []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),
 					},
@@ -291,6 +355,10 @@ var GcpEnvironmentSchema = schema.Schema{
 		"environment_type": schema.StringAttribute{
 			Optional:            true,
 			MarkdownDescription: "Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID",
+			Description:         "Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID",
+			Validators: []validator.String{
+				stringvalidator.OneOf("PUBLIC_CLOUD", "HYBRID"),
+			},
 			PlanModifiers: []planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
 			},
