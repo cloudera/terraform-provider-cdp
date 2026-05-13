@@ -34,6 +34,16 @@ func LogEnvironmentSilently(ctx context.Context, content *environmentsmodels.Env
 	return content
 }
 
+func LogFreeIpaSilently(ctx context.Context, content *environmentsmodels.FreeipaDetails, messagePrefix string) *environmentsmodels.FreeipaDetails {
+	encoded, err := json.Marshal(content)
+	if err != nil {
+		tflog.Info(ctx, fmt.Sprintf("%s%s", failureMsgBase, err.Error()))
+		return content
+	}
+	tflog.Debug(ctx, fmt.Sprintf("%s%s", messagePrefix, string(encoded)))
+	return content
+}
+
 func LogDatahubSilently(ctx context.Context, content *datahubmodels.Cluster, messagePrefix string) *datahubmodels.Cluster {
 	encoded, err := json.Marshal(content)
 	if err != nil {

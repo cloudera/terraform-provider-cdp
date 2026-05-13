@@ -615,6 +615,22 @@ var freeIpaConfigSchema = schema.SingleNestedAttribute{
 					"subnet_id": schema.StringAttribute{
 						Computed: true,
 					},
+					"attached_volumes": schema.SetNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"count": schema.Int32Attribute{
+									Computed: true,
+								},
+								"volume_type": schema.StringAttribute{
+									Computed: true,
+								},
+								"size": schema.Int32Attribute{
+									Computed: true,
+								},
+							},
+						},
+					},
 				},
 			},
 		},

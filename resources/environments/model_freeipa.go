@@ -58,4 +58,14 @@ type FreeIpaInstance struct {
 	SSHPort types.Int64 `tfsdk:"ssh_port"`
 
 	SubnetID types.String `tfsdk:"subnet_id"`
+
+	AttachedVolumes types.Set `tfsdk:"attached_volumes"`
+}
+
+type FreeIpaAttachedVolumes struct {
+	Count types.Int32 `tfsdk:"count"`
+
+	VolumeType types.String `tfsdk:"volume_type"`
+
+	Size types.Int32 `tfsdk:"size"`
 }

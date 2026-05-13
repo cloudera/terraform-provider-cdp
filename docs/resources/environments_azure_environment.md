@@ -239,6 +239,7 @@ Read-Only:
 
 Read-Only:
 
+- `attached_volumes` (Attributes Set) List of volumes attached to this instance. (see [below for nested schema](#nestedatt--freeipa--instances--attached_volumes))
 - `availability_zone` (String) The availability zone of the instance.
 - `discovery_fqdn` (String) The fully qualified domain name of the instance in the service discovery cluster.
 - `instance_group` (String) The instance group that contains the instance.
@@ -252,6 +253,16 @@ Read-Only:
 - `public_ip` (String) The public IP of the instance.
 - `ssh_port` (Number) The SSH port of the instance.
 - `subnet_id` (String) The subnet ID of the instance.
+
+<a id="nestedatt--freeipa--instances--attached_volumes"></a>
+### Nested Schema for `freeipa.instances.attached_volumes`
+
+Read-Only:
+
+- `count` (Number) The number of volume(s).
+- `size` (Number) The size of each volume in GB.
+- `volume_type` (String) The type of volume(s).
+
 
 
 

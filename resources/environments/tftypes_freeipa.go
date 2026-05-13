@@ -49,6 +49,17 @@ var FreeIpaInstanceObject = tftypes.Object{
 		"public_ip":              tftypes.String,
 		"ssh_port":               tftypes.Number,
 		"subnet_id":              tftypes.String,
+		"attached_volumes": tftypes.Set{
+			ElementType: FreeIpaAttachedVolumesObject,
+		},
+	},
+}
+
+var FreeIpaAttachedVolumesObject = tftypes.Object{
+	AttributeTypes: map[string]tftypes.Type{
+		"count":       tftypes.Number,
+		"volume_type": tftypes.String,
+		"size":        tftypes.Number,
 	},
 }
 
@@ -85,5 +96,16 @@ var FreeIpaInstanceType = types.ObjectType{
 		"public_ip":              types.StringType,
 		"ssh_port":               types.Int64Type,
 		"subnet_id":              types.StringType,
+		"attached_volumes": types.SetType{
+			ElemType: FreeIpaAttachedVolumesType,
+		},
+	},
+}
+
+var FreeIpaAttachedVolumesType = types.ObjectType{
+	AttrTypes: map[string]attr.Type{
+		"count":       types.Int32Type,
+		"volume_type": types.StringType,
+		"size":        types.Int32Type,
 	},
 }
