@@ -160,6 +160,30 @@ var FreeIpaSchema = schema.SingleNestedAttribute{
 						Description:         "The subnet ID of the instance.",
 						Computed:            true,
 					},
+					"attached_volumes": schema.SetNestedAttribute{
+						MarkdownDescription: "List of volumes attached to this instance.",
+						Description:         "List of volumes attached to this instance.",
+						Computed:            true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"count": schema.Int32Attribute{
+									MarkdownDescription: "The number of volume(s).",
+									Description:         "The number of volume(s).",
+									Computed:            true,
+								},
+								"volume_type": schema.StringAttribute{
+									MarkdownDescription: "The type of volume(s).",
+									Description:         "The type of volume(s).",
+									Computed:            true,
+								},
+								"size": schema.Int32Attribute{
+									MarkdownDescription: "The size of each volume in GB.",
+									Description:         "The size of each volume in GB.",
+									Computed:            true,
+								},
+							},
+						},
+					},
 				},
 			},
 		},

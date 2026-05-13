@@ -23,6 +23,7 @@ import (
 )
 
 func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *types.Object, ctx context.Context) *diag.Diagnostics {
+	utils.LogFreeIpaSilently(ctx, ipaResp, "Converting FreeIpa to Model from response: ")
 	var diags diag.Diagnostics
 
 	if ipaResp == nil {
@@ -41,6 +42,8 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 	var ipaInstances types.Set
 	if len(ipaResp.Instances) > 0 {
 		for i, v := range ipaResp.Instances {
+			volumes, volumesDiags := convertAttachedVolumes(v, ctx, diags)
+			diags.Append(volumesDiags...)
 			inst := FreeIpaInstance{
 				AvailabilityZone:     types.StringValue(v.AvailabilityZone),
 				DiscoveryFQDN:        types.StringValue(v.DiscoveryFQDN),
@@ -55,10 +58,10 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 				PublicIP:             types.StringValue(v.PublicIP),
 				SSHPort:              types.Int64Value(int64(v.SSHPort)),
 				SubnetID:             types.StringValue(v.SubnetID),
+				AttachedVolumes:      volumes,
 			}
 			instSet[i] = inst
 		}
-
 	}
 
 	var instDiags diag.Diagnostics
@@ -71,7 +74,7 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 			var countErr error
 			instanceCount, countErr = ConvertIntToInt32IfPossible(len(ipaResp.Instances))
 			if countErr != nil {
-				diags.AddWarning(fmt.Sprintf("Unable to convert the numerical value of the length of the instances slice. Fallbacking to %d", ipaResp.InstanceCountByGroup), countErr.Error())
+				diags.AddWarning(fmt.Sprintf("Unable to convert the numerical value of the length of the instances slice. Fallback to %d", ipaResp.InstanceCountByGroup), countErr.Error())
 				instanceCount = types.Int32Value(ipaResp.InstanceCountByGroup)
 			}
 		} else {
@@ -93,6 +96,28 @@ func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *t
 	diags.Append(ipaDiags...)
 
 	return &diags
+}
+
+func convertAttachedVolumes(v *environmentsmodels.FreeIpaInstance, ctx context.Context, diags diag.Diagnostics) (types.Set, diag.Diagnostics) {
+	var volumes types.Set
+	attachedVolumesSet := make([]FreeIpaAttachedVolumes, len(v.AttachedVolumes))
+	if len(v.AttachedVolumes) > 0 {
+		for j, vol := range v.AttachedVolumes {
+			if vol != nil {
+				attachedVolumesSet[j] = FreeIpaAttachedVolumes{
+					Count:      types.Int32Value(vol.Count),
+					VolumeType: types.StringValue(vol.VolumeType),
+					Size:       types.Int32Value(vol.Size),
+				}
+			}
+		}
+		var attachedVolumesDiag diag.Diagnostics
+		volumes, attachedVolumesDiag = types.SetValueFrom(ctx, FreeIpaAttachedVolumesType, attachedVolumesSet)
+		diags.Append(attachedVolumesDiag...)
+	} else {
+		volumes = types.SetNull(FreeIpaAttachedVolumesType)
+	}
+	return volumes, diags
 }
 
 type FreeIpaTransitional struct {

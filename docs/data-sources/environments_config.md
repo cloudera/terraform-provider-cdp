@@ -180,6 +180,7 @@ Read-Only:
 
 Read-Only:
 
+- `attached_volumes` (Attributes Set) (see [below for nested schema](#nestedatt--aws--freeipa--instances--attached_volumes))
 - `availability_zone` (String)
 - `discovery_fqdn` (String)
 - `instance_group` (String)
@@ -193,6 +194,16 @@ Read-Only:
 - `public_ip` (String)
 - `ssh_port` (Number)
 - `subnet_id` (String)
+
+<a id="nestedatt--aws--freeipa--instances--attached_volumes"></a>
+### Nested Schema for `aws.freeipa.instances.attached_volumes`
+
+Read-Only:
+
+- `count` (Number)
+- `size` (Number)
+- `volume_type` (String)
+
 
 
 
@@ -366,6 +377,7 @@ Read-Only:
 
 Read-Only:
 
+- `attached_volumes` (Attributes Set) (see [below for nested schema](#nestedatt--azure--freeipa--instances--attached_volumes))
 - `availability_zone` (String)
 - `discovery_fqdn` (String)
 - `instance_group` (String)
@@ -379,6 +391,16 @@ Read-Only:
 - `public_ip` (String)
 - `ssh_port` (Number)
 - `subnet_id` (String)
+
+<a id="nestedatt--azure--freeipa--instances--attached_volumes"></a>
+### Nested Schema for `azure.freeipa.instances.attached_volumes`
+
+Read-Only:
+
+- `count` (Number)
+- `size` (Number)
+- `volume_type` (String)
+
 
 
 
@@ -508,6 +530,7 @@ Read-Only:
 
 Read-Only:
 
+- `attached_volumes` (Attributes Set) (see [below for nested schema](#nestedatt--gcp--freeipa--instances--attached_volumes))
 - `availability_zone` (String)
 - `discovery_fqdn` (String)
 - `instance_group` (String)
@@ -521,6 +544,16 @@ Read-Only:
 - `public_ip` (String)
 - `ssh_port` (Number)
 - `subnet_id` (String)
+
+<a id="nestedatt--gcp--freeipa--instances--attached_volumes"></a>
+### Nested Schema for `gcp.freeipa.instances.attached_volumes`
+
+Read-Only:
+
+- `count` (Number)
+- `size` (Number)
+- `volume_type` (String)
+
 
 
 
