@@ -74,7 +74,14 @@ var (
 			Name:          "'environment_name' must exist",
 			Field:         "environment_name",
 			Computed:      false,
-			Required:      true,
+			Required:      false,
+			AttributeType: schema.StringAttribute{},
+		},
+		{
+			Name:          "'environment' must exist",
+			Field:         "environment",
+			Computed:      false,
+			Required:      false,
 			AttributeType: schema.StringAttribute{},
 		},
 		{

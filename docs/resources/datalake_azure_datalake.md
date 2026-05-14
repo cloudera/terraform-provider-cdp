@@ -64,7 +64,6 @@ output "recipes" {
 ### Required
 
 - `datalake_name` (String) The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
-- `environment_name` (String) The name or CRN of the environment where the datalake will be created.
 - `managed_identity` (String) The managed identity to use. The assumer should have Virtual Machine Contributor and Managed Identity Operator roles on subscription level.
 - `storage_location_base` (String) The storage location to use. The location has to be in the following format abfs://filesystem@storage-account-name.dfs.core.windows.net. The filesystem must already exist and the storage account must be StorageV2.
 
@@ -74,6 +73,8 @@ output "recipes" {
 - `database_type` (String) The type of the azure database. FLEXIBLE_SERVER is the next generation managed PostgreSQL service in Azure that provides maximum flexibility over your database, built-in cost-optimizations.
 - `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
 - `enable_ranger_raz` (Boolean) Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
+- `environment` (String) The name or CRN of the environment where the datalake will be created.
+- `environment_name` (String, Deprecated) The name or CRN of the environment where the datalake will be created. Either this - old - or the new `environment` field must be provided, but not both or neither of them.
 - `flexible_server_delegated_subnet_id` (String) This  argument  allows  you  to specify the subnet ID for the subnet within which you want to configure your Azure Flexible Server.
 - `image` (Attributes) The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image. (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number) Configure the major version of Java on the cluster.

@@ -40,6 +40,7 @@ Read-Only:
 - `delete_options` (Attributes) (see [below for nested schema](#nestedatt--aws--delete_options))
 - `enable_ranger_raz` (Boolean)
 - `enable_ranger_rms` (Boolean)
+- `environment` (String)
 - `environment_crn` (String)
 - `environment_name` (String)
 - `id` (String)
@@ -115,10 +116,6 @@ Read-Only:
 <a id="nestedatt--azure"></a>
 ### Nested Schema for `azure`
 
-Optional:
-
-- `environment_name` (String)
-
 Read-Only:
 
 - `certificate_expiration_state` (String)
@@ -129,7 +126,9 @@ Read-Only:
 - `datalake_name` (String)
 - `delete_options` (Attributes) (see [below for nested schema](#nestedatt--azure--delete_options))
 - `enable_ranger_raz` (Boolean)
+- `environment` (String)
 - `environment_crn` (String)
+- `environment_name` (String)
 - `flexible_server_delegated_subnet_id` (String)
 - `id` (String)
 - `image` (Attributes) (see [below for nested schema](#nestedatt--azure--image))
@@ -214,6 +213,7 @@ Read-Only:
 - `datalake_name` (String)
 - `delete_options` (Attributes) (see [below for nested schema](#nestedatt--gcp--delete_options))
 - `enable_ranger_raz` (Boolean)
+- `environment` (String)
 - `environment_crn` (String)
 - `environment_name` (String)
 - `id` (String)

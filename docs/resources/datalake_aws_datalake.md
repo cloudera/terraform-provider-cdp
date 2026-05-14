@@ -78,7 +78,6 @@ output "recipes" {
 ### Required
 
 - `datalake_name` (String) The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.
-- `environment_name` (String) The name or CRN of the environment where the datalake will be created.
 - `instance_profile` (String) The ARN of an IAM instance profile.
 - `storage_location_base` (String) The location of the S3 bucket to be used as storage. The location has to start with s3a:// followed by the bucket name.
 
@@ -89,6 +88,8 @@ output "recipes" {
 - `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
 - `enable_ranger_raz` (Boolean) Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
 - `enable_ranger_rms` (Boolean) Whether to enable Ranger RMS for the datalake. Defaults to not being enabled.
+- `environment` (String) The name or CRN of the environment where the datalake will be created.
+- `environment_name` (String, Deprecated) The name or CRN of the environment where the datalake will be created. Either this - old - or the new `environment` field must be provided, but not both or neither of them.
 - `image` (Attributes) The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image. (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number) Configure the major version of Java on the cluster.
 - `multi_az` (Boolean) Controls if the datalake is deployed in a multi-availability zone way.

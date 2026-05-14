@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -94,8 +95,15 @@ func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datala
 }
 
 func toGcpDatalakeRequest(ctx context.Context, model *gcpDatalakeResourceModel) *datalakemodels.CreateGCPDatalakeRequest {
+	var environment *string
+	if model.Environment.IsNull() || len(model.Environment.ValueString()) == 0 {
+		environment = model.EnvironmentName.ValueStringPointer()
+		tflog.Warn(ctx, "You are using the deprecated 'environment_name' field. Please use 'environment' instead.")
+	} else {
+		environment = model.Environment.ValueStringPointer()
+	}
 	req := &datalakemodels.CreateGCPDatalakeRequest{
-		EnvironmentName: model.EnvironmentName.ValueStringPointer(),
+		EnvironmentName: environment,
 		DatalakeName:    model.DatalakeName.ValueStringPointer(),
 		EnableRangerRaz: model.EnableRangerRaz.ValueBool(),
 		JavaVersion:     model.JavaVersion.ValueInt32(),

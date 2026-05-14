@@ -39,6 +39,8 @@ type azureDatalakeResourceModel struct {
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
+	Environment types.String `tfsdk:"environment"`
+
 	Image *azureDatalakeImage `tfsdk:"image"`
 
 	JavaVersion types.Int32 `tfsdk:"java_version"`

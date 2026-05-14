@@ -59,6 +59,9 @@ var awsSchema = schema.SingleNestedAttribute{
 		"environment_name": schema.StringAttribute{
 			Computed: true,
 		},
+		"environment": schema.StringAttribute{
+			Computed: true,
+		},
 		"image": schema.SingleNestedAttribute{
 			Computed: true,
 			Attributes: map[string]schema.Attribute{
@@ -181,7 +184,10 @@ var azureSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"environment_name": schema.StringAttribute{
-			Optional: true,
+			Computed: true,
+		},
+		"environment": schema.StringAttribute{
+			Computed: true,
 		},
 		"image": schema.SingleNestedAttribute{
 			Computed: true,
@@ -290,6 +296,9 @@ var gcpSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"environment_name": schema.StringAttribute{
+			Computed: true,
+		},
+		"environment": schema.StringAttribute{
 			Computed: true,
 		},
 		"image": schema.SingleNestedAttribute{
