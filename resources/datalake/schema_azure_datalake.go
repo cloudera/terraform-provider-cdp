@@ -55,9 +55,21 @@ var azureDatalakeResourceSchema = schema.Schema{
 			},
 		},
 		"environment_name": schema.StringAttribute{
+			MarkdownDescription: "The name or CRN of the environment where the datalake will be created. Either this - old - or the new `environment` field must be provided, but not both or neither of them.",
+			Description:         "The name or CRN of the environment where the datalake will be created.",
+			DeprecationMessage:  "This attribute is deprecated. Use 'environment' instead.",
+			Validators: []validator.String{
+				datalakevalidators.EnvironmentReferenceValidator(),
+			},
+			Optional: true,
+		},
+		"environment": schema.StringAttribute{
 			MarkdownDescription: "The name or CRN of the environment where the datalake will be created.",
 			Description:         "The name or CRN of the environment where the datalake will be created.",
-			Required:            true,
+			Validators: []validator.String{
+				datalakevalidators.EnvironmentReferenceValidator(),
+			},
+			Optional: true,
 		},
 		"managed_identity": schema.StringAttribute{
 			MarkdownDescription: "The managed identity to use. The assumer should have Virtual Machine Contributor and Managed Identity Operator roles on subscription level.",

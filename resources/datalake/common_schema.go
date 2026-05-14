@@ -78,9 +78,18 @@ var generalAttributes = map[string]schema.Attribute{
 		},
 	},
 	"environment_name": schema.StringAttribute{
+		MarkdownDescription: "The name or CRN of the environment where the datalake will be created. Either this - old - or the new `environment` field must be provided, but not both or neither of them.",
+		Description:         "The name or CRN of the environment where the datalake will be created.",
+		DeprecationMessage:  "This attribute is deprecated. Use 'environment' instead.",
+		Validators: []validator.String{
+			datalakevalidators.EnvironmentReferenceValidator(),
+		},
+		Optional: true,
+	},
+	"environment": schema.StringAttribute{
 		MarkdownDescription: "The name or CRN of the environment where the datalake will be created.",
 		Description:         "The name or CRN of the environment where the datalake will be created.",
-		Required:            true,
+		Optional:            true,
 	},
 	"image": schema.SingleNestedAttribute{
 		MarkdownDescription: "The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.",

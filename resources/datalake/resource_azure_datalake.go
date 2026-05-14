@@ -67,7 +67,14 @@ func toAzureDatalakeRequest(ctx context.Context, model *azureDatalakeResourceMod
 	}
 	req.DatalakeName = model.DatalakeName.ValueStringPointer()
 	req.EnableRangerRaz = model.EnableRangerRaz.ValueBool()
-	req.EnvironmentName = model.EnvironmentName.ValueStringPointer()
+	var environment *string
+	if model.Environment.IsNull() || len(model.Environment.ValueString()) == 0 {
+		environment = model.EnvironmentName.ValueStringPointer()
+		tflog.Warn(ctx, "You are using the deprecated 'environment_name' field. Please use 'environment' instead.")
+	} else {
+		environment = model.Environment.ValueStringPointer()
+	}
+	req.EnvironmentName = environment
 	if model.Image != nil {
 		req.Image = &datalakemodels.ImageRequest{
 			CatalogName: model.Image.CatalogName.ValueStringPointer(),

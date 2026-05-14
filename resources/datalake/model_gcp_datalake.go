@@ -35,6 +35,8 @@ type gcpDatalakeResourceModel struct {
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
+	Environment types.String `tfsdk:"environment"`
+
 	Image *gcpDatalakeImage `tfsdk:"image"`
 
 	JavaVersion types.Int32 `tfsdk:"java_version"`
