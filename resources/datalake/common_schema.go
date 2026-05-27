@@ -61,6 +61,9 @@ var generalAttributes = map[string]schema.Attribute{
 				"must contain only lowercase letters, numbers and hyphens",
 			),
 		},
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.RequiresReplace(),
+		},
 	},
 	"enable_ranger_raz": schema.BoolAttribute{
 		MarkdownDescription: "Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.",
@@ -75,6 +78,7 @@ var generalAttributes = map[string]schema.Attribute{
 		Computed: true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
+			stringplanmodifier.RequiresReplace(),
 		},
 	},
 	"environment_name": schema.StringAttribute{
@@ -89,7 +93,13 @@ var generalAttributes = map[string]schema.Attribute{
 	"environment": schema.StringAttribute{
 		MarkdownDescription: "The name or CRN of the environment where the datalake will be created.",
 		Description:         "The name or CRN of the environment where the datalake will be created.",
-		Optional:            true,
+		Validators: []validator.String{
+			datalakevalidators.EnvironmentReferenceValidator(),
+		},
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.RequiresReplace(),
+		},
+		Optional: true,
 	},
 	"image": schema.SingleNestedAttribute{
 		MarkdownDescription: "The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.",

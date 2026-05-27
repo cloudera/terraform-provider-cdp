@@ -59,6 +59,9 @@ var generalAttributes = map[string]schema.Attribute{
 				"must contain only lowercase letters, numbers and hyphens",
 			),
 		},
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.RequiresReplace(),
+		},
 		Required: true,
 	},
 	"custom_configurations_name": schema.StringAttribute{

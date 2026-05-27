@@ -97,6 +97,9 @@ var AwsEnvironmentSchema = schema.Schema{
 					Description:         "Identifier of the uploaded public SSH key.",
 					Optional:            true,
 					Computed:            true,
+					PlanModifiers: []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
 				},
 			},
 		},
@@ -233,6 +236,9 @@ var AwsEnvironmentSchema = schema.Schema{
 					regexp.MustCompile(`^[a-z0-9-]+$`),
 					"must contain only lowercase letters, numbers and hyphens",
 				),
+			},
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
 			},
 			Required: true,
 		},
