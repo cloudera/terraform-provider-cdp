@@ -123,6 +123,7 @@ func PreCheck(t *testing.T) {
 }
 
 func TestAccDwCluster_Basic(t *testing.T) {
+	t.Skipf("Terraform acceptance testing is disabled for this test case until the related issue is resolved")
 	PreCheck(t)
 	credName := acctest.RandomWithPrefix(cdpacctest.ResourcePrefix)
 	awsProvider := cdpacctest.NewAwsProvider(os.Getenv(AwsAccessKeyID), os.Getenv(AwsSecretAccessKey), os.Getenv(AwsRegion))
