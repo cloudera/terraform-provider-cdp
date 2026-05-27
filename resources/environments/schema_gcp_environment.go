@@ -41,6 +41,9 @@ var GcpEnvironmentSchema = schema.Schema{
 					"must contain only lowercase letters, numbers and hyphens",
 				),
 			},
+			PlanModifiers: []planmodifier.String{
+				stringplanmodifier.RequiresReplace(),
+			},
 			Required: true,
 		},
 		"cascading_delete": schema.BoolAttribute{
