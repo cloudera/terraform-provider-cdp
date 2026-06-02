@@ -19,8 +19,6 @@ import (
 type gcpEnvironmentResourceModel struct {
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
-	Cascading types.Bool `tfsdk:"cascading_delete"`
-
 	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
@@ -91,4 +89,24 @@ type GcpLogStorage struct {
 type GcpSecurityAccess struct {
 	SecurityGroupIdForKnox types.String `tfsdk:"security_group_id_for_knox"`
 	DefaultSecurityGroupId types.String `tfsdk:"default_security_group_id"`
+}
+
+func (m *gcpEnvironmentResourceModel) cascadeDelete() bool {
+	if m.DeleteOptions != nil {
+		if !m.DeleteOptions.Cascading.IsNull() && !m.DeleteOptions.Cascading.IsUnknown() {
+			return m.DeleteOptions.Cascading.ValueBool()
+		}
+		return true
+	}
+	return true
+}
+
+func (m *gcpEnvironmentResourceModel) forceDelete() bool {
+	if m.DeleteOptions != nil {
+		if !m.DeleteOptions.Forced.IsNull() && !m.DeleteOptions.Forced.IsUnknown() {
+			return m.DeleteOptions.Forced.ValueBool()
+		}
+		return false
+	}
+	return false
 }

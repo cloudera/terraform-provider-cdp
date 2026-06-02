@@ -125,13 +125,6 @@ var awsSchemaElements = []test.ResourceSchemaTestCaseStructure{
 		AttributeType: schema.SingleNestedAttribute{},
 	},
 	{
-		Name:          "cascading_delete should exist and be valid",
-		Field:         "cascading_delete",
-		Computed:      true,
-		Required:      false,
-		AttributeType: schema.BoolAttribute{},
-	},
-	{
 		Name:          "freeipa should exist and be valid",
 		Field:         "freeipa",
 		Computed:      true,
@@ -253,7 +246,7 @@ var awsSchemaElements = []test.ResourceSchemaTestCaseStructure{
 }
 
 func TestAwsEnvironmentSchemaAttributeNumber(t *testing.T) {
-	expected := 33
+	expected := 32
 	if len(AwsEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AwsEnvironmentSchema schema should be: %d but it is: %d", expected, len(AwsEnvironmentSchema.Attributes))
 		t.FailNow()

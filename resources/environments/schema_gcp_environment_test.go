@@ -188,13 +188,6 @@ var gcpSchemaElements = []test.ResourceSchemaTestCaseStructure{
 		AttributeType: schema.SingleNestedAttribute{},
 	},
 	{
-		Name:          "cascading_delete should exist and be valid",
-		Field:         "cascading_delete",
-		Computed:      true,
-		Required:      false,
-		AttributeType: schema.BoolAttribute{},
-	},
-	{
 		Name:          "endpoint_access_gateway_subnet_ids should exist and be valid",
 		Field:         "endpoint_access_gateway_subnet_ids",
 		Computed:      false,
@@ -225,7 +218,7 @@ var gcpSchemaElements = []test.ResourceSchemaTestCaseStructure{
 }
 
 func TestGcpEnvironmentSchemaSchemaAttributeNumber(t *testing.T) {
-	expected := 29
+	expected := 28
 	if len(GcpEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AzureEnvironment schema should be: %d but it is: %d", expected, len(GcpEnvironmentSchema.Attributes))
 		t.FailNow()

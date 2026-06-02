@@ -43,8 +43,6 @@ type awsEnvironmentResourceModel struct {
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
-	Cascading types.Bool `tfsdk:"cascading_delete"`
-
 	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
 
 	FreeIpa types.Object `tfsdk:"freeipa"`
@@ -119,4 +117,24 @@ type AwsComputeClusterConfiguration struct {
 	PrivateCluster            types.Bool `tfsdk:"private_cluster"`
 	KubeApiAuthorizedIpRanges types.Set  `tfsdk:"kube_api_authorized_ip_ranges"`
 	WorkerNodeSubnets         types.Set  `tfsdk:"worker_node_subnets"`
+}
+
+func (m *awsEnvironmentResourceModel) cascadeDelete() bool {
+	if m.DeleteOptions != nil {
+		if !m.DeleteOptions.Cascading.IsNull() && !m.DeleteOptions.Cascading.IsUnknown() {
+			return m.DeleteOptions.Cascading.ValueBool()
+		}
+		return true
+	}
+	return true
+}
+
+func (m *awsEnvironmentResourceModel) forceDelete() bool {
+	if m.DeleteOptions != nil {
+		if !m.DeleteOptions.Forced.IsNull() && !m.DeleteOptions.Forced.IsUnknown() {
+			return m.DeleteOptions.Forced.ValueBool()
+		}
+		return false
+	}
+	return false
 }

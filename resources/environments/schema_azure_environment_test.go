@@ -237,13 +237,6 @@ var azureSchemaElements = []test.ResourceSchemaTestCaseStructure{
 		AttributeType: schema.SingleNestedAttribute{},
 	},
 	{
-		Name:          "cascading_delete should exist and be valid",
-		Field:         "cascading_delete",
-		Computed:      true,
-		Required:      false,
-		AttributeType: schema.BoolAttribute{},
-	},
-	{
 		Name:          "custom_docker_registry should exist and be valid",
 		Field:         "custom_docker_registry",
 		Computed:      false,
@@ -288,7 +281,7 @@ var azureSchemaElements = []test.ResourceSchemaTestCaseStructure{
 }
 
 func TestAzureEnvironmentSchemaSchemaAttributeNumber(t *testing.T) {
-	expected := 38
+	expected := 37
 	if len(AzureEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AzureEnvironment schema should be: %d but it is: %d", expected, len(AzureEnvironmentSchema.Attributes))
 		t.FailNow()

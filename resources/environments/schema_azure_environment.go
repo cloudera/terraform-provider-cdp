@@ -165,12 +165,6 @@ var AzureEnvironmentSchema = schema.Schema{
 			},
 			Required: true,
 		},
-		"cascading_delete": schema.BoolAttribute{
-			Optional:           true,
-			Computed:           true,
-			Default:            booldefault.StaticBool(true),
-			DeprecationMessage: "Cascading_delete is deprecated. Use delete_options.cascading instead. If latter specified, it will override this value.",
-		},
 		"delete_options": schema.SingleNestedAttribute{
 			MarkdownDescription: "Options for deleting the environment.",
 			Optional:            true,
