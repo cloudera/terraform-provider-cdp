@@ -90,7 +90,6 @@ output "environment" {
 ### Optional
 
 - `availability_zones` (Set of String) The zones of the environment in the given region.
-- `cascading_delete` (Boolean, Deprecated)
 - `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_endpoints` (Boolean) When this is enabled, then Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. When this is disabled, then Azure Service Endpoints will be created. The default value is disabled.
 - `custom_docker_registry` (Attributes) The desired custom docker registry for data services to be used. (see [below for nested schema](#nestedatt--custom_docker_registry))

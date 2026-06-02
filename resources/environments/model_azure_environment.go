@@ -41,8 +41,6 @@ type azureEnvironmentResourceModel struct {
 
 	EnvironmentName types.String `tfsdk:"environment_name"`
 
-	Cascading types.Bool `tfsdk:"cascading_delete"`
-
 	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
 
 	ExistingNetworkParams types.Object `tfsdk:"existing_network_params"`
@@ -132,4 +130,24 @@ type AzureComputeClusterConfiguration struct {
 	KubeApiAuthorizedIpRanges types.Set    `tfsdk:"kube_api_authorized_ip_ranges"`
 	OutboundType              types.String `tfsdk:"outbound_type"`
 	WorkerNodeSubnets         types.Set    `tfsdk:"worker_node_subnets"`
+}
+
+func (m *azureEnvironmentResourceModel) cascadeDelete() bool {
+	if m.DeleteOptions != nil {
+		if !m.DeleteOptions.Cascading.IsNull() && !m.DeleteOptions.Cascading.IsUnknown() {
+			return m.DeleteOptions.Cascading.ValueBool()
+		}
+		return true
+	}
+	return true
+}
+
+func (m *azureEnvironmentResourceModel) forceDelete() bool {
+	if m.DeleteOptions != nil {
+		if !m.DeleteOptions.Forced.IsNull() && !m.DeleteOptions.Forced.IsUnknown() {
+			return m.DeleteOptions.Forced.ValueBool()
+		}
+		return false
+	}
+	return false
 }

@@ -78,7 +78,6 @@ output "environment" {
 
 ### Optional
 
-- `cascading_delete` (Boolean, Deprecated)
 - `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_subnets` (Boolean) When this is enabled, private subnets will be created for the environment.
 - `create_service_endpoints` (Boolean) Whether or not service endpoints should be created for the environment.

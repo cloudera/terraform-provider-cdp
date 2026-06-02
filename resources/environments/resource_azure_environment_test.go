@@ -81,7 +81,6 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 				"resource_group_name":      tftypes.String,
 				"create_private_endpoints": tftypes.Bool,
 				"environment_name":         tftypes.String,
-				"cascading_delete":         tftypes.Bool,
 				"delete_options": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"cascading": tftypes.Bool,
@@ -230,7 +229,6 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 			"resource_group_name":      tftypes.NewValue(tftypes.String, ""),
 			"create_private_endpoints": tftypes.NewValue(tftypes.Bool, false),
 			"environment_name":         tftypes.NewValue(tftypes.String, ""),
-			"cascading_delete":         tftypes.NewValue(tftypes.Bool, true),
 			"delete_options": tftypes.NewValue(tftypes.Object{
 				AttributeTypes: map[string]tftypes.Type{
 					"cascading": tftypes.Bool,

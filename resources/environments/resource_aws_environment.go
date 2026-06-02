@@ -162,22 +162,10 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	cascading := state.Cascading.ValueBool()
-	forced := false
-	if state.Cascading.IsNull() {
-		cascading = true
-	}
 
-	if state.DeleteOptions != nil {
-		if !state.DeleteOptions.Cascading.IsUnknown() {
-			cascading = state.DeleteOptions.Cascading.ValueBool()
-		} else {
-			cascading = true
-		}
-		if !state.DeleteOptions.Forced.IsUnknown() {
-			forced = state.DeleteOptions.Forced.ValueBool()
-		}
-	}
+	cascading := state.cascadeDelete()
+	forced := state.forceDelete()
+
 	if err := deleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, state.PollingOptions); err != nil {
 		return
 	}

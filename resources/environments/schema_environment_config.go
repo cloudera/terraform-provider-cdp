@@ -112,9 +112,6 @@ var awsSchema = schema.SingleNestedAttribute{
 		"environment_name": schema.StringAttribute{
 			Computed: true,
 		},
-		"cascading_delete": schema.BoolAttribute{
-			Computed: true,
-		},
 		"delete_options": deleteOptionsSchema,
 		"freeipa":        freeIpaConfigSchema,
 		"log_storage": schema.SingleNestedAttribute{
@@ -250,9 +247,6 @@ var azureSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"environment_name": schema.StringAttribute{
-			Computed: true,
-		},
-		"cascading_delete": schema.BoolAttribute{
 			Computed: true,
 		},
 		"delete_options": deleteOptionsSchema,
@@ -424,9 +418,6 @@ var gcpSchema = schema.SingleNestedAttribute{
 	Computed: true,
 	Attributes: map[string]schema.Attribute{
 		"environment_name": schema.StringAttribute{
-			Computed: true,
-		},
-		"cascading_delete": schema.BoolAttribute{
 			Computed: true,
 		},
 		"delete_options":  deleteOptionsSchema,
