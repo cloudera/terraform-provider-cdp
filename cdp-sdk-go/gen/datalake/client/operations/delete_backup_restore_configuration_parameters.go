@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewDeleteBackupRestoreConfigurationParams creates a new DeleteBackupRestoreConfigurationParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteBackupRestoreConfigurationParams() *DeleteBackupRestoreConfigurationParams {
-	return &DeleteBackupRestoreConfigurationParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteBackupRestoreConfigurationParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteBackupRestoreConfigurationParamsWithTimeout creates a new DeleteBackupRestoreConfigurationParams object
 // with the ability to set a timeout on a request.
 func NewDeleteBackupRestoreConfigurationParamsWithTimeout(timeout time.Duration) *DeleteBackupRestoreConfigurationParams {
 	return &DeleteBackupRestoreConfigurationParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteBackupRestoreConfigurationParamsWithContext creates a new DeleteBackupRestoreConfigurationParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteBackupRestoreConfigurationParams].
 func NewDeleteBackupRestoreConfigurationParamsWithContext(ctx context.Context) *DeleteBackupRestoreConfigurationParams {
 	return &DeleteBackupRestoreConfigurationParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteBackupRestoreConfigurationParams struct {
 	// Input.
 	Input *models.DeleteBackupRestoreConfigurationRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete backup restore configuration params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteBackupRestoreConfigurationParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete backup restore configuration params
+// WithTimeout adds the timeout to the delete backup restore configuration params.
 func (o *DeleteBackupRestoreConfigurationParams) WithTimeout(timeout time.Duration) *DeleteBackupRestoreConfigurationParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete backup restore configuration params
+// SetTimeout adds the timeout to the delete backup restore configuration params.
 func (o *DeleteBackupRestoreConfigurationParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete backup restore configuration params
+// WithContext adds the context to the delete backup restore configuration params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteBackupRestoreConfigurationParams].
 func (o *DeleteBackupRestoreConfigurationParams) WithContext(ctx context.Context) *DeleteBackupRestoreConfigurationParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete backup restore configuration params
+// SetContext adds the context to the delete backup restore configuration params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteBackupRestoreConfigurationParams].
 func (o *DeleteBackupRestoreConfigurationParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete backup restore configuration params
+// WithHTTPClient adds the HTTPClient to the delete backup restore configuration params.
 func (o *DeleteBackupRestoreConfigurationParams) WithHTTPClient(client *http.Client) *DeleteBackupRestoreConfigurationParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete backup restore configuration params
+// SetHTTPClient adds the HTTPClient to the delete backup restore configuration params.
 func (o *DeleteBackupRestoreConfigurationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete backup restore configuration params
+// WithInput adds the input to the delete backup restore configuration params.
 func (o *DeleteBackupRestoreConfigurationParams) WithInput(input *models.DeleteBackupRestoreConfigurationRequest) *DeleteBackupRestoreConfigurationParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete backup restore configuration params
+// SetInput adds the input to the delete backup restore configuration params.
 func (o *DeleteBackupRestoreConfigurationParams) SetInput(input *models.DeleteBackupRestoreConfigurationRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteBackupRestoreConfigurationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewAddMachineUserToGroupParams creates a new AddMachineUserToGroupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddMachineUserToGroupParams() *AddMachineUserToGroupParams {
-	return &AddMachineUserToGroupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAddMachineUserToGroupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAddMachineUserToGroupParamsWithTimeout creates a new AddMachineUserToGroupParams object
 // with the ability to set a timeout on a request.
 func NewAddMachineUserToGroupParamsWithTimeout(timeout time.Duration) *AddMachineUserToGroupParams {
 	return &AddMachineUserToGroupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAddMachineUserToGroupParamsWithContext creates a new AddMachineUserToGroupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddMachineUserToGroupParams].
 func NewAddMachineUserToGroupParamsWithContext(ctx context.Context) *AddMachineUserToGroupParams {
 	return &AddMachineUserToGroupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AddMachineUserToGroupParams struct {
 	// Input.
 	Input *models.AddMachineUserToGroupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the add machine user to group params (not the query body).
@@ -83,54 +86,57 @@ func (o *AddMachineUserToGroupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the add machine user to group params
+// WithTimeout adds the timeout to the add machine user to group params.
 func (o *AddMachineUserToGroupParams) WithTimeout(timeout time.Duration) *AddMachineUserToGroupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the add machine user to group params
+// SetTimeout adds the timeout to the add machine user to group params.
 func (o *AddMachineUserToGroupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the add machine user to group params
+// WithContext adds the context to the add machine user to group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddMachineUserToGroupParams].
 func (o *AddMachineUserToGroupParams) WithContext(ctx context.Context) *AddMachineUserToGroupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the add machine user to group params
+// SetContext adds the context to the add machine user to group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddMachineUserToGroupParams].
 func (o *AddMachineUserToGroupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the add machine user to group params
+// WithHTTPClient adds the HTTPClient to the add machine user to group params.
 func (o *AddMachineUserToGroupParams) WithHTTPClient(client *http.Client) *AddMachineUserToGroupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the add machine user to group params
+// SetHTTPClient adds the HTTPClient to the add machine user to group params.
 func (o *AddMachineUserToGroupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the add machine user to group params
+// WithInput adds the input to the add machine user to group params.
 func (o *AddMachineUserToGroupParams) WithInput(input *models.AddMachineUserToGroupRequest) *AddMachineUserToGroupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the add machine user to group params
+// SetInput adds the input to the add machine user to group params.
 func (o *AddMachineUserToGroupParams) SetInput(input *models.AddMachineUserToGroupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AddMachineUserToGroupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

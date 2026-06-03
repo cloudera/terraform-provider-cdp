@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewRenewPublicCertificateParams creates a new RenewPublicCertificateParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRenewPublicCertificateParams() *RenewPublicCertificateParams {
-	return &RenewPublicCertificateParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRenewPublicCertificateParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRenewPublicCertificateParamsWithTimeout creates a new RenewPublicCertificateParams object
 // with the ability to set a timeout on a request.
 func NewRenewPublicCertificateParamsWithTimeout(timeout time.Duration) *RenewPublicCertificateParams {
 	return &RenewPublicCertificateParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRenewPublicCertificateParamsWithContext creates a new RenewPublicCertificateParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RenewPublicCertificateParams].
 func NewRenewPublicCertificateParamsWithContext(ctx context.Context) *RenewPublicCertificateParams {
 	return &RenewPublicCertificateParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RenewPublicCertificateParams struct {
 	// Input.
 	Input *models.RenewPublicCertificateRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the renew public certificate params (not the query body).
@@ -83,54 +86,57 @@ func (o *RenewPublicCertificateParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the renew public certificate params
+// WithTimeout adds the timeout to the renew public certificate params.
 func (o *RenewPublicCertificateParams) WithTimeout(timeout time.Duration) *RenewPublicCertificateParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the renew public certificate params
+// SetTimeout adds the timeout to the renew public certificate params.
 func (o *RenewPublicCertificateParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the renew public certificate params
+// WithContext adds the context to the renew public certificate params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RenewPublicCertificateParams].
 func (o *RenewPublicCertificateParams) WithContext(ctx context.Context) *RenewPublicCertificateParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the renew public certificate params
+// SetContext adds the context to the renew public certificate params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RenewPublicCertificateParams].
 func (o *RenewPublicCertificateParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the renew public certificate params
+// WithHTTPClient adds the HTTPClient to the renew public certificate params.
 func (o *RenewPublicCertificateParams) WithHTTPClient(client *http.Client) *RenewPublicCertificateParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the renew public certificate params
+// SetHTTPClient adds the HTTPClient to the renew public certificate params.
 func (o *RenewPublicCertificateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the renew public certificate params
+// WithInput adds the input to the renew public certificate params.
 func (o *RenewPublicCertificateParams) WithInput(input *models.RenewPublicCertificateRequest) *RenewPublicCertificateParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the renew public certificate params
+// SetInput adds the input to the renew public certificate params.
 func (o *RenewPublicCertificateParams) SetInput(input *models.RenewPublicCertificateRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RenewPublicCertificateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

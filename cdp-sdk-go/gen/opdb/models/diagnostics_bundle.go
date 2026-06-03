@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -67,7 +68,7 @@ func (m *DiagnosticsBundle) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DiagnosticsBundle) validateDestination(formats strfmt.Registry) error {
-	if swag.IsZero(m.Destination) { // not required
+	if typeutils.IsZero(m.Destination) { // not required
 		return nil
 	}
 
@@ -88,7 +89,7 @@ func (m *DiagnosticsBundle) validateDestination(formats strfmt.Registry) error {
 }
 
 func (m *DiagnosticsBundle) validateEndTime(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndTime) { // not required
+	if typeutils.IsZero(m.EndTime) { // not required
 		return nil
 	}
 
@@ -100,7 +101,7 @@ func (m *DiagnosticsBundle) validateEndTime(formats strfmt.Registry) error {
 }
 
 func (m *DiagnosticsBundle) validateStartTime(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartTime) { // not required
+	if typeutils.IsZero(m.StartTime) { // not required
 		return nil
 	}
 
@@ -127,7 +128,7 @@ func (m *DiagnosticsBundle) ContextValidate(ctx context.Context, formats strfmt.
 
 func (m *DiagnosticsBundle) contextValidateDestination(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Destination) { // not required
+	if typeutils.IsZero(m.Destination) { // not required
 		return nil
 	}
 
@@ -152,13 +153,13 @@ func (m *DiagnosticsBundle) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DiagnosticsBundle) UnmarshalBinary(b []byte) error {
 	var res DiagnosticsBundle
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

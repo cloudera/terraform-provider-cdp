@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewUpgradeDbcParams creates a new UpgradeDbcParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpgradeDbcParams() *UpgradeDbcParams {
-	return &UpgradeDbcParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpgradeDbcParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpgradeDbcParamsWithTimeout creates a new UpgradeDbcParams object
 // with the ability to set a timeout on a request.
 func NewUpgradeDbcParamsWithTimeout(timeout time.Duration) *UpgradeDbcParams {
 	return &UpgradeDbcParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpgradeDbcParamsWithContext creates a new UpgradeDbcParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeDbcParams].
 func NewUpgradeDbcParamsWithContext(ctx context.Context) *UpgradeDbcParams {
 	return &UpgradeDbcParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpgradeDbcParams struct {
 	// Input.
 	Input *models.UpgradeDbcRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upgrade dbc params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpgradeDbcParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upgrade dbc params
+// WithTimeout adds the timeout to the upgrade dbc params.
 func (o *UpgradeDbcParams) WithTimeout(timeout time.Duration) *UpgradeDbcParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upgrade dbc params
+// SetTimeout adds the timeout to the upgrade dbc params.
 func (o *UpgradeDbcParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upgrade dbc params
+// WithContext adds the context to the upgrade dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeDbcParams].
 func (o *UpgradeDbcParams) WithContext(ctx context.Context) *UpgradeDbcParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upgrade dbc params
+// SetContext adds the context to the upgrade dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeDbcParams].
 func (o *UpgradeDbcParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upgrade dbc params
+// WithHTTPClient adds the HTTPClient to the upgrade dbc params.
 func (o *UpgradeDbcParams) WithHTTPClient(client *http.Client) *UpgradeDbcParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upgrade dbc params
+// SetHTTPClient adds the HTTPClient to the upgrade dbc params.
 func (o *UpgradeDbcParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upgrade dbc params
+// WithInput adds the input to the upgrade dbc params.
 func (o *UpgradeDbcParams) WithInput(input *models.UpgradeDbcRequest) *UpgradeDbcParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upgrade dbc params
+// SetInput adds the input to the upgrade dbc params.
 func (o *UpgradeDbcParams) SetInput(input *models.UpgradeDbcRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpgradeDbcParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

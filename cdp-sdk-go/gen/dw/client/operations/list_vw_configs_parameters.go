@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewListVwConfigsParams creates a new ListVwConfigsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListVwConfigsParams() *ListVwConfigsParams {
-	return &ListVwConfigsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListVwConfigsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListVwConfigsParamsWithTimeout creates a new ListVwConfigsParams object
 // with the ability to set a timeout on a request.
 func NewListVwConfigsParamsWithTimeout(timeout time.Duration) *ListVwConfigsParams {
 	return &ListVwConfigsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListVwConfigsParamsWithContext creates a new ListVwConfigsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVwConfigsParams].
 func NewListVwConfigsParamsWithContext(ctx context.Context) *ListVwConfigsParams {
 	return &ListVwConfigsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListVwConfigsParams struct {
 	// Input.
 	Input *models.ListVwConfigsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list vw configs params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListVwConfigsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list vw configs params
+// WithTimeout adds the timeout to the list vw configs params.
 func (o *ListVwConfigsParams) WithTimeout(timeout time.Duration) *ListVwConfigsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list vw configs params
+// SetTimeout adds the timeout to the list vw configs params.
 func (o *ListVwConfigsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list vw configs params
+// WithContext adds the context to the list vw configs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVwConfigsParams].
 func (o *ListVwConfigsParams) WithContext(ctx context.Context) *ListVwConfigsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list vw configs params
+// SetContext adds the context to the list vw configs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVwConfigsParams].
 func (o *ListVwConfigsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list vw configs params
+// WithHTTPClient adds the HTTPClient to the list vw configs params.
 func (o *ListVwConfigsParams) WithHTTPClient(client *http.Client) *ListVwConfigsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list vw configs params
+// SetHTTPClient adds the HTTPClient to the list vw configs params.
 func (o *ListVwConfigsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list vw configs params
+// WithInput adds the input to the list vw configs params.
 func (o *ListVwConfigsParams) WithInput(input *models.ListVwConfigsRequest) *ListVwConfigsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list vw configs params
+// SetInput adds the input to the list vw configs params.
 func (o *ListVwConfigsParams) SetInput(input *models.ListVwConfigsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListVwConfigsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

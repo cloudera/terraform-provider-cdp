@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewDescribeWorkspaceParams creates a new DescribeWorkspaceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeWorkspaceParams() *DescribeWorkspaceParams {
-	return &DescribeWorkspaceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeWorkspaceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeWorkspaceParamsWithTimeout creates a new DescribeWorkspaceParams object
 // with the ability to set a timeout on a request.
 func NewDescribeWorkspaceParamsWithTimeout(timeout time.Duration) *DescribeWorkspaceParams {
 	return &DescribeWorkspaceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeWorkspaceParamsWithContext creates a new DescribeWorkspaceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeWorkspaceParams].
 func NewDescribeWorkspaceParamsWithContext(ctx context.Context) *DescribeWorkspaceParams {
 	return &DescribeWorkspaceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeWorkspaceParams struct {
 	// Input.
 	Input *models.DescribeWorkspaceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe workspace params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeWorkspaceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe workspace params
+// WithTimeout adds the timeout to the describe workspace params.
 func (o *DescribeWorkspaceParams) WithTimeout(timeout time.Duration) *DescribeWorkspaceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe workspace params
+// SetTimeout adds the timeout to the describe workspace params.
 func (o *DescribeWorkspaceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe workspace params
+// WithContext adds the context to the describe workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeWorkspaceParams].
 func (o *DescribeWorkspaceParams) WithContext(ctx context.Context) *DescribeWorkspaceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe workspace params
+// SetContext adds the context to the describe workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeWorkspaceParams].
 func (o *DescribeWorkspaceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe workspace params
+// WithHTTPClient adds the HTTPClient to the describe workspace params.
 func (o *DescribeWorkspaceParams) WithHTTPClient(client *http.Client) *DescribeWorkspaceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe workspace params
+// SetHTTPClient adds the HTTPClient to the describe workspace params.
 func (o *DescribeWorkspaceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe workspace params
+// WithInput adds the input to the describe workspace params.
 func (o *DescribeWorkspaceParams) WithInput(input *models.DescribeWorkspaceRequest) *DescribeWorkspaceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe workspace params
+// SetInput adds the input to the describe workspace params.
 func (o *DescribeWorkspaceParams) SetInput(input *models.DescribeWorkspaceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

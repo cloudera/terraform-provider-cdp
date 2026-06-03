@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewRevokeWorkspaceAccessParams creates a new RevokeWorkspaceAccessParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRevokeWorkspaceAccessParams() *RevokeWorkspaceAccessParams {
-	return &RevokeWorkspaceAccessParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRevokeWorkspaceAccessParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRevokeWorkspaceAccessParamsWithTimeout creates a new RevokeWorkspaceAccessParams object
 // with the ability to set a timeout on a request.
 func NewRevokeWorkspaceAccessParamsWithTimeout(timeout time.Duration) *RevokeWorkspaceAccessParams {
 	return &RevokeWorkspaceAccessParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRevokeWorkspaceAccessParamsWithContext creates a new RevokeWorkspaceAccessParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RevokeWorkspaceAccessParams].
 func NewRevokeWorkspaceAccessParamsWithContext(ctx context.Context) *RevokeWorkspaceAccessParams {
 	return &RevokeWorkspaceAccessParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RevokeWorkspaceAccessParams struct {
 	// Input.
 	Input *models.RevokeWorkspaceAccessRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the revoke workspace access params (not the query body).
@@ -83,54 +86,57 @@ func (o *RevokeWorkspaceAccessParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the revoke workspace access params
+// WithTimeout adds the timeout to the revoke workspace access params.
 func (o *RevokeWorkspaceAccessParams) WithTimeout(timeout time.Duration) *RevokeWorkspaceAccessParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the revoke workspace access params
+// SetTimeout adds the timeout to the revoke workspace access params.
 func (o *RevokeWorkspaceAccessParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the revoke workspace access params
+// WithContext adds the context to the revoke workspace access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RevokeWorkspaceAccessParams].
 func (o *RevokeWorkspaceAccessParams) WithContext(ctx context.Context) *RevokeWorkspaceAccessParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the revoke workspace access params
+// SetContext adds the context to the revoke workspace access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RevokeWorkspaceAccessParams].
 func (o *RevokeWorkspaceAccessParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the revoke workspace access params
+// WithHTTPClient adds the HTTPClient to the revoke workspace access params.
 func (o *RevokeWorkspaceAccessParams) WithHTTPClient(client *http.Client) *RevokeWorkspaceAccessParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the revoke workspace access params
+// SetHTTPClient adds the HTTPClient to the revoke workspace access params.
 func (o *RevokeWorkspaceAccessParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the revoke workspace access params
+// WithInput adds the input to the revoke workspace access params.
 func (o *RevokeWorkspaceAccessParams) WithInput(input *models.RevokeWorkspaceAccessRequest) *RevokeWorkspaceAccessParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the revoke workspace access params
+// SetInput adds the input to the revoke workspace access params.
 func (o *RevokeWorkspaceAccessParams) SetInput(input *models.RevokeWorkspaceAccessRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RevokeWorkspaceAccessParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

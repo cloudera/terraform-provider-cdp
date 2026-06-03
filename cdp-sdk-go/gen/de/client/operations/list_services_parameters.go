@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewListServicesParams creates a new ListServicesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListServicesParams() *ListServicesParams {
-	return &ListServicesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListServicesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListServicesParamsWithTimeout creates a new ListServicesParams object
 // with the ability to set a timeout on a request.
 func NewListServicesParamsWithTimeout(timeout time.Duration) *ListServicesParams {
 	return &ListServicesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListServicesParamsWithContext creates a new ListServicesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListServicesParams].
 func NewListServicesParamsWithContext(ctx context.Context) *ListServicesParams {
 	return &ListServicesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListServicesParams struct {
 	// Input.
 	Input *models.ListServicesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list services params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListServicesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list services params
+// WithTimeout adds the timeout to the list services params.
 func (o *ListServicesParams) WithTimeout(timeout time.Duration) *ListServicesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list services params
+// SetTimeout adds the timeout to the list services params.
 func (o *ListServicesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list services params
+// WithContext adds the context to the list services params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListServicesParams].
 func (o *ListServicesParams) WithContext(ctx context.Context) *ListServicesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list services params
+// SetContext adds the context to the list services params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListServicesParams].
 func (o *ListServicesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list services params
+// WithHTTPClient adds the HTTPClient to the list services params.
 func (o *ListServicesParams) WithHTTPClient(client *http.Client) *ListServicesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list services params
+// SetHTTPClient adds the HTTPClient to the list services params.
 func (o *ListServicesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list services params
+// WithInput adds the input to the list services params.
 func (o *ListServicesParams) WithInput(input *models.ListServicesRequest) *ListServicesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list services params
+// SetInput adds the input to the list services params.
 func (o *ListServicesParams) SetInput(input *models.ListServicesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListServicesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

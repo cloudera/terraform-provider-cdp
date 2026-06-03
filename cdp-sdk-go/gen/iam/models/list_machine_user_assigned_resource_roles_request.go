@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -57,7 +58,7 @@ func (m *ListMachineUserAssignedResourceRolesRequest) validateMachineUserName(fo
 }
 
 func (m *ListMachineUserAssignedResourceRolesRequest) validatePageSize(formats strfmt.Registry) error {
-	if swag.IsZero(m.PageSize) { // not required
+	if typeutils.IsZero(m.PageSize) { // not required
 		return nil
 	}
 
@@ -82,13 +83,13 @@ func (m *ListMachineUserAssignedResourceRolesRequest) MarshalBinary() ([]byte, e
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListMachineUserAssignedResourceRolesRequest) UnmarshalBinary(b []byte) error {
 	var res ListMachineUserAssignedResourceRolesRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

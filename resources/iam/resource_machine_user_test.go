@@ -11,7 +11,6 @@
 package iam_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
 
@@ -70,7 +69,7 @@ func testAccCheckIamMachineUserExists(resourceName string, mu *models.MachineUse
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListMachineUsersParamsWithContext(context.TODO())
+		params := operations.NewListMachineUsersParams()
 		params.WithInput(&models.ListMachineUsersRequest{
 			MachineUserNames: []string{rs.Primary.ID},
 		})
@@ -109,7 +108,7 @@ func testAccCheckIamMachineUserDestroy(s *terraform.State) error {
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListMachineUsersParamsWithContext(context.TODO())
+		params := operations.NewListMachineUsersParams()
 		params.WithInput(&models.ListMachineUsersRequest{
 			MachineUserNames: []string{rs.Primary.ID},
 		})

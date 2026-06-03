@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewListDatalakeBackupsParams creates a new ListDatalakeBackupsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListDatalakeBackupsParams() *ListDatalakeBackupsParams {
-	return &ListDatalakeBackupsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListDatalakeBackupsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListDatalakeBackupsParamsWithTimeout creates a new ListDatalakeBackupsParams object
 // with the ability to set a timeout on a request.
 func NewListDatalakeBackupsParamsWithTimeout(timeout time.Duration) *ListDatalakeBackupsParams {
 	return &ListDatalakeBackupsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListDatalakeBackupsParamsWithContext creates a new ListDatalakeBackupsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeBackupsParams].
 func NewListDatalakeBackupsParamsWithContext(ctx context.Context) *ListDatalakeBackupsParams {
 	return &ListDatalakeBackupsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListDatalakeBackupsParams struct {
 	// Input.
 	Input *models.ListDatalakeBackupsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list datalake backups params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListDatalakeBackupsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list datalake backups params
+// WithTimeout adds the timeout to the list datalake backups params.
 func (o *ListDatalakeBackupsParams) WithTimeout(timeout time.Duration) *ListDatalakeBackupsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list datalake backups params
+// SetTimeout adds the timeout to the list datalake backups params.
 func (o *ListDatalakeBackupsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list datalake backups params
+// WithContext adds the context to the list datalake backups params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeBackupsParams].
 func (o *ListDatalakeBackupsParams) WithContext(ctx context.Context) *ListDatalakeBackupsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list datalake backups params
+// SetContext adds the context to the list datalake backups params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeBackupsParams].
 func (o *ListDatalakeBackupsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list datalake backups params
+// WithHTTPClient adds the HTTPClient to the list datalake backups params.
 func (o *ListDatalakeBackupsParams) WithHTTPClient(client *http.Client) *ListDatalakeBackupsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list datalake backups params
+// SetHTTPClient adds the HTTPClient to the list datalake backups params.
 func (o *ListDatalakeBackupsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list datalake backups params
+// WithInput adds the input to the list datalake backups params.
 func (o *ListDatalakeBackupsParams) WithInput(input *models.ListDatalakeBackupsRequest) *ListDatalakeBackupsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list datalake backups params
+// SetInput adds the input to the list datalake backups params.
 func (o *ListDatalakeBackupsParams) SetInput(input *models.ListDatalakeBackupsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListDatalakeBackupsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

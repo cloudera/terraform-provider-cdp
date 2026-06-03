@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -144,7 +145,7 @@ func (m *DatabaseDetails) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DatabaseDetails) validateArchitecture(formats strfmt.Registry) error {
-	if swag.IsZero(m.Architecture) { // not required
+	if typeutils.IsZero(m.Architecture) { // not required
 		return nil
 	}
 
@@ -165,7 +166,7 @@ func (m *DatabaseDetails) validateArchitecture(formats strfmt.Registry) error {
 }
 
 func (m *DatabaseDetails) validateAutoScalingConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.AutoScalingConfig) { // not required
+	if typeutils.IsZero(m.AutoScalingConfig) { // not required
 		return nil
 	}
 
@@ -228,7 +229,7 @@ func (m *DatabaseDetails) validateEnvironmentCrn(formats strfmt.Registry) error 
 }
 
 func (m *DatabaseDetails) validateScaleType(formats strfmt.Registry) error {
-	if swag.IsZero(m.ScaleType) { // not required
+	if typeutils.IsZero(m.ScaleType) { // not required
 		return nil
 	}
 
@@ -249,7 +250,7 @@ func (m *DatabaseDetails) validateScaleType(formats strfmt.Registry) error {
 }
 
 func (m *DatabaseDetails) validateSecurityResponse(formats strfmt.Registry) error {
-	if swag.IsZero(m.SecurityResponse) { // not required
+	if typeutils.IsZero(m.SecurityResponse) { // not required
 		return nil
 	}
 
@@ -272,7 +273,7 @@ func (m *DatabaseDetails) validateSecurityResponse(formats strfmt.Registry) erro
 }
 
 func (m *DatabaseDetails) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -293,12 +294,12 @@ func (m *DatabaseDetails) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *DatabaseDetails) validateStorageDetailsForWorkers(formats strfmt.Registry) error {
-	if swag.IsZero(m.StorageDetailsForWorkers) { // not required
+	if typeutils.IsZero(m.StorageDetailsForWorkers) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.StorageDetailsForWorkers); i++ {
-		if swag.IsZero(m.StorageDetailsForWorkers[i]) { // not required
+		if typeutils.IsZero(m.StorageDetailsForWorkers[i]) { // not required
 			continue
 		}
 
@@ -358,7 +359,7 @@ func (m *DatabaseDetails) ContextValidate(ctx context.Context, formats strfmt.Re
 
 func (m *DatabaseDetails) contextValidateArchitecture(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Architecture) { // not required
+	if typeutils.IsZero(m.Architecture) { // not required
 		return nil
 	}
 
@@ -382,7 +383,7 @@ func (m *DatabaseDetails) contextValidateAutoScalingConfig(ctx context.Context, 
 
 	if m.AutoScalingConfig != nil {
 
-		if swag.IsZero(m.AutoScalingConfig) { // not required
+		if typeutils.IsZero(m.AutoScalingConfig) { // not required
 			return nil
 		}
 
@@ -405,7 +406,7 @@ func (m *DatabaseDetails) contextValidateAutoScalingConfig(ctx context.Context, 
 
 func (m *DatabaseDetails) contextValidateScaleType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ScaleType) { // not required
+	if typeutils.IsZero(m.ScaleType) { // not required
 		return nil
 	}
 
@@ -429,7 +430,7 @@ func (m *DatabaseDetails) contextValidateSecurityResponse(ctx context.Context, f
 
 	if m.SecurityResponse != nil {
 
-		if swag.IsZero(m.SecurityResponse) { // not required
+		if typeutils.IsZero(m.SecurityResponse) { // not required
 			return nil
 		}
 
@@ -452,7 +453,7 @@ func (m *DatabaseDetails) contextValidateSecurityResponse(ctx context.Context, f
 
 func (m *DatabaseDetails) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -478,7 +479,7 @@ func (m *DatabaseDetails) contextValidateStorageDetailsForWorkers(ctx context.Co
 
 		if m.StorageDetailsForWorkers[i] != nil {
 
-			if swag.IsZero(m.StorageDetailsForWorkers[i]) { // not required
+			if typeutils.IsZero(m.StorageDetailsForWorkers[i]) { // not required
 				return nil
 			}
 
@@ -506,13 +507,13 @@ func (m *DatabaseDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DatabaseDetails) UnmarshalBinary(b []byte) error {
 	var res DatabaseDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

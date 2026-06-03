@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeDatabaseResponse Details of the database.
@@ -35,7 +36,7 @@ func (m *DescribeDatabaseResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DescribeDatabaseResponse) validateDatabaseDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.DatabaseDetails) { // not required
+	if typeutils.IsZero(m.DatabaseDetails) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeDatabaseResponse) contextValidateDatabaseDetails(ctx context.Co
 
 	if m.DatabaseDetails != nil {
 
-		if swag.IsZero(m.DatabaseDetails) { // not required
+		if typeutils.IsZero(m.DatabaseDetails) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeDatabaseResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeDatabaseResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeDatabaseResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

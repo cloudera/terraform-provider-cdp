@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewResumeWorkspaceParams creates a new ResumeWorkspaceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewResumeWorkspaceParams() *ResumeWorkspaceParams {
-	return &ResumeWorkspaceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewResumeWorkspaceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewResumeWorkspaceParamsWithTimeout creates a new ResumeWorkspaceParams object
 // with the ability to set a timeout on a request.
 func NewResumeWorkspaceParamsWithTimeout(timeout time.Duration) *ResumeWorkspaceParams {
 	return &ResumeWorkspaceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewResumeWorkspaceParamsWithContext creates a new ResumeWorkspaceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ResumeWorkspaceParams].
 func NewResumeWorkspaceParamsWithContext(ctx context.Context) *ResumeWorkspaceParams {
 	return &ResumeWorkspaceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ResumeWorkspaceParams struct {
 	// Input.
 	Input *models.ResumeWorkspaceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the resume workspace params (not the query body).
@@ -83,54 +86,57 @@ func (o *ResumeWorkspaceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the resume workspace params
+// WithTimeout adds the timeout to the resume workspace params.
 func (o *ResumeWorkspaceParams) WithTimeout(timeout time.Duration) *ResumeWorkspaceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the resume workspace params
+// SetTimeout adds the timeout to the resume workspace params.
 func (o *ResumeWorkspaceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the resume workspace params
+// WithContext adds the context to the resume workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ResumeWorkspaceParams].
 func (o *ResumeWorkspaceParams) WithContext(ctx context.Context) *ResumeWorkspaceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the resume workspace params
+// SetContext adds the context to the resume workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ResumeWorkspaceParams].
 func (o *ResumeWorkspaceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the resume workspace params
+// WithHTTPClient adds the HTTPClient to the resume workspace params.
 func (o *ResumeWorkspaceParams) WithHTTPClient(client *http.Client) *ResumeWorkspaceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the resume workspace params
+// SetHTTPClient adds the HTTPClient to the resume workspace params.
 func (o *ResumeWorkspaceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the resume workspace params
+// WithInput adds the input to the resume workspace params.
 func (o *ResumeWorkspaceParams) WithInput(input *models.ResumeWorkspaceRequest) *ResumeWorkspaceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the resume workspace params
+// SetInput adds the input to the resume workspace params.
 func (o *ResumeWorkspaceParams) SetInput(input *models.ResumeWorkspaceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ResumeWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

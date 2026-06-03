@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewListEdgeNodesParams creates a new ListEdgeNodesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListEdgeNodesParams() *ListEdgeNodesParams {
-	return &ListEdgeNodesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListEdgeNodesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListEdgeNodesParamsWithTimeout creates a new ListEdgeNodesParams object
 // with the ability to set a timeout on a request.
 func NewListEdgeNodesParamsWithTimeout(timeout time.Duration) *ListEdgeNodesParams {
 	return &ListEdgeNodesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListEdgeNodesParamsWithContext creates a new ListEdgeNodesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListEdgeNodesParams].
 func NewListEdgeNodesParamsWithContext(ctx context.Context) *ListEdgeNodesParams {
 	return &ListEdgeNodesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListEdgeNodesParams struct {
 	// Input.
 	Input *models.ListEdgeNodesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list edge nodes params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListEdgeNodesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list edge nodes params
+// WithTimeout adds the timeout to the list edge nodes params.
 func (o *ListEdgeNodesParams) WithTimeout(timeout time.Duration) *ListEdgeNodesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list edge nodes params
+// SetTimeout adds the timeout to the list edge nodes params.
 func (o *ListEdgeNodesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list edge nodes params
+// WithContext adds the context to the list edge nodes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListEdgeNodesParams].
 func (o *ListEdgeNodesParams) WithContext(ctx context.Context) *ListEdgeNodesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list edge nodes params
+// SetContext adds the context to the list edge nodes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListEdgeNodesParams].
 func (o *ListEdgeNodesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list edge nodes params
+// WithHTTPClient adds the HTTPClient to the list edge nodes params.
 func (o *ListEdgeNodesParams) WithHTTPClient(client *http.Client) *ListEdgeNodesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list edge nodes params
+// SetHTTPClient adds the HTTPClient to the list edge nodes params.
 func (o *ListEdgeNodesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list edge nodes params
+// WithInput adds the input to the list edge nodes params.
 func (o *ListEdgeNodesParams) WithInput(input *models.ListEdgeNodesRequest) *ListEdgeNodesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list edge nodes params
+// SetInput adds the input to the list edge nodes params.
 func (o *ListEdgeNodesParams) SetInput(input *models.ListEdgeNodesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListEdgeNodesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

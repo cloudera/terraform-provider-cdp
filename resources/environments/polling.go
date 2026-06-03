@@ -75,7 +75,7 @@ func waitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("About to describe environment: %s", environmentName))
-			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+			params := operations.NewDescribeEnvironmentParams()
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {
@@ -125,7 +125,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("About to describe environment %s", environmentName))
-			params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+			params := operations.NewDescribeEnvironmentParams()
 			params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{EnvironmentName: &environmentName})
 			resp, err := client.Operations.DescribeEnvironment(params)
 			if err != nil {

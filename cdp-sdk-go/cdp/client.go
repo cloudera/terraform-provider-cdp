@@ -11,6 +11,7 @@
 package cdp
 
 import (
+	cloudprivatelinksclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/cloudprivatelinks/client"
 	datahubclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/client"
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
 	declient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/client"
@@ -22,15 +23,16 @@ import (
 )
 
 type Client struct {
-	config       *Config
-	Environments *environmentsclient.Environments
-	Datalake     *datalakeclient.Datalake
-	Opdb         *opdbclient.Opdb
-	Datahub      *datahubclient.Datahub
-	Iam          *iamclient.Iam
-	Ml           *mlclient.Ml
-	De           *declient.De
-	Dw           *dwclient.Dw
+	config            *Config
+	Environments      *environmentsclient.Environments
+	Datalake          *datalakeclient.Datalake
+	Opdb              *opdbclient.Opdb
+	Datahub           *datahubclient.Datahub
+	Iam               *iamclient.Iam
+	Ml                *mlclient.Ml
+	De                *declient.De
+	Dw                *dwclient.Dw
+	Cloudprivatelinks *cloudprivatelinksclient.Cloudprivatelinks
 }
 
 func NewClient(config *Config) (*Client, error) {
@@ -77,16 +79,22 @@ func NewClient(config *Config) (*Client, error) {
 		return nil, err
 	}
 
+	cloudprivatelinksClient, err := NewCloudprivatelinksClient(config)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Client{
-		config:       config,
-		Environments: environmentsClient,
-		Datalake:     datalakeClient,
-		Datahub:      datahubClient,
-		Opdb:         opdbClient,
-		Iam:          iamClient,
-		Ml:           mlClient,
-		De:           deClient,
-		Dw:           dwClient,
+		config:            config,
+		Environments:      environmentsClient,
+		Datalake:          datalakeClient,
+		Datahub:           datahubClient,
+		Opdb:              opdbClient,
+		Iam:               iamClient,
+		Ml:                mlClient,
+		De:                deClient,
+		Dw:                dwClient,
+		Cloudprivatelinks: cloudprivatelinksClient,
 	}, nil
 }
 
@@ -184,4 +192,16 @@ func NewDwClient(config *Config) (*dwclient.Dw, error) {
 		return nil, err
 	}
 	return dwclient.New(transport, nil), nil
+}
+
+func NewCloudprivatelinksClient(config *Config) (*cloudprivatelinksclient.Cloudprivatelinks, error) {
+	apiEndpoint, err := config.GetEndpoint("cloudprivatelinks", false)
+	if err != nil {
+		return nil, err
+	}
+	transport, err := buildClientTransportWithDefaultHttpTransport(config, apiEndpoint)
+	if err != nil {
+		return nil, err
+	}
+	return cloudprivatelinksclient.New(transport, nil), nil
 }

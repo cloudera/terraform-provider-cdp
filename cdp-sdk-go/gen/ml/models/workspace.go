@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -252,7 +253,7 @@ func (m *Workspace) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateAvailableQuota(formats strfmt.Registry) error {
-	if swag.IsZero(m.AvailableQuota) { // not required
+	if typeutils.IsZero(m.AvailableQuota) { // not required
 		return nil
 	}
 
@@ -275,7 +276,7 @@ func (m *Workspace) validateAvailableQuota(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateBackupMetadata(formats strfmt.Registry) error {
-	if swag.IsZero(m.BackupMetadata) { // not required
+	if typeutils.IsZero(m.BackupMetadata) { // not required
 		return nil
 	}
 
@@ -307,7 +308,7 @@ func (m *Workspace) validateCloudPlatform(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -373,12 +374,12 @@ func (m *Workspace) validateFilesystemID(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateHealthInfoLists(formats strfmt.Registry) error {
-	if swag.IsZero(m.HealthInfoLists) { // not required
+	if typeutils.IsZero(m.HealthInfoLists) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.HealthInfoLists); i++ {
-		if swag.IsZero(m.HealthInfoLists[i]) { // not required
+		if typeutils.IsZero(m.HealthInfoLists[i]) { // not required
 			continue
 		}
 
@@ -418,7 +419,7 @@ func (m *Workspace) validateInstanceGroups(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -488,7 +489,7 @@ func (m *Workspace) validateMonitoringEnabled(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateQuota(formats strfmt.Registry) error {
-	if swag.IsZero(m.Quota) { // not required
+	if typeutils.IsZero(m.Quota) { // not required
 		return nil
 	}
 
@@ -517,7 +518,7 @@ func (m *Workspace) validateTags(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -542,7 +543,7 @@ func (m *Workspace) validateTags(formats strfmt.Registry) error {
 }
 
 func (m *Workspace) validateUpgradeState(formats strfmt.Registry) error {
-	if swag.IsZero(m.UpgradeState) { // not required
+	if typeutils.IsZero(m.UpgradeState) { // not required
 		return nil
 	}
 
@@ -615,7 +616,7 @@ func (m *Workspace) contextValidateAvailableQuota(ctx context.Context, formats s
 
 	if m.AvailableQuota != nil {
 
-		if swag.IsZero(m.AvailableQuota) { // not required
+		if typeutils.IsZero(m.AvailableQuota) { // not required
 			return nil
 		}
 
@@ -640,7 +641,7 @@ func (m *Workspace) contextValidateBackupMetadata(ctx context.Context, formats s
 
 	if m.BackupMetadata != nil {
 
-		if swag.IsZero(m.BackupMetadata) { // not required
+		if typeutils.IsZero(m.BackupMetadata) { // not required
 			return nil
 		}
 
@@ -667,7 +668,7 @@ func (m *Workspace) contextValidateHealthInfoLists(ctx context.Context, formats 
 
 		if m.HealthInfoLists[i] != nil {
 
-			if swag.IsZero(m.HealthInfoLists[i]) { // not required
+			if typeutils.IsZero(m.HealthInfoLists[i]) { // not required
 				return nil
 			}
 
@@ -696,7 +697,7 @@ func (m *Workspace) contextValidateInstanceGroups(ctx context.Context, formats s
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -723,7 +724,7 @@ func (m *Workspace) contextValidateQuota(ctx context.Context, formats strfmt.Reg
 
 	if m.Quota != nil {
 
-		if swag.IsZero(m.Quota) { // not required
+		if typeutils.IsZero(m.Quota) { // not required
 			return nil
 		}
 
@@ -750,7 +751,7 @@ func (m *Workspace) contextValidateTags(ctx context.Context, formats strfmt.Regi
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -777,7 +778,7 @@ func (m *Workspace) contextValidateUpgradeState(ctx context.Context, formats str
 
 	if m.UpgradeState != nil {
 
-		if swag.IsZero(m.UpgradeState) { // not required
+		if typeutils.IsZero(m.UpgradeState) { // not required
 			return nil
 		}
 
@@ -803,13 +804,13 @@ func (m *Workspace) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Workspace) UnmarshalBinary(b []byte) error {
 	var res Workspace
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

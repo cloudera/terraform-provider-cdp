@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewListScalingEventsParams creates a new ListScalingEventsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListScalingEventsParams() *ListScalingEventsParams {
-	return &ListScalingEventsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListScalingEventsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListScalingEventsParamsWithTimeout creates a new ListScalingEventsParams object
 // with the ability to set a timeout on a request.
 func NewListScalingEventsParamsWithTimeout(timeout time.Duration) *ListScalingEventsParams {
 	return &ListScalingEventsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListScalingEventsParamsWithContext creates a new ListScalingEventsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScalingEventsParams].
 func NewListScalingEventsParamsWithContext(ctx context.Context) *ListScalingEventsParams {
 	return &ListScalingEventsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListScalingEventsParams struct {
 	// Input.
 	Input *models.ListScalingEventsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list scaling events params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListScalingEventsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list scaling events params
+// WithTimeout adds the timeout to the list scaling events params.
 func (o *ListScalingEventsParams) WithTimeout(timeout time.Duration) *ListScalingEventsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list scaling events params
+// SetTimeout adds the timeout to the list scaling events params.
 func (o *ListScalingEventsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list scaling events params
+// WithContext adds the context to the list scaling events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScalingEventsParams].
 func (o *ListScalingEventsParams) WithContext(ctx context.Context) *ListScalingEventsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list scaling events params
+// SetContext adds the context to the list scaling events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScalingEventsParams].
 func (o *ListScalingEventsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list scaling events params
+// WithHTTPClient adds the HTTPClient to the list scaling events params.
 func (o *ListScalingEventsParams) WithHTTPClient(client *http.Client) *ListScalingEventsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list scaling events params
+// SetHTTPClient adds the HTTPClient to the list scaling events params.
 func (o *ListScalingEventsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list scaling events params
+// WithInput adds the input to the list scaling events params.
 func (o *ListScalingEventsParams) WithInput(input *models.ListScalingEventsRequest) *ListScalingEventsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list scaling events params
+// SetInput adds the input to the list scaling events params.
 func (o *ListScalingEventsParams) SetInput(input *models.ListScalingEventsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListScalingEventsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

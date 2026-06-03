@@ -138,7 +138,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 
 	client := r.client.Datalake
 
-	params := operations.NewCreateAWSDatalakeParamsWithContext(ctx)
+	params := operations.NewCreateAWSDatalakeParams()
 	params.WithInput(toAwsDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAWSDatalake(params)
 	if err != nil {
@@ -167,7 +167,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		}
 	}
 
-	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	descParams := operations.NewDescribeDatalakeParams()
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
@@ -206,7 +206,7 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallba
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("About to describe datalake")
-			params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+			params := operations.NewDescribeDatalakeParams()
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 			resp, err := client.Operations.DescribeDatalake(params)
 			if err != nil {
@@ -258,7 +258,7 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 
 	client := r.client.Datalake
 
-	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	params := operations.NewDescribeDatalakeParams()
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
@@ -366,7 +366,7 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	if state.DeleteOptions != nil {
 		forceDelete = state.DeleteOptions.Forced.ValueBool()
 	}
-	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	params := operations.NewDeleteDatalakeParams()
 	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
 		DatalakeName: &dlName,
 		Force:        forceDelete,
@@ -407,7 +407,7 @@ func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, fallba
 		Target:  []string{},
 		Timeout: *timeout,
 		Refresh: func() (interface{}, string, error) {
-			params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+			params := operations.NewDescribeDatalakeParams()
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 			resp, err := datalake.Operations.DescribeDatalake(params)
 			if err != nil {

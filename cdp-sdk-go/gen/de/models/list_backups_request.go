@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -54,7 +55,7 @@ func (m *ListBackupsRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListBackupsRequest) validateOrder(formats strfmt.Registry) error {
-	if swag.IsZero(m.Order) { // not required
+	if typeutils.IsZero(m.Order) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *ListBackupsRequest) validateOrder(formats strfmt.Registry) error {
 }
 
 func (m *ListBackupsRequest) validatePageSize(formats strfmt.Registry) error {
-	if swag.IsZero(m.PageSize) { // not required
+	if typeutils.IsZero(m.PageSize) { // not required
 		return nil
 	}
 
@@ -106,7 +107,7 @@ func (m *ListBackupsRequest) ContextValidate(ctx context.Context, formats strfmt
 
 func (m *ListBackupsRequest) contextValidateOrder(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Order) { // not required
+	if typeutils.IsZero(m.Order) { // not required
 		return nil
 	}
 
@@ -131,13 +132,13 @@ func (m *ListBackupsRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListBackupsRequest) UnmarshalBinary(b []byte) error {
 	var res ListBackupsRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

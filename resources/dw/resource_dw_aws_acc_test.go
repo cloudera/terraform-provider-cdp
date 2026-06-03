@@ -11,7 +11,6 @@
 package dw
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -336,7 +335,7 @@ func testCheckClusterDestroy(s *terraform.State) error {
 		}
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
-		params := operations.NewDescribeClusterParamsWithContext(context.Background())
+		params := operations.NewDescribeClusterParams()
 		clusterID := rs.Primary.Attributes["cluster_id"]
 		params.WithInput(&models.DescribeClusterRequest{
 			ClusterID: &clusterID,

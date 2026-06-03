@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -53,7 +54,7 @@ func (m *CreateSamlProviderRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateSamlProviderRequest) validateSamlMetadataDocument(formats strfmt.Registry) error {
-	if swag.IsZero(m.SamlMetadataDocument) { // not required
+	if typeutils.IsZero(m.SamlMetadataDocument) { // not required
 		return nil
 	}
 
@@ -83,13 +84,13 @@ func (m *CreateSamlProviderRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateSamlProviderRequest) UnmarshalBinary(b []byte) error {
 	var res CreateSamlProviderRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

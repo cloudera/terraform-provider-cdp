@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewListDatahubSecretTypesParams creates a new ListDatahubSecretTypesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListDatahubSecretTypesParams() *ListDatahubSecretTypesParams {
-	return &ListDatahubSecretTypesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListDatahubSecretTypesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListDatahubSecretTypesParamsWithTimeout creates a new ListDatahubSecretTypesParams object
 // with the ability to set a timeout on a request.
 func NewListDatahubSecretTypesParamsWithTimeout(timeout time.Duration) *ListDatahubSecretTypesParams {
 	return &ListDatahubSecretTypesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListDatahubSecretTypesParamsWithContext creates a new ListDatahubSecretTypesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatahubSecretTypesParams].
 func NewListDatahubSecretTypesParamsWithContext(ctx context.Context) *ListDatahubSecretTypesParams {
 	return &ListDatahubSecretTypesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListDatahubSecretTypesParams struct {
 	// Input.
 	Input *models.ListDatahubSecretTypesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list datahub secret types params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListDatahubSecretTypesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list datahub secret types params
+// WithTimeout adds the timeout to the list datahub secret types params.
 func (o *ListDatahubSecretTypesParams) WithTimeout(timeout time.Duration) *ListDatahubSecretTypesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list datahub secret types params
+// SetTimeout adds the timeout to the list datahub secret types params.
 func (o *ListDatahubSecretTypesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list datahub secret types params
+// WithContext adds the context to the list datahub secret types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatahubSecretTypesParams].
 func (o *ListDatahubSecretTypesParams) WithContext(ctx context.Context) *ListDatahubSecretTypesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list datahub secret types params
+// SetContext adds the context to the list datahub secret types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatahubSecretTypesParams].
 func (o *ListDatahubSecretTypesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list datahub secret types params
+// WithHTTPClient adds the HTTPClient to the list datahub secret types params.
 func (o *ListDatahubSecretTypesParams) WithHTTPClient(client *http.Client) *ListDatahubSecretTypesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list datahub secret types params
+// SetHTTPClient adds the HTTPClient to the list datahub secret types params.
 func (o *ListDatahubSecretTypesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list datahub secret types params
+// WithInput adds the input to the list datahub secret types params.
 func (o *ListDatahubSecretTypesParams) WithInput(input *models.ListDatahubSecretTypesRequest) *ListDatahubSecretTypesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list datahub secret types params
+// SetInput adds the input to the list datahub secret types params.
 func (o *ListDatahubSecretTypesParams) SetInput(input *models.ListDatahubSecretTypesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListDatahubSecretTypesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

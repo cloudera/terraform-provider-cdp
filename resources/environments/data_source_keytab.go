@@ -81,7 +81,7 @@ func fetchKeytabs(ctx context.Context, env2Client *client.Environments, state Ke
 		paramReq.ActorCrn = state.ActorCrn.ValueString()
 	}
 
-	params := operations.NewGetKeytabParamsWithContext(ctx)
+	params := operations.NewGetKeytabParams()
 	params.WithInput(&paramReq)
 
 	keytab, err := env2Client.Operations.GetKeytab(params)

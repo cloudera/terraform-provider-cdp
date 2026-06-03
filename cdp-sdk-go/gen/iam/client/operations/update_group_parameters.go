@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewUpdateGroupParams creates a new UpdateGroupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateGroupParams() *UpdateGroupParams {
-	return &UpdateGroupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateGroupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateGroupParamsWithTimeout creates a new UpdateGroupParams object
 // with the ability to set a timeout on a request.
 func NewUpdateGroupParamsWithTimeout(timeout time.Duration) *UpdateGroupParams {
 	return &UpdateGroupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateGroupParamsWithContext creates a new UpdateGroupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateGroupParams].
 func NewUpdateGroupParamsWithContext(ctx context.Context) *UpdateGroupParams {
 	return &UpdateGroupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateGroupParams struct {
 	// Input.
 	Input *models.UpdateGroupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update group params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateGroupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update group params
+// WithTimeout adds the timeout to the update group params.
 func (o *UpdateGroupParams) WithTimeout(timeout time.Duration) *UpdateGroupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update group params
+// SetTimeout adds the timeout to the update group params.
 func (o *UpdateGroupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update group params
+// WithContext adds the context to the update group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateGroupParams].
 func (o *UpdateGroupParams) WithContext(ctx context.Context) *UpdateGroupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update group params
+// SetContext adds the context to the update group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateGroupParams].
 func (o *UpdateGroupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update group params
+// WithHTTPClient adds the HTTPClient to the update group params.
 func (o *UpdateGroupParams) WithHTTPClient(client *http.Client) *UpdateGroupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update group params
+// SetHTTPClient adds the HTTPClient to the update group params.
 func (o *UpdateGroupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update group params
+// WithInput adds the input to the update group params.
 func (o *UpdateGroupParams) WithInput(input *models.UpdateGroupRequest) *UpdateGroupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update group params
+// SetInput adds the input to the update group params.
 func (o *UpdateGroupParams) SetInput(input *models.UpdateGroupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateGroupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

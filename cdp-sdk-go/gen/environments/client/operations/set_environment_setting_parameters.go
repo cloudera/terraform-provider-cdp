@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetEnvironmentSettingParams creates a new SetEnvironmentSettingParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetEnvironmentSettingParams() *SetEnvironmentSettingParams {
-	return &SetEnvironmentSettingParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetEnvironmentSettingParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetEnvironmentSettingParamsWithTimeout creates a new SetEnvironmentSettingParams object
 // with the ability to set a timeout on a request.
 func NewSetEnvironmentSettingParamsWithTimeout(timeout time.Duration) *SetEnvironmentSettingParams {
 	return &SetEnvironmentSettingParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetEnvironmentSettingParamsWithContext creates a new SetEnvironmentSettingParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetEnvironmentSettingParams].
 func NewSetEnvironmentSettingParamsWithContext(ctx context.Context) *SetEnvironmentSettingParams {
 	return &SetEnvironmentSettingParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetEnvironmentSettingParams struct {
 	// Input.
 	Input *models.SetEnvironmentSettingRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set environment setting params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetEnvironmentSettingParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set environment setting params
+// WithTimeout adds the timeout to the set environment setting params.
 func (o *SetEnvironmentSettingParams) WithTimeout(timeout time.Duration) *SetEnvironmentSettingParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set environment setting params
+// SetTimeout adds the timeout to the set environment setting params.
 func (o *SetEnvironmentSettingParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set environment setting params
+// WithContext adds the context to the set environment setting params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetEnvironmentSettingParams].
 func (o *SetEnvironmentSettingParams) WithContext(ctx context.Context) *SetEnvironmentSettingParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set environment setting params
+// SetContext adds the context to the set environment setting params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetEnvironmentSettingParams].
 func (o *SetEnvironmentSettingParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set environment setting params
+// WithHTTPClient adds the HTTPClient to the set environment setting params.
 func (o *SetEnvironmentSettingParams) WithHTTPClient(client *http.Client) *SetEnvironmentSettingParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set environment setting params
+// SetHTTPClient adds the HTTPClient to the set environment setting params.
 func (o *SetEnvironmentSettingParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set environment setting params
+// WithInput adds the input to the set environment setting params.
 func (o *SetEnvironmentSettingParams) WithInput(input *models.SetEnvironmentSettingRequest) *SetEnvironmentSettingParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set environment setting params
+// SetInput adds the input to the set environment setting params.
 func (o *SetEnvironmentSettingParams) SetInput(input *models.SetEnvironmentSettingRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetEnvironmentSettingParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

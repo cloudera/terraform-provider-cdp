@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewUpdateVwParams creates a new UpdateVwParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateVwParams() *UpdateVwParams {
-	return &UpdateVwParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateVwParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateVwParamsWithTimeout creates a new UpdateVwParams object
 // with the ability to set a timeout on a request.
 func NewUpdateVwParamsWithTimeout(timeout time.Duration) *UpdateVwParams {
 	return &UpdateVwParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateVwParamsWithContext creates a new UpdateVwParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateVwParams].
 func NewUpdateVwParamsWithContext(ctx context.Context) *UpdateVwParams {
 	return &UpdateVwParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateVwParams struct {
 	// Input.
 	Input *models.UpdateVwRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update vw params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateVwParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update vw params
+// WithTimeout adds the timeout to the update vw params.
 func (o *UpdateVwParams) WithTimeout(timeout time.Duration) *UpdateVwParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update vw params
+// SetTimeout adds the timeout to the update vw params.
 func (o *UpdateVwParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update vw params
+// WithContext adds the context to the update vw params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateVwParams].
 func (o *UpdateVwParams) WithContext(ctx context.Context) *UpdateVwParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update vw params
+// SetContext adds the context to the update vw params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateVwParams].
 func (o *UpdateVwParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update vw params
+// WithHTTPClient adds the HTTPClient to the update vw params.
 func (o *UpdateVwParams) WithHTTPClient(client *http.Client) *UpdateVwParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update vw params
+// SetHTTPClient adds the HTTPClient to the update vw params.
 func (o *UpdateVwParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update vw params
+// WithInput adds the input to the update vw params.
 func (o *UpdateVwParams) WithInput(input *models.UpdateVwRequest) *UpdateVwParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update vw params
+// SetInput adds the input to the update vw params.
 func (o *UpdateVwParams) SetInput(input *models.UpdateVwRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateVwParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

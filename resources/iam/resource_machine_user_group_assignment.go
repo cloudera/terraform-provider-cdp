@@ -65,7 +65,7 @@ func (r *machineUserGroupAssignmentResource) Create(ctx context.Context, req res
 
 	client := r.client.Iam
 
-	params := operations.NewAddMachineUserToGroupParamsWithContext(ctx)
+	params := operations.NewAddMachineUserToGroupParams()
 	params.WithInput(&models.AddMachineUserToGroupRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 		GroupName:       data.Group.ValueStringPointer(),
@@ -98,7 +98,7 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 	// Read API call logic
 	client := r.client.Iam
 
-	params := operations.NewListGroupsForMachineUserParamsWithContext(ctx)
+	params := operations.NewListGroupsForMachineUserParams()
 	params.WithInput(&models.ListGroupsForMachineUserRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 	})
@@ -112,7 +112,7 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 		return
 	}
 
-	grParams := operations.NewListGroupsParamsWithContext(ctx)
+	grParams := operations.NewListGroupsParams()
 	grParams.WithInput(&models.ListGroupsRequest{
 		GroupNames: []string{data.Group.ValueString()},
 	})
@@ -168,7 +168,7 @@ func (r *machineUserGroupAssignmentResource) Delete(ctx context.Context, req res
 	// Delete API call logic
 	client := r.client.Iam
 
-	params := operations.NewRemoveMachineUserFromGroupParamsWithContext(ctx)
+	params := operations.NewRemoveMachineUserFromGroupParams()
 	params.WithInput(&models.RemoveMachineUserFromGroupRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 		GroupName:       data.Group.ValueStringPointer(),

@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // AllowedInstanceTypes Allowed compute instance type values and default compute instance type value.
@@ -55,7 +56,7 @@ func (m *AllowedInstanceTypes) Validate(formats strfmt.Registry) error {
 }
 
 func (m *AllowedInstanceTypes) validateHive(formats strfmt.Registry) error {
-	if swag.IsZero(m.Hive) { // not required
+	if typeutils.IsZero(m.Hive) { // not required
 		return nil
 	}
 
@@ -78,7 +79,7 @@ func (m *AllowedInstanceTypes) validateHive(formats strfmt.Registry) error {
 }
 
 func (m *AllowedInstanceTypes) validateImpala(formats strfmt.Registry) error {
-	if swag.IsZero(m.Impala) { // not required
+	if typeutils.IsZero(m.Impala) { // not required
 		return nil
 	}
 
@@ -101,7 +102,7 @@ func (m *AllowedInstanceTypes) validateImpala(formats strfmt.Registry) error {
 }
 
 func (m *AllowedInstanceTypes) validateTrino(formats strfmt.Registry) error {
-	if swag.IsZero(m.Trino) { // not required
+	if typeutils.IsZero(m.Trino) { // not required
 		return nil
 	}
 
@@ -149,7 +150,7 @@ func (m *AllowedInstanceTypes) contextValidateHive(ctx context.Context, formats 
 
 	if m.Hive != nil {
 
-		if swag.IsZero(m.Hive) { // not required
+		if typeutils.IsZero(m.Hive) { // not required
 			return nil
 		}
 
@@ -174,7 +175,7 @@ func (m *AllowedInstanceTypes) contextValidateImpala(ctx context.Context, format
 
 	if m.Impala != nil {
 
-		if swag.IsZero(m.Impala) { // not required
+		if typeutils.IsZero(m.Impala) { // not required
 			return nil
 		}
 
@@ -199,7 +200,7 @@ func (m *AllowedInstanceTypes) contextValidateTrino(ctx context.Context, formats
 
 	if m.Trino != nil {
 
-		if swag.IsZero(m.Trino) { // not required
+		if typeutils.IsZero(m.Trino) { // not required
 			return nil
 		}
 
@@ -225,13 +226,13 @@ func (m *AllowedInstanceTypes) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AllowedInstanceTypes) UnmarshalBinary(b []byte) error {
 	var res AllowedInstanceTypes
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

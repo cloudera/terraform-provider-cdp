@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ImpalaHASettingsOptionsResponse Impala High Availability settings for a Virtual Warehouse.
@@ -53,7 +54,7 @@ func (m *ImpalaHASettingsOptionsResponse) Validate(formats strfmt.Registry) erro
 }
 
 func (m *ImpalaHASettingsOptionsResponse) validateHighAvailabilityMode(formats strfmt.Registry) error {
-	if swag.IsZero(m.HighAvailabilityMode) { // not required
+	if typeutils.IsZero(m.HighAvailabilityMode) { // not required
 		return nil
 	}
 
@@ -89,7 +90,7 @@ func (m *ImpalaHASettingsOptionsResponse) ContextValidate(ctx context.Context, f
 
 func (m *ImpalaHASettingsOptionsResponse) contextValidateHighAvailabilityMode(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.HighAvailabilityMode) { // not required
+	if typeutils.IsZero(m.HighAvailabilityMode) { // not required
 		return nil
 	}
 
@@ -114,13 +115,13 @@ func (m *ImpalaHASettingsOptionsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ImpalaHASettingsOptionsResponse) UnmarshalBinary(b []byte) error {
 	var res ImpalaHASettingsOptionsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

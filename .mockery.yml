@@ -26,3 +26,10 @@ packages:
       ClientService:
         config:
           structname: MockIam{{.InterfaceName}}
+  github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/cloudprivatelinks/client/operations:
+    config:
+      filename: cloudprivatelinks_clientservice.go
+    interfaces:
+      ClientService:
+        config:
+          structname: MockCloudPrivateLinks{{.InterfaceName}}

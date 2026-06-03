@@ -26,6 +26,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/resources/cloudprivatelinks"
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
@@ -254,6 +255,8 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 		recipe.NewRecipeResource,
+		cloudprivatelinks.NewPrivateLinkEndpointResource,
+		// 		cloudprivatelinks.NewPrivateLinkServiceAccessResource, // Not exposed
 	}
 }
 

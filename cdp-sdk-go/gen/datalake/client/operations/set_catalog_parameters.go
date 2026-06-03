@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewSetCatalogParams creates a new SetCatalogParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetCatalogParams() *SetCatalogParams {
-	return &SetCatalogParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetCatalogParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetCatalogParamsWithTimeout creates a new SetCatalogParams object
 // with the ability to set a timeout on a request.
 func NewSetCatalogParamsWithTimeout(timeout time.Duration) *SetCatalogParams {
 	return &SetCatalogParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetCatalogParamsWithContext creates a new SetCatalogParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetCatalogParams].
 func NewSetCatalogParamsWithContext(ctx context.Context) *SetCatalogParams {
 	return &SetCatalogParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetCatalogParams struct {
 	// Input.
 	Input *models.SetCatalogRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set catalog params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetCatalogParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set catalog params
+// WithTimeout adds the timeout to the set catalog params.
 func (o *SetCatalogParams) WithTimeout(timeout time.Duration) *SetCatalogParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set catalog params
+// SetTimeout adds the timeout to the set catalog params.
 func (o *SetCatalogParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set catalog params
+// WithContext adds the context to the set catalog params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetCatalogParams].
 func (o *SetCatalogParams) WithContext(ctx context.Context) *SetCatalogParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set catalog params
+// SetContext adds the context to the set catalog params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetCatalogParams].
 func (o *SetCatalogParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set catalog params
+// WithHTTPClient adds the HTTPClient to the set catalog params.
 func (o *SetCatalogParams) WithHTTPClient(client *http.Client) *SetCatalogParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set catalog params
+// SetHTTPClient adds the HTTPClient to the set catalog params.
 func (o *SetCatalogParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set catalog params
+// WithInput adds the input to the set catalog params.
 func (o *SetCatalogParams) WithInput(input *models.SetCatalogRequest) *SetCatalogParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set catalog params
+// SetInput adds the input to the set catalog params.
 func (o *SetCatalogParams) SetInput(input *models.SetCatalogRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetCatalogParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

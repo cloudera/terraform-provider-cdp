@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -39,181 +44,506 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 }
 
 /*
-Client for operations API
+Client for operations API.
 */
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// CancelDatahubDiagnostics cancel running datahub diagnostics collections.
 	CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams, opts ...ClientOption) (*CancelDatahubDiagnosticsOK, error)
 
+	// CancelDatahubDiagnosticsContext cancel running datahub diagnostics collections.
+	CancelDatahubDiagnosticsContext(ctx context.Context, params *CancelDatahubDiagnosticsParams, opts ...ClientOption) (*CancelDatahubDiagnosticsOK, error)
+
+	// CollectCmDiagnostics start datahub cloudera manager based diagnostics collection.
 	CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
 
+	// CollectCmDiagnosticsContext start datahub cloudera manager based diagnostics collection.
+	CollectCmDiagnosticsContext(ctx context.Context, params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
+
+	// CollectDatahubDiagnostics start data hub diagnostics collection.
 	CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsParams, opts ...ClientOption) (*CollectDatahubDiagnosticsOK, error)
 
+	// CollectDatahubDiagnosticsContext start data hub diagnostics collection.
+	CollectDatahubDiagnosticsContext(ctx context.Context, params *CollectDatahubDiagnosticsParams, opts ...ClientOption) (*CollectDatahubDiagnosticsOK, error)
+
+	// CreateAWSCluster creates an a w s workload cluster.
 	CreateAWSCluster(params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error)
 
+	// CreateAWSClusterContext creates an a w s workload cluster.
+	CreateAWSClusterContext(ctx context.Context, params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error)
+
+	// CreateAWSGovCloudCluster creates an a w s data hub cluster for gov cloud.
 	CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error)
 
+	// CreateAWSGovCloudClusterContext creates an a w s data hub cluster for gov cloud.
+	CreateAWSGovCloudClusterContext(ctx context.Context, params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error)
+
+	// CreateAutoScaleRules create auto scaling rules for a data hub cluster.
 	CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error)
 
+	// CreateAutoScaleRulesContext create auto scaling rules for a data hub cluster.
+	CreateAutoScaleRulesContext(ctx context.Context, params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error)
+
+	// CreateAzureCluster creates an azure workload cluster.
 	CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error)
 
+	// CreateAzureClusterContext creates an azure workload cluster.
+	CreateAzureClusterContext(ctx context.Context, params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error)
+
+	// CreateClusterDefinition creates a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 	CreateClusterDefinition(params *CreateClusterDefinitionParams, opts ...ClientOption) (*CreateClusterDefinitionOK, error)
 
+	// CreateClusterDefinitionContext creates a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+	CreateClusterDefinitionContext(ctx context.Context, params *CreateClusterDefinitionParams, opts ...ClientOption) (*CreateClusterDefinitionOK, error)
+
+	// CreateClusterTemplate creates a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 	CreateClusterTemplate(params *CreateClusterTemplateParams, opts ...ClientOption) (*CreateClusterTemplateOK, error)
 
+	// CreateClusterTemplateContext creates a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+	CreateClusterTemplateContext(ctx context.Context, params *CreateClusterTemplateParams, opts ...ClientOption) (*CreateClusterTemplateOK, error)
+
+	// CreateCustomConfigurations creates custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 	CreateCustomConfigurations(params *CreateCustomConfigurationsParams, opts ...ClientOption) (*CreateCustomConfigurationsOK, error)
 
+	// CreateCustomConfigurationsContext creates custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+	CreateCustomConfigurationsContext(ctx context.Context, params *CreateCustomConfigurationsParams, opts ...ClientOption) (*CreateCustomConfigurationsOK, error)
+
+	// CreateGCPCluster creates a g c p workload cluster.
 	CreateGCPCluster(params *CreateGCPClusterParams, opts ...ClientOption) (*CreateGCPClusterOK, error)
 
+	// CreateGCPClusterContext creates a g c p workload cluster.
+	CreateGCPClusterContext(ctx context.Context, params *CreateGCPClusterParams, opts ...ClientOption) (*CreateGCPClusterOK, error)
+
+	// CreateRecipe creates recipe a recipe is a script that runs on all nodes of a specified instance group.
 	CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) (*CreateRecipeOK, error)
 
+	// CreateRecipeContext creates recipe a recipe is a script that runs on all nodes of a specified instance group.
+	CreateRecipeContext(ctx context.Context, params *CreateRecipeParams, opts ...ClientOption) (*CreateRecipeOK, error)
+
+	// DeleteAutoScaleRules delete auto scaling policies for a data hub cluster.
 	DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts ...ClientOption) (*DeleteAutoScaleRulesOK, error)
 
+	// DeleteAutoScaleRulesContext delete auto scaling policies for a data hub cluster.
+	DeleteAutoScaleRulesContext(ctx context.Context, params *DeleteAutoScaleRulesParams, opts ...ClientOption) (*DeleteAutoScaleRulesOK, error)
+
+	// DeleteCluster deletes a workload cluster.
 	DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error)
 
+	// DeleteClusterContext deletes a workload cluster.
+	DeleteClusterContext(ctx context.Context, params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error)
+
+	// DeleteClusterDefinitions deletes cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 	DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams, opts ...ClientOption) (*DeleteClusterDefinitionsOK, error)
 
+	// DeleteClusterDefinitionsContext deletes cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+	DeleteClusterDefinitionsContext(ctx context.Context, params *DeleteClusterDefinitionsParams, opts ...ClientOption) (*DeleteClusterDefinitionsOK, error)
+
+	// DeleteClusterTemplates deletes cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 	DeleteClusterTemplates(params *DeleteClusterTemplatesParams, opts ...ClientOption) (*DeleteClusterTemplatesOK, error)
 
+	// DeleteClusterTemplatesContext deletes cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+	DeleteClusterTemplatesContext(ctx context.Context, params *DeleteClusterTemplatesParams, opts ...ClientOption) (*DeleteClusterTemplatesOK, error)
+
+	// DeleteCustomConfigurations deletes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 	DeleteCustomConfigurations(params *DeleteCustomConfigurationsParams, opts ...ClientOption) (*DeleteCustomConfigurationsOK, error)
 
+	// DeleteCustomConfigurationsContext deletes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+	DeleteCustomConfigurationsContext(ctx context.Context, params *DeleteCustomConfigurationsParams, opts ...ClientOption) (*DeleteCustomConfigurationsOK, error)
+
+	// DeleteInstances deletes instances for the specified cluster.
 	DeleteInstances(params *DeleteInstancesParams, opts ...ClientOption) (*DeleteInstancesOK, error)
 
+	// DeleteInstancesContext deletes instances for the specified cluster.
+	DeleteInstancesContext(ctx context.Context, params *DeleteInstancesParams, opts ...ClientOption) (*DeleteInstancesOK, error)
+
+	// DeleteRecipes deletes recipes a recipe is a script that runs on all nodes of a specified instance group.
 	DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption) (*DeleteRecipesOK, error)
 
+	// DeleteRecipesContext deletes recipes a recipe is a script that runs on all nodes of a specified instance group.
+	DeleteRecipesContext(ctx context.Context, params *DeleteRecipesParams, opts ...ClientOption) (*DeleteRecipesOK, error)
+
+	// DescribeAutoScaleRules describe the auto scaling policies for a data hub cluster.
 	DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, opts ...ClientOption) (*DescribeAutoScaleRulesOK, error)
 
+	// DescribeAutoScaleRulesContext describe the auto scaling policies for a data hub cluster.
+	DescribeAutoScaleRulesContext(ctx context.Context, params *DescribeAutoScaleRulesParams, opts ...ClientOption) (*DescribeAutoScaleRulesOK, error)
+
+	// DescribeCluster describes a workload cluster.
 	DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error)
 
+	// DescribeClusterContext describes a workload cluster.
+	DescribeClusterContext(ctx context.Context, params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error)
+
+	// DescribeClusterDefinition describes a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 	DescribeClusterDefinition(params *DescribeClusterDefinitionParams, opts ...ClientOption) (*DescribeClusterDefinitionOK, error)
 
+	// DescribeClusterDefinitionContext describes a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+	DescribeClusterDefinitionContext(ctx context.Context, params *DescribeClusterDefinitionParams, opts ...ClientOption) (*DescribeClusterDefinitionOK, error)
+
+	// DescribeClusterTemplate describes a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 	DescribeClusterTemplate(params *DescribeClusterTemplateParams, opts ...ClientOption) (*DescribeClusterTemplateOK, error)
 
+	// DescribeClusterTemplateContext describes a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+	DescribeClusterTemplateContext(ctx context.Context, params *DescribeClusterTemplateParams, opts ...ClientOption) (*DescribeClusterTemplateOK, error)
+
+	// DescribeCustomConfigurations describes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 	DescribeCustomConfigurations(params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error)
 
+	// DescribeCustomConfigurationsContext describes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+	DescribeCustomConfigurationsContext(ctx context.Context, params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error)
+
+	// DescribeDatabaseServer gets external database server details.
 	DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
 
+	// DescribeDatabaseServerContext gets external database server details.
+	DescribeDatabaseServerContext(ctx context.Context, params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
+
+	// DescribeRecipe describes recipe a recipe is a script that runs on all nodes of a specified instance group.
 	DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error)
 
+	// DescribeRecipeContext describes recipe a recipe is a script that runs on all nodes of a specified instance group.
+	DescribeRecipeContext(ctx context.Context, params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error)
+
+	// DescribeScalingActivity describes the scaling activity using cluster c r n or cluster n a m e and operation ID.
 	DescribeScalingActivity(params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error)
 
+	// DescribeScalingActivityContext describes the scaling activity using cluster c r n or cluster n a m e and operation ID.
+	DescribeScalingActivityContext(ctx context.Context, params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error)
+
+	// FinalizeZookeeperToKraftMigration finalize the migration from zookeeper to k raft broker.
 	FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error)
 
+	// FinalizeZookeeperToKraftMigrationContext finalize the migration from zookeeper to k raft broker.
+	FinalizeZookeeperToKraftMigrationContext(ctx context.Context, params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error)
+
+	// GetClusterHostStatus get cluster host status.
 	GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
 
+	// GetClusterHostStatusContext get cluster host status.
+	GetClusterHostStatusContext(ctx context.Context, params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
+
+	// GetClusterServiceStatus get cluster service status.
 	GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
 
+	// GetClusterServiceStatusContext get cluster service status.
+	GetClusterServiceStatusContext(ctx context.Context, params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
+
+	// GetCmRoles gather cloudera manager roles that can be used for filtering in c m based diagnostics collection.
 	GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error)
 
+	// GetCmRolesContext gather cloudera manager roles that can be used for filtering in c m based diagnostics collection.
+	GetCmRolesContext(ctx context.Context, params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error)
+
+	// GetDatahubLogDescriptors gather log descriptors that are used for diagnostics collection.
 	GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error)
 
+	// GetDatahubLogDescriptorsContext gather log descriptors that are used for diagnostics collection.
+	GetDatahubLogDescriptorsContext(ctx context.Context, params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error)
+
+	// GetOperation get the latest in progress or finished operation for the datahub cluster.
 	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
 
+	// GetOperationContext get the latest in progress or finished operation for the datahub cluster.
+	GetOperationContext(ctx context.Context, params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
+	// GetVMTypes creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
 	GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error)
 
+	// GetVMTypesContext creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
+	GetVMTypesContext(ctx context.Context, params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error)
+
+	// ListAutoScaleHistory list auto scale history activity for a data hub cluster.
 	ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error)
 
+	// ListAutoScaleHistoryContext list auto scale history activity for a data hub cluster.
+	ListAutoScaleHistoryContext(ctx context.Context, params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error)
+
+	// ListClusterDefinitions lists cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 	ListClusterDefinitions(params *ListClusterDefinitionsParams, opts ...ClientOption) (*ListClusterDefinitionsOK, error)
 
+	// ListClusterDefinitionsContext lists cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+	ListClusterDefinitionsContext(ctx context.Context, params *ListClusterDefinitionsParams, opts ...ClientOption) (*ListClusterDefinitionsOK, error)
+
+	// ListClusterLifecycleEvents lists workload cluster lifecycle events.
 	ListClusterLifecycleEvents(params *ListClusterLifecycleEventsParams, opts ...ClientOption) (*ListClusterLifecycleEventsOK, error)
 
+	// ListClusterLifecycleEventsContext lists workload cluster lifecycle events.
+	ListClusterLifecycleEventsContext(ctx context.Context, params *ListClusterLifecycleEventsParams, opts ...ClientOption) (*ListClusterLifecycleEventsOK, error)
+
+	// ListClusterTemplates lists cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 	ListClusterTemplates(params *ListClusterTemplatesParams, opts ...ClientOption) (*ListClusterTemplatesOK, error)
 
+	// ListClusterTemplatesContext lists cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+	ListClusterTemplatesContext(ctx context.Context, params *ListClusterTemplatesParams, opts ...ClientOption) (*ListClusterTemplatesOK, error)
+
+	// ListClusters lists workload clusters.
 	ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error)
 
+	// ListClustersContext lists workload clusters.
+	ListClustersContext(ctx context.Context, params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error)
+
+	// ListCustomConfigurations lists custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 	ListCustomConfigurations(params *ListCustomConfigurationsParams, opts ...ClientOption) (*ListCustomConfigurationsOK, error)
 
+	// ListCustomConfigurationsContext lists custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+	ListCustomConfigurationsContext(ctx context.Context, params *ListCustomConfigurationsParams, opts ...ClientOption) (*ListCustomConfigurationsOK, error)
+
+	// ListDatahubDiagnostics list recent datahub diagnostics collections.
 	ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error)
 
+	// ListDatahubDiagnosticsContext list recent datahub diagnostics collections.
+	ListDatahubDiagnosticsContext(ctx context.Context, params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error)
+
+	// ListDatahubSecretTypes lists all datahub related secret types.
 	ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, opts ...ClientOption) (*ListDatahubSecretTypesOK, error)
 
+	// ListDatahubSecretTypesContext lists all datahub related secret types.
+	ListDatahubSecretTypesContext(ctx context.Context, params *ListDatahubSecretTypesParams, opts ...ClientOption) (*ListDatahubSecretTypesOK, error)
+
+	// ListRecipes lists recipes a recipe is a script that runs on all nodes of a specified instance group.
 	ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error)
 
+	// ListRecipesContext lists recipes a recipe is a script that runs on all nodes of a specified instance group.
+	ListRecipesContext(ctx context.Context, params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error)
+
+	// ListScalingActivities lists scaling activities for a cluster.
 	ListScalingActivities(params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error)
 
+	// ListScalingActivitiesContext lists scaling activities for a cluster.
+	ListScalingActivitiesContext(ctx context.Context, params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error)
+
+	// MigrateSkus migrate data hub cluster s k us.
 	MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
 
+	// MigrateSkusContext migrate data hub cluster s k us.
+	MigrateSkusContext(ctx context.Context, params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
+
+	// MigrateZookeeperToKraft migrate from zookeeper to k raft broker.
 	MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error)
 
+	// MigrateZookeeperToKraftContext migrate from zookeeper to k raft broker.
+	MigrateZookeeperToKraftContext(ctx context.Context, params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error)
+
+	// PrepareClusterUpgrade running upgrade related validations and prepares the required parcels for the upgrade.
 	PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error)
 
+	// PrepareClusterUpgradeContext running upgrade related validations and prepares the required parcels for the upgrade.
+	PrepareClusterUpgradeContext(ctx context.Context, params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error)
+
+	// RenewCertificate renew certificate on datahub cluster by name or c r n.
 	RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
 
+	// RenewCertificateContext renew certificate on datahub cluster by name or c r n.
+	RenewCertificateContext(ctx context.Context, params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
+
+	// RenewPublicCertificate renews public certificate on a datahub cluster by name or c r n.
 	RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error)
 
+	// RenewPublicCertificateContext renews public certificate on a datahub cluster by name or c r n.
+	RenewPublicCertificateContext(ctx context.Context, params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error)
+
+	// RepairCluster repairs a cluster.
 	RepairCluster(params *RepairClusterParams, opts ...ClientOption) (*RepairClusterOK, error)
 
+	// RepairClusterContext repairs a cluster.
+	RepairClusterContext(ctx context.Context, params *RepairClusterParams, opts ...ClientOption) (*RepairClusterOK, error)
+
+	// ReplaceRecipes replaces recipes for the given instance groups.
 	ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error)
 
+	// ReplaceRecipesContext replaces recipes for the given instance groups.
+	ReplaceRecipesContext(ctx context.Context, params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error)
+
+	// RestartClusterInstances restarts instances of a cluster on cloud provider.
 	RestartClusterInstances(params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error)
 
+	// RestartClusterInstancesContext restarts instances of a cluster on cloud provider.
+	RestartClusterInstancesContext(ctx context.Context, params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error)
+
+	// RetryCluster retries creation of a failed workload cluster.
 	RetryCluster(params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error)
 
+	// RetryClusterContext retries creation of a failed workload cluster.
+	RetryClusterContext(ctx context.Context, params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error)
+
+	// RollbackZookeeperToKraftMigration rollback the migration from zookeeper to k raft broker.
 	RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error)
 
+	// RollbackZookeeperToKraftMigrationContext rollback the migration from zookeeper to k raft broker.
+	RollbackZookeeperToKraftMigrationContext(ctx context.Context, params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error)
+
+	// RotateAutoTLSCertificates rotate autotls certificates on the datahub s hosts.
 	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
 
+	// RotateAutoTLSCertificatesContext rotate autotls certificates on the datahub s hosts.
+	RotateAutoTLSCertificatesContext(ctx context.Context, params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
+
+	// RotateDbCertificate rotates database ssl certificate for a specific data hub.
 	RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error)
 
+	// RotateDbCertificateContext rotates database ssl certificate for a specific data hub.
+	RotateDbCertificateContext(ctx context.Context, params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error)
+
+	// RotatePrivateCertificates rotates private certificates on the hosts of datahub.
 	RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
 
+	// RotatePrivateCertificatesContext rotates private certificates on the hosts of datahub.
+	RotatePrivateCertificatesContext(ctx context.Context, params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
+
+	// RotateSaltPassword rotate salt stack user password on data hub instances.
 	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
 
+	// RotateSaltPasswordContext rotate salt stack user password on data hub instances.
+	RotateSaltPasswordContext(ctx context.Context, params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	// RotateSecrets rotates secrets for a specific datahub.
 	RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error)
 
+	// RotateSecretsContext rotates secrets for a specific datahub.
+	RotateSecretsContext(ctx context.Context, params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error)
+
+	// ScaleCluster scales a cluster by adding or removing cluster nodes.
 	ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error)
 
+	// ScaleClusterContext scales a cluster by adding or removing cluster nodes.
+	ScaleClusterContext(ctx context.Context, params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error)
+
+	// SetCatalog sets a catalog for a data hub.
 	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
 
+	// SetCatalogContext sets a catalog for a data hub.
+	SetCatalogContext(ctx context.Context, params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
+
+	// SetDefaultJavaVersion configures the default java version for the data hub.
 	SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error)
 
+	// SetDefaultJavaVersionContext configures the default java version for the data hub.
+	SetDefaultJavaVersionContext(ctx context.Context, params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error)
+
+	// StartCluster starts a stopped workload cluster.
 	StartCluster(params *StartClusterParams, opts ...ClientOption) (*StartClusterOK, error)
 
+	// StartClusterContext starts a stopped workload cluster.
+	StartClusterContext(ctx context.Context, params *StartClusterParams, opts ...ClientOption) (*StartClusterOK, error)
+
+	// StartClusterVerticalScaling initiates the vertical scaling on data hub cluster.
 	StartClusterVerticalScaling(params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error)
 
+	// StartClusterVerticalScalingContext initiates the vertical scaling on data hub cluster.
+	StartClusterVerticalScalingContext(ctx context.Context, params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error)
+
+	// StartDatabaseUpgrade upgrades the database of the data hub cluster.
 	StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
 
+	// StartDatabaseUpgradeContext upgrades the database of the data hub cluster.
+	StartDatabaseUpgradeContext(ctx context.Context, params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
+
+	// StartInstances starts instances of a particular host group in the data hub cluster.
 	StartInstances(params *StartInstancesParams, opts ...ClientOption) (*StartInstancesOK, error)
 
+	// StartInstancesContext starts instances of a particular host group in the data hub cluster.
+	StartInstancesContext(ctx context.Context, params *StartInstancesParams, opts ...ClientOption) (*StartInstancesOK, error)
+
+	// StopCluster stops a workload cluster.
 	StopCluster(params *StopClusterParams, opts ...ClientOption) (*StopClusterOK, error)
 
+	// StopClusterContext stops a workload cluster.
+	StopClusterContext(ctx context.Context, params *StopClusterParams, opts ...ClientOption) (*StopClusterOK, error)
+
+	// StopInstances stops instances of particular host group in the data hub cluster.
 	StopInstances(params *StopInstancesParams, opts ...ClientOption) (*StopInstancesOK, error)
 
+	// StopInstancesContext stops instances of particular host group in the data hub cluster.
+	StopInstancesContext(ctx context.Context, params *StopInstancesParams, opts ...ClientOption) (*StopInstancesOK, error)
+
+	// SyncCluster synchronizes the state of a cluster with the cloud provider and cloudera manager.
 	SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*SyncClusterOK, error)
 
+	// SyncClusterContext synchronizes the state of a cluster with the cloud provider and cloudera manager.
+	SyncClusterContext(ctx context.Context, params *SyncClusterParams, opts ...ClientOption) (*SyncClusterOK, error)
+
+	// SyncComponentVersionsFromCm syncs component versions from c m after a failed upgrade.
 	SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error)
 
+	// SyncComponentVersionsFromCmContext syncs component versions from c m after a failed upgrade.
+	SyncComponentVersionsFromCmContext(ctx context.Context, params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error)
+
+	// UpdateAutoScaleRules modify auto scaling for a data hub cluster.
 	UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts ...ClientOption) (*UpdateAutoScaleRulesOK, error)
 
+	// UpdateAutoScaleRulesContext modify auto scaling for a data hub cluster.
+	UpdateAutoScaleRulesContext(ctx context.Context, params *UpdateAutoScaleRulesParams, opts ...ClientOption) (*UpdateAutoScaleRulesOK, error)
+
+	// UpdateOrchestratorState run orchestrator engine state update on the data hub cluster.
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
+	// UpdateOrchestratorStateContext run orchestrator engine state update on the data hub cluster.
+	UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
+
+	// UpdateToAwsImdsV1 updates data hub a w s cluster to use i m d sv1.
 	UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error)
 
+	// UpdateToAwsImdsV1Context updates data hub a w s cluster to use i m d sv1.
+	UpdateToAwsImdsV1Context(ctx context.Context, params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error)
+
+	// UpdateToAwsImdsV2 updates data hub a w s cluster to use i m d sv2.
 	UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error)
 
+	// UpdateToAwsImdsV2Context updates data hub a w s cluster to use i m d sv2.
+	UpdateToAwsImdsV2Context(ctx context.Context, params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error)
+
+	// UpgradeCluster upgrades the o s or data platform on a datahub cluster.
 	UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// UpgradeClusterContext upgrades the o s or data platform on a datahub cluster.
+	UpgradeClusterContext(ctx context.Context, params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
 /*
-CancelDatahubDiagnostics cancels running datahub diagnostics collections
+CancelDatahubDiagnosticscancels running datahub diagnostics collections.
 
-Cancel running Datahub diagnostics collection
+Cancel running Datahub diagnostics collection.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CancelDatahubDiagnosticsContext] instead.
 */
 func (a *Client) CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams, opts ...ClientOption) (*CancelDatahubDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CancelDatahubDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+CancelDatahubDiagnosticsContextcancels running datahub diagnostics collections.
+
+Cancel running Datahub diagnostics collection.
+
+Do not use the deprecated [CancelDatahubDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CancelDatahubDiagnosticsContext(ctx context.Context, params *CancelDatahubDiagnosticsParams, opts ...ClientOption) (*CancelDatahubDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelDatahubDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "cancelDatahubDiagnostics",
 		Method:             "POST",
@@ -223,13 +553,14 @@ func (a *Client) CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CancelDatahubDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -249,15 +580,39 @@ func (a *Client) CancelDatahubDiagnostics(params *CancelDatahubDiagnosticsParams
 }
 
 /*
-CollectCmDiagnostics starts datahub cloudera manager based diagnostics collection
+CollectCmDiagnosticsstarts datahub cloudera manager based diagnostics collection.
 
-Start Datahub Cloudera Manager based diagnostics collection
+Start Datahub Cloudera Manager based diagnostics collection.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CollectCmDiagnosticsContext] instead.
 */
 func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CollectCmDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+CollectCmDiagnosticsContextstarts datahub cloudera manager based diagnostics collection.
+
+Start Datahub Cloudera Manager based diagnostics collection.
+
+Do not use the deprecated [CollectCmDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CollectCmDiagnosticsContext(ctx context.Context, params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectCmDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "collectCmDiagnostics",
 		Method:             "POST",
@@ -267,13 +622,14 @@ func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CollectCmDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -293,15 +649,39 @@ func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts .
 }
 
 /*
-CollectDatahubDiagnostics starts data hub diagnostics collection
+CollectDatahubDiagnosticsstarts data hub diagnostics collection.
 
-Start DataHub diagnostics collection
+Start DataHub diagnostics collection.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CollectDatahubDiagnosticsContext] instead.
 */
 func (a *Client) CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsParams, opts ...ClientOption) (*CollectDatahubDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CollectDatahubDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+CollectDatahubDiagnosticsContextstarts data hub diagnostics collection.
+
+Start DataHub diagnostics collection.
+
+Do not use the deprecated [CollectDatahubDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CollectDatahubDiagnosticsContext(ctx context.Context, params *CollectDatahubDiagnosticsParams, opts ...ClientOption) (*CollectDatahubDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectDatahubDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "collectDatahubDiagnostics",
 		Method:             "POST",
@@ -311,13 +691,14 @@ func (a *Client) CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CollectDatahubDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -337,15 +718,39 @@ func (a *Client) CollectDatahubDiagnostics(params *CollectDatahubDiagnosticsPara
 }
 
 /*
-CreateAWSCluster creates an a w s workload cluster
+CreateAWSClustercreates an a w s workload cluster.
 
-Creates an AWS workload cluster.
+Creates an AWS workload cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAWSClusterContext] instead.
 */
 func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSClusterContext(ctx, params, opts...)
+}
+
+/*
+CreateAWSClusterContextcreates an a w s workload cluster.
+
+Creates an AWS workload cluster..
+
+Do not use the deprecated [CreateAWSClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAWSClusterContext(ctx context.Context, params *CreateAWSClusterParams, opts ...ClientOption) (*CreateAWSClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSCluster",
 		Method:             "POST",
@@ -355,13 +760,14 @@ func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -381,15 +787,39 @@ func (a *Client) CreateAWSCluster(params *CreateAWSClusterParams, opts ...Client
 }
 
 /*
-CreateAWSGovCloudCluster creates an a w s data hub cluster for gov cloud
+CreateAWSGovCloudClustercreates an a w s data hub cluster for gov cloud.
 
-Creates an AWS Data Hub cluster for GovCloud.
+Creates an AWS Data Hub cluster for GovCloud..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAWSGovCloudClusterContext] instead.
 */
 func (a *Client) CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSGovCloudClusterContext(ctx, params, opts...)
+}
+
+/*
+CreateAWSGovCloudClusterContextcreates an a w s data hub cluster for gov cloud.
+
+Creates an AWS Data Hub cluster for GovCloud..
+
+Do not use the deprecated [CreateAWSGovCloudClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAWSGovCloudClusterContext(ctx context.Context, params *CreateAWSGovCloudClusterParams, opts ...ClientOption) (*CreateAWSGovCloudClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSGovCloudCluster",
 		Method:             "POST",
@@ -399,13 +829,14 @@ func (a *Client) CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSGovCloudClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -425,15 +856,39 @@ func (a *Client) CreateAWSGovCloudCluster(params *CreateAWSGovCloudClusterParams
 }
 
 /*
-CreateAutoScaleRules creates auto scaling rules for a data hub cluster
+CreateAutoScaleRulescreates auto scaling rules for a data hub cluster.
 
-Create Auto Scaling rules for a DataHub cluster.
+Create Auto Scaling rules for a DataHub cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAutoScaleRulesContext] instead.
 */
 func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAutoScaleRulesContext(ctx, params, opts...)
+}
+
+/*
+CreateAutoScaleRulesContextcreates auto scaling rules for a data hub cluster.
+
+Create Auto Scaling rules for a DataHub cluster..
+
+Do not use the deprecated [CreateAutoScaleRulesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAutoScaleRulesContext(ctx context.Context, params *CreateAutoScaleRulesParams, opts ...ClientOption) (*CreateAutoScaleRulesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAutoScaleRulesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAutoScaleRules",
 		Method:             "POST",
@@ -443,13 +898,14 @@ func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAutoScaleRulesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -469,15 +925,39 @@ func (a *Client) CreateAutoScaleRules(params *CreateAutoScaleRulesParams, opts .
 }
 
 /*
-CreateAzureCluster creates an azure workload cluster
+CreateAzureClustercreates an azure workload cluster.
 
-Creates an Azure workload cluster.
+Creates an Azure workload cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAzureClusterContext] instead.
 */
 func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAzureClusterContext(ctx, params, opts...)
+}
+
+/*
+CreateAzureClusterContextcreates an azure workload cluster.
+
+Creates an Azure workload cluster..
+
+Do not use the deprecated [CreateAzureClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAzureClusterContext(ctx context.Context, params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAzureCluster",
 		Method:             "POST",
@@ -487,13 +967,14 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAzureClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -513,15 +994,39 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...Cl
 }
 
 /*
-CreateClusterDefinition creates a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+CreateClusterDefinitioncreates a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 
-Creates a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Creates a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateClusterDefinitionContext] instead.
 */
 func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams, opts ...ClientOption) (*CreateClusterDefinitionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateClusterDefinitionContext(ctx, params, opts...)
+}
+
+/*
+CreateClusterDefinitionContextcreates a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+
+Creates a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+Do not use the deprecated [CreateClusterDefinitionParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateClusterDefinitionContext(ctx context.Context, params *CreateClusterDefinitionParams, opts ...ClientOption) (*CreateClusterDefinitionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterDefinitionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createClusterDefinition",
 		Method:             "POST",
@@ -531,13 +1036,14 @@ func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateClusterDefinitionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -557,15 +1063,39 @@ func (a *Client) CreateClusterDefinition(params *CreateClusterDefinitionParams, 
 }
 
 /*
-CreateClusterTemplate creates a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+CreateClusterTemplatecreates a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 
-Creates a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Creates a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateClusterTemplateContext] instead.
 */
 func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams, opts ...ClientOption) (*CreateClusterTemplateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateClusterTemplateContext(ctx, params, opts...)
+}
+
+/*
+CreateClusterTemplateContextcreates a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+
+Creates a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+Do not use the deprecated [CreateClusterTemplateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateClusterTemplateContext(ctx context.Context, params *CreateClusterTemplateParams, opts ...ClientOption) (*CreateClusterTemplateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterTemplateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createClusterTemplate",
 		Method:             "POST",
@@ -575,13 +1105,14 @@ func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateClusterTemplateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -601,15 +1132,39 @@ func (a *Client) CreateClusterTemplate(params *CreateClusterTemplateParams, opts
 }
 
 /*
-CreateCustomConfigurations creates custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
+CreateCustomConfigurationscreates custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 
-Creates custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
+Creates custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateCustomConfigurationsContext] instead.
 */
 func (a *Client) CreateCustomConfigurations(params *CreateCustomConfigurationsParams, opts ...ClientOption) (*CreateCustomConfigurationsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateCustomConfigurationsContext(ctx, params, opts...)
+}
+
+/*
+CreateCustomConfigurationsContextcreates custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+
+Creates custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+Do not use the deprecated [CreateCustomConfigurationsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateCustomConfigurationsContext(ctx context.Context, params *CreateCustomConfigurationsParams, opts ...ClientOption) (*CreateCustomConfigurationsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateCustomConfigurationsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createCustomConfigurations",
 		Method:             "POST",
@@ -619,13 +1174,14 @@ func (a *Client) CreateCustomConfigurations(params *CreateCustomConfigurationsPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateCustomConfigurationsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -645,15 +1201,39 @@ func (a *Client) CreateCustomConfigurations(params *CreateCustomConfigurationsPa
 }
 
 /*
-CreateGCPCluster creates a g c p workload cluster
+CreateGCPClustercreates a g c p workload cluster.
 
-Creates a GCP workload cluster.
+Creates a GCP workload cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateGCPClusterContext] instead.
 */
 func (a *Client) CreateGCPCluster(params *CreateGCPClusterParams, opts ...ClientOption) (*CreateGCPClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateGCPClusterContext(ctx, params, opts...)
+}
+
+/*
+CreateGCPClusterContextcreates a g c p workload cluster.
+
+Creates a GCP workload cluster..
+
+Do not use the deprecated [CreateGCPClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateGCPClusterContext(ctx context.Context, params *CreateGCPClusterParams, opts ...ClientOption) (*CreateGCPClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createGCPCluster",
 		Method:             "POST",
@@ -663,13 +1243,14 @@ func (a *Client) CreateGCPCluster(params *CreateGCPClusterParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateGCPClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -689,15 +1270,39 @@ func (a *Client) CreateGCPCluster(params *CreateGCPClusterParams, opts ...Client
 }
 
 /*
-CreateRecipe creates recipe a recipe is a script that runs on all nodes of a specified instance group
+CreateRecipecreates recipe a recipe is a script that runs on all nodes of a specified instance group.
 
-Creates recipe. A recipe is a script that runs on all nodes of a specified instance group.
+Creates recipe. A recipe is a script that runs on all nodes of a specified instance group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateRecipeContext] instead.
 */
 func (a *Client) CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) (*CreateRecipeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateRecipeContext(ctx, params, opts...)
+}
+
+/*
+CreateRecipeContextcreates recipe a recipe is a script that runs on all nodes of a specified instance group.
+
+Creates recipe. A recipe is a script that runs on all nodes of a specified instance group..
+
+Do not use the deprecated [CreateRecipeParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateRecipeContext(ctx context.Context, params *CreateRecipeParams, opts ...ClientOption) (*CreateRecipeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateRecipeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createRecipe",
 		Method:             "POST",
@@ -707,13 +1312,14 @@ func (a *Client) CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateRecipeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -733,15 +1339,39 @@ func (a *Client) CreateRecipe(params *CreateRecipeParams, opts ...ClientOption) 
 }
 
 /*
-DeleteAutoScaleRules deletes auto scaling policies for a data hub cluster
+DeleteAutoScaleRulesdeletes auto scaling policies for a data hub cluster.
 
-Delete AutoScaling policies for a DataHub cluster
+Delete AutoScaling policies for a DataHub cluster.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteAutoScaleRulesContext] instead.
 */
 func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts ...ClientOption) (*DeleteAutoScaleRulesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteAutoScaleRulesContext(ctx, params, opts...)
+}
+
+/*
+DeleteAutoScaleRulesContextdeletes auto scaling policies for a data hub cluster.
+
+Delete AutoScaling policies for a DataHub cluster.
+
+Do not use the deprecated [DeleteAutoScaleRulesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteAutoScaleRulesContext(ctx context.Context, params *DeleteAutoScaleRulesParams, opts ...ClientOption) (*DeleteAutoScaleRulesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteAutoScaleRulesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteAutoScaleRules",
 		Method:             "POST",
@@ -751,13 +1381,14 @@ func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteAutoScaleRulesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -777,15 +1408,39 @@ func (a *Client) DeleteAutoScaleRules(params *DeleteAutoScaleRulesParams, opts .
 }
 
 /*
-DeleteCluster deletes a workload cluster
+DeleteClusterdeletes a workload cluster.
 
-Deletes a workload cluster.
+Deletes a workload cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteClusterContext] instead.
 */
 func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteClusterContext(ctx, params, opts...)
+}
+
+/*
+DeleteClusterContextdeletes a workload cluster.
+
+Deletes a workload cluster..
+
+Do not use the deprecated [DeleteClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteClusterContext(ctx context.Context, params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteCluster",
 		Method:             "POST",
@@ -795,13 +1450,14 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -821,15 +1477,39 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption
 }
 
 /*
-DeleteClusterDefinitions deletes cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+DeleteClusterDefinitionsdeletes cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 
-Deletes cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Deletes cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteClusterDefinitionsContext] instead.
 */
 func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams, opts ...ClientOption) (*DeleteClusterDefinitionsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteClusterDefinitionsContext(ctx, params, opts...)
+}
+
+/*
+DeleteClusterDefinitionsContextdeletes cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+
+Deletes cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+Do not use the deprecated [DeleteClusterDefinitionsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteClusterDefinitionsContext(ctx context.Context, params *DeleteClusterDefinitionsParams, opts ...ClientOption) (*DeleteClusterDefinitionsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterDefinitionsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteClusterDefinitions",
 		Method:             "POST",
@@ -839,13 +1519,14 @@ func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteClusterDefinitionsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -865,15 +1546,39 @@ func (a *Client) DeleteClusterDefinitions(params *DeleteClusterDefinitionsParams
 }
 
 /*
-DeleteClusterTemplates deletes cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+DeleteClusterTemplatesdeletes cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 
-Deletes cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Deletes cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteClusterTemplatesContext] instead.
 */
 func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams, opts ...ClientOption) (*DeleteClusterTemplatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteClusterTemplatesContext(ctx, params, opts...)
+}
+
+/*
+DeleteClusterTemplatesContextdeletes cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+
+Deletes cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+Do not use the deprecated [DeleteClusterTemplatesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteClusterTemplatesContext(ctx context.Context, params *DeleteClusterTemplatesParams, opts ...ClientOption) (*DeleteClusterTemplatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterTemplatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteClusterTemplates",
 		Method:             "POST",
@@ -883,13 +1588,14 @@ func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteClusterTemplatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -909,15 +1615,39 @@ func (a *Client) DeleteClusterTemplates(params *DeleteClusterTemplatesParams, op
 }
 
 /*
-DeleteCustomConfigurations deletes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
+DeleteCustomConfigurationsdeletes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 
-Deletes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
+Deletes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteCustomConfigurationsContext] instead.
 */
 func (a *Client) DeleteCustomConfigurations(params *DeleteCustomConfigurationsParams, opts ...ClientOption) (*DeleteCustomConfigurationsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteCustomConfigurationsContext(ctx, params, opts...)
+}
+
+/*
+DeleteCustomConfigurationsContextdeletes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+
+Deletes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+Do not use the deprecated [DeleteCustomConfigurationsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteCustomConfigurationsContext(ctx context.Context, params *DeleteCustomConfigurationsParams, opts ...ClientOption) (*DeleteCustomConfigurationsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteCustomConfigurationsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteCustomConfigurations",
 		Method:             "POST",
@@ -927,13 +1657,14 @@ func (a *Client) DeleteCustomConfigurations(params *DeleteCustomConfigurationsPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteCustomConfigurationsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -953,15 +1684,39 @@ func (a *Client) DeleteCustomConfigurations(params *DeleteCustomConfigurationsPa
 }
 
 /*
-DeleteInstances deletes instances for the specified cluster
+DeleteInstancesdeletes instances for the specified cluster.
 
-Deletes instances for the specified cluster.
+Deletes instances for the specified cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteInstancesContext] instead.
 */
 func (a *Client) DeleteInstances(params *DeleteInstancesParams, opts ...ClientOption) (*DeleteInstancesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteInstancesContext(ctx, params, opts...)
+}
+
+/*
+DeleteInstancesContextdeletes instances for the specified cluster.
+
+Deletes instances for the specified cluster..
+
+Do not use the deprecated [DeleteInstancesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteInstancesContext(ctx context.Context, params *DeleteInstancesParams, opts ...ClientOption) (*DeleteInstancesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteInstancesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteInstances",
 		Method:             "POST",
@@ -971,13 +1726,14 @@ func (a *Client) DeleteInstances(params *DeleteInstancesParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteInstancesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -997,15 +1753,39 @@ func (a *Client) DeleteInstances(params *DeleteInstancesParams, opts ...ClientOp
 }
 
 /*
-DeleteRecipes deletes recipes a recipe is a script that runs on all nodes of a specified instance group
+DeleteRecipesdeletes recipes a recipe is a script that runs on all nodes of a specified instance group.
 
-Deletes recipes. A recipe is a script that runs on all nodes of a specified instance group.
+Deletes recipes. A recipe is a script that runs on all nodes of a specified instance group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteRecipesContext] instead.
 */
 func (a *Client) DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption) (*DeleteRecipesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteRecipesContext(ctx, params, opts...)
+}
+
+/*
+DeleteRecipesContextdeletes recipes a recipe is a script that runs on all nodes of a specified instance group.
+
+Deletes recipes. A recipe is a script that runs on all nodes of a specified instance group..
+
+Do not use the deprecated [DeleteRecipesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteRecipesContext(ctx context.Context, params *DeleteRecipesParams, opts ...ClientOption) (*DeleteRecipesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteRecipesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteRecipes",
 		Method:             "POST",
@@ -1015,13 +1795,14 @@ func (a *Client) DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteRecipesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1041,15 +1822,39 @@ func (a *Client) DeleteRecipes(params *DeleteRecipesParams, opts ...ClientOption
 }
 
 /*
-DescribeAutoScaleRules describes the auto scaling policies for a data hub cluster
+DescribeAutoScaleRulesdescribes the auto scaling policies for a data hub cluster.
 
-Describe the AutoScaling policies for a DataHub cluster
+Describe the AutoScaling policies for a DataHub cluster.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeAutoScaleRulesContext] instead.
 */
 func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, opts ...ClientOption) (*DescribeAutoScaleRulesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeAutoScaleRulesContext(ctx, params, opts...)
+}
+
+/*
+DescribeAutoScaleRulesContextdescribes the auto scaling policies for a data hub cluster.
+
+Describe the AutoScaling policies for a DataHub cluster.
+
+Do not use the deprecated [DescribeAutoScaleRulesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeAutoScaleRulesContext(ctx context.Context, params *DescribeAutoScaleRulesParams, opts ...ClientOption) (*DescribeAutoScaleRulesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeAutoScaleRulesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeAutoScaleRules",
 		Method:             "POST",
@@ -1059,13 +1864,14 @@ func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeAutoScaleRulesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1085,15 +1891,39 @@ func (a *Client) DescribeAutoScaleRules(params *DescribeAutoScaleRulesParams, op
 }
 
 /*
-DescribeCluster describes a workload cluster
+DescribeClusterdescribes a workload cluster.
 
-Describes a workload cluster.
+Describes a workload cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeClusterContext] instead.
 */
 func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeClusterContext(ctx, params, opts...)
+}
+
+/*
+DescribeClusterContextdescribes a workload cluster.
+
+Describes a workload cluster..
+
+Do not use the deprecated [DescribeClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeClusterContext(ctx context.Context, params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeCluster",
 		Method:             "POST",
@@ -1103,13 +1933,14 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1129,15 +1960,39 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOp
 }
 
 /*
-DescribeClusterDefinition describes a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+DescribeClusterDefinitiondescribes a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 
-Describes a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Describes a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeClusterDefinitionContext] instead.
 */
 func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionParams, opts ...ClientOption) (*DescribeClusterDefinitionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeClusterDefinitionContext(ctx, params, opts...)
+}
+
+/*
+DescribeClusterDefinitionContextdescribes a cluster definition a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+
+Describes a cluster definition. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+Do not use the deprecated [DescribeClusterDefinitionParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeClusterDefinitionContext(ctx context.Context, params *DescribeClusterDefinitionParams, opts ...ClientOption) (*DescribeClusterDefinitionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterDefinitionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeClusterDefinition",
 		Method:             "POST",
@@ -1147,13 +2002,14 @@ func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeClusterDefinitionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1173,15 +2029,39 @@ func (a *Client) DescribeClusterDefinition(params *DescribeClusterDefinitionPara
 }
 
 /*
-DescribeClusterTemplate describes a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+DescribeClusterTemplatedescribes a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 
-Describes a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Describes a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeClusterTemplateContext] instead.
 */
 func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams, opts ...ClientOption) (*DescribeClusterTemplateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeClusterTemplateContext(ctx, params, opts...)
+}
+
+/*
+DescribeClusterTemplateContextdescribes a cluster template a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+
+Describes a cluster template. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+Do not use the deprecated [DescribeClusterTemplateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeClusterTemplateContext(ctx context.Context, params *DescribeClusterTemplateParams, opts ...ClientOption) (*DescribeClusterTemplateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterTemplateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeClusterTemplate",
 		Method:             "POST",
@@ -1191,13 +2071,14 @@ func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeClusterTemplateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1217,15 +2098,39 @@ func (a *Client) DescribeClusterTemplate(params *DescribeClusterTemplateParams, 
 }
 
 /*
-DescribeCustomConfigurations describes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
+DescribeCustomConfigurationsdescribes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 
-Describes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
+Describes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeCustomConfigurationsContext] instead.
 */
 func (a *Client) DescribeCustomConfigurations(params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeCustomConfigurationsContext(ctx, params, opts...)
+}
+
+/*
+DescribeCustomConfigurationsContextdescribes custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+
+Describes custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+Do not use the deprecated [DescribeCustomConfigurationsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeCustomConfigurationsContext(ctx context.Context, params *DescribeCustomConfigurationsParams, opts ...ClientOption) (*DescribeCustomConfigurationsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeCustomConfigurationsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeCustomConfigurations",
 		Method:             "POST",
@@ -1235,13 +2140,14 @@ func (a *Client) DescribeCustomConfigurations(params *DescribeCustomConfiguratio
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeCustomConfigurationsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1261,15 +2167,39 @@ func (a *Client) DescribeCustomConfigurations(params *DescribeCustomConfiguratio
 }
 
 /*
-DescribeDatabaseServer gets external database server details
+DescribeDatabaseServergets external database server details.
 
-Gets external database server details for Data Hub cluster by cluster CRN
+Gets external database server details for Data Hub cluster by cluster CRN.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeDatabaseServerContext] instead.
 */
 func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDatabaseServerContext(ctx, params, opts...)
+}
+
+/*
+DescribeDatabaseServerContextgets external database server details.
+
+Gets external database server details for Data Hub cluster by cluster CRN.
+
+Do not use the deprecated [DescribeDatabaseServerParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeDatabaseServerContext(ctx context.Context, params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatabaseServerParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDatabaseServer",
 		Method:             "POST",
@@ -1279,13 +2209,14 @@ func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDatabaseServerReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1305,15 +2236,39 @@ func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, op
 }
 
 /*
-DescribeRecipe describes recipe a recipe is a script that runs on all nodes of a specified instance group
+DescribeRecipedescribes recipe a recipe is a script that runs on all nodes of a specified instance group.
 
-Describes recipe. A recipe is a script that runs on all nodes of a specified instance group.
+Describes recipe. A recipe is a script that runs on all nodes of a specified instance group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeRecipeContext] instead.
 */
 func (a *Client) DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeRecipeContext(ctx, params, opts...)
+}
+
+/*
+DescribeRecipeContextdescribes recipe a recipe is a script that runs on all nodes of a specified instance group.
+
+Describes recipe. A recipe is a script that runs on all nodes of a specified instance group..
+
+Do not use the deprecated [DescribeRecipeParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeRecipeContext(ctx context.Context, params *DescribeRecipeParams, opts ...ClientOption) (*DescribeRecipeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeRecipeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeRecipe",
 		Method:             "POST",
@@ -1323,13 +2278,14 @@ func (a *Client) DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeRecipeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1349,15 +2305,39 @@ func (a *Client) DescribeRecipe(params *DescribeRecipeParams, opts ...ClientOpti
 }
 
 /*
-DescribeScalingActivity describes the scaling activity using cluster c r n or cluster n a m e and operation ID
+DescribeScalingActivitydescribes the scaling activity using cluster c r n or cluster n a m e and operation ID.
 
-Describes the Scaling Activity using Cluster CRN or Cluster NAME and operation ID.
+Describes the Scaling Activity using Cluster CRN or Cluster NAME and operation ID..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeScalingActivityContext] instead.
 */
 func (a *Client) DescribeScalingActivity(params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeScalingActivityContext(ctx, params, opts...)
+}
+
+/*
+DescribeScalingActivityContextdescribes the scaling activity using cluster c r n or cluster n a m e and operation ID.
+
+Describes the Scaling Activity using Cluster CRN or Cluster NAME and operation ID..
+
+Do not use the deprecated [DescribeScalingActivityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeScalingActivityContext(ctx context.Context, params *DescribeScalingActivityParams, opts ...ClientOption) (*DescribeScalingActivityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeScalingActivityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeScalingActivity",
 		Method:             "POST",
@@ -1367,13 +2347,14 @@ func (a *Client) DescribeScalingActivity(params *DescribeScalingActivityParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeScalingActivityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1393,15 +2374,39 @@ func (a *Client) DescribeScalingActivity(params *DescribeScalingActivityParams, 
 }
 
 /*
-FinalizeZookeeperToKraftMigration finalizes the migration from zookeeper to k raft broker
+FinalizeZookeeperToKraftMigrationfinalizes the migration from zookeeper to k raft broker.
 
-Initiates the finalization of the migration from Zookeeper to KRaft broker.
+Initiates the finalization of the migration from Zookeeper to KRaft broker..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.FinalizeZookeeperToKraftMigrationContext] instead.
 */
 func (a *Client) FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.FinalizeZookeeperToKraftMigrationContext(ctx, params, opts...)
+}
+
+/*
+FinalizeZookeeperToKraftMigrationContextfinalizes the migration from zookeeper to k raft broker.
+
+Initiates the finalization of the migration from Zookeeper to KRaft broker..
+
+Do not use the deprecated [FinalizeZookeeperToKraftMigrationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) FinalizeZookeeperToKraftMigrationContext(ctx context.Context, params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewFinalizeZookeeperToKraftMigrationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "finalizeZookeeperToKraftMigration",
 		Method:             "POST",
@@ -1411,13 +2416,14 @@ func (a *Client) FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKr
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &FinalizeZookeeperToKraftMigrationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1437,15 +2443,39 @@ func (a *Client) FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKr
 }
 
 /*
-GetClusterHostStatus gets cluster host status
+GetClusterHostStatusgets cluster host status.
 
-Gets the status of the hosts in a cluster.
+Gets the status of the hosts in a cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetClusterHostStatusContext] instead.
 */
 func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetClusterHostStatusContext(ctx, params, opts...)
+}
+
+/*
+GetClusterHostStatusContextgets cluster host status.
+
+Gets the status of the hosts in a cluster..
+
+Do not use the deprecated [GetClusterHostStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetClusterHostStatusContext(ctx context.Context, params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterHostStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getClusterHostStatus",
 		Method:             "POST",
@@ -1455,13 +2485,14 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetClusterHostStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1481,15 +2512,39 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts .
 }
 
 /*
-GetClusterServiceStatus gets cluster service status
+GetClusterServiceStatusgets cluster service status.
 
-Gets the status of the services in a cluster.
+Gets the status of the services in a cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetClusterServiceStatusContext] instead.
 */
 func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetClusterServiceStatusContext(ctx, params, opts...)
+}
+
+/*
+GetClusterServiceStatusContextgets cluster service status.
+
+Gets the status of the services in a cluster..
+
+Do not use the deprecated [GetClusterServiceStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetClusterServiceStatusContext(ctx context.Context, params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterServiceStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getClusterServiceStatus",
 		Method:             "POST",
@@ -1499,13 +2554,14 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetClusterServiceStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1525,15 +2581,39 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, 
 }
 
 /*
-GetCmRoles gathers cloudera manager roles that can be used for filtering in c m based diagnostics collection
+GetCmRolesgathers cloudera manager roles that can be used for filtering in c m based diagnostics collection.
 
-Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection.
+Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetCmRolesContext] instead.
 */
 func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetCmRolesContext(ctx, params, opts...)
+}
+
+/*
+GetCmRolesContextgathers cloudera manager roles that can be used for filtering in c m based diagnostics collection.
+
+Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection..
+
+Do not use the deprecated [GetCmRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetCmRolesContext(ctx context.Context, params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetCmRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getCmRoles",
 		Method:             "POST",
@@ -1543,13 +2623,14 @@ func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*Ge
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCmRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1569,15 +2650,39 @@ func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*Ge
 }
 
 /*
-GetDatahubLogDescriptors gathers log descriptors that are used for diagnostics collection
+GetDatahubLogDescriptorsgathers log descriptors that are used for diagnostics collection.
 
-Gather log descriptors that are used for diagnostics collection.
+Gather log descriptors that are used for diagnostics collection..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetDatahubLogDescriptorsContext] instead.
 */
 func (a *Client) GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetDatahubLogDescriptorsContext(ctx, params, opts...)
+}
+
+/*
+GetDatahubLogDescriptorsContextgathers log descriptors that are used for diagnostics collection.
+
+Gather log descriptors that are used for diagnostics collection..
+
+Do not use the deprecated [GetDatahubLogDescriptorsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetDatahubLogDescriptorsContext(ctx context.Context, params *GetDatahubLogDescriptorsParams, opts ...ClientOption) (*GetDatahubLogDescriptorsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDatahubLogDescriptorsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getDatahubLogDescriptors",
 		Method:             "POST",
@@ -1587,13 +2692,14 @@ func (a *Client) GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetDatahubLogDescriptorsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1613,15 +2719,39 @@ func (a *Client) GetDatahubLogDescriptors(params *GetDatahubLogDescriptorsParams
 }
 
 /*
-GetOperation gets the latest in progress or finished operation for the datahub cluster
+GetOperationgets the latest in progress or finished operation for the datahub cluster.
 
-Get the latest (in progress or finished) operation for the datahub cluster.
+Get the latest (in progress or finished) operation for the datahub cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetOperationContext] instead.
 */
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetOperationContext(ctx, params, opts...)
+}
+
+/*
+GetOperationContextgets the latest in progress or finished operation for the datahub cluster.
+
+Get the latest (in progress or finished) operation for the datahub cluster..
+
+Do not use the deprecated [GetOperationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetOperationContext(ctx context.Context, params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetOperationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getOperation",
 		Method:             "POST",
@@ -1631,13 +2761,14 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetOperationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1657,15 +2788,39 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 }
 
 /*
-GetVMTypes creates a recommendation that advises virtual machine types for the given cluster template based on the given properties
+GetVMTypescreates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
 
-Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
+Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetVMTypesContext] instead.
 */
 func (a *Client) GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetVMTypesContext(ctx, params, opts...)
+}
+
+/*
+GetVMTypesContextcreates a recommendation that advises virtual machine types for the given cluster template based on the given properties.
+
+Creates a recommendation that advises virtual machine types for the given cluster template based on the given properties..
+
+Do not use the deprecated [GetVMTypesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetVMTypesContext(ctx context.Context, params *GetVMTypesParams, opts ...ClientOption) (*GetVMTypesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetVMTypesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getVmTypes",
 		Method:             "POST",
@@ -1675,13 +2830,14 @@ func (a *Client) GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*Ge
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetVMTypesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1701,15 +2857,39 @@ func (a *Client) GetVMTypes(params *GetVMTypesParams, opts ...ClientOption) (*Ge
 }
 
 /*
-ListAutoScaleHistory lists auto scale history activity for a data hub cluster
+ListAutoScaleHistorylists auto scale history activity for a data hub cluster.
 
-List AutoScale history activity for a DataHub cluster.
+List AutoScale history activity for a DataHub cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListAutoScaleHistoryContext] instead.
 */
 func (a *Client) ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListAutoScaleHistoryContext(ctx, params, opts...)
+}
+
+/*
+ListAutoScaleHistoryContextlists auto scale history activity for a data hub cluster.
+
+List AutoScale history activity for a DataHub cluster..
+
+Do not use the deprecated [ListAutoScaleHistoryParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListAutoScaleHistoryContext(ctx context.Context, params *ListAutoScaleHistoryParams, opts ...ClientOption) (*ListAutoScaleHistoryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListAutoScaleHistoryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listAutoScaleHistory",
 		Method:             "POST",
@@ -1719,13 +2899,14 @@ func (a *Client) ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListAutoScaleHistoryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1745,15 +2926,39 @@ func (a *Client) ListAutoScaleHistory(params *ListAutoScaleHistoryParams, opts .
 }
 
 /*
-ListClusterDefinitions lists cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings
+ListClusterDefinitionslists cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
 
-Lists cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings.
+Lists cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListClusterDefinitionsContext] instead.
 */
 func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams, opts ...ClientOption) (*ListClusterDefinitionsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListClusterDefinitionsContext(ctx, params, opts...)
+}
+
+/*
+ListClusterDefinitionsContextlists cluster definitions a cluster definition is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloud provider settings.
+
+Lists cluster definitions. A cluster definition is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical cloud provider settings..
+
+Do not use the deprecated [ListClusterDefinitionsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListClusterDefinitionsContext(ctx context.Context, params *ListClusterDefinitionsParams, opts ...ClientOption) (*ListClusterDefinitionsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterDefinitionsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listClusterDefinitions",
 		Method:             "POST",
@@ -1763,13 +2968,14 @@ func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListClusterDefinitionsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1789,15 +2995,39 @@ func (a *Client) ListClusterDefinitions(params *ListClusterDefinitionsParams, op
 }
 
 /*
-ListClusterLifecycleEvents lists workload cluster lifecycle events
+ListClusterLifecycleEventslists workload cluster lifecycle events.
 
-Lists Workload cluster lifecycle events.
+Lists Workload cluster lifecycle events..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListClusterLifecycleEventsContext] instead.
 */
 func (a *Client) ListClusterLifecycleEvents(params *ListClusterLifecycleEventsParams, opts ...ClientOption) (*ListClusterLifecycleEventsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListClusterLifecycleEventsContext(ctx, params, opts...)
+}
+
+/*
+ListClusterLifecycleEventsContextlists workload cluster lifecycle events.
+
+Lists Workload cluster lifecycle events..
+
+Do not use the deprecated [ListClusterLifecycleEventsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListClusterLifecycleEventsContext(ctx context.Context, params *ListClusterLifecycleEventsParams, opts ...ClientOption) (*ListClusterLifecycleEventsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterLifecycleEventsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listClusterLifecycleEvents",
 		Method:             "POST",
@@ -1807,13 +3037,14 @@ func (a *Client) ListClusterLifecycleEvents(params *ListClusterLifecycleEventsPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListClusterLifecycleEventsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1833,15 +3064,39 @@ func (a *Client) ListClusterLifecycleEvents(params *ListClusterLifecycleEventsPa
 }
 
 /*
-ListClusterTemplates lists cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings
+ListClusterTemplateslists cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
 
-Lists cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings.
+Lists cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListClusterTemplatesContext] instead.
 */
 func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams, opts ...ClientOption) (*ListClusterTemplatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListClusterTemplatesContext(ctx, params, opts...)
+}
+
+/*
+ListClusterTemplatesContextlists cluster templates a cluster template is a reusable template in JSON format that can be used for creating multiple data hub clusters with identical cloudera runtime settings.
+
+Lists cluster templates. A cluster template is a reusable template in JSON format that can be used for creating multiple Data Hub clusters with identical Cloudera Runtime settings..
+
+Do not use the deprecated [ListClusterTemplatesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListClusterTemplatesContext(ctx context.Context, params *ListClusterTemplatesParams, opts ...ClientOption) (*ListClusterTemplatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterTemplatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listClusterTemplates",
 		Method:             "POST",
@@ -1851,13 +3106,14 @@ func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListClusterTemplatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1877,15 +3133,39 @@ func (a *Client) ListClusterTemplates(params *ListClusterTemplatesParams, opts .
 }
 
 /*
-ListClusters lists workload clusters
+ListClusterslists workload clusters.
 
-Lists workload clusters.
+Lists workload clusters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListClustersContext] instead.
 */
 func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListClustersContext(ctx, params, opts...)
+}
+
+/*
+ListClustersContextlists workload clusters.
+
+Lists workload clusters..
+
+Do not use the deprecated [ListClustersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListClustersContext(ctx context.Context, params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClustersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listClusters",
 		Method:             "POST",
@@ -1895,13 +3175,14 @@ func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListClustersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1921,15 +3202,39 @@ func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) 
 }
 
 /*
-ListCustomConfigurations lists custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters
+ListCustomConfigurationslists custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
 
-Lists custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters.
+Lists custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListCustomConfigurationsContext] instead.
 */
 func (a *Client) ListCustomConfigurations(params *ListCustomConfigurationsParams, opts ...ClientOption) (*ListCustomConfigurationsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListCustomConfigurationsContext(ctx, params, opts...)
+}
+
+/*
+ListCustomConfigurationsContextlists custom configurations custom configurations are sets of properties or name value pairs that belong to any of the services present in cluster templates these can be used to override and or append properties to the corresponding cluster template while launching data hub clusters.
+
+Lists custom configurations. Custom Configurations are sets of properties or name-value pairs that belong to any of the services present in cluster templates. These can be used to override and/or append properties to the corresponding cluster template while launching DataHub clusters..
+
+Do not use the deprecated [ListCustomConfigurationsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListCustomConfigurationsContext(ctx context.Context, params *ListCustomConfigurationsParams, opts ...ClientOption) (*ListCustomConfigurationsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCustomConfigurationsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listCustomConfigurations",
 		Method:             "POST",
@@ -1939,13 +3244,14 @@ func (a *Client) ListCustomConfigurations(params *ListCustomConfigurationsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListCustomConfigurationsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1965,15 +3271,39 @@ func (a *Client) ListCustomConfigurations(params *ListCustomConfigurationsParams
 }
 
 /*
-ListDatahubDiagnostics lists recent datahub diagnostics collections
+ListDatahubDiagnosticslists recent datahub diagnostics collections.
 
-List recent Datahub diagnostics collection
+List recent Datahub diagnostics collection.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDatahubDiagnosticsContext] instead.
 */
 func (a *Client) ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDatahubDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+ListDatahubDiagnosticsContextlists recent datahub diagnostics collections.
+
+List recent Datahub diagnostics collection.
+
+Do not use the deprecated [ListDatahubDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDatahubDiagnosticsContext(ctx context.Context, params *ListDatahubDiagnosticsParams, opts ...ClientOption) (*ListDatahubDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatahubDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDatahubDiagnostics",
 		Method:             "POST",
@@ -1983,13 +3313,14 @@ func (a *Client) ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDatahubDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2009,15 +3340,39 @@ func (a *Client) ListDatahubDiagnostics(params *ListDatahubDiagnosticsParams, op
 }
 
 /*
-ListDatahubSecretTypes lists all datahub related secret types
+ListDatahubSecretTypeslists all datahub related secret types.
 
-Lists Datahub related secret types for Datahub instances.
+Lists Datahub related secret types for Datahub instances..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDatahubSecretTypesContext] instead.
 */
 func (a *Client) ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, opts ...ClientOption) (*ListDatahubSecretTypesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDatahubSecretTypesContext(ctx, params, opts...)
+}
+
+/*
+ListDatahubSecretTypesContextlists all datahub related secret types.
+
+Lists Datahub related secret types for Datahub instances..
+
+Do not use the deprecated [ListDatahubSecretTypesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDatahubSecretTypesContext(ctx context.Context, params *ListDatahubSecretTypesParams, opts ...ClientOption) (*ListDatahubSecretTypesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatahubSecretTypesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDatahubSecretTypes",
 		Method:             "POST",
@@ -2027,13 +3382,14 @@ func (a *Client) ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDatahubSecretTypesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2053,15 +3409,39 @@ func (a *Client) ListDatahubSecretTypes(params *ListDatahubSecretTypesParams, op
 }
 
 /*
-ListRecipes lists recipes a recipe is a script that runs on all nodes of a specified instance group
+ListRecipeslists recipes a recipe is a script that runs on all nodes of a specified instance group.
 
-Lists recipes. A recipe is a script that runs on all nodes of a specified instance group.
+Lists recipes. A recipe is a script that runs on all nodes of a specified instance group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListRecipesContext] instead.
 */
 func (a *Client) ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListRecipesContext(ctx, params, opts...)
+}
+
+/*
+ListRecipesContextlists recipes a recipe is a script that runs on all nodes of a specified instance group.
+
+Lists recipes. A recipe is a script that runs on all nodes of a specified instance group..
+
+Do not use the deprecated [ListRecipesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListRecipesContext(ctx context.Context, params *ListRecipesParams, opts ...ClientOption) (*ListRecipesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRecipesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listRecipes",
 		Method:             "POST",
@@ -2071,13 +3451,14 @@ func (a *Client) ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListRecipesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2097,15 +3478,39 @@ func (a *Client) ListRecipes(params *ListRecipesParams, opts ...ClientOption) (*
 }
 
 /*
-ListScalingActivities lists scaling activities for a cluster
+ListScalingActivitieslists scaling activities for a cluster.
 
-Lists Scaling activities for a cluster.
+Lists Scaling activities for a cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListScalingActivitiesContext] instead.
 */
 func (a *Client) ListScalingActivities(params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListScalingActivitiesContext(ctx, params, opts...)
+}
+
+/*
+ListScalingActivitiesContextlists scaling activities for a cluster.
+
+Lists Scaling activities for a cluster..
+
+Do not use the deprecated [ListScalingActivitiesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListScalingActivitiesContext(ctx context.Context, params *ListScalingActivitiesParams, opts ...ClientOption) (*ListScalingActivitiesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListScalingActivitiesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listScalingActivities",
 		Method:             "POST",
@@ -2115,13 +3520,14 @@ func (a *Client) ListScalingActivities(params *ListScalingActivitiesParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListScalingActivitiesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2141,15 +3547,39 @@ func (a *Client) ListScalingActivities(params *ListScalingActivitiesParams, opts
 }
 
 /*
-MigrateSkus migrates data hub cluster s k us
+MigrateSkusmigrates data hub cluster s k us.
 
-Migrate Data Hub cluster SKUs.
+Migrate Data Hub cluster SKUs..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.MigrateSkusContext] instead.
 */
 func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.MigrateSkusContext(ctx, params, opts...)
+}
+
+/*
+MigrateSkusContextmigrates data hub cluster s k us.
+
+Migrate Data Hub cluster SKUs..
+
+Do not use the deprecated [MigrateSkusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) MigrateSkusContext(ctx context.Context, params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewMigrateSkusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "migrateSkus",
 		Method:             "POST",
@@ -2159,13 +3589,14 @@ func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &MigrateSkusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2185,15 +3616,39 @@ func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*
 }
 
 /*
-MigrateZookeeperToKraft migrates from zookeeper to k raft broker
+MigrateZookeeperToKraftmigrates from zookeeper to k raft broker.
 
-Initiate the migration from Zookeeper to KRaft broker on the given cluster.
+Initiate the migration from Zookeeper to KRaft broker on the given cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.MigrateZookeeperToKraftContext] instead.
 */
 func (a *Client) MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.MigrateZookeeperToKraftContext(ctx, params, opts...)
+}
+
+/*
+MigrateZookeeperToKraftContextmigrates from zookeeper to k raft broker.
+
+Initiate the migration from Zookeeper to KRaft broker on the given cluster..
+
+Do not use the deprecated [MigrateZookeeperToKraftParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) MigrateZookeeperToKraftContext(ctx context.Context, params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewMigrateZookeeperToKraftParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "migrateZookeeperToKraft",
 		Method:             "POST",
@@ -2203,13 +3658,14 @@ func (a *Client) MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &MigrateZookeeperToKraftReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2229,15 +3685,39 @@ func (a *Client) MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, 
 }
 
 /*
-PrepareClusterUpgrade runnings upgrade related validations and prepares the required parcels for the upgrade
+PrepareClusterUpgraderunnings upgrade related validations and prepares the required parcels for the upgrade.
 
-In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well.
+In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.PrepareClusterUpgradeContext] instead.
 */
 func (a *Client) PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.PrepareClusterUpgradeContext(ctx, params, opts...)
+}
+
+/*
+PrepareClusterUpgradeContextrunnings upgrade related validations and prepares the required parcels for the upgrade.
+
+In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well..
+
+Do not use the deprecated [PrepareClusterUpgradeParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) PrepareClusterUpgradeContext(ctx context.Context, params *PrepareClusterUpgradeParams, opts ...ClientOption) (*PrepareClusterUpgradeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewPrepareClusterUpgradeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "prepareClusterUpgrade",
 		Method:             "POST",
@@ -2247,13 +3727,14 @@ func (a *Client) PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PrepareClusterUpgradeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2273,15 +3754,39 @@ func (a *Client) PrepareClusterUpgrade(params *PrepareClusterUpgradeParams, opts
 }
 
 /*
-RenewCertificate renews certificate on datahub cluster by name or c r n
+RenewCertificaterenews certificate on datahub cluster by name or c r n.
 
-Deprecated, please use renew-public-certificate command instead. Renew certificate on datahub cluster by name or CRN
+Deprecated, please use renew-public-certificate command instead. Renew certificate on datahub cluster by name or CRN.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RenewCertificateContext] instead.
 */
 func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RenewCertificateContext(ctx, params, opts...)
+}
+
+/*
+RenewCertificateContextrenews certificate on datahub cluster by name or c r n.
+
+Deprecated, please use renew-public-certificate command instead. Renew certificate on datahub cluster by name or CRN.
+
+Do not use the deprecated [RenewCertificateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RenewCertificateContext(ctx context.Context, params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "renewCertificate",
 		Method:             "POST",
@@ -2291,13 +3796,14 @@ func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RenewCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2317,15 +3823,39 @@ func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...Client
 }
 
 /*
-RenewPublicCertificate renews public certificate on a datahub cluster by name or c r n
+RenewPublicCertificaterenews public certificate on a datahub cluster by name or c r n.
 
-Renews public certificate on a Datahub cluster by name or CRN.
+Renews public certificate on a Datahub cluster by name or CRN..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RenewPublicCertificateContext] instead.
 */
 func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RenewPublicCertificateContext(ctx, params, opts...)
+}
+
+/*
+RenewPublicCertificateContextrenews public certificate on a datahub cluster by name or c r n.
+
+Renews public certificate on a Datahub cluster by name or CRN..
+
+Do not use the deprecated [RenewPublicCertificateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RenewPublicCertificateContext(ctx context.Context, params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewPublicCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "renewPublicCertificate",
 		Method:             "POST",
@@ -2335,13 +3865,14 @@ func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RenewPublicCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2361,15 +3892,39 @@ func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, op
 }
 
 /*
-RepairCluster repairs a cluster
+RepairClusterrepairs a cluster.
 
-Repairs a cluster.
+Repairs a cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RepairClusterContext] instead.
 */
 func (a *Client) RepairCluster(params *RepairClusterParams, opts ...ClientOption) (*RepairClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RepairClusterContext(ctx, params, opts...)
+}
+
+/*
+RepairClusterContextrepairs a cluster.
+
+Repairs a cluster..
+
+Do not use the deprecated [RepairClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RepairClusterContext(ctx context.Context, params *RepairClusterParams, opts ...ClientOption) (*RepairClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRepairClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "repairCluster",
 		Method:             "POST",
@@ -2379,13 +3934,14 @@ func (a *Client) RepairCluster(params *RepairClusterParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RepairClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2405,15 +3961,39 @@ func (a *Client) RepairCluster(params *RepairClusterParams, opts ...ClientOption
 }
 
 /*
-ReplaceRecipes replaces recipes for the given instance groups
+ReplaceRecipesreplaces recipes for the given instance groups.
 
-Replaces recipes for the given instance groups.
+Replaces recipes for the given instance groups..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ReplaceRecipesContext] instead.
 */
 func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ReplaceRecipesContext(ctx, params, opts...)
+}
+
+/*
+ReplaceRecipesContextreplaces recipes for the given instance groups.
+
+Replaces recipes for the given instance groups..
+
+Do not use the deprecated [ReplaceRecipesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ReplaceRecipesContext(ctx context.Context, params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewReplaceRecipesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "replaceRecipes",
 		Method:             "POST",
@@ -2423,13 +4003,14 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ReplaceRecipesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2449,15 +4030,39 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 }
 
 /*
-RestartClusterInstances restarts instances of a cluster on cloud provider
+RestartClusterInstancesrestarts instances of a cluster on cloud provider.
 
-Restarts instances of a cluster on Cloud provider.
+Restarts instances of a cluster on Cloud provider..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RestartClusterInstancesContext] instead.
 */
 func (a *Client) RestartClusterInstances(params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestartClusterInstancesContext(ctx, params, opts...)
+}
+
+/*
+RestartClusterInstancesContextrestarts instances of a cluster on cloud provider.
+
+Restarts instances of a cluster on Cloud provider..
+
+Do not use the deprecated [RestartClusterInstancesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RestartClusterInstancesContext(ctx context.Context, params *RestartClusterInstancesParams, opts ...ClientOption) (*RestartClusterInstancesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestartClusterInstancesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restartClusterInstances",
 		Method:             "POST",
@@ -2467,13 +4072,14 @@ func (a *Client) RestartClusterInstances(params *RestartClusterInstancesParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestartClusterInstancesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2493,15 +4099,39 @@ func (a *Client) RestartClusterInstances(params *RestartClusterInstancesParams, 
 }
 
 /*
-RetryCluster retries creation of a failed workload cluster
+RetryClusterretries creation of a failed workload cluster.
 
-When stack provisioning or cluster creation fails, retryCluster allows you to resume the process from the last failed step.
+When stack provisioning or cluster creation fails, retryCluster allows you to resume the process from the last failed step..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RetryClusterContext] instead.
 */
 func (a *Client) RetryCluster(params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RetryClusterContext(ctx, params, opts...)
+}
+
+/*
+RetryClusterContextretries creation of a failed workload cluster.
+
+When stack provisioning or cluster creation fails, retryCluster allows you to resume the process from the last failed step..
+
+Do not use the deprecated [RetryClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RetryClusterContext(ctx context.Context, params *RetryClusterParams, opts ...ClientOption) (*RetryClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRetryClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "retryCluster",
 		Method:             "POST",
@@ -2511,13 +4141,14 @@ func (a *Client) RetryCluster(params *RetryClusterParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RetryClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2537,15 +4168,39 @@ func (a *Client) RetryCluster(params *RetryClusterParams, opts ...ClientOption) 
 }
 
 /*
-RollbackZookeeperToKraftMigration rollbacks the migration from zookeeper to k raft broker
+RollbackZookeeperToKraftMigrationrollbacks the migration from zookeeper to k raft broker.
 
-Initiates the rollback of the migration from Zookeeper to KRaft broker.
+Initiates the rollback of the migration from Zookeeper to KRaft broker..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RollbackZookeeperToKraftMigrationContext] instead.
 */
 func (a *Client) RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RollbackZookeeperToKraftMigrationContext(ctx, params, opts...)
+}
+
+/*
+RollbackZookeeperToKraftMigrationContextrollbacks the migration from zookeeper to k raft broker.
+
+Initiates the rollback of the migration from Zookeeper to KRaft broker..
+
+Do not use the deprecated [RollbackZookeeperToKraftMigrationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RollbackZookeeperToKraftMigrationContext(ctx context.Context, params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRollbackZookeeperToKraftMigrationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rollbackZookeeperToKraftMigration",
 		Method:             "POST",
@@ -2555,13 +4210,14 @@ func (a *Client) RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKr
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RollbackZookeeperToKraftMigrationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2581,15 +4237,39 @@ func (a *Client) RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKr
 }
 
 /*
-RotateAutoTLSCertificates rotates autotls certificates on the datahub s hosts
+RotateAutoTLSCertificatesrotates autotls certificates on the datahub s hosts.
 
-Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datahub's hosts
+Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datahub's hosts.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RotateAutoTLSCertificatesContext] instead.
 */
 func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateAutoTLSCertificatesContext(ctx, params, opts...)
+}
+
+/*
+RotateAutoTLSCertificatesContextrotates autotls certificates on the datahub s hosts.
+
+Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datahub's hosts.
+
+Do not use the deprecated [RotateAutoTLSCertificatesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RotateAutoTLSCertificatesContext(ctx context.Context, params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateAutoTLSCertificatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateAutoTlsCertificates",
 		Method:             "POST",
@@ -2599,13 +4279,14 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateAutoTLSCertificatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2625,15 +4306,39 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 }
 
 /*
-RotateDbCertificate rotates database ssl certificate for a specific data hub
+RotateDbCertificaterotates database ssl certificate for a specific data hub.
 
-Rotates database ssl certificate for a specific Data Hub
+Rotates database ssl certificate for a specific Data Hub.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RotateDbCertificateContext] instead.
 */
 func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateDbCertificateContext(ctx, params, opts...)
+}
+
+/*
+RotateDbCertificateContextrotates database ssl certificate for a specific data hub.
+
+Rotates database ssl certificate for a specific Data Hub.
+
+Do not use the deprecated [RotateDbCertificateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RotateDbCertificateContext(ctx context.Context, params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateDbCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateDbCertificate",
 		Method:             "POST",
@@ -2643,13 +4348,14 @@ func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateDbCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2669,15 +4375,39 @@ func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...
 }
 
 /*
-RotatePrivateCertificates rotates private certificates on the hosts of datahub
+RotatePrivateCertificatesrotates private certificates on the hosts of datahub.
 
-Rotates private certificates on the hosts of Datahub.
+Rotates private certificates on the hosts of Datahub..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RotatePrivateCertificatesContext] instead.
 */
 func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotatePrivateCertificatesContext(ctx, params, opts...)
+}
+
+/*
+RotatePrivateCertificatesContextrotates private certificates on the hosts of datahub.
+
+Rotates private certificates on the hosts of Datahub..
+
+Do not use the deprecated [RotatePrivateCertificatesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RotatePrivateCertificatesContext(ctx context.Context, params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotatePrivateCertificatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotatePrivateCertificates",
 		Method:             "POST",
@@ -2687,13 +4417,14 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotatePrivateCertificatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2713,15 +4444,39 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 }
 
 /*
-RotateSaltPassword rotates salt stack user password on data hub instances
+RotateSaltPasswordrotates salt stack user password on data hub instances.
 
-Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead.
+Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RotateSaltPasswordContext] instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateSaltPasswordContext(ctx, params, opts...)
+}
+
+/*
+RotateSaltPasswordContextrotates salt stack user password on data hub instances.
+
+Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead..
+
+Do not use the deprecated [RotateSaltPasswordParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RotateSaltPasswordContext(ctx context.Context, params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSaltPasswordParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateSaltPassword",
 		Method:             "POST",
@@ -2731,13 +4486,14 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateSaltPasswordReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2757,15 +4513,39 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 }
 
 /*
-RotateSecrets rotates secrets for a specific datahub
+RotateSecretsrotates secrets for a specific datahub.
 
-Rotates secrets for a specific datahub based on what secret types are specified.
+Rotates secrets for a specific datahub based on what secret types are specified..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RotateSecretsContext] instead.
 */
 func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateSecretsContext(ctx, params, opts...)
+}
+
+/*
+RotateSecretsContextrotates secrets for a specific datahub.
+
+Rotates secrets for a specific datahub based on what secret types are specified..
+
+Do not use the deprecated [RotateSecretsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RotateSecretsContext(ctx context.Context, params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSecretsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateSecrets",
 		Method:             "POST",
@@ -2775,13 +4555,14 @@ func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateSecretsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2801,15 +4582,39 @@ func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption
 }
 
 /*
-ScaleCluster scales a cluster by adding or removing cluster nodes
+ScaleClusterscales a cluster by adding or removing cluster nodes.
 
-Scales a cluster by adding or removing cluster nodes.
+Scales a cluster by adding or removing cluster nodes..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ScaleClusterContext] instead.
 */
 func (a *Client) ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ScaleClusterContext(ctx, params, opts...)
+}
+
+/*
+ScaleClusterContextscales a cluster by adding or removing cluster nodes.
+
+Scales a cluster by adding or removing cluster nodes..
+
+Do not use the deprecated [ScaleClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ScaleClusterContext(ctx context.Context, params *ScaleClusterParams, opts ...ClientOption) (*ScaleClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewScaleClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "scaleCluster",
 		Method:             "POST",
@@ -2819,13 +4624,14 @@ func (a *Client) ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ScaleClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2845,15 +4651,39 @@ func (a *Client) ScaleCluster(params *ScaleClusterParams, opts ...ClientOption) 
 }
 
 /*
-SetCatalog sets a catalog for a data hub
+SetCatalogsets a catalog for a data hub.
 
-Sets a catalog for a DataHub.
+Sets a catalog for a DataHub..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetCatalogContext] instead.
 */
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetCatalogContext(ctx, params, opts...)
+}
+
+/*
+SetCatalogContextsets a catalog for a data hub.
+
+Sets a catalog for a DataHub..
+
+Do not use the deprecated [SetCatalogParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetCatalogContext(ctx context.Context, params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetCatalogParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setCatalog",
 		Method:             "POST",
@@ -2863,13 +4693,14 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetCatalogReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2889,15 +4720,39 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 }
 
 /*
-SetDefaultJavaVersion configures the default java version for the data hub
+SetDefaultJavaVersionconfigures the default java version for the data hub.
 
-Configures the default Java version for the Data Hub. This command updates the system's default Java version and will restart both the Cluster Manager and the services.
+Configures the default Java version for the Data Hub. This command updates the system's default Java version and will restart both the Cluster Manager and the services..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetDefaultJavaVersionContext] instead.
 */
 func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetDefaultJavaVersionContext(ctx, params, opts...)
+}
+
+/*
+SetDefaultJavaVersionContextconfigures the default java version for the data hub.
+
+Configures the default Java version for the Data Hub. This command updates the system's default Java version and will restart both the Cluster Manager and the services..
+
+Do not use the deprecated [SetDefaultJavaVersionParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetDefaultJavaVersionContext(ctx context.Context, params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetDefaultJavaVersionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setDefaultJavaVersion",
 		Method:             "POST",
@@ -2907,13 +4762,14 @@ func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetDefaultJavaVersionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2933,15 +4789,39 @@ func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts
 }
 
 /*
-StartCluster starts a stopped workload cluster
+StartClusterstarts a stopped workload cluster.
 
-Starts a stopped workload cluster.
+Starts a stopped workload cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartClusterContext] instead.
 */
 func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) (*StartClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartClusterContext(ctx, params, opts...)
+}
+
+/*
+StartClusterContextstarts a stopped workload cluster.
+
+Starts a stopped workload cluster..
+
+Do not use the deprecated [StartClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartClusterContext(ctx context.Context, params *StartClusterParams, opts ...ClientOption) (*StartClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startCluster",
 		Method:             "POST",
@@ -2951,13 +4831,14 @@ func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2977,15 +4858,39 @@ func (a *Client) StartCluster(params *StartClusterParams, opts ...ClientOption) 
 }
 
 /*
-StartClusterVerticalScaling initiates the vertical scaling on data hub cluster
+StartClusterVerticalScalinginitiates the vertical scaling on data hub cluster.
 
-Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'modifyDisks' or 'instanceTemplate' as parameter.
+Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'modifyDisks' or 'instanceTemplate' as parameter..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartClusterVerticalScalingContext] instead.
 */
 func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartClusterVerticalScalingContext(ctx, params, opts...)
+}
+
+/*
+StartClusterVerticalScalingContextinitiates the vertical scaling on data hub cluster.
+
+Initiates the vertical scaling on Data Hub cluster. You have the option to either specify one of 'modifyDisks' or 'instanceTemplate' as parameter..
+
+Do not use the deprecated [StartClusterVerticalScalingParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartClusterVerticalScalingContext(ctx context.Context, params *StartClusterVerticalScalingParams, opts ...ClientOption) (*StartClusterVerticalScalingOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartClusterVerticalScalingParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startClusterVerticalScaling",
 		Method:             "POST",
@@ -2995,13 +4900,14 @@ func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScaling
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartClusterVerticalScalingReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3021,15 +4927,39 @@ func (a *Client) StartClusterVerticalScaling(params *StartClusterVerticalScaling
 }
 
 /*
-StartDatabaseUpgrade upgrades the database of the data hub cluster
+StartDatabaseUpgradeupgrades the database of the data hub cluster.
 
-This command initiates the upgrade of the database of the Data Hub cluster.
+This command initiates the upgrade of the database of the Data Hub cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartDatabaseUpgradeContext] instead.
 */
 func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartDatabaseUpgradeContext(ctx, params, opts...)
+}
+
+/*
+StartDatabaseUpgradeContextupgrades the database of the data hub cluster.
+
+This command initiates the upgrade of the database of the Data Hub cluster..
+
+Do not use the deprecated [StartDatabaseUpgradeParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartDatabaseUpgradeContext(ctx context.Context, params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatabaseUpgradeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startDatabaseUpgrade",
 		Method:             "POST",
@@ -3039,13 +4969,14 @@ func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartDatabaseUpgradeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3065,15 +4996,39 @@ func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts .
 }
 
 /*
-StartInstances starts instances of a particular host group in the data hub cluster
+StartInstancesstarts instances of a particular host group in the data hub cluster.
 
-Starts instances of a particular host group in the Data Hub cluster.
+Starts instances of a particular host group in the Data Hub cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartInstancesContext] instead.
 */
 func (a *Client) StartInstances(params *StartInstancesParams, opts ...ClientOption) (*StartInstancesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartInstancesContext(ctx, params, opts...)
+}
+
+/*
+StartInstancesContextstarts instances of a particular host group in the data hub cluster.
+
+Starts instances of a particular host group in the Data Hub cluster..
+
+Do not use the deprecated [StartInstancesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartInstancesContext(ctx context.Context, params *StartInstancesParams, opts ...ClientOption) (*StartInstancesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartInstancesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startInstances",
 		Method:             "POST",
@@ -3083,13 +5038,14 @@ func (a *Client) StartInstances(params *StartInstancesParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartInstancesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3109,15 +5065,39 @@ func (a *Client) StartInstances(params *StartInstancesParams, opts ...ClientOpti
 }
 
 /*
-StopCluster stops a workload cluster
+StopClusterstops a workload cluster.
 
-Stops a workload cluster. When a cluster is put in the stopped state, cluster VMs are given back to the cloud provider. To provision new VMs, start the cluster.
+Stops a workload cluster. When a cluster is put in the stopped state, cluster VMs are given back to the cloud provider. To provision new VMs, start the cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StopClusterContext] instead.
 */
 func (a *Client) StopCluster(params *StopClusterParams, opts ...ClientOption) (*StopClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StopClusterContext(ctx, params, opts...)
+}
+
+/*
+StopClusterContextstops a workload cluster.
+
+Stops a workload cluster. When a cluster is put in the stopped state, cluster VMs are given back to the cloud provider. To provision new VMs, start the cluster..
+
+Do not use the deprecated [StopClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StopClusterContext(ctx context.Context, params *StopClusterParams, opts ...ClientOption) (*StopClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "stopCluster",
 		Method:             "POST",
@@ -3127,13 +5107,14 @@ func (a *Client) StopCluster(params *StopClusterParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StopClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3153,15 +5134,39 @@ func (a *Client) StopCluster(params *StopClusterParams, opts ...ClientOption) (*
 }
 
 /*
-StopInstances stops instances of particular host group in the data hub cluster
+StopInstancesstops instances of particular host group in the data hub cluster.
 
-Stops instances of a particular host group in the Data Hub cluster.
+Stops instances of a particular host group in the Data Hub cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StopInstancesContext] instead.
 */
 func (a *Client) StopInstances(params *StopInstancesParams, opts ...ClientOption) (*StopInstancesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StopInstancesContext(ctx, params, opts...)
+}
+
+/*
+StopInstancesContextstops instances of particular host group in the data hub cluster.
+
+Stops instances of a particular host group in the Data Hub cluster..
+
+Do not use the deprecated [StopInstancesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StopInstancesContext(ctx context.Context, params *StopInstancesParams, opts ...ClientOption) (*StopInstancesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopInstancesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "stopInstances",
 		Method:             "POST",
@@ -3171,13 +5176,14 @@ func (a *Client) StopInstances(params *StopInstancesParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StopInstancesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3197,15 +5203,39 @@ func (a *Client) StopInstances(params *StopInstancesParams, opts ...ClientOption
 }
 
 /*
-SyncCluster synchronizes the state of a cluster with the cloud provider and cloudera manager
+SyncClustersynchronizes the state of a cluster with the cloud provider and cloudera manager.
 
-Synchronizes the state of a cluster with the cloud provider and Cloudera Manager.
+Synchronizes the state of a cluster with the cloud provider and Cloudera Manager..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SyncClusterContext] instead.
 */
 func (a *Client) SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*SyncClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SyncClusterContext(ctx, params, opts...)
+}
+
+/*
+SyncClusterContextsynchronizes the state of a cluster with the cloud provider and cloudera manager.
+
+Synchronizes the state of a cluster with the cloud provider and Cloudera Manager..
+
+Do not use the deprecated [SyncClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SyncClusterContext(ctx context.Context, params *SyncClusterParams, opts ...ClientOption) (*SyncClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "syncCluster",
 		Method:             "POST",
@@ -3215,13 +5245,14 @@ func (a *Client) SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SyncClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3241,15 +5272,39 @@ func (a *Client) SyncCluster(params *SyncClusterParams, opts ...ClientOption) (*
 }
 
 /*
-SyncComponentVersionsFromCm syncs component versions from c m after a failed upgrade
+SyncComponentVersionsFromCmsyncs component versions from c m after a failed upgrade.
 
-Syncs component versions from CM after a failed upgrade.
+Syncs component versions from CM after a failed upgrade..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SyncComponentVersionsFromCmContext] instead.
 */
 func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SyncComponentVersionsFromCmContext(ctx, params, opts...)
+}
+
+/*
+SyncComponentVersionsFromCmContextsyncs component versions from c m after a failed upgrade.
+
+Syncs component versions from CM after a failed upgrade..
+
+Do not use the deprecated [SyncComponentVersionsFromCmParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SyncComponentVersionsFromCmContext(ctx context.Context, params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncComponentVersionsFromCmParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "syncComponentVersionsFromCm",
 		Method:             "POST",
@@ -3259,13 +5314,14 @@ func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCm
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SyncComponentVersionsFromCmReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3285,15 +5341,39 @@ func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCm
 }
 
 /*
-UpdateAutoScaleRules modifies auto scaling for a data hub cluster
+UpdateAutoScaleRulesmodifies auto scaling for a data hub cluster.
 
-Modify AutoScaling for a DataHub cluster
+Modify AutoScaling for a DataHub cluster.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAutoScaleRulesContext] instead.
 */
 func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts ...ClientOption) (*UpdateAutoScaleRulesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAutoScaleRulesContext(ctx, params, opts...)
+}
+
+/*
+UpdateAutoScaleRulesContextmodifies auto scaling for a data hub cluster.
+
+Modify AutoScaling for a DataHub cluster.
+
+Do not use the deprecated [UpdateAutoScaleRulesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAutoScaleRulesContext(ctx context.Context, params *UpdateAutoScaleRulesParams, opts ...ClientOption) (*UpdateAutoScaleRulesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAutoScaleRulesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAutoScaleRules",
 		Method:             "POST",
@@ -3303,13 +5383,14 @@ func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAutoScaleRulesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3329,15 +5410,39 @@ func (a *Client) UpdateAutoScaleRules(params *UpdateAutoScaleRulesParams, opts .
 }
 
 /*
-UpdateOrchestratorState runs orchestrator engine state update on the data hub cluster
+UpdateOrchestratorStateruns orchestrator engine state update on the data hub cluster.
 
-Run orchestrator engine state update on the Data Hub cluster.
+Run orchestrator engine state update on the Data Hub cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateOrchestratorStateContext] instead.
 */
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateOrchestratorStateContext(ctx, params, opts...)
+}
+
+/*
+UpdateOrchestratorStateContextruns orchestrator engine state update on the data hub cluster.
+
+Run orchestrator engine state update on the Data Hub cluster..
+
+Do not use the deprecated [UpdateOrchestratorStateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateOrchestratorStateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateOrchestratorState",
 		Method:             "POST",
@@ -3347,13 +5452,14 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateOrchestratorStateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3373,15 +5479,39 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 }
 
 /*
-UpdateToAwsImdsV1 updates data hub a w s cluster to use i m d sv1
+UpdateToAwsImdsV1updates data hub a w s cluster to use i m d sv1.
 
-Updates Data Hub AWS cluster to use IMDSv1.
+Updates Data Hub AWS cluster to use IMDSv1..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateToAwsImdsV1Context] instead.
 */
 func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateToAwsImdsV1Context(ctx, params, opts...)
+}
+
+/*
+UpdateToAwsImdsV1Contextupdates data hub a w s cluster to use i m d sv1.
+
+Updates Data Hub AWS cluster to use IMDSv1..
+
+Do not use the deprecated [UpdateToAwsImdsV1Params.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateToAwsImdsV1Context(ctx context.Context, params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV1Params()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateToAwsImdsV1",
 		Method:             "POST",
@@ -3391,13 +5521,14 @@ func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateToAwsImdsV1Reader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3417,15 +5548,39 @@ func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...Clie
 }
 
 /*
-UpdateToAwsImdsV2 updates data hub a w s cluster to use i m d sv2
+UpdateToAwsImdsV2updates data hub a w s cluster to use i m d sv2.
 
-Updates Data Hub AWS cluster to use IMDSv2.
+Updates Data Hub AWS cluster to use IMDSv2..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateToAwsImdsV2Context] instead.
 */
 func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateToAwsImdsV2Context(ctx, params, opts...)
+}
+
+/*
+UpdateToAwsImdsV2Contextupdates data hub a w s cluster to use i m d sv2.
+
+Updates Data Hub AWS cluster to use IMDSv2..
+
+Do not use the deprecated [UpdateToAwsImdsV2Params.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateToAwsImdsV2Context(ctx context.Context, params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV2Params()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateToAwsImdsV2",
 		Method:             "POST",
@@ -3435,13 +5590,14 @@ func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateToAwsImdsV2Reader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3461,15 +5617,39 @@ func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...Clie
 }
 
 /*
-UpgradeCluster upgrades the o s or data platform on a datahub cluster
+UpgradeClusterupgrades the o s or data platform on a datahub cluster.
 
-Upgrades the OS or data platform on a datahub cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters.
+Upgrades the OS or data platform on a datahub cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeClusterContext] instead.
 */
 func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeClusterContext(ctx, params, opts...)
+}
+
+/*
+UpgradeClusterContextupgrades the o s or data platform on a datahub cluster.
+
+Upgrades the OS or data platform on a datahub cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters..
+
+Do not use the deprecated [UpgradeClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeClusterContext(ctx context.Context, params *UpgradeClusterParams, opts ...ClientOption) (*UpgradeClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeCluster",
 		Method:             "POST",
@@ -3479,13 +5659,14 @@ func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3505,6 +5686,14 @@ func (a *Client) UpgradeCluster(params *UpgradeClusterParams, opts ...ClientOpti
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

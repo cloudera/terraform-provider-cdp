@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ModelRegistryProvisionK8sRequest Request object for provisioning model registry.
@@ -43,7 +44,7 @@ func (m *ModelRegistryProvisionK8sRequest) Validate(formats strfmt.Registry) err
 }
 
 func (m *ModelRegistryProvisionK8sRequest) validateNetwork(formats strfmt.Registry) error {
-	if swag.IsZero(m.Network) { // not required
+	if typeutils.IsZero(m.Network) { // not required
 		return nil
 	}
 
@@ -66,12 +67,12 @@ func (m *ModelRegistryProvisionK8sRequest) validateNetwork(formats strfmt.Regist
 }
 
 func (m *ModelRegistryProvisionK8sRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -117,7 +118,7 @@ func (m *ModelRegistryProvisionK8sRequest) contextValidateNetwork(ctx context.Co
 
 	if m.Network != nil {
 
-		if swag.IsZero(m.Network) { // not required
+		if typeutils.IsZero(m.Network) { // not required
 			return nil
 		}
 
@@ -144,7 +145,7 @@ func (m *ModelRegistryProvisionK8sRequest) contextValidateTags(ctx context.Conte
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -172,13 +173,13 @@ func (m *ModelRegistryProvisionK8sRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ModelRegistryProvisionK8sRequest) UnmarshalBinary(b []byte) error {
 	var res ModelRegistryProvisionK8sRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

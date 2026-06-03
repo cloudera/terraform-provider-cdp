@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewCreateDbcParams creates a new CreateDbcParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateDbcParams() *CreateDbcParams {
-	return &CreateDbcParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateDbcParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateDbcParamsWithTimeout creates a new CreateDbcParams object
 // with the ability to set a timeout on a request.
 func NewCreateDbcParamsWithTimeout(timeout time.Duration) *CreateDbcParams {
 	return &CreateDbcParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateDbcParamsWithContext creates a new CreateDbcParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDbcParams].
 func NewCreateDbcParamsWithContext(ctx context.Context) *CreateDbcParams {
 	return &CreateDbcParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateDbcParams struct {
 	// Input.
 	Input *models.CreateDbcRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create dbc params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateDbcParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create dbc params
+// WithTimeout adds the timeout to the create dbc params.
 func (o *CreateDbcParams) WithTimeout(timeout time.Duration) *CreateDbcParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create dbc params
+// SetTimeout adds the timeout to the create dbc params.
 func (o *CreateDbcParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create dbc params
+// WithContext adds the context to the create dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDbcParams].
 func (o *CreateDbcParams) WithContext(ctx context.Context) *CreateDbcParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create dbc params
+// SetContext adds the context to the create dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDbcParams].
 func (o *CreateDbcParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create dbc params
+// WithHTTPClient adds the HTTPClient to the create dbc params.
 func (o *CreateDbcParams) WithHTTPClient(client *http.Client) *CreateDbcParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create dbc params
+// SetHTTPClient adds the HTTPClient to the create dbc params.
 func (o *CreateDbcParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create dbc params
+// WithInput adds the input to the create dbc params.
 func (o *CreateDbcParams) WithInput(input *models.CreateDbcRequest) *CreateDbcParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create dbc params
+// SetInput adds the input to the create dbc params.
 func (o *CreateDbcParams) SetInput(input *models.CreateDbcRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateDbcParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

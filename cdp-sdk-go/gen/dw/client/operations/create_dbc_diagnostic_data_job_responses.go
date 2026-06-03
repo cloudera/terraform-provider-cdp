@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreateDbcDiagnosticDataJobReader is a Reader for the CreateDbcDiagnosticDataJob structure.

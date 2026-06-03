@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -131,12 +132,12 @@ func (m *ServiceDescription) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ServiceDescription) validateChartValueOverrides(formats strfmt.Registry) error {
-	if swag.IsZero(m.ChartValueOverrides) { // not required
+	if typeutils.IsZero(m.ChartValueOverrides) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ChartValueOverrides); i++ {
-		if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+		if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 			continue
 		}
 
@@ -188,7 +189,7 @@ func (m *ServiceDescription) validateName(formats strfmt.Registry) error {
 }
 
 func (m *ServiceDescription) validateResources(formats strfmt.Registry) error {
-	if swag.IsZero(m.Resources) { // not required
+	if typeutils.IsZero(m.Resources) { // not required
 		return nil
 	}
 
@@ -234,7 +235,7 @@ func (m *ServiceDescription) contextValidateChartValueOverrides(ctx context.Cont
 
 		if m.ChartValueOverrides[i] != nil {
 
-			if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+			if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 				return nil
 			}
 
@@ -261,7 +262,7 @@ func (m *ServiceDescription) contextValidateResources(ctx context.Context, forma
 
 	if m.Resources != nil {
 
-		if swag.IsZero(m.Resources) { // not required
+		if typeutils.IsZero(m.Resources) { // not required
 			return nil
 		}
 
@@ -287,13 +288,13 @@ func (m *ServiceDescription) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ServiceDescription) UnmarshalBinary(b []byte) error {
 	var res ServiceDescription
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

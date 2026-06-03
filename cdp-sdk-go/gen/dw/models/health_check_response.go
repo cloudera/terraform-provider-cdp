@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // HealthCheckResponse Response object for the healthCheck method.
@@ -33,13 +33,13 @@ func (m *HealthCheckResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *HealthCheckResponse) UnmarshalBinary(b []byte) error {
 	var res HealthCheckResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

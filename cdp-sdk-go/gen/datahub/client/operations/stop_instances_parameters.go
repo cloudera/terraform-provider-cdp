@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewStopInstancesParams creates a new StopInstancesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStopInstancesParams() *StopInstancesParams {
-	return &StopInstancesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStopInstancesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStopInstancesParamsWithTimeout creates a new StopInstancesParams object
 // with the ability to set a timeout on a request.
 func NewStopInstancesParamsWithTimeout(timeout time.Duration) *StopInstancesParams {
 	return &StopInstancesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStopInstancesParamsWithContext creates a new StopInstancesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopInstancesParams].
 func NewStopInstancesParamsWithContext(ctx context.Context) *StopInstancesParams {
 	return &StopInstancesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StopInstancesParams struct {
 	// Input.
 	Input *models.StopInstancesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the stop instances params (not the query body).
@@ -83,54 +86,57 @@ func (o *StopInstancesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the stop instances params
+// WithTimeout adds the timeout to the stop instances params.
 func (o *StopInstancesParams) WithTimeout(timeout time.Duration) *StopInstancesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the stop instances params
+// SetTimeout adds the timeout to the stop instances params.
 func (o *StopInstancesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the stop instances params
+// WithContext adds the context to the stop instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopInstancesParams].
 func (o *StopInstancesParams) WithContext(ctx context.Context) *StopInstancesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the stop instances params
+// SetContext adds the context to the stop instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopInstancesParams].
 func (o *StopInstancesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the stop instances params
+// WithHTTPClient adds the HTTPClient to the stop instances params.
 func (o *StopInstancesParams) WithHTTPClient(client *http.Client) *StopInstancesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the stop instances params
+// SetHTTPClient adds the HTTPClient to the stop instances params.
 func (o *StopInstancesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the stop instances params
+// WithInput adds the input to the stop instances params.
 func (o *StopInstancesParams) WithInput(input *models.StopInstancesRequest) *StopInstancesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the stop instances params
+// SetInput adds the input to the stop instances params.
 func (o *StopInstancesParams) SetInput(input *models.StopInstancesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StopInstancesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewMigrateSkusParams creates a new MigrateSkusParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewMigrateSkusParams() *MigrateSkusParams {
-	return &MigrateSkusParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewMigrateSkusParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewMigrateSkusParamsWithTimeout creates a new MigrateSkusParams object
 // with the ability to set a timeout on a request.
 func NewMigrateSkusParamsWithTimeout(timeout time.Duration) *MigrateSkusParams {
 	return &MigrateSkusParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewMigrateSkusParamsWithContext creates a new MigrateSkusParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateSkusParams].
 func NewMigrateSkusParamsWithContext(ctx context.Context) *MigrateSkusParams {
 	return &MigrateSkusParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type MigrateSkusParams struct {
 	// Input.
 	Input *models.MigrateSkusRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the migrate skus params (not the query body).
@@ -83,54 +86,57 @@ func (o *MigrateSkusParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the migrate skus params
+// WithTimeout adds the timeout to the migrate skus params.
 func (o *MigrateSkusParams) WithTimeout(timeout time.Duration) *MigrateSkusParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the migrate skus params
+// SetTimeout adds the timeout to the migrate skus params.
 func (o *MigrateSkusParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the migrate skus params
+// WithContext adds the context to the migrate skus params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateSkusParams].
 func (o *MigrateSkusParams) WithContext(ctx context.Context) *MigrateSkusParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the migrate skus params
+// SetContext adds the context to the migrate skus params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateSkusParams].
 func (o *MigrateSkusParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the migrate skus params
+// WithHTTPClient adds the HTTPClient to the migrate skus params.
 func (o *MigrateSkusParams) WithHTTPClient(client *http.Client) *MigrateSkusParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the migrate skus params
+// SetHTTPClient adds the HTTPClient to the migrate skus params.
 func (o *MigrateSkusParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the migrate skus params
+// WithInput adds the input to the migrate skus params.
 func (o *MigrateSkusParams) WithInput(input *models.MigrateSkusRequest) *MigrateSkusParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the migrate skus params
+// SetInput adds the input to the migrate skus params.
 func (o *MigrateSkusParams) SetInput(input *models.MigrateSkusRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *MigrateSkusParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

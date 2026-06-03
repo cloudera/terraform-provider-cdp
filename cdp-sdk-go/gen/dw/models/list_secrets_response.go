@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListSecretsResponse Response object for listing secrets.
@@ -36,12 +37,12 @@ func (m *ListSecretsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListSecretsResponse) validateResult(formats strfmt.Registry) error {
-	if swag.IsZero(m.Result) { // not required
+	if typeutils.IsZero(m.Result) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Result); i++ {
-		if swag.IsZero(m.Result[i]) { // not required
+		if typeutils.IsZero(m.Result[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListSecretsResponse) contextValidateResult(ctx context.Context, formats
 
 		if m.Result[i] != nil {
 
-			if swag.IsZero(m.Result[i]) { // not required
+			if typeutils.IsZero(m.Result[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListSecretsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListSecretsResponse) UnmarshalBinary(b []byte) error {
 	var res ListSecretsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

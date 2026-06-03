@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewMigrateUsersToIdentityProviderParams creates a new MigrateUsersToIdentityProviderParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewMigrateUsersToIdentityProviderParams() *MigrateUsersToIdentityProviderParams {
-	return &MigrateUsersToIdentityProviderParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewMigrateUsersToIdentityProviderParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewMigrateUsersToIdentityProviderParamsWithTimeout creates a new MigrateUsersToIdentityProviderParams object
 // with the ability to set a timeout on a request.
 func NewMigrateUsersToIdentityProviderParamsWithTimeout(timeout time.Duration) *MigrateUsersToIdentityProviderParams {
 	return &MigrateUsersToIdentityProviderParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewMigrateUsersToIdentityProviderParamsWithContext creates a new MigrateUsersToIdentityProviderParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateUsersToIdentityProviderParams].
 func NewMigrateUsersToIdentityProviderParamsWithContext(ctx context.Context) *MigrateUsersToIdentityProviderParams {
 	return &MigrateUsersToIdentityProviderParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type MigrateUsersToIdentityProviderParams struct {
 	// Input.
 	Input *models.MigrateUsersToIdentityProviderRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the migrate users to identity provider params (not the query body).
@@ -83,54 +86,57 @@ func (o *MigrateUsersToIdentityProviderParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the migrate users to identity provider params
+// WithTimeout adds the timeout to the migrate users to identity provider params.
 func (o *MigrateUsersToIdentityProviderParams) WithTimeout(timeout time.Duration) *MigrateUsersToIdentityProviderParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the migrate users to identity provider params
+// SetTimeout adds the timeout to the migrate users to identity provider params.
 func (o *MigrateUsersToIdentityProviderParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the migrate users to identity provider params
+// WithContext adds the context to the migrate users to identity provider params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateUsersToIdentityProviderParams].
 func (o *MigrateUsersToIdentityProviderParams) WithContext(ctx context.Context) *MigrateUsersToIdentityProviderParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the migrate users to identity provider params
+// SetContext adds the context to the migrate users to identity provider params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateUsersToIdentityProviderParams].
 func (o *MigrateUsersToIdentityProviderParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the migrate users to identity provider params
+// WithHTTPClient adds the HTTPClient to the migrate users to identity provider params.
 func (o *MigrateUsersToIdentityProviderParams) WithHTTPClient(client *http.Client) *MigrateUsersToIdentityProviderParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the migrate users to identity provider params
+// SetHTTPClient adds the HTTPClient to the migrate users to identity provider params.
 func (o *MigrateUsersToIdentityProviderParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the migrate users to identity provider params
+// WithInput adds the input to the migrate users to identity provider params.
 func (o *MigrateUsersToIdentityProviderParams) WithInput(input *models.MigrateUsersToIdentityProviderRequest) *MigrateUsersToIdentityProviderParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the migrate users to identity provider params
+// SetInput adds the input to the migrate users to identity provider params.
 func (o *MigrateUsersToIdentityProviderParams) SetInput(input *models.MigrateUsersToIdentityProviderRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *MigrateUsersToIdentityProviderParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

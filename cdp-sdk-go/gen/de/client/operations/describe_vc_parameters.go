@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewDescribeVcParams creates a new DescribeVcParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeVcParams() *DescribeVcParams {
-	return &DescribeVcParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeVcParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeVcParamsWithTimeout creates a new DescribeVcParams object
 // with the ability to set a timeout on a request.
 func NewDescribeVcParamsWithTimeout(timeout time.Duration) *DescribeVcParams {
 	return &DescribeVcParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeVcParamsWithContext creates a new DescribeVcParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeVcParams].
 func NewDescribeVcParamsWithContext(ctx context.Context) *DescribeVcParams {
 	return &DescribeVcParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeVcParams struct {
 	// Input.
 	Input *models.DescribeVcRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe vc params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeVcParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe vc params
+// WithTimeout adds the timeout to the describe vc params.
 func (o *DescribeVcParams) WithTimeout(timeout time.Duration) *DescribeVcParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe vc params
+// SetTimeout adds the timeout to the describe vc params.
 func (o *DescribeVcParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe vc params
+// WithContext adds the context to the describe vc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeVcParams].
 func (o *DescribeVcParams) WithContext(ctx context.Context) *DescribeVcParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe vc params
+// SetContext adds the context to the describe vc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeVcParams].
 func (o *DescribeVcParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe vc params
+// WithHTTPClient adds the HTTPClient to the describe vc params.
 func (o *DescribeVcParams) WithHTTPClient(client *http.Client) *DescribeVcParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe vc params
+// SetHTTPClient adds the HTTPClient to the describe vc params.
 func (o *DescribeVcParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe vc params
+// WithInput adds the input to the describe vc params.
 func (o *DescribeVcParams) WithInput(input *models.DescribeVcRequest) *DescribeVcParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe vc params
+// SetInput adds the input to the describe vc params.
 func (o *DescribeVcParams) SetInput(input *models.DescribeVcRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeVcParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

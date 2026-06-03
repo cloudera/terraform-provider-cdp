@@ -57,7 +57,7 @@ func (r *azureImageTermsResource) Create(ctx context.Context, req resource.Creat
 
 	client := r.client.Environments
 
-	params := operations.NewUpdateAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewUpdateAzureImageTermsPolicyParams()
 	params.WithInput(&environmentsmodels.UpdateAzureImageTermsPolicyRequest{
 		Accepted: data.Accepted.ValueBoolPointer(),
 	})
@@ -88,7 +88,7 @@ func (r *azureImageTermsResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
-	params := operations.NewGetAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewGetAzureImageTermsPolicyParams()
 	params.WithInput(getAzureImageTermsPolicyRequest{})
 	getPolicyResp, err := r.client.Environments.Operations.GetAzureImageTermsPolicy(params)
 	if err != nil {
@@ -115,7 +115,7 @@ func (r *azureImageTermsResource) Update(ctx context.Context, req resource.Updat
 
 	client := r.client.Environments
 
-	params := operations.NewUpdateAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewUpdateAzureImageTermsPolicyParams()
 	params.WithInput(&environmentsmodels.UpdateAzureImageTermsPolicyRequest{
 		Accepted: data.Accepted.ValueBoolPointer(),
 	})
@@ -145,7 +145,7 @@ func (r *azureImageTermsResource) Delete(ctx context.Context, req resource.Delet
 
 	defaultValue := false
 
-	params := operations.NewUpdateAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewUpdateAzureImageTermsPolicyParams()
 	params.WithInput(&environmentsmodels.UpdateAzureImageTermsPolicyRequest{
 		Accepted: &defaultValue,
 	})

@@ -211,7 +211,7 @@ func (r *datavizResource) deleteDataViz(p *operations.DeleteDataVisualizationPar
 }
 
 func createRequestFromPlan(ctx context.Context, plan resourceModel) *operations.CreateDataVisualizationParams {
-	return operations.NewCreateDataVisualizationParamsWithContext(ctx).
+	return operations.NewCreateDataVisualizationParams().
 		WithInput(&models.CreateDataVisualizationRequest{
 			ClusterID: plan.ClusterID.ValueStringPointer(),
 			Name:      plan.Name.ValueStringPointer(),
@@ -227,7 +227,7 @@ func createRequestFromPlan(ctx context.Context, plan resourceModel) *operations.
 }
 
 func describeRequest(ctx context.Context, clusterID *string, vizID *string) *operations.DescribeDataVisualizationParams {
-	return operations.NewDescribeDataVisualizationParamsWithContext(ctx).
+	return operations.NewDescribeDataVisualizationParams().
 		WithInput(&models.DescribeDataVisualizationRequest{
 			ClusterID:           clusterID,
 			DataVisualizationID: vizID,
@@ -235,7 +235,7 @@ func describeRequest(ctx context.Context, clusterID *string, vizID *string) *ope
 }
 
 func deleteRequest(ctx context.Context, clusterID *string, vizID *string) *operations.DeleteDataVisualizationParams {
-	return operations.NewDeleteDataVisualizationParamsWithContext(ctx).
+	return operations.NewDeleteDataVisualizationParams().
 		WithInput(&models.DeleteDataVisualizationRequest{
 			ClusterID:           clusterID,
 			DataVisualizationID: vizID,

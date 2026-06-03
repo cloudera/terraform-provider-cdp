@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // PrepareDatalakeUpgradeResponse Response object for prepare Data Lake upgrade request.
@@ -49,7 +50,7 @@ func (m *PrepareDatalakeUpgradeResponse) Validate(formats strfmt.Registry) error
 }
 
 func (m *PrepareDatalakeUpgradeResponse) validateCurrent(formats strfmt.Registry) error {
-	if swag.IsZero(m.Current) { // not required
+	if typeutils.IsZero(m.Current) { // not required
 		return nil
 	}
 
@@ -72,12 +73,12 @@ func (m *PrepareDatalakeUpgradeResponse) validateCurrent(formats strfmt.Registry
 }
 
 func (m *PrepareDatalakeUpgradeResponse) validateUpgradeCandidates(formats strfmt.Registry) error {
-	if swag.IsZero(m.UpgradeCandidates) { // not required
+	if typeutils.IsZero(m.UpgradeCandidates) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.UpgradeCandidates); i++ {
-		if swag.IsZero(m.UpgradeCandidates[i]) { // not required
+		if typeutils.IsZero(m.UpgradeCandidates[i]) { // not required
 			continue
 		}
 
@@ -123,7 +124,7 @@ func (m *PrepareDatalakeUpgradeResponse) contextValidateCurrent(ctx context.Cont
 
 	if m.Current != nil {
 
-		if swag.IsZero(m.Current) { // not required
+		if typeutils.IsZero(m.Current) { // not required
 			return nil
 		}
 
@@ -150,7 +151,7 @@ func (m *PrepareDatalakeUpgradeResponse) contextValidateUpgradeCandidates(ctx co
 
 		if m.UpgradeCandidates[i] != nil {
 
-			if swag.IsZero(m.UpgradeCandidates[i]) { // not required
+			if typeutils.IsZero(m.UpgradeCandidates[i]) { // not required
 				return nil
 			}
 
@@ -178,13 +179,13 @@ func (m *PrepareDatalakeUpgradeResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *PrepareDatalakeUpgradeResponse) UnmarshalBinary(b []byte) error {
 	var res PrepareDatalakeUpgradeResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

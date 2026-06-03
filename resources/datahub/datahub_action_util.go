@@ -25,7 +25,7 @@ import (
 
 func describeDatahubWithDiagnosticHandle(datahub string, id string, ctx context.Context, client *cdp.Client, diags *diag.Diagnostics, state *tfsdk.State) (*datahubmodels.Cluster, error) {
 	tflog.Info(ctx, "About to describe datahub '"+datahub+"'.")
-	params := operations.NewDescribeClusterParamsWithContext(ctx)
+	params := operations.NewDescribeClusterParams()
 	params.WithInput(&datahubmodels.DescribeClusterRequest{
 		ClusterName: &datahub,
 	})

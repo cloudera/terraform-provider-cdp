@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewSetSamlAuthnRequestSigningKeyParams creates a new SetSamlAuthnRequestSigningKeyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetSamlAuthnRequestSigningKeyParams() *SetSamlAuthnRequestSigningKeyParams {
-	return &SetSamlAuthnRequestSigningKeyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetSamlAuthnRequestSigningKeyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetSamlAuthnRequestSigningKeyParamsWithTimeout creates a new SetSamlAuthnRequestSigningKeyParams object
 // with the ability to set a timeout on a request.
 func NewSetSamlAuthnRequestSigningKeyParamsWithTimeout(timeout time.Duration) *SetSamlAuthnRequestSigningKeyParams {
 	return &SetSamlAuthnRequestSigningKeyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetSamlAuthnRequestSigningKeyParamsWithContext creates a new SetSamlAuthnRequestSigningKeyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetSamlAuthnRequestSigningKeyParams].
 func NewSetSamlAuthnRequestSigningKeyParamsWithContext(ctx context.Context) *SetSamlAuthnRequestSigningKeyParams {
 	return &SetSamlAuthnRequestSigningKeyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetSamlAuthnRequestSigningKeyParams struct {
 	// Input.
 	Input *models.SetSamlAuthnRequestSigningKeyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set saml authn request signing key params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetSamlAuthnRequestSigningKeyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set saml authn request signing key params
+// WithTimeout adds the timeout to the set saml authn request signing key params.
 func (o *SetSamlAuthnRequestSigningKeyParams) WithTimeout(timeout time.Duration) *SetSamlAuthnRequestSigningKeyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set saml authn request signing key params
+// SetTimeout adds the timeout to the set saml authn request signing key params.
 func (o *SetSamlAuthnRequestSigningKeyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set saml authn request signing key params
+// WithContext adds the context to the set saml authn request signing key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetSamlAuthnRequestSigningKeyParams].
 func (o *SetSamlAuthnRequestSigningKeyParams) WithContext(ctx context.Context) *SetSamlAuthnRequestSigningKeyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set saml authn request signing key params
+// SetContext adds the context to the set saml authn request signing key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetSamlAuthnRequestSigningKeyParams].
 func (o *SetSamlAuthnRequestSigningKeyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set saml authn request signing key params
+// WithHTTPClient adds the HTTPClient to the set saml authn request signing key params.
 func (o *SetSamlAuthnRequestSigningKeyParams) WithHTTPClient(client *http.Client) *SetSamlAuthnRequestSigningKeyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set saml authn request signing key params
+// SetHTTPClient adds the HTTPClient to the set saml authn request signing key params.
 func (o *SetSamlAuthnRequestSigningKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set saml authn request signing key params
+// WithInput adds the input to the set saml authn request signing key params.
 func (o *SetSamlAuthnRequestSigningKeyParams) WithInput(input *models.SetSamlAuthnRequestSigningKeyRequest) *SetSamlAuthnRequestSigningKeyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set saml authn request signing key params
+// SetInput adds the input to the set saml authn request signing key params.
 func (o *SetSamlAuthnRequestSigningKeyParams) SetInput(input *models.SetSamlAuthnRequestSigningKeyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetSamlAuthnRequestSigningKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

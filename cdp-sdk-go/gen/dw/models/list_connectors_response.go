@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListConnectorsResponse Response object for the listConnectors method. This object contains the list of all connectors configured in the specified Cloudera Data Warehouse cluster.
@@ -36,12 +37,12 @@ func (m *ListConnectorsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListConnectorsResponse) validateConnectors(formats strfmt.Registry) error {
-	if swag.IsZero(m.Connectors) { // not required
+	if typeutils.IsZero(m.Connectors) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Connectors); i++ {
-		if swag.IsZero(m.Connectors[i]) { // not required
+		if typeutils.IsZero(m.Connectors[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListConnectorsResponse) contextValidateConnectors(ctx context.Context, 
 
 		if m.Connectors[i] != nil {
 
-			if swag.IsZero(m.Connectors[i]) { // not required
+			if typeutils.IsZero(m.Connectors[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListConnectorsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListConnectorsResponse) UnmarshalBinary(b []byte) error {
 	var res ListConnectorsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

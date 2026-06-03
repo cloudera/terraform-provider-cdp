@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateFreeipaToAwsImdsV1Params creates a new UpdateFreeipaToAwsImdsV1Params object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateFreeipaToAwsImdsV1Params() *UpdateFreeipaToAwsImdsV1Params {
-	return &UpdateFreeipaToAwsImdsV1Params{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateFreeipaToAwsImdsV1ParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateFreeipaToAwsImdsV1ParamsWithTimeout creates a new UpdateFreeipaToAwsImdsV1Params object
 // with the ability to set a timeout on a request.
 func NewUpdateFreeipaToAwsImdsV1ParamsWithTimeout(timeout time.Duration) *UpdateFreeipaToAwsImdsV1Params {
 	return &UpdateFreeipaToAwsImdsV1Params{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateFreeipaToAwsImdsV1ParamsWithContext creates a new UpdateFreeipaToAwsImdsV1Params object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateFreeipaToAwsImdsV1Params].
 func NewUpdateFreeipaToAwsImdsV1ParamsWithContext(ctx context.Context) *UpdateFreeipaToAwsImdsV1Params {
 	return &UpdateFreeipaToAwsImdsV1Params{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateFreeipaToAwsImdsV1Params struct {
 	// Input.
 	Input *models.UpdateFreeipaToAwsImdsV1Request
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update freeipa to aws imds v1 params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateFreeipaToAwsImdsV1Params) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update freeipa to aws imds v1 params
+// WithTimeout adds the timeout to the update freeipa to aws imds v1 params.
 func (o *UpdateFreeipaToAwsImdsV1Params) WithTimeout(timeout time.Duration) *UpdateFreeipaToAwsImdsV1Params {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update freeipa to aws imds v1 params
+// SetTimeout adds the timeout to the update freeipa to aws imds v1 params.
 func (o *UpdateFreeipaToAwsImdsV1Params) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update freeipa to aws imds v1 params
+// WithContext adds the context to the update freeipa to aws imds v1 params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateFreeipaToAwsImdsV1Params].
 func (o *UpdateFreeipaToAwsImdsV1Params) WithContext(ctx context.Context) *UpdateFreeipaToAwsImdsV1Params {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update freeipa to aws imds v1 params
+// SetContext adds the context to the update freeipa to aws imds v1 params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateFreeipaToAwsImdsV1Params].
 func (o *UpdateFreeipaToAwsImdsV1Params) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update freeipa to aws imds v1 params
+// WithHTTPClient adds the HTTPClient to the update freeipa to aws imds v1 params.
 func (o *UpdateFreeipaToAwsImdsV1Params) WithHTTPClient(client *http.Client) *UpdateFreeipaToAwsImdsV1Params {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update freeipa to aws imds v1 params
+// SetHTTPClient adds the HTTPClient to the update freeipa to aws imds v1 params.
 func (o *UpdateFreeipaToAwsImdsV1Params) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update freeipa to aws imds v1 params
+// WithInput adds the input to the update freeipa to aws imds v1 params.
 func (o *UpdateFreeipaToAwsImdsV1Params) WithInput(input *models.UpdateFreeipaToAwsImdsV1Request) *UpdateFreeipaToAwsImdsV1Params {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update freeipa to aws imds v1 params
+// SetInput adds the input to the update freeipa to aws imds v1 params.
 func (o *UpdateFreeipaToAwsImdsV1Params) SetInput(input *models.UpdateFreeipaToAwsImdsV1Request) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateFreeipaToAwsImdsV1Params) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

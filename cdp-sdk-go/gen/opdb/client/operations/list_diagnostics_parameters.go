@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewListDiagnosticsParams creates a new ListDiagnosticsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListDiagnosticsParams() *ListDiagnosticsParams {
-	return &ListDiagnosticsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListDiagnosticsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListDiagnosticsParamsWithTimeout creates a new ListDiagnosticsParams object
 // with the ability to set a timeout on a request.
 func NewListDiagnosticsParamsWithTimeout(timeout time.Duration) *ListDiagnosticsParams {
 	return &ListDiagnosticsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListDiagnosticsParamsWithContext creates a new ListDiagnosticsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDiagnosticsParams].
 func NewListDiagnosticsParamsWithContext(ctx context.Context) *ListDiagnosticsParams {
 	return &ListDiagnosticsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListDiagnosticsParams struct {
 	// Input.
 	Input *models.ListDiagnosticsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list diagnostics params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListDiagnosticsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list diagnostics params
+// WithTimeout adds the timeout to the list diagnostics params.
 func (o *ListDiagnosticsParams) WithTimeout(timeout time.Duration) *ListDiagnosticsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list diagnostics params
+// SetTimeout adds the timeout to the list diagnostics params.
 func (o *ListDiagnosticsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list diagnostics params
+// WithContext adds the context to the list diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDiagnosticsParams].
 func (o *ListDiagnosticsParams) WithContext(ctx context.Context) *ListDiagnosticsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list diagnostics params
+// SetContext adds the context to the list diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDiagnosticsParams].
 func (o *ListDiagnosticsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list diagnostics params
+// WithHTTPClient adds the HTTPClient to the list diagnostics params.
 func (o *ListDiagnosticsParams) WithHTTPClient(client *http.Client) *ListDiagnosticsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list diagnostics params
+// SetHTTPClient adds the HTTPClient to the list diagnostics params.
 func (o *ListDiagnosticsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list diagnostics params
+// WithInput adds the input to the list diagnostics params.
 func (o *ListDiagnosticsParams) WithInput(input *models.ListDiagnosticsRequest) *ListDiagnosticsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list diagnostics params
+// SetInput adds the input to the list diagnostics params.
 func (o *ListDiagnosticsParams) SetInput(input *models.ListDiagnosticsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListDiagnosticsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

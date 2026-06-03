@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpscaleFreeipaParams creates a new UpscaleFreeipaParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpscaleFreeipaParams() *UpscaleFreeipaParams {
-	return &UpscaleFreeipaParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpscaleFreeipaParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpscaleFreeipaParamsWithTimeout creates a new UpscaleFreeipaParams object
 // with the ability to set a timeout on a request.
 func NewUpscaleFreeipaParamsWithTimeout(timeout time.Duration) *UpscaleFreeipaParams {
 	return &UpscaleFreeipaParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpscaleFreeipaParamsWithContext creates a new UpscaleFreeipaParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpscaleFreeipaParams].
 func NewUpscaleFreeipaParamsWithContext(ctx context.Context) *UpscaleFreeipaParams {
 	return &UpscaleFreeipaParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpscaleFreeipaParams struct {
 	// Input.
 	Input *models.UpscaleFreeipaRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upscale freeipa params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpscaleFreeipaParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upscale freeipa params
+// WithTimeout adds the timeout to the upscale freeipa params.
 func (o *UpscaleFreeipaParams) WithTimeout(timeout time.Duration) *UpscaleFreeipaParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upscale freeipa params
+// SetTimeout adds the timeout to the upscale freeipa params.
 func (o *UpscaleFreeipaParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upscale freeipa params
+// WithContext adds the context to the upscale freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpscaleFreeipaParams].
 func (o *UpscaleFreeipaParams) WithContext(ctx context.Context) *UpscaleFreeipaParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upscale freeipa params
+// SetContext adds the context to the upscale freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpscaleFreeipaParams].
 func (o *UpscaleFreeipaParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upscale freeipa params
+// WithHTTPClient adds the HTTPClient to the upscale freeipa params.
 func (o *UpscaleFreeipaParams) WithHTTPClient(client *http.Client) *UpscaleFreeipaParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upscale freeipa params
+// SetHTTPClient adds the HTTPClient to the upscale freeipa params.
 func (o *UpscaleFreeipaParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upscale freeipa params
+// WithInput adds the input to the upscale freeipa params.
 func (o *UpscaleFreeipaParams) WithInput(input *models.UpscaleFreeipaRequest) *UpscaleFreeipaParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upscale freeipa params
+// SetInput adds the input to the upscale freeipa params.
 func (o *UpscaleFreeipaParams) SetInput(input *models.UpscaleFreeipaRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpscaleFreeipaParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

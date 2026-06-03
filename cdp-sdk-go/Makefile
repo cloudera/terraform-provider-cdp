@@ -62,6 +62,7 @@ swagger-gen: swagger-gen-ml
 swagger-gen: swagger-gen-de
 swagger-gen: swagger-gen-dw
 swagger-gen: swagger-gen-opdb
+swagger-gen: swagger-gen-cloudprivatelinks
 
 clone-swaggers: clone-swagger-iam
 clone-swaggers: clone-swagger-environments
@@ -71,6 +72,7 @@ clone-swaggers: clone-swagger-ml
 clone-swaggers: clone-swagger-de
 clone-swaggers: clone-swagger-dw
 clone-swaggers: clone-swagger-opdb
+clone-swaggers: clone-swagger-cloudprivatelinks
 
 clone-swagger-%:
 	wget $(SWAGGER)/$*.yaml -O resources/swagger/$*.yaml

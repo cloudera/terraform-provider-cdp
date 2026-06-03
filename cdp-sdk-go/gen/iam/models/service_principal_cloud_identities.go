@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -45,12 +46,12 @@ func (m *ServicePrincipalCloudIdentities) Validate(formats strfmt.Registry) erro
 }
 
 func (m *ServicePrincipalCloudIdentities) validateAzureCloudIdentities(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureCloudIdentities) { // not required
+	if typeutils.IsZero(m.AzureCloudIdentities) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AzureCloudIdentities); i++ {
-		if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+		if typeutils.IsZero(m.AzureCloudIdentities[i]) { // not required
 			continue
 		}
 
@@ -103,7 +104,7 @@ func (m *ServicePrincipalCloudIdentities) contextValidateAzureCloudIdentities(ct
 
 		if m.AzureCloudIdentities[i] != nil {
 
-			if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+			if typeutils.IsZero(m.AzureCloudIdentities[i]) { // not required
 				return nil
 			}
 
@@ -131,13 +132,13 @@ func (m *ServicePrincipalCloudIdentities) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ServicePrincipalCloudIdentities) UnmarshalBinary(b []byte) error {
 	var res ServicePrincipalCloudIdentities
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

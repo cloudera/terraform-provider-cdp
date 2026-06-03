@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -183,12 +184,12 @@ func (m *EnableServiceRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *EnableServiceRequest) validateChartValueOverrides(formats strfmt.Registry) error {
-	if swag.IsZero(m.ChartValueOverrides) { // not required
+	if typeutils.IsZero(m.ChartValueOverrides) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ChartValueOverrides); i++ {
-		if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+		if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 			continue
 		}
 
@@ -213,7 +214,7 @@ func (m *EnableServiceRequest) validateChartValueOverrides(formats strfmt.Regist
 }
 
 func (m *EnableServiceRequest) validateCustomAzureFilesConfigs(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomAzureFilesConfigs) { // not required
+	if typeutils.IsZero(m.CustomAzureFilesConfigs) { // not required
 		return nil
 	}
 
@@ -307,7 +308,7 @@ func (m *EnableServiceRequest) validateNetworkOutboundTypeEnum(path, location st
 }
 
 func (m *EnableServiceRequest) validateNetworkOutboundType(formats strfmt.Registry) error {
-	if swag.IsZero(m.NetworkOutboundType) { // not required
+	if typeutils.IsZero(m.NetworkOutboundType) { // not required
 		return nil
 	}
 
@@ -343,7 +344,7 @@ func (m *EnableServiceRequest) contextValidateChartValueOverrides(ctx context.Co
 
 		if m.ChartValueOverrides[i] != nil {
 
-			if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+			if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 				return nil
 			}
 
@@ -370,7 +371,7 @@ func (m *EnableServiceRequest) contextValidateCustomAzureFilesConfigs(ctx contex
 
 	if m.CustomAzureFilesConfigs != nil {
 
-		if swag.IsZero(m.CustomAzureFilesConfigs) { // not required
+		if typeutils.IsZero(m.CustomAzureFilesConfigs) { // not required
 			return nil
 		}
 
@@ -396,13 +397,13 @@ func (m *EnableServiceRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *EnableServiceRequest) UnmarshalBinary(b []byte) error {
 	var res EnableServiceRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

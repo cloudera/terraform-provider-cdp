@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -86,7 +87,7 @@ func (m *DeleteUserResponse) validateResourcesUnassigned(formats strfmt.Registry
 	}
 
 	for i := 0; i < len(m.ResourcesUnassigned); i++ {
-		if swag.IsZero(m.ResourcesUnassigned[i]) { // not required
+		if typeutils.IsZero(m.ResourcesUnassigned[i]) { // not required
 			continue
 		}
 
@@ -139,7 +140,7 @@ func (m *DeleteUserResponse) contextValidateResourcesUnassigned(ctx context.Cont
 
 		if m.ResourcesUnassigned[i] != nil {
 
-			if swag.IsZero(m.ResourcesUnassigned[i]) { // not required
+			if typeutils.IsZero(m.ResourcesUnassigned[i]) { // not required
 				return nil
 			}
 
@@ -167,13 +168,13 @@ func (m *DeleteUserResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DeleteUserResponse) UnmarshalBinary(b []byte) error {
 	var res DeleteUserResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

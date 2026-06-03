@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeClusterParams creates a new DescribeClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeClusterParams() *DescribeClusterParams {
-	return &DescribeClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeClusterParamsWithTimeout creates a new DescribeClusterParams object
 // with the ability to set a timeout on a request.
 func NewDescribeClusterParamsWithTimeout(timeout time.Duration) *DescribeClusterParams {
 	return &DescribeClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeClusterParamsWithContext creates a new DescribeClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeClusterParams].
 func NewDescribeClusterParamsWithContext(ctx context.Context) *DescribeClusterParams {
 	return &DescribeClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeClusterParams struct {
 	// Input.
 	Input *models.DescribeClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe cluster params
+// WithTimeout adds the timeout to the describe cluster params.
 func (o *DescribeClusterParams) WithTimeout(timeout time.Duration) *DescribeClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe cluster params
+// SetTimeout adds the timeout to the describe cluster params.
 func (o *DescribeClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe cluster params
+// WithContext adds the context to the describe cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeClusterParams].
 func (o *DescribeClusterParams) WithContext(ctx context.Context) *DescribeClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe cluster params
+// SetContext adds the context to the describe cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeClusterParams].
 func (o *DescribeClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe cluster params
+// WithHTTPClient adds the HTTPClient to the describe cluster params.
 func (o *DescribeClusterParams) WithHTTPClient(client *http.Client) *DescribeClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe cluster params
+// SetHTTPClient adds the HTTPClient to the describe cluster params.
 func (o *DescribeClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe cluster params
+// WithInput adds the input to the describe cluster params.
 func (o *DescribeClusterParams) WithInput(input *models.DescribeClusterRequest) *DescribeClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe cluster params
+// SetInput adds the input to the describe cluster params.
 func (o *DescribeClusterParams) SetInput(input *models.DescribeClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

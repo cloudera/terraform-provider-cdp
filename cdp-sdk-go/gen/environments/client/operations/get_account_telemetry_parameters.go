@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetAccountTelemetryParams creates a new GetAccountTelemetryParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAccountTelemetryParams() *GetAccountTelemetryParams {
-	return &GetAccountTelemetryParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetAccountTelemetryParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetAccountTelemetryParamsWithTimeout creates a new GetAccountTelemetryParams object
 // with the ability to set a timeout on a request.
 func NewGetAccountTelemetryParamsWithTimeout(timeout time.Duration) *GetAccountTelemetryParams {
 	return &GetAccountTelemetryParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetAccountTelemetryParamsWithContext creates a new GetAccountTelemetryParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAccountTelemetryParams].
 func NewGetAccountTelemetryParamsWithContext(ctx context.Context) *GetAccountTelemetryParams {
 	return &GetAccountTelemetryParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetAccountTelemetryParams struct {
 	// Input.
 	Input models.GetAccountTelemetryRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get account telemetry params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetAccountTelemetryParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get account telemetry params
+// WithTimeout adds the timeout to the get account telemetry params.
 func (o *GetAccountTelemetryParams) WithTimeout(timeout time.Duration) *GetAccountTelemetryParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get account telemetry params
+// SetTimeout adds the timeout to the get account telemetry params.
 func (o *GetAccountTelemetryParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get account telemetry params
+// WithContext adds the context to the get account telemetry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAccountTelemetryParams].
 func (o *GetAccountTelemetryParams) WithContext(ctx context.Context) *GetAccountTelemetryParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get account telemetry params
+// SetContext adds the context to the get account telemetry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAccountTelemetryParams].
 func (o *GetAccountTelemetryParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get account telemetry params
+// WithHTTPClient adds the HTTPClient to the get account telemetry params.
 func (o *GetAccountTelemetryParams) WithHTTPClient(client *http.Client) *GetAccountTelemetryParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get account telemetry params
+// SetHTTPClient adds the HTTPClient to the get account telemetry params.
 func (o *GetAccountTelemetryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get account telemetry params
+// WithInput adds the input to the get account telemetry params.
 func (o *GetAccountTelemetryParams) WithInput(input models.GetAccountTelemetryRequest) *GetAccountTelemetryParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get account telemetry params
+// SetInput adds the input to the get account telemetry params.
 func (o *GetAccountTelemetryParams) SetInput(input models.GetAccountTelemetryRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetAccountTelemetryParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

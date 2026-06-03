@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewDeleteModelRegistryParams creates a new DeleteModelRegistryParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteModelRegistryParams() *DeleteModelRegistryParams {
-	return &DeleteModelRegistryParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteModelRegistryParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteModelRegistryParamsWithTimeout creates a new DeleteModelRegistryParams object
 // with the ability to set a timeout on a request.
 func NewDeleteModelRegistryParamsWithTimeout(timeout time.Duration) *DeleteModelRegistryParams {
 	return &DeleteModelRegistryParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteModelRegistryParamsWithContext creates a new DeleteModelRegistryParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteModelRegistryParams].
 func NewDeleteModelRegistryParamsWithContext(ctx context.Context) *DeleteModelRegistryParams {
 	return &DeleteModelRegistryParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteModelRegistryParams struct {
 	// Input.
 	Input *models.DeleteModelRegistryRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete model registry params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteModelRegistryParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete model registry params
+// WithTimeout adds the timeout to the delete model registry params.
 func (o *DeleteModelRegistryParams) WithTimeout(timeout time.Duration) *DeleteModelRegistryParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete model registry params
+// SetTimeout adds the timeout to the delete model registry params.
 func (o *DeleteModelRegistryParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete model registry params
+// WithContext adds the context to the delete model registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteModelRegistryParams].
 func (o *DeleteModelRegistryParams) WithContext(ctx context.Context) *DeleteModelRegistryParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete model registry params
+// SetContext adds the context to the delete model registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteModelRegistryParams].
 func (o *DeleteModelRegistryParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete model registry params
+// WithHTTPClient adds the HTTPClient to the delete model registry params.
 func (o *DeleteModelRegistryParams) WithHTTPClient(client *http.Client) *DeleteModelRegistryParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete model registry params
+// SetHTTPClient adds the HTTPClient to the delete model registry params.
 func (o *DeleteModelRegistryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete model registry params
+// WithInput adds the input to the delete model registry params.
 func (o *DeleteModelRegistryParams) WithInput(input *models.DeleteModelRegistryRequest) *DeleteModelRegistryParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete model registry params
+// SetInput adds the input to the delete model registry params.
 func (o *DeleteModelRegistryParams) SetInput(input *models.DeleteModelRegistryRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteModelRegistryParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

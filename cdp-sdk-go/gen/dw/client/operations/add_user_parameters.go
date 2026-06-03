@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewAddUserParams creates a new AddUserParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddUserParams() *AddUserParams {
-	return &AddUserParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAddUserParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAddUserParamsWithTimeout creates a new AddUserParams object
 // with the ability to set a timeout on a request.
 func NewAddUserParamsWithTimeout(timeout time.Duration) *AddUserParams {
 	return &AddUserParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAddUserParamsWithContext creates a new AddUserParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddUserParams].
 func NewAddUserParamsWithContext(ctx context.Context) *AddUserParams {
 	return &AddUserParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AddUserParams struct {
 	// Input.
 	Input *models.AddUserRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the add user params (not the query body).
@@ -83,54 +86,57 @@ func (o *AddUserParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the add user params
+// WithTimeout adds the timeout to the add user params.
 func (o *AddUserParams) WithTimeout(timeout time.Duration) *AddUserParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the add user params
+// SetTimeout adds the timeout to the add user params.
 func (o *AddUserParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the add user params
+// WithContext adds the context to the add user params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddUserParams].
 func (o *AddUserParams) WithContext(ctx context.Context) *AddUserParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the add user params
+// SetContext adds the context to the add user params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddUserParams].
 func (o *AddUserParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the add user params
+// WithHTTPClient adds the HTTPClient to the add user params.
 func (o *AddUserParams) WithHTTPClient(client *http.Client) *AddUserParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the add user params
+// SetHTTPClient adds the HTTPClient to the add user params.
 func (o *AddUserParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the add user params
+// WithInput adds the input to the add user params.
 func (o *AddUserParams) WithInput(input *models.AddUserRequest) *AddUserParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the add user params
+// SetInput adds the input to the add user params.
 func (o *AddUserParams) SetInput(input *models.AddUserRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AddUserParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

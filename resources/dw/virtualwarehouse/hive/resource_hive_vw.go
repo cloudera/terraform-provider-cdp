@@ -80,7 +80,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	vw := operations.NewCreateVwParamsWithContext(ctx).
+	vw := operations.NewCreateVwParams().
 		WithInput(createReq)
 
 	response, err := r.client.Dw.Operations.CreateVw(vw)
@@ -114,7 +114,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 			return
 		}
 	}
-	desc := operations.NewDescribeVwParamsWithContext(ctx).
+	desc := operations.NewDescribeVwParams().
 		WithInput(&models.DescribeVwRequest{VwID: vwID, ClusterID: clusterID})
 	describe, err := r.client.Dw.Operations.DescribeVw(desc)
 	if err != nil {
@@ -149,7 +149,7 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 
 	clusterID := state.ClusterID.ValueStringPointer()
 	vwID := state.ID.ValueStringPointer()
-	op := operations.NewDeleteVwParamsWithContext(ctx).
+	op := operations.NewDeleteVwParams().
 		WithInput(&models.DeleteVwRequest{
 			ClusterID: clusterID,
 			VwID:      vwID,
@@ -189,7 +189,7 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 func (r *hiveResource) stateRefresh(ctx context.Context, clusterID *string, vwID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "About to describe hive")
-		params := operations.NewDescribeVwParamsWithContext(ctx).
+		params := operations.NewDescribeVwParams().
 			WithInput(&models.DescribeVwRequest{ClusterID: clusterID, VwID: vwID})
 		resp, err := r.client.Dw.Operations.DescribeVw(params)
 		if err != nil {

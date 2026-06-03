@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewDeleteEnvironmentParams creates a new DeleteEnvironmentParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteEnvironmentParams() *DeleteEnvironmentParams {
-	return &DeleteEnvironmentParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteEnvironmentParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteEnvironmentParamsWithTimeout creates a new DeleteEnvironmentParams object
 // with the ability to set a timeout on a request.
 func NewDeleteEnvironmentParamsWithTimeout(timeout time.Duration) *DeleteEnvironmentParams {
 	return &DeleteEnvironmentParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteEnvironmentParamsWithContext creates a new DeleteEnvironmentParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteEnvironmentParams].
 func NewDeleteEnvironmentParamsWithContext(ctx context.Context) *DeleteEnvironmentParams {
 	return &DeleteEnvironmentParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteEnvironmentParams struct {
 	// Input.
 	Input *models.DeleteEnvironmentRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete environment params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteEnvironmentParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete environment params
+// WithTimeout adds the timeout to the delete environment params.
 func (o *DeleteEnvironmentParams) WithTimeout(timeout time.Duration) *DeleteEnvironmentParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete environment params
+// SetTimeout adds the timeout to the delete environment params.
 func (o *DeleteEnvironmentParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete environment params
+// WithContext adds the context to the delete environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteEnvironmentParams].
 func (o *DeleteEnvironmentParams) WithContext(ctx context.Context) *DeleteEnvironmentParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete environment params
+// SetContext adds the context to the delete environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteEnvironmentParams].
 func (o *DeleteEnvironmentParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete environment params
+// WithHTTPClient adds the HTTPClient to the delete environment params.
 func (o *DeleteEnvironmentParams) WithHTTPClient(client *http.Client) *DeleteEnvironmentParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete environment params
+// SetHTTPClient adds the HTTPClient to the delete environment params.
 func (o *DeleteEnvironmentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete environment params
+// WithInput adds the input to the delete environment params.
 func (o *DeleteEnvironmentParams) WithInput(input *models.DeleteEnvironmentRequest) *DeleteEnvironmentParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete environment params
+// SetInput adds the input to the delete environment params.
 func (o *DeleteEnvironmentParams) SetInput(input *models.DeleteEnvironmentRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

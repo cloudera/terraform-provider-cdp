@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListResourceAssigneesParams creates a new ListResourceAssigneesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListResourceAssigneesParams() *ListResourceAssigneesParams {
-	return &ListResourceAssigneesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListResourceAssigneesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListResourceAssigneesParamsWithTimeout creates a new ListResourceAssigneesParams object
 // with the ability to set a timeout on a request.
 func NewListResourceAssigneesParamsWithTimeout(timeout time.Duration) *ListResourceAssigneesParams {
 	return &ListResourceAssigneesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListResourceAssigneesParamsWithContext creates a new ListResourceAssigneesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListResourceAssigneesParams].
 func NewListResourceAssigneesParamsWithContext(ctx context.Context) *ListResourceAssigneesParams {
 	return &ListResourceAssigneesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListResourceAssigneesParams struct {
 	// Input.
 	Input *models.ListResourceAssigneesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list resource assignees params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListResourceAssigneesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list resource assignees params
+// WithTimeout adds the timeout to the list resource assignees params.
 func (o *ListResourceAssigneesParams) WithTimeout(timeout time.Duration) *ListResourceAssigneesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list resource assignees params
+// SetTimeout adds the timeout to the list resource assignees params.
 func (o *ListResourceAssigneesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list resource assignees params
+// WithContext adds the context to the list resource assignees params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListResourceAssigneesParams].
 func (o *ListResourceAssigneesParams) WithContext(ctx context.Context) *ListResourceAssigneesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list resource assignees params
+// SetContext adds the context to the list resource assignees params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListResourceAssigneesParams].
 func (o *ListResourceAssigneesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list resource assignees params
+// WithHTTPClient adds the HTTPClient to the list resource assignees params.
 func (o *ListResourceAssigneesParams) WithHTTPClient(client *http.Client) *ListResourceAssigneesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list resource assignees params
+// SetHTTPClient adds the HTTPClient to the list resource assignees params.
 func (o *ListResourceAssigneesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list resource assignees params
+// WithInput adds the input to the list resource assignees params.
 func (o *ListResourceAssigneesParams) WithInput(input *models.ListResourceAssigneesRequest) *ListResourceAssigneesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list resource assignees params
+// SetInput adds the input to the list resource assignees params.
 func (o *ListResourceAssigneesParams) SetInput(input *models.ListResourceAssigneesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListResourceAssigneesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -66,7 +67,7 @@ func (m *SetAuthenticationPolicyRequest) Validate(formats strfmt.Registry) error
 }
 
 func (m *SetAuthenticationPolicyRequest) validateAccessKeyExpirationSec(formats strfmt.Registry) error {
-	if swag.IsZero(m.AccessKeyExpirationSec) { // not required
+	if typeutils.IsZero(m.AccessKeyExpirationSec) { // not required
 		return nil
 	}
 
@@ -78,7 +79,7 @@ func (m *SetAuthenticationPolicyRequest) validateAccessKeyExpirationSec(formats 
 }
 
 func (m *SetAuthenticationPolicyRequest) validateAccessKeyInactivityDurationSec(formats strfmt.Registry) error {
-	if swag.IsZero(m.AccessKeyInactivityDurationSec) { // not required
+	if typeutils.IsZero(m.AccessKeyInactivityDurationSec) { // not required
 		return nil
 	}
 
@@ -90,7 +91,7 @@ func (m *SetAuthenticationPolicyRequest) validateAccessKeyInactivityDurationSec(
 }
 
 func (m *SetAuthenticationPolicyRequest) validateSessionTokenExpirationSec(formats strfmt.Registry) error {
-	if swag.IsZero(m.SessionTokenExpirationSec) { // not required
+	if typeutils.IsZero(m.SessionTokenExpirationSec) { // not required
 		return nil
 	}
 
@@ -102,7 +103,7 @@ func (m *SetAuthenticationPolicyRequest) validateSessionTokenExpirationSec(forma
 }
 
 func (m *SetAuthenticationPolicyRequest) validateSessionTokenInactivityDurationSec(formats strfmt.Registry) error {
-	if swag.IsZero(m.SessionTokenInactivityDurationSec) { // not required
+	if typeutils.IsZero(m.SessionTokenInactivityDurationSec) { // not required
 		return nil
 	}
 
@@ -123,13 +124,13 @@ func (m *SetAuthenticationPolicyRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *SetAuthenticationPolicyRequest) UnmarshalBinary(b []byte) error {
 	var res SetAuthenticationPolicyRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

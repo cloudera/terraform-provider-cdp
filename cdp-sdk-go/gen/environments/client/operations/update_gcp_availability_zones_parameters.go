@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateGcpAvailabilityZonesParams creates a new UpdateGcpAvailabilityZonesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateGcpAvailabilityZonesParams() *UpdateGcpAvailabilityZonesParams {
-	return &UpdateGcpAvailabilityZonesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateGcpAvailabilityZonesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateGcpAvailabilityZonesParamsWithTimeout creates a new UpdateGcpAvailabilityZonesParams object
 // with the ability to set a timeout on a request.
 func NewUpdateGcpAvailabilityZonesParamsWithTimeout(timeout time.Duration) *UpdateGcpAvailabilityZonesParams {
 	return &UpdateGcpAvailabilityZonesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateGcpAvailabilityZonesParamsWithContext creates a new UpdateGcpAvailabilityZonesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateGcpAvailabilityZonesParams].
 func NewUpdateGcpAvailabilityZonesParamsWithContext(ctx context.Context) *UpdateGcpAvailabilityZonesParams {
 	return &UpdateGcpAvailabilityZonesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateGcpAvailabilityZonesParams struct {
 	// Input.
 	Input *models.UpdateGcpAvailabilityZonesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update gcp availability zones params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateGcpAvailabilityZonesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update gcp availability zones params
+// WithTimeout adds the timeout to the update gcp availability zones params.
 func (o *UpdateGcpAvailabilityZonesParams) WithTimeout(timeout time.Duration) *UpdateGcpAvailabilityZonesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update gcp availability zones params
+// SetTimeout adds the timeout to the update gcp availability zones params.
 func (o *UpdateGcpAvailabilityZonesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update gcp availability zones params
+// WithContext adds the context to the update gcp availability zones params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateGcpAvailabilityZonesParams].
 func (o *UpdateGcpAvailabilityZonesParams) WithContext(ctx context.Context) *UpdateGcpAvailabilityZonesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update gcp availability zones params
+// SetContext adds the context to the update gcp availability zones params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateGcpAvailabilityZonesParams].
 func (o *UpdateGcpAvailabilityZonesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update gcp availability zones params
+// WithHTTPClient adds the HTTPClient to the update gcp availability zones params.
 func (o *UpdateGcpAvailabilityZonesParams) WithHTTPClient(client *http.Client) *UpdateGcpAvailabilityZonesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update gcp availability zones params
+// SetHTTPClient adds the HTTPClient to the update gcp availability zones params.
 func (o *UpdateGcpAvailabilityZonesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update gcp availability zones params
+// WithInput adds the input to the update gcp availability zones params.
 func (o *UpdateGcpAvailabilityZonesParams) WithInput(input *models.UpdateGcpAvailabilityZonesRequest) *UpdateGcpAvailabilityZonesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update gcp availability zones params
+// SetInput adds the input to the update gcp availability zones params.
 func (o *UpdateGcpAvailabilityZonesParams) SetInput(input *models.UpdateGcpAvailabilityZonesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateGcpAvailabilityZonesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

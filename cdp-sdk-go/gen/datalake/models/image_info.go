@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ImageInfo Basic information about an image.
@@ -47,7 +48,7 @@ func (m *ImageInfo) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ImageInfo) validateComponentVersions(formats strfmt.Registry) error {
-	if swag.IsZero(m.ComponentVersions) { // not required
+	if typeutils.IsZero(m.ComponentVersions) { // not required
 		return nil
 	}
 
@@ -87,7 +88,7 @@ func (m *ImageInfo) contextValidateComponentVersions(ctx context.Context, format
 
 	if m.ComponentVersions != nil {
 
-		if swag.IsZero(m.ComponentVersions) { // not required
+		if typeutils.IsZero(m.ComponentVersions) { // not required
 			return nil
 		}
 
@@ -113,13 +114,13 @@ func (m *ImageInfo) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ImageInfo) UnmarshalBinary(b []byte) error {
 	var res ImageInfo
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

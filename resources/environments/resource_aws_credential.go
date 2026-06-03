@@ -65,7 +65,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 
 	client := r.client.Environments
 
-	params := operations.NewCreateAWSCredentialParamsWithContext(ctx)
+	params := operations.NewCreateAWSCredentialParams()
 	params.WithInput(&environmentsmodels.CreateAWSCredentialRequest{
 		CredentialName: plan.CredentialName.ValueStringPointer(),
 		Description:    plan.Description.ValueString(),
@@ -160,7 +160,7 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 
 // FindCredentialByName reads and returns the credential from CDP if any.
 func FindCredentialByName(ctx context.Context, cdpClient *cdp.Client, credentialName string) (*environmentsmodels.Credential, error) {
-	params := operations.NewListCredentialsParamsWithContext(ctx)
+	params := operations.NewListCredentialsParams()
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := cdpClient.Environments.Operations.ListCredentials(params)
 	if err != nil {
@@ -202,7 +202,7 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	credentialName := state.ID.ValueString()
-	params := operations.NewDeleteCredentialParamsWithContext(ctx)
+	params := operations.NewDeleteCredentialParams()
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {
@@ -216,7 +216,7 @@ func (r *awsCredentialResource) ImportState(ctx context.Context, req resource.Im
 }
 
 func (r *awsCredentialResource) updateCredential(ctx context.Context, client *environmentsclient.Environments, plan awsCredentialResourceModel) error {
-	params := operations.NewUpdateAwsCredentialParamsWithContext(ctx)
+	params := operations.NewUpdateAwsCredentialParams()
 	params.WithInput(&environmentsmodels.UpdateAwsCredentialRequest{
 		RoleArn:                plan.RoleArn.ValueStringPointer(),
 		Description:            plan.Description.ValueString(),

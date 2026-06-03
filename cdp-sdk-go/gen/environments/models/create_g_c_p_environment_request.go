@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -177,7 +178,7 @@ func (m *CreateGCPEnvironmentRequest) validateCredentialName(formats strfmt.Regi
 }
 
 func (m *CreateGCPEnvironmentRequest) validateCustomDockerRegistry(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomDockerRegistry) { // not required
+	if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 		return nil
 	}
 
@@ -229,7 +230,7 @@ func (m *CreateGCPEnvironmentRequest) validateEndpointAccessGatewaySchemeEnum(pa
 }
 
 func (m *CreateGCPEnvironmentRequest) validateEndpointAccessGatewayScheme(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndpointAccessGatewayScheme) { // not required
+	if typeutils.IsZero(m.EndpointAccessGatewayScheme) { // not required
 		return nil
 	}
 
@@ -280,7 +281,7 @@ func (m *CreateGCPEnvironmentRequest) validateEnvironmentTypeEnum(path, location
 }
 
 func (m *CreateGCPEnvironmentRequest) validateEnvironmentType(formats strfmt.Registry) error {
-	if swag.IsZero(m.EnvironmentType) { // not required
+	if typeutils.IsZero(m.EnvironmentType) { // not required
 		return nil
 	}
 
@@ -317,7 +318,7 @@ func (m *CreateGCPEnvironmentRequest) validateExistingNetworkParams(formats strf
 }
 
 func (m *CreateGCPEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) error {
-	if swag.IsZero(m.FreeIpa) { // not required
+	if typeutils.IsZero(m.FreeIpa) { // not required
 		return nil
 	}
 
@@ -340,7 +341,7 @@ func (m *CreateGCPEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) e
 }
 
 func (m *CreateGCPEnvironmentRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -363,7 +364,7 @@ func (m *CreateGCPEnvironmentRequest) validateImage(formats strfmt.Registry) err
 }
 
 func (m *CreateGCPEnvironmentRequest) validateLogStorage(formats strfmt.Registry) error {
-	if swag.IsZero(m.LogStorage) { // not required
+	if typeutils.IsZero(m.LogStorage) { // not required
 		return nil
 	}
 
@@ -404,7 +405,7 @@ func (m *CreateGCPEnvironmentRequest) validateRegion(formats strfmt.Registry) er
 }
 
 func (m *CreateGCPEnvironmentRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -427,7 +428,7 @@ func (m *CreateGCPEnvironmentRequest) validateSecurity(formats strfmt.Registry) 
 }
 
 func (m *CreateGCPEnvironmentRequest) validateSecurityAccess(formats strfmt.Registry) error {
-	if swag.IsZero(m.SecurityAccess) { // not required
+	if typeutils.IsZero(m.SecurityAccess) { // not required
 		return nil
 	}
 
@@ -450,12 +451,12 @@ func (m *CreateGCPEnvironmentRequest) validateSecurityAccess(formats strfmt.Regi
 }
 
 func (m *CreateGCPEnvironmentRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -534,7 +535,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateCustomDockerRegistry(ctx co
 
 	if m.CustomDockerRegistry != nil {
 
-		if swag.IsZero(m.CustomDockerRegistry) { // not required
+		if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 			return nil
 		}
 
@@ -580,7 +581,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateFreeIpa(ctx context.Context
 
 	if m.FreeIpa != nil {
 
-		if swag.IsZero(m.FreeIpa) { // not required
+		if typeutils.IsZero(m.FreeIpa) { // not required
 			return nil
 		}
 
@@ -605,7 +606,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateImage(ctx context.Context, 
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -630,7 +631,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateLogStorage(ctx context.Cont
 
 	if m.LogStorage != nil {
 
-		if swag.IsZero(m.LogStorage) { // not required
+		if typeutils.IsZero(m.LogStorage) { // not required
 			return nil
 		}
 
@@ -655,7 +656,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateSecurity(ctx context.Contex
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -680,7 +681,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateSecurityAccess(ctx context.
 
 	if m.SecurityAccess != nil {
 
-		if swag.IsZero(m.SecurityAccess) { // not required
+		if typeutils.IsZero(m.SecurityAccess) { // not required
 			return nil
 		}
 
@@ -707,7 +708,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateTags(ctx context.Context, f
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -735,13 +736,13 @@ func (m *CreateGCPEnvironmentRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateGCPEnvironmentRequest) UnmarshalBinary(b []byte) error {
 	var res CreateGCPEnvironmentRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

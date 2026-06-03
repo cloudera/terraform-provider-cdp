@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetKeytabParams creates a new GetKeytabParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetKeytabParams() *GetKeytabParams {
-	return &GetKeytabParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetKeytabParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetKeytabParamsWithTimeout creates a new GetKeytabParams object
 // with the ability to set a timeout on a request.
 func NewGetKeytabParamsWithTimeout(timeout time.Duration) *GetKeytabParams {
 	return &GetKeytabParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetKeytabParamsWithContext creates a new GetKeytabParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetKeytabParams].
 func NewGetKeytabParamsWithContext(ctx context.Context) *GetKeytabParams {
 	return &GetKeytabParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetKeytabParams struct {
 	// Input.
 	Input *models.GetKeytabRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get keytab params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetKeytabParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get keytab params
+// WithTimeout adds the timeout to the get keytab params.
 func (o *GetKeytabParams) WithTimeout(timeout time.Duration) *GetKeytabParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get keytab params
+// SetTimeout adds the timeout to the get keytab params.
 func (o *GetKeytabParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get keytab params
+// WithContext adds the context to the get keytab params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetKeytabParams].
 func (o *GetKeytabParams) WithContext(ctx context.Context) *GetKeytabParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get keytab params
+// SetContext adds the context to the get keytab params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetKeytabParams].
 func (o *GetKeytabParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get keytab params
+// WithHTTPClient adds the HTTPClient to the get keytab params.
 func (o *GetKeytabParams) WithHTTPClient(client *http.Client) *GetKeytabParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get keytab params
+// SetHTTPClient adds the HTTPClient to the get keytab params.
 func (o *GetKeytabParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get keytab params
+// WithInput adds the input to the get keytab params.
 func (o *GetKeytabParams) WithInput(input *models.GetKeytabRequest) *GetKeytabParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get keytab params
+// SetInput adds the input to the get keytab params.
 func (o *GetKeytabParams) SetInput(input *models.GetKeytabRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetKeytabParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

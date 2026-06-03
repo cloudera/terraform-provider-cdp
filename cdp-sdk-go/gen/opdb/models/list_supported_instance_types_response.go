@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListSupportedInstanceTypesResponse The response for listing supported instance types.
@@ -36,12 +37,12 @@ func (m *ListSupportedInstanceTypesResponse) Validate(formats strfmt.Registry) e
 }
 
 func (m *ListSupportedInstanceTypesResponse) validateSupportedInstances(formats strfmt.Registry) error {
-	if swag.IsZero(m.SupportedInstances) { // not required
+	if typeutils.IsZero(m.SupportedInstances) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.SupportedInstances); i++ {
-		if swag.IsZero(m.SupportedInstances[i]) { // not required
+		if typeutils.IsZero(m.SupportedInstances[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListSupportedInstanceTypesResponse) contextValidateSupportedInstances(c
 
 		if m.SupportedInstances[i] != nil {
 
-			if swag.IsZero(m.SupportedInstances[i]) { // not required
+			if typeutils.IsZero(m.SupportedInstances[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListSupportedInstanceTypesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListSupportedInstanceTypesResponse) UnmarshalBinary(b []byte) error {
 	var res ListSupportedInstanceTypesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

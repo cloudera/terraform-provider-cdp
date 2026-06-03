@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewRemoveCoprocessorParams creates a new RemoveCoprocessorParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRemoveCoprocessorParams() *RemoveCoprocessorParams {
-	return &RemoveCoprocessorParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRemoveCoprocessorParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRemoveCoprocessorParamsWithTimeout creates a new RemoveCoprocessorParams object
 // with the ability to set a timeout on a request.
 func NewRemoveCoprocessorParamsWithTimeout(timeout time.Duration) *RemoveCoprocessorParams {
 	return &RemoveCoprocessorParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRemoveCoprocessorParamsWithContext creates a new RemoveCoprocessorParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RemoveCoprocessorParams].
 func NewRemoveCoprocessorParamsWithContext(ctx context.Context) *RemoveCoprocessorParams {
 	return &RemoveCoprocessorParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RemoveCoprocessorParams struct {
 	// Input.
 	Input *models.RemoveCoprocessorRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the remove coprocessor params (not the query body).
@@ -83,54 +86,57 @@ func (o *RemoveCoprocessorParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the remove coprocessor params
+// WithTimeout adds the timeout to the remove coprocessor params.
 func (o *RemoveCoprocessorParams) WithTimeout(timeout time.Duration) *RemoveCoprocessorParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the remove coprocessor params
+// SetTimeout adds the timeout to the remove coprocessor params.
 func (o *RemoveCoprocessorParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the remove coprocessor params
+// WithContext adds the context to the remove coprocessor params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RemoveCoprocessorParams].
 func (o *RemoveCoprocessorParams) WithContext(ctx context.Context) *RemoveCoprocessorParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the remove coprocessor params
+// SetContext adds the context to the remove coprocessor params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RemoveCoprocessorParams].
 func (o *RemoveCoprocessorParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the remove coprocessor params
+// WithHTTPClient adds the HTTPClient to the remove coprocessor params.
 func (o *RemoveCoprocessorParams) WithHTTPClient(client *http.Client) *RemoveCoprocessorParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the remove coprocessor params
+// SetHTTPClient adds the HTTPClient to the remove coprocessor params.
 func (o *RemoveCoprocessorParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the remove coprocessor params
+// WithInput adds the input to the remove coprocessor params.
 func (o *RemoveCoprocessorParams) WithInput(input *models.RemoveCoprocessorRequest) *RemoveCoprocessorParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the remove coprocessor params
+// SetInput adds the input to the remove coprocessor params.
 func (o *RemoveCoprocessorParams) SetInput(input *models.RemoveCoprocessorRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RemoveCoprocessorParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

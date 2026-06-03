@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -78,7 +79,7 @@ func (m *GetUpgradeStatusResponse) validateNextStepEnum(path, location string, v
 }
 
 func (m *GetUpgradeStatusResponse) validateNextStep(formats strfmt.Registry) error {
-	if swag.IsZero(m.NextStep) { // not required
+	if typeutils.IsZero(m.NextStep) { // not required
 		return nil
 	}
 
@@ -100,13 +101,13 @@ func (m *GetUpgradeStatusResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetUpgradeStatusResponse) UnmarshalBinary(b []byte) error {
 	var res GetUpgradeStatusResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

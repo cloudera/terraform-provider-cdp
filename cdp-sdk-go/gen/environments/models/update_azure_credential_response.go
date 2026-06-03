@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // UpdateAzureCredentialResponse Response object for an update Azure credential request.
@@ -35,7 +36,7 @@ func (m *UpdateAzureCredentialResponse) Validate(formats strfmt.Registry) error 
 }
 
 func (m *UpdateAzureCredentialResponse) validateCredential(formats strfmt.Registry) error {
-	if swag.IsZero(m.Credential) { // not required
+	if typeutils.IsZero(m.Credential) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *UpdateAzureCredentialResponse) contextValidateCredential(ctx context.Co
 
 	if m.Credential != nil {
 
-		if swag.IsZero(m.Credential) { // not required
+		if typeutils.IsZero(m.Credential) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *UpdateAzureCredentialResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateAzureCredentialResponse) UnmarshalBinary(b []byte) error {
 	var res UpdateAzureCredentialResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

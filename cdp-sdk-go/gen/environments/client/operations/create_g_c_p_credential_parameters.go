@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCreateGCPCredentialParams creates a new CreateGCPCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateGCPCredentialParams() *CreateGCPCredentialParams {
-	return &CreateGCPCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateGCPCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateGCPCredentialParamsWithTimeout creates a new CreateGCPCredentialParams object
 // with the ability to set a timeout on a request.
 func NewCreateGCPCredentialParamsWithTimeout(timeout time.Duration) *CreateGCPCredentialParams {
 	return &CreateGCPCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateGCPCredentialParamsWithContext creates a new CreateGCPCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateGCPCredentialParams].
 func NewCreateGCPCredentialParamsWithContext(ctx context.Context) *CreateGCPCredentialParams {
 	return &CreateGCPCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateGCPCredentialParams struct {
 	// Input.
 	Input *models.CreateGCPCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create g c p credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateGCPCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create g c p credential params
+// WithTimeout adds the timeout to the create g c p credential params.
 func (o *CreateGCPCredentialParams) WithTimeout(timeout time.Duration) *CreateGCPCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create g c p credential params
+// SetTimeout adds the timeout to the create g c p credential params.
 func (o *CreateGCPCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create g c p credential params
+// WithContext adds the context to the create g c p credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateGCPCredentialParams].
 func (o *CreateGCPCredentialParams) WithContext(ctx context.Context) *CreateGCPCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create g c p credential params
+// SetContext adds the context to the create g c p credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateGCPCredentialParams].
 func (o *CreateGCPCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create g c p credential params
+// WithHTTPClient adds the HTTPClient to the create g c p credential params.
 func (o *CreateGCPCredentialParams) WithHTTPClient(client *http.Client) *CreateGCPCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create g c p credential params
+// SetHTTPClient adds the HTTPClient to the create g c p credential params.
 func (o *CreateGCPCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create g c p credential params
+// WithInput adds the input to the create g c p credential params.
 func (o *CreateGCPCredentialParams) WithInput(input *models.CreateGCPCredentialRequest) *CreateGCPCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create g c p credential params
+// SetInput adds the input to the create g c p credential params.
 func (o *CreateGCPCredentialParams) SetInput(input *models.CreateGCPCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateGCPCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

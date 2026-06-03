@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewGetBackupLogsParams creates a new GetBackupLogsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetBackupLogsParams() *GetBackupLogsParams {
-	return &GetBackupLogsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetBackupLogsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetBackupLogsParamsWithTimeout creates a new GetBackupLogsParams object
 // with the ability to set a timeout on a request.
 func NewGetBackupLogsParamsWithTimeout(timeout time.Duration) *GetBackupLogsParams {
 	return &GetBackupLogsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetBackupLogsParamsWithContext creates a new GetBackupLogsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetBackupLogsParams].
 func NewGetBackupLogsParamsWithContext(ctx context.Context) *GetBackupLogsParams {
 	return &GetBackupLogsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetBackupLogsParams struct {
 	// Input.
 	Input *models.GetBackupLogsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get backup logs params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetBackupLogsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get backup logs params
+// WithTimeout adds the timeout to the get backup logs params.
 func (o *GetBackupLogsParams) WithTimeout(timeout time.Duration) *GetBackupLogsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get backup logs params
+// SetTimeout adds the timeout to the get backup logs params.
 func (o *GetBackupLogsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get backup logs params
+// WithContext adds the context to the get backup logs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetBackupLogsParams].
 func (o *GetBackupLogsParams) WithContext(ctx context.Context) *GetBackupLogsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get backup logs params
+// SetContext adds the context to the get backup logs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetBackupLogsParams].
 func (o *GetBackupLogsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get backup logs params
+// WithHTTPClient adds the HTTPClient to the get backup logs params.
 func (o *GetBackupLogsParams) WithHTTPClient(client *http.Client) *GetBackupLogsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get backup logs params
+// SetHTTPClient adds the HTTPClient to the get backup logs params.
 func (o *GetBackupLogsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get backup logs params
+// WithInput adds the input to the get backup logs params.
 func (o *GetBackupLogsParams) WithInput(input *models.GetBackupLogsRequest) *GetBackupLogsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get backup logs params
+// SetInput adds the input to the get backup logs params.
 func (o *GetBackupLogsParams) SetInput(input *models.GetBackupLogsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetBackupLogsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

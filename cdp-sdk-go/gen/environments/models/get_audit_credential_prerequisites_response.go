@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -61,7 +62,7 @@ func (m *GetAuditCredentialPrerequisitesResponse) Validate(formats strfmt.Regist
 }
 
 func (m *GetAuditCredentialPrerequisitesResponse) validateAws(formats strfmt.Registry) error {
-	if swag.IsZero(m.Aws) { // not required
+	if typeutils.IsZero(m.Aws) { // not required
 		return nil
 	}
 
@@ -84,7 +85,7 @@ func (m *GetAuditCredentialPrerequisitesResponse) validateAws(formats strfmt.Reg
 }
 
 func (m *GetAuditCredentialPrerequisitesResponse) validateAzure(formats strfmt.Registry) error {
-	if swag.IsZero(m.Azure) { // not required
+	if typeutils.IsZero(m.Azure) { // not required
 		return nil
 	}
 
@@ -116,7 +117,7 @@ func (m *GetAuditCredentialPrerequisitesResponse) validateCloudPlatform(formats 
 }
 
 func (m *GetAuditCredentialPrerequisitesResponse) validateGcp(formats strfmt.Registry) error {
-	if swag.IsZero(m.Gcp) { // not required
+	if typeutils.IsZero(m.Gcp) { // not required
 		return nil
 	}
 
@@ -164,7 +165,7 @@ func (m *GetAuditCredentialPrerequisitesResponse) contextValidateAws(ctx context
 
 	if m.Aws != nil {
 
-		if swag.IsZero(m.Aws) { // not required
+		if typeutils.IsZero(m.Aws) { // not required
 			return nil
 		}
 
@@ -189,7 +190,7 @@ func (m *GetAuditCredentialPrerequisitesResponse) contextValidateAzure(ctx conte
 
 	if m.Azure != nil {
 
-		if swag.IsZero(m.Azure) { // not required
+		if typeutils.IsZero(m.Azure) { // not required
 			return nil
 		}
 
@@ -214,7 +215,7 @@ func (m *GetAuditCredentialPrerequisitesResponse) contextValidateGcp(ctx context
 
 	if m.Gcp != nil {
 
-		if swag.IsZero(m.Gcp) { // not required
+		if typeutils.IsZero(m.Gcp) { // not required
 			return nil
 		}
 
@@ -240,13 +241,13 @@ func (m *GetAuditCredentialPrerequisitesResponse) MarshalBinary() ([]byte, error
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetAuditCredentialPrerequisitesResponse) UnmarshalBinary(b []byte) error {
 	var res GetAuditCredentialPrerequisitesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

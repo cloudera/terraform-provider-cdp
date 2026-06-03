@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDeleteInstancesParams creates a new DeleteInstancesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteInstancesParams() *DeleteInstancesParams {
-	return &DeleteInstancesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteInstancesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteInstancesParamsWithTimeout creates a new DeleteInstancesParams object
 // with the ability to set a timeout on a request.
 func NewDeleteInstancesParamsWithTimeout(timeout time.Duration) *DeleteInstancesParams {
 	return &DeleteInstancesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteInstancesParamsWithContext creates a new DeleteInstancesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteInstancesParams].
 func NewDeleteInstancesParamsWithContext(ctx context.Context) *DeleteInstancesParams {
 	return &DeleteInstancesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteInstancesParams struct {
 	// Input.
 	Input *models.DeleteInstancesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete instances params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteInstancesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete instances params
+// WithTimeout adds the timeout to the delete instances params.
 func (o *DeleteInstancesParams) WithTimeout(timeout time.Duration) *DeleteInstancesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete instances params
+// SetTimeout adds the timeout to the delete instances params.
 func (o *DeleteInstancesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete instances params
+// WithContext adds the context to the delete instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteInstancesParams].
 func (o *DeleteInstancesParams) WithContext(ctx context.Context) *DeleteInstancesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete instances params
+// SetContext adds the context to the delete instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteInstancesParams].
 func (o *DeleteInstancesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete instances params
+// WithHTTPClient adds the HTTPClient to the delete instances params.
 func (o *DeleteInstancesParams) WithHTTPClient(client *http.Client) *DeleteInstancesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete instances params
+// SetHTTPClient adds the HTTPClient to the delete instances params.
 func (o *DeleteInstancesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete instances params
+// WithInput adds the input to the delete instances params.
 func (o *DeleteInstancesParams) WithInput(input *models.DeleteInstancesRequest) *DeleteInstancesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete instances params
+// SetInput adds the input to the delete instances params.
 func (o *DeleteInstancesParams) SetInput(input *models.DeleteInstancesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteInstancesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

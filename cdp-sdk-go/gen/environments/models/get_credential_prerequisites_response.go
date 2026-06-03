@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -54,7 +55,7 @@ func (m *GetCredentialPrerequisitesResponse) Validate(formats strfmt.Registry) e
 }
 
 func (m *GetCredentialPrerequisitesResponse) validateAws(formats strfmt.Registry) error {
-	if swag.IsZero(m.Aws) { // not required
+	if typeutils.IsZero(m.Aws) { // not required
 		return nil
 	}
 
@@ -77,7 +78,7 @@ func (m *GetCredentialPrerequisitesResponse) validateAws(formats strfmt.Registry
 }
 
 func (m *GetCredentialPrerequisitesResponse) validateAzure(formats strfmt.Registry) error {
-	if swag.IsZero(m.Azure) { // not required
+	if typeutils.IsZero(m.Azure) { // not required
 		return nil
 	}
 
@@ -130,7 +131,7 @@ func (m *GetCredentialPrerequisitesResponse) contextValidateAws(ctx context.Cont
 
 	if m.Aws != nil {
 
-		if swag.IsZero(m.Aws) { // not required
+		if typeutils.IsZero(m.Aws) { // not required
 			return nil
 		}
 
@@ -155,7 +156,7 @@ func (m *GetCredentialPrerequisitesResponse) contextValidateAzure(ctx context.Co
 
 	if m.Azure != nil {
 
-		if swag.IsZero(m.Azure) { // not required
+		if typeutils.IsZero(m.Azure) { // not required
 			return nil
 		}
 
@@ -181,13 +182,13 @@ func (m *GetCredentialPrerequisitesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetCredentialPrerequisitesResponse) UnmarshalBinary(b []byte) error {
 	var res GetCredentialPrerequisitesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // ListWorkspaceBackupsReader is a Reader for the ListWorkspaceBackups structure.

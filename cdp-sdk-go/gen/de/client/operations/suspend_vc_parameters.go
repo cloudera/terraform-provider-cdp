@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewSuspendVcParams creates a new SuspendVcParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSuspendVcParams() *SuspendVcParams {
-	return &SuspendVcParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSuspendVcParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSuspendVcParamsWithTimeout creates a new SuspendVcParams object
 // with the ability to set a timeout on a request.
 func NewSuspendVcParamsWithTimeout(timeout time.Duration) *SuspendVcParams {
 	return &SuspendVcParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSuspendVcParamsWithContext creates a new SuspendVcParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendVcParams].
 func NewSuspendVcParamsWithContext(ctx context.Context) *SuspendVcParams {
 	return &SuspendVcParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SuspendVcParams struct {
 	// Input.
 	Input *models.SuspendVcRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the suspend vc params (not the query body).
@@ -83,54 +86,57 @@ func (o *SuspendVcParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the suspend vc params
+// WithTimeout adds the timeout to the suspend vc params.
 func (o *SuspendVcParams) WithTimeout(timeout time.Duration) *SuspendVcParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the suspend vc params
+// SetTimeout adds the timeout to the suspend vc params.
 func (o *SuspendVcParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the suspend vc params
+// WithContext adds the context to the suspend vc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendVcParams].
 func (o *SuspendVcParams) WithContext(ctx context.Context) *SuspendVcParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the suspend vc params
+// SetContext adds the context to the suspend vc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendVcParams].
 func (o *SuspendVcParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the suspend vc params
+// WithHTTPClient adds the HTTPClient to the suspend vc params.
 func (o *SuspendVcParams) WithHTTPClient(client *http.Client) *SuspendVcParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the suspend vc params
+// SetHTTPClient adds the HTTPClient to the suspend vc params.
 func (o *SuspendVcParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the suspend vc params
+// WithInput adds the input to the suspend vc params.
 func (o *SuspendVcParams) WithInput(input *models.SuspendVcRequest) *SuspendVcParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the suspend vc params
+// SetInput adds the input to the suspend vc params.
 func (o *SuspendVcParams) SetInput(input *models.SuspendVcRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SuspendVcParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

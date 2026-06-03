@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewRefreshAiInferenceParams creates a new RefreshAiInferenceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRefreshAiInferenceParams() *RefreshAiInferenceParams {
-	return &RefreshAiInferenceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRefreshAiInferenceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRefreshAiInferenceParamsWithTimeout creates a new RefreshAiInferenceParams object
 // with the ability to set a timeout on a request.
 func NewRefreshAiInferenceParamsWithTimeout(timeout time.Duration) *RefreshAiInferenceParams {
 	return &RefreshAiInferenceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRefreshAiInferenceParamsWithContext creates a new RefreshAiInferenceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RefreshAiInferenceParams].
 func NewRefreshAiInferenceParamsWithContext(ctx context.Context) *RefreshAiInferenceParams {
 	return &RefreshAiInferenceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RefreshAiInferenceParams struct {
 	// Input.
 	Input *models.RefreshAiInferenceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the refresh ai inference params (not the query body).
@@ -83,54 +86,57 @@ func (o *RefreshAiInferenceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the refresh ai inference params
+// WithTimeout adds the timeout to the refresh ai inference params.
 func (o *RefreshAiInferenceParams) WithTimeout(timeout time.Duration) *RefreshAiInferenceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the refresh ai inference params
+// SetTimeout adds the timeout to the refresh ai inference params.
 func (o *RefreshAiInferenceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the refresh ai inference params
+// WithContext adds the context to the refresh ai inference params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RefreshAiInferenceParams].
 func (o *RefreshAiInferenceParams) WithContext(ctx context.Context) *RefreshAiInferenceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the refresh ai inference params
+// SetContext adds the context to the refresh ai inference params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RefreshAiInferenceParams].
 func (o *RefreshAiInferenceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the refresh ai inference params
+// WithHTTPClient adds the HTTPClient to the refresh ai inference params.
 func (o *RefreshAiInferenceParams) WithHTTPClient(client *http.Client) *RefreshAiInferenceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the refresh ai inference params
+// SetHTTPClient adds the HTTPClient to the refresh ai inference params.
 func (o *RefreshAiInferenceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the refresh ai inference params
+// WithInput adds the input to the refresh ai inference params.
 func (o *RefreshAiInferenceParams) WithInput(input *models.RefreshAiInferenceRequest) *RefreshAiInferenceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the refresh ai inference params
+// SetInput adds the input to the refresh ai inference params.
 func (o *RefreshAiInferenceParams) SetInput(input *models.RefreshAiInferenceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RefreshAiInferenceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

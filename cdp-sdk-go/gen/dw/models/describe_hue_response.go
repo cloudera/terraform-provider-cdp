@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeHueResponse Response object for the describeHue method.
@@ -35,7 +36,7 @@ func (m *DescribeHueResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DescribeHueResponse) validateHue(formats strfmt.Registry) error {
-	if swag.IsZero(m.Hue) { // not required
+	if typeutils.IsZero(m.Hue) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeHueResponse) contextValidateHue(ctx context.Context, formats st
 
 	if m.Hue != nil {
 
-		if swag.IsZero(m.Hue) { // not required
+		if typeutils.IsZero(m.Hue) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeHueResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeHueResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeHueResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

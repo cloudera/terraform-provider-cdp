@@ -32,7 +32,7 @@ const (
 
 func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx context.Context, client *cdp.Client, diags *diag.Diagnostics, state *tfsdk.State) (*environmentsmodels.Environment, error) {
 	tflog.Info(ctx, "About to describe environment '"+envName+"'.")
-	params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	params := operations.NewDescribeEnvironmentParams()
 	params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &envName,
 	})
@@ -54,7 +54,7 @@ func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx cont
 }
 
 func deleteEnvironmentWithDiagnosticHandle(environmentName string, cascading bool, forced bool, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingOptions *utils.PollingOptions) error {
-	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
+	params := operations.NewDeleteEnvironmentParams()
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName, Cascading: cascading, Forced: forced})
 	_, err := client.Environments.Operations.DeleteEnvironment(params)
 	if err != nil {
@@ -87,7 +87,7 @@ func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *c
 	}
 
 	environmentName := envName
-	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	descParams := operations.NewDescribeEnvironmentParams()
 	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &environmentName,
 	})

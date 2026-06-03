@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewCreateConnectorParams creates a new CreateConnectorParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateConnectorParams() *CreateConnectorParams {
-	return &CreateConnectorParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateConnectorParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateConnectorParamsWithTimeout creates a new CreateConnectorParams object
 // with the ability to set a timeout on a request.
 func NewCreateConnectorParamsWithTimeout(timeout time.Duration) *CreateConnectorParams {
 	return &CreateConnectorParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateConnectorParamsWithContext creates a new CreateConnectorParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateConnectorParams].
 func NewCreateConnectorParamsWithContext(ctx context.Context) *CreateConnectorParams {
 	return &CreateConnectorParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateConnectorParams struct {
 	// Input.
 	Input *models.CreateConnectorRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create connector params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateConnectorParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create connector params
+// WithTimeout adds the timeout to the create connector params.
 func (o *CreateConnectorParams) WithTimeout(timeout time.Duration) *CreateConnectorParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create connector params
+// SetTimeout adds the timeout to the create connector params.
 func (o *CreateConnectorParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create connector params
+// WithContext adds the context to the create connector params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateConnectorParams].
 func (o *CreateConnectorParams) WithContext(ctx context.Context) *CreateConnectorParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create connector params
+// SetContext adds the context to the create connector params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateConnectorParams].
 func (o *CreateConnectorParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create connector params
+// WithHTTPClient adds the HTTPClient to the create connector params.
 func (o *CreateConnectorParams) WithHTTPClient(client *http.Client) *CreateConnectorParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create connector params
+// SetHTTPClient adds the HTTPClient to the create connector params.
 func (o *CreateConnectorParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create connector params
+// WithInput adds the input to the create connector params.
 func (o *CreateConnectorParams) WithInput(input *models.CreateConnectorRequest) *CreateConnectorParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create connector params
+// SetInput adds the input to the create connector params.
 func (o *CreateConnectorParams) SetInput(input *models.CreateConnectorRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateConnectorParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewUpdateServerSettingParams creates a new UpdateServerSettingParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateServerSettingParams() *UpdateServerSettingParams {
-	return &UpdateServerSettingParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateServerSettingParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateServerSettingParamsWithTimeout creates a new UpdateServerSettingParams object
 // with the ability to set a timeout on a request.
 func NewUpdateServerSettingParamsWithTimeout(timeout time.Duration) *UpdateServerSettingParams {
 	return &UpdateServerSettingParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateServerSettingParamsWithContext creates a new UpdateServerSettingParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateServerSettingParams].
 func NewUpdateServerSettingParamsWithContext(ctx context.Context) *UpdateServerSettingParams {
 	return &UpdateServerSettingParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateServerSettingParams struct {
 	// Input.
 	Input *models.UpdateServerSettingRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update server setting params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateServerSettingParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update server setting params
+// WithTimeout adds the timeout to the update server setting params.
 func (o *UpdateServerSettingParams) WithTimeout(timeout time.Duration) *UpdateServerSettingParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update server setting params
+// SetTimeout adds the timeout to the update server setting params.
 func (o *UpdateServerSettingParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update server setting params
+// WithContext adds the context to the update server setting params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateServerSettingParams].
 func (o *UpdateServerSettingParams) WithContext(ctx context.Context) *UpdateServerSettingParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update server setting params
+// SetContext adds the context to the update server setting params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateServerSettingParams].
 func (o *UpdateServerSettingParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update server setting params
+// WithHTTPClient adds the HTTPClient to the update server setting params.
 func (o *UpdateServerSettingParams) WithHTTPClient(client *http.Client) *UpdateServerSettingParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update server setting params
+// SetHTTPClient adds the HTTPClient to the update server setting params.
 func (o *UpdateServerSettingParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update server setting params
+// WithInput adds the input to the update server setting params.
 func (o *UpdateServerSettingParams) WithInput(input *models.UpdateServerSettingRequest) *UpdateServerSettingParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update server setting params
+// SetInput adds the input to the update server setting params.
 func (o *UpdateServerSettingParams) SetInput(input *models.UpdateServerSettingRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateServerSettingParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

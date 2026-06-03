@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -39,93 +44,242 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 }
 
 /*
-Client for operations API
+Client for operations API.
 */
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// AddCoprocessor add a coprocessor for a specific table.
 	AddCoprocessor(params *AddCoprocessorParams, opts ...ClientOption) (*AddCoprocessorOK, error)
 
+	// AddCoprocessorContext add a coprocessor for a specific table.
+	AddCoprocessorContext(ctx context.Context, params *AddCoprocessorParams, opts ...ClientOption) (*AddCoprocessorOK, error)
+
+	// CollectDiagnostics collect diagnostic data bundles from the database.
 	CollectDiagnostics(params *CollectDiagnosticsParams, opts ...ClientOption) (*CollectDiagnosticsOK, error)
 
+	// CollectDiagnosticsContext collect diagnostic data bundles from the database.
+	CollectDiagnosticsContext(ctx context.Context, params *CollectDiagnosticsParams, opts ...ClientOption) (*CollectDiagnosticsOK, error)
+
+	// CreateDatabase create op db.
 	CreateDatabase(params *CreateDatabaseParams, opts ...ClientOption) (*CreateDatabaseOK, error)
 
+	// CreateDatabaseContext create op db.
+	CreateDatabaseContext(ctx context.Context, params *CreateDatabaseParams, opts ...ClientOption) (*CreateDatabaseOK, error)
+
+	// CreateSnapshot creates a snapshot for a specific table.
 	CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOption) (*CreateSnapshotOK, error)
 
+	// CreateSnapshotContext creates a snapshot for a specific table.
+	CreateSnapshotContext(ctx context.Context, params *CreateSnapshotParams, opts ...ClientOption) (*CreateSnapshotOK, error)
+
+	// DeleteSnapshot deletes a snapshot.
 	DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOption) (*DeleteSnapshotOK, error)
 
+	// DeleteSnapshotContext deletes a snapshot.
+	DeleteSnapshotContext(ctx context.Context, params *DeleteSnapshotParams, opts ...ClientOption) (*DeleteSnapshotOK, error)
+
+	// DescribeClientConnectivity returns client connectivity details.
 	DescribeClientConnectivity(params *DescribeClientConnectivityParams, opts ...ClientOption) (*DescribeClientConnectivityOK, error)
 
+	// DescribeClientConnectivityContext returns client connectivity details.
+	DescribeClientConnectivityContext(ctx context.Context, params *DescribeClientConnectivityParams, opts ...ClientOption) (*DescribeClientConnectivityOK, error)
+
+	// DescribeDatabase describe a op db.
 	DescribeDatabase(params *DescribeDatabaseParams, opts ...ClientOption) (*DescribeDatabaseOK, error)
 
+	// DescribeDatabaseContext describe a op db.
+	DescribeDatabaseContext(ctx context.Context, params *DescribeDatabaseParams, opts ...ClientOption) (*DescribeDatabaseOK, error)
+
+	// DescribeHbaseConfiguration describes the configuration of h base.
 	DescribeHbaseConfiguration(params *DescribeHbaseConfigurationParams, opts ...ClientOption) (*DescribeHbaseConfigurationOK, error)
 
+	// DescribeHbaseConfigurationContext describes the configuration of h base.
+	DescribeHbaseConfigurationContext(ctx context.Context, params *DescribeHbaseConfigurationParams, opts ...ClientOption) (*DescribeHbaseConfigurationOK, error)
+
+	// DescribeUpgradeDatabase describes the upgrade availability.
 	DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, opts ...ClientOption) (*DescribeUpgradeDatabaseOK, error)
 
+	// DescribeUpgradeDatabaseContext describes the upgrade availability.
+	DescribeUpgradeDatabaseContext(ctx context.Context, params *DescribeUpgradeDatabaseParams, opts ...ClientOption) (*DescribeUpgradeDatabaseOK, error)
+
+	// DropDatabase drop a op db.
 	DropDatabase(params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error)
 
+	// DropDatabaseContext drop a op db.
+	DropDatabaseContext(ctx context.Context, params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error)
+
+	// ListCertificates list certificates.
 	ListCertificates(params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error)
 
+	// ListCertificatesContext list certificates.
+	ListCertificatesContext(ctx context.Context, params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error)
+
+	// ListCoprocessors lists coprocessors in a database.
 	ListCoprocessors(params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error)
 
+	// ListCoprocessorsContext lists coprocessors in a database.
+	ListCoprocessorsContext(ctx context.Context, params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error)
+
+	// ListDatabases list all op dbs in an environment.
 	ListDatabases(params *ListDatabasesParams, opts ...ClientOption) (*ListDatabasesOK, error)
 
+	// ListDatabasesContext list all op dbs in an environment.
+	ListDatabasesContext(ctx context.Context, params *ListDatabasesParams, opts ...ClientOption) (*ListDatabasesOK, error)
+
+	// ListDiagnostics list all diagnostics associated to the database.
 	ListDiagnostics(params *ListDiagnosticsParams, opts ...ClientOption) (*ListDiagnosticsOK, error)
 
+	// ListDiagnosticsContext list all diagnostics associated to the database.
+	ListDiagnosticsContext(ctx context.Context, params *ListDiagnosticsParams, opts ...ClientOption) (*ListDiagnosticsOK, error)
+
+	// ListEdgeNodes lists edge nodes in a database.
 	ListEdgeNodes(params *ListEdgeNodesParams, opts ...ClientOption) (*ListEdgeNodesOK, error)
 
+	// ListEdgeNodesContext lists edge nodes in a database.
+	ListEdgeNodesContext(ctx context.Context, params *ListEdgeNodesParams, opts ...ClientOption) (*ListEdgeNodesOK, error)
+
+	// ListEvents lists events.
 	ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error)
 
+	// ListEventsContext lists events.
+	ListEventsContext(ctx context.Context, params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error)
+
+	// ListRestoreSnapshots lists instances when a snapshot was restored to a database.
 	ListRestoreSnapshots(params *ListRestoreSnapshotsParams, opts ...ClientOption) (*ListRestoreSnapshotsOK, error)
 
+	// ListRestoreSnapshotsContext lists instances when a snapshot was restored to a database.
+	ListRestoreSnapshotsContext(ctx context.Context, params *ListRestoreSnapshotsParams, opts ...ClientOption) (*ListRestoreSnapshotsOK, error)
+
+	// ListScalingEvents lists scaling events.
 	ListScalingEvents(params *ListScalingEventsParams, opts ...ClientOption) (*ListScalingEventsOK, error)
 
+	// ListScalingEventsContext lists scaling events.
+	ListScalingEventsContext(ctx context.Context, params *ListScalingEventsParams, opts ...ClientOption) (*ListScalingEventsOK, error)
+
+	// ListSnapshots shows snapshot for a table name in a specific location.
 	ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error)
 
+	// ListSnapshotsContext shows snapshot for a table name in a specific location.
+	ListSnapshotsContext(ctx context.Context, params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error)
+
+	// ListSupportedEnvironments list of environments available for the database creation.
 	ListSupportedEnvironments(params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error)
 
+	// ListSupportedEnvironmentsContext list of environments available for the database creation.
+	ListSupportedEnvironmentsContext(ctx context.Context, params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error)
+
+	// ListSupportedInstanceTypes lists instance types supported by c o d.
 	ListSupportedInstanceTypes(params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error)
 
+	// ListSupportedInstanceTypesContext lists instance types supported by c o d.
+	ListSupportedInstanceTypesContext(ctx context.Context, params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error)
+
+	// PrepareUpgradeDatabase prepare database upgrade.
 	PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error)
 
+	// PrepareUpgradeDatabaseContext prepare database upgrade.
+	PrepareUpgradeDatabaseContext(ctx context.Context, params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error)
+
+	// RemoveCoprocessor removes a coprocessor for a specific table.
 	RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error)
 
+	// RemoveCoprocessorContext removes a coprocessor for a specific table.
+	RemoveCoprocessorContext(ctx context.Context, params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error)
+
+	// RestoreSnapshot restores a snapshot.
 	RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOption) (*RestoreSnapshotOK, error)
 
+	// RestoreSnapshotContext restores a snapshot.
+	RestoreSnapshotContext(ctx context.Context, params *RestoreSnapshotParams, opts ...ClientOption) (*RestoreSnapshotOK, error)
+
+	// StartDatabase starts the database.
 	StartDatabase(params *StartDatabaseParams, opts ...ClientOption) (*StartDatabaseOK, error)
 
+	// StartDatabaseContext starts the database.
+	StartDatabaseContext(ctx context.Context, params *StartDatabaseParams, opts ...ClientOption) (*StartDatabaseOK, error)
+
+	// StopDatabase stops the database.
 	StopDatabase(params *StopDatabaseParams, opts ...ClientOption) (*StopDatabaseOK, error)
 
+	// StopDatabaseContext stops the database.
+	StopDatabaseContext(ctx context.Context, params *StopDatabaseParams, opts ...ClientOption) (*StopDatabaseOK, error)
+
+	// UpdateDatabase updates the database.
 	UpdateDatabase(params *UpdateDatabaseParams, opts ...ClientOption) (*UpdateDatabaseOK, error)
 
+	// UpdateDatabaseContext updates the database.
+	UpdateDatabaseContext(ctx context.Context, params *UpdateDatabaseParams, opts ...ClientOption) (*UpdateDatabaseOK, error)
+
+	// UpdateEdgeNodes update edge nodes in a database.
 	UpdateEdgeNodes(params *UpdateEdgeNodesParams, opts ...ClientOption) (*UpdateEdgeNodesOK, error)
 
+	// UpdateEdgeNodesContext update edge nodes in a database.
+	UpdateEdgeNodesContext(ctx context.Context, params *UpdateEdgeNodesParams, opts ...ClientOption) (*UpdateEdgeNodesOK, error)
+
+	// UpdateHbaseConfiguration updates the configuration of h base.
 	UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams, opts ...ClientOption) (*UpdateHbaseConfigurationOK, error)
 
+	// UpdateHbaseConfigurationContext updates the configuration of h base.
+	UpdateHbaseConfigurationContext(ctx context.Context, params *UpdateHbaseConfigurationParams, opts ...ClientOption) (*UpdateHbaseConfigurationOK, error)
+
+	// UpgradeDatabase upgrades the database.
 	UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOption) (*UpgradeDatabaseOK, error)
 
+	// UpgradeDatabaseContext upgrades the database.
+	UpgradeDatabaseContext(ctx context.Context, params *UpgradeDatabaseParams, opts ...ClientOption) (*UpgradeDatabaseOK, error)
+
+	// UploadCertificate upload custom certificate.
 	UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// UploadCertificateContext upload custom certificate.
+	UploadCertificateContext(ctx context.Context, params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
 /*
-AddCoprocessor adds a coprocessor for a specific table
+AddCoprocessoradds a coprocessor for a specific table.
 
-Adds a coprocessor for a specific table.
+Adds a coprocessor for a specific table..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AddCoprocessorContext] instead.
 */
 func (a *Client) AddCoprocessor(params *AddCoprocessorParams, opts ...ClientOption) (*AddCoprocessorOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddCoprocessorContext(ctx, params, opts...)
+}
+
+/*
+AddCoprocessorContextadds a coprocessor for a specific table.
+
+Adds a coprocessor for a specific table..
+
+Do not use the deprecated [AddCoprocessorParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AddCoprocessorContext(ctx context.Context, params *AddCoprocessorParams, opts ...ClientOption) (*AddCoprocessorOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddCoprocessorParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "addCoprocessor",
 		Method:             "POST",
@@ -135,13 +289,14 @@ func (a *Client) AddCoprocessor(params *AddCoprocessorParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AddCoprocessorReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -161,15 +316,39 @@ func (a *Client) AddCoprocessor(params *AddCoprocessorParams, opts ...ClientOpti
 }
 
 /*
-CollectDiagnostics collects diagnostic data bundles from the database
+CollectDiagnosticscollects diagnostic data bundles from the database.
 
-returns details of running command
+returns details of running command.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CollectDiagnosticsContext] instead.
 */
 func (a *Client) CollectDiagnostics(params *CollectDiagnosticsParams, opts ...ClientOption) (*CollectDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CollectDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+CollectDiagnosticsContextcollects diagnostic data bundles from the database.
+
+returns details of running command.
+
+Do not use the deprecated [CollectDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CollectDiagnosticsContext(ctx context.Context, params *CollectDiagnosticsParams, opts ...ClientOption) (*CollectDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "collectDiagnostics",
 		Method:             "POST",
@@ -179,13 +358,14 @@ func (a *Client) CollectDiagnostics(params *CollectDiagnosticsParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CollectDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -205,15 +385,39 @@ func (a *Client) CollectDiagnostics(params *CollectDiagnosticsParams, opts ...Cl
 }
 
 /*
-CreateDatabase creates op db
+CreateDatabasecreates op db.
 
-Create a operational database in a environment
+Create a operational database in a environment.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateDatabaseContext] instead.
 */
 func (a *Client) CreateDatabase(params *CreateDatabaseParams, opts ...ClientOption) (*CreateDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateDatabaseContext(ctx, params, opts...)
+}
+
+/*
+CreateDatabaseContextcreates op db.
+
+Create a operational database in a environment.
+
+Do not use the deprecated [CreateDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateDatabaseContext(ctx context.Context, params *CreateDatabaseParams, opts ...ClientOption) (*CreateDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createDatabase",
 		Method:             "POST",
@@ -223,13 +427,14 @@ func (a *Client) CreateDatabase(params *CreateDatabaseParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -249,15 +454,39 @@ func (a *Client) CreateDatabase(params *CreateDatabaseParams, opts ...ClientOpti
 }
 
 /*
-CreateSnapshot creates a snapshot for a specific table
+CreateSnapshotcreates a snapshot for a specific table.
 
-Returns id state and creation time.
+Returns id state and creation time..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateSnapshotContext] instead.
 */
 func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOption) (*CreateSnapshotOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateSnapshotContext(ctx, params, opts...)
+}
+
+/*
+CreateSnapshotContextcreates a snapshot for a specific table.
+
+Returns id state and creation time..
+
+Do not use the deprecated [CreateSnapshotParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateSnapshotContext(ctx context.Context, params *CreateSnapshotParams, opts ...ClientOption) (*CreateSnapshotOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateSnapshotParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createSnapshot",
 		Method:             "POST",
@@ -267,13 +496,14 @@ func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateSnapshotReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -293,15 +523,39 @@ func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOpti
 }
 
 /*
-DeleteSnapshot deletes a snapshot
+DeleteSnapshotdeletes a snapshot.
 
-Returns the snapshot that is deleted.
+Returns the snapshot that is deleted..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteSnapshotContext] instead.
 */
 func (a *Client) DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOption) (*DeleteSnapshotOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteSnapshotContext(ctx, params, opts...)
+}
+
+/*
+DeleteSnapshotContextdeletes a snapshot.
+
+Returns the snapshot that is deleted..
+
+Do not use the deprecated [DeleteSnapshotParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteSnapshotContext(ctx context.Context, params *DeleteSnapshotParams, opts ...ClientOption) (*DeleteSnapshotOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteSnapshotParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteSnapshot",
 		Method:             "POST",
@@ -311,13 +565,14 @@ func (a *Client) DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteSnapshotReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -337,15 +592,39 @@ func (a *Client) DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOpti
 }
 
 /*
-DescribeClientConnectivity returns client connectivity details
+DescribeClientConnectivityreturns client connectivity details.
 
-Returns details to enable programmatic client connectivity for a database
+Returns details to enable programmatic client connectivity for a database.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeClientConnectivityContext] instead.
 */
 func (a *Client) DescribeClientConnectivity(params *DescribeClientConnectivityParams, opts ...ClientOption) (*DescribeClientConnectivityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeClientConnectivityContext(ctx, params, opts...)
+}
+
+/*
+DescribeClientConnectivityContextreturns client connectivity details.
+
+Returns details to enable programmatic client connectivity for a database.
+
+Do not use the deprecated [DescribeClientConnectivityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeClientConnectivityContext(ctx context.Context, params *DescribeClientConnectivityParams, opts ...ClientOption) (*DescribeClientConnectivityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClientConnectivityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeClientConnectivity",
 		Method:             "POST",
@@ -355,13 +634,14 @@ func (a *Client) DescribeClientConnectivity(params *DescribeClientConnectivityPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeClientConnectivityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -381,15 +661,39 @@ func (a *Client) DescribeClientConnectivity(params *DescribeClientConnectivityPa
 }
 
 /*
-DescribeDatabase describes a op db
+DescribeDatabasedescribes a op db.
 
-Details about the operational database
+Details about the operational database.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeDatabaseContext] instead.
 */
 func (a *Client) DescribeDatabase(params *DescribeDatabaseParams, opts ...ClientOption) (*DescribeDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDatabaseContext(ctx, params, opts...)
+}
+
+/*
+DescribeDatabaseContextdescribes a op db.
+
+Details about the operational database.
+
+Do not use the deprecated [DescribeDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeDatabaseContext(ctx context.Context, params *DescribeDatabaseParams, opts ...ClientOption) (*DescribeDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDatabase",
 		Method:             "POST",
@@ -399,13 +703,14 @@ func (a *Client) DescribeDatabase(params *DescribeDatabaseParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -425,15 +730,39 @@ func (a *Client) DescribeDatabase(params *DescribeDatabaseParams, opts ...Client
 }
 
 /*
-DescribeHbaseConfiguration describes the configuration of h base
+DescribeHbaseConfigurationdescribes the configuration of h base.
 
-Describes the selected configuration of the HBase cluster of an operational database in the environment.
+Describes the selected configuration of the HBase cluster of an operational database in the environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeHbaseConfigurationContext] instead.
 */
 func (a *Client) DescribeHbaseConfiguration(params *DescribeHbaseConfigurationParams, opts ...ClientOption) (*DescribeHbaseConfigurationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeHbaseConfigurationContext(ctx, params, opts...)
+}
+
+/*
+DescribeHbaseConfigurationContextdescribes the configuration of h base.
+
+Describes the selected configuration of the HBase cluster of an operational database in the environment..
+
+Do not use the deprecated [DescribeHbaseConfigurationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeHbaseConfigurationContext(ctx context.Context, params *DescribeHbaseConfigurationParams, opts ...ClientOption) (*DescribeHbaseConfigurationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeHbaseConfigurationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeHbaseConfiguration",
 		Method:             "POST",
@@ -443,13 +772,14 @@ func (a *Client) DescribeHbaseConfiguration(params *DescribeHbaseConfigurationPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeHbaseConfigurationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -469,15 +799,39 @@ func (a *Client) DescribeHbaseConfiguration(params *DescribeHbaseConfigurationPa
 }
 
 /*
-DescribeUpgradeDatabase describes the upgrade availability
+DescribeUpgradeDatabasedescribes the upgrade availability.
 
-Describes the upgrade availability for an operational database.
+Describes the upgrade availability for an operational database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeUpgradeDatabaseContext] instead.
 */
 func (a *Client) DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, opts ...ClientOption) (*DescribeUpgradeDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeUpgradeDatabaseContext(ctx, params, opts...)
+}
+
+/*
+DescribeUpgradeDatabaseContextdescribes the upgrade availability.
+
+Describes the upgrade availability for an operational database..
+
+Do not use the deprecated [DescribeUpgradeDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeUpgradeDatabaseContext(ctx context.Context, params *DescribeUpgradeDatabaseParams, opts ...ClientOption) (*DescribeUpgradeDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeUpgradeDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeUpgradeDatabase",
 		Method:             "POST",
@@ -487,13 +841,14 @@ func (a *Client) DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeUpgradeDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -513,15 +868,39 @@ func (a *Client) DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, 
 }
 
 /*
-DropDatabase drops a op db
+DropDatabasedrops a op db.
 
-drop the operational database
+drop the operational database.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DropDatabaseContext] instead.
 */
 func (a *Client) DropDatabase(params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DropDatabaseContext(ctx, params, opts...)
+}
+
+/*
+DropDatabaseContextdrops a op db.
+
+drop the operational database.
+
+Do not use the deprecated [DropDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DropDatabaseContext(ctx context.Context, params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDropDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "dropDatabase",
 		Method:             "POST",
@@ -531,13 +910,14 @@ func (a *Client) DropDatabase(params *DropDatabaseParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DropDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -557,15 +937,39 @@ func (a *Client) DropDatabase(params *DropDatabaseParams, opts ...ClientOption) 
 }
 
 /*
-ListCertificates lists certificates
+ListCertificateslists certificates.
 
-List SHA-1 fingerprints of certificates in Global Trust Store
+List SHA-1 fingerprints of certificates in Global Trust Store.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListCertificatesContext] instead.
 */
 func (a *Client) ListCertificates(params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListCertificatesContext(ctx, params, opts...)
+}
+
+/*
+ListCertificatesContextlists certificates.
+
+List SHA-1 fingerprints of certificates in Global Trust Store.
+
+Do not use the deprecated [ListCertificatesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListCertificatesContext(ctx context.Context, params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCertificatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listCertificates",
 		Method:             "POST",
@@ -575,13 +979,14 @@ func (a *Client) ListCertificates(params *ListCertificatesParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListCertificatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -601,15 +1006,39 @@ func (a *Client) ListCertificates(params *ListCertificatesParams, opts ...Client
 }
 
 /*
-ListCoprocessors lists coprocessors in a database
+ListCoprocessorslists coprocessors in a database.
 
-Lists coprocessors in a database.
+Lists coprocessors in a database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListCoprocessorsContext] instead.
 */
 func (a *Client) ListCoprocessors(params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListCoprocessorsContext(ctx, params, opts...)
+}
+
+/*
+ListCoprocessorsContextlists coprocessors in a database.
+
+Lists coprocessors in a database..
+
+Do not use the deprecated [ListCoprocessorsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListCoprocessorsContext(ctx context.Context, params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCoprocessorsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listCoprocessors",
 		Method:             "POST",
@@ -619,13 +1048,14 @@ func (a *Client) ListCoprocessors(params *ListCoprocessorsParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListCoprocessorsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -645,15 +1075,39 @@ func (a *Client) ListCoprocessors(params *ListCoprocessorsParams, opts ...Client
 }
 
 /*
-ListDatabases lists all op dbs in an environment
+ListDatabaseslists all op dbs in an environment.
 
-Fetch a list of all operational databases in an environment
+Fetch a list of all operational databases in an environment.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDatabasesContext] instead.
 */
 func (a *Client) ListDatabases(params *ListDatabasesParams, opts ...ClientOption) (*ListDatabasesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDatabasesContext(ctx, params, opts...)
+}
+
+/*
+ListDatabasesContextlists all op dbs in an environment.
+
+Fetch a list of all operational databases in an environment.
+
+Do not use the deprecated [ListDatabasesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDatabasesContext(ctx context.Context, params *ListDatabasesParams, opts ...ClientOption) (*ListDatabasesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatabasesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDatabases",
 		Method:             "POST",
@@ -663,13 +1117,14 @@ func (a *Client) ListDatabases(params *ListDatabasesParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDatabasesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -689,15 +1144,39 @@ func (a *Client) ListDatabases(params *ListDatabasesParams, opts ...ClientOption
 }
 
 /*
-ListDiagnostics lists all diagnostics associated to the database
+ListDiagnosticslists all diagnostics associated to the database.
 
-returns list of diagnostics collections
+returns list of diagnostics collections.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDiagnosticsContext] instead.
 */
 func (a *Client) ListDiagnostics(params *ListDiagnosticsParams, opts ...ClientOption) (*ListDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+ListDiagnosticsContextlists all diagnostics associated to the database.
+
+returns list of diagnostics collections.
+
+Do not use the deprecated [ListDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDiagnosticsContext(ctx context.Context, params *ListDiagnosticsParams, opts ...ClientOption) (*ListDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDiagnostics",
 		Method:             "POST",
@@ -707,13 +1186,14 @@ func (a *Client) ListDiagnostics(params *ListDiagnosticsParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -733,15 +1213,39 @@ func (a *Client) ListDiagnostics(params *ListDiagnosticsParams, opts ...ClientOp
 }
 
 /*
-ListEdgeNodes lists edge nodes in a database
+ListEdgeNodeslists edge nodes in a database.
 
-Lists edge nodes in a database.
+Lists edge nodes in a database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListEdgeNodesContext] instead.
 */
 func (a *Client) ListEdgeNodes(params *ListEdgeNodesParams, opts ...ClientOption) (*ListEdgeNodesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListEdgeNodesContext(ctx, params, opts...)
+}
+
+/*
+ListEdgeNodesContextlists edge nodes in a database.
+
+Lists edge nodes in a database..
+
+Do not use the deprecated [ListEdgeNodesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListEdgeNodesContext(ctx context.Context, params *ListEdgeNodesParams, opts ...ClientOption) (*ListEdgeNodesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEdgeNodesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listEdgeNodes",
 		Method:             "POST",
@@ -751,13 +1255,14 @@ func (a *Client) ListEdgeNodes(params *ListEdgeNodesParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListEdgeNodesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -777,15 +1282,39 @@ func (a *Client) ListEdgeNodes(params *ListEdgeNodesParams, opts ...ClientOption
 }
 
 /*
-ListEvents lists events
+ListEventslists events.
 
-Lists events in reverse chronological order for an operational database.
+Lists events in reverse chronological order for an operational database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListEventsContext] instead.
 */
 func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListEventsContext(ctx, params, opts...)
+}
+
+/*
+ListEventsContextlists events.
+
+Lists events in reverse chronological order for an operational database..
+
+Do not use the deprecated [ListEventsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListEventsContext(ctx context.Context, params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEventsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listEvents",
 		Method:             "POST",
@@ -795,13 +1324,14 @@ func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*Li
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListEventsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -821,15 +1351,39 @@ func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*Li
 }
 
 /*
-ListRestoreSnapshots lists instances when a snapshot was restored to a database
+ListRestoreSnapshotslists instances when a snapshot was restored to a database.
 
-Returns a list of snapshots restored into a database.
+Returns a list of snapshots restored into a database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListRestoreSnapshotsContext] instead.
 */
 func (a *Client) ListRestoreSnapshots(params *ListRestoreSnapshotsParams, opts ...ClientOption) (*ListRestoreSnapshotsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListRestoreSnapshotsContext(ctx, params, opts...)
+}
+
+/*
+ListRestoreSnapshotsContextlists instances when a snapshot was restored to a database.
+
+Returns a list of snapshots restored into a database..
+
+Do not use the deprecated [ListRestoreSnapshotsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListRestoreSnapshotsContext(ctx context.Context, params *ListRestoreSnapshotsParams, opts ...ClientOption) (*ListRestoreSnapshotsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRestoreSnapshotsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listRestoreSnapshots",
 		Method:             "POST",
@@ -839,13 +1393,14 @@ func (a *Client) ListRestoreSnapshots(params *ListRestoreSnapshotsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListRestoreSnapshotsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -865,15 +1420,39 @@ func (a *Client) ListRestoreSnapshots(params *ListRestoreSnapshotsParams, opts .
 }
 
 /*
-ListScalingEvents lists scaling events
+ListScalingEventslists scaling events.
 
-Lists scaling events in reverse chronological order for an operational database.
+Lists scaling events in reverse chronological order for an operational database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListScalingEventsContext] instead.
 */
 func (a *Client) ListScalingEvents(params *ListScalingEventsParams, opts ...ClientOption) (*ListScalingEventsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListScalingEventsContext(ctx, params, opts...)
+}
+
+/*
+ListScalingEventsContextlists scaling events.
+
+Lists scaling events in reverse chronological order for an operational database..
+
+Do not use the deprecated [ListScalingEventsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListScalingEventsContext(ctx context.Context, params *ListScalingEventsParams, opts ...ClientOption) (*ListScalingEventsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListScalingEventsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listScalingEvents",
 		Method:             "POST",
@@ -883,13 +1462,14 @@ func (a *Client) ListScalingEvents(params *ListScalingEventsParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListScalingEventsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -909,15 +1489,39 @@ func (a *Client) ListScalingEvents(params *ListScalingEventsParams, opts ...Clie
 }
 
 /*
-ListSnapshots shows snapshot for a table name in a specific location
+ListSnapshotsshows snapshot for a table name in a specific location.
 
-Returns list of snapshot names.
+Returns list of snapshot names..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListSnapshotsContext] instead.
 */
 func (a *Client) ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListSnapshotsContext(ctx, params, opts...)
+}
+
+/*
+ListSnapshotsContextshows snapshot for a table name in a specific location.
+
+Returns list of snapshot names..
+
+Do not use the deprecated [ListSnapshotsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListSnapshotsContext(ctx context.Context, params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSnapshotsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listSnapshots",
 		Method:             "POST",
@@ -927,13 +1531,14 @@ func (a *Client) ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListSnapshotsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -953,15 +1558,39 @@ func (a *Client) ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption
 }
 
 /*
-ListSupportedEnvironments lists of environments available for the database creation
+ListSupportedEnvironmentslists of environments available for the database creation.
 
-Fetches a list of environments available for the database creation
+Fetches a list of environments available for the database creation.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListSupportedEnvironmentsContext] instead.
 */
 func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListSupportedEnvironmentsContext(ctx, params, opts...)
+}
+
+/*
+ListSupportedEnvironmentsContextlists of environments available for the database creation.
+
+Fetches a list of environments available for the database creation.
+
+Do not use the deprecated [ListSupportedEnvironmentsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListSupportedEnvironmentsContext(ctx context.Context, params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSupportedEnvironmentsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listSupportedEnvironments",
 		Method:             "POST",
@@ -971,13 +1600,14 @@ func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListSupportedEnvironmentsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -997,15 +1627,39 @@ func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsPara
 }
 
 /*
-ListSupportedInstanceTypes lists instance types supported by c o d
+ListSupportedInstanceTypeslists instance types supported by c o d.
 
-Lists instance types supported by COD.
+Lists instance types supported by COD..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListSupportedInstanceTypesContext] instead.
 */
 func (a *Client) ListSupportedInstanceTypes(params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListSupportedInstanceTypesContext(ctx, params, opts...)
+}
+
+/*
+ListSupportedInstanceTypesContextlists instance types supported by c o d.
+
+Lists instance types supported by COD..
+
+Do not use the deprecated [ListSupportedInstanceTypesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListSupportedInstanceTypesContext(ctx context.Context, params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSupportedInstanceTypesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listSupportedInstanceTypes",
 		Method:             "POST",
@@ -1015,13 +1669,14 @@ func (a *Client) ListSupportedInstanceTypes(params *ListSupportedInstanceTypesPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListSupportedInstanceTypesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1041,15 +1696,39 @@ func (a *Client) ListSupportedInstanceTypes(params *ListSupportedInstanceTypesPa
 }
 
 /*
-PrepareUpgradeDatabase prepares database upgrade
+PrepareUpgradeDatabaseprepares database upgrade.
 
-Running upgrade related validations and prepares the required parcels for the upgrade.
+Running upgrade related validations and prepares the required parcels for the upgrade..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.PrepareUpgradeDatabaseContext] instead.
 */
 func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.PrepareUpgradeDatabaseContext(ctx, params, opts...)
+}
+
+/*
+PrepareUpgradeDatabaseContextprepares database upgrade.
+
+Running upgrade related validations and prepares the required parcels for the upgrade..
+
+Do not use the deprecated [PrepareUpgradeDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) PrepareUpgradeDatabaseContext(ctx context.Context, params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewPrepareUpgradeDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "prepareUpgradeDatabase",
 		Method:             "POST",
@@ -1059,13 +1738,14 @@ func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PrepareUpgradeDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1085,15 +1765,39 @@ func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, op
 }
 
 /*
-RemoveCoprocessor removes a coprocessor for a specific table
+RemoveCoprocessorremoves a coprocessor for a specific table.
 
-Removes a coprocessor for a specific table.
+Removes a coprocessor for a specific table..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RemoveCoprocessorContext] instead.
 */
 func (a *Client) RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RemoveCoprocessorContext(ctx, params, opts...)
+}
+
+/*
+RemoveCoprocessorContextremoves a coprocessor for a specific table.
+
+Removes a coprocessor for a specific table..
+
+Do not use the deprecated [RemoveCoprocessorParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RemoveCoprocessorContext(ctx context.Context, params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRemoveCoprocessorParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "removeCoprocessor",
 		Method:             "POST",
@@ -1103,13 +1807,14 @@ func (a *Client) RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RemoveCoprocessorReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1129,15 +1834,39 @@ func (a *Client) RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...Clie
 }
 
 /*
-RestoreSnapshot restores a snapshot
+RestoreSnapshotrestores a snapshot.
 
-Returns the snapshot that was restored.
+Returns the snapshot that was restored..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RestoreSnapshotContext] instead.
 */
 func (a *Client) RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOption) (*RestoreSnapshotOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestoreSnapshotContext(ctx, params, opts...)
+}
+
+/*
+RestoreSnapshotContextrestores a snapshot.
+
+Returns the snapshot that was restored..
+
+Do not use the deprecated [RestoreSnapshotParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RestoreSnapshotContext(ctx context.Context, params *RestoreSnapshotParams, opts ...ClientOption) (*RestoreSnapshotOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreSnapshotParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restoreSnapshot",
 		Method:             "POST",
@@ -1147,13 +1876,14 @@ func (a *Client) RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestoreSnapshotReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1173,15 +1903,39 @@ func (a *Client) RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOp
 }
 
 /*
-StartDatabase starts the database
+StartDatabasestarts the database.
 
-Starts a previously stopped database
+Starts a previously stopped database.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartDatabaseContext] instead.
 */
 func (a *Client) StartDatabase(params *StartDatabaseParams, opts ...ClientOption) (*StartDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartDatabaseContext(ctx, params, opts...)
+}
+
+/*
+StartDatabaseContextstarts the database.
+
+Starts a previously stopped database.
+
+Do not use the deprecated [StartDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartDatabaseContext(ctx context.Context, params *StartDatabaseParams, opts ...ClientOption) (*StartDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startDatabase",
 		Method:             "POST",
@@ -1191,13 +1945,14 @@ func (a *Client) StartDatabase(params *StartDatabaseParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1217,15 +1972,39 @@ func (a *Client) StartDatabase(params *StartDatabaseParams, opts ...ClientOption
 }
 
 /*
-StopDatabase stops the database
+StopDatabasestops the database.
 
-Stops a running database
+Stops a running database.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StopDatabaseContext] instead.
 */
 func (a *Client) StopDatabase(params *StopDatabaseParams, opts ...ClientOption) (*StopDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StopDatabaseContext(ctx, params, opts...)
+}
+
+/*
+StopDatabaseContextstops the database.
+
+Stops a running database.
+
+Do not use the deprecated [StopDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StopDatabaseContext(ctx context.Context, params *StopDatabaseParams, opts ...ClientOption) (*StopDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "stopDatabase",
 		Method:             "POST",
@@ -1235,13 +2014,14 @@ func (a *Client) StopDatabase(params *StopDatabaseParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StopDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1261,15 +2041,39 @@ func (a *Client) StopDatabase(params *StopDatabaseParams, opts ...ClientOption) 
 }
 
 /*
-UpdateDatabase updates the database
+UpdateDatabaseupdates the database.
 
-Update an operational database in an environment
+Update an operational database in an environment.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateDatabaseContext] instead.
 */
 func (a *Client) UpdateDatabase(params *UpdateDatabaseParams, opts ...ClientOption) (*UpdateDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateDatabaseContext(ctx, params, opts...)
+}
+
+/*
+UpdateDatabaseContextupdates the database.
+
+Update an operational database in an environment.
+
+Do not use the deprecated [UpdateDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateDatabaseContext(ctx context.Context, params *UpdateDatabaseParams, opts ...ClientOption) (*UpdateDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateDatabase",
 		Method:             "POST",
@@ -1279,13 +2083,14 @@ func (a *Client) UpdateDatabase(params *UpdateDatabaseParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1305,15 +2110,39 @@ func (a *Client) UpdateDatabase(params *UpdateDatabaseParams, opts ...ClientOpti
 }
 
 /*
-UpdateEdgeNodes updates edge nodes in a database
+UpdateEdgeNodesupdates edge nodes in a database.
 
-Update edge nodes in a database.
+Update edge nodes in a database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateEdgeNodesContext] instead.
 */
 func (a *Client) UpdateEdgeNodes(params *UpdateEdgeNodesParams, opts ...ClientOption) (*UpdateEdgeNodesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateEdgeNodesContext(ctx, params, opts...)
+}
+
+/*
+UpdateEdgeNodesContextupdates edge nodes in a database.
+
+Update edge nodes in a database..
+
+Do not use the deprecated [UpdateEdgeNodesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateEdgeNodesContext(ctx context.Context, params *UpdateEdgeNodesParams, opts ...ClientOption) (*UpdateEdgeNodesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateEdgeNodesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateEdgeNodes",
 		Method:             "POST",
@@ -1323,13 +2152,14 @@ func (a *Client) UpdateEdgeNodes(params *UpdateEdgeNodesParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateEdgeNodesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1349,15 +2179,39 @@ func (a *Client) UpdateEdgeNodes(params *UpdateEdgeNodesParams, opts ...ClientOp
 }
 
 /*
-UpdateHbaseConfiguration updates the configuration of h base
+UpdateHbaseConfigurationupdates the configuration of h base.
 
-Updates the selected configuration of the HBase cluster of an operational database in the environment.
+Updates the selected configuration of the HBase cluster of an operational database in the environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateHbaseConfigurationContext] instead.
 */
 func (a *Client) UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams, opts ...ClientOption) (*UpdateHbaseConfigurationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateHbaseConfigurationContext(ctx, params, opts...)
+}
+
+/*
+UpdateHbaseConfigurationContextupdates the configuration of h base.
+
+Updates the selected configuration of the HBase cluster of an operational database in the environment..
+
+Do not use the deprecated [UpdateHbaseConfigurationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateHbaseConfigurationContext(ctx context.Context, params *UpdateHbaseConfigurationParams, opts ...ClientOption) (*UpdateHbaseConfigurationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateHbaseConfigurationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateHbaseConfiguration",
 		Method:             "POST",
@@ -1367,13 +2221,14 @@ func (a *Client) UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateHbaseConfigurationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1393,15 +2248,39 @@ func (a *Client) UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams
 }
 
 /*
-UpgradeDatabase upgrades the database
+UpgradeDatabaseupgrades the database.
 
-Upgrades an operational database in an environment to a given runtime.
+Upgrades an operational database in an environment to a given runtime..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeDatabaseContext] instead.
 */
 func (a *Client) UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOption) (*UpgradeDatabaseOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeDatabaseContext(ctx, params, opts...)
+}
+
+/*
+UpgradeDatabaseContextupgrades the database.
+
+Upgrades an operational database in an environment to a given runtime..
+
+Do not use the deprecated [UpgradeDatabaseParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeDatabaseContext(ctx context.Context, params *UpgradeDatabaseParams, opts ...ClientOption) (*UpgradeDatabaseOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDatabaseParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeDatabase",
 		Method:             "POST",
@@ -1411,13 +2290,14 @@ func (a *Client) UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeDatabaseReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1437,15 +2317,39 @@ func (a *Client) UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOp
 }
 
 /*
-UploadCertificate uploads custom certificate
+UploadCertificateuploads custom certificate.
 
-Upload a custom certificate to Global Trust Store
+Upload a custom certificate to Global Trust Store.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UploadCertificateContext] instead.
 */
 func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UploadCertificateContext(ctx, params, opts...)
+}
+
+/*
+UploadCertificateContextuploads custom certificate.
+
+Upload a custom certificate to Global Trust Store.
+
+Do not use the deprecated [UploadCertificateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UploadCertificateContext(ctx context.Context, params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUploadCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "uploadCertificate",
 		Method:             "POST",
@@ -1455,13 +2359,14 @@ func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UploadCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1481,6 +2386,14 @@ func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...Clie
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

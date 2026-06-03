@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // InstanceTemplate Instance template that specifies the core information for the instances.
@@ -46,12 +47,12 @@ func (m *InstanceTemplate) Validate(formats strfmt.Registry) error {
 }
 
 func (m *InstanceTemplate) validateAttachedVolumes(formats strfmt.Registry) error {
-	if swag.IsZero(m.AttachedVolumes) { // not required
+	if typeutils.IsZero(m.AttachedVolumes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AttachedVolumes); i++ {
-		if swag.IsZero(m.AttachedVolumes[i]) { // not required
+		if typeutils.IsZero(m.AttachedVolumes[i]) { // not required
 			continue
 		}
 
@@ -76,7 +77,7 @@ func (m *InstanceTemplate) validateAttachedVolumes(formats strfmt.Registry) erro
 }
 
 func (m *InstanceTemplate) validateAwsProperties(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsProperties) { // not required
+	if typeutils.IsZero(m.AwsProperties) { // not required
 		return nil
 	}
 
@@ -122,7 +123,7 @@ func (m *InstanceTemplate) contextValidateAttachedVolumes(ctx context.Context, f
 
 		if m.AttachedVolumes[i] != nil {
 
-			if swag.IsZero(m.AttachedVolumes[i]) { // not required
+			if typeutils.IsZero(m.AttachedVolumes[i]) { // not required
 				return nil
 			}
 
@@ -149,7 +150,7 @@ func (m *InstanceTemplate) contextValidateAwsProperties(ctx context.Context, for
 
 	if m.AwsProperties != nil {
 
-		if swag.IsZero(m.AwsProperties) { // not required
+		if typeutils.IsZero(m.AwsProperties) { // not required
 			return nil
 		}
 
@@ -175,13 +176,13 @@ func (m *InstanceTemplate) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *InstanceTemplate) UnmarshalBinary(b []byte) error {
 	var res InstanceTemplate
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

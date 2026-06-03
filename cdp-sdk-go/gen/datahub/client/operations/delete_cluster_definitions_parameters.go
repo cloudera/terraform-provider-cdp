@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDeleteClusterDefinitionsParams creates a new DeleteClusterDefinitionsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteClusterDefinitionsParams() *DeleteClusterDefinitionsParams {
-	return &DeleteClusterDefinitionsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteClusterDefinitionsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteClusterDefinitionsParamsWithTimeout creates a new DeleteClusterDefinitionsParams object
 // with the ability to set a timeout on a request.
 func NewDeleteClusterDefinitionsParamsWithTimeout(timeout time.Duration) *DeleteClusterDefinitionsParams {
 	return &DeleteClusterDefinitionsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteClusterDefinitionsParamsWithContext creates a new DeleteClusterDefinitionsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterDefinitionsParams].
 func NewDeleteClusterDefinitionsParamsWithContext(ctx context.Context) *DeleteClusterDefinitionsParams {
 	return &DeleteClusterDefinitionsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteClusterDefinitionsParams struct {
 	// Input.
 	Input *models.DeleteClusterDefinitionsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete cluster definitions params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteClusterDefinitionsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete cluster definitions params
+// WithTimeout adds the timeout to the delete cluster definitions params.
 func (o *DeleteClusterDefinitionsParams) WithTimeout(timeout time.Duration) *DeleteClusterDefinitionsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete cluster definitions params
+// SetTimeout adds the timeout to the delete cluster definitions params.
 func (o *DeleteClusterDefinitionsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete cluster definitions params
+// WithContext adds the context to the delete cluster definitions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterDefinitionsParams].
 func (o *DeleteClusterDefinitionsParams) WithContext(ctx context.Context) *DeleteClusterDefinitionsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete cluster definitions params
+// SetContext adds the context to the delete cluster definitions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterDefinitionsParams].
 func (o *DeleteClusterDefinitionsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete cluster definitions params
+// WithHTTPClient adds the HTTPClient to the delete cluster definitions params.
 func (o *DeleteClusterDefinitionsParams) WithHTTPClient(client *http.Client) *DeleteClusterDefinitionsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete cluster definitions params
+// SetHTTPClient adds the HTTPClient to the delete cluster definitions params.
 func (o *DeleteClusterDefinitionsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete cluster definitions params
+// WithInput adds the input to the delete cluster definitions params.
 func (o *DeleteClusterDefinitionsParams) WithInput(input *models.DeleteClusterDefinitionsRequest) *DeleteClusterDefinitionsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete cluster definitions params
+// SetInput adds the input to the delete cluster definitions params.
 func (o *DeleteClusterDefinitionsParams) SetInput(input *models.DeleteClusterDefinitionsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteClusterDefinitionsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

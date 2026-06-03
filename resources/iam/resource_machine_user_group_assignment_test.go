@@ -11,7 +11,6 @@
 package iam_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
 
@@ -75,7 +74,7 @@ func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListGroupsForMachineUserParamsWithContext(context.TODO())
+		params := operations.NewListGroupsForMachineUserParams()
 		params.WithInput(&models.ListGroupsForMachineUserRequest{
 			MachineUserName: &rName,
 		})
@@ -88,7 +87,7 @@ func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string
 			return nil
 		}
 
-		grParams := operations.NewListGroupsParamsWithContext(context.TODO())
+		grParams := operations.NewListGroupsParams()
 		grParams.WithInput(&models.ListGroupsRequest{
 			GroupNames: []string{grName},
 		})

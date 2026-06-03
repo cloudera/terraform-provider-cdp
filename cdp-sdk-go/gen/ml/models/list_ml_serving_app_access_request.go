@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // ListMlServingAppAccessRequest Request object for the ListMlServingAppAccess method.
@@ -33,13 +33,13 @@ func (m *ListMlServingAppAccessRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListMlServingAppAccessRequest) UnmarshalBinary(b []byte) error {
 	var res ListMlServingAppAccessRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

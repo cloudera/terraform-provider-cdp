@@ -63,7 +63,7 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	params := operations.NewCreateAWSClusterParamsWithContext(ctx)
+	params := operations.NewCreateAWSClusterParams()
 	params.WithInput(fromModelToAwsRequest(data, ctx))
 
 	tflog.Info(ctx, fmt.Sprintf("Sending create request for AWS Datahub with name: %s", data.Name.ValueString()))
@@ -113,7 +113,7 @@ func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 	if len(clusterName) == 0 {
 		clusterName = state.ID.ValueString()
 	}
-	params := operations.NewDescribeClusterParamsWithContext(ctx)
+	params := operations.NewDescribeClusterParams()
 	params.WithInput(&datahubmodels.DescribeClusterRequest{
 		ClusterName: &clusterName,
 	})
@@ -155,7 +155,7 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	params := operations.NewDeleteClusterParamsWithContext(ctx).WithInput(&datahubmodels.DeleteClusterRequest{
+	params := operations.NewDeleteClusterParams().WithInput(&datahubmodels.DeleteClusterRequest{
 		ClusterName: state.ID.ValueStringPointer(),
 		Force:       state.forceDeleteRequested(),
 	})

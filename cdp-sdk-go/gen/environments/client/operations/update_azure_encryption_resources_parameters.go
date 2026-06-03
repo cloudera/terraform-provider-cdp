@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateAzureEncryptionResourcesParams creates a new UpdateAzureEncryptionResourcesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAzureEncryptionResourcesParams() *UpdateAzureEncryptionResourcesParams {
-	return &UpdateAzureEncryptionResourcesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAzureEncryptionResourcesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAzureEncryptionResourcesParamsWithTimeout creates a new UpdateAzureEncryptionResourcesParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAzureEncryptionResourcesParamsWithTimeout(timeout time.Duration) *UpdateAzureEncryptionResourcesParams {
 	return &UpdateAzureEncryptionResourcesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAzureEncryptionResourcesParamsWithContext creates a new UpdateAzureEncryptionResourcesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureEncryptionResourcesParams].
 func NewUpdateAzureEncryptionResourcesParamsWithContext(ctx context.Context) *UpdateAzureEncryptionResourcesParams {
 	return &UpdateAzureEncryptionResourcesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAzureEncryptionResourcesParams struct {
 	// Input.
 	Input *models.UpdateAzureEncryptionResourcesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update azure encryption resources params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAzureEncryptionResourcesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update azure encryption resources params
+// WithTimeout adds the timeout to the update azure encryption resources params.
 func (o *UpdateAzureEncryptionResourcesParams) WithTimeout(timeout time.Duration) *UpdateAzureEncryptionResourcesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update azure encryption resources params
+// SetTimeout adds the timeout to the update azure encryption resources params.
 func (o *UpdateAzureEncryptionResourcesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update azure encryption resources params
+// WithContext adds the context to the update azure encryption resources params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureEncryptionResourcesParams].
 func (o *UpdateAzureEncryptionResourcesParams) WithContext(ctx context.Context) *UpdateAzureEncryptionResourcesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update azure encryption resources params
+// SetContext adds the context to the update azure encryption resources params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureEncryptionResourcesParams].
 func (o *UpdateAzureEncryptionResourcesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update azure encryption resources params
+// WithHTTPClient adds the HTTPClient to the update azure encryption resources params.
 func (o *UpdateAzureEncryptionResourcesParams) WithHTTPClient(client *http.Client) *UpdateAzureEncryptionResourcesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update azure encryption resources params
+// SetHTTPClient adds the HTTPClient to the update azure encryption resources params.
 func (o *UpdateAzureEncryptionResourcesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update azure encryption resources params
+// WithInput adds the input to the update azure encryption resources params.
 func (o *UpdateAzureEncryptionResourcesParams) WithInput(input *models.UpdateAzureEncryptionResourcesRequest) *UpdateAzureEncryptionResourcesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update azure encryption resources params
+// SetInput adds the input to the update azure encryption resources params.
 func (o *UpdateAzureEncryptionResourcesParams) SetInput(input *models.UpdateAzureEncryptionResourcesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAzureEncryptionResourcesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

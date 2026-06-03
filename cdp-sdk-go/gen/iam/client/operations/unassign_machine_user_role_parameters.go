@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewUnassignMachineUserRoleParams creates a new UnassignMachineUserRoleParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnassignMachineUserRoleParams() *UnassignMachineUserRoleParams {
-	return &UnassignMachineUserRoleParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUnassignMachineUserRoleParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUnassignMachineUserRoleParamsWithTimeout creates a new UnassignMachineUserRoleParams object
 // with the ability to set a timeout on a request.
 func NewUnassignMachineUserRoleParamsWithTimeout(timeout time.Duration) *UnassignMachineUserRoleParams {
 	return &UnassignMachineUserRoleParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUnassignMachineUserRoleParamsWithContext creates a new UnassignMachineUserRoleParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnassignMachineUserRoleParams].
 func NewUnassignMachineUserRoleParamsWithContext(ctx context.Context) *UnassignMachineUserRoleParams {
 	return &UnassignMachineUserRoleParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UnassignMachineUserRoleParams struct {
 	// Input.
 	Input *models.UnassignMachineUserRoleRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the unassign machine user role params (not the query body).
@@ -83,54 +86,57 @@ func (o *UnassignMachineUserRoleParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the unassign machine user role params
+// WithTimeout adds the timeout to the unassign machine user role params.
 func (o *UnassignMachineUserRoleParams) WithTimeout(timeout time.Duration) *UnassignMachineUserRoleParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the unassign machine user role params
+// SetTimeout adds the timeout to the unassign machine user role params.
 func (o *UnassignMachineUserRoleParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the unassign machine user role params
+// WithContext adds the context to the unassign machine user role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnassignMachineUserRoleParams].
 func (o *UnassignMachineUserRoleParams) WithContext(ctx context.Context) *UnassignMachineUserRoleParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the unassign machine user role params
+// SetContext adds the context to the unassign machine user role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnassignMachineUserRoleParams].
 func (o *UnassignMachineUserRoleParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the unassign machine user role params
+// WithHTTPClient adds the HTTPClient to the unassign machine user role params.
 func (o *UnassignMachineUserRoleParams) WithHTTPClient(client *http.Client) *UnassignMachineUserRoleParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the unassign machine user role params
+// SetHTTPClient adds the HTTPClient to the unassign machine user role params.
 func (o *UnassignMachineUserRoleParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the unassign machine user role params
+// WithInput adds the input to the unassign machine user role params.
 func (o *UnassignMachineUserRoleParams) WithInput(input *models.UnassignMachineUserRoleRequest) *UnassignMachineUserRoleParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the unassign machine user role params
+// SetInput adds the input to the unassign machine user role params.
 func (o *UnassignMachineUserRoleParams) SetInput(input *models.UnassignMachineUserRoleRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UnassignMachineUserRoleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

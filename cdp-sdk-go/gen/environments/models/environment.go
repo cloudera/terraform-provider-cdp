@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -236,7 +237,7 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateAuthentication(formats strfmt.Registry) error {
-	if swag.IsZero(m.Authentication) { // not required
+	if typeutils.IsZero(m.Authentication) { // not required
 		return nil
 	}
 
@@ -259,7 +260,7 @@ func (m *Environment) validateAuthentication(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateAwsComputeClusterConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsComputeClusterConfiguration) { // not required
+	if typeutils.IsZero(m.AwsComputeClusterConfiguration) { // not required
 		return nil
 	}
 
@@ -282,7 +283,7 @@ func (m *Environment) validateAwsComputeClusterConfiguration(formats strfmt.Regi
 }
 
 func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsDetails) { // not required
+	if typeutils.IsZero(m.AwsDetails) { // not required
 		return nil
 	}
 
@@ -305,7 +306,7 @@ func (m *Environment) validateAwsDetails(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateAzureComputeClusterConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureComputeClusterConfiguration) { // not required
+	if typeutils.IsZero(m.AzureComputeClusterConfiguration) { // not required
 		return nil
 	}
 
@@ -328,7 +329,7 @@ func (m *Environment) validateAzureComputeClusterConfiguration(formats strfmt.Re
 }
 
 func (m *Environment) validateAzureDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureDetails) { // not required
+	if typeutils.IsZero(m.AzureDetails) { // not required
 		return nil
 	}
 
@@ -351,7 +352,7 @@ func (m *Environment) validateAzureDetails(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateBackupStorage(formats strfmt.Registry) error {
-	if swag.IsZero(m.BackupStorage) { // not required
+	if typeutils.IsZero(m.BackupStorage) { // not required
 		return nil
 	}
 
@@ -383,7 +384,7 @@ func (m *Environment) validateCloudPlatform(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateCreated(formats strfmt.Registry) error {
-	if swag.IsZero(m.Created) { // not required
+	if typeutils.IsZero(m.Created) { // not required
 		return nil
 	}
 
@@ -413,7 +414,7 @@ func (m *Environment) validateCrn(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateCustomDockerRegistry(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomDockerRegistry) { // not required
+	if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 		return nil
 	}
 
@@ -436,7 +437,7 @@ func (m *Environment) validateCustomDockerRegistry(formats strfmt.Registry) erro
 }
 
 func (m *Environment) validateDataServices(formats strfmt.Registry) error {
-	if swag.IsZero(m.DataServices) { // not required
+	if typeutils.IsZero(m.DataServices) { // not required
 		return nil
 	}
 
@@ -497,7 +498,7 @@ func (m *Environment) validateEnvironmentTypeEnum(path, location string, value s
 }
 
 func (m *Environment) validateEnvironmentType(formats strfmt.Registry) error {
-	if swag.IsZero(m.EnvironmentType) { // not required
+	if typeutils.IsZero(m.EnvironmentType) { // not required
 		return nil
 	}
 
@@ -510,7 +511,7 @@ func (m *Environment) validateEnvironmentType(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateFreeipa(formats strfmt.Registry) error {
-	if swag.IsZero(m.Freeipa) { // not required
+	if typeutils.IsZero(m.Freeipa) { // not required
 		return nil
 	}
 
@@ -533,7 +534,7 @@ func (m *Environment) validateFreeipa(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateGcpDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.GcpDetails) { // not required
+	if typeutils.IsZero(m.GcpDetails) { // not required
 		return nil
 	}
 
@@ -604,7 +605,7 @@ func (m *Environment) validateNetwork(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateProxyConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.ProxyConfig) { // not required
+	if typeutils.IsZero(m.ProxyConfig) { // not required
 		return nil
 	}
 
@@ -636,7 +637,7 @@ func (m *Environment) validateRegion(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -659,7 +660,7 @@ func (m *Environment) validateSecurity(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateSecurityAccess(formats strfmt.Registry) error {
-	if swag.IsZero(m.SecurityAccess) { // not required
+	if typeutils.IsZero(m.SecurityAccess) { // not required
 		return nil
 	}
 
@@ -691,7 +692,7 @@ func (m *Environment) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
@@ -714,7 +715,7 @@ func (m *Environment) validateTags(formats strfmt.Registry) error {
 }
 
 func (m *Environment) validateTunnelType(formats strfmt.Registry) error {
-	if swag.IsZero(m.TunnelType) { // not required
+	if typeutils.IsZero(m.TunnelType) { // not required
 		return nil
 	}
 
@@ -816,7 +817,7 @@ func (m *Environment) contextValidateAuthentication(ctx context.Context, formats
 
 	if m.Authentication != nil {
 
-		if swag.IsZero(m.Authentication) { // not required
+		if typeutils.IsZero(m.Authentication) { // not required
 			return nil
 		}
 
@@ -841,7 +842,7 @@ func (m *Environment) contextValidateAwsComputeClusterConfiguration(ctx context.
 
 	if m.AwsComputeClusterConfiguration != nil {
 
-		if swag.IsZero(m.AwsComputeClusterConfiguration) { // not required
+		if typeutils.IsZero(m.AwsComputeClusterConfiguration) { // not required
 			return nil
 		}
 
@@ -866,7 +867,7 @@ func (m *Environment) contextValidateAwsDetails(ctx context.Context, formats str
 
 	if m.AwsDetails != nil {
 
-		if swag.IsZero(m.AwsDetails) { // not required
+		if typeutils.IsZero(m.AwsDetails) { // not required
 			return nil
 		}
 
@@ -891,7 +892,7 @@ func (m *Environment) contextValidateAzureComputeClusterConfiguration(ctx contex
 
 	if m.AzureComputeClusterConfiguration != nil {
 
-		if swag.IsZero(m.AzureComputeClusterConfiguration) { // not required
+		if typeutils.IsZero(m.AzureComputeClusterConfiguration) { // not required
 			return nil
 		}
 
@@ -916,7 +917,7 @@ func (m *Environment) contextValidateAzureDetails(ctx context.Context, formats s
 
 	if m.AzureDetails != nil {
 
-		if swag.IsZero(m.AzureDetails) { // not required
+		if typeutils.IsZero(m.AzureDetails) { // not required
 			return nil
 		}
 
@@ -941,7 +942,7 @@ func (m *Environment) contextValidateBackupStorage(ctx context.Context, formats 
 
 	if m.BackupStorage != nil {
 
-		if swag.IsZero(m.BackupStorage) { // not required
+		if typeutils.IsZero(m.BackupStorage) { // not required
 			return nil
 		}
 
@@ -966,7 +967,7 @@ func (m *Environment) contextValidateCustomDockerRegistry(ctx context.Context, f
 
 	if m.CustomDockerRegistry != nil {
 
-		if swag.IsZero(m.CustomDockerRegistry) { // not required
+		if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 			return nil
 		}
 
@@ -991,7 +992,7 @@ func (m *Environment) contextValidateDataServices(ctx context.Context, formats s
 
 	if m.DataServices != nil {
 
-		if swag.IsZero(m.DataServices) { // not required
+		if typeutils.IsZero(m.DataServices) { // not required
 			return nil
 		}
 
@@ -1016,7 +1017,7 @@ func (m *Environment) contextValidateFreeipa(ctx context.Context, formats strfmt
 
 	if m.Freeipa != nil {
 
-		if swag.IsZero(m.Freeipa) { // not required
+		if typeutils.IsZero(m.Freeipa) { // not required
 			return nil
 		}
 
@@ -1041,7 +1042,7 @@ func (m *Environment) contextValidateGcpDetails(ctx context.Context, formats str
 
 	if m.GcpDetails != nil {
 
-		if swag.IsZero(m.GcpDetails) { // not required
+		if typeutils.IsZero(m.GcpDetails) { // not required
 			return nil
 		}
 
@@ -1108,7 +1109,7 @@ func (m *Environment) contextValidateProxyConfig(ctx context.Context, formats st
 
 	if m.ProxyConfig != nil {
 
-		if swag.IsZero(m.ProxyConfig) { // not required
+		if typeutils.IsZero(m.ProxyConfig) { // not required
 			return nil
 		}
 
@@ -1133,7 +1134,7 @@ func (m *Environment) contextValidateSecurity(ctx context.Context, formats strfm
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -1158,7 +1159,7 @@ func (m *Environment) contextValidateSecurityAccess(ctx context.Context, formats
 
 	if m.SecurityAccess != nil {
 
-		if swag.IsZero(m.SecurityAccess) { // not required
+		if typeutils.IsZero(m.SecurityAccess) { // not required
 			return nil
 		}
 
@@ -1183,7 +1184,7 @@ func (m *Environment) contextValidateTags(ctx context.Context, formats strfmt.Re
 
 	if m.Tags != nil {
 
-		if swag.IsZero(m.Tags) { // not required
+		if typeutils.IsZero(m.Tags) { // not required
 			return nil
 		}
 
@@ -1206,7 +1207,7 @@ func (m *Environment) contextValidateTags(ctx context.Context, formats strfmt.Re
 
 func (m *Environment) contextValidateTunnelType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.TunnelType) { // not required
+	if typeutils.IsZero(m.TunnelType) { // not required
 		return nil
 	}
 
@@ -1231,13 +1232,13 @@ func (m *Environment) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Environment) UnmarshalBinary(b []byte) error {
 	var res Environment
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -1268,13 +1269,13 @@ func (m *EnvironmentAwsDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *EnvironmentAwsDetails) UnmarshalBinary(b []byte) error {
 	var res EnvironmentAwsDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -1308,7 +1309,7 @@ func (m *EnvironmentAzureDetails) Validate(formats strfmt.Registry) error {
 }
 
 func (m *EnvironmentAzureDetails) validateResourceEncryptionParameters(formats strfmt.Registry) error {
-	if swag.IsZero(m.ResourceEncryptionParameters) { // not required
+	if typeutils.IsZero(m.ResourceEncryptionParameters) { // not required
 		return nil
 	}
 
@@ -1348,7 +1349,7 @@ func (m *EnvironmentAzureDetails) contextValidateResourceEncryptionParameters(ct
 
 	if m.ResourceEncryptionParameters != nil {
 
-		if swag.IsZero(m.ResourceEncryptionParameters) { // not required
+		if typeutils.IsZero(m.ResourceEncryptionParameters) { // not required
 			return nil
 		}
 
@@ -1374,13 +1375,13 @@ func (m *EnvironmentAzureDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *EnvironmentAzureDetails) UnmarshalBinary(b []byte) error {
 	var res EnvironmentAzureDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -1411,13 +1412,13 @@ func (m *EnvironmentGcpDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *EnvironmentGcpDetails) UnmarshalBinary(b []byte) error {
 	var res EnvironmentGcpDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

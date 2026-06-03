@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewGetKubeconfigParams creates a new GetKubeconfigParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetKubeconfigParams() *GetKubeconfigParams {
-	return &GetKubeconfigParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetKubeconfigParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetKubeconfigParamsWithTimeout creates a new GetKubeconfigParams object
 // with the ability to set a timeout on a request.
 func NewGetKubeconfigParamsWithTimeout(timeout time.Duration) *GetKubeconfigParams {
 	return &GetKubeconfigParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetKubeconfigParamsWithContext creates a new GetKubeconfigParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetKubeconfigParams].
 func NewGetKubeconfigParamsWithContext(ctx context.Context) *GetKubeconfigParams {
 	return &GetKubeconfigParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetKubeconfigParams struct {
 	// Input.
 	Input *models.GetKubeconfigRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get kubeconfig params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetKubeconfigParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get kubeconfig params
+// WithTimeout adds the timeout to the get kubeconfig params.
 func (o *GetKubeconfigParams) WithTimeout(timeout time.Duration) *GetKubeconfigParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get kubeconfig params
+// SetTimeout adds the timeout to the get kubeconfig params.
 func (o *GetKubeconfigParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get kubeconfig params
+// WithContext adds the context to the get kubeconfig params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetKubeconfigParams].
 func (o *GetKubeconfigParams) WithContext(ctx context.Context) *GetKubeconfigParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get kubeconfig params
+// SetContext adds the context to the get kubeconfig params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetKubeconfigParams].
 func (o *GetKubeconfigParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get kubeconfig params
+// WithHTTPClient adds the HTTPClient to the get kubeconfig params.
 func (o *GetKubeconfigParams) WithHTTPClient(client *http.Client) *GetKubeconfigParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get kubeconfig params
+// SetHTTPClient adds the HTTPClient to the get kubeconfig params.
 func (o *GetKubeconfigParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get kubeconfig params
+// WithInput adds the input to the get kubeconfig params.
 func (o *GetKubeconfigParams) WithInput(input *models.GetKubeconfigRequest) *GetKubeconfigParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get kubeconfig params
+// SetInput adds the input to the get kubeconfig params.
 func (o *GetKubeconfigParams) SetInput(input *models.GetKubeconfigRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetKubeconfigParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

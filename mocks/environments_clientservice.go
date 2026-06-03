@@ -5,6 +5,8 @@
 package mocks
 
 import (
+	"context"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	"github.com/go-openapi/runtime"
 	mock "github.com/stretchr/testify/mock"
@@ -118,6 +120,93 @@ func (_c *MockEnvironmentClientService_AttachFreeIpaRecipes_Call) RunAndReturn(r
 	return _c
 }
 
+// AttachFreeIpaRecipesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) AttachFreeIpaRecipesContext(ctx context.Context, params *operations.AttachFreeIpaRecipesParams, opts ...operations.ClientOption) (*operations.AttachFreeIpaRecipesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AttachFreeIpaRecipesContext")
+	}
+
+	var r0 *operations.AttachFreeIpaRecipesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AttachFreeIpaRecipesParams, ...operations.ClientOption) (*operations.AttachFreeIpaRecipesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AttachFreeIpaRecipesParams, ...operations.ClientOption) *operations.AttachFreeIpaRecipesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AttachFreeIpaRecipesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AttachFreeIpaRecipesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AttachFreeIpaRecipesContext'
+type MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call struct {
+	*mock.Call
+}
+
+// AttachFreeIpaRecipesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AttachFreeIpaRecipesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) AttachFreeIpaRecipesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call {
+	return &MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call{Call: _e.mock.On("AttachFreeIpaRecipesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call) Run(run func(ctx context.Context, params *operations.AttachFreeIpaRecipesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AttachFreeIpaRecipesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AttachFreeIpaRecipesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call) Return(attachFreeIpaRecipesOK *operations.AttachFreeIpaRecipesOK, err error) *MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call {
+	_c.Call.Return(attachFreeIpaRecipesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AttachFreeIpaRecipesParams, opts ...operations.ClientOption) (*operations.AttachFreeIpaRecipesOK, error)) *MockEnvironmentClientService_AttachFreeIpaRecipesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CancelFreeipaDiagnostics provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CancelFreeipaDiagnostics(params *operations.CancelFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CancelFreeipaDiagnosticsOK, error) {
 	// operations.ClientOption
@@ -195,6 +284,93 @@ func (_c *MockEnvironmentClientService_CancelFreeipaDiagnostics_Call) Return(can
 }
 
 func (_c *MockEnvironmentClientService_CancelFreeipaDiagnostics_Call) RunAndReturn(run func(params *operations.CancelFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CancelFreeipaDiagnosticsOK, error)) *MockEnvironmentClientService_CancelFreeipaDiagnostics_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CancelFreeipaDiagnosticsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CancelFreeipaDiagnosticsContext(ctx context.Context, params *operations.CancelFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CancelFreeipaDiagnosticsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CancelFreeipaDiagnosticsContext")
+	}
+
+	var r0 *operations.CancelFreeipaDiagnosticsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CancelFreeipaDiagnosticsParams, ...operations.ClientOption) (*operations.CancelFreeipaDiagnosticsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CancelFreeipaDiagnosticsParams, ...operations.ClientOption) *operations.CancelFreeipaDiagnosticsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CancelFreeipaDiagnosticsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CancelFreeipaDiagnosticsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CancelFreeipaDiagnosticsContext'
+type MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call struct {
+	*mock.Call
+}
+
+// CancelFreeipaDiagnosticsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CancelFreeipaDiagnosticsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CancelFreeipaDiagnosticsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call {
+	return &MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call{Call: _e.mock.On("CancelFreeipaDiagnosticsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call) Run(run func(ctx context.Context, params *operations.CancelFreeipaDiagnosticsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CancelFreeipaDiagnosticsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CancelFreeipaDiagnosticsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call) Return(cancelFreeipaDiagnosticsOK *operations.CancelFreeipaDiagnosticsOK, err error) *MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call {
+	_c.Call.Return(cancelFreeipaDiagnosticsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CancelFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CancelFreeipaDiagnosticsOK, error)) *MockEnvironmentClientService_CancelFreeipaDiagnosticsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -280,6 +456,93 @@ func (_c *MockEnvironmentClientService_CancelTrust_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// CancelTrustContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CancelTrustContext(ctx context.Context, params *operations.CancelTrustParams, opts ...operations.ClientOption) (*operations.CancelTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CancelTrustContext")
+	}
+
+	var r0 *operations.CancelTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CancelTrustParams, ...operations.ClientOption) (*operations.CancelTrustOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CancelTrustParams, ...operations.ClientOption) *operations.CancelTrustOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CancelTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CancelTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CancelTrustContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CancelTrustContext'
+type MockEnvironmentClientService_CancelTrustContext_Call struct {
+	*mock.Call
+}
+
+// CancelTrustContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CancelTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CancelTrustContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CancelTrustContext_Call {
+	return &MockEnvironmentClientService_CancelTrustContext_Call{Call: _e.mock.On("CancelTrustContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CancelTrustContext_Call) Run(run func(ctx context.Context, params *operations.CancelTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CancelTrustContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CancelTrustParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CancelTrustParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CancelTrustContext_Call) Return(cancelTrustOK *operations.CancelTrustOK, err error) *MockEnvironmentClientService_CancelTrustContext_Call {
+	_c.Call.Return(cancelTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CancelTrustContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CancelTrustParams, opts ...operations.ClientOption) (*operations.CancelTrustOK, error)) *MockEnvironmentClientService_CancelTrustContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ChangeEnvironmentCredential provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ChangeEnvironmentCredential(params *operations.ChangeEnvironmentCredentialParams, opts ...operations.ClientOption) (*operations.ChangeEnvironmentCredentialOK, error) {
 	// operations.ClientOption
@@ -357,6 +620,93 @@ func (_c *MockEnvironmentClientService_ChangeEnvironmentCredential_Call) Return(
 }
 
 func (_c *MockEnvironmentClientService_ChangeEnvironmentCredential_Call) RunAndReturn(run func(params *operations.ChangeEnvironmentCredentialParams, opts ...operations.ClientOption) (*operations.ChangeEnvironmentCredentialOK, error)) *MockEnvironmentClientService_ChangeEnvironmentCredential_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ChangeEnvironmentCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ChangeEnvironmentCredentialContext(ctx context.Context, params *operations.ChangeEnvironmentCredentialParams, opts ...operations.ClientOption) (*operations.ChangeEnvironmentCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ChangeEnvironmentCredentialContext")
+	}
+
+	var r0 *operations.ChangeEnvironmentCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ChangeEnvironmentCredentialParams, ...operations.ClientOption) (*operations.ChangeEnvironmentCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ChangeEnvironmentCredentialParams, ...operations.ClientOption) *operations.ChangeEnvironmentCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ChangeEnvironmentCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ChangeEnvironmentCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ChangeEnvironmentCredentialContext'
+type MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call struct {
+	*mock.Call
+}
+
+// ChangeEnvironmentCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ChangeEnvironmentCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ChangeEnvironmentCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call {
+	return &MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call{Call: _e.mock.On("ChangeEnvironmentCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call) Run(run func(ctx context.Context, params *operations.ChangeEnvironmentCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ChangeEnvironmentCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ChangeEnvironmentCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call) Return(changeEnvironmentCredentialOK *operations.ChangeEnvironmentCredentialOK, err error) *MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call {
+	_c.Call.Return(changeEnvironmentCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ChangeEnvironmentCredentialParams, opts ...operations.ClientOption) (*operations.ChangeEnvironmentCredentialOK, error)) *MockEnvironmentClientService_ChangeEnvironmentCredentialContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -442,6 +792,93 @@ func (_c *MockEnvironmentClientService_CheckDatabaseConnectivity_Call) RunAndRet
 	return _c
 }
 
+// CheckDatabaseConnectivityContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CheckDatabaseConnectivityContext(ctx context.Context, params *operations.CheckDatabaseConnectivityParams, opts ...operations.ClientOption) (*operations.CheckDatabaseConnectivityOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckDatabaseConnectivityContext")
+	}
+
+	var r0 *operations.CheckDatabaseConnectivityOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckDatabaseConnectivityParams, ...operations.ClientOption) (*operations.CheckDatabaseConnectivityOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckDatabaseConnectivityParams, ...operations.ClientOption) *operations.CheckDatabaseConnectivityOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CheckDatabaseConnectivityOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CheckDatabaseConnectivityParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CheckDatabaseConnectivityContext'
+type MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call struct {
+	*mock.Call
+}
+
+// CheckDatabaseConnectivityContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CheckDatabaseConnectivityParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CheckDatabaseConnectivityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call {
+	return &MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call{Call: _e.mock.On("CheckDatabaseConnectivityContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call) Run(run func(ctx context.Context, params *operations.CheckDatabaseConnectivityParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CheckDatabaseConnectivityParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CheckDatabaseConnectivityParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call) Return(checkDatabaseConnectivityOK *operations.CheckDatabaseConnectivityOK, err error) *MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call {
+	_c.Call.Return(checkDatabaseConnectivityOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CheckDatabaseConnectivityParams, opts ...operations.ClientOption) (*operations.CheckDatabaseConnectivityOK, error)) *MockEnvironmentClientService_CheckDatabaseConnectivityContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CheckEnvironmentConnectivity provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CheckEnvironmentConnectivity(params *operations.CheckEnvironmentConnectivityParams, opts ...operations.ClientOption) (*operations.CheckEnvironmentConnectivityOK, error) {
 	// operations.ClientOption
@@ -519,6 +956,93 @@ func (_c *MockEnvironmentClientService_CheckEnvironmentConnectivity_Call) Return
 }
 
 func (_c *MockEnvironmentClientService_CheckEnvironmentConnectivity_Call) RunAndReturn(run func(params *operations.CheckEnvironmentConnectivityParams, opts ...operations.ClientOption) (*operations.CheckEnvironmentConnectivityOK, error)) *MockEnvironmentClientService_CheckEnvironmentConnectivity_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CheckEnvironmentConnectivityContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CheckEnvironmentConnectivityContext(ctx context.Context, params *operations.CheckEnvironmentConnectivityParams, opts ...operations.ClientOption) (*operations.CheckEnvironmentConnectivityOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckEnvironmentConnectivityContext")
+	}
+
+	var r0 *operations.CheckEnvironmentConnectivityOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckEnvironmentConnectivityParams, ...operations.ClientOption) (*operations.CheckEnvironmentConnectivityOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckEnvironmentConnectivityParams, ...operations.ClientOption) *operations.CheckEnvironmentConnectivityOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CheckEnvironmentConnectivityOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CheckEnvironmentConnectivityParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CheckEnvironmentConnectivityContext'
+type MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call struct {
+	*mock.Call
+}
+
+// CheckEnvironmentConnectivityContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CheckEnvironmentConnectivityParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CheckEnvironmentConnectivityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call {
+	return &MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call{Call: _e.mock.On("CheckEnvironmentConnectivityContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call) Run(run func(ctx context.Context, params *operations.CheckEnvironmentConnectivityParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CheckEnvironmentConnectivityParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CheckEnvironmentConnectivityParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call) Return(checkEnvironmentConnectivityOK *operations.CheckEnvironmentConnectivityOK, err error) *MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call {
+	_c.Call.Return(checkEnvironmentConnectivityOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CheckEnvironmentConnectivityParams, opts ...operations.ClientOption) (*operations.CheckEnvironmentConnectivityOK, error)) *MockEnvironmentClientService_CheckEnvironmentConnectivityContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -604,6 +1128,93 @@ func (_c *MockEnvironmentClientService_CheckKubernetesConnectivity_Call) RunAndR
 	return _c
 }
 
+// CheckKubernetesConnectivityContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CheckKubernetesConnectivityContext(ctx context.Context, params *operations.CheckKubernetesConnectivityParams, opts ...operations.ClientOption) (*operations.CheckKubernetesConnectivityOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckKubernetesConnectivityContext")
+	}
+
+	var r0 *operations.CheckKubernetesConnectivityOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckKubernetesConnectivityParams, ...operations.ClientOption) (*operations.CheckKubernetesConnectivityOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckKubernetesConnectivityParams, ...operations.ClientOption) *operations.CheckKubernetesConnectivityOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CheckKubernetesConnectivityOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CheckKubernetesConnectivityParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CheckKubernetesConnectivityContext'
+type MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call struct {
+	*mock.Call
+}
+
+// CheckKubernetesConnectivityContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CheckKubernetesConnectivityParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CheckKubernetesConnectivityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call {
+	return &MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call{Call: _e.mock.On("CheckKubernetesConnectivityContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call) Run(run func(ctx context.Context, params *operations.CheckKubernetesConnectivityParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CheckKubernetesConnectivityParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CheckKubernetesConnectivityParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call) Return(checkKubernetesConnectivityOK *operations.CheckKubernetesConnectivityOK, err error) *MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call {
+	_c.Call.Return(checkKubernetesConnectivityOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CheckKubernetesConnectivityParams, opts ...operations.ClientOption) (*operations.CheckKubernetesConnectivityOK, error)) *MockEnvironmentClientService_CheckKubernetesConnectivityContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CollectFreeipaDiagnostics provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CollectFreeipaDiagnostics(params *operations.CollectFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectFreeipaDiagnosticsOK, error) {
 	// operations.ClientOption
@@ -681,6 +1292,93 @@ func (_c *MockEnvironmentClientService_CollectFreeipaDiagnostics_Call) Return(co
 }
 
 func (_c *MockEnvironmentClientService_CollectFreeipaDiagnostics_Call) RunAndReturn(run func(params *operations.CollectFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectFreeipaDiagnosticsOK, error)) *MockEnvironmentClientService_CollectFreeipaDiagnostics_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CollectFreeipaDiagnosticsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CollectFreeipaDiagnosticsContext(ctx context.Context, params *operations.CollectFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectFreeipaDiagnosticsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CollectFreeipaDiagnosticsContext")
+	}
+
+	var r0 *operations.CollectFreeipaDiagnosticsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CollectFreeipaDiagnosticsParams, ...operations.ClientOption) (*operations.CollectFreeipaDiagnosticsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CollectFreeipaDiagnosticsParams, ...operations.ClientOption) *operations.CollectFreeipaDiagnosticsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CollectFreeipaDiagnosticsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CollectFreeipaDiagnosticsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CollectFreeipaDiagnosticsContext'
+type MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call struct {
+	*mock.Call
+}
+
+// CollectFreeipaDiagnosticsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CollectFreeipaDiagnosticsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CollectFreeipaDiagnosticsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call {
+	return &MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call{Call: _e.mock.On("CollectFreeipaDiagnosticsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call) Run(run func(ctx context.Context, params *operations.CollectFreeipaDiagnosticsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CollectFreeipaDiagnosticsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CollectFreeipaDiagnosticsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call) Return(collectFreeipaDiagnosticsOK *operations.CollectFreeipaDiagnosticsOK, err error) *MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call {
+	_c.Call.Return(collectFreeipaDiagnosticsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CollectFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectFreeipaDiagnosticsOK, error)) *MockEnvironmentClientService_CollectFreeipaDiagnosticsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -766,6 +1464,93 @@ func (_c *MockEnvironmentClientService_CreateAWSCredential_Call) RunAndReturn(ru
 	return _c
 }
 
+// CreateAWSCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateAWSCredentialContext(ctx context.Context, params *operations.CreateAWSCredentialParams, opts ...operations.ClientOption) (*operations.CreateAWSCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSCredentialContext")
+	}
+
+	var r0 *operations.CreateAWSCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSCredentialParams, ...operations.ClientOption) (*operations.CreateAWSCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSCredentialParams, ...operations.ClientOption) *operations.CreateAWSCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAWSCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAWSCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateAWSCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAWSCredentialContext'
+type MockEnvironmentClientService_CreateAWSCredentialContext_Call struct {
+	*mock.Call
+}
+
+// CreateAWSCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAWSCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateAWSCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateAWSCredentialContext_Call {
+	return &MockEnvironmentClientService_CreateAWSCredentialContext_Call{Call: _e.mock.On("CreateAWSCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSCredentialContext_Call) Run(run func(ctx context.Context, params *operations.CreateAWSCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateAWSCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAWSCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAWSCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSCredentialContext_Call) Return(createAWSCredentialOK *operations.CreateAWSCredentialOK, err error) *MockEnvironmentClientService_CreateAWSCredentialContext_Call {
+	_c.Call.Return(createAWSCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAWSCredentialParams, opts ...operations.ClientOption) (*operations.CreateAWSCredentialOK, error)) *MockEnvironmentClientService_CreateAWSCredentialContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateAWSEnvironment provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CreateAWSEnvironment(params *operations.CreateAWSEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSEnvironmentOK, error) {
 	// operations.ClientOption
@@ -843,6 +1628,93 @@ func (_c *MockEnvironmentClientService_CreateAWSEnvironment_Call) Return(createA
 }
 
 func (_c *MockEnvironmentClientService_CreateAWSEnvironment_Call) RunAndReturn(run func(params *operations.CreateAWSEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSEnvironmentOK, error)) *MockEnvironmentClientService_CreateAWSEnvironment_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateAWSEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateAWSEnvironmentContext(ctx context.Context, params *operations.CreateAWSEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSEnvironmentContext")
+	}
+
+	var r0 *operations.CreateAWSEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSEnvironmentParams, ...operations.ClientOption) (*operations.CreateAWSEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSEnvironmentParams, ...operations.ClientOption) *operations.CreateAWSEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAWSEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAWSEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateAWSEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAWSEnvironmentContext'
+type MockEnvironmentClientService_CreateAWSEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// CreateAWSEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAWSEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateAWSEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateAWSEnvironmentContext_Call {
+	return &MockEnvironmentClientService_CreateAWSEnvironmentContext_Call{Call: _e.mock.On("CreateAWSEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.CreateAWSEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateAWSEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAWSEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAWSEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSEnvironmentContext_Call) Return(createAWSEnvironmentOK *operations.CreateAWSEnvironmentOK, err error) *MockEnvironmentClientService_CreateAWSEnvironmentContext_Call {
+	_c.Call.Return(createAWSEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAWSEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSEnvironmentOK, error)) *MockEnvironmentClientService_CreateAWSEnvironmentContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -928,6 +1800,93 @@ func (_c *MockEnvironmentClientService_CreateAWSGovCloudCredential_Call) RunAndR
 	return _c
 }
 
+// CreateAWSGovCloudCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateAWSGovCloudCredentialContext(ctx context.Context, params *operations.CreateAWSGovCloudCredentialParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSGovCloudCredentialContext")
+	}
+
+	var r0 *operations.CreateAWSGovCloudCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSGovCloudCredentialParams, ...operations.ClientOption) (*operations.CreateAWSGovCloudCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSGovCloudCredentialParams, ...operations.ClientOption) *operations.CreateAWSGovCloudCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAWSGovCloudCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAWSGovCloudCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAWSGovCloudCredentialContext'
+type MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call struct {
+	*mock.Call
+}
+
+// CreateAWSGovCloudCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAWSGovCloudCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateAWSGovCloudCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call {
+	return &MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call{Call: _e.mock.On("CreateAWSGovCloudCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call) Run(run func(ctx context.Context, params *operations.CreateAWSGovCloudCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAWSGovCloudCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAWSGovCloudCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call) Return(createAWSGovCloudCredentialOK *operations.CreateAWSGovCloudCredentialOK, err error) *MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call {
+	_c.Call.Return(createAWSGovCloudCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAWSGovCloudCredentialParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudCredentialOK, error)) *MockEnvironmentClientService_CreateAWSGovCloudCredentialContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateAWSGovCloudEnvironment provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CreateAWSGovCloudEnvironment(params *operations.CreateAWSGovCloudEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudEnvironmentOK, error) {
 	// operations.ClientOption
@@ -1005,6 +1964,93 @@ func (_c *MockEnvironmentClientService_CreateAWSGovCloudEnvironment_Call) Return
 }
 
 func (_c *MockEnvironmentClientService_CreateAWSGovCloudEnvironment_Call) RunAndReturn(run func(params *operations.CreateAWSGovCloudEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudEnvironmentOK, error)) *MockEnvironmentClientService_CreateAWSGovCloudEnvironment_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateAWSGovCloudEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateAWSGovCloudEnvironmentContext(ctx context.Context, params *operations.CreateAWSGovCloudEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAWSGovCloudEnvironmentContext")
+	}
+
+	var r0 *operations.CreateAWSGovCloudEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSGovCloudEnvironmentParams, ...operations.ClientOption) (*operations.CreateAWSGovCloudEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAWSGovCloudEnvironmentParams, ...operations.ClientOption) *operations.CreateAWSGovCloudEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAWSGovCloudEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAWSGovCloudEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAWSGovCloudEnvironmentContext'
+type MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// CreateAWSGovCloudEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAWSGovCloudEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateAWSGovCloudEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call {
+	return &MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call{Call: _e.mock.On("CreateAWSGovCloudEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.CreateAWSGovCloudEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAWSGovCloudEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAWSGovCloudEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call) Return(createAWSGovCloudEnvironmentOK *operations.CreateAWSGovCloudEnvironmentOK, err error) *MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call {
+	_c.Call.Return(createAWSGovCloudEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAWSGovCloudEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudEnvironmentOK, error)) *MockEnvironmentClientService_CreateAWSGovCloudEnvironmentContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1090,6 +2136,93 @@ func (_c *MockEnvironmentClientService_CreateAzureCredential_Call) RunAndReturn(
 	return _c
 }
 
+// CreateAzureCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateAzureCredentialContext(ctx context.Context, params *operations.CreateAzureCredentialParams, opts ...operations.ClientOption) (*operations.CreateAzureCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAzureCredentialContext")
+	}
+
+	var r0 *operations.CreateAzureCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAzureCredentialParams, ...operations.ClientOption) (*operations.CreateAzureCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAzureCredentialParams, ...operations.ClientOption) *operations.CreateAzureCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAzureCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAzureCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateAzureCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAzureCredentialContext'
+type MockEnvironmentClientService_CreateAzureCredentialContext_Call struct {
+	*mock.Call
+}
+
+// CreateAzureCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAzureCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateAzureCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateAzureCredentialContext_Call {
+	return &MockEnvironmentClientService_CreateAzureCredentialContext_Call{Call: _e.mock.On("CreateAzureCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateAzureCredentialContext_Call) Run(run func(ctx context.Context, params *operations.CreateAzureCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateAzureCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAzureCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAzureCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAzureCredentialContext_Call) Return(createAzureCredentialOK *operations.CreateAzureCredentialOK, err error) *MockEnvironmentClientService_CreateAzureCredentialContext_Call {
+	_c.Call.Return(createAzureCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAzureCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAzureCredentialParams, opts ...operations.ClientOption) (*operations.CreateAzureCredentialOK, error)) *MockEnvironmentClientService_CreateAzureCredentialContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateAzureEnvironment provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CreateAzureEnvironment(params *operations.CreateAzureEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAzureEnvironmentOK, error) {
 	// operations.ClientOption
@@ -1167,6 +2300,93 @@ func (_c *MockEnvironmentClientService_CreateAzureEnvironment_Call) Return(creat
 }
 
 func (_c *MockEnvironmentClientService_CreateAzureEnvironment_Call) RunAndReturn(run func(params *operations.CreateAzureEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAzureEnvironmentOK, error)) *MockEnvironmentClientService_CreateAzureEnvironment_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateAzureEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateAzureEnvironmentContext(ctx context.Context, params *operations.CreateAzureEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAzureEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAzureEnvironmentContext")
+	}
+
+	var r0 *operations.CreateAzureEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAzureEnvironmentParams, ...operations.ClientOption) (*operations.CreateAzureEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAzureEnvironmentParams, ...operations.ClientOption) *operations.CreateAzureEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAzureEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAzureEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateAzureEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAzureEnvironmentContext'
+type MockEnvironmentClientService_CreateAzureEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// CreateAzureEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAzureEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateAzureEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateAzureEnvironmentContext_Call {
+	return &MockEnvironmentClientService_CreateAzureEnvironmentContext_Call{Call: _e.mock.On("CreateAzureEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateAzureEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.CreateAzureEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateAzureEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAzureEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAzureEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAzureEnvironmentContext_Call) Return(createAzureEnvironmentOK *operations.CreateAzureEnvironmentOK, err error) *MockEnvironmentClientService_CreateAzureEnvironmentContext_Call {
+	_c.Call.Return(createAzureEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateAzureEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAzureEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateAzureEnvironmentOK, error)) *MockEnvironmentClientService_CreateAzureEnvironmentContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1252,6 +2472,93 @@ func (_c *MockEnvironmentClientService_CreateGCPCredential_Call) RunAndReturn(ru
 	return _c
 }
 
+// CreateGCPCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateGCPCredentialContext(ctx context.Context, params *operations.CreateGCPCredentialParams, opts ...operations.ClientOption) (*operations.CreateGCPCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateGCPCredentialContext")
+	}
+
+	var r0 *operations.CreateGCPCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateGCPCredentialParams, ...operations.ClientOption) (*operations.CreateGCPCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateGCPCredentialParams, ...operations.ClientOption) *operations.CreateGCPCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateGCPCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateGCPCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateGCPCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateGCPCredentialContext'
+type MockEnvironmentClientService_CreateGCPCredentialContext_Call struct {
+	*mock.Call
+}
+
+// CreateGCPCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateGCPCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateGCPCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateGCPCredentialContext_Call {
+	return &MockEnvironmentClientService_CreateGCPCredentialContext_Call{Call: _e.mock.On("CreateGCPCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateGCPCredentialContext_Call) Run(run func(ctx context.Context, params *operations.CreateGCPCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateGCPCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateGCPCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateGCPCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateGCPCredentialContext_Call) Return(createGCPCredentialOK *operations.CreateGCPCredentialOK, err error) *MockEnvironmentClientService_CreateGCPCredentialContext_Call {
+	_c.Call.Return(createGCPCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateGCPCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateGCPCredentialParams, opts ...operations.ClientOption) (*operations.CreateGCPCredentialOK, error)) *MockEnvironmentClientService_CreateGCPCredentialContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateGCPEnvironment provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CreateGCPEnvironment(params *operations.CreateGCPEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateGCPEnvironmentOK, error) {
 	// operations.ClientOption
@@ -1329,6 +2636,93 @@ func (_c *MockEnvironmentClientService_CreateGCPEnvironment_Call) Return(createG
 }
 
 func (_c *MockEnvironmentClientService_CreateGCPEnvironment_Call) RunAndReturn(run func(params *operations.CreateGCPEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateGCPEnvironmentOK, error)) *MockEnvironmentClientService_CreateGCPEnvironment_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateGCPEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateGCPEnvironmentContext(ctx context.Context, params *operations.CreateGCPEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateGCPEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateGCPEnvironmentContext")
+	}
+
+	var r0 *operations.CreateGCPEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateGCPEnvironmentParams, ...operations.ClientOption) (*operations.CreateGCPEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateGCPEnvironmentParams, ...operations.ClientOption) *operations.CreateGCPEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateGCPEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateGCPEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateGCPEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateGCPEnvironmentContext'
+type MockEnvironmentClientService_CreateGCPEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// CreateGCPEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateGCPEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateGCPEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateGCPEnvironmentContext_Call {
+	return &MockEnvironmentClientService_CreateGCPEnvironmentContext_Call{Call: _e.mock.On("CreateGCPEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateGCPEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.CreateGCPEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateGCPEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateGCPEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateGCPEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateGCPEnvironmentContext_Call) Return(createGCPEnvironmentOK *operations.CreateGCPEnvironmentOK, err error) *MockEnvironmentClientService_CreateGCPEnvironmentContext_Call {
+	_c.Call.Return(createGCPEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateGCPEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateGCPEnvironmentParams, opts ...operations.ClientOption) (*operations.CreateGCPEnvironmentOK, error)) *MockEnvironmentClientService_CreateGCPEnvironmentContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1414,6 +2808,93 @@ func (_c *MockEnvironmentClientService_CreatePrivateEnvironment_Call) RunAndRetu
 	return _c
 }
 
+// CreatePrivateEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreatePrivateEnvironmentContext(ctx context.Context, params *operations.CreatePrivateEnvironmentParams, opts ...operations.ClientOption) (*operations.CreatePrivateEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreatePrivateEnvironmentContext")
+	}
+
+	var r0 *operations.CreatePrivateEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreatePrivateEnvironmentParams, ...operations.ClientOption) (*operations.CreatePrivateEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreatePrivateEnvironmentParams, ...operations.ClientOption) *operations.CreatePrivateEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreatePrivateEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreatePrivateEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreatePrivateEnvironmentContext'
+type MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// CreatePrivateEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreatePrivateEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreatePrivateEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call {
+	return &MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call{Call: _e.mock.On("CreatePrivateEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.CreatePrivateEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreatePrivateEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreatePrivateEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call) Return(createPrivateEnvironmentOK *operations.CreatePrivateEnvironmentOK, err error) *MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call {
+	_c.Call.Return(createPrivateEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreatePrivateEnvironmentParams, opts ...operations.ClientOption) (*operations.CreatePrivateEnvironmentOK, error)) *MockEnvironmentClientService_CreatePrivateEnvironmentContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateProxyConfig provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) CreateProxyConfig(params *operations.CreateProxyConfigParams, opts ...operations.ClientOption) (*operations.CreateProxyConfigOK, error) {
 	// operations.ClientOption
@@ -1491,6 +2972,93 @@ func (_c *MockEnvironmentClientService_CreateProxyConfig_Call) Return(createProx
 }
 
 func (_c *MockEnvironmentClientService_CreateProxyConfig_Call) RunAndReturn(run func(params *operations.CreateProxyConfigParams, opts ...operations.ClientOption) (*operations.CreateProxyConfigOK, error)) *MockEnvironmentClientService_CreateProxyConfig_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateProxyConfigContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) CreateProxyConfigContext(ctx context.Context, params *operations.CreateProxyConfigParams, opts ...operations.ClientOption) (*operations.CreateProxyConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateProxyConfigContext")
+	}
+
+	var r0 *operations.CreateProxyConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateProxyConfigParams, ...operations.ClientOption) (*operations.CreateProxyConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateProxyConfigParams, ...operations.ClientOption) *operations.CreateProxyConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateProxyConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateProxyConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_CreateProxyConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateProxyConfigContext'
+type MockEnvironmentClientService_CreateProxyConfigContext_Call struct {
+	*mock.Call
+}
+
+// CreateProxyConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateProxyConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) CreateProxyConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_CreateProxyConfigContext_Call {
+	return &MockEnvironmentClientService_CreateProxyConfigContext_Call{Call: _e.mock.On("CreateProxyConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_CreateProxyConfigContext_Call) Run(run func(ctx context.Context, params *operations.CreateProxyConfigParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_CreateProxyConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateProxyConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateProxyConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateProxyConfigContext_Call) Return(createProxyConfigOK *operations.CreateProxyConfigOK, err error) *MockEnvironmentClientService_CreateProxyConfigContext_Call {
+	_c.Call.Return(createProxyConfigOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_CreateProxyConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateProxyConfigParams, opts ...operations.ClientOption) (*operations.CreateProxyConfigOK, error)) *MockEnvironmentClientService_CreateProxyConfigContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1576,6 +3144,93 @@ func (_c *MockEnvironmentClientService_DeleteAuditCredential_Call) RunAndReturn(
 	return _c
 }
 
+// DeleteAuditCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DeleteAuditCredentialContext(ctx context.Context, params *operations.DeleteAuditCredentialParams, opts ...operations.ClientOption) (*operations.DeleteAuditCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteAuditCredentialContext")
+	}
+
+	var r0 *operations.DeleteAuditCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteAuditCredentialParams, ...operations.ClientOption) (*operations.DeleteAuditCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteAuditCredentialParams, ...operations.ClientOption) *operations.DeleteAuditCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteAuditCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteAuditCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DeleteAuditCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteAuditCredentialContext'
+type MockEnvironmentClientService_DeleteAuditCredentialContext_Call struct {
+	*mock.Call
+}
+
+// DeleteAuditCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteAuditCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DeleteAuditCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DeleteAuditCredentialContext_Call {
+	return &MockEnvironmentClientService_DeleteAuditCredentialContext_Call{Call: _e.mock.On("DeleteAuditCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DeleteAuditCredentialContext_Call) Run(run func(ctx context.Context, params *operations.DeleteAuditCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DeleteAuditCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteAuditCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteAuditCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteAuditCredentialContext_Call) Return(deleteAuditCredentialOK *operations.DeleteAuditCredentialOK, err error) *MockEnvironmentClientService_DeleteAuditCredentialContext_Call {
+	_c.Call.Return(deleteAuditCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteAuditCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteAuditCredentialParams, opts ...operations.ClientOption) (*operations.DeleteAuditCredentialOK, error)) *MockEnvironmentClientService_DeleteAuditCredentialContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteCredential provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) DeleteCredential(params *operations.DeleteCredentialParams, opts ...operations.ClientOption) (*operations.DeleteCredentialOK, error) {
 	// operations.ClientOption
@@ -1653,6 +3308,93 @@ func (_c *MockEnvironmentClientService_DeleteCredential_Call) Return(deleteCrede
 }
 
 func (_c *MockEnvironmentClientService_DeleteCredential_Call) RunAndReturn(run func(params *operations.DeleteCredentialParams, opts ...operations.ClientOption) (*operations.DeleteCredentialOK, error)) *MockEnvironmentClientService_DeleteCredential_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DeleteCredentialContext(ctx context.Context, params *operations.DeleteCredentialParams, opts ...operations.ClientOption) (*operations.DeleteCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteCredentialContext")
+	}
+
+	var r0 *operations.DeleteCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteCredentialParams, ...operations.ClientOption) (*operations.DeleteCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteCredentialParams, ...operations.ClientOption) *operations.DeleteCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DeleteCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteCredentialContext'
+type MockEnvironmentClientService_DeleteCredentialContext_Call struct {
+	*mock.Call
+}
+
+// DeleteCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DeleteCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DeleteCredentialContext_Call {
+	return &MockEnvironmentClientService_DeleteCredentialContext_Call{Call: _e.mock.On("DeleteCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DeleteCredentialContext_Call) Run(run func(ctx context.Context, params *operations.DeleteCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DeleteCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteCredentialContext_Call) Return(deleteCredentialOK *operations.DeleteCredentialOK, err error) *MockEnvironmentClientService_DeleteCredentialContext_Call {
+	_c.Call.Return(deleteCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteCredentialParams, opts ...operations.ClientOption) (*operations.DeleteCredentialOK, error)) *MockEnvironmentClientService_DeleteCredentialContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1738,6 +3480,93 @@ func (_c *MockEnvironmentClientService_DeleteEnvironment_Call) RunAndReturn(run 
 	return _c
 }
 
+// DeleteEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DeleteEnvironmentContext(ctx context.Context, params *operations.DeleteEnvironmentParams, opts ...operations.ClientOption) (*operations.DeleteEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteEnvironmentContext")
+	}
+
+	var r0 *operations.DeleteEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteEnvironmentParams, ...operations.ClientOption) (*operations.DeleteEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteEnvironmentParams, ...operations.ClientOption) *operations.DeleteEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DeleteEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteEnvironmentContext'
+type MockEnvironmentClientService_DeleteEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// DeleteEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DeleteEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DeleteEnvironmentContext_Call {
+	return &MockEnvironmentClientService_DeleteEnvironmentContext_Call{Call: _e.mock.On("DeleteEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DeleteEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.DeleteEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DeleteEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteEnvironmentContext_Call) Return(deleteEnvironmentOK *operations.DeleteEnvironmentOK, err error) *MockEnvironmentClientService_DeleteEnvironmentContext_Call {
+	_c.Call.Return(deleteEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteEnvironmentParams, opts ...operations.ClientOption) (*operations.DeleteEnvironmentOK, error)) *MockEnvironmentClientService_DeleteEnvironmentContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteProxyConfig provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) DeleteProxyConfig(params *operations.DeleteProxyConfigParams, opts ...operations.ClientOption) (*operations.DeleteProxyConfigOK, error) {
 	// operations.ClientOption
@@ -1815,6 +3644,93 @@ func (_c *MockEnvironmentClientService_DeleteProxyConfig_Call) Return(deleteProx
 }
 
 func (_c *MockEnvironmentClientService_DeleteProxyConfig_Call) RunAndReturn(run func(params *operations.DeleteProxyConfigParams, opts ...operations.ClientOption) (*operations.DeleteProxyConfigOK, error)) *MockEnvironmentClientService_DeleteProxyConfig_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteProxyConfigContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DeleteProxyConfigContext(ctx context.Context, params *operations.DeleteProxyConfigParams, opts ...operations.ClientOption) (*operations.DeleteProxyConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteProxyConfigContext")
+	}
+
+	var r0 *operations.DeleteProxyConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteProxyConfigParams, ...operations.ClientOption) (*operations.DeleteProxyConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteProxyConfigParams, ...operations.ClientOption) *operations.DeleteProxyConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteProxyConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteProxyConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DeleteProxyConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteProxyConfigContext'
+type MockEnvironmentClientService_DeleteProxyConfigContext_Call struct {
+	*mock.Call
+}
+
+// DeleteProxyConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteProxyConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DeleteProxyConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DeleteProxyConfigContext_Call {
+	return &MockEnvironmentClientService_DeleteProxyConfigContext_Call{Call: _e.mock.On("DeleteProxyConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DeleteProxyConfigContext_Call) Run(run func(ctx context.Context, params *operations.DeleteProxyConfigParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DeleteProxyConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteProxyConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteProxyConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteProxyConfigContext_Call) Return(deleteProxyConfigOK *operations.DeleteProxyConfigOK, err error) *MockEnvironmentClientService_DeleteProxyConfigContext_Call {
+	_c.Call.Return(deleteProxyConfigOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DeleteProxyConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteProxyConfigParams, opts ...operations.ClientOption) (*operations.DeleteProxyConfigOK, error)) *MockEnvironmentClientService_DeleteProxyConfigContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1900,6 +3816,93 @@ func (_c *MockEnvironmentClientService_DescribeEnvironment_Call) RunAndReturn(ru
 	return _c
 }
 
+// DescribeEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DescribeEnvironmentContext(ctx context.Context, params *operations.DescribeEnvironmentParams, opts ...operations.ClientOption) (*operations.DescribeEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeEnvironmentContext")
+	}
+
+	var r0 *operations.DescribeEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeEnvironmentParams, ...operations.ClientOption) (*operations.DescribeEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeEnvironmentParams, ...operations.ClientOption) *operations.DescribeEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DescribeEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeEnvironmentContext'
+type MockEnvironmentClientService_DescribeEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// DescribeEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DescribeEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DescribeEnvironmentContext_Call {
+	return &MockEnvironmentClientService_DescribeEnvironmentContext_Call{Call: _e.mock.On("DescribeEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DescribeEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.DescribeEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DescribeEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DescribeEnvironmentContext_Call) Return(describeEnvironmentOK *operations.DescribeEnvironmentOK, err error) *MockEnvironmentClientService_DescribeEnvironmentContext_Call {
+	_c.Call.Return(describeEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DescribeEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeEnvironmentParams, opts ...operations.ClientOption) (*operations.DescribeEnvironmentOK, error)) *MockEnvironmentClientService_DescribeEnvironmentContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DetachFreeIpaRecipes provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) DetachFreeIpaRecipes(params *operations.DetachFreeIpaRecipesParams, opts ...operations.ClientOption) (*operations.DetachFreeIpaRecipesOK, error) {
 	// operations.ClientOption
@@ -1977,6 +3980,93 @@ func (_c *MockEnvironmentClientService_DetachFreeIpaRecipes_Call) Return(detachF
 }
 
 func (_c *MockEnvironmentClientService_DetachFreeIpaRecipes_Call) RunAndReturn(run func(params *operations.DetachFreeIpaRecipesParams, opts ...operations.ClientOption) (*operations.DetachFreeIpaRecipesOK, error)) *MockEnvironmentClientService_DetachFreeIpaRecipes_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DetachFreeIpaRecipesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DetachFreeIpaRecipesContext(ctx context.Context, params *operations.DetachFreeIpaRecipesParams, opts ...operations.ClientOption) (*operations.DetachFreeIpaRecipesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DetachFreeIpaRecipesContext")
+	}
+
+	var r0 *operations.DetachFreeIpaRecipesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DetachFreeIpaRecipesParams, ...operations.ClientOption) (*operations.DetachFreeIpaRecipesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DetachFreeIpaRecipesParams, ...operations.ClientOption) *operations.DetachFreeIpaRecipesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DetachFreeIpaRecipesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DetachFreeIpaRecipesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DetachFreeIpaRecipesContext'
+type MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call struct {
+	*mock.Call
+}
+
+// DetachFreeIpaRecipesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DetachFreeIpaRecipesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DetachFreeIpaRecipesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call {
+	return &MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call{Call: _e.mock.On("DetachFreeIpaRecipesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call) Run(run func(ctx context.Context, params *operations.DetachFreeIpaRecipesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DetachFreeIpaRecipesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DetachFreeIpaRecipesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call) Return(detachFreeIpaRecipesOK *operations.DetachFreeIpaRecipesOK, err error) *MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call {
+	_c.Call.Return(detachFreeIpaRecipesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DetachFreeIpaRecipesParams, opts ...operations.ClientOption) (*operations.DetachFreeIpaRecipesOK, error)) *MockEnvironmentClientService_DetachFreeIpaRecipesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2062,6 +4152,93 @@ func (_c *MockEnvironmentClientService_DisableS3Guard_Call) RunAndReturn(run fun
 	return _c
 }
 
+// DisableS3GuardContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DisableS3GuardContext(ctx context.Context, params *operations.DisableS3GuardParams, opts ...operations.ClientOption) (*operations.DisableS3GuardOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DisableS3GuardContext")
+	}
+
+	var r0 *operations.DisableS3GuardOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DisableS3GuardParams, ...operations.ClientOption) (*operations.DisableS3GuardOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DisableS3GuardParams, ...operations.ClientOption) *operations.DisableS3GuardOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DisableS3GuardOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DisableS3GuardParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DisableS3GuardContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DisableS3GuardContext'
+type MockEnvironmentClientService_DisableS3GuardContext_Call struct {
+	*mock.Call
+}
+
+// DisableS3GuardContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DisableS3GuardParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DisableS3GuardContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DisableS3GuardContext_Call {
+	return &MockEnvironmentClientService_DisableS3GuardContext_Call{Call: _e.mock.On("DisableS3GuardContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DisableS3GuardContext_Call) Run(run func(ctx context.Context, params *operations.DisableS3GuardParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DisableS3GuardContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DisableS3GuardParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DisableS3GuardParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DisableS3GuardContext_Call) Return(disableS3GuardOK *operations.DisableS3GuardOK, err error) *MockEnvironmentClientService_DisableS3GuardContext_Call {
+	_c.Call.Return(disableS3GuardOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DisableS3GuardContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DisableS3GuardParams, opts ...operations.ClientOption) (*operations.DisableS3GuardOK, error)) *MockEnvironmentClientService_DisableS3GuardContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DownscaleFreeipa provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) DownscaleFreeipa(params *operations.DownscaleFreeipaParams, opts ...operations.ClientOption) (*operations.DownscaleFreeipaOK, error) {
 	// operations.ClientOption
@@ -2139,6 +4316,93 @@ func (_c *MockEnvironmentClientService_DownscaleFreeipa_Call) Return(downscaleFr
 }
 
 func (_c *MockEnvironmentClientService_DownscaleFreeipa_Call) RunAndReturn(run func(params *operations.DownscaleFreeipaParams, opts ...operations.ClientOption) (*operations.DownscaleFreeipaOK, error)) *MockEnvironmentClientService_DownscaleFreeipa_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DownscaleFreeipaContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) DownscaleFreeipaContext(ctx context.Context, params *operations.DownscaleFreeipaParams, opts ...operations.ClientOption) (*operations.DownscaleFreeipaOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DownscaleFreeipaContext")
+	}
+
+	var r0 *operations.DownscaleFreeipaOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DownscaleFreeipaParams, ...operations.ClientOption) (*operations.DownscaleFreeipaOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DownscaleFreeipaParams, ...operations.ClientOption) *operations.DownscaleFreeipaOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DownscaleFreeipaOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DownscaleFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_DownscaleFreeipaContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DownscaleFreeipaContext'
+type MockEnvironmentClientService_DownscaleFreeipaContext_Call struct {
+	*mock.Call
+}
+
+// DownscaleFreeipaContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DownscaleFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) DownscaleFreeipaContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_DownscaleFreeipaContext_Call {
+	return &MockEnvironmentClientService_DownscaleFreeipaContext_Call{Call: _e.mock.On("DownscaleFreeipaContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_DownscaleFreeipaContext_Call) Run(run func(ctx context.Context, params *operations.DownscaleFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_DownscaleFreeipaContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DownscaleFreeipaParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DownscaleFreeipaParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DownscaleFreeipaContext_Call) Return(downscaleFreeipaOK *operations.DownscaleFreeipaOK, err error) *MockEnvironmentClientService_DownscaleFreeipaContext_Call {
+	_c.Call.Return(downscaleFreeipaOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_DownscaleFreeipaContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DownscaleFreeipaParams, opts ...operations.ClientOption) (*operations.DownscaleFreeipaOK, error)) *MockEnvironmentClientService_DownscaleFreeipaContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2224,6 +4488,93 @@ func (_c *MockEnvironmentClientService_FinishSetupTrust_Call) RunAndReturn(run f
 	return _c
 }
 
+// FinishSetupTrustContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) FinishSetupTrustContext(ctx context.Context, params *operations.FinishSetupTrustParams, opts ...operations.ClientOption) (*operations.FinishSetupTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for FinishSetupTrustContext")
+	}
+
+	var r0 *operations.FinishSetupTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.FinishSetupTrustParams, ...operations.ClientOption) (*operations.FinishSetupTrustOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.FinishSetupTrustParams, ...operations.ClientOption) *operations.FinishSetupTrustOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.FinishSetupTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.FinishSetupTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_FinishSetupTrustContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'FinishSetupTrustContext'
+type MockEnvironmentClientService_FinishSetupTrustContext_Call struct {
+	*mock.Call
+}
+
+// FinishSetupTrustContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.FinishSetupTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) FinishSetupTrustContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_FinishSetupTrustContext_Call {
+	return &MockEnvironmentClientService_FinishSetupTrustContext_Call{Call: _e.mock.On("FinishSetupTrustContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_FinishSetupTrustContext_Call) Run(run func(ctx context.Context, params *operations.FinishSetupTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_FinishSetupTrustContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.FinishSetupTrustParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.FinishSetupTrustParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_FinishSetupTrustContext_Call) Return(finishSetupTrustOK *operations.FinishSetupTrustOK, err error) *MockEnvironmentClientService_FinishSetupTrustContext_Call {
+	_c.Call.Return(finishSetupTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_FinishSetupTrustContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.FinishSetupTrustParams, opts ...operations.ClientOption) (*operations.FinishSetupTrustOK, error)) *MockEnvironmentClientService_FinishSetupTrustContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetAccountTelemetry provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetAccountTelemetry(params *operations.GetAccountTelemetryParams, opts ...operations.ClientOption) (*operations.GetAccountTelemetryOK, error) {
 	// operations.ClientOption
@@ -2301,6 +4652,93 @@ func (_c *MockEnvironmentClientService_GetAccountTelemetry_Call) Return(getAccou
 }
 
 func (_c *MockEnvironmentClientService_GetAccountTelemetry_Call) RunAndReturn(run func(params *operations.GetAccountTelemetryParams, opts ...operations.ClientOption) (*operations.GetAccountTelemetryOK, error)) *MockEnvironmentClientService_GetAccountTelemetry_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetAccountTelemetryContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetAccountTelemetryContext(ctx context.Context, params *operations.GetAccountTelemetryParams, opts ...operations.ClientOption) (*operations.GetAccountTelemetryOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAccountTelemetryContext")
+	}
+
+	var r0 *operations.GetAccountTelemetryOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountTelemetryParams, ...operations.ClientOption) (*operations.GetAccountTelemetryOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountTelemetryParams, ...operations.ClientOption) *operations.GetAccountTelemetryOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAccountTelemetryOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAccountTelemetryParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetAccountTelemetryContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAccountTelemetryContext'
+type MockEnvironmentClientService_GetAccountTelemetryContext_Call struct {
+	*mock.Call
+}
+
+// GetAccountTelemetryContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAccountTelemetryParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetAccountTelemetryContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetAccountTelemetryContext_Call {
+	return &MockEnvironmentClientService_GetAccountTelemetryContext_Call{Call: _e.mock.On("GetAccountTelemetryContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetAccountTelemetryContext_Call) Run(run func(ctx context.Context, params *operations.GetAccountTelemetryParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetAccountTelemetryContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAccountTelemetryParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAccountTelemetryParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAccountTelemetryContext_Call) Return(getAccountTelemetryOK *operations.GetAccountTelemetryOK, err error) *MockEnvironmentClientService_GetAccountTelemetryContext_Call {
+	_c.Call.Return(getAccountTelemetryOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAccountTelemetryContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAccountTelemetryParams, opts ...operations.ClientOption) (*operations.GetAccountTelemetryOK, error)) *MockEnvironmentClientService_GetAccountTelemetryContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2386,6 +4824,93 @@ func (_c *MockEnvironmentClientService_GetAccountTelemetryDefault_Call) RunAndRe
 	return _c
 }
 
+// GetAccountTelemetryDefaultContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetAccountTelemetryDefaultContext(ctx context.Context, params *operations.GetAccountTelemetryDefaultParams, opts ...operations.ClientOption) (*operations.GetAccountTelemetryDefaultOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAccountTelemetryDefaultContext")
+	}
+
+	var r0 *operations.GetAccountTelemetryDefaultOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountTelemetryDefaultParams, ...operations.ClientOption) (*operations.GetAccountTelemetryDefaultOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountTelemetryDefaultParams, ...operations.ClientOption) *operations.GetAccountTelemetryDefaultOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAccountTelemetryDefaultOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAccountTelemetryDefaultParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAccountTelemetryDefaultContext'
+type MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call struct {
+	*mock.Call
+}
+
+// GetAccountTelemetryDefaultContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAccountTelemetryDefaultParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetAccountTelemetryDefaultContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call {
+	return &MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call{Call: _e.mock.On("GetAccountTelemetryDefaultContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call) Run(run func(ctx context.Context, params *operations.GetAccountTelemetryDefaultParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAccountTelemetryDefaultParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAccountTelemetryDefaultParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call) Return(getAccountTelemetryDefaultOK *operations.GetAccountTelemetryDefaultOK, err error) *MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call {
+	_c.Call.Return(getAccountTelemetryDefaultOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAccountTelemetryDefaultParams, opts ...operations.ClientOption) (*operations.GetAccountTelemetryDefaultOK, error)) *MockEnvironmentClientService_GetAccountTelemetryDefaultContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetAuditCredentialPrerequisites provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetAuditCredentialPrerequisites(params *operations.GetAuditCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetAuditCredentialPrerequisitesOK, error) {
 	// operations.ClientOption
@@ -2463,6 +4988,93 @@ func (_c *MockEnvironmentClientService_GetAuditCredentialPrerequisites_Call) Ret
 }
 
 func (_c *MockEnvironmentClientService_GetAuditCredentialPrerequisites_Call) RunAndReturn(run func(params *operations.GetAuditCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetAuditCredentialPrerequisitesOK, error)) *MockEnvironmentClientService_GetAuditCredentialPrerequisites_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetAuditCredentialPrerequisitesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetAuditCredentialPrerequisitesContext(ctx context.Context, params *operations.GetAuditCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetAuditCredentialPrerequisitesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAuditCredentialPrerequisitesContext")
+	}
+
+	var r0 *operations.GetAuditCredentialPrerequisitesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAuditCredentialPrerequisitesParams, ...operations.ClientOption) (*operations.GetAuditCredentialPrerequisitesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAuditCredentialPrerequisitesParams, ...operations.ClientOption) *operations.GetAuditCredentialPrerequisitesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAuditCredentialPrerequisitesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAuditCredentialPrerequisitesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAuditCredentialPrerequisitesContext'
+type MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call struct {
+	*mock.Call
+}
+
+// GetAuditCredentialPrerequisitesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAuditCredentialPrerequisitesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetAuditCredentialPrerequisitesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call {
+	return &MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call{Call: _e.mock.On("GetAuditCredentialPrerequisitesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call) Run(run func(ctx context.Context, params *operations.GetAuditCredentialPrerequisitesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAuditCredentialPrerequisitesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAuditCredentialPrerequisitesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call) Return(getAuditCredentialPrerequisitesOK *operations.GetAuditCredentialPrerequisitesOK, err error) *MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call {
+	_c.Call.Return(getAuditCredentialPrerequisitesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAuditCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetAuditCredentialPrerequisitesOK, error)) *MockEnvironmentClientService_GetAuditCredentialPrerequisitesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2548,6 +5160,93 @@ func (_c *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatus_Call) R
 	return _c
 }
 
+// GetAutomatedSyncEnvironmentStatusContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetAutomatedSyncEnvironmentStatusContext(ctx context.Context, params *operations.GetAutomatedSyncEnvironmentStatusParams, opts ...operations.ClientOption) (*operations.GetAutomatedSyncEnvironmentStatusOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAutomatedSyncEnvironmentStatusContext")
+	}
+
+	var r0 *operations.GetAutomatedSyncEnvironmentStatusOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAutomatedSyncEnvironmentStatusParams, ...operations.ClientOption) (*operations.GetAutomatedSyncEnvironmentStatusOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAutomatedSyncEnvironmentStatusParams, ...operations.ClientOption) *operations.GetAutomatedSyncEnvironmentStatusOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAutomatedSyncEnvironmentStatusOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAutomatedSyncEnvironmentStatusParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAutomatedSyncEnvironmentStatusContext'
+type MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call struct {
+	*mock.Call
+}
+
+// GetAutomatedSyncEnvironmentStatusContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAutomatedSyncEnvironmentStatusParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetAutomatedSyncEnvironmentStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call {
+	return &MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call{Call: _e.mock.On("GetAutomatedSyncEnvironmentStatusContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call) Run(run func(ctx context.Context, params *operations.GetAutomatedSyncEnvironmentStatusParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAutomatedSyncEnvironmentStatusParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAutomatedSyncEnvironmentStatusParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call) Return(getAutomatedSyncEnvironmentStatusOK *operations.GetAutomatedSyncEnvironmentStatusOK, err error) *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call {
+	_c.Call.Return(getAutomatedSyncEnvironmentStatusOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAutomatedSyncEnvironmentStatusParams, opts ...operations.ClientOption) (*operations.GetAutomatedSyncEnvironmentStatusOK, error)) *MockEnvironmentClientService_GetAutomatedSyncEnvironmentStatusContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetAzureImageTermsPolicy provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetAzureImageTermsPolicy(params *operations.GetAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.GetAzureImageTermsPolicyOK, error) {
 	// operations.ClientOption
@@ -2625,6 +5324,93 @@ func (_c *MockEnvironmentClientService_GetAzureImageTermsPolicy_Call) Return(get
 }
 
 func (_c *MockEnvironmentClientService_GetAzureImageTermsPolicy_Call) RunAndReturn(run func(params *operations.GetAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.GetAzureImageTermsPolicyOK, error)) *MockEnvironmentClientService_GetAzureImageTermsPolicy_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetAzureImageTermsPolicyContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetAzureImageTermsPolicyContext(ctx context.Context, params *operations.GetAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.GetAzureImageTermsPolicyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAzureImageTermsPolicyContext")
+	}
+
+	var r0 *operations.GetAzureImageTermsPolicyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAzureImageTermsPolicyParams, ...operations.ClientOption) (*operations.GetAzureImageTermsPolicyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAzureImageTermsPolicyParams, ...operations.ClientOption) *operations.GetAzureImageTermsPolicyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAzureImageTermsPolicyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAzureImageTermsPolicyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAzureImageTermsPolicyContext'
+type MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call struct {
+	*mock.Call
+}
+
+// GetAzureImageTermsPolicyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAzureImageTermsPolicyParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetAzureImageTermsPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call {
+	return &MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call{Call: _e.mock.On("GetAzureImageTermsPolicyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call) Run(run func(ctx context.Context, params *operations.GetAzureImageTermsPolicyParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAzureImageTermsPolicyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAzureImageTermsPolicyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call) Return(getAzureImageTermsPolicyOK *operations.GetAzureImageTermsPolicyOK, err error) *MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call {
+	_c.Call.Return(getAzureImageTermsPolicyOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.GetAzureImageTermsPolicyOK, error)) *MockEnvironmentClientService_GetAzureImageTermsPolicyContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2710,6 +5496,93 @@ func (_c *MockEnvironmentClientService_GetCredentialPrerequisites_Call) RunAndRe
 	return _c
 }
 
+// GetCredentialPrerequisitesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetCredentialPrerequisitesContext(ctx context.Context, params *operations.GetCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetCredentialPrerequisitesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetCredentialPrerequisitesContext")
+	}
+
+	var r0 *operations.GetCredentialPrerequisitesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetCredentialPrerequisitesParams, ...operations.ClientOption) (*operations.GetCredentialPrerequisitesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetCredentialPrerequisitesParams, ...operations.ClientOption) *operations.GetCredentialPrerequisitesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetCredentialPrerequisitesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetCredentialPrerequisitesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetCredentialPrerequisitesContext'
+type MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call struct {
+	*mock.Call
+}
+
+// GetCredentialPrerequisitesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetCredentialPrerequisitesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetCredentialPrerequisitesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call {
+	return &MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call{Call: _e.mock.On("GetCredentialPrerequisitesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call) Run(run func(ctx context.Context, params *operations.GetCredentialPrerequisitesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetCredentialPrerequisitesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetCredentialPrerequisitesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call) Return(getCredentialPrerequisitesOK *operations.GetCredentialPrerequisitesOK, err error) *MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call {
+	_c.Call.Return(getCredentialPrerequisitesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetCredentialPrerequisitesOK, error)) *MockEnvironmentClientService_GetCredentialPrerequisitesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetEnvironmentSetting provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetEnvironmentSetting(params *operations.GetEnvironmentSettingParams, opts ...operations.ClientOption) (*operations.GetEnvironmentSettingOK, error) {
 	// operations.ClientOption
@@ -2787,6 +5660,93 @@ func (_c *MockEnvironmentClientService_GetEnvironmentSetting_Call) Return(getEnv
 }
 
 func (_c *MockEnvironmentClientService_GetEnvironmentSetting_Call) RunAndReturn(run func(params *operations.GetEnvironmentSettingParams, opts ...operations.ClientOption) (*operations.GetEnvironmentSettingOK, error)) *MockEnvironmentClientService_GetEnvironmentSetting_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetEnvironmentSettingContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetEnvironmentSettingContext(ctx context.Context, params *operations.GetEnvironmentSettingParams, opts ...operations.ClientOption) (*operations.GetEnvironmentSettingOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetEnvironmentSettingContext")
+	}
+
+	var r0 *operations.GetEnvironmentSettingOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetEnvironmentSettingParams, ...operations.ClientOption) (*operations.GetEnvironmentSettingOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetEnvironmentSettingParams, ...operations.ClientOption) *operations.GetEnvironmentSettingOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetEnvironmentSettingOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetEnvironmentSettingParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetEnvironmentSettingContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetEnvironmentSettingContext'
+type MockEnvironmentClientService_GetEnvironmentSettingContext_Call struct {
+	*mock.Call
+}
+
+// GetEnvironmentSettingContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetEnvironmentSettingParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetEnvironmentSettingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetEnvironmentSettingContext_Call {
+	return &MockEnvironmentClientService_GetEnvironmentSettingContext_Call{Call: _e.mock.On("GetEnvironmentSettingContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetEnvironmentSettingContext_Call) Run(run func(ctx context.Context, params *operations.GetEnvironmentSettingParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetEnvironmentSettingContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetEnvironmentSettingParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetEnvironmentSettingParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetEnvironmentSettingContext_Call) Return(getEnvironmentSettingOK *operations.GetEnvironmentSettingOK, err error) *MockEnvironmentClientService_GetEnvironmentSettingContext_Call {
+	_c.Call.Return(getEnvironmentSettingOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetEnvironmentSettingContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetEnvironmentSettingParams, opts ...operations.ClientOption) (*operations.GetEnvironmentSettingOK, error)) *MockEnvironmentClientService_GetEnvironmentSettingContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2872,6 +5832,93 @@ func (_c *MockEnvironmentClientService_GetEnvironmentUserSyncState_Call) RunAndR
 	return _c
 }
 
+// GetEnvironmentUserSyncStateContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetEnvironmentUserSyncStateContext(ctx context.Context, params *operations.GetEnvironmentUserSyncStateParams, opts ...operations.ClientOption) (*operations.GetEnvironmentUserSyncStateOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetEnvironmentUserSyncStateContext")
+	}
+
+	var r0 *operations.GetEnvironmentUserSyncStateOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetEnvironmentUserSyncStateParams, ...operations.ClientOption) (*operations.GetEnvironmentUserSyncStateOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetEnvironmentUserSyncStateParams, ...operations.ClientOption) *operations.GetEnvironmentUserSyncStateOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetEnvironmentUserSyncStateOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetEnvironmentUserSyncStateParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetEnvironmentUserSyncStateContext'
+type MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call struct {
+	*mock.Call
+}
+
+// GetEnvironmentUserSyncStateContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetEnvironmentUserSyncStateParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetEnvironmentUserSyncStateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call {
+	return &MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call{Call: _e.mock.On("GetEnvironmentUserSyncStateContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call) Run(run func(ctx context.Context, params *operations.GetEnvironmentUserSyncStateParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetEnvironmentUserSyncStateParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetEnvironmentUserSyncStateParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call) Return(getEnvironmentUserSyncStateOK *operations.GetEnvironmentUserSyncStateOK, err error) *MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call {
+	_c.Call.Return(getEnvironmentUserSyncStateOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetEnvironmentUserSyncStateParams, opts ...operations.ClientOption) (*operations.GetEnvironmentUserSyncStateOK, error)) *MockEnvironmentClientService_GetEnvironmentUserSyncStateContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetFreeipaLogDescriptors provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetFreeipaLogDescriptors(params *operations.GetFreeipaLogDescriptorsParams, opts ...operations.ClientOption) (*operations.GetFreeipaLogDescriptorsOK, error) {
 	// operations.ClientOption
@@ -2949,6 +5996,93 @@ func (_c *MockEnvironmentClientService_GetFreeipaLogDescriptors_Call) Return(get
 }
 
 func (_c *MockEnvironmentClientService_GetFreeipaLogDescriptors_Call) RunAndReturn(run func(params *operations.GetFreeipaLogDescriptorsParams, opts ...operations.ClientOption) (*operations.GetFreeipaLogDescriptorsOK, error)) *MockEnvironmentClientService_GetFreeipaLogDescriptors_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetFreeipaLogDescriptorsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetFreeipaLogDescriptorsContext(ctx context.Context, params *operations.GetFreeipaLogDescriptorsParams, opts ...operations.ClientOption) (*operations.GetFreeipaLogDescriptorsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetFreeipaLogDescriptorsContext")
+	}
+
+	var r0 *operations.GetFreeipaLogDescriptorsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetFreeipaLogDescriptorsParams, ...operations.ClientOption) (*operations.GetFreeipaLogDescriptorsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetFreeipaLogDescriptorsParams, ...operations.ClientOption) *operations.GetFreeipaLogDescriptorsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetFreeipaLogDescriptorsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetFreeipaLogDescriptorsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFreeipaLogDescriptorsContext'
+type MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call struct {
+	*mock.Call
+}
+
+// GetFreeipaLogDescriptorsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetFreeipaLogDescriptorsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetFreeipaLogDescriptorsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call {
+	return &MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call{Call: _e.mock.On("GetFreeipaLogDescriptorsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call) Run(run func(ctx context.Context, params *operations.GetFreeipaLogDescriptorsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetFreeipaLogDescriptorsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetFreeipaLogDescriptorsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call) Return(getFreeipaLogDescriptorsOK *operations.GetFreeipaLogDescriptorsOK, err error) *MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call {
+	_c.Call.Return(getFreeipaLogDescriptorsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetFreeipaLogDescriptorsParams, opts ...operations.ClientOption) (*operations.GetFreeipaLogDescriptorsOK, error)) *MockEnvironmentClientService_GetFreeipaLogDescriptorsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3034,6 +6168,93 @@ func (_c *MockEnvironmentClientService_GetFreeipaStatus_Call) RunAndReturn(run f
 	return _c
 }
 
+// GetFreeipaStatusContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetFreeipaStatusContext(ctx context.Context, params *operations.GetFreeipaStatusParams, opts ...operations.ClientOption) (*operations.GetFreeipaStatusOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetFreeipaStatusContext")
+	}
+
+	var r0 *operations.GetFreeipaStatusOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetFreeipaStatusParams, ...operations.ClientOption) (*operations.GetFreeipaStatusOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetFreeipaStatusParams, ...operations.ClientOption) *operations.GetFreeipaStatusOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetFreeipaStatusOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetFreeipaStatusParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetFreeipaStatusContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFreeipaStatusContext'
+type MockEnvironmentClientService_GetFreeipaStatusContext_Call struct {
+	*mock.Call
+}
+
+// GetFreeipaStatusContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetFreeipaStatusParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetFreeipaStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetFreeipaStatusContext_Call {
+	return &MockEnvironmentClientService_GetFreeipaStatusContext_Call{Call: _e.mock.On("GetFreeipaStatusContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaStatusContext_Call) Run(run func(ctx context.Context, params *operations.GetFreeipaStatusParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetFreeipaStatusContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetFreeipaStatusParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetFreeipaStatusParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaStatusContext_Call) Return(getFreeipaStatusOK *operations.GetFreeipaStatusOK, err error) *MockEnvironmentClientService_GetFreeipaStatusContext_Call {
+	_c.Call.Return(getFreeipaStatusOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaStatusContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetFreeipaStatusParams, opts ...operations.ClientOption) (*operations.GetFreeipaStatusOK, error)) *MockEnvironmentClientService_GetFreeipaStatusContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetFreeipaUpgradeOptions provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetFreeipaUpgradeOptions(params *operations.GetFreeipaUpgradeOptionsParams, opts ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error) {
 	// operations.ClientOption
@@ -3111,6 +6332,93 @@ func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call) Return(get
 }
 
 func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call) RunAndReturn(run func(params *operations.GetFreeipaUpgradeOptionsParams, opts ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error)) *MockEnvironmentClientService_GetFreeipaUpgradeOptions_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetFreeipaUpgradeOptionsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetFreeipaUpgradeOptionsContext(ctx context.Context, params *operations.GetFreeipaUpgradeOptionsParams, opts ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetFreeipaUpgradeOptionsContext")
+	}
+
+	var r0 *operations.GetFreeipaUpgradeOptionsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetFreeipaUpgradeOptionsParams, ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetFreeipaUpgradeOptionsParams, ...operations.ClientOption) *operations.GetFreeipaUpgradeOptionsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetFreeipaUpgradeOptionsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetFreeipaUpgradeOptionsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetFreeipaUpgradeOptionsContext'
+type MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call struct {
+	*mock.Call
+}
+
+// GetFreeipaUpgradeOptionsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetFreeipaUpgradeOptionsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetFreeipaUpgradeOptionsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call {
+	return &MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call{Call: _e.mock.On("GetFreeipaUpgradeOptionsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call) Run(run func(ctx context.Context, params *operations.GetFreeipaUpgradeOptionsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetFreeipaUpgradeOptionsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetFreeipaUpgradeOptionsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call) Return(getFreeipaUpgradeOptionsOK *operations.GetFreeipaUpgradeOptionsOK, err error) *MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call {
+	_c.Call.Return(getFreeipaUpgradeOptionsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetFreeipaUpgradeOptionsParams, opts ...operations.ClientOption) (*operations.GetFreeipaUpgradeOptionsOK, error)) *MockEnvironmentClientService_GetFreeipaUpgradeOptionsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3196,6 +6504,93 @@ func (_c *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisites_C
 	return _c
 }
 
+// GetGovCloudAuditCredentialPrerequisitesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetGovCloudAuditCredentialPrerequisitesContext(ctx context.Context, params *operations.GetGovCloudAuditCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetGovCloudAuditCredentialPrerequisitesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetGovCloudAuditCredentialPrerequisitesContext")
+	}
+
+	var r0 *operations.GetGovCloudAuditCredentialPrerequisitesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetGovCloudAuditCredentialPrerequisitesParams, ...operations.ClientOption) (*operations.GetGovCloudAuditCredentialPrerequisitesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetGovCloudAuditCredentialPrerequisitesParams, ...operations.ClientOption) *operations.GetGovCloudAuditCredentialPrerequisitesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetGovCloudAuditCredentialPrerequisitesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetGovCloudAuditCredentialPrerequisitesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetGovCloudAuditCredentialPrerequisitesContext'
+type MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call struct {
+	*mock.Call
+}
+
+// GetGovCloudAuditCredentialPrerequisitesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetGovCloudAuditCredentialPrerequisitesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetGovCloudAuditCredentialPrerequisitesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call {
+	return &MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call{Call: _e.mock.On("GetGovCloudAuditCredentialPrerequisitesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call) Run(run func(ctx context.Context, params *operations.GetGovCloudAuditCredentialPrerequisitesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetGovCloudAuditCredentialPrerequisitesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetGovCloudAuditCredentialPrerequisitesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call) Return(getGovCloudAuditCredentialPrerequisitesOK *operations.GetGovCloudAuditCredentialPrerequisitesOK, err error) *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call {
+	_c.Call.Return(getGovCloudAuditCredentialPrerequisitesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetGovCloudAuditCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetGovCloudAuditCredentialPrerequisitesOK, error)) *MockEnvironmentClientService_GetGovCloudAuditCredentialPrerequisitesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetGovCloudCredentialPrerequisites provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetGovCloudCredentialPrerequisites(params *operations.GetGovCloudCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetGovCloudCredentialPrerequisitesOK, error) {
 	// operations.ClientOption
@@ -3273,6 +6668,93 @@ func (_c *MockEnvironmentClientService_GetGovCloudCredentialPrerequisites_Call) 
 }
 
 func (_c *MockEnvironmentClientService_GetGovCloudCredentialPrerequisites_Call) RunAndReturn(run func(params *operations.GetGovCloudCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetGovCloudCredentialPrerequisitesOK, error)) *MockEnvironmentClientService_GetGovCloudCredentialPrerequisites_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetGovCloudCredentialPrerequisitesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetGovCloudCredentialPrerequisitesContext(ctx context.Context, params *operations.GetGovCloudCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetGovCloudCredentialPrerequisitesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetGovCloudCredentialPrerequisitesContext")
+	}
+
+	var r0 *operations.GetGovCloudCredentialPrerequisitesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetGovCloudCredentialPrerequisitesParams, ...operations.ClientOption) (*operations.GetGovCloudCredentialPrerequisitesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetGovCloudCredentialPrerequisitesParams, ...operations.ClientOption) *operations.GetGovCloudCredentialPrerequisitesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetGovCloudCredentialPrerequisitesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetGovCloudCredentialPrerequisitesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetGovCloudCredentialPrerequisitesContext'
+type MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call struct {
+	*mock.Call
+}
+
+// GetGovCloudCredentialPrerequisitesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetGovCloudCredentialPrerequisitesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetGovCloudCredentialPrerequisitesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call {
+	return &MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call{Call: _e.mock.On("GetGovCloudCredentialPrerequisitesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call) Run(run func(ctx context.Context, params *operations.GetGovCloudCredentialPrerequisitesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetGovCloudCredentialPrerequisitesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetGovCloudCredentialPrerequisitesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call) Return(getGovCloudCredentialPrerequisitesOK *operations.GetGovCloudCredentialPrerequisitesOK, err error) *MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call {
+	_c.Call.Return(getGovCloudCredentialPrerequisitesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetGovCloudCredentialPrerequisitesParams, opts ...operations.ClientOption) (*operations.GetGovCloudCredentialPrerequisitesOK, error)) *MockEnvironmentClientService_GetGovCloudCredentialPrerequisitesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3358,6 +6840,93 @@ func (_c *MockEnvironmentClientService_GetIDBrokerMappings_Call) RunAndReturn(ru
 	return _c
 }
 
+// GetIDBrokerMappingsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetIDBrokerMappingsContext(ctx context.Context, params *operations.GetIDBrokerMappingsParams, opts ...operations.ClientOption) (*operations.GetIDBrokerMappingsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetIDBrokerMappingsContext")
+	}
+
+	var r0 *operations.GetIDBrokerMappingsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetIDBrokerMappingsParams, ...operations.ClientOption) (*operations.GetIDBrokerMappingsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetIDBrokerMappingsParams, ...operations.ClientOption) *operations.GetIDBrokerMappingsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetIDBrokerMappingsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetIDBrokerMappingsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetIDBrokerMappingsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetIDBrokerMappingsContext'
+type MockEnvironmentClientService_GetIDBrokerMappingsContext_Call struct {
+	*mock.Call
+}
+
+// GetIDBrokerMappingsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetIDBrokerMappingsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetIDBrokerMappingsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetIDBrokerMappingsContext_Call {
+	return &MockEnvironmentClientService_GetIDBrokerMappingsContext_Call{Call: _e.mock.On("GetIDBrokerMappingsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetIDBrokerMappingsContext_Call) Run(run func(ctx context.Context, params *operations.GetIDBrokerMappingsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetIDBrokerMappingsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetIDBrokerMappingsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetIDBrokerMappingsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetIDBrokerMappingsContext_Call) Return(getIDBrokerMappingsOK *operations.GetIDBrokerMappingsOK, err error) *MockEnvironmentClientService_GetIDBrokerMappingsContext_Call {
+	_c.Call.Return(getIDBrokerMappingsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetIDBrokerMappingsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetIDBrokerMappingsParams, opts ...operations.ClientOption) (*operations.GetIDBrokerMappingsOK, error)) *MockEnvironmentClientService_GetIDBrokerMappingsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetIDBrokerMappingsSyncStatus provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetIDBrokerMappingsSyncStatus(params *operations.GetIDBrokerMappingsSyncStatusParams, opts ...operations.ClientOption) (*operations.GetIDBrokerMappingsSyncStatusOK, error) {
 	// operations.ClientOption
@@ -3435,6 +7004,93 @@ func (_c *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatus_Call) Retur
 }
 
 func (_c *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatus_Call) RunAndReturn(run func(params *operations.GetIDBrokerMappingsSyncStatusParams, opts ...operations.ClientOption) (*operations.GetIDBrokerMappingsSyncStatusOK, error)) *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatus_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetIDBrokerMappingsSyncStatusContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetIDBrokerMappingsSyncStatusContext(ctx context.Context, params *operations.GetIDBrokerMappingsSyncStatusParams, opts ...operations.ClientOption) (*operations.GetIDBrokerMappingsSyncStatusOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetIDBrokerMappingsSyncStatusContext")
+	}
+
+	var r0 *operations.GetIDBrokerMappingsSyncStatusOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetIDBrokerMappingsSyncStatusParams, ...operations.ClientOption) (*operations.GetIDBrokerMappingsSyncStatusOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetIDBrokerMappingsSyncStatusParams, ...operations.ClientOption) *operations.GetIDBrokerMappingsSyncStatusOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetIDBrokerMappingsSyncStatusOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetIDBrokerMappingsSyncStatusParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetIDBrokerMappingsSyncStatusContext'
+type MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call struct {
+	*mock.Call
+}
+
+// GetIDBrokerMappingsSyncStatusContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetIDBrokerMappingsSyncStatusParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetIDBrokerMappingsSyncStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call {
+	return &MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call{Call: _e.mock.On("GetIDBrokerMappingsSyncStatusContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call) Run(run func(ctx context.Context, params *operations.GetIDBrokerMappingsSyncStatusParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetIDBrokerMappingsSyncStatusParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetIDBrokerMappingsSyncStatusParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call) Return(getIDBrokerMappingsSyncStatusOK *operations.GetIDBrokerMappingsSyncStatusOK, err error) *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call {
+	_c.Call.Return(getIDBrokerMappingsSyncStatusOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetIDBrokerMappingsSyncStatusParams, opts ...operations.ClientOption) (*operations.GetIDBrokerMappingsSyncStatusOK, error)) *MockEnvironmentClientService_GetIDBrokerMappingsSyncStatusContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3520,6 +7176,93 @@ func (_c *MockEnvironmentClientService_GetKeytab_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// GetKeytabContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetKeytabContext(ctx context.Context, params *operations.GetKeytabParams, opts ...operations.ClientOption) (*operations.GetKeytabOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetKeytabContext")
+	}
+
+	var r0 *operations.GetKeytabOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetKeytabParams, ...operations.ClientOption) (*operations.GetKeytabOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetKeytabParams, ...operations.ClientOption) *operations.GetKeytabOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetKeytabOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetKeytabParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetKeytabContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetKeytabContext'
+type MockEnvironmentClientService_GetKeytabContext_Call struct {
+	*mock.Call
+}
+
+// GetKeytabContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetKeytabParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetKeytabContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetKeytabContext_Call {
+	return &MockEnvironmentClientService_GetKeytabContext_Call{Call: _e.mock.On("GetKeytabContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetKeytabContext_Call) Run(run func(ctx context.Context, params *operations.GetKeytabParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetKeytabContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetKeytabParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetKeytabParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetKeytabContext_Call) Return(getKeytabOK *operations.GetKeytabOK, err error) *MockEnvironmentClientService_GetKeytabContext_Call {
+	_c.Call.Return(getKeytabOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetKeytabContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetKeytabParams, opts ...operations.ClientOption) (*operations.GetKeytabOK, error)) *MockEnvironmentClientService_GetKeytabContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetOperation provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetOperation(params *operations.GetOperationParams, opts ...operations.ClientOption) (*operations.GetOperationOK, error) {
 	// operations.ClientOption
@@ -3597,6 +7340,93 @@ func (_c *MockEnvironmentClientService_GetOperation_Call) Return(getOperationOK 
 }
 
 func (_c *MockEnvironmentClientService_GetOperation_Call) RunAndReturn(run func(params *operations.GetOperationParams, opts ...operations.ClientOption) (*operations.GetOperationOK, error)) *MockEnvironmentClientService_GetOperation_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetOperationContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetOperationContext(ctx context.Context, params *operations.GetOperationParams, opts ...operations.ClientOption) (*operations.GetOperationOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetOperationContext")
+	}
+
+	var r0 *operations.GetOperationOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetOperationParams, ...operations.ClientOption) (*operations.GetOperationOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetOperationParams, ...operations.ClientOption) *operations.GetOperationOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetOperationOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetOperationParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetOperationContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetOperationContext'
+type MockEnvironmentClientService_GetOperationContext_Call struct {
+	*mock.Call
+}
+
+// GetOperationContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetOperationParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetOperationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetOperationContext_Call {
+	return &MockEnvironmentClientService_GetOperationContext_Call{Call: _e.mock.On("GetOperationContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetOperationContext_Call) Run(run func(ctx context.Context, params *operations.GetOperationParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetOperationContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetOperationParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetOperationParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetOperationContext_Call) Return(getOperationOK *operations.GetOperationOK, err error) *MockEnvironmentClientService_GetOperationContext_Call {
+	_c.Call.Return(getOperationOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetOperationContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetOperationParams, opts ...operations.ClientOption) (*operations.GetOperationOK, error)) *MockEnvironmentClientService_GetOperationContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3682,6 +7512,93 @@ func (_c *MockEnvironmentClientService_GetRepairFreeipaStatus_Call) RunAndReturn
 	return _c
 }
 
+// GetRepairFreeipaStatusContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetRepairFreeipaStatusContext(ctx context.Context, params *operations.GetRepairFreeipaStatusParams, opts ...operations.ClientOption) (*operations.GetRepairFreeipaStatusOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetRepairFreeipaStatusContext")
+	}
+
+	var r0 *operations.GetRepairFreeipaStatusOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetRepairFreeipaStatusParams, ...operations.ClientOption) (*operations.GetRepairFreeipaStatusOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetRepairFreeipaStatusParams, ...operations.ClientOption) *operations.GetRepairFreeipaStatusOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetRepairFreeipaStatusOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetRepairFreeipaStatusParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetRepairFreeipaStatusContext'
+type MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call struct {
+	*mock.Call
+}
+
+// GetRepairFreeipaStatusContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetRepairFreeipaStatusParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetRepairFreeipaStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call {
+	return &MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call{Call: _e.mock.On("GetRepairFreeipaStatusContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call) Run(run func(ctx context.Context, params *operations.GetRepairFreeipaStatusParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetRepairFreeipaStatusParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetRepairFreeipaStatusParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call) Return(getRepairFreeipaStatusOK *operations.GetRepairFreeipaStatusOK, err error) *MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call {
+	_c.Call.Return(getRepairFreeipaStatusOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetRepairFreeipaStatusParams, opts ...operations.ClientOption) (*operations.GetRepairFreeipaStatusOK, error)) *MockEnvironmentClientService_GetRepairFreeipaStatusContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetRootCertificate provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetRootCertificate(params *operations.GetRootCertificateParams, opts ...operations.ClientOption) (*operations.GetRootCertificateOK, error) {
 	// operations.ClientOption
@@ -3759,6 +7676,93 @@ func (_c *MockEnvironmentClientService_GetRootCertificate_Call) Return(getRootCe
 }
 
 func (_c *MockEnvironmentClientService_GetRootCertificate_Call) RunAndReturn(run func(params *operations.GetRootCertificateParams, opts ...operations.ClientOption) (*operations.GetRootCertificateOK, error)) *MockEnvironmentClientService_GetRootCertificate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetRootCertificateContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetRootCertificateContext(ctx context.Context, params *operations.GetRootCertificateParams, opts ...operations.ClientOption) (*operations.GetRootCertificateOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetRootCertificateContext")
+	}
+
+	var r0 *operations.GetRootCertificateOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetRootCertificateParams, ...operations.ClientOption) (*operations.GetRootCertificateOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetRootCertificateParams, ...operations.ClientOption) *operations.GetRootCertificateOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetRootCertificateOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetRootCertificateParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetRootCertificateContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetRootCertificateContext'
+type MockEnvironmentClientService_GetRootCertificateContext_Call struct {
+	*mock.Call
+}
+
+// GetRootCertificateContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetRootCertificateParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetRootCertificateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetRootCertificateContext_Call {
+	return &MockEnvironmentClientService_GetRootCertificateContext_Call{Call: _e.mock.On("GetRootCertificateContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetRootCertificateContext_Call) Run(run func(ctx context.Context, params *operations.GetRootCertificateParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetRootCertificateContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetRootCertificateParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetRootCertificateParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetRootCertificateContext_Call) Return(getRootCertificateOK *operations.GetRootCertificateOK, err error) *MockEnvironmentClientService_GetRootCertificateContext_Call {
+	_c.Call.Return(getRootCertificateOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetRootCertificateContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetRootCertificateParams, opts ...operations.ClientOption) (*operations.GetRootCertificateOK, error)) *MockEnvironmentClientService_GetRootCertificateContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3844,6 +7848,93 @@ func (_c *MockEnvironmentClientService_GetTrustCleanupCommands_Call) RunAndRetur
 	return _c
 }
 
+// GetTrustCleanupCommandsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetTrustCleanupCommandsContext(ctx context.Context, params *operations.GetTrustCleanupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustCleanupCommandsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTrustCleanupCommandsContext")
+	}
+
+	var r0 *operations.GetTrustCleanupCommandsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetTrustCleanupCommandsParams, ...operations.ClientOption) (*operations.GetTrustCleanupCommandsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetTrustCleanupCommandsParams, ...operations.ClientOption) *operations.GetTrustCleanupCommandsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetTrustCleanupCommandsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetTrustCleanupCommandsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTrustCleanupCommandsContext'
+type MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call struct {
+	*mock.Call
+}
+
+// GetTrustCleanupCommandsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetTrustCleanupCommandsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetTrustCleanupCommandsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call {
+	return &MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call{Call: _e.mock.On("GetTrustCleanupCommandsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call) Run(run func(ctx context.Context, params *operations.GetTrustCleanupCommandsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetTrustCleanupCommandsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetTrustCleanupCommandsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call) Return(getTrustCleanupCommandsOK *operations.GetTrustCleanupCommandsOK, err error) *MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call {
+	_c.Call.Return(getTrustCleanupCommandsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetTrustCleanupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustCleanupCommandsOK, error)) *MockEnvironmentClientService_GetTrustCleanupCommandsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetTrustSetupCommands provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) GetTrustSetupCommands(params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error) {
 	// operations.ClientOption
@@ -3921,6 +8012,93 @@ func (_c *MockEnvironmentClientService_GetTrustSetupCommands_Call) Return(getTru
 }
 
 func (_c *MockEnvironmentClientService_GetTrustSetupCommands_Call) RunAndReturn(run func(params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error)) *MockEnvironmentClientService_GetTrustSetupCommands_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetTrustSetupCommandsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) GetTrustSetupCommandsContext(ctx context.Context, params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTrustSetupCommandsContext")
+	}
+
+	var r0 *operations.GetTrustSetupCommandsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetTrustSetupCommandsParams, ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetTrustSetupCommandsParams, ...operations.ClientOption) *operations.GetTrustSetupCommandsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetTrustSetupCommandsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetTrustSetupCommandsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_GetTrustSetupCommandsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTrustSetupCommandsContext'
+type MockEnvironmentClientService_GetTrustSetupCommandsContext_Call struct {
+	*mock.Call
+}
+
+// GetTrustSetupCommandsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetTrustSetupCommandsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) GetTrustSetupCommandsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_GetTrustSetupCommandsContext_Call {
+	return &MockEnvironmentClientService_GetTrustSetupCommandsContext_Call{Call: _e.mock.On("GetTrustSetupCommandsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_GetTrustSetupCommandsContext_Call) Run(run func(ctx context.Context, params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_GetTrustSetupCommandsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetTrustSetupCommandsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetTrustSetupCommandsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustSetupCommandsContext_Call) Return(getTrustSetupCommandsOK *operations.GetTrustSetupCommandsOK, err error) *MockEnvironmentClientService_GetTrustSetupCommandsContext_Call {
+	_c.Call.Return(getTrustSetupCommandsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_GetTrustSetupCommandsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetTrustSetupCommandsParams, opts ...operations.ClientOption) (*operations.GetTrustSetupCommandsOK, error)) *MockEnvironmentClientService_GetTrustSetupCommandsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4006,6 +8184,93 @@ func (_c *MockEnvironmentClientService_InitializeAWSComputeCluster_Call) RunAndR
 	return _c
 }
 
+// InitializeAWSComputeClusterContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) InitializeAWSComputeClusterContext(ctx context.Context, params *operations.InitializeAWSComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAWSComputeClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InitializeAWSComputeClusterContext")
+	}
+
+	var r0 *operations.InitializeAWSComputeClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.InitializeAWSComputeClusterParams, ...operations.ClientOption) (*operations.InitializeAWSComputeClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.InitializeAWSComputeClusterParams, ...operations.ClientOption) *operations.InitializeAWSComputeClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.InitializeAWSComputeClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.InitializeAWSComputeClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InitializeAWSComputeClusterContext'
+type MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call struct {
+	*mock.Call
+}
+
+// InitializeAWSComputeClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.InitializeAWSComputeClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) InitializeAWSComputeClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call {
+	return &MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call{Call: _e.mock.On("InitializeAWSComputeClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call) Run(run func(ctx context.Context, params *operations.InitializeAWSComputeClusterParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.InitializeAWSComputeClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.InitializeAWSComputeClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call) Return(initializeAWSComputeClusterOK *operations.InitializeAWSComputeClusterOK, err error) *MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call {
+	_c.Call.Return(initializeAWSComputeClusterOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.InitializeAWSComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAWSComputeClusterOK, error)) *MockEnvironmentClientService_InitializeAWSComputeClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // InitializeAzureComputeCluster provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) InitializeAzureComputeCluster(params *operations.InitializeAzureComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error) {
 	// operations.ClientOption
@@ -4083,6 +8348,93 @@ func (_c *MockEnvironmentClientService_InitializeAzureComputeCluster_Call) Retur
 }
 
 func (_c *MockEnvironmentClientService_InitializeAzureComputeCluster_Call) RunAndReturn(run func(params *operations.InitializeAzureComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error)) *MockEnvironmentClientService_InitializeAzureComputeCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// InitializeAzureComputeClusterContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) InitializeAzureComputeClusterContext(ctx context.Context, params *operations.InitializeAzureComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InitializeAzureComputeClusterContext")
+	}
+
+	var r0 *operations.InitializeAzureComputeClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.InitializeAzureComputeClusterParams, ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.InitializeAzureComputeClusterParams, ...operations.ClientOption) *operations.InitializeAzureComputeClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.InitializeAzureComputeClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.InitializeAzureComputeClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InitializeAzureComputeClusterContext'
+type MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call struct {
+	*mock.Call
+}
+
+// InitializeAzureComputeClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.InitializeAzureComputeClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) InitializeAzureComputeClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call {
+	return &MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call{Call: _e.mock.On("InitializeAzureComputeClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call) Run(run func(ctx context.Context, params *operations.InitializeAzureComputeClusterParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.InitializeAzureComputeClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.InitializeAzureComputeClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call) Return(initializeAzureComputeClusterOK *operations.InitializeAzureComputeClusterOK, err error) *MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call {
+	_c.Call.Return(initializeAzureComputeClusterOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.InitializeAzureComputeClusterParams, opts ...operations.ClientOption) (*operations.InitializeAzureComputeClusterOK, error)) *MockEnvironmentClientService_InitializeAzureComputeClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4168,6 +8520,93 @@ func (_c *MockEnvironmentClientService_LastSyncStatus_Call) RunAndReturn(run fun
 	return _c
 }
 
+// LastSyncStatusContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) LastSyncStatusContext(ctx context.Context, params *operations.LastSyncStatusParams, opts ...operations.ClientOption) (*operations.LastSyncStatusOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for LastSyncStatusContext")
+	}
+
+	var r0 *operations.LastSyncStatusOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.LastSyncStatusParams, ...operations.ClientOption) (*operations.LastSyncStatusOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.LastSyncStatusParams, ...operations.ClientOption) *operations.LastSyncStatusOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.LastSyncStatusOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.LastSyncStatusParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_LastSyncStatusContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'LastSyncStatusContext'
+type MockEnvironmentClientService_LastSyncStatusContext_Call struct {
+	*mock.Call
+}
+
+// LastSyncStatusContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.LastSyncStatusParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) LastSyncStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_LastSyncStatusContext_Call {
+	return &MockEnvironmentClientService_LastSyncStatusContext_Call{Call: _e.mock.On("LastSyncStatusContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_LastSyncStatusContext_Call) Run(run func(ctx context.Context, params *operations.LastSyncStatusParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_LastSyncStatusContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.LastSyncStatusParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.LastSyncStatusParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_LastSyncStatusContext_Call) Return(lastSyncStatusOK *operations.LastSyncStatusOK, err error) *MockEnvironmentClientService_LastSyncStatusContext_Call {
+	_c.Call.Return(lastSyncStatusOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_LastSyncStatusContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.LastSyncStatusParams, opts ...operations.ClientOption) (*operations.LastSyncStatusOK, error)) *MockEnvironmentClientService_LastSyncStatusContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListAuditCredentials provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ListAuditCredentials(params *operations.ListAuditCredentialsParams, opts ...operations.ClientOption) (*operations.ListAuditCredentialsOK, error) {
 	// operations.ClientOption
@@ -4245,6 +8684,93 @@ func (_c *MockEnvironmentClientService_ListAuditCredentials_Call) Return(listAud
 }
 
 func (_c *MockEnvironmentClientService_ListAuditCredentials_Call) RunAndReturn(run func(params *operations.ListAuditCredentialsParams, opts ...operations.ClientOption) (*operations.ListAuditCredentialsOK, error)) *MockEnvironmentClientService_ListAuditCredentials_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListAuditCredentialsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ListAuditCredentialsContext(ctx context.Context, params *operations.ListAuditCredentialsParams, opts ...operations.ClientOption) (*operations.ListAuditCredentialsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListAuditCredentialsContext")
+	}
+
+	var r0 *operations.ListAuditCredentialsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListAuditCredentialsParams, ...operations.ClientOption) (*operations.ListAuditCredentialsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListAuditCredentialsParams, ...operations.ClientOption) *operations.ListAuditCredentialsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListAuditCredentialsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListAuditCredentialsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListAuditCredentialsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListAuditCredentialsContext'
+type MockEnvironmentClientService_ListAuditCredentialsContext_Call struct {
+	*mock.Call
+}
+
+// ListAuditCredentialsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListAuditCredentialsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListAuditCredentialsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListAuditCredentialsContext_Call {
+	return &MockEnvironmentClientService_ListAuditCredentialsContext_Call{Call: _e.mock.On("ListAuditCredentialsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListAuditCredentialsContext_Call) Run(run func(ctx context.Context, params *operations.ListAuditCredentialsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListAuditCredentialsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListAuditCredentialsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListAuditCredentialsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListAuditCredentialsContext_Call) Return(listAuditCredentialsOK *operations.ListAuditCredentialsOK, err error) *MockEnvironmentClientService_ListAuditCredentialsContext_Call {
+	_c.Call.Return(listAuditCredentialsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListAuditCredentialsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListAuditCredentialsParams, opts ...operations.ClientOption) (*operations.ListAuditCredentialsOK, error)) *MockEnvironmentClientService_ListAuditCredentialsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4330,6 +8856,93 @@ func (_c *MockEnvironmentClientService_ListConnectedDataServices_Call) RunAndRet
 	return _c
 }
 
+// ListConnectedDataServicesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ListConnectedDataServicesContext(ctx context.Context, params *operations.ListConnectedDataServicesParams, opts ...operations.ClientOption) (*operations.ListConnectedDataServicesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListConnectedDataServicesContext")
+	}
+
+	var r0 *operations.ListConnectedDataServicesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListConnectedDataServicesParams, ...operations.ClientOption) (*operations.ListConnectedDataServicesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListConnectedDataServicesParams, ...operations.ClientOption) *operations.ListConnectedDataServicesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListConnectedDataServicesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListConnectedDataServicesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListConnectedDataServicesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListConnectedDataServicesContext'
+type MockEnvironmentClientService_ListConnectedDataServicesContext_Call struct {
+	*mock.Call
+}
+
+// ListConnectedDataServicesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListConnectedDataServicesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListConnectedDataServicesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListConnectedDataServicesContext_Call {
+	return &MockEnvironmentClientService_ListConnectedDataServicesContext_Call{Call: _e.mock.On("ListConnectedDataServicesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListConnectedDataServicesContext_Call) Run(run func(ctx context.Context, params *operations.ListConnectedDataServicesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListConnectedDataServicesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListConnectedDataServicesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListConnectedDataServicesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListConnectedDataServicesContext_Call) Return(listConnectedDataServicesOK *operations.ListConnectedDataServicesOK, err error) *MockEnvironmentClientService_ListConnectedDataServicesContext_Call {
+	_c.Call.Return(listConnectedDataServicesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListConnectedDataServicesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListConnectedDataServicesParams, opts ...operations.ClientOption) (*operations.ListConnectedDataServicesOK, error)) *MockEnvironmentClientService_ListConnectedDataServicesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListCredentials provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ListCredentials(params *operations.ListCredentialsParams, opts ...operations.ClientOption) (*operations.ListCredentialsOK, error) {
 	// operations.ClientOption
@@ -4407,6 +9020,93 @@ func (_c *MockEnvironmentClientService_ListCredentials_Call) Return(listCredenti
 }
 
 func (_c *MockEnvironmentClientService_ListCredentials_Call) RunAndReturn(run func(params *operations.ListCredentialsParams, opts ...operations.ClientOption) (*operations.ListCredentialsOK, error)) *MockEnvironmentClientService_ListCredentials_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListCredentialsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ListCredentialsContext(ctx context.Context, params *operations.ListCredentialsParams, opts ...operations.ClientOption) (*operations.ListCredentialsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListCredentialsContext")
+	}
+
+	var r0 *operations.ListCredentialsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListCredentialsParams, ...operations.ClientOption) (*operations.ListCredentialsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListCredentialsParams, ...operations.ClientOption) *operations.ListCredentialsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListCredentialsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListCredentialsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListCredentialsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListCredentialsContext'
+type MockEnvironmentClientService_ListCredentialsContext_Call struct {
+	*mock.Call
+}
+
+// ListCredentialsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListCredentialsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListCredentialsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListCredentialsContext_Call {
+	return &MockEnvironmentClientService_ListCredentialsContext_Call{Call: _e.mock.On("ListCredentialsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListCredentialsContext_Call) Run(run func(ctx context.Context, params *operations.ListCredentialsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListCredentialsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListCredentialsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListCredentialsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListCredentialsContext_Call) Return(listCredentialsOK *operations.ListCredentialsOK, err error) *MockEnvironmentClientService_ListCredentialsContext_Call {
+	_c.Call.Return(listCredentialsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListCredentialsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListCredentialsParams, opts ...operations.ClientOption) (*operations.ListCredentialsOK, error)) *MockEnvironmentClientService_ListCredentialsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4492,6 +9192,93 @@ func (_c *MockEnvironmentClientService_ListEnvironments_Call) RunAndReturn(run f
 	return _c
 }
 
+// ListEnvironmentsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ListEnvironmentsContext(ctx context.Context, params *operations.ListEnvironmentsParams, opts ...operations.ClientOption) (*operations.ListEnvironmentsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListEnvironmentsContext")
+	}
+
+	var r0 *operations.ListEnvironmentsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListEnvironmentsParams, ...operations.ClientOption) (*operations.ListEnvironmentsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListEnvironmentsParams, ...operations.ClientOption) *operations.ListEnvironmentsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListEnvironmentsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListEnvironmentsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListEnvironmentsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListEnvironmentsContext'
+type MockEnvironmentClientService_ListEnvironmentsContext_Call struct {
+	*mock.Call
+}
+
+// ListEnvironmentsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListEnvironmentsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListEnvironmentsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListEnvironmentsContext_Call {
+	return &MockEnvironmentClientService_ListEnvironmentsContext_Call{Call: _e.mock.On("ListEnvironmentsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListEnvironmentsContext_Call) Run(run func(ctx context.Context, params *operations.ListEnvironmentsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListEnvironmentsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListEnvironmentsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListEnvironmentsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListEnvironmentsContext_Call) Return(listEnvironmentsOK *operations.ListEnvironmentsOK, err error) *MockEnvironmentClientService_ListEnvironmentsContext_Call {
+	_c.Call.Return(listEnvironmentsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListEnvironmentsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListEnvironmentsParams, opts ...operations.ClientOption) (*operations.ListEnvironmentsOK, error)) *MockEnvironmentClientService_ListEnvironmentsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListFreeipaDiagnostics provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ListFreeipaDiagnostics(params *operations.ListFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.ListFreeipaDiagnosticsOK, error) {
 	// operations.ClientOption
@@ -4569,6 +9356,93 @@ func (_c *MockEnvironmentClientService_ListFreeipaDiagnostics_Call) Return(listF
 }
 
 func (_c *MockEnvironmentClientService_ListFreeipaDiagnostics_Call) RunAndReturn(run func(params *operations.ListFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.ListFreeipaDiagnosticsOK, error)) *MockEnvironmentClientService_ListFreeipaDiagnostics_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListFreeipaDiagnosticsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ListFreeipaDiagnosticsContext(ctx context.Context, params *operations.ListFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.ListFreeipaDiagnosticsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListFreeipaDiagnosticsContext")
+	}
+
+	var r0 *operations.ListFreeipaDiagnosticsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListFreeipaDiagnosticsParams, ...operations.ClientOption) (*operations.ListFreeipaDiagnosticsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListFreeipaDiagnosticsParams, ...operations.ClientOption) *operations.ListFreeipaDiagnosticsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListFreeipaDiagnosticsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListFreeipaDiagnosticsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListFreeipaDiagnosticsContext'
+type MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call struct {
+	*mock.Call
+}
+
+// ListFreeipaDiagnosticsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListFreeipaDiagnosticsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListFreeipaDiagnosticsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call {
+	return &MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call{Call: _e.mock.On("ListFreeipaDiagnosticsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call) Run(run func(ctx context.Context, params *operations.ListFreeipaDiagnosticsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListFreeipaDiagnosticsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListFreeipaDiagnosticsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call) Return(listFreeipaDiagnosticsOK *operations.ListFreeipaDiagnosticsOK, err error) *MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call {
+	_c.Call.Return(listFreeipaDiagnosticsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListFreeipaDiagnosticsParams, opts ...operations.ClientOption) (*operations.ListFreeipaDiagnosticsOK, error)) *MockEnvironmentClientService_ListFreeipaDiagnosticsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4654,6 +9528,93 @@ func (_c *MockEnvironmentClientService_ListFreeipaSecretTypes_Call) RunAndReturn
 	return _c
 }
 
+// ListFreeipaSecretTypesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ListFreeipaSecretTypesContext(ctx context.Context, params *operations.ListFreeipaSecretTypesParams, opts ...operations.ClientOption) (*operations.ListFreeipaSecretTypesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListFreeipaSecretTypesContext")
+	}
+
+	var r0 *operations.ListFreeipaSecretTypesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListFreeipaSecretTypesParams, ...operations.ClientOption) (*operations.ListFreeipaSecretTypesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListFreeipaSecretTypesParams, ...operations.ClientOption) *operations.ListFreeipaSecretTypesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListFreeipaSecretTypesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListFreeipaSecretTypesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListFreeipaSecretTypesContext'
+type MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call struct {
+	*mock.Call
+}
+
+// ListFreeipaSecretTypesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListFreeipaSecretTypesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListFreeipaSecretTypesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call {
+	return &MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call{Call: _e.mock.On("ListFreeipaSecretTypesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call) Run(run func(ctx context.Context, params *operations.ListFreeipaSecretTypesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListFreeipaSecretTypesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListFreeipaSecretTypesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call) Return(listFreeipaSecretTypesOK *operations.ListFreeipaSecretTypesOK, err error) *MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call {
+	_c.Call.Return(listFreeipaSecretTypesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListFreeipaSecretTypesParams, opts ...operations.ClientOption) (*operations.ListFreeipaSecretTypesOK, error)) *MockEnvironmentClientService_ListFreeipaSecretTypesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListProxyConfigs provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ListProxyConfigs(params *operations.ListProxyConfigsParams, opts ...operations.ClientOption) (*operations.ListProxyConfigsOK, error) {
 	// operations.ClientOption
@@ -4731,6 +9692,93 @@ func (_c *MockEnvironmentClientService_ListProxyConfigs_Call) Return(listProxyCo
 }
 
 func (_c *MockEnvironmentClientService_ListProxyConfigs_Call) RunAndReturn(run func(params *operations.ListProxyConfigsParams, opts ...operations.ClientOption) (*operations.ListProxyConfigsOK, error)) *MockEnvironmentClientService_ListProxyConfigs_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListProxyConfigsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ListProxyConfigsContext(ctx context.Context, params *operations.ListProxyConfigsParams, opts ...operations.ClientOption) (*operations.ListProxyConfigsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListProxyConfigsContext")
+	}
+
+	var r0 *operations.ListProxyConfigsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListProxyConfigsParams, ...operations.ClientOption) (*operations.ListProxyConfigsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListProxyConfigsParams, ...operations.ClientOption) *operations.ListProxyConfigsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListProxyConfigsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListProxyConfigsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ListProxyConfigsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListProxyConfigsContext'
+type MockEnvironmentClientService_ListProxyConfigsContext_Call struct {
+	*mock.Call
+}
+
+// ListProxyConfigsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListProxyConfigsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ListProxyConfigsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ListProxyConfigsContext_Call {
+	return &MockEnvironmentClientService_ListProxyConfigsContext_Call{Call: _e.mock.On("ListProxyConfigsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ListProxyConfigsContext_Call) Run(run func(ctx context.Context, params *operations.ListProxyConfigsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ListProxyConfigsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListProxyConfigsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListProxyConfigsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListProxyConfigsContext_Call) Return(listProxyConfigsOK *operations.ListProxyConfigsOK, err error) *MockEnvironmentClientService_ListProxyConfigsContext_Call {
+	_c.Call.Return(listProxyConfigsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ListProxyConfigsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListProxyConfigsParams, opts ...operations.ClientOption) (*operations.ListProxyConfigsOK, error)) *MockEnvironmentClientService_ListProxyConfigsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4816,6 +9864,93 @@ func (_c *MockEnvironmentClientService_RebuildFreeipa_Call) RunAndReturn(run fun
 	return _c
 }
 
+// RebuildFreeipaContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) RebuildFreeipaContext(ctx context.Context, params *operations.RebuildFreeipaParams, opts ...operations.ClientOption) (*operations.RebuildFreeipaOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RebuildFreeipaContext")
+	}
+
+	var r0 *operations.RebuildFreeipaOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildFreeipaParams, ...operations.ClientOption) (*operations.RebuildFreeipaOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildFreeipaParams, ...operations.ClientOption) *operations.RebuildFreeipaOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RebuildFreeipaOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RebuildFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RebuildFreeipaContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RebuildFreeipaContext'
+type MockEnvironmentClientService_RebuildFreeipaContext_Call struct {
+	*mock.Call
+}
+
+// RebuildFreeipaContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RebuildFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RebuildFreeipaContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_RebuildFreeipaContext_Call {
+	return &MockEnvironmentClientService_RebuildFreeipaContext_Call{Call: _e.mock.On("RebuildFreeipaContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RebuildFreeipaContext_Call) Run(run func(ctx context.Context, params *operations.RebuildFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RebuildFreeipaContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RebuildFreeipaParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RebuildFreeipaParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RebuildFreeipaContext_Call) Return(rebuildFreeipaOK *operations.RebuildFreeipaOK, err error) *MockEnvironmentClientService_RebuildFreeipaContext_Call {
+	_c.Call.Return(rebuildFreeipaOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RebuildFreeipaContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RebuildFreeipaParams, opts ...operations.ClientOption) (*operations.RebuildFreeipaOK, error)) *MockEnvironmentClientService_RebuildFreeipaContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RepairFreeipa provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) RepairFreeipa(params *operations.RepairFreeipaParams, opts ...operations.ClientOption) (*operations.RepairFreeipaOK, error) {
 	// operations.ClientOption
@@ -4893,6 +10028,93 @@ func (_c *MockEnvironmentClientService_RepairFreeipa_Call) Return(repairFreeipaO
 }
 
 func (_c *MockEnvironmentClientService_RepairFreeipa_Call) RunAndReturn(run func(params *operations.RepairFreeipaParams, opts ...operations.ClientOption) (*operations.RepairFreeipaOK, error)) *MockEnvironmentClientService_RepairFreeipa_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RepairFreeipaContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) RepairFreeipaContext(ctx context.Context, params *operations.RepairFreeipaParams, opts ...operations.ClientOption) (*operations.RepairFreeipaOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RepairFreeipaContext")
+	}
+
+	var r0 *operations.RepairFreeipaOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RepairFreeipaParams, ...operations.ClientOption) (*operations.RepairFreeipaOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RepairFreeipaParams, ...operations.ClientOption) *operations.RepairFreeipaOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RepairFreeipaOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RepairFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RepairFreeipaContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RepairFreeipaContext'
+type MockEnvironmentClientService_RepairFreeipaContext_Call struct {
+	*mock.Call
+}
+
+// RepairFreeipaContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RepairFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RepairFreeipaContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_RepairFreeipaContext_Call {
+	return &MockEnvironmentClientService_RepairFreeipaContext_Call{Call: _e.mock.On("RepairFreeipaContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RepairFreeipaContext_Call) Run(run func(ctx context.Context, params *operations.RepairFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RepairFreeipaContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RepairFreeipaParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RepairFreeipaParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RepairFreeipaContext_Call) Return(repairFreeipaOK *operations.RepairFreeipaOK, err error) *MockEnvironmentClientService_RepairFreeipaContext_Call {
+	_c.Call.Return(repairFreeipaOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RepairFreeipaContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RepairFreeipaParams, opts ...operations.ClientOption) (*operations.RepairFreeipaOK, error)) *MockEnvironmentClientService_RepairFreeipaContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4978,6 +10200,93 @@ func (_c *MockEnvironmentClientService_RepairTrust_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// RepairTrustContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) RepairTrustContext(ctx context.Context, params *operations.RepairTrustParams, opts ...operations.ClientOption) (*operations.RepairTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RepairTrustContext")
+	}
+
+	var r0 *operations.RepairTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RepairTrustParams, ...operations.ClientOption) (*operations.RepairTrustOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RepairTrustParams, ...operations.ClientOption) *operations.RepairTrustOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RepairTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RepairTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RepairTrustContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RepairTrustContext'
+type MockEnvironmentClientService_RepairTrustContext_Call struct {
+	*mock.Call
+}
+
+// RepairTrustContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RepairTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RepairTrustContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_RepairTrustContext_Call {
+	return &MockEnvironmentClientService_RepairTrustContext_Call{Call: _e.mock.On("RepairTrustContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RepairTrustContext_Call) Run(run func(ctx context.Context, params *operations.RepairTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RepairTrustContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RepairTrustParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RepairTrustParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RepairTrustContext_Call) Return(repairTrustOK *operations.RepairTrustOK, err error) *MockEnvironmentClientService_RepairTrustContext_Call {
+	_c.Call.Return(repairTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RepairTrustContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RepairTrustParams, opts ...operations.ClientOption) (*operations.RepairTrustOK, error)) *MockEnvironmentClientService_RepairTrustContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RetryFreeipa provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) RetryFreeipa(params *operations.RetryFreeipaParams, opts ...operations.ClientOption) (*operations.RetryFreeipaOK, error) {
 	// operations.ClientOption
@@ -5055,6 +10364,93 @@ func (_c *MockEnvironmentClientService_RetryFreeipa_Call) Return(retryFreeipaOK 
 }
 
 func (_c *MockEnvironmentClientService_RetryFreeipa_Call) RunAndReturn(run func(params *operations.RetryFreeipaParams, opts ...operations.ClientOption) (*operations.RetryFreeipaOK, error)) *MockEnvironmentClientService_RetryFreeipa_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RetryFreeipaContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) RetryFreeipaContext(ctx context.Context, params *operations.RetryFreeipaParams, opts ...operations.ClientOption) (*operations.RetryFreeipaOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RetryFreeipaContext")
+	}
+
+	var r0 *operations.RetryFreeipaOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RetryFreeipaParams, ...operations.ClientOption) (*operations.RetryFreeipaOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RetryFreeipaParams, ...operations.ClientOption) *operations.RetryFreeipaOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RetryFreeipaOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RetryFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RetryFreeipaContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RetryFreeipaContext'
+type MockEnvironmentClientService_RetryFreeipaContext_Call struct {
+	*mock.Call
+}
+
+// RetryFreeipaContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RetryFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RetryFreeipaContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_RetryFreeipaContext_Call {
+	return &MockEnvironmentClientService_RetryFreeipaContext_Call{Call: _e.mock.On("RetryFreeipaContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RetryFreeipaContext_Call) Run(run func(ctx context.Context, params *operations.RetryFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RetryFreeipaContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RetryFreeipaParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RetryFreeipaParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RetryFreeipaContext_Call) Return(retryFreeipaOK *operations.RetryFreeipaOK, err error) *MockEnvironmentClientService_RetryFreeipaContext_Call {
+	_c.Call.Return(retryFreeipaOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RetryFreeipaContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RetryFreeipaParams, opts ...operations.ClientOption) (*operations.RetryFreeipaOK, error)) *MockEnvironmentClientService_RetryFreeipaContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5140,6 +10536,93 @@ func (_c *MockEnvironmentClientService_RotateFreeipaSecrets_Call) RunAndReturn(r
 	return _c
 }
 
+// RotateFreeipaSecretsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) RotateFreeipaSecretsContext(ctx context.Context, params *operations.RotateFreeipaSecretsParams, opts ...operations.ClientOption) (*operations.RotateFreeipaSecretsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RotateFreeipaSecretsContext")
+	}
+
+	var r0 *operations.RotateFreeipaSecretsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RotateFreeipaSecretsParams, ...operations.ClientOption) (*operations.RotateFreeipaSecretsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RotateFreeipaSecretsParams, ...operations.ClientOption) *operations.RotateFreeipaSecretsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RotateFreeipaSecretsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RotateFreeipaSecretsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RotateFreeipaSecretsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RotateFreeipaSecretsContext'
+type MockEnvironmentClientService_RotateFreeipaSecretsContext_Call struct {
+	*mock.Call
+}
+
+// RotateFreeipaSecretsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RotateFreeipaSecretsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RotateFreeipaSecretsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_RotateFreeipaSecretsContext_Call {
+	return &MockEnvironmentClientService_RotateFreeipaSecretsContext_Call{Call: _e.mock.On("RotateFreeipaSecretsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RotateFreeipaSecretsContext_Call) Run(run func(ctx context.Context, params *operations.RotateFreeipaSecretsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RotateFreeipaSecretsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RotateFreeipaSecretsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RotateFreeipaSecretsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RotateFreeipaSecretsContext_Call) Return(rotateFreeipaSecretsOK *operations.RotateFreeipaSecretsOK, err error) *MockEnvironmentClientService_RotateFreeipaSecretsContext_Call {
+	_c.Call.Return(rotateFreeipaSecretsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RotateFreeipaSecretsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RotateFreeipaSecretsParams, opts ...operations.ClientOption) (*operations.RotateFreeipaSecretsOK, error)) *MockEnvironmentClientService_RotateFreeipaSecretsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RotateSaltPassword provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) RotateSaltPassword(params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption) (*operations.RotateSaltPasswordOK, error) {
 	// operations.ClientOption
@@ -5217,6 +10700,93 @@ func (_c *MockEnvironmentClientService_RotateSaltPassword_Call) Return(rotateSal
 }
 
 func (_c *MockEnvironmentClientService_RotateSaltPassword_Call) RunAndReturn(run func(params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption) (*operations.RotateSaltPasswordOK, error)) *MockEnvironmentClientService_RotateSaltPassword_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RotateSaltPasswordContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) RotateSaltPasswordContext(ctx context.Context, params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption) (*operations.RotateSaltPasswordOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RotateSaltPasswordContext")
+	}
+
+	var r0 *operations.RotateSaltPasswordOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RotateSaltPasswordParams, ...operations.ClientOption) (*operations.RotateSaltPasswordOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RotateSaltPasswordParams, ...operations.ClientOption) *operations.RotateSaltPasswordOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RotateSaltPasswordOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RotateSaltPasswordParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_RotateSaltPasswordContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RotateSaltPasswordContext'
+type MockEnvironmentClientService_RotateSaltPasswordContext_Call struct {
+	*mock.Call
+}
+
+// RotateSaltPasswordContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RotateSaltPasswordParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) RotateSaltPasswordContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_RotateSaltPasswordContext_Call {
+	return &MockEnvironmentClientService_RotateSaltPasswordContext_Call{Call: _e.mock.On("RotateSaltPasswordContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_RotateSaltPasswordContext_Call) Run(run func(ctx context.Context, params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_RotateSaltPasswordContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RotateSaltPasswordParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RotateSaltPasswordParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RotateSaltPasswordContext_Call) Return(rotateSaltPasswordOK *operations.RotateSaltPasswordOK, err error) *MockEnvironmentClientService_RotateSaltPasswordContext_Call {
+	_c.Call.Return(rotateSaltPasswordOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_RotateSaltPasswordContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption) (*operations.RotateSaltPasswordOK, error)) *MockEnvironmentClientService_RotateSaltPasswordContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5302,6 +10872,93 @@ func (_c *MockEnvironmentClientService_SetAWSAuditCredential_Call) RunAndReturn(
 	return _c
 }
 
+// SetAWSAuditCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetAWSAuditCredentialContext(ctx context.Context, params *operations.SetAWSAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAWSAuditCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAWSAuditCredentialContext")
+	}
+
+	var r0 *operations.SetAWSAuditCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAWSAuditCredentialParams, ...operations.ClientOption) (*operations.SetAWSAuditCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAWSAuditCredentialParams, ...operations.ClientOption) *operations.SetAWSAuditCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetAWSAuditCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetAWSAuditCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetAWSAuditCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetAWSAuditCredentialContext'
+type MockEnvironmentClientService_SetAWSAuditCredentialContext_Call struct {
+	*mock.Call
+}
+
+// SetAWSAuditCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetAWSAuditCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetAWSAuditCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetAWSAuditCredentialContext_Call {
+	return &MockEnvironmentClientService_SetAWSAuditCredentialContext_Call{Call: _e.mock.On("SetAWSAuditCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetAWSAuditCredentialContext_Call) Run(run func(ctx context.Context, params *operations.SetAWSAuditCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetAWSAuditCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetAWSAuditCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetAWSAuditCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAWSAuditCredentialContext_Call) Return(setAWSAuditCredentialOK *operations.SetAWSAuditCredentialOK, err error) *MockEnvironmentClientService_SetAWSAuditCredentialContext_Call {
+	_c.Call.Return(setAWSAuditCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAWSAuditCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetAWSAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAWSAuditCredentialOK, error)) *MockEnvironmentClientService_SetAWSAuditCredentialContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetAWSGovCloudAuditCredential provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SetAWSGovCloudAuditCredential(params *operations.SetAWSGovCloudAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAWSGovCloudAuditCredentialOK, error) {
 	// operations.ClientOption
@@ -5379,6 +11036,93 @@ func (_c *MockEnvironmentClientService_SetAWSGovCloudAuditCredential_Call) Retur
 }
 
 func (_c *MockEnvironmentClientService_SetAWSGovCloudAuditCredential_Call) RunAndReturn(run func(params *operations.SetAWSGovCloudAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAWSGovCloudAuditCredentialOK, error)) *MockEnvironmentClientService_SetAWSGovCloudAuditCredential_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetAWSGovCloudAuditCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetAWSGovCloudAuditCredentialContext(ctx context.Context, params *operations.SetAWSGovCloudAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAWSGovCloudAuditCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAWSGovCloudAuditCredentialContext")
+	}
+
+	var r0 *operations.SetAWSGovCloudAuditCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAWSGovCloudAuditCredentialParams, ...operations.ClientOption) (*operations.SetAWSGovCloudAuditCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAWSGovCloudAuditCredentialParams, ...operations.ClientOption) *operations.SetAWSGovCloudAuditCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetAWSGovCloudAuditCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetAWSGovCloudAuditCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetAWSGovCloudAuditCredentialContext'
+type MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call struct {
+	*mock.Call
+}
+
+// SetAWSGovCloudAuditCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetAWSGovCloudAuditCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetAWSGovCloudAuditCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call {
+	return &MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call{Call: _e.mock.On("SetAWSGovCloudAuditCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call) Run(run func(ctx context.Context, params *operations.SetAWSGovCloudAuditCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetAWSGovCloudAuditCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetAWSGovCloudAuditCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call) Return(setAWSGovCloudAuditCredentialOK *operations.SetAWSGovCloudAuditCredentialOK, err error) *MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call {
+	_c.Call.Return(setAWSGovCloudAuditCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetAWSGovCloudAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAWSGovCloudAuditCredentialOK, error)) *MockEnvironmentClientService_SetAWSGovCloudAuditCredentialContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5464,6 +11208,93 @@ func (_c *MockEnvironmentClientService_SetAccountTelemetry_Call) RunAndReturn(ru
 	return _c
 }
 
+// SetAccountTelemetryContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetAccountTelemetryContext(ctx context.Context, params *operations.SetAccountTelemetryParams, opts ...operations.ClientOption) (*operations.SetAccountTelemetryOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAccountTelemetryContext")
+	}
+
+	var r0 *operations.SetAccountTelemetryOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAccountTelemetryParams, ...operations.ClientOption) (*operations.SetAccountTelemetryOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAccountTelemetryParams, ...operations.ClientOption) *operations.SetAccountTelemetryOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetAccountTelemetryOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetAccountTelemetryParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetAccountTelemetryContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetAccountTelemetryContext'
+type MockEnvironmentClientService_SetAccountTelemetryContext_Call struct {
+	*mock.Call
+}
+
+// SetAccountTelemetryContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetAccountTelemetryParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetAccountTelemetryContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetAccountTelemetryContext_Call {
+	return &MockEnvironmentClientService_SetAccountTelemetryContext_Call{Call: _e.mock.On("SetAccountTelemetryContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetAccountTelemetryContext_Call) Run(run func(ctx context.Context, params *operations.SetAccountTelemetryParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetAccountTelemetryContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetAccountTelemetryParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetAccountTelemetryParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAccountTelemetryContext_Call) Return(setAccountTelemetryOK *operations.SetAccountTelemetryOK, err error) *MockEnvironmentClientService_SetAccountTelemetryContext_Call {
+	_c.Call.Return(setAccountTelemetryOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAccountTelemetryContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetAccountTelemetryParams, opts ...operations.ClientOption) (*operations.SetAccountTelemetryOK, error)) *MockEnvironmentClientService_SetAccountTelemetryContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetAzureAuditCredential provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SetAzureAuditCredential(params *operations.SetAzureAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAzureAuditCredentialOK, error) {
 	// operations.ClientOption
@@ -5541,6 +11372,93 @@ func (_c *MockEnvironmentClientService_SetAzureAuditCredential_Call) Return(setA
 }
 
 func (_c *MockEnvironmentClientService_SetAzureAuditCredential_Call) RunAndReturn(run func(params *operations.SetAzureAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAzureAuditCredentialOK, error)) *MockEnvironmentClientService_SetAzureAuditCredential_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetAzureAuditCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetAzureAuditCredentialContext(ctx context.Context, params *operations.SetAzureAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAzureAuditCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAzureAuditCredentialContext")
+	}
+
+	var r0 *operations.SetAzureAuditCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAzureAuditCredentialParams, ...operations.ClientOption) (*operations.SetAzureAuditCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAzureAuditCredentialParams, ...operations.ClientOption) *operations.SetAzureAuditCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetAzureAuditCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetAzureAuditCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetAzureAuditCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetAzureAuditCredentialContext'
+type MockEnvironmentClientService_SetAzureAuditCredentialContext_Call struct {
+	*mock.Call
+}
+
+// SetAzureAuditCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetAzureAuditCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetAzureAuditCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetAzureAuditCredentialContext_Call {
+	return &MockEnvironmentClientService_SetAzureAuditCredentialContext_Call{Call: _e.mock.On("SetAzureAuditCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetAzureAuditCredentialContext_Call) Run(run func(ctx context.Context, params *operations.SetAzureAuditCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetAzureAuditCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetAzureAuditCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetAzureAuditCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAzureAuditCredentialContext_Call) Return(setAzureAuditCredentialOK *operations.SetAzureAuditCredentialOK, err error) *MockEnvironmentClientService_SetAzureAuditCredentialContext_Call {
+	_c.Call.Return(setAzureAuditCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetAzureAuditCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetAzureAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetAzureAuditCredentialOK, error)) *MockEnvironmentClientService_SetAzureAuditCredentialContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5626,6 +11544,93 @@ func (_c *MockEnvironmentClientService_SetCatalog_Call) RunAndReturn(run func(pa
 	return _c
 }
 
+// SetCatalogContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetCatalogContext(ctx context.Context, params *operations.SetCatalogParams, opts ...operations.ClientOption) (*operations.SetCatalogOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetCatalogContext")
+	}
+
+	var r0 *operations.SetCatalogOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetCatalogParams, ...operations.ClientOption) (*operations.SetCatalogOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetCatalogParams, ...operations.ClientOption) *operations.SetCatalogOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetCatalogOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetCatalogParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetCatalogContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetCatalogContext'
+type MockEnvironmentClientService_SetCatalogContext_Call struct {
+	*mock.Call
+}
+
+// SetCatalogContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetCatalogParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetCatalogContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetCatalogContext_Call {
+	return &MockEnvironmentClientService_SetCatalogContext_Call{Call: _e.mock.On("SetCatalogContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetCatalogContext_Call) Run(run func(ctx context.Context, params *operations.SetCatalogParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetCatalogContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetCatalogParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetCatalogParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetCatalogContext_Call) Return(setCatalogOK *operations.SetCatalogOK, err error) *MockEnvironmentClientService_SetCatalogContext_Call {
+	_c.Call.Return(setCatalogOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetCatalogContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetCatalogParams, opts ...operations.ClientOption) (*operations.SetCatalogOK, error)) *MockEnvironmentClientService_SetCatalogContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetEndpointAccessGateway provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SetEndpointAccessGateway(params *operations.SetEndpointAccessGatewayParams, opts ...operations.ClientOption) (*operations.SetEndpointAccessGatewayOK, error) {
 	// operations.ClientOption
@@ -5703,6 +11708,93 @@ func (_c *MockEnvironmentClientService_SetEndpointAccessGateway_Call) Return(set
 }
 
 func (_c *MockEnvironmentClientService_SetEndpointAccessGateway_Call) RunAndReturn(run func(params *operations.SetEndpointAccessGatewayParams, opts ...operations.ClientOption) (*operations.SetEndpointAccessGatewayOK, error)) *MockEnvironmentClientService_SetEndpointAccessGateway_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetEndpointAccessGatewayContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetEndpointAccessGatewayContext(ctx context.Context, params *operations.SetEndpointAccessGatewayParams, opts ...operations.ClientOption) (*operations.SetEndpointAccessGatewayOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetEndpointAccessGatewayContext")
+	}
+
+	var r0 *operations.SetEndpointAccessGatewayOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetEndpointAccessGatewayParams, ...operations.ClientOption) (*operations.SetEndpointAccessGatewayOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetEndpointAccessGatewayParams, ...operations.ClientOption) *operations.SetEndpointAccessGatewayOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetEndpointAccessGatewayOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetEndpointAccessGatewayParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetEndpointAccessGatewayContext'
+type MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call struct {
+	*mock.Call
+}
+
+// SetEndpointAccessGatewayContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetEndpointAccessGatewayParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetEndpointAccessGatewayContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call {
+	return &MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call{Call: _e.mock.On("SetEndpointAccessGatewayContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call) Run(run func(ctx context.Context, params *operations.SetEndpointAccessGatewayParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetEndpointAccessGatewayParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetEndpointAccessGatewayParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call) Return(setEndpointAccessGatewayOK *operations.SetEndpointAccessGatewayOK, err error) *MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call {
+	_c.Call.Return(setEndpointAccessGatewayOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetEndpointAccessGatewayParams, opts ...operations.ClientOption) (*operations.SetEndpointAccessGatewayOK, error)) *MockEnvironmentClientService_SetEndpointAccessGatewayContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5788,6 +11880,93 @@ func (_c *MockEnvironmentClientService_SetEnvironmentSetting_Call) RunAndReturn(
 	return _c
 }
 
+// SetEnvironmentSettingContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetEnvironmentSettingContext(ctx context.Context, params *operations.SetEnvironmentSettingParams, opts ...operations.ClientOption) (*operations.SetEnvironmentSettingOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetEnvironmentSettingContext")
+	}
+
+	var r0 *operations.SetEnvironmentSettingOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetEnvironmentSettingParams, ...operations.ClientOption) (*operations.SetEnvironmentSettingOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetEnvironmentSettingParams, ...operations.ClientOption) *operations.SetEnvironmentSettingOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetEnvironmentSettingOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetEnvironmentSettingParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetEnvironmentSettingContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetEnvironmentSettingContext'
+type MockEnvironmentClientService_SetEnvironmentSettingContext_Call struct {
+	*mock.Call
+}
+
+// SetEnvironmentSettingContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetEnvironmentSettingParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetEnvironmentSettingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetEnvironmentSettingContext_Call {
+	return &MockEnvironmentClientService_SetEnvironmentSettingContext_Call{Call: _e.mock.On("SetEnvironmentSettingContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetEnvironmentSettingContext_Call) Run(run func(ctx context.Context, params *operations.SetEnvironmentSettingParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetEnvironmentSettingContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetEnvironmentSettingParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetEnvironmentSettingParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetEnvironmentSettingContext_Call) Return(setEnvironmentSettingOK *operations.SetEnvironmentSettingOK, err error) *MockEnvironmentClientService_SetEnvironmentSettingContext_Call {
+	_c.Call.Return(setEnvironmentSettingOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetEnvironmentSettingContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetEnvironmentSettingParams, opts ...operations.ClientOption) (*operations.SetEnvironmentSettingOK, error)) *MockEnvironmentClientService_SetEnvironmentSettingContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetGCPAuditCredential provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SetGCPAuditCredential(params *operations.SetGCPAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetGCPAuditCredentialOK, error) {
 	// operations.ClientOption
@@ -5865,6 +12044,93 @@ func (_c *MockEnvironmentClientService_SetGCPAuditCredential_Call) Return(setGCP
 }
 
 func (_c *MockEnvironmentClientService_SetGCPAuditCredential_Call) RunAndReturn(run func(params *operations.SetGCPAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetGCPAuditCredentialOK, error)) *MockEnvironmentClientService_SetGCPAuditCredential_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetGCPAuditCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetGCPAuditCredentialContext(ctx context.Context, params *operations.SetGCPAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetGCPAuditCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetGCPAuditCredentialContext")
+	}
+
+	var r0 *operations.SetGCPAuditCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetGCPAuditCredentialParams, ...operations.ClientOption) (*operations.SetGCPAuditCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetGCPAuditCredentialParams, ...operations.ClientOption) *operations.SetGCPAuditCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetGCPAuditCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetGCPAuditCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetGCPAuditCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetGCPAuditCredentialContext'
+type MockEnvironmentClientService_SetGCPAuditCredentialContext_Call struct {
+	*mock.Call
+}
+
+// SetGCPAuditCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetGCPAuditCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetGCPAuditCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetGCPAuditCredentialContext_Call {
+	return &MockEnvironmentClientService_SetGCPAuditCredentialContext_Call{Call: _e.mock.On("SetGCPAuditCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetGCPAuditCredentialContext_Call) Run(run func(ctx context.Context, params *operations.SetGCPAuditCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetGCPAuditCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetGCPAuditCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetGCPAuditCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetGCPAuditCredentialContext_Call) Return(setGCPAuditCredentialOK *operations.SetGCPAuditCredentialOK, err error) *MockEnvironmentClientService_SetGCPAuditCredentialContext_Call {
+	_c.Call.Return(setGCPAuditCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetGCPAuditCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetGCPAuditCredentialParams, opts ...operations.ClientOption) (*operations.SetGCPAuditCredentialOK, error)) *MockEnvironmentClientService_SetGCPAuditCredentialContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5950,6 +12216,93 @@ func (_c *MockEnvironmentClientService_SetIDBrokerMappings_Call) RunAndReturn(ru
 	return _c
 }
 
+// SetIDBrokerMappingsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetIDBrokerMappingsContext(ctx context.Context, params *operations.SetIDBrokerMappingsParams, opts ...operations.ClientOption) (*operations.SetIDBrokerMappingsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetIDBrokerMappingsContext")
+	}
+
+	var r0 *operations.SetIDBrokerMappingsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetIDBrokerMappingsParams, ...operations.ClientOption) (*operations.SetIDBrokerMappingsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetIDBrokerMappingsParams, ...operations.ClientOption) *operations.SetIDBrokerMappingsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetIDBrokerMappingsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetIDBrokerMappingsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetIDBrokerMappingsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetIDBrokerMappingsContext'
+type MockEnvironmentClientService_SetIDBrokerMappingsContext_Call struct {
+	*mock.Call
+}
+
+// SetIDBrokerMappingsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetIDBrokerMappingsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetIDBrokerMappingsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetIDBrokerMappingsContext_Call {
+	return &MockEnvironmentClientService_SetIDBrokerMappingsContext_Call{Call: _e.mock.On("SetIDBrokerMappingsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetIDBrokerMappingsContext_Call) Run(run func(ctx context.Context, params *operations.SetIDBrokerMappingsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetIDBrokerMappingsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetIDBrokerMappingsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetIDBrokerMappingsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetIDBrokerMappingsContext_Call) Return(setIDBrokerMappingsOK *operations.SetIDBrokerMappingsOK, err error) *MockEnvironmentClientService_SetIDBrokerMappingsContext_Call {
+	_c.Call.Return(setIDBrokerMappingsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetIDBrokerMappingsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetIDBrokerMappingsParams, opts ...operations.ClientOption) (*operations.SetIDBrokerMappingsOK, error)) *MockEnvironmentClientService_SetIDBrokerMappingsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetPassword provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SetPassword(params *operations.SetPasswordParams, opts ...operations.ClientOption) (*operations.SetPasswordOK, error) {
 	// operations.ClientOption
@@ -6027,6 +12380,93 @@ func (_c *MockEnvironmentClientService_SetPassword_Call) Return(setPasswordOK *o
 }
 
 func (_c *MockEnvironmentClientService_SetPassword_Call) RunAndReturn(run func(params *operations.SetPasswordParams, opts ...operations.ClientOption) (*operations.SetPasswordOK, error)) *MockEnvironmentClientService_SetPassword_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetPasswordContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetPasswordContext(ctx context.Context, params *operations.SetPasswordParams, opts ...operations.ClientOption) (*operations.SetPasswordOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetPasswordContext")
+	}
+
+	var r0 *operations.SetPasswordOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetPasswordParams, ...operations.ClientOption) (*operations.SetPasswordOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetPasswordParams, ...operations.ClientOption) *operations.SetPasswordOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetPasswordOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetPasswordParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetPasswordContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetPasswordContext'
+type MockEnvironmentClientService_SetPasswordContext_Call struct {
+	*mock.Call
+}
+
+// SetPasswordContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetPasswordParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetPasswordContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetPasswordContext_Call {
+	return &MockEnvironmentClientService_SetPasswordContext_Call{Call: _e.mock.On("SetPasswordContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetPasswordContext_Call) Run(run func(ctx context.Context, params *operations.SetPasswordParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetPasswordContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetPasswordParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetPasswordParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetPasswordContext_Call) Return(setPasswordOK *operations.SetPasswordOK, err error) *MockEnvironmentClientService_SetPasswordContext_Call {
+	_c.Call.Return(setPasswordOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetPasswordContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetPasswordParams, opts ...operations.ClientOption) (*operations.SetPasswordOK, error)) *MockEnvironmentClientService_SetPasswordContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6112,8 +12552,95 @@ func (_c *MockEnvironmentClientService_SetTelemetryFeatures_Call) RunAndReturn(r
 	return _c
 }
 
+// SetTelemetryFeaturesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetTelemetryFeaturesContext(ctx context.Context, params *operations.SetTelemetryFeaturesParams, opts ...operations.ClientOption) (*operations.SetTelemetryFeaturesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetTelemetryFeaturesContext")
+	}
+
+	var r0 *operations.SetTelemetryFeaturesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetTelemetryFeaturesParams, ...operations.ClientOption) (*operations.SetTelemetryFeaturesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetTelemetryFeaturesParams, ...operations.ClientOption) *operations.SetTelemetryFeaturesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetTelemetryFeaturesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetTelemetryFeaturesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetTelemetryFeaturesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetTelemetryFeaturesContext'
+type MockEnvironmentClientService_SetTelemetryFeaturesContext_Call struct {
+	*mock.Call
+}
+
+// SetTelemetryFeaturesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetTelemetryFeaturesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetTelemetryFeaturesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetTelemetryFeaturesContext_Call {
+	return &MockEnvironmentClientService_SetTelemetryFeaturesContext_Call{Call: _e.mock.On("SetTelemetryFeaturesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetTelemetryFeaturesContext_Call) Run(run func(ctx context.Context, params *operations.SetTelemetryFeaturesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetTelemetryFeaturesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetTelemetryFeaturesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetTelemetryFeaturesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetTelemetryFeaturesContext_Call) Return(setTelemetryFeaturesOK *operations.SetTelemetryFeaturesOK, err error) *MockEnvironmentClientService_SetTelemetryFeaturesContext_Call {
+	_c.Call.Return(setTelemetryFeaturesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetTelemetryFeaturesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetTelemetryFeaturesParams, opts ...operations.ClientOption) (*operations.SetTelemetryFeaturesOK, error)) *MockEnvironmentClientService_SetTelemetryFeaturesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetTransport provides a mock function for the type MockEnvironmentClientService
-func (_mock *MockEnvironmentClientService) SetTransport(transport runtime.ClientTransport) {
+func (_mock *MockEnvironmentClientService) SetTransport(transport runtime.ContextualTransport) {
 	_mock.Called(transport)
 	return
 }
@@ -6124,16 +12651,16 @@ type MockEnvironmentClientService_SetTransport_Call struct {
 }
 
 // SetTransport is a helper method to define mock.On call
-//   - transport runtime.ClientTransport
+//   - transport runtime.ContextualTransport
 func (_e *MockEnvironmentClientService_Expecter) SetTransport(transport interface{}) *MockEnvironmentClientService_SetTransport_Call {
 	return &MockEnvironmentClientService_SetTransport_Call{Call: _e.mock.On("SetTransport", transport)}
 }
 
-func (_c *MockEnvironmentClientService_SetTransport_Call) Run(run func(transport runtime.ClientTransport)) *MockEnvironmentClientService_SetTransport_Call {
+func (_c *MockEnvironmentClientService_SetTransport_Call) Run(run func(transport runtime.ContextualTransport)) *MockEnvironmentClientService_SetTransport_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 runtime.ClientTransport
+		var arg0 runtime.ContextualTransport
 		if args[0] != nil {
-			arg0 = args[0].(runtime.ClientTransport)
+			arg0 = args[0].(runtime.ContextualTransport)
 		}
 		run(
 			arg0,
@@ -6147,7 +12674,7 @@ func (_c *MockEnvironmentClientService_SetTransport_Call) Return() *MockEnvironm
 	return _c
 }
 
-func (_c *MockEnvironmentClientService_SetTransport_Call) RunAndReturn(run func(transport runtime.ClientTransport)) *MockEnvironmentClientService_SetTransport_Call {
+func (_c *MockEnvironmentClientService_SetTransport_Call) RunAndReturn(run func(transport runtime.ContextualTransport)) *MockEnvironmentClientService_SetTransport_Call {
 	_c.Run(run)
 	return _c
 }
@@ -6233,6 +12760,93 @@ func (_c *MockEnvironmentClientService_SetupActiveDirectoryTrust_Call) RunAndRet
 	return _c
 }
 
+// SetupActiveDirectoryTrustContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetupActiveDirectoryTrustContext(ctx context.Context, params *operations.SetupActiveDirectoryTrustParams, opts ...operations.ClientOption) (*operations.SetupActiveDirectoryTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetupActiveDirectoryTrustContext")
+	}
+
+	var r0 *operations.SetupActiveDirectoryTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetupActiveDirectoryTrustParams, ...operations.ClientOption) (*operations.SetupActiveDirectoryTrustOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetupActiveDirectoryTrustParams, ...operations.ClientOption) *operations.SetupActiveDirectoryTrustOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetupActiveDirectoryTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetupActiveDirectoryTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetupActiveDirectoryTrustContext'
+type MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call struct {
+	*mock.Call
+}
+
+// SetupActiveDirectoryTrustContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetupActiveDirectoryTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetupActiveDirectoryTrustContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call {
+	return &MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call{Call: _e.mock.On("SetupActiveDirectoryTrustContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call) Run(run func(ctx context.Context, params *operations.SetupActiveDirectoryTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetupActiveDirectoryTrustParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetupActiveDirectoryTrustParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call) Return(setupActiveDirectoryTrustOK *operations.SetupActiveDirectoryTrustOK, err error) *MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call {
+	_c.Call.Return(setupActiveDirectoryTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetupActiveDirectoryTrustParams, opts ...operations.ClientOption) (*operations.SetupActiveDirectoryTrustOK, error)) *MockEnvironmentClientService_SetupActiveDirectoryTrustContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetupMitTrust provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SetupMitTrust(params *operations.SetupMitTrustParams, opts ...operations.ClientOption) (*operations.SetupMitTrustOK, error) {
 	// operations.ClientOption
@@ -6310,6 +12924,93 @@ func (_c *MockEnvironmentClientService_SetupMitTrust_Call) Return(setupMitTrustO
 }
 
 func (_c *MockEnvironmentClientService_SetupMitTrust_Call) RunAndReturn(run func(params *operations.SetupMitTrustParams, opts ...operations.ClientOption) (*operations.SetupMitTrustOK, error)) *MockEnvironmentClientService_SetupMitTrust_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetupMitTrustContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SetupMitTrustContext(ctx context.Context, params *operations.SetupMitTrustParams, opts ...operations.ClientOption) (*operations.SetupMitTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetupMitTrustContext")
+	}
+
+	var r0 *operations.SetupMitTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetupMitTrustParams, ...operations.ClientOption) (*operations.SetupMitTrustOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetupMitTrustParams, ...operations.ClientOption) *operations.SetupMitTrustOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetupMitTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetupMitTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SetupMitTrustContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetupMitTrustContext'
+type MockEnvironmentClientService_SetupMitTrustContext_Call struct {
+	*mock.Call
+}
+
+// SetupMitTrustContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetupMitTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SetupMitTrustContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SetupMitTrustContext_Call {
+	return &MockEnvironmentClientService_SetupMitTrustContext_Call{Call: _e.mock.On("SetupMitTrustContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SetupMitTrustContext_Call) Run(run func(ctx context.Context, params *operations.SetupMitTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SetupMitTrustContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetupMitTrustParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetupMitTrustParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupMitTrustContext_Call) Return(setupMitTrustOK *operations.SetupMitTrustOK, err error) *MockEnvironmentClientService_SetupMitTrustContext_Call {
+	_c.Call.Return(setupMitTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SetupMitTrustContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetupMitTrustParams, opts ...operations.ClientOption) (*operations.SetupMitTrustOK, error)) *MockEnvironmentClientService_SetupMitTrustContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6395,6 +13096,93 @@ func (_c *MockEnvironmentClientService_StartEnvironment_Call) RunAndReturn(run f
 	return _c
 }
 
+// StartEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) StartEnvironmentContext(ctx context.Context, params *operations.StartEnvironmentParams, opts ...operations.ClientOption) (*operations.StartEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StartEnvironmentContext")
+	}
+
+	var r0 *operations.StartEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartEnvironmentParams, ...operations.ClientOption) (*operations.StartEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartEnvironmentParams, ...operations.ClientOption) *operations.StartEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.StartEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.StartEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_StartEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StartEnvironmentContext'
+type MockEnvironmentClientService_StartEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// StartEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.StartEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) StartEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_StartEnvironmentContext_Call {
+	return &MockEnvironmentClientService_StartEnvironmentContext_Call{Call: _e.mock.On("StartEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_StartEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.StartEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_StartEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.StartEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.StartEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_StartEnvironmentContext_Call) Return(startEnvironmentOK *operations.StartEnvironmentOK, err error) *MockEnvironmentClientService_StartEnvironmentContext_Call {
+	_c.Call.Return(startEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_StartEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.StartEnvironmentParams, opts ...operations.ClientOption) (*operations.StartEnvironmentOK, error)) *MockEnvironmentClientService_StartEnvironmentContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // StartFreeIpaVerticalScaling provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) StartFreeIpaVerticalScaling(params *operations.StartFreeIpaVerticalScalingParams, opts ...operations.ClientOption) (*operations.StartFreeIpaVerticalScalingOK, error) {
 	// operations.ClientOption
@@ -6472,6 +13260,93 @@ func (_c *MockEnvironmentClientService_StartFreeIpaVerticalScaling_Call) Return(
 }
 
 func (_c *MockEnvironmentClientService_StartFreeIpaVerticalScaling_Call) RunAndReturn(run func(params *operations.StartFreeIpaVerticalScalingParams, opts ...operations.ClientOption) (*operations.StartFreeIpaVerticalScalingOK, error)) *MockEnvironmentClientService_StartFreeIpaVerticalScaling_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// StartFreeIpaVerticalScalingContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) StartFreeIpaVerticalScalingContext(ctx context.Context, params *operations.StartFreeIpaVerticalScalingParams, opts ...operations.ClientOption) (*operations.StartFreeIpaVerticalScalingOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StartFreeIpaVerticalScalingContext")
+	}
+
+	var r0 *operations.StartFreeIpaVerticalScalingOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartFreeIpaVerticalScalingParams, ...operations.ClientOption) (*operations.StartFreeIpaVerticalScalingOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartFreeIpaVerticalScalingParams, ...operations.ClientOption) *operations.StartFreeIpaVerticalScalingOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.StartFreeIpaVerticalScalingOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.StartFreeIpaVerticalScalingParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StartFreeIpaVerticalScalingContext'
+type MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call struct {
+	*mock.Call
+}
+
+// StartFreeIpaVerticalScalingContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.StartFreeIpaVerticalScalingParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) StartFreeIpaVerticalScalingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call {
+	return &MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call{Call: _e.mock.On("StartFreeIpaVerticalScalingContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call) Run(run func(ctx context.Context, params *operations.StartFreeIpaVerticalScalingParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.StartFreeIpaVerticalScalingParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.StartFreeIpaVerticalScalingParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call) Return(startFreeIpaVerticalScalingOK *operations.StartFreeIpaVerticalScalingOK, err error) *MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call {
+	_c.Call.Return(startFreeIpaVerticalScalingOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.StartFreeIpaVerticalScalingParams, opts ...operations.ClientOption) (*operations.StartFreeIpaVerticalScalingOK, error)) *MockEnvironmentClientService_StartFreeIpaVerticalScalingContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6557,6 +13432,93 @@ func (_c *MockEnvironmentClientService_StopEnvironment_Call) RunAndReturn(run fu
 	return _c
 }
 
+// StopEnvironmentContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) StopEnvironmentContext(ctx context.Context, params *operations.StopEnvironmentParams, opts ...operations.ClientOption) (*operations.StopEnvironmentOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StopEnvironmentContext")
+	}
+
+	var r0 *operations.StopEnvironmentOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StopEnvironmentParams, ...operations.ClientOption) (*operations.StopEnvironmentOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StopEnvironmentParams, ...operations.ClientOption) *operations.StopEnvironmentOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.StopEnvironmentOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.StopEnvironmentParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_StopEnvironmentContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StopEnvironmentContext'
+type MockEnvironmentClientService_StopEnvironmentContext_Call struct {
+	*mock.Call
+}
+
+// StopEnvironmentContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.StopEnvironmentParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) StopEnvironmentContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_StopEnvironmentContext_Call {
+	return &MockEnvironmentClientService_StopEnvironmentContext_Call{Call: _e.mock.On("StopEnvironmentContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_StopEnvironmentContext_Call) Run(run func(ctx context.Context, params *operations.StopEnvironmentParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_StopEnvironmentContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.StopEnvironmentParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.StopEnvironmentParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_StopEnvironmentContext_Call) Return(stopEnvironmentOK *operations.StopEnvironmentOK, err error) *MockEnvironmentClientService_StopEnvironmentContext_Call {
+	_c.Call.Return(stopEnvironmentOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_StopEnvironmentContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.StopEnvironmentParams, opts ...operations.ClientOption) (*operations.StopEnvironmentOK, error)) *MockEnvironmentClientService_StopEnvironmentContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SyncAllUsers provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SyncAllUsers(params *operations.SyncAllUsersParams, opts ...operations.ClientOption) (*operations.SyncAllUsersOK, error) {
 	// operations.ClientOption
@@ -6634,6 +13596,93 @@ func (_c *MockEnvironmentClientService_SyncAllUsers_Call) Return(syncAllUsersOK 
 }
 
 func (_c *MockEnvironmentClientService_SyncAllUsers_Call) RunAndReturn(run func(params *operations.SyncAllUsersParams, opts ...operations.ClientOption) (*operations.SyncAllUsersOK, error)) *MockEnvironmentClientService_SyncAllUsers_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SyncAllUsersContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SyncAllUsersContext(ctx context.Context, params *operations.SyncAllUsersParams, opts ...operations.ClientOption) (*operations.SyncAllUsersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SyncAllUsersContext")
+	}
+
+	var r0 *operations.SyncAllUsersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncAllUsersParams, ...operations.ClientOption) (*operations.SyncAllUsersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncAllUsersParams, ...operations.ClientOption) *operations.SyncAllUsersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SyncAllUsersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SyncAllUsersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SyncAllUsersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SyncAllUsersContext'
+type MockEnvironmentClientService_SyncAllUsersContext_Call struct {
+	*mock.Call
+}
+
+// SyncAllUsersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SyncAllUsersParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SyncAllUsersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SyncAllUsersContext_Call {
+	return &MockEnvironmentClientService_SyncAllUsersContext_Call{Call: _e.mock.On("SyncAllUsersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SyncAllUsersContext_Call) Run(run func(ctx context.Context, params *operations.SyncAllUsersParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SyncAllUsersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SyncAllUsersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SyncAllUsersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncAllUsersContext_Call) Return(syncAllUsersOK *operations.SyncAllUsersOK, err error) *MockEnvironmentClientService_SyncAllUsersContext_Call {
+	_c.Call.Return(syncAllUsersOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncAllUsersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SyncAllUsersParams, opts ...operations.ClientOption) (*operations.SyncAllUsersOK, error)) *MockEnvironmentClientService_SyncAllUsersContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6719,6 +13768,93 @@ func (_c *MockEnvironmentClientService_SyncIDBrokerMappings_Call) RunAndReturn(r
 	return _c
 }
 
+// SyncIDBrokerMappingsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SyncIDBrokerMappingsContext(ctx context.Context, params *operations.SyncIDBrokerMappingsParams, opts ...operations.ClientOption) (*operations.SyncIDBrokerMappingsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SyncIDBrokerMappingsContext")
+	}
+
+	var r0 *operations.SyncIDBrokerMappingsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncIDBrokerMappingsParams, ...operations.ClientOption) (*operations.SyncIDBrokerMappingsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncIDBrokerMappingsParams, ...operations.ClientOption) *operations.SyncIDBrokerMappingsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SyncIDBrokerMappingsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SyncIDBrokerMappingsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SyncIDBrokerMappingsContext'
+type MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call struct {
+	*mock.Call
+}
+
+// SyncIDBrokerMappingsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SyncIDBrokerMappingsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SyncIDBrokerMappingsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call {
+	return &MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call{Call: _e.mock.On("SyncIDBrokerMappingsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call) Run(run func(ctx context.Context, params *operations.SyncIDBrokerMappingsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SyncIDBrokerMappingsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SyncIDBrokerMappingsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call) Return(syncIDBrokerMappingsOK *operations.SyncIDBrokerMappingsOK, err error) *MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call {
+	_c.Call.Return(syncIDBrokerMappingsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SyncIDBrokerMappingsParams, opts ...operations.ClientOption) (*operations.SyncIDBrokerMappingsOK, error)) *MockEnvironmentClientService_SyncIDBrokerMappingsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SyncStatus provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SyncStatus(params *operations.SyncStatusParams, opts ...operations.ClientOption) (*operations.SyncStatusOK, error) {
 	// operations.ClientOption
@@ -6796,6 +13932,93 @@ func (_c *MockEnvironmentClientService_SyncStatus_Call) Return(syncStatusOK *ope
 }
 
 func (_c *MockEnvironmentClientService_SyncStatus_Call) RunAndReturn(run func(params *operations.SyncStatusParams, opts ...operations.ClientOption) (*operations.SyncStatusOK, error)) *MockEnvironmentClientService_SyncStatus_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SyncStatusContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SyncStatusContext(ctx context.Context, params *operations.SyncStatusParams, opts ...operations.ClientOption) (*operations.SyncStatusOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SyncStatusContext")
+	}
+
+	var r0 *operations.SyncStatusOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncStatusParams, ...operations.ClientOption) (*operations.SyncStatusOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncStatusParams, ...operations.ClientOption) *operations.SyncStatusOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SyncStatusOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SyncStatusParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SyncStatusContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SyncStatusContext'
+type MockEnvironmentClientService_SyncStatusContext_Call struct {
+	*mock.Call
+}
+
+// SyncStatusContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SyncStatusParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SyncStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SyncStatusContext_Call {
+	return &MockEnvironmentClientService_SyncStatusContext_Call{Call: _e.mock.On("SyncStatusContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SyncStatusContext_Call) Run(run func(ctx context.Context, params *operations.SyncStatusParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SyncStatusContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SyncStatusParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SyncStatusParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncStatusContext_Call) Return(syncStatusOK *operations.SyncStatusOK, err error) *MockEnvironmentClientService_SyncStatusContext_Call {
+	_c.Call.Return(syncStatusOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncStatusContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SyncStatusParams, opts ...operations.ClientOption) (*operations.SyncStatusOK, error)) *MockEnvironmentClientService_SyncStatusContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6881,6 +14104,93 @@ func (_c *MockEnvironmentClientService_SyncUser_Call) RunAndReturn(run func(para
 	return _c
 }
 
+// SyncUserContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SyncUserContext(ctx context.Context, params *operations.SyncUserParams, opts ...operations.ClientOption) (*operations.SyncUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SyncUserContext")
+	}
+
+	var r0 *operations.SyncUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncUserParams, ...operations.ClientOption) (*operations.SyncUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SyncUserParams, ...operations.ClientOption) *operations.SyncUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SyncUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SyncUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SyncUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SyncUserContext'
+type MockEnvironmentClientService_SyncUserContext_Call struct {
+	*mock.Call
+}
+
+// SyncUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SyncUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SyncUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SyncUserContext_Call {
+	return &MockEnvironmentClientService_SyncUserContext_Call{Call: _e.mock.On("SyncUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SyncUserContext_Call) Run(run func(ctx context.Context, params *operations.SyncUserParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SyncUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SyncUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SyncUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncUserContext_Call) Return(syncUserOK *operations.SyncUserOK, err error) *MockEnvironmentClientService_SyncUserContext_Call {
+	_c.Call.Return(syncUserOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SyncUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SyncUserParams, opts ...operations.ClientOption) (*operations.SyncUserOK, error)) *MockEnvironmentClientService_SyncUserContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SynchronizeAllEnvironments provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) SynchronizeAllEnvironments(params *operations.SynchronizeAllEnvironmentsParams, opts ...operations.ClientOption) (*operations.SynchronizeAllEnvironmentsOK, error) {
 	// operations.ClientOption
@@ -6958,6 +14268,93 @@ func (_c *MockEnvironmentClientService_SynchronizeAllEnvironments_Call) Return(s
 }
 
 func (_c *MockEnvironmentClientService_SynchronizeAllEnvironments_Call) RunAndReturn(run func(params *operations.SynchronizeAllEnvironmentsParams, opts ...operations.ClientOption) (*operations.SynchronizeAllEnvironmentsOK, error)) *MockEnvironmentClientService_SynchronizeAllEnvironments_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SynchronizeAllEnvironmentsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) SynchronizeAllEnvironmentsContext(ctx context.Context, params *operations.SynchronizeAllEnvironmentsParams, opts ...operations.ClientOption) (*operations.SynchronizeAllEnvironmentsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SynchronizeAllEnvironmentsContext")
+	}
+
+	var r0 *operations.SynchronizeAllEnvironmentsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SynchronizeAllEnvironmentsParams, ...operations.ClientOption) (*operations.SynchronizeAllEnvironmentsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SynchronizeAllEnvironmentsParams, ...operations.ClientOption) *operations.SynchronizeAllEnvironmentsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SynchronizeAllEnvironmentsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SynchronizeAllEnvironmentsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SynchronizeAllEnvironmentsContext'
+type MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call struct {
+	*mock.Call
+}
+
+// SynchronizeAllEnvironmentsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SynchronizeAllEnvironmentsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) SynchronizeAllEnvironmentsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call {
+	return &MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call{Call: _e.mock.On("SynchronizeAllEnvironmentsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call) Run(run func(ctx context.Context, params *operations.SynchronizeAllEnvironmentsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SynchronizeAllEnvironmentsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SynchronizeAllEnvironmentsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call) Return(synchronizeAllEnvironmentsOK *operations.SynchronizeAllEnvironmentsOK, err error) *MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call {
+	_c.Call.Return(synchronizeAllEnvironmentsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SynchronizeAllEnvironmentsParams, opts ...operations.ClientOption) (*operations.SynchronizeAllEnvironmentsOK, error)) *MockEnvironmentClientService_SynchronizeAllEnvironmentsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7043,6 +14440,93 @@ func (_c *MockEnvironmentClientService_TestAccountTelemetryRules_Call) RunAndRet
 	return _c
 }
 
+// TestAccountTelemetryRulesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) TestAccountTelemetryRulesContext(ctx context.Context, params *operations.TestAccountTelemetryRulesParams, opts ...operations.ClientOption) (*operations.TestAccountTelemetryRulesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for TestAccountTelemetryRulesContext")
+	}
+
+	var r0 *operations.TestAccountTelemetryRulesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.TestAccountTelemetryRulesParams, ...operations.ClientOption) (*operations.TestAccountTelemetryRulesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.TestAccountTelemetryRulesParams, ...operations.ClientOption) *operations.TestAccountTelemetryRulesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.TestAccountTelemetryRulesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.TestAccountTelemetryRulesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'TestAccountTelemetryRulesContext'
+type MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call struct {
+	*mock.Call
+}
+
+// TestAccountTelemetryRulesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.TestAccountTelemetryRulesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) TestAccountTelemetryRulesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call {
+	return &MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call{Call: _e.mock.On("TestAccountTelemetryRulesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call) Run(run func(ctx context.Context, params *operations.TestAccountTelemetryRulesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.TestAccountTelemetryRulesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.TestAccountTelemetryRulesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call) Return(testAccountTelemetryRulesOK *operations.TestAccountTelemetryRulesOK, err error) *MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call {
+	_c.Call.Return(testAccountTelemetryRulesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.TestAccountTelemetryRulesParams, opts ...operations.ClientOption) (*operations.TestAccountTelemetryRulesOK, error)) *MockEnvironmentClientService_TestAccountTelemetryRulesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateAwsCredential provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateAwsCredential(params *operations.UpdateAwsCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error) {
 	// operations.ClientOption
@@ -7120,6 +14604,93 @@ func (_c *MockEnvironmentClientService_UpdateAwsCredential_Call) Return(updateAw
 }
 
 func (_c *MockEnvironmentClientService_UpdateAwsCredential_Call) RunAndReturn(run func(params *operations.UpdateAwsCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error)) *MockEnvironmentClientService_UpdateAwsCredential_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateAwsCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateAwsCredentialContext(ctx context.Context, params *operations.UpdateAwsCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAwsCredentialContext")
+	}
+
+	var r0 *operations.UpdateAwsCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAwsCredentialParams, ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAwsCredentialParams, ...operations.ClientOption) *operations.UpdateAwsCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAwsCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAwsCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAwsCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAwsCredentialContext'
+type MockEnvironmentClientService_UpdateAwsCredentialContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAwsCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAwsCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAwsCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAwsCredentialContext_Call {
+	return &MockEnvironmentClientService_UpdateAwsCredentialContext_Call{Call: _e.mock.On("UpdateAwsCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsCredentialContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAwsCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAwsCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAwsCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAwsCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsCredentialContext_Call) Return(updateAwsCredentialOK *operations.UpdateAwsCredentialOK, err error) *MockEnvironmentClientService_UpdateAwsCredentialContext_Call {
+	_c.Call.Return(updateAwsCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAwsCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAwsCredentialOK, error)) *MockEnvironmentClientService_UpdateAwsCredentialContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7205,6 +14776,93 @@ func (_c *MockEnvironmentClientService_UpdateAwsDiskEncryptionParameters_Call) R
 	return _c
 }
 
+// UpdateAwsDiskEncryptionParametersContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateAwsDiskEncryptionParametersContext(ctx context.Context, params *operations.UpdateAwsDiskEncryptionParametersParams, opts ...operations.ClientOption) (*operations.UpdateAwsDiskEncryptionParametersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAwsDiskEncryptionParametersContext")
+	}
+
+	var r0 *operations.UpdateAwsDiskEncryptionParametersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAwsDiskEncryptionParametersParams, ...operations.ClientOption) (*operations.UpdateAwsDiskEncryptionParametersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAwsDiskEncryptionParametersParams, ...operations.ClientOption) *operations.UpdateAwsDiskEncryptionParametersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAwsDiskEncryptionParametersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAwsDiskEncryptionParametersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAwsDiskEncryptionParametersContext'
+type MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAwsDiskEncryptionParametersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAwsDiskEncryptionParametersParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAwsDiskEncryptionParametersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call {
+	return &MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call{Call: _e.mock.On("UpdateAwsDiskEncryptionParametersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAwsDiskEncryptionParametersParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAwsDiskEncryptionParametersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAwsDiskEncryptionParametersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call) Return(updateAwsDiskEncryptionParametersOK *operations.UpdateAwsDiskEncryptionParametersOK, err error) *MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call {
+	_c.Call.Return(updateAwsDiskEncryptionParametersOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAwsDiskEncryptionParametersParams, opts ...operations.ClientOption) (*operations.UpdateAwsDiskEncryptionParametersOK, error)) *MockEnvironmentClientService_UpdateAwsDiskEncryptionParametersContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateAzureAvailabilityZones provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateAzureAvailabilityZones(params *operations.UpdateAzureAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error) {
 	// operations.ClientOption
@@ -7282,6 +14940,93 @@ func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call) Return
 }
 
 func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call) RunAndReturn(run func(params *operations.UpdateAzureAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error)) *MockEnvironmentClientService_UpdateAzureAvailabilityZones_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateAzureAvailabilityZonesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateAzureAvailabilityZonesContext(ctx context.Context, params *operations.UpdateAzureAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureAvailabilityZonesContext")
+	}
+
+	var r0 *operations.UpdateAzureAvailabilityZonesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureAvailabilityZonesParams, ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureAvailabilityZonesParams, ...operations.ClientOption) *operations.UpdateAzureAvailabilityZonesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAzureAvailabilityZonesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAzureAvailabilityZonesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAzureAvailabilityZonesContext'
+type MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAzureAvailabilityZonesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAzureAvailabilityZonesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAzureAvailabilityZonesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call {
+	return &MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call{Call: _e.mock.On("UpdateAzureAvailabilityZonesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAzureAvailabilityZonesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAzureAvailabilityZonesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAzureAvailabilityZonesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call) Return(updateAzureAvailabilityZonesOK *operations.UpdateAzureAvailabilityZonesOK, err error) *MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call {
+	_c.Call.Return(updateAzureAvailabilityZonesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAzureAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateAzureAvailabilityZonesOK, error)) *MockEnvironmentClientService_UpdateAzureAvailabilityZonesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7367,6 +15112,93 @@ func (_c *MockEnvironmentClientService_UpdateAzureCredential_Call) RunAndReturn(
 	return _c
 }
 
+// UpdateAzureCredentialContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateAzureCredentialContext(ctx context.Context, params *operations.UpdateAzureCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAzureCredentialOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureCredentialContext")
+	}
+
+	var r0 *operations.UpdateAzureCredentialOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureCredentialParams, ...operations.ClientOption) (*operations.UpdateAzureCredentialOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureCredentialParams, ...operations.ClientOption) *operations.UpdateAzureCredentialOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAzureCredentialOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAzureCredentialParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAzureCredentialContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAzureCredentialContext'
+type MockEnvironmentClientService_UpdateAzureCredentialContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAzureCredentialContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAzureCredentialParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAzureCredentialContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAzureCredentialContext_Call {
+	return &MockEnvironmentClientService_UpdateAzureCredentialContext_Call{Call: _e.mock.On("UpdateAzureCredentialContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureCredentialContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAzureCredentialParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAzureCredentialContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAzureCredentialParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAzureCredentialParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureCredentialContext_Call) Return(updateAzureCredentialOK *operations.UpdateAzureCredentialOK, err error) *MockEnvironmentClientService_UpdateAzureCredentialContext_Call {
+	_c.Call.Return(updateAzureCredentialOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureCredentialContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAzureCredentialParams, opts ...operations.ClientOption) (*operations.UpdateAzureCredentialOK, error)) *MockEnvironmentClientService_UpdateAzureCredentialContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateAzureDatabaseResources provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateAzureDatabaseResources(params *operations.UpdateAzureDatabaseResourcesParams, opts ...operations.ClientOption) (*operations.UpdateAzureDatabaseResourcesOK, error) {
 	// operations.ClientOption
@@ -7444,6 +15276,93 @@ func (_c *MockEnvironmentClientService_UpdateAzureDatabaseResources_Call) Return
 }
 
 func (_c *MockEnvironmentClientService_UpdateAzureDatabaseResources_Call) RunAndReturn(run func(params *operations.UpdateAzureDatabaseResourcesParams, opts ...operations.ClientOption) (*operations.UpdateAzureDatabaseResourcesOK, error)) *MockEnvironmentClientService_UpdateAzureDatabaseResources_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateAzureDatabaseResourcesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateAzureDatabaseResourcesContext(ctx context.Context, params *operations.UpdateAzureDatabaseResourcesParams, opts ...operations.ClientOption) (*operations.UpdateAzureDatabaseResourcesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureDatabaseResourcesContext")
+	}
+
+	var r0 *operations.UpdateAzureDatabaseResourcesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureDatabaseResourcesParams, ...operations.ClientOption) (*operations.UpdateAzureDatabaseResourcesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureDatabaseResourcesParams, ...operations.ClientOption) *operations.UpdateAzureDatabaseResourcesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAzureDatabaseResourcesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAzureDatabaseResourcesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAzureDatabaseResourcesContext'
+type MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAzureDatabaseResourcesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAzureDatabaseResourcesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAzureDatabaseResourcesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call {
+	return &MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call{Call: _e.mock.On("UpdateAzureDatabaseResourcesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAzureDatabaseResourcesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAzureDatabaseResourcesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAzureDatabaseResourcesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call) Return(updateAzureDatabaseResourcesOK *operations.UpdateAzureDatabaseResourcesOK, err error) *MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call {
+	_c.Call.Return(updateAzureDatabaseResourcesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAzureDatabaseResourcesParams, opts ...operations.ClientOption) (*operations.UpdateAzureDatabaseResourcesOK, error)) *MockEnvironmentClientService_UpdateAzureDatabaseResourcesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7529,6 +15448,93 @@ func (_c *MockEnvironmentClientService_UpdateAzureEncryptionResources_Call) RunA
 	return _c
 }
 
+// UpdateAzureEncryptionResourcesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateAzureEncryptionResourcesContext(ctx context.Context, params *operations.UpdateAzureEncryptionResourcesParams, opts ...operations.ClientOption) (*operations.UpdateAzureEncryptionResourcesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureEncryptionResourcesContext")
+	}
+
+	var r0 *operations.UpdateAzureEncryptionResourcesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureEncryptionResourcesParams, ...operations.ClientOption) (*operations.UpdateAzureEncryptionResourcesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureEncryptionResourcesParams, ...operations.ClientOption) *operations.UpdateAzureEncryptionResourcesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAzureEncryptionResourcesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAzureEncryptionResourcesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAzureEncryptionResourcesContext'
+type MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAzureEncryptionResourcesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAzureEncryptionResourcesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAzureEncryptionResourcesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call {
+	return &MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call{Call: _e.mock.On("UpdateAzureEncryptionResourcesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAzureEncryptionResourcesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAzureEncryptionResourcesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAzureEncryptionResourcesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call) Return(updateAzureEncryptionResourcesOK *operations.UpdateAzureEncryptionResourcesOK, err error) *MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call {
+	_c.Call.Return(updateAzureEncryptionResourcesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAzureEncryptionResourcesParams, opts ...operations.ClientOption) (*operations.UpdateAzureEncryptionResourcesOK, error)) *MockEnvironmentClientService_UpdateAzureEncryptionResourcesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateAzureImageTermsPolicy provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateAzureImageTermsPolicy(params *operations.UpdateAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.UpdateAzureImageTermsPolicyOK, error) {
 	// operations.ClientOption
@@ -7606,6 +15612,93 @@ func (_c *MockEnvironmentClientService_UpdateAzureImageTermsPolicy_Call) Return(
 }
 
 func (_c *MockEnvironmentClientService_UpdateAzureImageTermsPolicy_Call) RunAndReturn(run func(params *operations.UpdateAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.UpdateAzureImageTermsPolicyOK, error)) *MockEnvironmentClientService_UpdateAzureImageTermsPolicy_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateAzureImageTermsPolicyContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateAzureImageTermsPolicyContext(ctx context.Context, params *operations.UpdateAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.UpdateAzureImageTermsPolicyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureImageTermsPolicyContext")
+	}
+
+	var r0 *operations.UpdateAzureImageTermsPolicyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureImageTermsPolicyParams, ...operations.ClientOption) (*operations.UpdateAzureImageTermsPolicyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureImageTermsPolicyParams, ...operations.ClientOption) *operations.UpdateAzureImageTermsPolicyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAzureImageTermsPolicyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAzureImageTermsPolicyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAzureImageTermsPolicyContext'
+type MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAzureImageTermsPolicyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAzureImageTermsPolicyParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateAzureImageTermsPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call {
+	return &MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call{Call: _e.mock.On("UpdateAzureImageTermsPolicyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAzureImageTermsPolicyParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAzureImageTermsPolicyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAzureImageTermsPolicyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call) Return(updateAzureImageTermsPolicyOK *operations.UpdateAzureImageTermsPolicyOK, err error) *MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call {
+	_c.Call.Return(updateAzureImageTermsPolicyOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAzureImageTermsPolicyParams, opts ...operations.ClientOption) (*operations.UpdateAzureImageTermsPolicyOK, error)) *MockEnvironmentClientService_UpdateAzureImageTermsPolicyContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7691,6 +15784,93 @@ func (_c *MockEnvironmentClientService_UpdateCustomDockerRegistry_Call) RunAndRe
 	return _c
 }
 
+// UpdateCustomDockerRegistryContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateCustomDockerRegistryContext(ctx context.Context, params *operations.UpdateCustomDockerRegistryParams, opts ...operations.ClientOption) (*operations.UpdateCustomDockerRegistryOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateCustomDockerRegistryContext")
+	}
+
+	var r0 *operations.UpdateCustomDockerRegistryOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateCustomDockerRegistryParams, ...operations.ClientOption) (*operations.UpdateCustomDockerRegistryOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateCustomDockerRegistryParams, ...operations.ClientOption) *operations.UpdateCustomDockerRegistryOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateCustomDockerRegistryOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateCustomDockerRegistryParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateCustomDockerRegistryContext'
+type MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call struct {
+	*mock.Call
+}
+
+// UpdateCustomDockerRegistryContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateCustomDockerRegistryParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateCustomDockerRegistryContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call {
+	return &MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call{Call: _e.mock.On("UpdateCustomDockerRegistryContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call) Run(run func(ctx context.Context, params *operations.UpdateCustomDockerRegistryParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateCustomDockerRegistryParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateCustomDockerRegistryParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call) Return(updateCustomDockerRegistryOK *operations.UpdateCustomDockerRegistryOK, err error) *MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call {
+	_c.Call.Return(updateCustomDockerRegistryOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateCustomDockerRegistryParams, opts ...operations.ClientOption) (*operations.UpdateCustomDockerRegistryOK, error)) *MockEnvironmentClientService_UpdateCustomDockerRegistryContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateDataServiceResources provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateDataServiceResources(params *operations.UpdateDataServiceResourcesParams, opts ...operations.ClientOption) (*operations.UpdateDataServiceResourcesOK, error) {
 	// operations.ClientOption
@@ -7768,6 +15948,93 @@ func (_c *MockEnvironmentClientService_UpdateDataServiceResources_Call) Return(u
 }
 
 func (_c *MockEnvironmentClientService_UpdateDataServiceResources_Call) RunAndReturn(run func(params *operations.UpdateDataServiceResourcesParams, opts ...operations.ClientOption) (*operations.UpdateDataServiceResourcesOK, error)) *MockEnvironmentClientService_UpdateDataServiceResources_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateDataServiceResourcesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateDataServiceResourcesContext(ctx context.Context, params *operations.UpdateDataServiceResourcesParams, opts ...operations.ClientOption) (*operations.UpdateDataServiceResourcesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDataServiceResourcesContext")
+	}
+
+	var r0 *operations.UpdateDataServiceResourcesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDataServiceResourcesParams, ...operations.ClientOption) (*operations.UpdateDataServiceResourcesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDataServiceResourcesParams, ...operations.ClientOption) *operations.UpdateDataServiceResourcesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateDataServiceResourcesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateDataServiceResourcesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateDataServiceResourcesContext'
+type MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call struct {
+	*mock.Call
+}
+
+// UpdateDataServiceResourcesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateDataServiceResourcesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateDataServiceResourcesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call {
+	return &MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call{Call: _e.mock.On("UpdateDataServiceResourcesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call) Run(run func(ctx context.Context, params *operations.UpdateDataServiceResourcesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateDataServiceResourcesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateDataServiceResourcesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call) Return(updateDataServiceResourcesOK *operations.UpdateDataServiceResourcesOK, err error) *MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call {
+	_c.Call.Return(updateDataServiceResourcesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateDataServiceResourcesParams, opts ...operations.ClientOption) (*operations.UpdateDataServiceResourcesOK, error)) *MockEnvironmentClientService_UpdateDataServiceResourcesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7853,6 +16120,93 @@ func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1_Call) RunAndRetu
 	return _c
 }
 
+// UpdateFreeipaToAwsImdsV1Context provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateFreeipaToAwsImdsV1Context(ctx context.Context, params *operations.UpdateFreeipaToAwsImdsV1Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV1OK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateFreeipaToAwsImdsV1Context")
+	}
+
+	var r0 *operations.UpdateFreeipaToAwsImdsV1OK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateFreeipaToAwsImdsV1Params, ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV1OK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateFreeipaToAwsImdsV1Params, ...operations.ClientOption) *operations.UpdateFreeipaToAwsImdsV1OK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateFreeipaToAwsImdsV1OK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateFreeipaToAwsImdsV1Params, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateFreeipaToAwsImdsV1Context'
+type MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call struct {
+	*mock.Call
+}
+
+// UpdateFreeipaToAwsImdsV1Context is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateFreeipaToAwsImdsV1Params
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateFreeipaToAwsImdsV1Context(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call {
+	return &MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call{Call: _e.mock.On("UpdateFreeipaToAwsImdsV1Context",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call) Run(run func(ctx context.Context, params *operations.UpdateFreeipaToAwsImdsV1Params, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateFreeipaToAwsImdsV1Params
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateFreeipaToAwsImdsV1Params)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call) Return(updateFreeipaToAwsImdsV1OK *operations.UpdateFreeipaToAwsImdsV1OK, err error) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call {
+	_c.Call.Return(updateFreeipaToAwsImdsV1OK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateFreeipaToAwsImdsV1Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV1OK, error)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV1Context_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateFreeipaToAwsImdsV2 provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateFreeipaToAwsImdsV2(params *operations.UpdateFreeipaToAwsImdsV2Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error) {
 	// operations.ClientOption
@@ -7930,6 +16284,93 @@ func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call) Return(upd
 }
 
 func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call) RunAndReturn(run func(params *operations.UpdateFreeipaToAwsImdsV2Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateFreeipaToAwsImdsV2Context provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateFreeipaToAwsImdsV2Context(ctx context.Context, params *operations.UpdateFreeipaToAwsImdsV2Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateFreeipaToAwsImdsV2Context")
+	}
+
+	var r0 *operations.UpdateFreeipaToAwsImdsV2OK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) *operations.UpdateFreeipaToAwsImdsV2OK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateFreeipaToAwsImdsV2OK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateFreeipaToAwsImdsV2Params, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateFreeipaToAwsImdsV2Context'
+type MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call struct {
+	*mock.Call
+}
+
+// UpdateFreeipaToAwsImdsV2Context is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateFreeipaToAwsImdsV2Params
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateFreeipaToAwsImdsV2Context(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call {
+	return &MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call{Call: _e.mock.On("UpdateFreeipaToAwsImdsV2Context",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call) Run(run func(ctx context.Context, params *operations.UpdateFreeipaToAwsImdsV2Params, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateFreeipaToAwsImdsV2Params
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateFreeipaToAwsImdsV2Params)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call) Return(updateFreeipaToAwsImdsV2OK *operations.UpdateFreeipaToAwsImdsV2OK, err error) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call {
+	_c.Call.Return(updateFreeipaToAwsImdsV2OK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateFreeipaToAwsImdsV2Params, opts ...operations.ClientOption) (*operations.UpdateFreeipaToAwsImdsV2OK, error)) *MockEnvironmentClientService_UpdateFreeipaToAwsImdsV2Context_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8015,6 +16456,93 @@ func (_c *MockEnvironmentClientService_UpdateGcpAvailabilityZones_Call) RunAndRe
 	return _c
 }
 
+// UpdateGcpAvailabilityZonesContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateGcpAvailabilityZonesContext(ctx context.Context, params *operations.UpdateGcpAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateGcpAvailabilityZonesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateGcpAvailabilityZonesContext")
+	}
+
+	var r0 *operations.UpdateGcpAvailabilityZonesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateGcpAvailabilityZonesParams, ...operations.ClientOption) (*operations.UpdateGcpAvailabilityZonesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateGcpAvailabilityZonesParams, ...operations.ClientOption) *operations.UpdateGcpAvailabilityZonesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateGcpAvailabilityZonesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateGcpAvailabilityZonesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateGcpAvailabilityZonesContext'
+type MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call struct {
+	*mock.Call
+}
+
+// UpdateGcpAvailabilityZonesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateGcpAvailabilityZonesParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateGcpAvailabilityZonesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call {
+	return &MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call{Call: _e.mock.On("UpdateGcpAvailabilityZonesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call) Run(run func(ctx context.Context, params *operations.UpdateGcpAvailabilityZonesParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateGcpAvailabilityZonesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateGcpAvailabilityZonesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call) Return(updateGcpAvailabilityZonesOK *operations.UpdateGcpAvailabilityZonesOK, err error) *MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call {
+	_c.Call.Return(updateGcpAvailabilityZonesOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateGcpAvailabilityZonesParams, opts ...operations.ClientOption) (*operations.UpdateGcpAvailabilityZonesOK, error)) *MockEnvironmentClientService_UpdateGcpAvailabilityZonesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateOrchestratorState provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateOrchestratorState(params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error) {
 	// operations.ClientOption
@@ -8092,6 +16620,93 @@ func (_c *MockEnvironmentClientService_UpdateOrchestratorState_Call) Return(upda
 }
 
 func (_c *MockEnvironmentClientService_UpdateOrchestratorState_Call) RunAndReturn(run func(params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error)) *MockEnvironmentClientService_UpdateOrchestratorState_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateOrchestratorStateContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateOrchestratorStateContext(ctx context.Context, params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateOrchestratorStateContext")
+	}
+
+	var r0 *operations.UpdateOrchestratorStateOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateOrchestratorStateParams, ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateOrchestratorStateParams, ...operations.ClientOption) *operations.UpdateOrchestratorStateOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateOrchestratorStateOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateOrchestratorStateParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateOrchestratorStateContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateOrchestratorStateContext'
+type MockEnvironmentClientService_UpdateOrchestratorStateContext_Call struct {
+	*mock.Call
+}
+
+// UpdateOrchestratorStateContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateOrchestratorStateParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateOrchestratorStateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateOrchestratorStateContext_Call {
+	return &MockEnvironmentClientService_UpdateOrchestratorStateContext_Call{Call: _e.mock.On("UpdateOrchestratorStateContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateOrchestratorStateContext_Call) Run(run func(ctx context.Context, params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateOrchestratorStateContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateOrchestratorStateParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateOrchestratorStateParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateOrchestratorStateContext_Call) Return(updateOrchestratorStateOK *operations.UpdateOrchestratorStateOK, err error) *MockEnvironmentClientService_UpdateOrchestratorStateContext_Call {
+	_c.Call.Return(updateOrchestratorStateOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateOrchestratorStateContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error)) *MockEnvironmentClientService_UpdateOrchestratorStateContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8177,6 +16792,93 @@ func (_c *MockEnvironmentClientService_UpdateProxyConfig_Call) RunAndReturn(run 
 	return _c
 }
 
+// UpdateProxyConfigContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateProxyConfigContext(ctx context.Context, params *operations.UpdateProxyConfigParams, opts ...operations.ClientOption) (*operations.UpdateProxyConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateProxyConfigContext")
+	}
+
+	var r0 *operations.UpdateProxyConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateProxyConfigParams, ...operations.ClientOption) (*operations.UpdateProxyConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateProxyConfigParams, ...operations.ClientOption) *operations.UpdateProxyConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateProxyConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateProxyConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateProxyConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateProxyConfigContext'
+type MockEnvironmentClientService_UpdateProxyConfigContext_Call struct {
+	*mock.Call
+}
+
+// UpdateProxyConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateProxyConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateProxyConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateProxyConfigContext_Call {
+	return &MockEnvironmentClientService_UpdateProxyConfigContext_Call{Call: _e.mock.On("UpdateProxyConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateProxyConfigContext_Call) Run(run func(ctx context.Context, params *operations.UpdateProxyConfigParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateProxyConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateProxyConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateProxyConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateProxyConfigContext_Call) Return(updateProxyConfigOK *operations.UpdateProxyConfigOK, err error) *MockEnvironmentClientService_UpdateProxyConfigContext_Call {
+	_c.Call.Return(updateProxyConfigOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateProxyConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateProxyConfigParams, opts ...operations.ClientOption) (*operations.UpdateProxyConfigOK, error)) *MockEnvironmentClientService_UpdateProxyConfigContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateRootVolumeFreeipa provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateRootVolumeFreeipa(params *operations.UpdateRootVolumeFreeipaParams, opts ...operations.ClientOption) (*operations.UpdateRootVolumeFreeipaOK, error) {
 	// operations.ClientOption
@@ -8254,6 +16956,93 @@ func (_c *MockEnvironmentClientService_UpdateRootVolumeFreeipa_Call) Return(upda
 }
 
 func (_c *MockEnvironmentClientService_UpdateRootVolumeFreeipa_Call) RunAndReturn(run func(params *operations.UpdateRootVolumeFreeipaParams, opts ...operations.ClientOption) (*operations.UpdateRootVolumeFreeipaOK, error)) *MockEnvironmentClientService_UpdateRootVolumeFreeipa_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateRootVolumeFreeipaContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateRootVolumeFreeipaContext(ctx context.Context, params *operations.UpdateRootVolumeFreeipaParams, opts ...operations.ClientOption) (*operations.UpdateRootVolumeFreeipaOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateRootVolumeFreeipaContext")
+	}
+
+	var r0 *operations.UpdateRootVolumeFreeipaOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateRootVolumeFreeipaParams, ...operations.ClientOption) (*operations.UpdateRootVolumeFreeipaOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateRootVolumeFreeipaParams, ...operations.ClientOption) *operations.UpdateRootVolumeFreeipaOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateRootVolumeFreeipaOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateRootVolumeFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateRootVolumeFreeipaContext'
+type MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call struct {
+	*mock.Call
+}
+
+// UpdateRootVolumeFreeipaContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateRootVolumeFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateRootVolumeFreeipaContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call {
+	return &MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call{Call: _e.mock.On("UpdateRootVolumeFreeipaContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call) Run(run func(ctx context.Context, params *operations.UpdateRootVolumeFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateRootVolumeFreeipaParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateRootVolumeFreeipaParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call) Return(updateRootVolumeFreeipaOK *operations.UpdateRootVolumeFreeipaOK, err error) *MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call {
+	_c.Call.Return(updateRootVolumeFreeipaOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateRootVolumeFreeipaParams, opts ...operations.ClientOption) (*operations.UpdateRootVolumeFreeipaOK, error)) *MockEnvironmentClientService_UpdateRootVolumeFreeipaContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8339,6 +17128,93 @@ func (_c *MockEnvironmentClientService_UpdateSSHKey_Call) RunAndReturn(run func(
 	return _c
 }
 
+// UpdateSSHKeyContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateSSHKeyContext(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSSHKeyContext")
+	}
+
+	var r0 *operations.UpdateSSHKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSSHKeyParams, ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSSHKeyParams, ...operations.ClientOption) *operations.UpdateSSHKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateSSHKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateSSHKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateSSHKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateSSHKeyContext'
+type MockEnvironmentClientService_UpdateSSHKeyContext_Call struct {
+	*mock.Call
+}
+
+// UpdateSSHKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateSSHKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateSSHKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateSSHKeyContext_Call {
+	return &MockEnvironmentClientService_UpdateSSHKeyContext_Call{Call: _e.mock.On("UpdateSSHKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateSSHKeyContext_Call) Run(run func(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateSSHKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateSSHKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateSSHKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateSSHKeyContext_Call) Return(updateSSHKeyOK *operations.UpdateSSHKeyOK, err error) *MockEnvironmentClientService_UpdateSSHKeyContext_Call {
+	_c.Call.Return(updateSSHKeyOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateSSHKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error)) *MockEnvironmentClientService_UpdateSSHKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateSecurityAccess provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateSecurityAccess(params *operations.UpdateSecurityAccessParams, opts ...operations.ClientOption) (*operations.UpdateSecurityAccessOK, error) {
 	// operations.ClientOption
@@ -8416,6 +17292,93 @@ func (_c *MockEnvironmentClientService_UpdateSecurityAccess_Call) Return(updateS
 }
 
 func (_c *MockEnvironmentClientService_UpdateSecurityAccess_Call) RunAndReturn(run func(params *operations.UpdateSecurityAccessParams, opts ...operations.ClientOption) (*operations.UpdateSecurityAccessOK, error)) *MockEnvironmentClientService_UpdateSecurityAccess_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateSecurityAccessContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateSecurityAccessContext(ctx context.Context, params *operations.UpdateSecurityAccessParams, opts ...operations.ClientOption) (*operations.UpdateSecurityAccessOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSecurityAccessContext")
+	}
+
+	var r0 *operations.UpdateSecurityAccessOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSecurityAccessParams, ...operations.ClientOption) (*operations.UpdateSecurityAccessOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSecurityAccessParams, ...operations.ClientOption) *operations.UpdateSecurityAccessOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateSecurityAccessOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateSecurityAccessParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateSecurityAccessContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateSecurityAccessContext'
+type MockEnvironmentClientService_UpdateSecurityAccessContext_Call struct {
+	*mock.Call
+}
+
+// UpdateSecurityAccessContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateSecurityAccessParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateSecurityAccessContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateSecurityAccessContext_Call {
+	return &MockEnvironmentClientService_UpdateSecurityAccessContext_Call{Call: _e.mock.On("UpdateSecurityAccessContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateSecurityAccessContext_Call) Run(run func(ctx context.Context, params *operations.UpdateSecurityAccessParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateSecurityAccessContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateSecurityAccessParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateSecurityAccessParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateSecurityAccessContext_Call) Return(updateSecurityAccessOK *operations.UpdateSecurityAccessOK, err error) *MockEnvironmentClientService_UpdateSecurityAccessContext_Call {
+	_c.Call.Return(updateSecurityAccessOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateSecurityAccessContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateSecurityAccessParams, opts ...operations.ClientOption) (*operations.UpdateSecurityAccessOK, error)) *MockEnvironmentClientService_UpdateSecurityAccessContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8501,6 +17464,93 @@ func (_c *MockEnvironmentClientService_UpdateSubnet_Call) RunAndReturn(run func(
 	return _c
 }
 
+// UpdateSubnetContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateSubnetContext(ctx context.Context, params *operations.UpdateSubnetParams, opts ...operations.ClientOption) (*operations.UpdateSubnetOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSubnetContext")
+	}
+
+	var r0 *operations.UpdateSubnetOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSubnetParams, ...operations.ClientOption) (*operations.UpdateSubnetOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSubnetParams, ...operations.ClientOption) *operations.UpdateSubnetOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateSubnetOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateSubnetParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateSubnetContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateSubnetContext'
+type MockEnvironmentClientService_UpdateSubnetContext_Call struct {
+	*mock.Call
+}
+
+// UpdateSubnetContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateSubnetParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateSubnetContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateSubnetContext_Call {
+	return &MockEnvironmentClientService_UpdateSubnetContext_Call{Call: _e.mock.On("UpdateSubnetContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateSubnetContext_Call) Run(run func(ctx context.Context, params *operations.UpdateSubnetParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateSubnetContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateSubnetParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateSubnetParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateSubnetContext_Call) Return(updateSubnetOK *operations.UpdateSubnetOK, err error) *MockEnvironmentClientService_UpdateSubnetContext_Call {
+	_c.Call.Return(updateSubnetOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateSubnetContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateSubnetParams, opts ...operations.ClientOption) (*operations.UpdateSubnetOK, error)) *MockEnvironmentClientService_UpdateSubnetContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateTags provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpdateTags(params *operations.UpdateTagsParams, opts ...operations.ClientOption) (*operations.UpdateTagsOK, error) {
 	// operations.ClientOption
@@ -8578,6 +17628,93 @@ func (_c *MockEnvironmentClientService_UpdateTags_Call) Return(updateTagsOK *ope
 }
 
 func (_c *MockEnvironmentClientService_UpdateTags_Call) RunAndReturn(run func(params *operations.UpdateTagsParams, opts ...operations.ClientOption) (*operations.UpdateTagsOK, error)) *MockEnvironmentClientService_UpdateTags_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateTagsContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpdateTagsContext(ctx context.Context, params *operations.UpdateTagsParams, opts ...operations.ClientOption) (*operations.UpdateTagsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateTagsContext")
+	}
+
+	var r0 *operations.UpdateTagsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateTagsParams, ...operations.ClientOption) (*operations.UpdateTagsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateTagsParams, ...operations.ClientOption) *operations.UpdateTagsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateTagsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateTagsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpdateTagsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateTagsContext'
+type MockEnvironmentClientService_UpdateTagsContext_Call struct {
+	*mock.Call
+}
+
+// UpdateTagsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateTagsParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpdateTagsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpdateTagsContext_Call {
+	return &MockEnvironmentClientService_UpdateTagsContext_Call{Call: _e.mock.On("UpdateTagsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpdateTagsContext_Call) Run(run func(ctx context.Context, params *operations.UpdateTagsParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpdateTagsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateTagsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateTagsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateTagsContext_Call) Return(updateTagsOK *operations.UpdateTagsOK, err error) *MockEnvironmentClientService_UpdateTagsContext_Call {
+	_c.Call.Return(updateTagsOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpdateTagsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateTagsParams, opts ...operations.ClientOption) (*operations.UpdateTagsOK, error)) *MockEnvironmentClientService_UpdateTagsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8663,6 +17800,93 @@ func (_c *MockEnvironmentClientService_UpgradeCcm_Call) RunAndReturn(run func(pa
 	return _c
 }
 
+// UpgradeCcmContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpgradeCcmContext(ctx context.Context, params *operations.UpgradeCcmParams, opts ...operations.ClientOption) (*operations.UpgradeCcmOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeCcmContext")
+	}
+
+	var r0 *operations.UpgradeCcmOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeCcmParams, ...operations.ClientOption) (*operations.UpgradeCcmOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeCcmParams, ...operations.ClientOption) *operations.UpgradeCcmOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpgradeCcmOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpgradeCcmParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpgradeCcmContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradeCcmContext'
+type MockEnvironmentClientService_UpgradeCcmContext_Call struct {
+	*mock.Call
+}
+
+// UpgradeCcmContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpgradeCcmParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpgradeCcmContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpgradeCcmContext_Call {
+	return &MockEnvironmentClientService_UpgradeCcmContext_Call{Call: _e.mock.On("UpgradeCcmContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpgradeCcmContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeCcmParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpgradeCcmContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpgradeCcmParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpgradeCcmParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpgradeCcmContext_Call) Return(upgradeCcmOK *operations.UpgradeCcmOK, err error) *MockEnvironmentClientService_UpgradeCcmContext_Call {
+	_c.Call.Return(upgradeCcmOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpgradeCcmContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpgradeCcmParams, opts ...operations.ClientOption) (*operations.UpgradeCcmOK, error)) *MockEnvironmentClientService_UpgradeCcmContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpgradeFreeipa provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) UpgradeFreeipa(params *operations.UpgradeFreeipaParams, opts ...operations.ClientOption) (*operations.UpgradeFreeipaOK, error) {
 	// operations.ClientOption
@@ -8740,6 +17964,93 @@ func (_c *MockEnvironmentClientService_UpgradeFreeipa_Call) Return(upgradeFreeip
 }
 
 func (_c *MockEnvironmentClientService_UpgradeFreeipa_Call) RunAndReturn(run func(params *operations.UpgradeFreeipaParams, opts ...operations.ClientOption) (*operations.UpgradeFreeipaOK, error)) *MockEnvironmentClientService_UpgradeFreeipa_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradeFreeipaContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpgradeFreeipaContext(ctx context.Context, params *operations.UpgradeFreeipaParams, opts ...operations.ClientOption) (*operations.UpgradeFreeipaOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeFreeipaContext")
+	}
+
+	var r0 *operations.UpgradeFreeipaOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeFreeipaParams, ...operations.ClientOption) (*operations.UpgradeFreeipaOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeFreeipaParams, ...operations.ClientOption) *operations.UpgradeFreeipaOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpgradeFreeipaOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpgradeFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpgradeFreeipaContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradeFreeipaContext'
+type MockEnvironmentClientService_UpgradeFreeipaContext_Call struct {
+	*mock.Call
+}
+
+// UpgradeFreeipaContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpgradeFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpgradeFreeipaContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpgradeFreeipaContext_Call {
+	return &MockEnvironmentClientService_UpgradeFreeipaContext_Call{Call: _e.mock.On("UpgradeFreeipaContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpgradeFreeipaContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpgradeFreeipaContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpgradeFreeipaParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpgradeFreeipaParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpgradeFreeipaContext_Call) Return(upgradeFreeipaOK *operations.UpgradeFreeipaOK, err error) *MockEnvironmentClientService_UpgradeFreeipaContext_Call {
+	_c.Call.Return(upgradeFreeipaOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpgradeFreeipaContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpgradeFreeipaParams, opts ...operations.ClientOption) (*operations.UpgradeFreeipaOK, error)) *MockEnvironmentClientService_UpgradeFreeipaContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8825,6 +18136,93 @@ func (_c *MockEnvironmentClientService_UpscaleFreeipa_Call) RunAndReturn(run fun
 	return _c
 }
 
+// UpscaleFreeipaContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) UpscaleFreeipaContext(ctx context.Context, params *operations.UpscaleFreeipaParams, opts ...operations.ClientOption) (*operations.UpscaleFreeipaOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpscaleFreeipaContext")
+	}
+
+	var r0 *operations.UpscaleFreeipaOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpscaleFreeipaParams, ...operations.ClientOption) (*operations.UpscaleFreeipaOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpscaleFreeipaParams, ...operations.ClientOption) *operations.UpscaleFreeipaOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpscaleFreeipaOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpscaleFreeipaParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_UpscaleFreeipaContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpscaleFreeipaContext'
+type MockEnvironmentClientService_UpscaleFreeipaContext_Call struct {
+	*mock.Call
+}
+
+// UpscaleFreeipaContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpscaleFreeipaParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) UpscaleFreeipaContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_UpscaleFreeipaContext_Call {
+	return &MockEnvironmentClientService_UpscaleFreeipaContext_Call{Call: _e.mock.On("UpscaleFreeipaContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_UpscaleFreeipaContext_Call) Run(run func(ctx context.Context, params *operations.UpscaleFreeipaParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_UpscaleFreeipaContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpscaleFreeipaParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpscaleFreeipaParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpscaleFreeipaContext_Call) Return(upscaleFreeipaOK *operations.UpscaleFreeipaOK, err error) *MockEnvironmentClientService_UpscaleFreeipaContext_Call {
+	_c.Call.Return(upscaleFreeipaOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_UpscaleFreeipaContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpscaleFreeipaParams, opts ...operations.ClientOption) (*operations.UpscaleFreeipaOK, error)) *MockEnvironmentClientService_UpscaleFreeipaContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ValidateAwsCloudStorage provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ValidateAwsCloudStorage(params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAwsCloudStorageOK, error) {
 	// operations.ClientOption
@@ -8906,6 +18304,93 @@ func (_c *MockEnvironmentClientService_ValidateAwsCloudStorage_Call) RunAndRetur
 	return _c
 }
 
+// ValidateAwsCloudStorageContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ValidateAwsCloudStorageContext(ctx context.Context, params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAwsCloudStorageOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ValidateAwsCloudStorageContext")
+	}
+
+	var r0 *operations.ValidateAwsCloudStorageOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ValidateAwsCloudStorageParams, ...operations.ClientOption) (*operations.ValidateAwsCloudStorageOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ValidateAwsCloudStorageParams, ...operations.ClientOption) *operations.ValidateAwsCloudStorageOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ValidateAwsCloudStorageOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ValidateAwsCloudStorageParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ValidateAwsCloudStorageContext'
+type MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call struct {
+	*mock.Call
+}
+
+// ValidateAwsCloudStorageContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ValidateAwsCloudStorageParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ValidateAwsCloudStorageContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call {
+	return &MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call{Call: _e.mock.On("ValidateAwsCloudStorageContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call) Run(run func(ctx context.Context, params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ValidateAwsCloudStorageParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ValidateAwsCloudStorageParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call) Return(validateAwsCloudStorageOK *operations.ValidateAwsCloudStorageOK, err error) *MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call {
+	_c.Call.Return(validateAwsCloudStorageOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAwsCloudStorageOK, error)) *MockEnvironmentClientService_ValidateAwsCloudStorageContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ValidateAzureCloudStorage provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) ValidateAzureCloudStorage(params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAzureCloudStorageOK, error) {
 	// operations.ClientOption
@@ -8983,6 +18468,93 @@ func (_c *MockEnvironmentClientService_ValidateAzureCloudStorage_Call) Return(va
 }
 
 func (_c *MockEnvironmentClientService_ValidateAzureCloudStorage_Call) RunAndReturn(run func(params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAzureCloudStorageOK, error)) *MockEnvironmentClientService_ValidateAzureCloudStorage_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ValidateAzureCloudStorageContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) ValidateAzureCloudStorageContext(ctx context.Context, params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAzureCloudStorageOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ValidateAzureCloudStorageContext")
+	}
+
+	var r0 *operations.ValidateAzureCloudStorageOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ValidateAzureCloudStorageParams, ...operations.ClientOption) (*operations.ValidateAzureCloudStorageOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ValidateAzureCloudStorageParams, ...operations.ClientOption) *operations.ValidateAzureCloudStorageOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ValidateAzureCloudStorageOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ValidateAzureCloudStorageParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ValidateAzureCloudStorageContext'
+type MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call struct {
+	*mock.Call
+}
+
+// ValidateAzureCloudStorageContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ValidateAzureCloudStorageParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) ValidateAzureCloudStorageContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call {
+	return &MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call{Call: _e.mock.On("ValidateAzureCloudStorageContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call) Run(run func(ctx context.Context, params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ValidateAzureCloudStorageParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ValidateAzureCloudStorageParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call) Return(validateAzureCloudStorageOK *operations.ValidateAzureCloudStorageOK, err error) *MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call {
+	_c.Call.Return(validateAzureCloudStorageOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAzureCloudStorageOK, error)) *MockEnvironmentClientService_ValidateAzureCloudStorageContext_Call {
 	_c.Call.Return(run)
 	return _c
 }

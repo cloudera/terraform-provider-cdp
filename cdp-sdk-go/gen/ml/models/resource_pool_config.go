@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ResourcePoolConfig Resource pool configuration for quota management.
@@ -38,7 +39,7 @@ func (m *ResourcePoolConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ResourcePoolConfig) validateWorkspaceQuota(formats strfmt.Registry) error {
-	if swag.IsZero(m.WorkspaceQuota) { // not required
+	if typeutils.IsZero(m.WorkspaceQuota) { // not required
 		return nil
 	}
 
@@ -78,7 +79,7 @@ func (m *ResourcePoolConfig) contextValidateWorkspaceQuota(ctx context.Context, 
 
 	if m.WorkspaceQuota != nil {
 
-		if swag.IsZero(m.WorkspaceQuota) { // not required
+		if typeutils.IsZero(m.WorkspaceQuota) { // not required
 			return nil
 		}
 
@@ -104,13 +105,13 @@ func (m *ResourcePoolConfig) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ResourcePoolConfig) UnmarshalBinary(b []byte) error {
 	var res ResourcePoolConfig
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

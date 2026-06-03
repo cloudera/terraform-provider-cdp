@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -68,7 +69,7 @@ func (m *StartClusterVerticalScalingRequest) validateDatahub(formats strfmt.Regi
 }
 
 func (m *StartClusterVerticalScalingRequest) validateDiskOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.DiskOptions) { // not required
+	if typeutils.IsZero(m.DiskOptions) { // not required
 		return nil
 	}
 
@@ -100,7 +101,7 @@ func (m *StartClusterVerticalScalingRequest) validateGroup(formats strfmt.Regist
 }
 
 func (m *StartClusterVerticalScalingRequest) validateInstanceTemplate(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceTemplate) { // not required
+	if typeutils.IsZero(m.InstanceTemplate) { // not required
 		return nil
 	}
 
@@ -144,7 +145,7 @@ func (m *StartClusterVerticalScalingRequest) contextValidateDiskOptions(ctx cont
 
 	if m.DiskOptions != nil {
 
-		if swag.IsZero(m.DiskOptions) { // not required
+		if typeutils.IsZero(m.DiskOptions) { // not required
 			return nil
 		}
 
@@ -169,7 +170,7 @@ func (m *StartClusterVerticalScalingRequest) contextValidateInstanceTemplate(ctx
 
 	if m.InstanceTemplate != nil {
 
-		if swag.IsZero(m.InstanceTemplate) { // not required
+		if typeutils.IsZero(m.InstanceTemplate) { // not required
 			return nil
 		}
 
@@ -195,13 +196,13 @@ func (m *StartClusterVerticalScalingRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *StartClusterVerticalScalingRequest) UnmarshalBinary(b []byte) error {
 	var res StartClusterVerticalScalingRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewUpdatePrivateClusterParams creates a new UpdatePrivateClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdatePrivateClusterParams() *UpdatePrivateClusterParams {
-	return &UpdatePrivateClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdatePrivateClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdatePrivateClusterParamsWithTimeout creates a new UpdatePrivateClusterParams object
 // with the ability to set a timeout on a request.
 func NewUpdatePrivateClusterParamsWithTimeout(timeout time.Duration) *UpdatePrivateClusterParams {
 	return &UpdatePrivateClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdatePrivateClusterParamsWithContext creates a new UpdatePrivateClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdatePrivateClusterParams].
 func NewUpdatePrivateClusterParamsWithContext(ctx context.Context) *UpdatePrivateClusterParams {
 	return &UpdatePrivateClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdatePrivateClusterParams struct {
 	// Input.
 	Input *models.UpdatePrivateClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update private cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdatePrivateClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update private cluster params
+// WithTimeout adds the timeout to the update private cluster params.
 func (o *UpdatePrivateClusterParams) WithTimeout(timeout time.Duration) *UpdatePrivateClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update private cluster params
+// SetTimeout adds the timeout to the update private cluster params.
 func (o *UpdatePrivateClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update private cluster params
+// WithContext adds the context to the update private cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdatePrivateClusterParams].
 func (o *UpdatePrivateClusterParams) WithContext(ctx context.Context) *UpdatePrivateClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update private cluster params
+// SetContext adds the context to the update private cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdatePrivateClusterParams].
 func (o *UpdatePrivateClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update private cluster params
+// WithHTTPClient adds the HTTPClient to the update private cluster params.
 func (o *UpdatePrivateClusterParams) WithHTTPClient(client *http.Client) *UpdatePrivateClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update private cluster params
+// SetHTTPClient adds the HTTPClient to the update private cluster params.
 func (o *UpdatePrivateClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update private cluster params
+// WithInput adds the input to the update private cluster params.
 func (o *UpdatePrivateClusterParams) WithInput(input *models.UpdatePrivateClusterRequest) *UpdatePrivateClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update private cluster params
+// SetInput adds the input to the update private cluster params.
 func (o *UpdatePrivateClusterParams) SetInput(input *models.UpdatePrivateClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdatePrivateClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

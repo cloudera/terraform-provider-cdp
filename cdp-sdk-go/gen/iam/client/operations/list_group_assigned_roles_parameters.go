@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListGroupAssignedRolesParams creates a new ListGroupAssignedRolesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListGroupAssignedRolesParams() *ListGroupAssignedRolesParams {
-	return &ListGroupAssignedRolesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListGroupAssignedRolesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListGroupAssignedRolesParamsWithTimeout creates a new ListGroupAssignedRolesParams object
 // with the ability to set a timeout on a request.
 func NewListGroupAssignedRolesParamsWithTimeout(timeout time.Duration) *ListGroupAssignedRolesParams {
 	return &ListGroupAssignedRolesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListGroupAssignedRolesParamsWithContext creates a new ListGroupAssignedRolesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupAssignedRolesParams].
 func NewListGroupAssignedRolesParamsWithContext(ctx context.Context) *ListGroupAssignedRolesParams {
 	return &ListGroupAssignedRolesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListGroupAssignedRolesParams struct {
 	// Input.
 	Input *models.ListGroupAssignedRolesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list group assigned roles params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListGroupAssignedRolesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list group assigned roles params
+// WithTimeout adds the timeout to the list group assigned roles params.
 func (o *ListGroupAssignedRolesParams) WithTimeout(timeout time.Duration) *ListGroupAssignedRolesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list group assigned roles params
+// SetTimeout adds the timeout to the list group assigned roles params.
 func (o *ListGroupAssignedRolesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list group assigned roles params
+// WithContext adds the context to the list group assigned roles params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupAssignedRolesParams].
 func (o *ListGroupAssignedRolesParams) WithContext(ctx context.Context) *ListGroupAssignedRolesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list group assigned roles params
+// SetContext adds the context to the list group assigned roles params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupAssignedRolesParams].
 func (o *ListGroupAssignedRolesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list group assigned roles params
+// WithHTTPClient adds the HTTPClient to the list group assigned roles params.
 func (o *ListGroupAssignedRolesParams) WithHTTPClient(client *http.Client) *ListGroupAssignedRolesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list group assigned roles params
+// SetHTTPClient adds the HTTPClient to the list group assigned roles params.
 func (o *ListGroupAssignedRolesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list group assigned roles params
+// WithInput adds the input to the list group assigned roles params.
 func (o *ListGroupAssignedRolesParams) WithInput(input *models.ListGroupAssignedRolesRequest) *ListGroupAssignedRolesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list group assigned roles params
+// SetInput adds the input to the list group assigned roles params.
 func (o *ListGroupAssignedRolesParams) SetInput(input *models.ListGroupAssignedRolesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListGroupAssignedRolesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

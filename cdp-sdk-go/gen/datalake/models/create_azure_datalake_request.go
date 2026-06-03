@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -153,12 +154,12 @@ func (m *CreateAzureDatalakeRequest) validateCloudProviderConfiguration(formats 
 }
 
 func (m *CreateAzureDatalakeRequest) validateCustomInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomInstanceGroups) { // not required
+	if typeutils.IsZero(m.CustomInstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.CustomInstanceGroups); i++ {
-		if swag.IsZero(m.CustomInstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.CustomInstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -212,7 +213,7 @@ func (m *CreateAzureDatalakeRequest) validateDatabaseTypeEnum(path, location str
 }
 
 func (m *CreateAzureDatalakeRequest) validateDatabaseType(formats strfmt.Registry) error {
-	if swag.IsZero(m.DatabaseType) { // not required
+	if typeutils.IsZero(m.DatabaseType) { // not required
 		return nil
 	}
 
@@ -251,7 +252,7 @@ func (m *CreateAzureDatalakeRequest) validateEnvironmentName(formats strfmt.Regi
 }
 
 func (m *CreateAzureDatalakeRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -274,7 +275,7 @@ func (m *CreateAzureDatalakeRequest) validateImage(formats strfmt.Registry) erro
 }
 
 func (m *CreateAzureDatalakeRequest) validateLoadBalancerSku(formats strfmt.Registry) error {
-	if swag.IsZero(m.LoadBalancerSku) { // not required
+	if typeutils.IsZero(m.LoadBalancerSku) { // not required
 		return nil
 	}
 
@@ -295,12 +296,12 @@ func (m *CreateAzureDatalakeRequest) validateLoadBalancerSku(formats strfmt.Regi
 }
 
 func (m *CreateAzureDatalakeRequest) validateRecipes(formats strfmt.Registry) error {
-	if swag.IsZero(m.Recipes) { // not required
+	if typeutils.IsZero(m.Recipes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Recipes); i++ {
-		if swag.IsZero(m.Recipes[i]) { // not required
+		if typeutils.IsZero(m.Recipes[i]) { // not required
 			continue
 		}
 
@@ -325,7 +326,7 @@ func (m *CreateAzureDatalakeRequest) validateRecipes(formats strfmt.Registry) er
 }
 
 func (m *CreateAzureDatalakeRequest) validateScale(formats strfmt.Registry) error {
-	if swag.IsZero(m.Scale) { // not required
+	if typeutils.IsZero(m.Scale) { // not required
 		return nil
 	}
 
@@ -346,7 +347,7 @@ func (m *CreateAzureDatalakeRequest) validateScale(formats strfmt.Registry) erro
 }
 
 func (m *CreateAzureDatalakeRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -369,12 +370,12 @@ func (m *CreateAzureDatalakeRequest) validateSecurity(formats strfmt.Registry) e
 }
 
 func (m *CreateAzureDatalakeRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -467,7 +468,7 @@ func (m *CreateAzureDatalakeRequest) contextValidateCustomInstanceGroups(ctx con
 
 		if m.CustomInstanceGroups[i] != nil {
 
-			if swag.IsZero(m.CustomInstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.CustomInstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -494,7 +495,7 @@ func (m *CreateAzureDatalakeRequest) contextValidateImage(ctx context.Context, f
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -517,7 +518,7 @@ func (m *CreateAzureDatalakeRequest) contextValidateImage(ctx context.Context, f
 
 func (m *CreateAzureDatalakeRequest) contextValidateLoadBalancerSku(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.LoadBalancerSku) { // not required
+	if typeutils.IsZero(m.LoadBalancerSku) { // not required
 		return nil
 	}
 
@@ -543,7 +544,7 @@ func (m *CreateAzureDatalakeRequest) contextValidateRecipes(ctx context.Context,
 
 		if m.Recipes[i] != nil {
 
-			if swag.IsZero(m.Recipes[i]) { // not required
+			if typeutils.IsZero(m.Recipes[i]) { // not required
 				return nil
 			}
 
@@ -568,7 +569,7 @@ func (m *CreateAzureDatalakeRequest) contextValidateRecipes(ctx context.Context,
 
 func (m *CreateAzureDatalakeRequest) contextValidateScale(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Scale) { // not required
+	if typeutils.IsZero(m.Scale) { // not required
 		return nil
 	}
 
@@ -592,7 +593,7 @@ func (m *CreateAzureDatalakeRequest) contextValidateSecurity(ctx context.Context
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -619,7 +620,7 @@ func (m *CreateAzureDatalakeRequest) contextValidateTags(ctx context.Context, fo
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -647,13 +648,13 @@ func (m *CreateAzureDatalakeRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAzureDatalakeRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAzureDatalakeRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

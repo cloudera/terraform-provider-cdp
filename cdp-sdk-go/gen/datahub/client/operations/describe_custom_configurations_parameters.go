@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDescribeCustomConfigurationsParams creates a new DescribeCustomConfigurationsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeCustomConfigurationsParams() *DescribeCustomConfigurationsParams {
-	return &DescribeCustomConfigurationsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeCustomConfigurationsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeCustomConfigurationsParamsWithTimeout creates a new DescribeCustomConfigurationsParams object
 // with the ability to set a timeout on a request.
 func NewDescribeCustomConfigurationsParamsWithTimeout(timeout time.Duration) *DescribeCustomConfigurationsParams {
 	return &DescribeCustomConfigurationsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeCustomConfigurationsParamsWithContext creates a new DescribeCustomConfigurationsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeCustomConfigurationsParams].
 func NewDescribeCustomConfigurationsParamsWithContext(ctx context.Context) *DescribeCustomConfigurationsParams {
 	return &DescribeCustomConfigurationsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeCustomConfigurationsParams struct {
 	// Input.
 	Input *models.DescribeCustomConfigurationsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe custom configurations params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeCustomConfigurationsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe custom configurations params
+// WithTimeout adds the timeout to the describe custom configurations params.
 func (o *DescribeCustomConfigurationsParams) WithTimeout(timeout time.Duration) *DescribeCustomConfigurationsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe custom configurations params
+// SetTimeout adds the timeout to the describe custom configurations params.
 func (o *DescribeCustomConfigurationsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe custom configurations params
+// WithContext adds the context to the describe custom configurations params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeCustomConfigurationsParams].
 func (o *DescribeCustomConfigurationsParams) WithContext(ctx context.Context) *DescribeCustomConfigurationsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe custom configurations params
+// SetContext adds the context to the describe custom configurations params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeCustomConfigurationsParams].
 func (o *DescribeCustomConfigurationsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe custom configurations params
+// WithHTTPClient adds the HTTPClient to the describe custom configurations params.
 func (o *DescribeCustomConfigurationsParams) WithHTTPClient(client *http.Client) *DescribeCustomConfigurationsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe custom configurations params
+// SetHTTPClient adds the HTTPClient to the describe custom configurations params.
 func (o *DescribeCustomConfigurationsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe custom configurations params
+// WithInput adds the input to the describe custom configurations params.
 func (o *DescribeCustomConfigurationsParams) WithInput(input *models.DescribeCustomConfigurationsRequest) *DescribeCustomConfigurationsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe custom configurations params
+// SetInput adds the input to the describe custom configurations params.
 func (o *DescribeCustomConfigurationsParams) SetInput(input *models.DescribeCustomConfigurationsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeCustomConfigurationsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

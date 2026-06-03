@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -39,201 +44,566 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 }
 
 /*
-Client for operations API
+Client for operations API.
 */
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// AddMachineUserToGroup add a machine user to group.
 	AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error)
 
+	// AddMachineUserToGroupContext add a machine user to group.
+	AddMachineUserToGroupContext(ctx context.Context, params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error)
+
+	// AddSSHPublicKey adds an SSH public key for an actor.
 	AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error)
 
+	// AddSSHPublicKeyContext adds an SSH public key for an actor.
+	AddSSHPublicKeyContext(ctx context.Context, params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error)
+
+	// AddUserToGroup add a user to a group.
 	AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error)
 
+	// AddUserToGroupContext add a user to a group.
+	AddUserToGroupContext(ctx context.Context, params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error)
+
+	// AssignAzureCloudIdentity assign an azure cloud identity to an actor or group.
 	AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error)
 
+	// AssignAzureCloudIdentityContext assign an azure cloud identity to an actor or group.
+	AssignAzureCloudIdentityContext(ctx context.Context, params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error)
+
+	// AssignGroupResourceRole assign a resource role to a group.
 	AssignGroupResourceRole(params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error)
 
+	// AssignGroupResourceRoleContext assign a resource role to a group.
+	AssignGroupResourceRoleContext(ctx context.Context, params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error)
+
+	// AssignGroupRole assign a role to a group.
 	AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error)
 
+	// AssignGroupRoleContext assign a role to a group.
+	AssignGroupRoleContext(ctx context.Context, params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error)
+
+	// AssignMachineUserResourceRole assign a resource role to a machine user.
 	AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error)
 
+	// AssignMachineUserResourceRoleContext assign a resource role to a machine user.
+	AssignMachineUserResourceRoleContext(ctx context.Context, params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error)
+
+	// AssignMachineUserRole assign a role to a machine user.
 	AssignMachineUserRole(params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error)
 
+	// AssignMachineUserRoleContext assign a role to a machine user.
+	AssignMachineUserRoleContext(ctx context.Context, params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error)
+
+	// AssignServicePrincipalAzureCloudIdentity assign an azure cloud identity to a service principal.
 	AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error)
 
+	// AssignServicePrincipalAzureCloudIdentityContext assign an azure cloud identity to a service principal.
+	AssignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error)
+
+	// AssignUserResourceRole assign a resource role to a user.
 	AssignUserResourceRole(params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error)
 
+	// AssignUserResourceRoleContext assign a resource role to a user.
+	AssignUserResourceRoleContext(ctx context.Context, params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error)
+
+	// AssignUserRole assign a role to a user.
 	AssignUserRole(params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error)
 
+	// AssignUserRoleContext assign a role to a user.
+	AssignUserRoleContext(ctx context.Context, params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error)
+
+	// CreateGroup create a group.
 	CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error)
 
+	// CreateGroupContext create a group.
+	CreateGroupContext(ctx context.Context, params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error)
+
+	// CreateLdapProvider create ldap provider.
 	CreateLdapProvider(params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error)
 
+	// CreateLdapProviderContext create ldap provider.
+	CreateLdapProviderContext(ctx context.Context, params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error)
+
+	// CreateMachineUser create a machine user.
 	CreateMachineUser(params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error)
 
+	// CreateMachineUserContext create a machine user.
+	CreateMachineUserContext(ctx context.Context, params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error)
+
+	// CreateMachineUserAccessKey creates a new access key for a machine user.
 	CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error)
 
+	// CreateMachineUserAccessKeyContext creates a new access key for a machine user.
+	CreateMachineUserAccessKeyContext(ctx context.Context, params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error)
+
+	// CreateSamlProvider creates a s a m l provider in c d p.
 	CreateSamlProvider(params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error)
 
+	// CreateSamlProviderContext creates a s a m l provider in c d p.
+	CreateSamlProviderContext(ctx context.Context, params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error)
+
+	// CreateScimAccessToken creates a s c i m access token for a s c i m enabled identity provider.
 	CreateScimAccessToken(params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error)
 
+	// CreateScimAccessTokenContext creates a s c i m access token for a s c i m enabled identity provider.
+	CreateScimAccessTokenContext(ctx context.Context, params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error)
+
+	// CreateUser creates a user in c d p.
 	CreateUser(params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error)
 
+	// CreateUserContext creates a user in c d p.
+	CreateUserContext(ctx context.Context, params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error)
+
+	// CreateUserAccessKey creates a new access key for a user.
 	CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error)
 
+	// CreateUserAccessKeyContext creates a new access key for a user.
+	CreateUserAccessKeyContext(ctx context.Context, params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error)
+
+	// DeleteAccessKey deletes an access key.
 	DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error)
 
+	// DeleteAccessKeyContext deletes an access key.
+	DeleteAccessKeyContext(ctx context.Context, params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error)
+
+	// DeleteGroup delete a group.
 	DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error)
 
+	// DeleteGroupContext delete a group.
+	DeleteGroupContext(ctx context.Context, params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error)
+
+	// DeleteMachineUser delete a machine user.
 	DeleteMachineUser(params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error)
 
+	// DeleteMachineUserContext delete a machine user.
+	DeleteMachineUserContext(ctx context.Context, params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error)
+
+	// DeleteSamlProvider deletes a s a m l provider in c d p account.
 	DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error)
 
+	// DeleteSamlProviderContext deletes a s a m l provider in c d p account.
+	DeleteSamlProviderContext(ctx context.Context, params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error)
+
+	// DeleteScimAccessToken deletes a s c i m access token.
 	DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error)
 
+	// DeleteScimAccessTokenContext deletes a s c i m access token.
+	DeleteScimAccessTokenContext(ctx context.Context, params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error)
+
+	// DeleteSSHPublicKey deletes an SSH public key for an actor.
 	DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error)
 
+	// DeleteSSHPublicKeyContext deletes an SSH public key for an actor.
+	DeleteSSHPublicKeyContext(ctx context.Context, params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error)
+
+	// DeleteUser deletes a user and all associated resources.
 	DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error)
 
+	// DeleteUserContext deletes a user and all associated resources.
+	DeleteUserContext(ctx context.Context, params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error)
+
+	// DescribeSamlProvider describes one s a m l provider.
 	DescribeSamlProvider(params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error)
 
+	// DescribeSamlProviderContext describes one s a m l provider.
+	DescribeSamlProviderContext(ctx context.Context, params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error)
+
+	// DescribeSSHPublicKey describes an SSH public key for an actor.
 	DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error)
 
+	// DescribeSSHPublicKeyContext describes an SSH public key for an actor.
+	DescribeSSHPublicKeyContext(ctx context.Context, params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error)
+
+	// DisableClouderaSSOLogin disables interactive login using cloudera s s o for this account.
 	DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error)
 
+	// DisableClouderaSSOLoginContext disables interactive login using cloudera s s o for this account.
+	DisableClouderaSSOLoginContext(ctx context.Context, params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error)
+
+	// DisableUserWorkloadPasswordChangedNotifications disables sending user workload password changed email notifications for the account.
 	DisableUserWorkloadPasswordChangedNotifications(params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error)
 
+	// DisableUserWorkloadPasswordChangedNotificationsContext disables sending user workload password changed email notifications for the account.
+	DisableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error)
+
+	// EnableClouderaSSOLogin enables interactive login using cloudera s s o for this account.
 	EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error)
 
+	// EnableClouderaSSOLoginContext enables interactive login using cloudera s s o for this account.
+	EnableClouderaSSOLoginContext(ctx context.Context, params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error)
+
+	// EnableUserWorkloadPasswordChangedNotifications enables sending user workload password changed email notifications for the account.
 	EnableUserWorkloadPasswordChangedNotifications(params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error)
 
+	// EnableUserWorkloadPasswordChangedNotificationsContext enables sending user workload password changed email notifications for the account.
+	EnableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error)
+
+	// GenerateWorkloadAuthToken generates an authentication token for workload APIs.
 	GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error)
 
+	// GenerateWorkloadAuthTokenContext generates an authentication token for workload APIs.
+	GenerateWorkloadAuthTokenContext(ctx context.Context, params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error)
+
+	// GetAccessKey gets information on an access key.
 	GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error)
 
+	// GetAccessKeyContext gets information on an access key.
+	GetAccessKeyContext(ctx context.Context, params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error)
+
+	// GetAccount retrieves information about the c d p account.
 	GetAccount(params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error)
 
+	// GetAccountContext retrieves information about the c d p account.
+	GetAccountContext(ctx context.Context, params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error)
+
+	// GetAccountMessages get account messages.
 	GetAccountMessages(params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error)
 
+	// GetAccountMessagesContext get account messages.
+	GetAccountMessagesContext(ctx context.Context, params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error)
+
+	// GetDefaultIdentityProvider retrieves the c r n of the default identity provider.
 	GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error)
 
+	// GetDefaultIdentityProviderContext retrieves the c r n of the default identity provider.
+	GetDefaultIdentityProviderContext(ctx context.Context, params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error)
+
+	// GetUser gets information on a user.
 	GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserOK, error)
 
+	// GetUserContext gets information on a user.
+	GetUserContext(ctx context.Context, params *GetUserParams, opts ...ClientOption) (*GetUserOK, error)
+
+	// ListAccessKeys lists access keys.
 	ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error)
 
+	// ListAccessKeysContext lists access keys.
+	ListAccessKeysContext(ctx context.Context, params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error)
+
+	// ListGroupAssignedResourceRoles lists a group s assigned resource roles.
 	ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error)
 
+	// ListGroupAssignedResourceRolesContext lists a group s assigned resource roles.
+	ListGroupAssignedResourceRolesContext(ctx context.Context, params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error)
+
+	// ListGroupAssignedRoles lists the group s assigned roles.
 	ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error)
 
+	// ListGroupAssignedRolesContext lists the group s assigned roles.
+	ListGroupAssignedRolesContext(ctx context.Context, params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error)
+
+	// ListGroupMembers list the members of a group.
 	ListGroupMembers(params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error)
 
+	// ListGroupMembersContext list the members of a group.
+	ListGroupMembersContext(ctx context.Context, params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error)
+
+	// ListGroups lists groups.
 	ListGroups(params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error)
 
+	// ListGroupsContext lists groups.
+	ListGroupsContext(ctx context.Context, params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error)
+
+	// ListGroupsForMachineUser list the groups that the machine user belongs to.
 	ListGroupsForMachineUser(params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error)
 
+	// ListGroupsForMachineUserContext list the groups that the machine user belongs to.
+	ListGroupsForMachineUserContext(ctx context.Context, params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error)
+
+	// ListGroupsForUser list the groups that the user belongs to.
 	ListGroupsForUser(params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error)
 
+	// ListGroupsForUserContext list the groups that the user belongs to.
+	ListGroupsForUserContext(ctx context.Context, params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error)
+
+	// ListMachineUserAssignedResourceRoles lists a machine user s assigned resource roles.
 	ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error)
 
+	// ListMachineUserAssignedResourceRolesContext lists a machine user s assigned resource roles.
+	ListMachineUserAssignedResourceRolesContext(ctx context.Context, params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error)
+
+	// ListMachineUserAssignedRoles lists the machine user s assigned roles.
 	ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error)
 
+	// ListMachineUserAssignedRolesContext lists the machine user s assigned roles.
+	ListMachineUserAssignedRolesContext(ctx context.Context, params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error)
+
+	// ListMachineUsers lists machine users.
 	ListMachineUsers(params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error)
 
+	// ListMachineUsersContext lists machine users.
+	ListMachineUsersContext(ctx context.Context, params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error)
+
+	// ListResourceAssignees list the resource assignees and their respective resource roles for the resource.
 	ListResourceAssignees(params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error)
 
+	// ListResourceAssigneesContext list the resource assignees and their respective resource roles for the resource.
+	ListResourceAssigneesContext(ctx context.Context, params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error)
+
+	// ListResourceRoles lists all the available resource roles.
 	ListResourceRoles(params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error)
 
+	// ListResourceRolesContext lists all the available resource roles.
+	ListResourceRolesContext(ctx context.Context, params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error)
+
+	// ListRoles lists all the available roles.
 	ListRoles(params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error)
 
+	// ListRolesContext lists all the available roles.
+	ListRolesContext(ctx context.Context, params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error)
+
+	// ListSamlProviders lists s a m l providers in c d p account.
 	ListSamlProviders(params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error)
 
+	// ListSamlProvidersContext lists s a m l providers in c d p account.
+	ListSamlProvidersContext(ctx context.Context, params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error)
+
+	// ListScimAccessTokens lists s c i m access tokens for a s c i m enabled identity provider.
 	ListScimAccessTokens(params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error)
 
+	// ListScimAccessTokensContext lists s c i m access tokens for a s c i m enabled identity provider.
+	ListScimAccessTokensContext(ctx context.Context, params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error)
+
+	// ListServicePrincipalCloudIdentities list cloud identity mappings for service principals.
 	ListServicePrincipalCloudIdentities(params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error)
 
+	// ListServicePrincipalCloudIdentitiesContext list cloud identity mappings for service principals.
+	ListServicePrincipalCloudIdentitiesContext(ctx context.Context, params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error)
+
+	// ListSSHPublicKeys lists SSH public keys for an actor.
 	ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error)
 
+	// ListSSHPublicKeysContext lists SSH public keys for an actor.
+	ListSSHPublicKeysContext(ctx context.Context, params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error)
+
+	// ListUserAssignedResourceRoles lists a user s assigned resource roles.
 	ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error)
 
+	// ListUserAssignedResourceRolesContext lists a user s assigned resource roles.
+	ListUserAssignedResourceRolesContext(ctx context.Context, params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error)
+
+	// ListUserAssignedRoles lists the user s assigned roles.
 	ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error)
 
+	// ListUserAssignedRolesContext lists the user s assigned roles.
+	ListUserAssignedRolesContext(ctx context.Context, params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error)
+
+	// ListUsers lists users.
 	ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
 
+	// ListUsersContext lists users.
+	ListUsersContext(ctx context.Context, params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
+
+	// MigrateUsersToIdentityProvider migrates all users from an identity provider connector to a different identity provider connector.
 	MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error)
 
+	// MigrateUsersToIdentityProviderContext migrates all users from an identity provider connector to a different identity provider connector.
+	MigrateUsersToIdentityProviderContext(ctx context.Context, params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error)
+
+	// RemoveMachineUserFromGroup remove a machine user from a group.
 	RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error)
 
+	// RemoveMachineUserFromGroupContext remove a machine user from a group.
+	RemoveMachineUserFromGroupContext(ctx context.Context, params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error)
+
+	// RemoveUserFromGroup remove a user from a group.
 	RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error)
 
+	// RemoveUserFromGroupContext remove a user from a group.
+	RemoveUserFromGroupContext(ctx context.Context, params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error)
+
+	// SetAccountMessages set messages for an account.
 	SetAccountMessages(params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error)
 
+	// SetAccountMessagesContext set messages for an account.
+	SetAccountMessagesContext(ctx context.Context, params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error)
+
+	// SetAuthenticationPolicy set the authentication policy for the account.
 	SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error)
 
+	// SetAuthenticationPolicyContext set the authentication policy for the account.
+	SetAuthenticationPolicyContext(ctx context.Context, params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error)
+
+	// SetDefaultIdentityProvider sets the default identity provider.
 	SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error)
 
+	// SetDefaultIdentityProviderContext sets the default identity provider.
+	SetDefaultIdentityProviderContext(ctx context.Context, params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error)
+
+	// SetSamlAuthnRequestSigningKey sets the s a m l authn request signing key and verification certificate.
 	SetSamlAuthnRequestSigningKey(params *SetSamlAuthnRequestSigningKeyParams, opts ...ClientOption) (*SetSamlAuthnRequestSigningKeyOK, error)
 
+	// SetSamlAuthnRequestSigningKeyContext sets the s a m l authn request signing key and verification certificate.
+	SetSamlAuthnRequestSigningKeyContext(ctx context.Context, params *SetSamlAuthnRequestSigningKeyParams, opts ...ClientOption) (*SetSamlAuthnRequestSigningKeyOK, error)
+
+	// SetSamlResponseDecryptionKey sets encryption certificate and decryption key for s a m l response sent from customer s identity provider to c d p.
 	SetSamlResponseDecryptionKey(params *SetSamlResponseDecryptionKeyParams, opts ...ClientOption) (*SetSamlResponseDecryptionKeyOK, error)
 
+	// SetSamlResponseDecryptionKeyContext sets encryption certificate and decryption key for s a m l response sent from customer s identity provider to c d p.
+	SetSamlResponseDecryptionKeyContext(ctx context.Context, params *SetSamlResponseDecryptionKeyParams, opts ...ClientOption) (*SetSamlResponseDecryptionKeyOK, error)
+
+	// SetWorkloadPassword set the workload password for an actor.
 	SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error)
 
+	// SetWorkloadPasswordContext set the workload password for an actor.
+	SetWorkloadPasswordContext(ctx context.Context, params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error)
+
+	// SetWorkloadPasswordPolicy set the workload password policy for the account.
 	SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error)
 
+	// SetWorkloadPasswordPolicyContext set the workload password policy for the account.
+	SetWorkloadPasswordPolicyContext(ctx context.Context, params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error)
+
+	// UnassignAzureCloudIdentity unassign an azure cloud identity from an actor or group.
 	UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error)
 
+	// UnassignAzureCloudIdentityContext unassign an azure cloud identity from an actor or group.
+	UnassignAzureCloudIdentityContext(ctx context.Context, params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error)
+
+	// UnassignGroupResourceRole unassign a resource role from a group.
 	UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error)
 
+	// UnassignGroupResourceRoleContext unassign a resource role from a group.
+	UnassignGroupResourceRoleContext(ctx context.Context, params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error)
+
+	// UnassignGroupRole unassign a role from a group.
 	UnassignGroupRole(params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error)
 
+	// UnassignGroupRoleContext unassign a role from a group.
+	UnassignGroupRoleContext(ctx context.Context, params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error)
+
+	// UnassignMachineUserResourceRole unassign a resource role from a machine user.
 	UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error)
 
+	// UnassignMachineUserResourceRoleContext unassign a resource role from a machine user.
+	UnassignMachineUserResourceRoleContext(ctx context.Context, params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error)
+
+	// UnassignMachineUserRole unassign a role from a machine user.
 	UnassignMachineUserRole(params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error)
 
+	// UnassignMachineUserRoleContext unassign a role from a machine user.
+	UnassignMachineUserRoleContext(ctx context.Context, params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error)
+
+	// UnassignServicePrincipalAzureCloudIdentity unassign an azure cloud identity from a service principal.
 	UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error)
 
+	// UnassignServicePrincipalAzureCloudIdentityContext unassign an azure cloud identity from a service principal.
+	UnassignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error)
+
+	// UnassignUserResourceRole unassign a resource role from a user.
 	UnassignUserResourceRole(params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error)
 
+	// UnassignUserResourceRoleContext unassign a resource role from a user.
+	UnassignUserResourceRoleContext(ctx context.Context, params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error)
+
+	// UnassignUserRole unassign a role from a user.
 	UnassignUserRole(params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error)
 
+	// UnassignUserRoleContext unassign a role from a user.
+	UnassignUserRoleContext(ctx context.Context, params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error)
+
+	// UnlockMachineUserInControlPlane unlocks machine user in the c d p control plane.
 	UnlockMachineUserInControlPlane(params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error)
 
+	// UnlockMachineUserInControlPlaneContext unlocks machine user in the c d p control plane.
+	UnlockMachineUserInControlPlaneContext(ctx context.Context, params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error)
+
+	// UnlockUserInControlPlane unlocks user in the c d p control plane.
 	UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error)
 
+	// UnlockUserInControlPlaneContext unlocks user in the c d p control plane.
+	UnlockUserInControlPlaneContext(ctx context.Context, params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error)
+
+	// UnsetWorkloadPasswordMinLifetime removes workload password minimum lifetime date for an actor.
 	UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error)
 
+	// UnsetWorkloadPasswordMinLifetimeContext removes workload password minimum lifetime date for an actor.
+	UnsetWorkloadPasswordMinLifetimeContext(ctx context.Context, params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error)
+
+	// UnsetWorkloadPasswordPolicy unset workload password policy for the account.
 	UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error)
 
+	// UnsetWorkloadPasswordPolicyContext unset workload password policy for the account.
+	UnsetWorkloadPasswordPolicyContext(ctx context.Context, params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error)
+
+	// UpdateAccessKey updates an access key.
 	UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error)
 
+	// UpdateAccessKeyContext updates an access key.
+	UpdateAccessKeyContext(ctx context.Context, params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error)
+
+	// UpdateGroup update a group.
 	UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error)
 
+	// UpdateGroupContext update a group.
+	UpdateGroupContext(ctx context.Context, params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error)
+
+	// UpdateLdapProvider update ldap provider.
 	UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error)
 
+	// UpdateLdapProviderContext update ldap provider.
+	UpdateLdapProviderContext(ctx context.Context, params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error)
+
+	// UpdateSamlProvider updates a s a m l provider in c d p.
 	UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error)
 
+	// UpdateSamlProviderContext updates a s a m l provider in c d p.
+	UpdateSamlProviderContext(ctx context.Context, params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error)
+
+	// UpdateUser updates a user.
 	UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// UpdateUserContext updates a user.
+	UpdateUserContext(ctx context.Context, params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
 /*
-AddMachineUserToGroup adds a machine user to group
+AddMachineUserToGroupadds a machine user to group.
 
-Add a machine user to a group.
+Add a machine user to a group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AddMachineUserToGroupContext] instead.
 */
 func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddMachineUserToGroupContext(ctx, params, opts...)
+}
+
+/*
+AddMachineUserToGroupContextadds a machine user to group.
+
+Add a machine user to a group..
+
+Do not use the deprecated [AddMachineUserToGroupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AddMachineUserToGroupContext(ctx context.Context, params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddMachineUserToGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "addMachineUserToGroup",
 		Method:             "POST",
@@ -243,13 +613,14 @@ func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AddMachineUserToGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -269,15 +640,39 @@ func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts
 }
 
 /*
-AddSSHPublicKey adds an SSH public key for an actor
+AddSSHPublicKeyadds an SSH public key for an actor.
 
-Adds an SSH public key for an actor. The private key that corresponds to this public key can be used to SSH into any workload cluster that the actor is authorized to use.
+Adds an SSH public key for an actor. The private key that corresponds to this public key can be used to SSH into any workload cluster that the actor is authorized to use..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AddSSHPublicKeyContext] instead.
 */
 func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddSSHPublicKeyContext(ctx, params, opts...)
+}
+
+/*
+AddSSHPublicKeyContextadds an SSH public key for an actor.
+
+Adds an SSH public key for an actor. The private key that corresponds to this public key can be used to SSH into any workload cluster that the actor is authorized to use..
+
+Do not use the deprecated [AddSSHPublicKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AddSSHPublicKeyContext(ctx context.Context, params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddSSHPublicKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "addSshPublicKey",
 		Method:             "POST",
@@ -287,13 +682,14 @@ func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AddSSHPublicKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -313,15 +709,39 @@ func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOp
 }
 
 /*
-AddUserToGroup adds a user to a group
+AddUserToGroupadds a user to a group.
 
-Add a user to group.
+Add a user to group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AddUserToGroupContext] instead.
 */
 func (a *Client) AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddUserToGroupContext(ctx, params, opts...)
+}
+
+/*
+AddUserToGroupContextadds a user to a group.
+
+Add a user to group..
+
+Do not use the deprecated [AddUserToGroupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AddUserToGroupContext(ctx context.Context, params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddUserToGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "addUserToGroup",
 		Method:             "POST",
@@ -331,13 +751,14 @@ func (a *Client) AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AddUserToGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -357,15 +778,39 @@ func (a *Client) AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOpti
 }
 
 /*
-AssignAzureCloudIdentity assigns an azure cloud identity to an actor or group
+AssignAzureCloudIdentityassigns an azure cloud identity to an actor or group.
 
-Assign an Azure cloud identity, i.e. an object ID (OID), to an actor or group.
+Assign an Azure cloud identity, i.e. an object ID (OID), to an actor or group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignAzureCloudIdentityContext] instead.
 */
 func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignAzureCloudIdentityContext(ctx, params, opts...)
+}
+
+/*
+AssignAzureCloudIdentityContextassigns an azure cloud identity to an actor or group.
+
+Assign an Azure cloud identity, i.e. an object ID (OID), to an actor or group..
+
+Do not use the deprecated [AssignAzureCloudIdentityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignAzureCloudIdentityContext(ctx context.Context, params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignAzureCloudIdentityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignAzureCloudIdentity",
 		Method:             "POST",
@@ -375,13 +820,14 @@ func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignAzureCloudIdentityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -401,15 +847,39 @@ func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams
 }
 
 /*
-AssignGroupResourceRole assigns a resource role to a group
+AssignGroupResourceRoleassigns a resource role to a group.
 
-Assign a resource role to a group. If the resource role is already assigned to the group the request will fail.
+Assign a resource role to a group. If the resource role is already assigned to the group the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignGroupResourceRoleContext] instead.
 */
 func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignGroupResourceRoleContext(ctx, params, opts...)
+}
+
+/*
+AssignGroupResourceRoleContextassigns a resource role to a group.
+
+Assign a resource role to a group. If the resource role is already assigned to the group the request will fail..
+
+Do not use the deprecated [AssignGroupResourceRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignGroupResourceRoleContext(ctx context.Context, params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignGroupResourceRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignGroupResourceRole",
 		Method:             "POST",
@@ -419,13 +889,14 @@ func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignGroupResourceRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -445,15 +916,39 @@ func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams, 
 }
 
 /*
-AssignGroupRole assigns a role to a group
+AssignGroupRoleassigns a role to a group.
 
-Assign a role to a group. If the role is already assigned to the group the request will fail.
+Assign a role to a group. If the role is already assigned to the group the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignGroupRoleContext] instead.
 */
 func (a *Client) AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignGroupRoleContext(ctx, params, opts...)
+}
+
+/*
+AssignGroupRoleContextassigns a role to a group.
+
+Assign a role to a group. If the role is already assigned to the group the request will fail..
+
+Do not use the deprecated [AssignGroupRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignGroupRoleContext(ctx context.Context, params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignGroupRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignGroupRole",
 		Method:             "POST",
@@ -463,13 +958,14 @@ func (a *Client) AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignGroupRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -489,15 +985,39 @@ func (a *Client) AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOp
 }
 
 /*
-AssignMachineUserResourceRole assigns a resource role to a machine user
+AssignMachineUserResourceRoleassigns a resource role to a machine user.
 
-Assign a resource role to a machine user. If the resource role is already assigned to the machine user the request will fail.
+Assign a resource role to a machine user. If the resource role is already assigned to the machine user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignMachineUserResourceRoleContext] instead.
 */
 func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignMachineUserResourceRoleContext(ctx, params, opts...)
+}
+
+/*
+AssignMachineUserResourceRoleContextassigns a resource role to a machine user.
+
+Assign a resource role to a machine user. If the resource role is already assigned to the machine user the request will fail..
+
+Do not use the deprecated [AssignMachineUserResourceRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignMachineUserResourceRoleContext(ctx context.Context, params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignMachineUserResourceRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignMachineUserResourceRole",
 		Method:             "POST",
@@ -507,13 +1027,14 @@ func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResource
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignMachineUserResourceRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -533,15 +1054,39 @@ func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResource
 }
 
 /*
-AssignMachineUserRole assigns a role to a machine user
+AssignMachineUserRoleassigns a role to a machine user.
 
-Assign a role to a machine user. If the role is already assigned to the machine user the request will fail.
+Assign a role to a machine user. If the role is already assigned to the machine user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignMachineUserRoleContext] instead.
 */
 func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignMachineUserRoleContext(ctx, params, opts...)
+}
+
+/*
+AssignMachineUserRoleContextassigns a role to a machine user.
+
+Assign a role to a machine user. If the role is already assigned to the machine user the request will fail..
+
+Do not use the deprecated [AssignMachineUserRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignMachineUserRoleContext(ctx context.Context, params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignMachineUserRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignMachineUserRole",
 		Method:             "POST",
@@ -551,13 +1096,14 @@ func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignMachineUserRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -577,15 +1123,39 @@ func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams, opts
 }
 
 /*
-AssignServicePrincipalAzureCloudIdentity assigns an azure cloud identity to a service principal
+AssignServicePrincipalAzureCloudIdentityassigns an azure cloud identity to a service principal.
 
-Assign an Azure cloud identity, i.e. an object ID (OID), to a service principal.
+Assign an Azure cloud identity, i.e. an object ID (OID), to a service principal..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignServicePrincipalAzureCloudIdentityContext] instead.
 */
 func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignServicePrincipalAzureCloudIdentityContext(ctx, params, opts...)
+}
+
+/*
+AssignServicePrincipalAzureCloudIdentityContextassigns an azure cloud identity to a service principal.
+
+Assign an Azure cloud identity, i.e. an object ID (OID), to a service principal..
+
+Do not use the deprecated [AssignServicePrincipalAzureCloudIdentityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignServicePrincipalAzureCloudIdentityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignServicePrincipalAzureCloudIdentity",
 		Method:             "POST",
@@ -595,13 +1165,14 @@ func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServiceP
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignServicePrincipalAzureCloudIdentityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -621,15 +1192,39 @@ func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServiceP
 }
 
 /*
-AssignUserResourceRole assigns a resource role to a user
+AssignUserResourceRoleassigns a resource role to a user.
 
-Assign a resource role to a user. If the resource role is already assigned to the user the request will fail.
+Assign a resource role to a user. If the resource role is already assigned to the user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignUserResourceRoleContext] instead.
 */
 func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignUserResourceRoleContext(ctx, params, opts...)
+}
+
+/*
+AssignUserResourceRoleContextassigns a resource role to a user.
+
+Assign a resource role to a user. If the resource role is already assigned to the user the request will fail..
+
+Do not use the deprecated [AssignUserResourceRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignUserResourceRoleContext(ctx context.Context, params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignUserResourceRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignUserResourceRole",
 		Method:             "POST",
@@ -639,13 +1234,14 @@ func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignUserResourceRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -665,15 +1261,39 @@ func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams, op
 }
 
 /*
-AssignUserRole assigns a role to a user
+AssignUserRoleassigns a role to a user.
 
-Assign a role to a user. If the role is already assigned to the user the request will fail.
+Assign a role to a user. If the role is already assigned to the user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AssignUserRoleContext] instead.
 */
 func (a *Client) AssignUserRole(params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AssignUserRoleContext(ctx, params, opts...)
+}
+
+/*
+AssignUserRoleContextassigns a role to a user.
+
+Assign a role to a user. If the role is already assigned to the user the request will fail..
+
+Do not use the deprecated [AssignUserRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AssignUserRoleContext(ctx context.Context, params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAssignUserRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "assignUserRole",
 		Method:             "POST",
@@ -683,13 +1303,14 @@ func (a *Client) AssignUserRole(params *AssignUserRoleParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AssignUserRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -709,15 +1330,39 @@ func (a *Client) AssignUserRole(params *AssignUserRoleParams, opts ...ClientOpti
 }
 
 /*
-CreateGroup creates a group
+CreateGroupcreates a group.
 
-Create a group. A group is a named collection of users and machine users. Roles and resource roles can be assigned to a group impacting all members of the group.
+Create a group. A group is a named collection of users and machine users. Roles and resource roles can be assigned to a group impacting all members of the group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateGroupContext] instead.
 */
 func (a *Client) CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateGroupContext(ctx, params, opts...)
+}
+
+/*
+CreateGroupContextcreates a group.
+
+Create a group. A group is a named collection of users and machine users. Roles and resource roles can be assigned to a group impacting all members of the group..
+
+Do not use the deprecated [CreateGroupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateGroupContext(ctx context.Context, params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createGroup",
 		Method:             "POST",
@@ -727,13 +1372,14 @@ func (a *Client) CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -753,15 +1399,39 @@ func (a *Client) CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*
 }
 
 /*
-CreateLdapProvider creates ldap provider
+CreateLdapProvidercreates ldap provider.
 
-Create an LDAP provider.
+Create an LDAP provider..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateLdapProviderContext] instead.
 */
 func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateLdapProviderContext(ctx, params, opts...)
+}
+
+/*
+CreateLdapProviderContextcreates ldap provider.
+
+Create an LDAP provider..
+
+Do not use the deprecated [CreateLdapProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateLdapProviderContext(ctx context.Context, params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateLdapProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createLdapProvider",
 		Method:             "POST",
@@ -771,13 +1441,14 @@ func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateLdapProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -797,15 +1468,39 @@ func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams, opts ...Cl
 }
 
 /*
-CreateMachineUser creates a machine user
+CreateMachineUsercreates a machine user.
 
-Creates a machine user in the account. A machine user can be used to access CDP API. A machine user can have access keys associated with it and can be assigned roles and resource roles. A machine user cannot login to the CDP console.
+Creates a machine user in the account. A machine user can be used to access CDP API. A machine user can have access keys associated with it and can be assigned roles and resource roles. A machine user cannot login to the CDP console..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateMachineUserContext] instead.
 */
 func (a *Client) CreateMachineUser(params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateMachineUserContext(ctx, params, opts...)
+}
+
+/*
+CreateMachineUserContextcreates a machine user.
+
+Creates a machine user in the account. A machine user can be used to access CDP API. A machine user can have access keys associated with it and can be assigned roles and resource roles. A machine user cannot login to the CDP console..
+
+Do not use the deprecated [CreateMachineUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateMachineUserContext(ctx context.Context, params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateMachineUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createMachineUser",
 		Method:             "POST",
@@ -815,13 +1510,14 @@ func (a *Client) CreateMachineUser(params *CreateMachineUserParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateMachineUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -841,15 +1537,39 @@ func (a *Client) CreateMachineUser(params *CreateMachineUserParams, opts ...Clie
 }
 
 /*
-CreateMachineUserAccessKey creates a new access key for a machine user
+CreateMachineUserAccessKeycreates a new access key for a machine user.
 
-Creates a new access key for a machine user.
+Creates a new access key for a machine user..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateMachineUserAccessKeyContext] instead.
 */
 func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateMachineUserAccessKeyContext(ctx, params, opts...)
+}
+
+/*
+CreateMachineUserAccessKeyContextcreates a new access key for a machine user.
+
+Creates a new access key for a machine user..
+
+Do not use the deprecated [CreateMachineUserAccessKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateMachineUserAccessKeyContext(ctx context.Context, params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateMachineUserAccessKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createMachineUserAccessKey",
 		Method:             "POST",
@@ -859,13 +1579,14 @@ func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateMachineUserAccessKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -885,15 +1606,39 @@ func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyPa
 }
 
 /*
-CreateSamlProvider creates a s a m l provider in c d p
+CreateSamlProvidercreates a s a m l provider in c d p.
 
-Creates a SAML provider in CDP.
+Creates a SAML provider in CDP..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateSamlProviderContext] instead.
 */
 func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateSamlProviderContext(ctx, params, opts...)
+}
+
+/*
+CreateSamlProviderContextcreates a s a m l provider in c d p.
+
+Creates a SAML provider in CDP..
+
+Do not use the deprecated [CreateSamlProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateSamlProviderContext(ctx context.Context, params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateSamlProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createSamlProvider",
 		Method:             "POST",
@@ -903,13 +1648,14 @@ func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateSamlProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -929,15 +1675,39 @@ func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams, opts ...Cl
 }
 
 /*
-CreateScimAccessToken creates a s c i m access token for a s c i m enabled identity provider
+CreateScimAccessTokencreates a s c i m access token for a s c i m enabled identity provider.
 
-Creates a SCIM access token for a SCIM enabled identity provider. This token is used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government.
+Creates a SCIM access token for a SCIM enabled identity provider. This token is used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateScimAccessTokenContext] instead.
 */
 func (a *Client) CreateScimAccessToken(params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateScimAccessTokenContext(ctx, params, opts...)
+}
+
+/*
+CreateScimAccessTokenContextcreates a s c i m access token for a s c i m enabled identity provider.
+
+Creates a SCIM access token for a SCIM enabled identity provider. This token is used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government..
+
+Do not use the deprecated [CreateScimAccessTokenParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateScimAccessTokenContext(ctx context.Context, params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateScimAccessTokenParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createScimAccessToken",
 		Method:             "POST",
@@ -947,13 +1717,14 @@ func (a *Client) CreateScimAccessToken(params *CreateScimAccessTokenParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateScimAccessTokenReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -973,15 +1744,39 @@ func (a *Client) CreateScimAccessToken(params *CreateScimAccessTokenParams, opts
 }
 
 /*
-CreateUser creates a user in c d p
+CreateUsercreates a user in c d p.
 
-Creates a user in CDP.
+Creates a user in CDP..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateUserContext] instead.
 */
 func (a *Client) CreateUser(params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateUserContext(ctx, params, opts...)
+}
+
+/*
+CreateUserContextcreates a user in c d p.
+
+Creates a user in CDP..
+
+Do not use the deprecated [CreateUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateUserContext(ctx context.Context, params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createUser",
 		Method:             "POST",
@@ -991,13 +1786,14 @@ func (a *Client) CreateUser(params *CreateUserParams, opts ...ClientOption) (*Cr
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1017,15 +1813,39 @@ func (a *Client) CreateUser(params *CreateUserParams, opts ...ClientOption) (*Cr
 }
 
 /*
-CreateUserAccessKey creates a new access key for a user
+CreateUserAccessKeycreates a new access key for a user.
 
-Creates a new access key for a user.
+Creates a new access key for a user..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateUserAccessKeyContext] instead.
 */
 func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateUserAccessKeyContext(ctx, params, opts...)
+}
+
+/*
+CreateUserAccessKeyContextcreates a new access key for a user.
+
+Creates a new access key for a user..
+
+Do not use the deprecated [CreateUserAccessKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateUserAccessKeyContext(ctx context.Context, params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateUserAccessKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createUserAccessKey",
 		Method:             "POST",
@@ -1035,13 +1855,14 @@ func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateUserAccessKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1061,15 +1882,39 @@ func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...
 }
 
 /*
-DeleteAccessKey deletes an access key
+DeleteAccessKeydeletes an access key.
 
-Deletes an access key.
+Deletes an access key..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteAccessKeyContext] instead.
 */
 func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteAccessKeyContext(ctx, params, opts...)
+}
+
+/*
+DeleteAccessKeyContextdeletes an access key.
+
+Deletes an access key..
+
+Do not use the deprecated [DeleteAccessKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteAccessKeyContext(ctx context.Context, params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteAccessKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteAccessKey",
 		Method:             "POST",
@@ -1079,13 +1924,14 @@ func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteAccessKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1105,15 +1951,39 @@ func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOp
 }
 
 /*
-DeleteGroup deletes a group
+DeleteGroupdeletes a group.
 
-Delete a group.
+Delete a group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteGroupContext] instead.
 */
 func (a *Client) DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteGroupContext(ctx, params, opts...)
+}
+
+/*
+DeleteGroupContextdeletes a group.
+
+Delete a group..
+
+Do not use the deprecated [DeleteGroupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteGroupContext(ctx context.Context, params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteGroup",
 		Method:             "POST",
@@ -1123,13 +1993,14 @@ func (a *Client) DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1149,15 +2020,39 @@ func (a *Client) DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*
 }
 
 /*
-DeleteMachineUser deletes a machine user
+DeleteMachineUserdeletes a machine user.
 
-Deletes a machine user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the machine user. The machine user is also removed from all groups it belongs to. If the call succeeds the machine user will not be able to use any access keys to access the CDP control plane. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the machine user loses access to all environments as soon as possible.
+Deletes a machine user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the machine user. The machine user is also removed from all groups it belongs to. If the call succeeds the machine user will not be able to use any access keys to access the CDP control plane. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the machine user loses access to all environments as soon as possible..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteMachineUserContext] instead.
 */
 func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteMachineUserContext(ctx, params, opts...)
+}
+
+/*
+DeleteMachineUserContextdeletes a machine user.
+
+Deletes a machine user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the machine user. The machine user is also removed from all groups it belongs to. If the call succeeds the machine user will not be able to use any access keys to access the CDP control plane. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the machine user loses access to all environments as soon as possible..
+
+Do not use the deprecated [DeleteMachineUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteMachineUserContext(ctx context.Context, params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteMachineUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteMachineUser",
 		Method:             "POST",
@@ -1167,13 +2062,14 @@ func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteMachineUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1193,15 +2089,39 @@ func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams, opts ...Clie
 }
 
 /*
-DeleteSamlProvider deletes a s a m l provider in c d p account
+DeleteSamlProviderdeletes a s a m l provider in c d p account.
 
-Deletes a SAML provider in CDP account.
+Deletes a SAML provider in CDP account..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteSamlProviderContext] instead.
 */
 func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteSamlProviderContext(ctx, params, opts...)
+}
+
+/*
+DeleteSamlProviderContextdeletes a s a m l provider in c d p account.
+
+Deletes a SAML provider in CDP account..
+
+Do not use the deprecated [DeleteSamlProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteSamlProviderContext(ctx context.Context, params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteSamlProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteSamlProvider",
 		Method:             "POST",
@@ -1211,13 +2131,14 @@ func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteSamlProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1237,15 +2158,39 @@ func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...Cl
 }
 
 /*
-DeleteScimAccessToken deletes a s c i m access token
+DeleteScimAccessTokendeletes a s c i m access token.
 
-Deletes a SCIM access token. This operation is not supported for Cloudera for Government.
+Deletes a SCIM access token. This operation is not supported for Cloudera for Government..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteScimAccessTokenContext] instead.
 */
 func (a *Client) DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteScimAccessTokenContext(ctx, params, opts...)
+}
+
+/*
+DeleteScimAccessTokenContextdeletes a s c i m access token.
+
+Deletes a SCIM access token. This operation is not supported for Cloudera for Government..
+
+Do not use the deprecated [DeleteScimAccessTokenParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteScimAccessTokenContext(ctx context.Context, params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteScimAccessTokenParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteScimAccessToken",
 		Method:             "POST",
@@ -1255,13 +2200,14 @@ func (a *Client) DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteScimAccessTokenReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1281,15 +2227,39 @@ func (a *Client) DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts
 }
 
 /*
-DeleteSSHPublicKey deletes an SSH public key for an actor
+DeleteSSHPublicKeydeletes an SSH public key for an actor.
 
-Delete an SSH public key for an actor.
+Delete an SSH public key for an actor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteSSHPublicKeyContext] instead.
 */
 func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteSSHPublicKeyContext(ctx, params, opts...)
+}
+
+/*
+DeleteSSHPublicKeyContextdeletes an SSH public key for an actor.
+
+Delete an SSH public key for an actor..
+
+Do not use the deprecated [DeleteSSHPublicKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteSSHPublicKeyContext(ctx context.Context, params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteSSHPublicKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteSshPublicKey",
 		Method:             "POST",
@@ -1299,13 +2269,14 @@ func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteSSHPublicKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1325,15 +2296,39 @@ func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...Cl
 }
 
 /*
-DeleteUser deletes a user and all associated resources
+DeleteUserdeletes a user and all associated resources.
 
-Deletes a user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the user. The user is also removed from all groups it belongs to. If the call succeeds the user will not be able to login interactively, or use any access keys to access the CDP control plane. This feature is under development and some resources may be left behind after a successful call. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the user loses access to all environments as soon as possible.
+Deletes a user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the user. The user is also removed from all groups it belongs to. If the call succeeds the user will not be able to login interactively, or use any access keys to access the CDP control plane. This feature is under development and some resources may be left behind after a successful call. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the user loses access to all environments as soon as possible..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteUserContext] instead.
 */
 func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteUserContext(ctx, params, opts...)
+}
+
+/*
+DeleteUserContextdeletes a user and all associated resources.
+
+Deletes a user. This includes deleting all associated access keys and unassigning all roles and resource roles assigned to the user. The user is also removed from all groups it belongs to. If the call succeeds the user will not be able to login interactively, or use any access keys to access the CDP control plane. This feature is under development and some resources may be left behind after a successful call. Note that user-sync is not triggered yet by this call and the caller must trigger that to ensure that the user loses access to all environments as soon as possible..
+
+Do not use the deprecated [DeleteUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteUserContext(ctx context.Context, params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteUser",
 		Method:             "POST",
@@ -1343,13 +2338,14 @@ func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*De
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1369,15 +2365,39 @@ func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*De
 }
 
 /*
-DescribeSamlProvider describes one s a m l provider
+DescribeSamlProviderdescribes one s a m l provider.
 
-Describes one SAML provider.
+Describes one SAML provider..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeSamlProviderContext] instead.
 */
 func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeSamlProviderContext(ctx, params, opts...)
+}
+
+/*
+DescribeSamlProviderContextdescribes one s a m l provider.
+
+Describes one SAML provider..
+
+Do not use the deprecated [DescribeSamlProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeSamlProviderContext(ctx context.Context, params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeSamlProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeSamlProvider",
 		Method:             "POST",
@@ -1387,13 +2407,14 @@ func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeSamlProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1413,15 +2434,39 @@ func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams, opts .
 }
 
 /*
-DescribeSSHPublicKey describes an SSH public key for an actor
+DescribeSSHPublicKeydescribes an SSH public key for an actor.
 
-Describe an SSH public key for an actor.
+Describe an SSH public key for an actor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeSSHPublicKeyContext] instead.
 */
 func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeSSHPublicKeyContext(ctx, params, opts...)
+}
+
+/*
+DescribeSSHPublicKeyContextdescribes an SSH public key for an actor.
+
+Describe an SSH public key for an actor..
+
+Do not use the deprecated [DescribeSSHPublicKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeSSHPublicKeyContext(ctx context.Context, params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeSSHPublicKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeSshPublicKey",
 		Method:             "POST",
@@ -1431,13 +2476,14 @@ func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeSSHPublicKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1457,15 +2503,39 @@ func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts .
 }
 
 /*
-DisableClouderaSSOLogin disables interactive login using cloudera s s o for this account
+DisableClouderaSSOLogindisables interactive login using cloudera s s o for this account.
 
-Disables interactive login using Cloudera SSO for this account. When disabled, only users who are designated account administrators will be able to use Cloudera SSO to interactively login to the CDP account. All other users will only be able to interactively login using SAML providers defined for the account. This is a no-op if login using Cloudera SSO are already disabled.
+Disables interactive login using Cloudera SSO for this account. When disabled, only users who are designated account administrators will be able to use Cloudera SSO to interactively login to the CDP account. All other users will only be able to interactively login using SAML providers defined for the account. This is a no-op if login using Cloudera SSO are already disabled..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DisableClouderaSSOLoginContext] instead.
 */
 func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DisableClouderaSSOLoginContext(ctx, params, opts...)
+}
+
+/*
+DisableClouderaSSOLoginContextdisables interactive login using cloudera s s o for this account.
+
+Disables interactive login using Cloudera SSO for this account. When disabled, only users who are designated account administrators will be able to use Cloudera SSO to interactively login to the CDP account. All other users will only be able to interactively login using SAML providers defined for the account. This is a no-op if login using Cloudera SSO are already disabled..
+
+Do not use the deprecated [DisableClouderaSSOLoginParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DisableClouderaSSOLoginContext(ctx context.Context, params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableClouderaSSOLoginParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "disableClouderaSSOLogin",
 		Method:             "POST",
@@ -1475,13 +2545,14 @@ func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DisableClouderaSSOLoginReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1501,15 +2572,39 @@ func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, 
 }
 
 /*
-DisableUserWorkloadPasswordChangedNotifications disables sending user workload password changed email notifications for the account
+DisableUserWorkloadPasswordChangedNotificationsdisables sending user workload password changed email notifications for the account.
 
-Disables sending user workload password changed email notifications for the account.
+Disables sending user workload password changed email notifications for the account..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DisableUserWorkloadPasswordChangedNotificationsContext] instead.
 */
 func (a *Client) DisableUserWorkloadPasswordChangedNotifications(params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DisableUserWorkloadPasswordChangedNotificationsContext(ctx, params, opts...)
+}
+
+/*
+DisableUserWorkloadPasswordChangedNotificationsContextdisables sending user workload password changed email notifications for the account.
+
+Disables sending user workload password changed email notifications for the account..
+
+Do not use the deprecated [DisableUserWorkloadPasswordChangedNotificationsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DisableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableUserWorkloadPasswordChangedNotificationsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "disableUserWorkloadPasswordChangedNotifications",
 		Method:             "POST",
@@ -1519,13 +2614,14 @@ func (a *Client) DisableUserWorkloadPasswordChangedNotifications(params *Disable
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DisableUserWorkloadPasswordChangedNotificationsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1545,15 +2641,39 @@ func (a *Client) DisableUserWorkloadPasswordChangedNotifications(params *Disable
 }
 
 /*
-EnableClouderaSSOLogin enables interactive login using cloudera s s o for this account
+EnableClouderaSSOLoginenables interactive login using cloudera s s o for this account.
 
-Enables interactive login using Cloudera SSO for this account. This is a no-op if login using Cloudera SSO are already enabled.
+Enables interactive login using Cloudera SSO for this account. This is a no-op if login using Cloudera SSO are already enabled..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.EnableClouderaSSOLoginContext] instead.
 */
 func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.EnableClouderaSSOLoginContext(ctx, params, opts...)
+}
+
+/*
+EnableClouderaSSOLoginContextenables interactive login using cloudera s s o for this account.
+
+Enables interactive login using Cloudera SSO for this account. This is a no-op if login using Cloudera SSO are already enabled..
+
+Do not use the deprecated [EnableClouderaSSOLoginParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) EnableClouderaSSOLoginContext(ctx context.Context, params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableClouderaSSOLoginParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "enableClouderaSSOLogin",
 		Method:             "POST",
@@ -1563,13 +2683,14 @@ func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &EnableClouderaSSOLoginReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1589,15 +2710,39 @@ func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, op
 }
 
 /*
-EnableUserWorkloadPasswordChangedNotifications enables sending user workload password changed email notifications for the account
+EnableUserWorkloadPasswordChangedNotificationsenables sending user workload password changed email notifications for the account.
 
-Enables sending user workload password change email notifications for the account.
+Enables sending user workload password change email notifications for the account..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.EnableUserWorkloadPasswordChangedNotificationsContext] instead.
 */
 func (a *Client) EnableUserWorkloadPasswordChangedNotifications(params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.EnableUserWorkloadPasswordChangedNotificationsContext(ctx, params, opts...)
+}
+
+/*
+EnableUserWorkloadPasswordChangedNotificationsContextenables sending user workload password changed email notifications for the account.
+
+Enables sending user workload password change email notifications for the account..
+
+Do not use the deprecated [EnableUserWorkloadPasswordChangedNotificationsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) EnableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableUserWorkloadPasswordChangedNotificationsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "enableUserWorkloadPasswordChangedNotifications",
 		Method:             "POST",
@@ -1607,13 +2752,14 @@ func (a *Client) EnableUserWorkloadPasswordChangedNotifications(params *EnableUs
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &EnableUserWorkloadPasswordChangedNotificationsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1633,15 +2779,39 @@ func (a *Client) EnableUserWorkloadPasswordChangedNotifications(params *EnableUs
 }
 
 /*
-GenerateWorkloadAuthToken generates an authentication token for workload APIs
+GenerateWorkloadAuthTokengenerates an authentication token for workload APIs.
 
-Generates an authentication token which is required for sending requests to workload APIs.
+Generates an authentication token which is required for sending requests to workload APIs..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GenerateWorkloadAuthTokenContext] instead.
 */
 func (a *Client) GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GenerateWorkloadAuthTokenContext(ctx, params, opts...)
+}
+
+/*
+GenerateWorkloadAuthTokenContextgenerates an authentication token for workload APIs.
+
+Generates an authentication token which is required for sending requests to workload APIs..
+
+Do not use the deprecated [GenerateWorkloadAuthTokenParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GenerateWorkloadAuthTokenContext(ctx context.Context, params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGenerateWorkloadAuthTokenParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "generateWorkloadAuthToken",
 		Method:             "POST",
@@ -1651,13 +2821,14 @@ func (a *Client) GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GenerateWorkloadAuthTokenReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1677,15 +2848,39 @@ func (a *Client) GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenPara
 }
 
 /*
-GetAccessKey gets information on an access key
+GetAccessKeygets information on an access key.
 
-Gets information on an access key. If no access key ID is specified. Information on the access key used to make the request is returned.
+Gets information on an access key. If no access key ID is specified. Information on the access key used to make the request is returned..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAccessKeyContext] instead.
 */
 func (a *Client) GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAccessKeyContext(ctx, params, opts...)
+}
+
+/*
+GetAccessKeyContextgets information on an access key.
+
+Gets information on an access key. If no access key ID is specified. Information on the access key used to make the request is returned..
+
+Do not use the deprecated [GetAccessKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAccessKeyContext(ctx context.Context, params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccessKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAccessKey",
 		Method:             "POST",
@@ -1695,13 +2890,14 @@ func (a *Client) GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAccessKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1721,15 +2917,39 @@ func (a *Client) GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) 
 }
 
 /*
-GetAccount retrieves information about the c d p account
+GetAccountretrieves information about the c d p account.
 
-Retrieves information about the CDP account.
+Retrieves information about the CDP account..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAccountContext] instead.
 */
 func (a *Client) GetAccount(params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAccountContext(ctx, params, opts...)
+}
+
+/*
+GetAccountContextretrieves information about the c d p account.
+
+Retrieves information about the CDP account..
+
+Do not use the deprecated [GetAccountParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAccountContext(ctx context.Context, params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAccount",
 		Method:             "POST",
@@ -1739,13 +2959,14 @@ func (a *Client) GetAccount(params *GetAccountParams, opts ...ClientOption) (*Ge
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAccountReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1765,15 +2986,39 @@ func (a *Client) GetAccount(params *GetAccountParams, opts ...ClientOption) (*Ge
 }
 
 /*
-GetAccountMessages gets account messages
+GetAccountMessagesgets account messages.
 
-Get account messages.
+Get account messages..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAccountMessagesContext] instead.
 */
 func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAccountMessagesContext(ctx, params, opts...)
+}
+
+/*
+GetAccountMessagesContextgets account messages.
+
+Get account messages..
+
+Do not use the deprecated [GetAccountMessagesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAccountMessagesContext(ctx context.Context, params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountMessagesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAccountMessages",
 		Method:             "POST",
@@ -1783,13 +3028,14 @@ func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAccountMessagesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1809,15 +3055,39 @@ func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...Cl
 }
 
 /*
-GetDefaultIdentityProvider retrieves the c r n of the default identity provider
+GetDefaultIdentityProviderretrieves the c r n of the default identity provider.
 
-Retrieves the CRN of the default identity provider used for CDP initiated login requests.
+Retrieves the CRN of the default identity provider used for CDP initiated login requests..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetDefaultIdentityProviderContext] instead.
 */
 func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetDefaultIdentityProviderContext(ctx, params, opts...)
+}
+
+/*
+GetDefaultIdentityProviderContextretrieves the c r n of the default identity provider.
+
+Retrieves the CRN of the default identity provider used for CDP initiated login requests..
+
+Do not use the deprecated [GetDefaultIdentityProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetDefaultIdentityProviderContext(ctx context.Context, params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDefaultIdentityProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getDefaultIdentityProvider",
 		Method:             "POST",
@@ -1827,13 +3097,14 @@ func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetDefaultIdentityProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1853,15 +3124,39 @@ func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderPa
 }
 
 /*
-GetUser gets information on a user
+GetUsergets information on a user.
 
-Gets information on a user. If no user name is specified. The user name is determined from the access key used to make the request.
+Gets information on a user. If no user name is specified. The user name is determined from the access key used to make the request..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetUserContext] instead.
 */
 func (a *Client) GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetUserContext(ctx, params, opts...)
+}
+
+/*
+GetUserContextgets information on a user.
+
+Gets information on a user. If no user name is specified. The user name is determined from the access key used to make the request..
+
+Do not use the deprecated [GetUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetUserContext(ctx context.Context, params *GetUserParams, opts ...ClientOption) (*GetUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getUser",
 		Method:             "POST",
@@ -1871,13 +3166,14 @@ func (a *Client) GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserO
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1897,15 +3193,39 @@ func (a *Client) GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserO
 }
 
 /*
-ListAccessKeys lists access keys
+ListAccessKeyslists access keys.
 
-Lists access keys.
+Lists access keys..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListAccessKeysContext] instead.
 */
 func (a *Client) ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListAccessKeysContext(ctx, params, opts...)
+}
+
+/*
+ListAccessKeysContextlists access keys.
+
+Lists access keys..
+
+Do not use the deprecated [ListAccessKeysParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListAccessKeysContext(ctx context.Context, params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListAccessKeysParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listAccessKeys",
 		Method:             "POST",
@@ -1915,13 +3235,14 @@ func (a *Client) ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListAccessKeysReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1941,15 +3262,39 @@ func (a *Client) ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOpti
 }
 
 /*
-ListGroupAssignedResourceRoles lists a group s assigned resource roles
+ListGroupAssignedResourceRoleslists a group s assigned resource roles.
 
-Lists a group's assigned resource roles.
+Lists a group's assigned resource roles..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListGroupAssignedResourceRolesContext] instead.
 */
 func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListGroupAssignedResourceRolesContext(ctx, params, opts...)
+}
+
+/*
+ListGroupAssignedResourceRolesContextlists a group s assigned resource roles.
+
+Lists a group's assigned resource roles..
+
+Do not use the deprecated [ListGroupAssignedResourceRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListGroupAssignedResourceRolesContext(ctx context.Context, params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupAssignedResourceRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listGroupAssignedResourceRoles",
 		Method:             "POST",
@@ -1959,13 +3304,14 @@ func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourc
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListGroupAssignedResourceRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1985,15 +3331,39 @@ func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourc
 }
 
 /*
-ListGroupAssignedRoles lists the group s assigned roles
+ListGroupAssignedRoleslists the group s assigned roles.
 
-Lists the group's assigned roles.
+Lists the group's assigned roles..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListGroupAssignedRolesContext] instead.
 */
 func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListGroupAssignedRolesContext(ctx, params, opts...)
+}
+
+/*
+ListGroupAssignedRolesContextlists the group s assigned roles.
+
+Lists the group's assigned roles..
+
+Do not use the deprecated [ListGroupAssignedRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListGroupAssignedRolesContext(ctx context.Context, params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupAssignedRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listGroupAssignedRoles",
 		Method:             "POST",
@@ -2003,13 +3373,14 @@ func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListGroupAssignedRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2029,15 +3400,39 @@ func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, op
 }
 
 /*
-ListGroupMembers lists the members of a group
+ListGroupMemberslists the members of a group.
 
-List the members of a group.
+List the members of a group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListGroupMembersContext] instead.
 */
 func (a *Client) ListGroupMembers(params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListGroupMembersContext(ctx, params, opts...)
+}
+
+/*
+ListGroupMembersContextlists the members of a group.
+
+List the members of a group..
+
+Do not use the deprecated [ListGroupMembersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListGroupMembersContext(ctx context.Context, params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupMembersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listGroupMembers",
 		Method:             "POST",
@@ -2047,13 +3442,14 @@ func (a *Client) ListGroupMembers(params *ListGroupMembersParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListGroupMembersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2073,15 +3469,39 @@ func (a *Client) ListGroupMembers(params *ListGroupMembersParams, opts ...Client
 }
 
 /*
-ListGroups lists groups
+ListGroupslists groups.
 
-Lists groups. If no group names are specified, the call lists all groups.
+Lists groups. If no group names are specified, the call lists all groups..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListGroupsContext] instead.
 */
 func (a *Client) ListGroups(params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListGroupsContext(ctx, params, opts...)
+}
+
+/*
+ListGroupsContextlists groups.
+
+Lists groups. If no group names are specified, the call lists all groups..
+
+Do not use the deprecated [ListGroupsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListGroupsContext(ctx context.Context, params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listGroups",
 		Method:             "POST",
@@ -2091,13 +3511,14 @@ func (a *Client) ListGroups(params *ListGroupsParams, opts ...ClientOption) (*Li
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListGroupsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2117,15 +3538,39 @@ func (a *Client) ListGroups(params *ListGroupsParams, opts ...ClientOption) (*Li
 }
 
 /*
-ListGroupsForMachineUser lists the groups that the machine user belongs to
+ListGroupsForMachineUserlists the groups that the machine user belongs to.
 
-List the groups that the machine user belongs to.
+List the groups that the machine user belongs to..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListGroupsForMachineUserContext] instead.
 */
 func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListGroupsForMachineUserContext(ctx, params, opts...)
+}
+
+/*
+ListGroupsForMachineUserContextlists the groups that the machine user belongs to.
+
+List the groups that the machine user belongs to..
+
+Do not use the deprecated [ListGroupsForMachineUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListGroupsForMachineUserContext(ctx context.Context, params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupsForMachineUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listGroupsForMachineUser",
 		Method:             "POST",
@@ -2135,13 +3580,14 @@ func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListGroupsForMachineUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2161,15 +3607,39 @@ func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams
 }
 
 /*
-ListGroupsForUser lists the groups that the user belongs to
+ListGroupsForUserlists the groups that the user belongs to.
 
-List the groups that the user belongs to.
+List the groups that the user belongs to..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListGroupsForUserContext] instead.
 */
 func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListGroupsForUserContext(ctx, params, opts...)
+}
+
+/*
+ListGroupsForUserContextlists the groups that the user belongs to.
+
+List the groups that the user belongs to..
+
+Do not use the deprecated [ListGroupsForUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListGroupsForUserContext(ctx context.Context, params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListGroupsForUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listGroupsForUser",
 		Method:             "POST",
@@ -2179,13 +3649,14 @@ func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListGroupsForUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2205,15 +3676,39 @@ func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams, opts ...Clie
 }
 
 /*
-ListMachineUserAssignedResourceRoles lists a machine user s assigned resource roles
+ListMachineUserAssignedResourceRoleslists a machine user s assigned resource roles.
 
-Lists a machine user's assigned resource roles.
+Lists a machine user's assigned resource roles..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListMachineUserAssignedResourceRolesContext] instead.
 */
 func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListMachineUserAssignedResourceRolesContext(ctx, params, opts...)
+}
+
+/*
+ListMachineUserAssignedResourceRolesContextlists a machine user s assigned resource roles.
+
+Lists a machine user's assigned resource roles..
+
+Do not use the deprecated [ListMachineUserAssignedResourceRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListMachineUserAssignedResourceRolesContext(ctx context.Context, params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMachineUserAssignedResourceRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listMachineUserAssignedResourceRoles",
 		Method:             "POST",
@@ -2223,13 +3718,14 @@ func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAss
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListMachineUserAssignedResourceRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2249,15 +3745,39 @@ func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAss
 }
 
 /*
-ListMachineUserAssignedRoles lists the machine user s assigned roles
+ListMachineUserAssignedRoleslists the machine user s assigned roles.
 
-Lists the machine user's assigned roles.
+Lists the machine user's assigned roles..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListMachineUserAssignedRolesContext] instead.
 */
 func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListMachineUserAssignedRolesContext(ctx, params, opts...)
+}
+
+/*
+ListMachineUserAssignedRolesContextlists the machine user s assigned roles.
+
+Lists the machine user's assigned roles..
+
+Do not use the deprecated [ListMachineUserAssignedRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListMachineUserAssignedRolesContext(ctx context.Context, params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMachineUserAssignedRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listMachineUserAssignedRoles",
 		Method:             "POST",
@@ -2267,13 +3787,14 @@ func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRol
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListMachineUserAssignedRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2293,15 +3814,39 @@ func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRol
 }
 
 /*
-ListMachineUsers lists machine users
+ListMachineUserslists machine users.
 
-Lists machine users in the account.
+Lists machine users in the account..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListMachineUsersContext] instead.
 */
 func (a *Client) ListMachineUsers(params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListMachineUsersContext(ctx, params, opts...)
+}
+
+/*
+ListMachineUsersContextlists machine users.
+
+Lists machine users in the account..
+
+Do not use the deprecated [ListMachineUsersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListMachineUsersContext(ctx context.Context, params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMachineUsersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listMachineUsers",
 		Method:             "POST",
@@ -2311,13 +3856,14 @@ func (a *Client) ListMachineUsers(params *ListMachineUsersParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListMachineUsersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2337,15 +3883,39 @@ func (a *Client) ListMachineUsers(params *ListMachineUsersParams, opts ...Client
 }
 
 /*
-ListResourceAssignees lists the resource assignees and their respective resource roles for the resource
+ListResourceAssigneeslists the resource assignees and their respective resource roles for the resource.
 
-List the resource assignees and their respective resource roles for the resource.
+List the resource assignees and their respective resource roles for the resource..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListResourceAssigneesContext] instead.
 */
 func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListResourceAssigneesContext(ctx, params, opts...)
+}
+
+/*
+ListResourceAssigneesContextlists the resource assignees and their respective resource roles for the resource.
+
+List the resource assignees and their respective resource roles for the resource..
+
+Do not use the deprecated [ListResourceAssigneesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListResourceAssigneesContext(ctx context.Context, params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListResourceAssigneesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listResourceAssignees",
 		Method:             "POST",
@@ -2355,13 +3925,14 @@ func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListResourceAssigneesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2381,15 +3952,39 @@ func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams, opts
 }
 
 /*
-ListResourceRoles lists all the available resource roles
+ListResourceRoleslists all the available resource roles.
 
-Lists all the available resource roles. Resource roles grant rights over certain resources.
+Lists all the available resource roles. Resource roles grant rights over certain resources..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListResourceRolesContext] instead.
 */
 func (a *Client) ListResourceRoles(params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListResourceRolesContext(ctx, params, opts...)
+}
+
+/*
+ListResourceRolesContextlists all the available resource roles.
+
+Lists all the available resource roles. Resource roles grant rights over certain resources..
+
+Do not use the deprecated [ListResourceRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListResourceRolesContext(ctx context.Context, params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListResourceRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listResourceRoles",
 		Method:             "POST",
@@ -2399,13 +3994,14 @@ func (a *Client) ListResourceRoles(params *ListResourceRolesParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListResourceRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2425,15 +4021,39 @@ func (a *Client) ListResourceRoles(params *ListResourceRolesParams, opts ...Clie
 }
 
 /*
-ListRoles lists all the available roles
+ListRoleslists all the available roles.
 
-Lists all the available roles. Roles grant rights to users via policies that are attached to the roles.
+Lists all the available roles. Roles grant rights to users via policies that are attached to the roles..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListRolesContext] instead.
 */
 func (a *Client) ListRoles(params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListRolesContext(ctx, params, opts...)
+}
+
+/*
+ListRolesContextlists all the available roles.
+
+Lists all the available roles. Roles grant rights to users via policies that are attached to the roles..
+
+Do not use the deprecated [ListRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListRolesContext(ctx context.Context, params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listRoles",
 		Method:             "POST",
@@ -2443,13 +4063,14 @@ func (a *Client) ListRoles(params *ListRolesParams, opts ...ClientOption) (*List
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2469,15 +4090,39 @@ func (a *Client) ListRoles(params *ListRolesParams, opts ...ClientOption) (*List
 }
 
 /*
-ListSamlProviders lists s a m l providers in c d p account
+ListSamlProviderslists s a m l providers in c d p account.
 
-Lists SAML providers in CDP account.
+Lists SAML providers in CDP account..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListSamlProvidersContext] instead.
 */
 func (a *Client) ListSamlProviders(params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListSamlProvidersContext(ctx, params, opts...)
+}
+
+/*
+ListSamlProvidersContextlists s a m l providers in c d p account.
+
+Lists SAML providers in CDP account..
+
+Do not use the deprecated [ListSamlProvidersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListSamlProvidersContext(ctx context.Context, params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSamlProvidersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listSamlProviders",
 		Method:             "POST",
@@ -2487,13 +4132,14 @@ func (a *Client) ListSamlProviders(params *ListSamlProvidersParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListSamlProvidersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2513,15 +4159,39 @@ func (a *Client) ListSamlProviders(params *ListSamlProvidersParams, opts ...Clie
 }
 
 /*
-ListScimAccessTokens lists s c i m access tokens for a s c i m enabled identity provider
+ListScimAccessTokenslists s c i m access tokens for a s c i m enabled identity provider.
 
-Lists SCIM access tokens for a SCIM enabled identity provider. These access tokens are used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government.
+Lists SCIM access tokens for a SCIM enabled identity provider. These access tokens are used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListScimAccessTokensContext] instead.
 */
 func (a *Client) ListScimAccessTokens(params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListScimAccessTokensContext(ctx, params, opts...)
+}
+
+/*
+ListScimAccessTokensContextlists s c i m access tokens for a s c i m enabled identity provider.
+
+Lists SCIM access tokens for a SCIM enabled identity provider. These access tokens are used to authenticate requests sent to the SCIM endpoints. This operation is not supported for Cloudera for Government..
+
+Do not use the deprecated [ListScimAccessTokensParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListScimAccessTokensContext(ctx context.Context, params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListScimAccessTokensParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listScimAccessTokens",
 		Method:             "POST",
@@ -2531,13 +4201,14 @@ func (a *Client) ListScimAccessTokens(params *ListScimAccessTokensParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListScimAccessTokensReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2557,15 +4228,39 @@ func (a *Client) ListScimAccessTokens(params *ListScimAccessTokensParams, opts .
 }
 
 /*
-ListServicePrincipalCloudIdentities lists cloud identity mappings for service principals
+ListServicePrincipalCloudIdentitieslists cloud identity mappings for service principals.
 
-List cloud identity mappings for service principals.
+List cloud identity mappings for service principals..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListServicePrincipalCloudIdentitiesContext] instead.
 */
 func (a *Client) ListServicePrincipalCloudIdentities(params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListServicePrincipalCloudIdentitiesContext(ctx, params, opts...)
+}
+
+/*
+ListServicePrincipalCloudIdentitiesContextlists cloud identity mappings for service principals.
+
+List cloud identity mappings for service principals..
+
+Do not use the deprecated [ListServicePrincipalCloudIdentitiesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListServicePrincipalCloudIdentitiesContext(ctx context.Context, params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListServicePrincipalCloudIdentitiesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listServicePrincipalCloudIdentities",
 		Method:             "POST",
@@ -2575,13 +4270,14 @@ func (a *Client) ListServicePrincipalCloudIdentities(params *ListServicePrincipa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListServicePrincipalCloudIdentitiesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2601,15 +4297,39 @@ func (a *Client) ListServicePrincipalCloudIdentities(params *ListServicePrincipa
 }
 
 /*
-ListSSHPublicKeys lists SSH public keys for an actor
+ListSSHPublicKeyslists SSH public keys for an actor.
 
-Lists SSH public keys for an actor.
+Lists SSH public keys for an actor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListSSHPublicKeysContext] instead.
 */
 func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListSSHPublicKeysContext(ctx, params, opts...)
+}
+
+/*
+ListSSHPublicKeysContextlists SSH public keys for an actor.
+
+Lists SSH public keys for an actor..
+
+Do not use the deprecated [ListSSHPublicKeysParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListSSHPublicKeysContext(ctx context.Context, params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSSHPublicKeysParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listSshPublicKeys",
 		Method:             "POST",
@@ -2619,13 +4339,14 @@ func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListSSHPublicKeysReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2645,15 +4366,39 @@ func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...Clie
 }
 
 /*
-ListUserAssignedResourceRoles lists a user s assigned resource roles
+ListUserAssignedResourceRoleslists a user s assigned resource roles.
 
-Lists a user's assigned resource roles.
+Lists a user's assigned resource roles..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListUserAssignedResourceRolesContext] instead.
 */
 func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListUserAssignedResourceRolesContext(ctx, params, opts...)
+}
+
+/*
+ListUserAssignedResourceRolesContextlists a user s assigned resource roles.
+
+Lists a user's assigned resource roles..
+
+Do not use the deprecated [ListUserAssignedResourceRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListUserAssignedResourceRolesContext(ctx context.Context, params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUserAssignedResourceRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listUserAssignedResourceRoles",
 		Method:             "POST",
@@ -2663,13 +4408,14 @@ func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceR
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListUserAssignedResourceRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2689,15 +4435,39 @@ func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceR
 }
 
 /*
-ListUserAssignedRoles lists the user s assigned roles
+ListUserAssignedRoleslists the user s assigned roles.
 
-Lists the user's assigned roles.
+Lists the user's assigned roles..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListUserAssignedRolesContext] instead.
 */
 func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListUserAssignedRolesContext(ctx, params, opts...)
+}
+
+/*
+ListUserAssignedRolesContextlists the user s assigned roles.
+
+Lists the user's assigned roles..
+
+Do not use the deprecated [ListUserAssignedRolesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListUserAssignedRolesContext(ctx context.Context, params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUserAssignedRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listUserAssignedRoles",
 		Method:             "POST",
@@ -2707,13 +4477,14 @@ func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListUserAssignedRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2733,15 +4504,39 @@ func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts
 }
 
 /*
-ListUsers lists users
+ListUserslists users.
 
-Lists users.
+Lists users..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListUsersContext] instead.
 */
 func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListUsersContext(ctx, params, opts...)
+}
+
+/*
+ListUsersContextlists users.
+
+Lists users..
+
+Do not use the deprecated [ListUsersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListUsersContext(ctx context.Context, params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUsersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listUsers",
 		Method:             "POST",
@@ -2751,13 +4546,14 @@ func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*List
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListUsersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2777,15 +4573,39 @@ func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*List
 }
 
 /*
-MigrateUsersToIdentityProvider migrates all users from an identity provider connector to a different identity provider connector
+MigrateUsersToIdentityProvidermigrates all users from an identity provider connector to a different identity provider connector.
 
-Allow existing users to be associated with a different identity provider connector. It is required that the identity provider user ID for each user be the same in both identity providers. This is expected to be used for migration from LDAP authentication to SAML authentication for the same physical IdP. A new SAML connector would be created in CDP, integrated with the same IdP as the original LDAP connector. First the LDAP mapping would be set to use the planned SAML name id mapping. Then this method can switch users created via LDAP login to be associated with the SAML connector and enable SAML authentication instead of LDAP authentication.
+Allow existing users to be associated with a different identity provider connector. It is required that the identity provider user ID for each user be the same in both identity providers. This is expected to be used for migration from LDAP authentication to SAML authentication for the same physical IdP. A new SAML connector would be created in CDP, integrated with the same IdP as the original LDAP connector. First the LDAP mapping would be set to use the planned SAML name id mapping. Then this method can switch users created via LDAP login to be associated with the SAML connector and enable SAML authentication instead of LDAP authentication..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.MigrateUsersToIdentityProviderContext] instead.
 */
 func (a *Client) MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.MigrateUsersToIdentityProviderContext(ctx, params, opts...)
+}
+
+/*
+MigrateUsersToIdentityProviderContextmigrates all users from an identity provider connector to a different identity provider connector.
+
+Allow existing users to be associated with a different identity provider connector. It is required that the identity provider user ID for each user be the same in both identity providers. This is expected to be used for migration from LDAP authentication to SAML authentication for the same physical IdP. A new SAML connector would be created in CDP, integrated with the same IdP as the original LDAP connector. First the LDAP mapping would be set to use the planned SAML name id mapping. Then this method can switch users created via LDAP login to be associated with the SAML connector and enable SAML authentication instead of LDAP authentication..
+
+Do not use the deprecated [MigrateUsersToIdentityProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) MigrateUsersToIdentityProviderContext(ctx context.Context, params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewMigrateUsersToIdentityProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "migrateUsersToIdentityProvider",
 		Method:             "POST",
@@ -2795,13 +4615,14 @@ func (a *Client) MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityPr
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &MigrateUsersToIdentityProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2821,15 +4642,39 @@ func (a *Client) MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityPr
 }
 
 /*
-RemoveMachineUserFromGroup removes a machine user from a group
+RemoveMachineUserFromGroupremoves a machine user from a group.
 
-Remove a machine user from a group.
+Remove a machine user from a group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RemoveMachineUserFromGroupContext] instead.
 */
 func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RemoveMachineUserFromGroupContext(ctx, params, opts...)
+}
+
+/*
+RemoveMachineUserFromGroupContextremoves a machine user from a group.
+
+Remove a machine user from a group..
+
+Do not use the deprecated [RemoveMachineUserFromGroupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RemoveMachineUserFromGroupContext(ctx context.Context, params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRemoveMachineUserFromGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "removeMachineUserFromGroup",
 		Method:             "POST",
@@ -2839,13 +4684,14 @@ func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RemoveMachineUserFromGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2865,15 +4711,39 @@ func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupPa
 }
 
 /*
-RemoveUserFromGroup removes a user from a group
+RemoveUserFromGroupremoves a user from a group.
 
-Remove a user from a group.
+Remove a user from a group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RemoveUserFromGroupContext] instead.
 */
 func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RemoveUserFromGroupContext(ctx, params, opts...)
+}
+
+/*
+RemoveUserFromGroupContextremoves a user from a group.
+
+Remove a user from a group..
+
+Do not use the deprecated [RemoveUserFromGroupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RemoveUserFromGroupContext(ctx context.Context, params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRemoveUserFromGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "removeUserFromGroup",
 		Method:             "POST",
@@ -2883,13 +4753,14 @@ func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RemoveUserFromGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2909,15 +4780,39 @@ func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...
 }
 
 /*
-SetAccountMessages sets messages for an account
+SetAccountMessagessets messages for an account.
 
-Set messages for an account.
+Set messages for an account..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetAccountMessagesContext] instead.
 */
 func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetAccountMessagesContext(ctx, params, opts...)
+}
+
+/*
+SetAccountMessagesContextsets messages for an account.
+
+Set messages for an account..
+
+Do not use the deprecated [SetAccountMessagesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetAccountMessagesContext(ctx context.Context, params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAccountMessagesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setAccountMessages",
 		Method:             "POST",
@@ -2927,13 +4822,14 @@ func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetAccountMessagesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2953,15 +4849,39 @@ func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...Cl
 }
 
 /*
-SetAuthenticationPolicy sets the authentication policy for the account
+SetAuthenticationPolicysets the authentication policy for the account.
 
-Set the authentication policy for the account. Any parameters not specified in the request will be cleared, and their default values will be used for authentication. Changes to the authentication policy only affect authentications that are done after the policy has been updated.
+Set the authentication policy for the account. Any parameters not specified in the request will be cleared, and their default values will be used for authentication. Changes to the authentication policy only affect authentications that are done after the policy has been updated..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetAuthenticationPolicyContext] instead.
 */
 func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetAuthenticationPolicyContext(ctx, params, opts...)
+}
+
+/*
+SetAuthenticationPolicyContextsets the authentication policy for the account.
+
+Set the authentication policy for the account. Any parameters not specified in the request will be cleared, and their default values will be used for authentication. Changes to the authentication policy only affect authentications that are done after the policy has been updated..
+
+Do not use the deprecated [SetAuthenticationPolicyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetAuthenticationPolicyContext(ctx context.Context, params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAuthenticationPolicyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setAuthenticationPolicy",
 		Method:             "POST",
@@ -2971,13 +4891,14 @@ func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetAuthenticationPolicyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2997,15 +4918,39 @@ func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, 
 }
 
 /*
-SetDefaultIdentityProvider sets the default identity provider
+SetDefaultIdentityProvidersets the default identity provider.
 
-Sets the default identity provider used for CDP initiated login requests.
+Sets the default identity provider used for CDP initiated login requests..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetDefaultIdentityProviderContext] instead.
 */
 func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetDefaultIdentityProviderContext(ctx, params, opts...)
+}
+
+/*
+SetDefaultIdentityProviderContextsets the default identity provider.
+
+Sets the default identity provider used for CDP initiated login requests..
+
+Do not use the deprecated [SetDefaultIdentityProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetDefaultIdentityProviderContext(ctx context.Context, params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetDefaultIdentityProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setDefaultIdentityProvider",
 		Method:             "POST",
@@ -3015,13 +4960,14 @@ func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetDefaultIdentityProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3041,15 +4987,39 @@ func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderPa
 }
 
 /*
-SetSamlAuthnRequestSigningKey sets the s a m l authn request signing key and verification certificate
+SetSamlAuthnRequestSigningKeysets the s a m l authn request signing key and verification certificate.
 
-Sets the SAML AuthnRequest signing key and verification certificate. The signing key will be used by CDP to sign the AuthnRequest and the verification certificate(s) will be used by the customer's Identity Provider to verify the AuthnRequest. These keys are generated and managed by the customer. The API always replaces the previously stored signing key and verification certificates with the given key and certificates. The parameters that are omitted from the request will be cleared.
+Sets the SAML AuthnRequest signing key and verification certificate. The signing key will be used by CDP to sign the AuthnRequest and the verification certificate(s) will be used by the customer's Identity Provider to verify the AuthnRequest. These keys are generated and managed by the customer. The API always replaces the previously stored signing key and verification certificates with the given key and certificates. The parameters that are omitted from the request will be cleared..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetSamlAuthnRequestSigningKeyContext] instead.
 */
 func (a *Client) SetSamlAuthnRequestSigningKey(params *SetSamlAuthnRequestSigningKeyParams, opts ...ClientOption) (*SetSamlAuthnRequestSigningKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetSamlAuthnRequestSigningKeyContext(ctx, params, opts...)
+}
+
+/*
+SetSamlAuthnRequestSigningKeyContextsets the s a m l authn request signing key and verification certificate.
+
+Sets the SAML AuthnRequest signing key and verification certificate. The signing key will be used by CDP to sign the AuthnRequest and the verification certificate(s) will be used by the customer's Identity Provider to verify the AuthnRequest. These keys are generated and managed by the customer. The API always replaces the previously stored signing key and verification certificates with the given key and certificates. The parameters that are omitted from the request will be cleared..
+
+Do not use the deprecated [SetSamlAuthnRequestSigningKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetSamlAuthnRequestSigningKeyContext(ctx context.Context, params *SetSamlAuthnRequestSigningKeyParams, opts ...ClientOption) (*SetSamlAuthnRequestSigningKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetSamlAuthnRequestSigningKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setSamlAuthnRequestSigningKey",
 		Method:             "POST",
@@ -3059,13 +5029,14 @@ func (a *Client) SetSamlAuthnRequestSigningKey(params *SetSamlAuthnRequestSignin
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetSamlAuthnRequestSigningKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3085,15 +5056,39 @@ func (a *Client) SetSamlAuthnRequestSigningKey(params *SetSamlAuthnRequestSignin
 }
 
 /*
-SetSamlResponseDecryptionKey sets encryption certificate and decryption key for s a m l response sent from customer s identity provider to c d p
+SetSamlResponseDecryptionKeysets encryption certificate and decryption key for s a m l response sent from customer s identity provider to c d p.
 
-Sets encryption certificate and decryption key for SAML response sent from customer's Identity Provider to CDP. These keys are generated and managed by the customer. The API always replaces the previously stored encryption and decryption keys with the given keys. The keys that are omitted from the request will be cleared. The encryption key will be used by the Identity Provider to encrypt the SAML response, and the decryption key will be used by CDP to decrypt the SAML response.
+Sets encryption certificate and decryption key for SAML response sent from customer's Identity Provider to CDP. These keys are generated and managed by the customer. The API always replaces the previously stored encryption and decryption keys with the given keys. The keys that are omitted from the request will be cleared. The encryption key will be used by the Identity Provider to encrypt the SAML response, and the decryption key will be used by CDP to decrypt the SAML response..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetSamlResponseDecryptionKeyContext] instead.
 */
 func (a *Client) SetSamlResponseDecryptionKey(params *SetSamlResponseDecryptionKeyParams, opts ...ClientOption) (*SetSamlResponseDecryptionKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetSamlResponseDecryptionKeyContext(ctx, params, opts...)
+}
+
+/*
+SetSamlResponseDecryptionKeyContextsets encryption certificate and decryption key for s a m l response sent from customer s identity provider to c d p.
+
+Sets encryption certificate and decryption key for SAML response sent from customer's Identity Provider to CDP. These keys are generated and managed by the customer. The API always replaces the previously stored encryption and decryption keys with the given keys. The keys that are omitted from the request will be cleared. The encryption key will be used by the Identity Provider to encrypt the SAML response, and the decryption key will be used by CDP to decrypt the SAML response..
+
+Do not use the deprecated [SetSamlResponseDecryptionKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetSamlResponseDecryptionKeyContext(ctx context.Context, params *SetSamlResponseDecryptionKeyParams, opts ...ClientOption) (*SetSamlResponseDecryptionKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetSamlResponseDecryptionKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setSamlResponseDecryptionKey",
 		Method:             "POST",
@@ -3103,13 +5098,14 @@ func (a *Client) SetSamlResponseDecryptionKey(params *SetSamlResponseDecryptionK
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetSamlResponseDecryptionKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3129,15 +5125,39 @@ func (a *Client) SetSamlResponseDecryptionKey(params *SetSamlResponseDecryptionK
 }
 
 /*
-SetWorkloadPassword sets the workload password for an actor
+SetWorkloadPasswordsets the workload password for an actor.
 
-Set the workload password for an actor. This will be the actor's password in all Environments they have access to, including Environments they are given access to after setting the password. The password plaintext is not kept.
+Set the workload password for an actor. This will be the actor's password in all Environments they have access to, including Environments they are given access to after setting the password. The password plaintext is not kept..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetWorkloadPasswordContext] instead.
 */
 func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetWorkloadPasswordContext(ctx, params, opts...)
+}
+
+/*
+SetWorkloadPasswordContextsets the workload password for an actor.
+
+Set the workload password for an actor. This will be the actor's password in all Environments they have access to, including Environments they are given access to after setting the password. The password plaintext is not kept..
+
+Do not use the deprecated [SetWorkloadPasswordParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetWorkloadPasswordContext(ctx context.Context, params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetWorkloadPasswordParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setWorkloadPassword",
 		Method:             "POST",
@@ -3147,13 +5167,14 @@ func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetWorkloadPasswordReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3173,15 +5194,39 @@ func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...
 }
 
 /*
-SetWorkloadPasswordPolicy sets the workload password policy for the account
+SetWorkloadPasswordPolicysets the workload password policy for the account.
 
-Set the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated. By default, passwords never expire.
+Set the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated. By default, passwords never expire..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetWorkloadPasswordPolicyContext] instead.
 */
 func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetWorkloadPasswordPolicyContext(ctx, params, opts...)
+}
+
+/*
+SetWorkloadPasswordPolicyContextsets the workload password policy for the account.
+
+Set the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated. By default, passwords never expire..
+
+Do not use the deprecated [SetWorkloadPasswordPolicyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetWorkloadPasswordPolicyContext(ctx context.Context, params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetWorkloadPasswordPolicyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setWorkloadPasswordPolicy",
 		Method:             "POST",
@@ -3191,13 +5236,14 @@ func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetWorkloadPasswordPolicyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3217,15 +5263,39 @@ func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyPara
 }
 
 /*
-UnassignAzureCloudIdentity unassigns an azure cloud identity from an actor or group
+UnassignAzureCloudIdentityunassigns an azure cloud identity from an actor or group.
 
-Unassign an Azure cloud identity, i.e. an object ID (OID), from an actor or group.
+Unassign an Azure cloud identity, i.e. an object ID (OID), from an actor or group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignAzureCloudIdentityContext] instead.
 */
 func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignAzureCloudIdentityContext(ctx, params, opts...)
+}
+
+/*
+UnassignAzureCloudIdentityContextunassigns an azure cloud identity from an actor or group.
+
+Unassign an Azure cloud identity, i.e. an object ID (OID), from an actor or group..
+
+Do not use the deprecated [UnassignAzureCloudIdentityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignAzureCloudIdentityContext(ctx context.Context, params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignAzureCloudIdentityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignAzureCloudIdentity",
 		Method:             "POST",
@@ -3235,13 +5305,14 @@ func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignAzureCloudIdentityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3261,15 +5332,39 @@ func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityPa
 }
 
 /*
-UnassignGroupResourceRole unassigns a resource role from a group
+UnassignGroupResourceRoleunassigns a resource role from a group.
 
-Unassign a resource role from a group. If the resource role is not currently assigned to the group the request will fail.
+Unassign a resource role from a group. If the resource role is not currently assigned to the group the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignGroupResourceRoleContext] instead.
 */
 func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignGroupResourceRoleContext(ctx, params, opts...)
+}
+
+/*
+UnassignGroupResourceRoleContextunassigns a resource role from a group.
+
+Unassign a resource role from a group. If the resource role is not currently assigned to the group the request will fail..
+
+Do not use the deprecated [UnassignGroupResourceRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignGroupResourceRoleContext(ctx context.Context, params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignGroupResourceRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignGroupResourceRole",
 		Method:             "POST",
@@ -3279,13 +5374,14 @@ func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRolePara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignGroupResourceRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3305,15 +5401,39 @@ func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRolePara
 }
 
 /*
-UnassignGroupRole unassigns a role from a group
+UnassignGroupRoleunassigns a role from a group.
 
-Unassign a role from a group. If the role is not currently assigned to the group the request will fail.
+Unassign a role from a group. If the role is not currently assigned to the group the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignGroupRoleContext] instead.
 */
 func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignGroupRoleContext(ctx, params, opts...)
+}
+
+/*
+UnassignGroupRoleContextunassigns a role from a group.
+
+Unassign a role from a group. If the role is not currently assigned to the group the request will fail..
+
+Do not use the deprecated [UnassignGroupRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignGroupRoleContext(ctx context.Context, params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignGroupRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignGroupRole",
 		Method:             "POST",
@@ -3323,13 +5443,14 @@ func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignGroupRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3349,15 +5470,39 @@ func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams, opts ...Clie
 }
 
 /*
-UnassignMachineUserResourceRole unassigns a resource role from a machine user
+UnassignMachineUserResourceRoleunassigns a resource role from a machine user.
 
-Unassign a resource role from a machine user. If the resource role is not currently assigned to the machine user the request will fail.
+Unassign a resource role from a machine user. If the resource role is not currently assigned to the machine user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignMachineUserResourceRoleContext] instead.
 */
 func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignMachineUserResourceRoleContext(ctx, params, opts...)
+}
+
+/*
+UnassignMachineUserResourceRoleContextunassigns a resource role from a machine user.
+
+Unassign a resource role from a machine user. If the resource role is not currently assigned to the machine user the request will fail..
+
+Do not use the deprecated [UnassignMachineUserResourceRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignMachineUserResourceRoleContext(ctx context.Context, params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignMachineUserResourceRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignMachineUserResourceRole",
 		Method:             "POST",
@@ -3367,13 +5512,14 @@ func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserReso
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignMachineUserResourceRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3393,15 +5539,39 @@ func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserReso
 }
 
 /*
-UnassignMachineUserRole unassigns a role from a machine user
+UnassignMachineUserRoleunassigns a role from a machine user.
 
-Unassign a role from a machine user. If the role is not currently assigned to the machine user the request will fail.
+Unassign a role from a machine user. If the role is not currently assigned to the machine user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignMachineUserRoleContext] instead.
 */
 func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignMachineUserRoleContext(ctx, params, opts...)
+}
+
+/*
+UnassignMachineUserRoleContextunassigns a role from a machine user.
+
+Unassign a role from a machine user. If the role is not currently assigned to the machine user the request will fail..
+
+Do not use the deprecated [UnassignMachineUserRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignMachineUserRoleContext(ctx context.Context, params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignMachineUserRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignMachineUserRole",
 		Method:             "POST",
@@ -3411,13 +5581,14 @@ func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignMachineUserRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3437,15 +5608,39 @@ func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams, 
 }
 
 /*
-UnassignServicePrincipalAzureCloudIdentity unassigns an azure cloud identity from a service principal
+UnassignServicePrincipalAzureCloudIdentityunassigns an azure cloud identity from a service principal.
 
-Unassign an Azure cloud identity, i.e. an object ID (OID), from a service principal.
+Unassign an Azure cloud identity, i.e. an object ID (OID), from a service principal..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignServicePrincipalAzureCloudIdentityContext] instead.
 */
 func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignServicePrincipalAzureCloudIdentityContext(ctx, params, opts...)
+}
+
+/*
+UnassignServicePrincipalAzureCloudIdentityContextunassigns an azure cloud identity from a service principal.
+
+Unassign an Azure cloud identity, i.e. an object ID (OID), from a service principal..
+
+Do not use the deprecated [UnassignServicePrincipalAzureCloudIdentityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignServicePrincipalAzureCloudIdentityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignServicePrincipalAzureCloudIdentity",
 		Method:             "POST",
@@ -3455,13 +5650,14 @@ func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServ
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignServicePrincipalAzureCloudIdentityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3481,15 +5677,39 @@ func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServ
 }
 
 /*
-UnassignUserResourceRole unassigns a resource role from a user
+UnassignUserResourceRoleunassigns a resource role from a user.
 
-Unassign a resource role from a user. If the resource role is not currently assigned to the user the request will fail.
+Unassign a resource role from a user. If the resource role is not currently assigned to the user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignUserResourceRoleContext] instead.
 */
 func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignUserResourceRoleContext(ctx, params, opts...)
+}
+
+/*
+UnassignUserResourceRoleContextunassigns a resource role from a user.
+
+Unassign a resource role from a user. If the resource role is not currently assigned to the user the request will fail..
+
+Do not use the deprecated [UnassignUserResourceRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignUserResourceRoleContext(ctx context.Context, params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignUserResourceRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignUserResourceRole",
 		Method:             "POST",
@@ -3499,13 +5719,14 @@ func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignUserResourceRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3525,15 +5746,39 @@ func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams
 }
 
 /*
-UnassignUserRole unassigns a role from a user
+UnassignUserRoleunassigns a role from a user.
 
-Unassign a role from a user. If the role is not currently assigned to the user the request will fail.
+Unassign a role from a user. If the role is not currently assigned to the user the request will fail..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnassignUserRoleContext] instead.
 */
 func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnassignUserRoleContext(ctx, params, opts...)
+}
+
+/*
+UnassignUserRoleContextunassigns a role from a user.
+
+Unassign a role from a user. If the role is not currently assigned to the user the request will fail..
+
+Do not use the deprecated [UnassignUserRoleParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnassignUserRoleContext(ctx context.Context, params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnassignUserRoleParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unassignUserRole",
 		Method:             "POST",
@@ -3543,13 +5788,14 @@ func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnassignUserRoleReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3569,15 +5815,39 @@ func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...Client
 }
 
 /*
-UnlockMachineUserInControlPlane unlocks machine user in the c d p control plane
+UnlockMachineUserInControlPlaneunlocks machine user in the c d p control plane.
 
-Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active. This operation is only supported on Cloudera for Government.
+Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active. This operation is only supported on Cloudera for Government..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnlockMachineUserInControlPlaneContext] instead.
 */
 func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnlockMachineUserInControlPlaneContext(ctx, params, opts...)
+}
+
+/*
+UnlockMachineUserInControlPlaneContextunlocks machine user in the c d p control plane.
+
+Unlocks machine user in the CDP control plane. This operation is idempotent. Unlocking an active machine user will succeed and leave the machine user active. This operation is only supported on Cloudera for Government..
+
+Do not use the deprecated [UnlockMachineUserInControlPlaneParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnlockMachineUserInControlPlaneContext(ctx context.Context, params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnlockMachineUserInControlPlaneParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unlockMachineUserInControlPlane",
 		Method:             "POST",
@@ -3587,13 +5857,14 @@ func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInCont
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnlockMachineUserInControlPlaneReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3613,15 +5884,39 @@ func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInCont
 }
 
 /*
-UnlockUserInControlPlane unlocks user in the c d p control plane
+UnlockUserInControlPlaneunlocks user in the c d p control plane.
 
-Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active. This operation is only supported on Cloudera for Government.
+Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active. This operation is only supported on Cloudera for Government..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnlockUserInControlPlaneContext] instead.
 */
 func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnlockUserInControlPlaneContext(ctx, params, opts...)
+}
+
+/*
+UnlockUserInControlPlaneContextunlocks user in the c d p control plane.
+
+Unlocks user in the CDP control plane. This operation is idempotent. Unlocking an active user will succeed and leave the user active. This operation is only supported on Cloudera for Government..
+
+Do not use the deprecated [UnlockUserInControlPlaneParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnlockUserInControlPlaneContext(ctx context.Context, params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnlockUserInControlPlaneParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unlockUserInControlPlane",
 		Method:             "POST",
@@ -3631,13 +5926,14 @@ func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnlockUserInControlPlaneReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3657,15 +5953,39 @@ func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams
 }
 
 /*
-UnsetWorkloadPasswordMinLifetime removes workload password minimum lifetime date for an actor
+UnsetWorkloadPasswordMinLifetimeremoves workload password minimum lifetime date for an actor.
 
-Removes the workload password minimum lifetime date for an actor.
+Removes the workload password minimum lifetime date for an actor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnsetWorkloadPasswordMinLifetimeContext] instead.
 */
 func (a *Client) UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnsetWorkloadPasswordMinLifetimeContext(ctx, params, opts...)
+}
+
+/*
+UnsetWorkloadPasswordMinLifetimeContextremoves workload password minimum lifetime date for an actor.
+
+Removes the workload password minimum lifetime date for an actor..
+
+Do not use the deprecated [UnsetWorkloadPasswordMinLifetimeParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnsetWorkloadPasswordMinLifetimeContext(ctx context.Context, params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnsetWorkloadPasswordMinLifetimeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unsetWorkloadPasswordMinLifetime",
 		Method:             "POST",
@@ -3675,13 +5995,14 @@ func (a *Client) UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordM
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnsetWorkloadPasswordMinLifetimeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3701,15 +6022,39 @@ func (a *Client) UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordM
 }
 
 /*
-UnsetWorkloadPasswordPolicy unsets workload password policy for the account
+UnsetWorkloadPasswordPolicyunsets workload password policy for the account.
 
-Unset the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated.
+Unset the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UnsetWorkloadPasswordPolicyContext] instead.
 */
 func (a *Client) UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UnsetWorkloadPasswordPolicyContext(ctx, params, opts...)
+}
+
+/*
+UnsetWorkloadPasswordPolicyContextunsets workload password policy for the account.
+
+Unset the workload password for the account. Changes to the workload password policy only affect passwords that are set after the policy has been updated..
+
+Do not use the deprecated [UnsetWorkloadPasswordPolicyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UnsetWorkloadPasswordPolicyContext(ctx context.Context, params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUnsetWorkloadPasswordPolicyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "unsetWorkloadPasswordPolicy",
 		Method:             "POST",
@@ -3719,13 +6064,14 @@ func (a *Client) UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicy
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UnsetWorkloadPasswordPolicyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3745,15 +6091,39 @@ func (a *Client) UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicy
 }
 
 /*
-UpdateAccessKey updates an access key
+UpdateAccessKeyupdates an access key.
 
-Updates an access key.
+Updates an access key..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAccessKeyContext] instead.
 */
 func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAccessKeyContext(ctx, params, opts...)
+}
+
+/*
+UpdateAccessKeyContextupdates an access key.
+
+Updates an access key..
+
+Do not use the deprecated [UpdateAccessKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAccessKeyContext(ctx context.Context, params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAccessKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAccessKey",
 		Method:             "POST",
@@ -3763,13 +6133,14 @@ func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAccessKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3789,15 +6160,39 @@ func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOp
 }
 
 /*
-UpdateGroup updates a group
+UpdateGroupupdates a group.
 
-Update a group.
+Update a group..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateGroupContext] instead.
 */
 func (a *Client) UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateGroupContext(ctx, params, opts...)
+}
+
+/*
+UpdateGroupContextupdates a group.
+
+Update a group..
+
+Do not use the deprecated [UpdateGroupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateGroupContext(ctx context.Context, params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateGroup",
 		Method:             "POST",
@@ -3807,13 +6202,14 @@ func (a *Client) UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3833,15 +6229,39 @@ func (a *Client) UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*
 }
 
 /*
-UpdateLdapProvider updates ldap provider
+UpdateLdapProviderupdates ldap provider.
 
-Update an LDAP provider.
+Update an LDAP provider..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateLdapProviderContext] instead.
 */
 func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateLdapProviderContext(ctx, params, opts...)
+}
+
+/*
+UpdateLdapProviderContextupdates ldap provider.
+
+Update an LDAP provider..
+
+Do not use the deprecated [UpdateLdapProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateLdapProviderContext(ctx context.Context, params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateLdapProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateLdapProvider",
 		Method:             "POST",
@@ -3851,13 +6271,14 @@ func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateLdapProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3877,15 +6298,39 @@ func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...Cl
 }
 
 /*
-UpdateSamlProvider updates a s a m l provider in c d p
+UpdateSamlProviderupdates a s a m l provider in c d p.
 
-Updates a SAML provider in CDP.
+Updates a SAML provider in CDP..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateSamlProviderContext] instead.
 */
 func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateSamlProviderContext(ctx, params, opts...)
+}
+
+/*
+UpdateSamlProviderContextupdates a s a m l provider in c d p.
+
+Updates a SAML provider in CDP..
+
+Do not use the deprecated [UpdateSamlProviderParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateSamlProviderContext(ctx context.Context, params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSamlProviderParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateSamlProvider",
 		Method:             "POST",
@@ -3895,13 +6340,14 @@ func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateSamlProviderReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3921,15 +6367,39 @@ func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...Cl
 }
 
 /*
-UpdateUser updates a user
+UpdateUserupdates a user.
 
-Updates a user. Updates request fields provided. An error is returned if no field updates are defined in the request.
+Updates a user. Updates request fields provided. An error is returned if no field updates are defined in the request..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateUserContext] instead.
 */
 func (a *Client) UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateUserContext(ctx, params, opts...)
+}
+
+/*
+UpdateUserContextupdates a user.
+
+Updates a user. Updates request fields provided. An error is returned if no field updates are defined in the request..
+
+Do not use the deprecated [UpdateUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateUserContext(ctx context.Context, params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateUser",
 		Method:             "POST",
@@ -3939,13 +6409,14 @@ func (a *Client) UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*Up
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3965,6 +6436,14 @@ func (a *Client) UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*Up
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

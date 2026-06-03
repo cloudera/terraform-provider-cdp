@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // RollbackZookeeperToKraftMigrationResponse Response object to rollback the migration from Zookeeper to KRaft broker.
@@ -36,13 +36,13 @@ func (m *RollbackZookeeperToKraftMigrationResponse) MarshalBinary() ([]byte, err
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RollbackZookeeperToKraftMigrationResponse) UnmarshalBinary(b []byte) error {
 	var res RollbackZookeeperToKraftMigrationResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

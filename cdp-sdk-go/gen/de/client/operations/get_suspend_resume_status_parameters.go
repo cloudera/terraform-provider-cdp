@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewGetSuspendResumeStatusParams creates a new GetSuspendResumeStatusParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetSuspendResumeStatusParams() *GetSuspendResumeStatusParams {
-	return &GetSuspendResumeStatusParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetSuspendResumeStatusParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetSuspendResumeStatusParamsWithTimeout creates a new GetSuspendResumeStatusParams object
 // with the ability to set a timeout on a request.
 func NewGetSuspendResumeStatusParamsWithTimeout(timeout time.Duration) *GetSuspendResumeStatusParams {
 	return &GetSuspendResumeStatusParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetSuspendResumeStatusParamsWithContext creates a new GetSuspendResumeStatusParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetSuspendResumeStatusParams].
 func NewGetSuspendResumeStatusParamsWithContext(ctx context.Context) *GetSuspendResumeStatusParams {
 	return &GetSuspendResumeStatusParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetSuspendResumeStatusParams struct {
 	// Input.
 	Input *models.GetSuspendResumeStatusRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get suspend resume status params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetSuspendResumeStatusParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get suspend resume status params
+// WithTimeout adds the timeout to the get suspend resume status params.
 func (o *GetSuspendResumeStatusParams) WithTimeout(timeout time.Duration) *GetSuspendResumeStatusParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get suspend resume status params
+// SetTimeout adds the timeout to the get suspend resume status params.
 func (o *GetSuspendResumeStatusParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get suspend resume status params
+// WithContext adds the context to the get suspend resume status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetSuspendResumeStatusParams].
 func (o *GetSuspendResumeStatusParams) WithContext(ctx context.Context) *GetSuspendResumeStatusParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get suspend resume status params
+// SetContext adds the context to the get suspend resume status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetSuspendResumeStatusParams].
 func (o *GetSuspendResumeStatusParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get suspend resume status params
+// WithHTTPClient adds the HTTPClient to the get suspend resume status params.
 func (o *GetSuspendResumeStatusParams) WithHTTPClient(client *http.Client) *GetSuspendResumeStatusParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get suspend resume status params
+// SetHTTPClient adds the HTTPClient to the get suspend resume status params.
 func (o *GetSuspendResumeStatusParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get suspend resume status params
+// WithInput adds the input to the get suspend resume status params.
 func (o *GetSuspendResumeStatusParams) WithInput(input *models.GetSuspendResumeStatusRequest) *GetSuspendResumeStatusParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get suspend resume status params
+// SetInput adds the input to the get suspend resume status params.
 func (o *GetSuspendResumeStatusParams) SetInput(input *models.GetSuspendResumeStatusRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetSuspendResumeStatusParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

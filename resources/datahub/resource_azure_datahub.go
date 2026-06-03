@@ -59,7 +59,7 @@ func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	params := operations.NewCreateAzureClusterParamsWithContext(ctx)
+	params := operations.NewCreateAzureClusterParams()
 	params.WithInput(fromModelToAzureRequest(data, ctx))
 
 	res, err := r.client.Datahub.Operations.CreateAzureCluster(params)
@@ -107,7 +107,7 @@ func (r *azureDatahubResource) Read(ctx context.Context, req resource.ReadReques
 	if len(clusterName) == 0 {
 		clusterName = state.ID.ValueString()
 	}
-	params := operations.NewDescribeClusterParamsWithContext(ctx)
+	params := operations.NewDescribeClusterParams()
 	params.WithInput(&datahubmodels.DescribeClusterRequest{
 		ClusterName: &clusterName,
 	})
@@ -149,7 +149,7 @@ func (r *azureDatahubResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	params := operations.NewDeleteClusterParamsWithContext(ctx).WithInput(&datahubmodels.DeleteClusterRequest{
+	params := operations.NewDeleteClusterParams().WithInput(&datahubmodels.DeleteClusterRequest{
 		ClusterName: state.ID.ValueStringPointer(),
 		Force:       state.forceDeleteRequested(),
 	})

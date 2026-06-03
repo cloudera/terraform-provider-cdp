@@ -11,7 +11,6 @@
 package datalake_test
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"sync"
@@ -221,7 +220,7 @@ func testAccCheckAwsDataLakeDestroy(s *terraform.State) error {
 		}
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
-		params := operations.NewDescribeDatalakeParamsWithContext(context.Background())
+		params := operations.NewDescribeDatalakeParams()
 		params.WithInput(&models.DescribeDatalakeRequest{
 			DatalakeName: &rs.Primary.ID,
 		})

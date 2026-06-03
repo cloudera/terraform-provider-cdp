@@ -71,7 +71,7 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 
 	// Make API request to create VW
 	response, err := r.client.Dw.Operations.CreateVw(
-		operations.NewCreateVwParamsWithContext(ctx).WithInput(vwhCreateRequest),
+		operations.NewCreateVwParams().WithInput(vwhCreateRequest),
 	)
 	if err != nil || response.GetPayload() == nil {
 		resp.Diagnostics.AddError(
@@ -159,7 +159,7 @@ func (r *impalaResource) Delete(ctx context.Context, req resource.DeleteRequest,
 func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vwID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "About to describe Impala")
-		params := operations.NewDescribeVwParamsWithContext(ctx).
+		params := operations.NewDescribeVwParams().
 			WithInput(&models.DescribeVwRequest{ClusterID: clusterID, VwID: vwID})
 		resp, err := r.client.Dw.Operations.DescribeVw(params)
 		if err != nil {
@@ -286,7 +286,7 @@ func (r *impalaResource) waitForVwRunning(ctx context.Context, plan *resourceMod
 }
 
 func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *resourceModel, vwID *string) error {
-	desc := operations.NewDescribeVwParamsWithContext(ctx).
+	desc := operations.NewDescribeVwParams().
 		WithInput(&models.DescribeVwRequest{VwID: vwID, ClusterID: plan.ClusterID.ValueStringPointer()})
 	describe, err := r.client.Dw.Operations.DescribeVw(desc)
 	if err != nil {
@@ -301,7 +301,7 @@ func (r *impalaResource) populatePlanFromDescribe(ctx context.Context, plan *res
 }
 
 func (r *impalaResource) deleteVirtualWarehouse(ctx context.Context, clusterID, vwID *string) error {
-	op := operations.NewDeleteVwParamsWithContext(ctx).
+	op := operations.NewDeleteVwParams().
 		WithInput(&models.DeleteVwRequest{
 			ClusterID: clusterID,
 			VwID:      vwID,

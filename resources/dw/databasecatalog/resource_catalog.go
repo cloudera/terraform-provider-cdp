@@ -126,7 +126,7 @@ func (r *dwDatabaseCatalogResource) Delete(ctx context.Context, req resource.Del
 func (r *dwDatabaseCatalogResource) stateRefresh(ctx context.Context, clusterID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "About to get DBCs")
-		catalogParams := operations.NewListDbcsParamsWithContext(ctx).WithInput(&models.ListDbcsRequest{ClusterID: clusterID})
+		catalogParams := operations.NewListDbcsParams().WithInput(&models.ListDbcsRequest{ClusterID: clusterID})
 		// List existing catalogs
 		response, err := r.client.Dw.Operations.ListDbcs(catalogParams)
 		if err != nil {
@@ -160,7 +160,7 @@ func (r *dwDatabaseCatalogResource) stateRefresh(ctx context.Context, clusterID 
 }
 
 func (r *dwDatabaseCatalogResource) getDatabaseCatalog(ctx context.Context, clusterID *string) (*models.DbcSummary, error) {
-	catalogParams := operations.NewListDbcsParamsWithContext(ctx).WithInput(&models.ListDbcsRequest{ClusterID: clusterID})
+	catalogParams := operations.NewListDbcsParams().WithInput(&models.ListDbcsRequest{ClusterID: clusterID})
 	// List existing catalogs
 	response, err := r.client.Dw.Operations.ListDbcs(catalogParams)
 	if err != nil {

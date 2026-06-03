@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // RestoreClusterResponse Response object for the restoreCluster method.
@@ -86,12 +87,12 @@ func (m *RestoreClusterResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *RestoreClusterResponse) validateCdwHueRestorePlans(formats strfmt.Registry) error {
-	if swag.IsZero(m.CdwHueRestorePlans) { // not required
+	if typeutils.IsZero(m.CdwHueRestorePlans) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.CdwHueRestorePlans); i++ {
-		if swag.IsZero(m.CdwHueRestorePlans[i]) { // not required
+		if typeutils.IsZero(m.CdwHueRestorePlans[i]) { // not required
 			continue
 		}
 
@@ -116,12 +117,12 @@ func (m *RestoreClusterResponse) validateCdwHueRestorePlans(formats strfmt.Regis
 }
 
 func (m *RestoreClusterResponse) validateDbcRestorePlans(formats strfmt.Registry) error {
-	if swag.IsZero(m.DbcRestorePlans) { // not required
+	if typeutils.IsZero(m.DbcRestorePlans) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.DbcRestorePlans); i++ {
-		if swag.IsZero(m.DbcRestorePlans[i]) { // not required
+		if typeutils.IsZero(m.DbcRestorePlans[i]) { // not required
 			continue
 		}
 
@@ -146,12 +147,12 @@ func (m *RestoreClusterResponse) validateDbcRestorePlans(formats strfmt.Registry
 }
 
 func (m *RestoreClusterResponse) validateHiveRestorePlans(formats strfmt.Registry) error {
-	if swag.IsZero(m.HiveRestorePlans) { // not required
+	if typeutils.IsZero(m.HiveRestorePlans) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.HiveRestorePlans); i++ {
-		if swag.IsZero(m.HiveRestorePlans[i]) { // not required
+		if typeutils.IsZero(m.HiveRestorePlans[i]) { // not required
 			continue
 		}
 
@@ -176,12 +177,12 @@ func (m *RestoreClusterResponse) validateHiveRestorePlans(formats strfmt.Registr
 }
 
 func (m *RestoreClusterResponse) validateHueRestorePlans(formats strfmt.Registry) error {
-	if swag.IsZero(m.HueRestorePlans) { // not required
+	if typeutils.IsZero(m.HueRestorePlans) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.HueRestorePlans); i++ {
-		if swag.IsZero(m.HueRestorePlans[i]) { // not required
+		if typeutils.IsZero(m.HueRestorePlans[i]) { // not required
 			continue
 		}
 
@@ -206,12 +207,12 @@ func (m *RestoreClusterResponse) validateHueRestorePlans(formats strfmt.Registry
 }
 
 func (m *RestoreClusterResponse) validateImpalaRestorePlans(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaRestorePlans) { // not required
+	if typeutils.IsZero(m.ImpalaRestorePlans) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ImpalaRestorePlans); i++ {
-		if swag.IsZero(m.ImpalaRestorePlans[i]) { // not required
+		if typeutils.IsZero(m.ImpalaRestorePlans[i]) { // not required
 			continue
 		}
 
@@ -236,12 +237,12 @@ func (m *RestoreClusterResponse) validateImpalaRestorePlans(formats strfmt.Regis
 }
 
 func (m *RestoreClusterResponse) validateVizRestorePlans(formats strfmt.Registry) error {
-	if swag.IsZero(m.VizRestorePlans) { // not required
+	if typeutils.IsZero(m.VizRestorePlans) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.VizRestorePlans); i++ {
-		if swag.IsZero(m.VizRestorePlans[i]) { // not required
+		if typeutils.IsZero(m.VizRestorePlans[i]) { // not required
 			continue
 		}
 
@@ -305,7 +306,7 @@ func (m *RestoreClusterResponse) contextValidateCdwHueRestorePlans(ctx context.C
 
 		if m.CdwHueRestorePlans[i] != nil {
 
-			if swag.IsZero(m.CdwHueRestorePlans[i]) { // not required
+			if typeutils.IsZero(m.CdwHueRestorePlans[i]) { // not required
 				return nil
 			}
 
@@ -334,7 +335,7 @@ func (m *RestoreClusterResponse) contextValidateDbcRestorePlans(ctx context.Cont
 
 		if m.DbcRestorePlans[i] != nil {
 
-			if swag.IsZero(m.DbcRestorePlans[i]) { // not required
+			if typeutils.IsZero(m.DbcRestorePlans[i]) { // not required
 				return nil
 			}
 
@@ -363,7 +364,7 @@ func (m *RestoreClusterResponse) contextValidateHiveRestorePlans(ctx context.Con
 
 		if m.HiveRestorePlans[i] != nil {
 
-			if swag.IsZero(m.HiveRestorePlans[i]) { // not required
+			if typeutils.IsZero(m.HiveRestorePlans[i]) { // not required
 				return nil
 			}
 
@@ -392,7 +393,7 @@ func (m *RestoreClusterResponse) contextValidateHueRestorePlans(ctx context.Cont
 
 		if m.HueRestorePlans[i] != nil {
 
-			if swag.IsZero(m.HueRestorePlans[i]) { // not required
+			if typeutils.IsZero(m.HueRestorePlans[i]) { // not required
 				return nil
 			}
 
@@ -421,7 +422,7 @@ func (m *RestoreClusterResponse) contextValidateImpalaRestorePlans(ctx context.C
 
 		if m.ImpalaRestorePlans[i] != nil {
 
-			if swag.IsZero(m.ImpalaRestorePlans[i]) { // not required
+			if typeutils.IsZero(m.ImpalaRestorePlans[i]) { // not required
 				return nil
 			}
 
@@ -450,7 +451,7 @@ func (m *RestoreClusterResponse) contextValidateVizRestorePlans(ctx context.Cont
 
 		if m.VizRestorePlans[i] != nil {
 
-			if swag.IsZero(m.VizRestorePlans[i]) { // not required
+			if typeutils.IsZero(m.VizRestorePlans[i]) { // not required
 				return nil
 			}
 
@@ -478,13 +479,13 @@ func (m *RestoreClusterResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RestoreClusterResponse) UnmarshalBinary(b []byte) error {
 	var res RestoreClusterResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -130,7 +131,7 @@ func (m *SetupMitTrustRequest) validateKdcServers(formats strfmt.Registry) error
 	}
 
 	for i := 0; i < len(m.KdcServers); i++ {
-		if swag.IsZero(m.KdcServers[i]) { // not required
+		if typeutils.IsZero(m.KdcServers[i]) { // not required
 			continue
 		}
 
@@ -183,7 +184,7 @@ func (m *SetupMitTrustRequest) contextValidateKdcServers(ctx context.Context, fo
 
 		if m.KdcServers[i] != nil {
 
-			if swag.IsZero(m.KdcServers[i]) { // not required
+			if typeutils.IsZero(m.KdcServers[i]) { // not required
 				return nil
 			}
 
@@ -211,13 +212,13 @@ func (m *SetupMitTrustRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *SetupMitTrustRequest) UnmarshalBinary(b []byte) error {
 	var res SetupMitTrustRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewGetDatahubLogDescriptorsParams creates a new GetDatahubLogDescriptorsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetDatahubLogDescriptorsParams() *GetDatahubLogDescriptorsParams {
-	return &GetDatahubLogDescriptorsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetDatahubLogDescriptorsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetDatahubLogDescriptorsParamsWithTimeout creates a new GetDatahubLogDescriptorsParams object
 // with the ability to set a timeout on a request.
 func NewGetDatahubLogDescriptorsParamsWithTimeout(timeout time.Duration) *GetDatahubLogDescriptorsParams {
 	return &GetDatahubLogDescriptorsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetDatahubLogDescriptorsParamsWithContext creates a new GetDatahubLogDescriptorsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetDatahubLogDescriptorsParams].
 func NewGetDatahubLogDescriptorsParamsWithContext(ctx context.Context) *GetDatahubLogDescriptorsParams {
 	return &GetDatahubLogDescriptorsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetDatahubLogDescriptorsParams struct {
 	// Input.
 	Input models.GetDatahubLogDescriptorsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get datahub log descriptors params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetDatahubLogDescriptorsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get datahub log descriptors params
+// WithTimeout adds the timeout to the get datahub log descriptors params.
 func (o *GetDatahubLogDescriptorsParams) WithTimeout(timeout time.Duration) *GetDatahubLogDescriptorsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get datahub log descriptors params
+// SetTimeout adds the timeout to the get datahub log descriptors params.
 func (o *GetDatahubLogDescriptorsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get datahub log descriptors params
+// WithContext adds the context to the get datahub log descriptors params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetDatahubLogDescriptorsParams].
 func (o *GetDatahubLogDescriptorsParams) WithContext(ctx context.Context) *GetDatahubLogDescriptorsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get datahub log descriptors params
+// SetContext adds the context to the get datahub log descriptors params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetDatahubLogDescriptorsParams].
 func (o *GetDatahubLogDescriptorsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get datahub log descriptors params
+// WithHTTPClient adds the HTTPClient to the get datahub log descriptors params.
 func (o *GetDatahubLogDescriptorsParams) WithHTTPClient(client *http.Client) *GetDatahubLogDescriptorsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get datahub log descriptors params
+// SetHTTPClient adds the HTTPClient to the get datahub log descriptors params.
 func (o *GetDatahubLogDescriptorsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get datahub log descriptors params
+// WithInput adds the input to the get datahub log descriptors params.
 func (o *GetDatahubLogDescriptorsParams) WithInput(input models.GetDatahubLogDescriptorsRequest) *GetDatahubLogDescriptorsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get datahub log descriptors params
+// SetInput adds the input to the get datahub log descriptors params.
 func (o *GetDatahubLogDescriptorsParams) SetInput(input models.GetDatahubLogDescriptorsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetDatahubLogDescriptorsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

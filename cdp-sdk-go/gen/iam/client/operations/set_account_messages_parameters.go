@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewSetAccountMessagesParams creates a new SetAccountMessagesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetAccountMessagesParams() *SetAccountMessagesParams {
-	return &SetAccountMessagesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetAccountMessagesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetAccountMessagesParamsWithTimeout creates a new SetAccountMessagesParams object
 // with the ability to set a timeout on a request.
 func NewSetAccountMessagesParamsWithTimeout(timeout time.Duration) *SetAccountMessagesParams {
 	return &SetAccountMessagesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetAccountMessagesParamsWithContext creates a new SetAccountMessagesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAccountMessagesParams].
 func NewSetAccountMessagesParamsWithContext(ctx context.Context) *SetAccountMessagesParams {
 	return &SetAccountMessagesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetAccountMessagesParams struct {
 	// Input.
 	Input *models.SetAccountMessagesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set account messages params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetAccountMessagesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set account messages params
+// WithTimeout adds the timeout to the set account messages params.
 func (o *SetAccountMessagesParams) WithTimeout(timeout time.Duration) *SetAccountMessagesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set account messages params
+// SetTimeout adds the timeout to the set account messages params.
 func (o *SetAccountMessagesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set account messages params
+// WithContext adds the context to the set account messages params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAccountMessagesParams].
 func (o *SetAccountMessagesParams) WithContext(ctx context.Context) *SetAccountMessagesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set account messages params
+// SetContext adds the context to the set account messages params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAccountMessagesParams].
 func (o *SetAccountMessagesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set account messages params
+// WithHTTPClient adds the HTTPClient to the set account messages params.
 func (o *SetAccountMessagesParams) WithHTTPClient(client *http.Client) *SetAccountMessagesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set account messages params
+// SetHTTPClient adds the HTTPClient to the set account messages params.
 func (o *SetAccountMessagesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set account messages params
+// WithInput adds the input to the set account messages params.
 func (o *SetAccountMessagesParams) WithInput(input *models.SetAccountMessagesRequest) *SetAccountMessagesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set account messages params
+// SetInput adds the input to the set account messages params.
 func (o *SetAccountMessagesParams) SetInput(input *models.SetAccountMessagesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetAccountMessagesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

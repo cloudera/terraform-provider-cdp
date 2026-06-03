@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -123,7 +124,7 @@ func (m *CreateAWSClusterRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateAWSClusterRequest) validateClusterExtension(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClusterExtension) { // not required
+	if typeutils.IsZero(m.ClusterExtension) { // not required
 		return nil
 	}
 
@@ -146,7 +147,7 @@ func (m *CreateAWSClusterRequest) validateClusterExtension(formats strfmt.Regist
 }
 
 func (m *CreateAWSClusterRequest) validateClusterName(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClusterName) { // not required
+	if typeutils.IsZero(m.ClusterName) { // not required
 		return nil
 	}
 
@@ -162,7 +163,7 @@ func (m *CreateAWSClusterRequest) validateClusterName(formats strfmt.Registry) e
 }
 
 func (m *CreateAWSClusterRequest) validateDatahubDatabase(formats strfmt.Registry) error {
-	if swag.IsZero(m.DatahubDatabase) { // not required
+	if typeutils.IsZero(m.DatahubDatabase) { // not required
 		return nil
 	}
 
@@ -183,7 +184,7 @@ func (m *CreateAWSClusterRequest) validateDatahubDatabase(formats strfmt.Registr
 }
 
 func (m *CreateAWSClusterRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -206,12 +207,12 @@ func (m *CreateAWSClusterRequest) validateImage(formats strfmt.Registry) error {
 }
 
 func (m *CreateAWSClusterRequest) validateInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroups) { // not required
+	if typeutils.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -236,7 +237,7 @@ func (m *CreateAWSClusterRequest) validateInstanceGroups(formats strfmt.Registry
 }
 
 func (m *CreateAWSClusterRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -259,12 +260,12 @@ func (m *CreateAWSClusterRequest) validateSecurity(formats strfmt.Registry) erro
 }
 
 func (m *CreateAWSClusterRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -326,7 +327,7 @@ func (m *CreateAWSClusterRequest) contextValidateClusterExtension(ctx context.Co
 
 	if m.ClusterExtension != nil {
 
-		if swag.IsZero(m.ClusterExtension) { // not required
+		if typeutils.IsZero(m.ClusterExtension) { // not required
 			return nil
 		}
 
@@ -349,7 +350,7 @@ func (m *CreateAWSClusterRequest) contextValidateClusterExtension(ctx context.Co
 
 func (m *CreateAWSClusterRequest) contextValidateDatahubDatabase(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.DatahubDatabase) { // not required
+	if typeutils.IsZero(m.DatahubDatabase) { // not required
 		return nil
 	}
 
@@ -373,7 +374,7 @@ func (m *CreateAWSClusterRequest) contextValidateImage(ctx context.Context, form
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -400,7 +401,7 @@ func (m *CreateAWSClusterRequest) contextValidateInstanceGroups(ctx context.Cont
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -427,7 +428,7 @@ func (m *CreateAWSClusterRequest) contextValidateSecurity(ctx context.Context, f
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -454,7 +455,7 @@ func (m *CreateAWSClusterRequest) contextValidateTags(ctx context.Context, forma
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -482,13 +483,13 @@ func (m *CreateAWSClusterRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAWSClusterRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAWSClusterRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

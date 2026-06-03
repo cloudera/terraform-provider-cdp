@@ -57,7 +57,7 @@ func enableComputeClusterForAws(ctx context.Context, config *AwsComputeClusterCo
 		ComputeClusterConfiguration: convertConfigToAwsComputeClusterConfigurationRequest(config, envSubnets),
 		EnvironmentName:             &environmentName,
 	}
-	params := operations.NewInitializeAWSComputeClusterParamsWithContext(ctx)
+	params := operations.NewInitializeAWSComputeClusterParams()
 	params.WithInput(&request)
 	tflog.Info(ctx, fmt.Sprintf("Initializing AWS compute cluster for environment '%s'", environmentName))
 	_, err := envClient.Operations.InitializeAWSComputeCluster(params)

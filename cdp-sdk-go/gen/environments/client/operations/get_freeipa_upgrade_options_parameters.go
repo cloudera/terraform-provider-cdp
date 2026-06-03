@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetFreeipaUpgradeOptionsParams creates a new GetFreeipaUpgradeOptionsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetFreeipaUpgradeOptionsParams() *GetFreeipaUpgradeOptionsParams {
-	return &GetFreeipaUpgradeOptionsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetFreeipaUpgradeOptionsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetFreeipaUpgradeOptionsParamsWithTimeout creates a new GetFreeipaUpgradeOptionsParams object
 // with the ability to set a timeout on a request.
 func NewGetFreeipaUpgradeOptionsParamsWithTimeout(timeout time.Duration) *GetFreeipaUpgradeOptionsParams {
 	return &GetFreeipaUpgradeOptionsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetFreeipaUpgradeOptionsParamsWithContext creates a new GetFreeipaUpgradeOptionsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetFreeipaUpgradeOptionsParams].
 func NewGetFreeipaUpgradeOptionsParamsWithContext(ctx context.Context) *GetFreeipaUpgradeOptionsParams {
 	return &GetFreeipaUpgradeOptionsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetFreeipaUpgradeOptionsParams struct {
 	// Input.
 	Input *models.GetFreeipaUpgradeOptionsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get freeipa upgrade options params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetFreeipaUpgradeOptionsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get freeipa upgrade options params
+// WithTimeout adds the timeout to the get freeipa upgrade options params.
 func (o *GetFreeipaUpgradeOptionsParams) WithTimeout(timeout time.Duration) *GetFreeipaUpgradeOptionsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get freeipa upgrade options params
+// SetTimeout adds the timeout to the get freeipa upgrade options params.
 func (o *GetFreeipaUpgradeOptionsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get freeipa upgrade options params
+// WithContext adds the context to the get freeipa upgrade options params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetFreeipaUpgradeOptionsParams].
 func (o *GetFreeipaUpgradeOptionsParams) WithContext(ctx context.Context) *GetFreeipaUpgradeOptionsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get freeipa upgrade options params
+// SetContext adds the context to the get freeipa upgrade options params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetFreeipaUpgradeOptionsParams].
 func (o *GetFreeipaUpgradeOptionsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get freeipa upgrade options params
+// WithHTTPClient adds the HTTPClient to the get freeipa upgrade options params.
 func (o *GetFreeipaUpgradeOptionsParams) WithHTTPClient(client *http.Client) *GetFreeipaUpgradeOptionsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get freeipa upgrade options params
+// SetHTTPClient adds the HTTPClient to the get freeipa upgrade options params.
 func (o *GetFreeipaUpgradeOptionsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get freeipa upgrade options params
+// WithInput adds the input to the get freeipa upgrade options params.
 func (o *GetFreeipaUpgradeOptionsParams) WithInput(input *models.GetFreeipaUpgradeOptionsRequest) *GetFreeipaUpgradeOptionsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get freeipa upgrade options params
+// SetInput adds the input to the get freeipa upgrade options params.
 func (o *GetFreeipaUpgradeOptionsParams) SetInput(input *models.GetFreeipaUpgradeOptionsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetFreeipaUpgradeOptionsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

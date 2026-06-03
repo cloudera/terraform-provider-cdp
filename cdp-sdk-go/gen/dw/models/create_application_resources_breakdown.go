@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // CreateApplicationResourcesBreakdown Breakdown of the service memory requirements like Xms, Xss etc.
@@ -42,13 +42,13 @@ func (m *CreateApplicationResourcesBreakdown) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateApplicationResourcesBreakdown) UnmarshalBinary(b []byte) error {
 	var res CreateApplicationResourcesBreakdown
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -44,7 +45,7 @@ func (m *ListDatahubSecretTypesResponse) validateDatahubSecretTypes(formats strf
 	}
 
 	for i := 0; i < len(m.DatahubSecretTypes); i++ {
-		if swag.IsZero(m.DatahubSecretTypes[i]) { // not required
+		if typeutils.IsZero(m.DatahubSecretTypes[i]) { // not required
 			continue
 		}
 
@@ -88,7 +89,7 @@ func (m *ListDatahubSecretTypesResponse) contextValidateDatahubSecretTypes(ctx c
 
 		if m.DatahubSecretTypes[i] != nil {
 
-			if swag.IsZero(m.DatahubSecretTypes[i]) { // not required
+			if typeutils.IsZero(m.DatahubSecretTypes[i]) { // not required
 				return nil
 			}
 
@@ -116,13 +117,13 @@ func (m *ListDatahubSecretTypesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListDatahubSecretTypesResponse) UnmarshalBinary(b []byte) error {
 	var res ListDatahubSecretTypesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

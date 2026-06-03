@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewGetLogsParams creates a new GetLogsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetLogsParams() *GetLogsParams {
-	return &GetLogsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetLogsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetLogsParamsWithTimeout creates a new GetLogsParams object
 // with the ability to set a timeout on a request.
 func NewGetLogsParamsWithTimeout(timeout time.Duration) *GetLogsParams {
 	return &GetLogsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetLogsParamsWithContext creates a new GetLogsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetLogsParams].
 func NewGetLogsParamsWithContext(ctx context.Context) *GetLogsParams {
 	return &GetLogsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetLogsParams struct {
 	// Input.
 	Input *models.GetLogsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get logs params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetLogsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get logs params
+// WithTimeout adds the timeout to the get logs params.
 func (o *GetLogsParams) WithTimeout(timeout time.Duration) *GetLogsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get logs params
+// SetTimeout adds the timeout to the get logs params.
 func (o *GetLogsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get logs params
+// WithContext adds the context to the get logs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetLogsParams].
 func (o *GetLogsParams) WithContext(ctx context.Context) *GetLogsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get logs params
+// SetContext adds the context to the get logs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetLogsParams].
 func (o *GetLogsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get logs params
+// WithHTTPClient adds the HTTPClient to the get logs params.
 func (o *GetLogsParams) WithHTTPClient(client *http.Client) *GetLogsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get logs params
+// SetHTTPClient adds the HTTPClient to the get logs params.
 func (o *GetLogsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get logs params
+// WithInput adds the input to the get logs params.
 func (o *GetLogsParams) WithInput(input *models.GetLogsRequest) *GetLogsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get logs params
+// SetInput adds the input to the get logs params.
 func (o *GetLogsParams) SetInput(input *models.GetLogsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetLogsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

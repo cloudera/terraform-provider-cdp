@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewDeleteScimAccessTokenParams creates a new DeleteScimAccessTokenParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteScimAccessTokenParams() *DeleteScimAccessTokenParams {
-	return &DeleteScimAccessTokenParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteScimAccessTokenParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteScimAccessTokenParamsWithTimeout creates a new DeleteScimAccessTokenParams object
 // with the ability to set a timeout on a request.
 func NewDeleteScimAccessTokenParamsWithTimeout(timeout time.Duration) *DeleteScimAccessTokenParams {
 	return &DeleteScimAccessTokenParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteScimAccessTokenParamsWithContext creates a new DeleteScimAccessTokenParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteScimAccessTokenParams].
 func NewDeleteScimAccessTokenParamsWithContext(ctx context.Context) *DeleteScimAccessTokenParams {
 	return &DeleteScimAccessTokenParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteScimAccessTokenParams struct {
 	// Input.
 	Input *models.DeleteScimAccessTokenRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete scim access token params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteScimAccessTokenParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete scim access token params
+// WithTimeout adds the timeout to the delete scim access token params.
 func (o *DeleteScimAccessTokenParams) WithTimeout(timeout time.Duration) *DeleteScimAccessTokenParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete scim access token params
+// SetTimeout adds the timeout to the delete scim access token params.
 func (o *DeleteScimAccessTokenParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete scim access token params
+// WithContext adds the context to the delete scim access token params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteScimAccessTokenParams].
 func (o *DeleteScimAccessTokenParams) WithContext(ctx context.Context) *DeleteScimAccessTokenParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete scim access token params
+// SetContext adds the context to the delete scim access token params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteScimAccessTokenParams].
 func (o *DeleteScimAccessTokenParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete scim access token params
+// WithHTTPClient adds the HTTPClient to the delete scim access token params.
 func (o *DeleteScimAccessTokenParams) WithHTTPClient(client *http.Client) *DeleteScimAccessTokenParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete scim access token params
+// SetHTTPClient adds the HTTPClient to the delete scim access token params.
 func (o *DeleteScimAccessTokenParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete scim access token params
+// WithInput adds the input to the delete scim access token params.
 func (o *DeleteScimAccessTokenParams) WithInput(input *models.DeleteScimAccessTokenRequest) *DeleteScimAccessTokenParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete scim access token params
+// SetInput adds the input to the delete scim access token params.
 func (o *DeleteScimAccessTokenParams) SetInput(input *models.DeleteScimAccessTokenRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteScimAccessTokenParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

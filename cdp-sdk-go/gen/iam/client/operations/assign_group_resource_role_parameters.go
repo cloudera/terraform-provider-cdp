@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewAssignGroupResourceRoleParams creates a new AssignGroupResourceRoleParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAssignGroupResourceRoleParams() *AssignGroupResourceRoleParams {
-	return &AssignGroupResourceRoleParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAssignGroupResourceRoleParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAssignGroupResourceRoleParamsWithTimeout creates a new AssignGroupResourceRoleParams object
 // with the ability to set a timeout on a request.
 func NewAssignGroupResourceRoleParamsWithTimeout(timeout time.Duration) *AssignGroupResourceRoleParams {
 	return &AssignGroupResourceRoleParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAssignGroupResourceRoleParamsWithContext creates a new AssignGroupResourceRoleParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignGroupResourceRoleParams].
 func NewAssignGroupResourceRoleParamsWithContext(ctx context.Context) *AssignGroupResourceRoleParams {
 	return &AssignGroupResourceRoleParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AssignGroupResourceRoleParams struct {
 	// Input.
 	Input *models.AssignGroupResourceRoleRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the assign group resource role params (not the query body).
@@ -83,54 +86,57 @@ func (o *AssignGroupResourceRoleParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the assign group resource role params
+// WithTimeout adds the timeout to the assign group resource role params.
 func (o *AssignGroupResourceRoleParams) WithTimeout(timeout time.Duration) *AssignGroupResourceRoleParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the assign group resource role params
+// SetTimeout adds the timeout to the assign group resource role params.
 func (o *AssignGroupResourceRoleParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the assign group resource role params
+// WithContext adds the context to the assign group resource role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignGroupResourceRoleParams].
 func (o *AssignGroupResourceRoleParams) WithContext(ctx context.Context) *AssignGroupResourceRoleParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the assign group resource role params
+// SetContext adds the context to the assign group resource role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignGroupResourceRoleParams].
 func (o *AssignGroupResourceRoleParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the assign group resource role params
+// WithHTTPClient adds the HTTPClient to the assign group resource role params.
 func (o *AssignGroupResourceRoleParams) WithHTTPClient(client *http.Client) *AssignGroupResourceRoleParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the assign group resource role params
+// SetHTTPClient adds the HTTPClient to the assign group resource role params.
 func (o *AssignGroupResourceRoleParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the assign group resource role params
+// WithInput adds the input to the assign group resource role params.
 func (o *AssignGroupResourceRoleParams) WithInput(input *models.AssignGroupResourceRoleRequest) *AssignGroupResourceRoleParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the assign group resource role params
+// SetInput adds the input to the assign group resource role params.
 func (o *AssignGroupResourceRoleParams) SetInput(input *models.AssignGroupResourceRoleRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AssignGroupResourceRoleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewCreateDataVisualizationParams creates a new CreateDataVisualizationParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateDataVisualizationParams() *CreateDataVisualizationParams {
-	return &CreateDataVisualizationParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateDataVisualizationParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateDataVisualizationParamsWithTimeout creates a new CreateDataVisualizationParams object
 // with the ability to set a timeout on a request.
 func NewCreateDataVisualizationParamsWithTimeout(timeout time.Duration) *CreateDataVisualizationParams {
 	return &CreateDataVisualizationParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateDataVisualizationParamsWithContext creates a new CreateDataVisualizationParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDataVisualizationParams].
 func NewCreateDataVisualizationParamsWithContext(ctx context.Context) *CreateDataVisualizationParams {
 	return &CreateDataVisualizationParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateDataVisualizationParams struct {
 	// Input.
 	Input *models.CreateDataVisualizationRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create data visualization params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateDataVisualizationParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create data visualization params
+// WithTimeout adds the timeout to the create data visualization params.
 func (o *CreateDataVisualizationParams) WithTimeout(timeout time.Duration) *CreateDataVisualizationParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create data visualization params
+// SetTimeout adds the timeout to the create data visualization params.
 func (o *CreateDataVisualizationParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create data visualization params
+// WithContext adds the context to the create data visualization params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDataVisualizationParams].
 func (o *CreateDataVisualizationParams) WithContext(ctx context.Context) *CreateDataVisualizationParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create data visualization params
+// SetContext adds the context to the create data visualization params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDataVisualizationParams].
 func (o *CreateDataVisualizationParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create data visualization params
+// WithHTTPClient adds the HTTPClient to the create data visualization params.
 func (o *CreateDataVisualizationParams) WithHTTPClient(client *http.Client) *CreateDataVisualizationParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create data visualization params
+// SetHTTPClient adds the HTTPClient to the create data visualization params.
 func (o *CreateDataVisualizationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create data visualization params
+// WithInput adds the input to the create data visualization params.
 func (o *CreateDataVisualizationParams) WithInput(input *models.CreateDataVisualizationRequest) *CreateDataVisualizationParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create data visualization params
+// SetInput adds the input to the create data visualization params.
 func (o *CreateDataVisualizationParams) SetInput(input *models.CreateDataVisualizationRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateDataVisualizationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

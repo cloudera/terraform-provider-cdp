@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetAzureAuditCredentialParams creates a new SetAzureAuditCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetAzureAuditCredentialParams() *SetAzureAuditCredentialParams {
-	return &SetAzureAuditCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetAzureAuditCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetAzureAuditCredentialParamsWithTimeout creates a new SetAzureAuditCredentialParams object
 // with the ability to set a timeout on a request.
 func NewSetAzureAuditCredentialParamsWithTimeout(timeout time.Duration) *SetAzureAuditCredentialParams {
 	return &SetAzureAuditCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetAzureAuditCredentialParamsWithContext creates a new SetAzureAuditCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAzureAuditCredentialParams].
 func NewSetAzureAuditCredentialParamsWithContext(ctx context.Context) *SetAzureAuditCredentialParams {
 	return &SetAzureAuditCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetAzureAuditCredentialParams struct {
 	// Input.
 	Input *models.SetAzureAuditCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set azure audit credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetAzureAuditCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set azure audit credential params
+// WithTimeout adds the timeout to the set azure audit credential params.
 func (o *SetAzureAuditCredentialParams) WithTimeout(timeout time.Duration) *SetAzureAuditCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set azure audit credential params
+// SetTimeout adds the timeout to the set azure audit credential params.
 func (o *SetAzureAuditCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set azure audit credential params
+// WithContext adds the context to the set azure audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAzureAuditCredentialParams].
 func (o *SetAzureAuditCredentialParams) WithContext(ctx context.Context) *SetAzureAuditCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set azure audit credential params
+// SetContext adds the context to the set azure audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAzureAuditCredentialParams].
 func (o *SetAzureAuditCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set azure audit credential params
+// WithHTTPClient adds the HTTPClient to the set azure audit credential params.
 func (o *SetAzureAuditCredentialParams) WithHTTPClient(client *http.Client) *SetAzureAuditCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set azure audit credential params
+// SetHTTPClient adds the HTTPClient to the set azure audit credential params.
 func (o *SetAzureAuditCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set azure audit credential params
+// WithInput adds the input to the set azure audit credential params.
 func (o *SetAzureAuditCredentialParams) WithInput(input *models.SetAzureAuditCredentialRequest) *SetAzureAuditCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set azure audit credential params
+// SetInput adds the input to the set azure audit credential params.
 func (o *SetAzureAuditCredentialParams) SetInput(input *models.SetAzureAuditCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetAzureAuditCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

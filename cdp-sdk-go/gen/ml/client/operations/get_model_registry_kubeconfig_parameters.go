@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewGetModelRegistryKubeconfigParams creates a new GetModelRegistryKubeconfigParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetModelRegistryKubeconfigParams() *GetModelRegistryKubeconfigParams {
-	return &GetModelRegistryKubeconfigParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetModelRegistryKubeconfigParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetModelRegistryKubeconfigParamsWithTimeout creates a new GetModelRegistryKubeconfigParams object
 // with the ability to set a timeout on a request.
 func NewGetModelRegistryKubeconfigParamsWithTimeout(timeout time.Duration) *GetModelRegistryKubeconfigParams {
 	return &GetModelRegistryKubeconfigParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetModelRegistryKubeconfigParamsWithContext creates a new GetModelRegistryKubeconfigParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetModelRegistryKubeconfigParams].
 func NewGetModelRegistryKubeconfigParamsWithContext(ctx context.Context) *GetModelRegistryKubeconfigParams {
 	return &GetModelRegistryKubeconfigParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetModelRegistryKubeconfigParams struct {
 	// Input.
 	Input *models.GetModelRegistryKubeconfigRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get model registry kubeconfig params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetModelRegistryKubeconfigParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get model registry kubeconfig params
+// WithTimeout adds the timeout to the get model registry kubeconfig params.
 func (o *GetModelRegistryKubeconfigParams) WithTimeout(timeout time.Duration) *GetModelRegistryKubeconfigParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get model registry kubeconfig params
+// SetTimeout adds the timeout to the get model registry kubeconfig params.
 func (o *GetModelRegistryKubeconfigParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get model registry kubeconfig params
+// WithContext adds the context to the get model registry kubeconfig params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetModelRegistryKubeconfigParams].
 func (o *GetModelRegistryKubeconfigParams) WithContext(ctx context.Context) *GetModelRegistryKubeconfigParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get model registry kubeconfig params
+// SetContext adds the context to the get model registry kubeconfig params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetModelRegistryKubeconfigParams].
 func (o *GetModelRegistryKubeconfigParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get model registry kubeconfig params
+// WithHTTPClient adds the HTTPClient to the get model registry kubeconfig params.
 func (o *GetModelRegistryKubeconfigParams) WithHTTPClient(client *http.Client) *GetModelRegistryKubeconfigParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get model registry kubeconfig params
+// SetHTTPClient adds the HTTPClient to the get model registry kubeconfig params.
 func (o *GetModelRegistryKubeconfigParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get model registry kubeconfig params
+// WithInput adds the input to the get model registry kubeconfig params.
 func (o *GetModelRegistryKubeconfigParams) WithInput(input *models.GetModelRegistryKubeconfigRequest) *GetModelRegistryKubeconfigParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get model registry kubeconfig params
+// SetInput adds the input to the get model registry kubeconfig params.
 func (o *GetModelRegistryKubeconfigParams) SetInput(input *models.GetModelRegistryKubeconfigRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetModelRegistryKubeconfigParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

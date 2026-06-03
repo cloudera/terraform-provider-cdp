@@ -81,7 +81,7 @@ func (p *proxyConfigurationResource) Create(ctx context.Context, req resource.Cr
 
 	environmentClient := p.client.Environments
 
-	params := operations.NewCreateProxyConfigParamsWithContext(ctx)
+	params := operations.NewCreateProxyConfigParams()
 	params.WithInput(&models.CreateProxyConfigRequest{
 		ProxyConfigName: data.Name.ValueStringPointer(),
 		Description:     data.Description.ValueString(),
@@ -128,7 +128,7 @@ func (p *proxyConfigurationResource) Delete(ctx context.Context, req resource.De
 
 	environmentClient := p.client.Environments
 
-	params := operations.NewDeleteProxyConfigParamsWithContext(ctx)
+	params := operations.NewDeleteProxyConfigParams()
 	params.WithInput(&models.DeleteProxyConfigRequest{ProxyConfigName: state.Name.ValueStringPointer()})
 
 	_, err := environmentClient.Operations.DeleteProxyConfig(params)
@@ -165,7 +165,7 @@ func splitHostsToSet(hostsStr string, diags *diag.Diagnostics, ctx context.Conte
 }
 
 func FindProxyConfigurationByName(name string, ctx context.Context, client *client.Environments, diags *diag.Diagnostics) (*models.ProxyConfig, error) {
-	params := operations.NewListProxyConfigsParamsWithContext(ctx)
+	params := operations.NewListProxyConfigsParams()
 	params.WithInput(&models.ListProxyConfigsRequest{ProxyConfigName: name})
 
 	responseOk, err := client.Operations.ListProxyConfigs(params)
