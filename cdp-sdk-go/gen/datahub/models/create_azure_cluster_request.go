@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -127,7 +128,7 @@ func (m *CreateAzureClusterRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateAzureClusterRequest) validateClusterExtension(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClusterExtension) { // not required
+	if typeutils.IsZero(m.ClusterExtension) { // not required
 		return nil
 	}
 
@@ -150,7 +151,7 @@ func (m *CreateAzureClusterRequest) validateClusterExtension(formats strfmt.Regi
 }
 
 func (m *CreateAzureClusterRequest) validateClusterName(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClusterName) { // not required
+	if typeutils.IsZero(m.ClusterName) { // not required
 		return nil
 	}
 
@@ -195,7 +196,7 @@ func (m *CreateAzureClusterRequest) validateDatabaseTypeEnum(path, location stri
 }
 
 func (m *CreateAzureClusterRequest) validateDatabaseType(formats strfmt.Registry) error {
-	if swag.IsZero(m.DatabaseType) { // not required
+	if typeutils.IsZero(m.DatabaseType) { // not required
 		return nil
 	}
 
@@ -208,7 +209,7 @@ func (m *CreateAzureClusterRequest) validateDatabaseType(formats strfmt.Registry
 }
 
 func (m *CreateAzureClusterRequest) validateDatahubDatabase(formats strfmt.Registry) error {
-	if swag.IsZero(m.DatahubDatabase) { // not required
+	if typeutils.IsZero(m.DatahubDatabase) { // not required
 		return nil
 	}
 
@@ -229,7 +230,7 @@ func (m *CreateAzureClusterRequest) validateDatahubDatabase(formats strfmt.Regis
 }
 
 func (m *CreateAzureClusterRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -252,12 +253,12 @@ func (m *CreateAzureClusterRequest) validateImage(formats strfmt.Registry) error
 }
 
 func (m *CreateAzureClusterRequest) validateInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroups) { // not required
+	if typeutils.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -282,7 +283,7 @@ func (m *CreateAzureClusterRequest) validateInstanceGroups(formats strfmt.Regist
 }
 
 func (m *CreateAzureClusterRequest) validateLoadBalancerSku(formats strfmt.Registry) error {
-	if swag.IsZero(m.LoadBalancerSku) { // not required
+	if typeutils.IsZero(m.LoadBalancerSku) { // not required
 		return nil
 	}
 
@@ -303,7 +304,7 @@ func (m *CreateAzureClusterRequest) validateLoadBalancerSku(formats strfmt.Regis
 }
 
 func (m *CreateAzureClusterRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -326,12 +327,12 @@ func (m *CreateAzureClusterRequest) validateSecurity(formats strfmt.Registry) er
 }
 
 func (m *CreateAzureClusterRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -397,7 +398,7 @@ func (m *CreateAzureClusterRequest) contextValidateClusterExtension(ctx context.
 
 	if m.ClusterExtension != nil {
 
-		if swag.IsZero(m.ClusterExtension) { // not required
+		if typeutils.IsZero(m.ClusterExtension) { // not required
 			return nil
 		}
 
@@ -420,7 +421,7 @@ func (m *CreateAzureClusterRequest) contextValidateClusterExtension(ctx context.
 
 func (m *CreateAzureClusterRequest) contextValidateDatahubDatabase(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.DatahubDatabase) { // not required
+	if typeutils.IsZero(m.DatahubDatabase) { // not required
 		return nil
 	}
 
@@ -444,7 +445,7 @@ func (m *CreateAzureClusterRequest) contextValidateImage(ctx context.Context, fo
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -471,7 +472,7 @@ func (m *CreateAzureClusterRequest) contextValidateInstanceGroups(ctx context.Co
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -496,7 +497,7 @@ func (m *CreateAzureClusterRequest) contextValidateInstanceGroups(ctx context.Co
 
 func (m *CreateAzureClusterRequest) contextValidateLoadBalancerSku(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.LoadBalancerSku) { // not required
+	if typeutils.IsZero(m.LoadBalancerSku) { // not required
 		return nil
 	}
 
@@ -520,7 +521,7 @@ func (m *CreateAzureClusterRequest) contextValidateSecurity(ctx context.Context,
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -547,7 +548,7 @@ func (m *CreateAzureClusterRequest) contextValidateTags(ctx context.Context, for
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -575,13 +576,13 @@ func (m *CreateAzureClusterRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAzureClusterRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAzureClusterRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

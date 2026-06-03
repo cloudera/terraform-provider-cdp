@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewCreateAzureClusterParams creates a new CreateAzureClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAzureClusterParams() *CreateAzureClusterParams {
-	return &CreateAzureClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateAzureClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateAzureClusterParamsWithTimeout creates a new CreateAzureClusterParams object
 // with the ability to set a timeout on a request.
 func NewCreateAzureClusterParamsWithTimeout(timeout time.Duration) *CreateAzureClusterParams {
 	return &CreateAzureClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateAzureClusterParamsWithContext creates a new CreateAzureClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAzureClusterParams].
 func NewCreateAzureClusterParamsWithContext(ctx context.Context) *CreateAzureClusterParams {
 	return &CreateAzureClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateAzureClusterParams struct {
 	// Input.
 	Input *models.CreateAzureClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create azure cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateAzureClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create azure cluster params
+// WithTimeout adds the timeout to the create azure cluster params.
 func (o *CreateAzureClusterParams) WithTimeout(timeout time.Duration) *CreateAzureClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create azure cluster params
+// SetTimeout adds the timeout to the create azure cluster params.
 func (o *CreateAzureClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create azure cluster params
+// WithContext adds the context to the create azure cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAzureClusterParams].
 func (o *CreateAzureClusterParams) WithContext(ctx context.Context) *CreateAzureClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create azure cluster params
+// SetContext adds the context to the create azure cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAzureClusterParams].
 func (o *CreateAzureClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create azure cluster params
+// WithHTTPClient adds the HTTPClient to the create azure cluster params.
 func (o *CreateAzureClusterParams) WithHTTPClient(client *http.Client) *CreateAzureClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create azure cluster params
+// SetHTTPClient adds the HTTPClient to the create azure cluster params.
 func (o *CreateAzureClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create azure cluster params
+// WithInput adds the input to the create azure cluster params.
 func (o *CreateAzureClusterParams) WithInput(input *models.CreateAzureClusterRequest) *CreateAzureClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create azure cluster params
+// SetInput adds the input to the create azure cluster params.
 func (o *CreateAzureClusterParams) SetInput(input *models.CreateAzureClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateAzureClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

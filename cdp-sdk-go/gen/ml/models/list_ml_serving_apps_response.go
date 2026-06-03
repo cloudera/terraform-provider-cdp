@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListMlServingAppsResponse Response object for the ListMlServingApps method.
@@ -36,12 +37,12 @@ func (m *ListMlServingAppsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListMlServingAppsResponse) validateApps(formats strfmt.Registry) error {
-	if swag.IsZero(m.Apps) { // not required
+	if typeutils.IsZero(m.Apps) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Apps); i++ {
-		if swag.IsZero(m.Apps[i]) { // not required
+		if typeutils.IsZero(m.Apps[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListMlServingAppsResponse) contextValidateApps(ctx context.Context, for
 
 		if m.Apps[i] != nil {
 
-			if swag.IsZero(m.Apps[i]) { // not required
+			if typeutils.IsZero(m.Apps[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListMlServingAppsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListMlServingAppsResponse) UnmarshalBinary(b []byte) error {
 	var res ListMlServingAppsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

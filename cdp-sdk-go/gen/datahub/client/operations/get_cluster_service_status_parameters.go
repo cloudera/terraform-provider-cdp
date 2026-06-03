@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewGetClusterServiceStatusParams creates a new GetClusterServiceStatusParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetClusterServiceStatusParams() *GetClusterServiceStatusParams {
-	return &GetClusterServiceStatusParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetClusterServiceStatusParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetClusterServiceStatusParamsWithTimeout creates a new GetClusterServiceStatusParams object
 // with the ability to set a timeout on a request.
 func NewGetClusterServiceStatusParamsWithTimeout(timeout time.Duration) *GetClusterServiceStatusParams {
 	return &GetClusterServiceStatusParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetClusterServiceStatusParamsWithContext creates a new GetClusterServiceStatusParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetClusterServiceStatusParams].
 func NewGetClusterServiceStatusParamsWithContext(ctx context.Context) *GetClusterServiceStatusParams {
 	return &GetClusterServiceStatusParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetClusterServiceStatusParams struct {
 	// Input.
 	Input *models.GetClusterServiceStatusRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get cluster service status params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetClusterServiceStatusParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get cluster service status params
+// WithTimeout adds the timeout to the get cluster service status params.
 func (o *GetClusterServiceStatusParams) WithTimeout(timeout time.Duration) *GetClusterServiceStatusParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get cluster service status params
+// SetTimeout adds the timeout to the get cluster service status params.
 func (o *GetClusterServiceStatusParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get cluster service status params
+// WithContext adds the context to the get cluster service status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetClusterServiceStatusParams].
 func (o *GetClusterServiceStatusParams) WithContext(ctx context.Context) *GetClusterServiceStatusParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get cluster service status params
+// SetContext adds the context to the get cluster service status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetClusterServiceStatusParams].
 func (o *GetClusterServiceStatusParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get cluster service status params
+// WithHTTPClient adds the HTTPClient to the get cluster service status params.
 func (o *GetClusterServiceStatusParams) WithHTTPClient(client *http.Client) *GetClusterServiceStatusParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get cluster service status params
+// SetHTTPClient adds the HTTPClient to the get cluster service status params.
 func (o *GetClusterServiceStatusParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get cluster service status params
+// WithInput adds the input to the get cluster service status params.
 func (o *GetClusterServiceStatusParams) WithInput(input *models.GetClusterServiceStatusRequest) *GetClusterServiceStatusParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get cluster service status params
+// SetInput adds the input to the get cluster service status params.
 func (o *GetClusterServiceStatusParams) SetInput(input *models.GetClusterServiceStatusRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetClusterServiceStatusParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

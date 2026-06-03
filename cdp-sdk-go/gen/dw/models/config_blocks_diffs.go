@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -66,12 +67,12 @@ func (m *ConfigBlocksDiffs) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ConfigBlocksDiffs) validateAdded(formats strfmt.Registry) error {
-	if swag.IsZero(m.Added) { // not required
+	if typeutils.IsZero(m.Added) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Added); i++ {
-		if swag.IsZero(m.Added[i]) { // not required
+		if typeutils.IsZero(m.Added[i]) { // not required
 			continue
 		}
 
@@ -96,12 +97,12 @@ func (m *ConfigBlocksDiffs) validateAdded(formats strfmt.Registry) error {
 }
 
 func (m *ConfigBlocksDiffs) validateChanged(formats strfmt.Registry) error {
-	if swag.IsZero(m.Changed) { // not required
+	if typeutils.IsZero(m.Changed) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Changed); i++ {
-		if swag.IsZero(m.Changed[i]) { // not required
+		if typeutils.IsZero(m.Changed[i]) { // not required
 			continue
 		}
 
@@ -135,12 +136,12 @@ func (m *ConfigBlocksDiffs) validateIsChanged(formats strfmt.Registry) error {
 }
 
 func (m *ConfigBlocksDiffs) validateRemoved(formats strfmt.Registry) error {
-	if swag.IsZero(m.Removed) { // not required
+	if typeutils.IsZero(m.Removed) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Removed); i++ {
-		if swag.IsZero(m.Removed[i]) { // not required
+		if typeutils.IsZero(m.Removed[i]) { // not required
 			continue
 		}
 
@@ -165,12 +166,12 @@ func (m *ConfigBlocksDiffs) validateRemoved(formats strfmt.Registry) error {
 }
 
 func (m *ConfigBlocksDiffs) validateSame(formats strfmt.Registry) error {
-	if swag.IsZero(m.Same) { // not required
+	if typeutils.IsZero(m.Same) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Same); i++ {
-		if swag.IsZero(m.Same[i]) { // not required
+		if typeutils.IsZero(m.Same[i]) { // not required
 			continue
 		}
 
@@ -226,7 +227,7 @@ func (m *ConfigBlocksDiffs) contextValidateAdded(ctx context.Context, formats st
 
 		if m.Added[i] != nil {
 
-			if swag.IsZero(m.Added[i]) { // not required
+			if typeutils.IsZero(m.Added[i]) { // not required
 				return nil
 			}
 
@@ -255,7 +256,7 @@ func (m *ConfigBlocksDiffs) contextValidateChanged(ctx context.Context, formats 
 
 		if m.Changed[i] != nil {
 
-			if swag.IsZero(m.Changed[i]) { // not required
+			if typeutils.IsZero(m.Changed[i]) { // not required
 				return nil
 			}
 
@@ -284,7 +285,7 @@ func (m *ConfigBlocksDiffs) contextValidateRemoved(ctx context.Context, formats 
 
 		if m.Removed[i] != nil {
 
-			if swag.IsZero(m.Removed[i]) { // not required
+			if typeutils.IsZero(m.Removed[i]) { // not required
 				return nil
 			}
 
@@ -313,7 +314,7 @@ func (m *ConfigBlocksDiffs) contextValidateSame(ctx context.Context, formats str
 
 		if m.Same[i] != nil {
 
-			if swag.IsZero(m.Same[i]) { // not required
+			if typeutils.IsZero(m.Same[i]) { // not required
 				return nil
 			}
 
@@ -341,13 +342,13 @@ func (m *ConfigBlocksDiffs) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ConfigBlocksDiffs) UnmarshalBinary(b []byte) error {
 	var res ConfigBlocksDiffs
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

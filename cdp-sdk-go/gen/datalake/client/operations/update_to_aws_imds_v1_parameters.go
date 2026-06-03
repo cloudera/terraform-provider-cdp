@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewUpdateToAwsImdsV1Params creates a new UpdateToAwsImdsV1Params object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateToAwsImdsV1Params() *UpdateToAwsImdsV1Params {
-	return &UpdateToAwsImdsV1Params{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateToAwsImdsV1ParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateToAwsImdsV1ParamsWithTimeout creates a new UpdateToAwsImdsV1Params object
 // with the ability to set a timeout on a request.
 func NewUpdateToAwsImdsV1ParamsWithTimeout(timeout time.Duration) *UpdateToAwsImdsV1Params {
 	return &UpdateToAwsImdsV1Params{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateToAwsImdsV1ParamsWithContext creates a new UpdateToAwsImdsV1Params object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateToAwsImdsV1Params].
 func NewUpdateToAwsImdsV1ParamsWithContext(ctx context.Context) *UpdateToAwsImdsV1Params {
 	return &UpdateToAwsImdsV1Params{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateToAwsImdsV1Params struct {
 	// Input.
 	Input *models.UpdateToAwsImdsV1Request
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update to aws imds v1 params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateToAwsImdsV1Params) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update to aws imds v1 params
+// WithTimeout adds the timeout to the update to aws imds v1 params.
 func (o *UpdateToAwsImdsV1Params) WithTimeout(timeout time.Duration) *UpdateToAwsImdsV1Params {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update to aws imds v1 params
+// SetTimeout adds the timeout to the update to aws imds v1 params.
 func (o *UpdateToAwsImdsV1Params) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update to aws imds v1 params
+// WithContext adds the context to the update to aws imds v1 params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateToAwsImdsV1Params].
 func (o *UpdateToAwsImdsV1Params) WithContext(ctx context.Context) *UpdateToAwsImdsV1Params {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update to aws imds v1 params
+// SetContext adds the context to the update to aws imds v1 params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateToAwsImdsV1Params].
 func (o *UpdateToAwsImdsV1Params) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update to aws imds v1 params
+// WithHTTPClient adds the HTTPClient to the update to aws imds v1 params.
 func (o *UpdateToAwsImdsV1Params) WithHTTPClient(client *http.Client) *UpdateToAwsImdsV1Params {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update to aws imds v1 params
+// SetHTTPClient adds the HTTPClient to the update to aws imds v1 params.
 func (o *UpdateToAwsImdsV1Params) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update to aws imds v1 params
+// WithInput adds the input to the update to aws imds v1 params.
 func (o *UpdateToAwsImdsV1Params) WithInput(input *models.UpdateToAwsImdsV1Request) *UpdateToAwsImdsV1Params {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update to aws imds v1 params
+// SetInput adds the input to the update to aws imds v1 params.
 func (o *UpdateToAwsImdsV1Params) SetInput(input *models.UpdateToAwsImdsV1Request) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateToAwsImdsV1Params) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

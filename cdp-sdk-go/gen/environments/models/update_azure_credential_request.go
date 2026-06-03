@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -154,13 +154,13 @@ func (m *UpdateAzureCredentialRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateAzureCredentialRequest) UnmarshalBinary(b []byte) error {
 	var res UpdateAzureCredentialRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -209,10 +209,6 @@ func (m *UpdateAzureCredentialRequestAppBased) validateApplicationID(formats str
 }
 
 func (m *UpdateAzureCredentialRequestAppBased) validateAuthenticationType(formats strfmt.Registry) error {
-
-	if err := validate.Required("appBased"+"."+"authenticationType", "body", m.AuthenticationType); err != nil {
-		return err
-	}
 
 	if err := validate.Required("appBased"+"."+"authenticationType", "body", m.AuthenticationType); err != nil {
 		return err
@@ -276,13 +272,13 @@ func (m *UpdateAzureCredentialRequestAppBased) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateAzureCredentialRequestAppBased) UnmarshalBinary(b []byte) error {
 	var res UpdateAzureCredentialRequestAppBased
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

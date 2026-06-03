@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -44,7 +45,7 @@ func (m *InitializeAzureComputeClusterRequest) Validate(formats strfmt.Registry)
 }
 
 func (m *InitializeAzureComputeClusterRequest) validateComputeClusterConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+	if typeutils.IsZero(m.ComputeClusterConfiguration) { // not required
 		return nil
 	}
 
@@ -93,7 +94,7 @@ func (m *InitializeAzureComputeClusterRequest) contextValidateComputeClusterConf
 
 	if m.ComputeClusterConfiguration != nil {
 
-		if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+		if typeutils.IsZero(m.ComputeClusterConfiguration) { // not required
 			return nil
 		}
 
@@ -119,13 +120,13 @@ func (m *InitializeAzureComputeClusterRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *InitializeAzureComputeClusterRequest) UnmarshalBinary(b []byte) error {
 	var res InitializeAzureComputeClusterRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

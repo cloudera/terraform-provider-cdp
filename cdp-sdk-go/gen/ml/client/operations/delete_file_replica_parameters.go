@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewDeleteFileReplicaParams creates a new DeleteFileReplicaParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteFileReplicaParams() *DeleteFileReplicaParams {
-	return &DeleteFileReplicaParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteFileReplicaParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteFileReplicaParamsWithTimeout creates a new DeleteFileReplicaParams object
 // with the ability to set a timeout on a request.
 func NewDeleteFileReplicaParamsWithTimeout(timeout time.Duration) *DeleteFileReplicaParams {
 	return &DeleteFileReplicaParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteFileReplicaParamsWithContext creates a new DeleteFileReplicaParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteFileReplicaParams].
 func NewDeleteFileReplicaParamsWithContext(ctx context.Context) *DeleteFileReplicaParams {
 	return &DeleteFileReplicaParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteFileReplicaParams struct {
 	// Input.
 	Input *models.DeleteFileReplicaRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete file replica params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteFileReplicaParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete file replica params
+// WithTimeout adds the timeout to the delete file replica params.
 func (o *DeleteFileReplicaParams) WithTimeout(timeout time.Duration) *DeleteFileReplicaParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete file replica params
+// SetTimeout adds the timeout to the delete file replica params.
 func (o *DeleteFileReplicaParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete file replica params
+// WithContext adds the context to the delete file replica params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteFileReplicaParams].
 func (o *DeleteFileReplicaParams) WithContext(ctx context.Context) *DeleteFileReplicaParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete file replica params
+// SetContext adds the context to the delete file replica params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteFileReplicaParams].
 func (o *DeleteFileReplicaParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete file replica params
+// WithHTTPClient adds the HTTPClient to the delete file replica params.
 func (o *DeleteFileReplicaParams) WithHTTPClient(client *http.Client) *DeleteFileReplicaParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete file replica params
+// SetHTTPClient adds the HTTPClient to the delete file replica params.
 func (o *DeleteFileReplicaParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete file replica params
+// WithInput adds the input to the delete file replica params.
 func (o *DeleteFileReplicaParams) WithInput(input *models.DeleteFileReplicaRequest) *DeleteFileReplicaParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete file replica params
+// SetInput adds the input to the delete file replica params.
 func (o *DeleteFileReplicaParams) SetInput(input *models.DeleteFileReplicaRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteFileReplicaParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

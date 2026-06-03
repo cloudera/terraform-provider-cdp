@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewCancelDatahubDiagnosticsParams creates a new CancelDatahubDiagnosticsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCancelDatahubDiagnosticsParams() *CancelDatahubDiagnosticsParams {
-	return &CancelDatahubDiagnosticsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCancelDatahubDiagnosticsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCancelDatahubDiagnosticsParamsWithTimeout creates a new CancelDatahubDiagnosticsParams object
 // with the ability to set a timeout on a request.
 func NewCancelDatahubDiagnosticsParamsWithTimeout(timeout time.Duration) *CancelDatahubDiagnosticsParams {
 	return &CancelDatahubDiagnosticsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCancelDatahubDiagnosticsParamsWithContext creates a new CancelDatahubDiagnosticsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelDatahubDiagnosticsParams].
 func NewCancelDatahubDiagnosticsParamsWithContext(ctx context.Context) *CancelDatahubDiagnosticsParams {
 	return &CancelDatahubDiagnosticsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CancelDatahubDiagnosticsParams struct {
 	// Input.
 	Input *models.CancelDatahubDiagnosticsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the cancel datahub diagnostics params (not the query body).
@@ -83,54 +86,57 @@ func (o *CancelDatahubDiagnosticsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the cancel datahub diagnostics params
+// WithTimeout adds the timeout to the cancel datahub diagnostics params.
 func (o *CancelDatahubDiagnosticsParams) WithTimeout(timeout time.Duration) *CancelDatahubDiagnosticsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the cancel datahub diagnostics params
+// SetTimeout adds the timeout to the cancel datahub diagnostics params.
 func (o *CancelDatahubDiagnosticsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the cancel datahub diagnostics params
+// WithContext adds the context to the cancel datahub diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelDatahubDiagnosticsParams].
 func (o *CancelDatahubDiagnosticsParams) WithContext(ctx context.Context) *CancelDatahubDiagnosticsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the cancel datahub diagnostics params
+// SetContext adds the context to the cancel datahub diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelDatahubDiagnosticsParams].
 func (o *CancelDatahubDiagnosticsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the cancel datahub diagnostics params
+// WithHTTPClient adds the HTTPClient to the cancel datahub diagnostics params.
 func (o *CancelDatahubDiagnosticsParams) WithHTTPClient(client *http.Client) *CancelDatahubDiagnosticsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the cancel datahub diagnostics params
+// SetHTTPClient adds the HTTPClient to the cancel datahub diagnostics params.
 func (o *CancelDatahubDiagnosticsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the cancel datahub diagnostics params
+// WithInput adds the input to the cancel datahub diagnostics params.
 func (o *CancelDatahubDiagnosticsParams) WithInput(input *models.CancelDatahubDiagnosticsRequest) *CancelDatahubDiagnosticsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the cancel datahub diagnostics params
+// SetInput adds the input to the cancel datahub diagnostics params.
 func (o *CancelDatahubDiagnosticsParams) SetInput(input *models.CancelDatahubDiagnosticsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CancelDatahubDiagnosticsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

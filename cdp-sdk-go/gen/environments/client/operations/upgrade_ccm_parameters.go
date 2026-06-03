@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpgradeCcmParams creates a new UpgradeCcmParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpgradeCcmParams() *UpgradeCcmParams {
-	return &UpgradeCcmParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpgradeCcmParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpgradeCcmParamsWithTimeout creates a new UpgradeCcmParams object
 // with the ability to set a timeout on a request.
 func NewUpgradeCcmParamsWithTimeout(timeout time.Duration) *UpgradeCcmParams {
 	return &UpgradeCcmParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpgradeCcmParamsWithContext creates a new UpgradeCcmParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeCcmParams].
 func NewUpgradeCcmParamsWithContext(ctx context.Context) *UpgradeCcmParams {
 	return &UpgradeCcmParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpgradeCcmParams struct {
 	// Input.
 	Input *models.UpgradeCcmRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upgrade ccm params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpgradeCcmParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upgrade ccm params
+// WithTimeout adds the timeout to the upgrade ccm params.
 func (o *UpgradeCcmParams) WithTimeout(timeout time.Duration) *UpgradeCcmParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upgrade ccm params
+// SetTimeout adds the timeout to the upgrade ccm params.
 func (o *UpgradeCcmParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upgrade ccm params
+// WithContext adds the context to the upgrade ccm params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeCcmParams].
 func (o *UpgradeCcmParams) WithContext(ctx context.Context) *UpgradeCcmParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upgrade ccm params
+// SetContext adds the context to the upgrade ccm params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeCcmParams].
 func (o *UpgradeCcmParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upgrade ccm params
+// WithHTTPClient adds the HTTPClient to the upgrade ccm params.
 func (o *UpgradeCcmParams) WithHTTPClient(client *http.Client) *UpgradeCcmParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upgrade ccm params
+// SetHTTPClient adds the HTTPClient to the upgrade ccm params.
 func (o *UpgradeCcmParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upgrade ccm params
+// WithInput adds the input to the upgrade ccm params.
 func (o *UpgradeCcmParams) WithInput(input *models.UpgradeCcmRequest) *UpgradeCcmParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upgrade ccm params
+// SetInput adds the input to the upgrade ccm params.
 func (o *UpgradeCcmParams) SetInput(input *models.UpgradeCcmRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpgradeCcmParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

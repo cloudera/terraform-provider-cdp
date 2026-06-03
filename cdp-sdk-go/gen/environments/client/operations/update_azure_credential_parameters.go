@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateAzureCredentialParams creates a new UpdateAzureCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAzureCredentialParams() *UpdateAzureCredentialParams {
-	return &UpdateAzureCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAzureCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAzureCredentialParamsWithTimeout creates a new UpdateAzureCredentialParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAzureCredentialParamsWithTimeout(timeout time.Duration) *UpdateAzureCredentialParams {
 	return &UpdateAzureCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAzureCredentialParamsWithContext creates a new UpdateAzureCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureCredentialParams].
 func NewUpdateAzureCredentialParamsWithContext(ctx context.Context) *UpdateAzureCredentialParams {
 	return &UpdateAzureCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAzureCredentialParams struct {
 	// Input.
 	Input *models.UpdateAzureCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update azure credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAzureCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update azure credential params
+// WithTimeout adds the timeout to the update azure credential params.
 func (o *UpdateAzureCredentialParams) WithTimeout(timeout time.Duration) *UpdateAzureCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update azure credential params
+// SetTimeout adds the timeout to the update azure credential params.
 func (o *UpdateAzureCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update azure credential params
+// WithContext adds the context to the update azure credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureCredentialParams].
 func (o *UpdateAzureCredentialParams) WithContext(ctx context.Context) *UpdateAzureCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update azure credential params
+// SetContext adds the context to the update azure credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureCredentialParams].
 func (o *UpdateAzureCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update azure credential params
+// WithHTTPClient adds the HTTPClient to the update azure credential params.
 func (o *UpdateAzureCredentialParams) WithHTTPClient(client *http.Client) *UpdateAzureCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update azure credential params
+// SetHTTPClient adds the HTTPClient to the update azure credential params.
 func (o *UpdateAzureCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update azure credential params
+// WithInput adds the input to the update azure credential params.
 func (o *UpdateAzureCredentialParams) WithInput(input *models.UpdateAzureCredentialRequest) *UpdateAzureCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update azure credential params
+// SetInput adds the input to the update azure credential params.
 func (o *UpdateAzureCredentialParams) SetInput(input *models.UpdateAzureCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAzureCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

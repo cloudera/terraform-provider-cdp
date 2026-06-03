@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -132,12 +133,12 @@ func (m *CollectDatahubDiagnosticsRequest) Validate(formats strfmt.Registry) err
 }
 
 func (m *CollectDatahubDiagnosticsRequest) validateAdditionalLogs(formats strfmt.Registry) error {
-	if swag.IsZero(m.AdditionalLogs) { // not required
+	if typeutils.IsZero(m.AdditionalLogs) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AdditionalLogs); i++ {
-		if swag.IsZero(m.AdditionalLogs[i]) { // not required
+		if typeutils.IsZero(m.AdditionalLogs[i]) { // not required
 			continue
 		}
 
@@ -229,7 +230,7 @@ func (m *CollectDatahubDiagnosticsRequest) validateDestination(formats strfmt.Re
 }
 
 func (m *CollectDatahubDiagnosticsRequest) validateEndDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndDate) { // not required
+	if typeutils.IsZero(m.EndDate) { // not required
 		return nil
 	}
 
@@ -241,7 +242,7 @@ func (m *CollectDatahubDiagnosticsRequest) validateEndDate(formats strfmt.Regist
 }
 
 func (m *CollectDatahubDiagnosticsRequest) validateExcludeHosts(formats strfmt.Registry) error {
-	if swag.IsZero(m.ExcludeHosts) { // not required
+	if typeutils.IsZero(m.ExcludeHosts) { // not required
 		return nil
 	}
 
@@ -253,7 +254,7 @@ func (m *CollectDatahubDiagnosticsRequest) validateExcludeHosts(formats strfmt.R
 }
 
 func (m *CollectDatahubDiagnosticsRequest) validateHostGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.HostGroups) { // not required
+	if typeutils.IsZero(m.HostGroups) { // not required
 		return nil
 	}
 
@@ -265,7 +266,7 @@ func (m *CollectDatahubDiagnosticsRequest) validateHostGroups(formats strfmt.Reg
 }
 
 func (m *CollectDatahubDiagnosticsRequest) validateHosts(formats strfmt.Registry) error {
-	if swag.IsZero(m.Hosts) { // not required
+	if typeutils.IsZero(m.Hosts) { // not required
 		return nil
 	}
 
@@ -277,7 +278,7 @@ func (m *CollectDatahubDiagnosticsRequest) validateHosts(formats strfmt.Registry
 }
 
 func (m *CollectDatahubDiagnosticsRequest) validateLabels(formats strfmt.Registry) error {
-	if swag.IsZero(m.Labels) { // not required
+	if typeutils.IsZero(m.Labels) { // not required
 		return nil
 	}
 
@@ -289,7 +290,7 @@ func (m *CollectDatahubDiagnosticsRequest) validateLabels(formats strfmt.Registr
 }
 
 func (m *CollectDatahubDiagnosticsRequest) validateStartDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartDate) { // not required
+	if typeutils.IsZero(m.StartDate) { // not required
 		return nil
 	}
 
@@ -320,7 +321,7 @@ func (m *CollectDatahubDiagnosticsRequest) contextValidateAdditionalLogs(ctx con
 
 		if m.AdditionalLogs[i] != nil {
 
-			if swag.IsZero(m.AdditionalLogs[i]) { // not required
+			if typeutils.IsZero(m.AdditionalLogs[i]) { // not required
 				return nil
 			}
 
@@ -348,13 +349,13 @@ func (m *CollectDatahubDiagnosticsRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CollectDatahubDiagnosticsRequest) UnmarshalBinary(b []byte) error {
 	var res CollectDatahubDiagnosticsRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

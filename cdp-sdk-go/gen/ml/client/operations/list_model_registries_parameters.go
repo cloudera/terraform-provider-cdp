@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewListModelRegistriesParams creates a new ListModelRegistriesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListModelRegistriesParams() *ListModelRegistriesParams {
-	return &ListModelRegistriesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListModelRegistriesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListModelRegistriesParamsWithTimeout creates a new ListModelRegistriesParams object
 // with the ability to set a timeout on a request.
 func NewListModelRegistriesParamsWithTimeout(timeout time.Duration) *ListModelRegistriesParams {
 	return &ListModelRegistriesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListModelRegistriesParamsWithContext creates a new ListModelRegistriesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListModelRegistriesParams].
 func NewListModelRegistriesParamsWithContext(ctx context.Context) *ListModelRegistriesParams {
 	return &ListModelRegistriesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListModelRegistriesParams struct {
 	// Input.
 	Input models.ListModelRegistriesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list model registries params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListModelRegistriesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list model registries params
+// WithTimeout adds the timeout to the list model registries params.
 func (o *ListModelRegistriesParams) WithTimeout(timeout time.Duration) *ListModelRegistriesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list model registries params
+// SetTimeout adds the timeout to the list model registries params.
 func (o *ListModelRegistriesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list model registries params
+// WithContext adds the context to the list model registries params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListModelRegistriesParams].
 func (o *ListModelRegistriesParams) WithContext(ctx context.Context) *ListModelRegistriesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list model registries params
+// SetContext adds the context to the list model registries params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListModelRegistriesParams].
 func (o *ListModelRegistriesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list model registries params
+// WithHTTPClient adds the HTTPClient to the list model registries params.
 func (o *ListModelRegistriesParams) WithHTTPClient(client *http.Client) *ListModelRegistriesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list model registries params
+// SetHTTPClient adds the HTTPClient to the list model registries params.
 func (o *ListModelRegistriesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list model registries params
+// WithInput adds the input to the list model registries params.
 func (o *ListModelRegistriesParams) WithInput(input models.ListModelRegistriesRequest) *ListModelRegistriesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list model registries params
+// SetInput adds the input to the list model registries params.
 func (o *ListModelRegistriesParams) SetInput(input models.ListModelRegistriesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListModelRegistriesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // UpgradeDatabaseRequest Asynchronous request to upgrade the CDP Runtime for a database.
@@ -59,7 +60,7 @@ func (m *UpgradeDatabaseRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpgradeDatabaseRequest) validateEdgeUpgradeStrategy(formats strfmt.Registry) error {
-	if swag.IsZero(m.EdgeUpgradeStrategy) { // not required
+	if typeutils.IsZero(m.EdgeUpgradeStrategy) { // not required
 		return nil
 	}
 
@@ -95,7 +96,7 @@ func (m *UpgradeDatabaseRequest) ContextValidate(ctx context.Context, formats st
 
 func (m *UpgradeDatabaseRequest) contextValidateEdgeUpgradeStrategy(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.EdgeUpgradeStrategy) { // not required
+	if typeutils.IsZero(m.EdgeUpgradeStrategy) { // not required
 		return nil
 	}
 
@@ -120,13 +121,13 @@ func (m *UpgradeDatabaseRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpgradeDatabaseRequest) UnmarshalBinary(b []byte) error {
 	var res UpgradeDatabaseRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

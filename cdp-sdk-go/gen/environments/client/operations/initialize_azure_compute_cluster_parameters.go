@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewInitializeAzureComputeClusterParams creates a new InitializeAzureComputeClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewInitializeAzureComputeClusterParams() *InitializeAzureComputeClusterParams {
-	return &InitializeAzureComputeClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewInitializeAzureComputeClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewInitializeAzureComputeClusterParamsWithTimeout creates a new InitializeAzureComputeClusterParams object
 // with the ability to set a timeout on a request.
 func NewInitializeAzureComputeClusterParamsWithTimeout(timeout time.Duration) *InitializeAzureComputeClusterParams {
 	return &InitializeAzureComputeClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewInitializeAzureComputeClusterParamsWithContext creates a new InitializeAzureComputeClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [InitializeAzureComputeClusterParams].
 func NewInitializeAzureComputeClusterParamsWithContext(ctx context.Context) *InitializeAzureComputeClusterParams {
 	return &InitializeAzureComputeClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type InitializeAzureComputeClusterParams struct {
 	// Input.
 	Input *models.InitializeAzureComputeClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the initialize azure compute cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *InitializeAzureComputeClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the initialize azure compute cluster params
+// WithTimeout adds the timeout to the initialize azure compute cluster params.
 func (o *InitializeAzureComputeClusterParams) WithTimeout(timeout time.Duration) *InitializeAzureComputeClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the initialize azure compute cluster params
+// SetTimeout adds the timeout to the initialize azure compute cluster params.
 func (o *InitializeAzureComputeClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the initialize azure compute cluster params
+// WithContext adds the context to the initialize azure compute cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [InitializeAzureComputeClusterParams].
 func (o *InitializeAzureComputeClusterParams) WithContext(ctx context.Context) *InitializeAzureComputeClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the initialize azure compute cluster params
+// SetContext adds the context to the initialize azure compute cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [InitializeAzureComputeClusterParams].
 func (o *InitializeAzureComputeClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the initialize azure compute cluster params
+// WithHTTPClient adds the HTTPClient to the initialize azure compute cluster params.
 func (o *InitializeAzureComputeClusterParams) WithHTTPClient(client *http.Client) *InitializeAzureComputeClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the initialize azure compute cluster params
+// SetHTTPClient adds the HTTPClient to the initialize azure compute cluster params.
 func (o *InitializeAzureComputeClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the initialize azure compute cluster params
+// WithInput adds the input to the initialize azure compute cluster params.
 func (o *InitializeAzureComputeClusterParams) WithInput(input *models.InitializeAzureComputeClusterRequest) *InitializeAzureComputeClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the initialize azure compute cluster params
+// SetInput adds the input to the initialize azure compute cluster params.
 func (o *InitializeAzureComputeClusterParams) SetInput(input *models.InitializeAzureComputeClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *InitializeAzureComputeClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewCreateClusterDefinitionParams creates a new CreateClusterDefinitionParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateClusterDefinitionParams() *CreateClusterDefinitionParams {
-	return &CreateClusterDefinitionParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateClusterDefinitionParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateClusterDefinitionParamsWithTimeout creates a new CreateClusterDefinitionParams object
 // with the ability to set a timeout on a request.
 func NewCreateClusterDefinitionParamsWithTimeout(timeout time.Duration) *CreateClusterDefinitionParams {
 	return &CreateClusterDefinitionParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateClusterDefinitionParamsWithContext creates a new CreateClusterDefinitionParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateClusterDefinitionParams].
 func NewCreateClusterDefinitionParamsWithContext(ctx context.Context) *CreateClusterDefinitionParams {
 	return &CreateClusterDefinitionParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateClusterDefinitionParams struct {
 	// Input.
 	Input *models.CreateClusterDefinitionRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create cluster definition params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateClusterDefinitionParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create cluster definition params
+// WithTimeout adds the timeout to the create cluster definition params.
 func (o *CreateClusterDefinitionParams) WithTimeout(timeout time.Duration) *CreateClusterDefinitionParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create cluster definition params
+// SetTimeout adds the timeout to the create cluster definition params.
 func (o *CreateClusterDefinitionParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create cluster definition params
+// WithContext adds the context to the create cluster definition params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateClusterDefinitionParams].
 func (o *CreateClusterDefinitionParams) WithContext(ctx context.Context) *CreateClusterDefinitionParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create cluster definition params
+// SetContext adds the context to the create cluster definition params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateClusterDefinitionParams].
 func (o *CreateClusterDefinitionParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create cluster definition params
+// WithHTTPClient adds the HTTPClient to the create cluster definition params.
 func (o *CreateClusterDefinitionParams) WithHTTPClient(client *http.Client) *CreateClusterDefinitionParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create cluster definition params
+// SetHTTPClient adds the HTTPClient to the create cluster definition params.
 func (o *CreateClusterDefinitionParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create cluster definition params
+// WithInput adds the input to the create cluster definition params.
 func (o *CreateClusterDefinitionParams) WithInput(input *models.CreateClusterDefinitionRequest) *CreateClusterDefinitionParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create cluster definition params
+// SetInput adds the input to the create cluster definition params.
 func (o *CreateClusterDefinitionParams) SetInput(input *models.CreateClusterDefinitionRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateClusterDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

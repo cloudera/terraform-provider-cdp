@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDeleteCustomConfigurationsParams creates a new DeleteCustomConfigurationsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteCustomConfigurationsParams() *DeleteCustomConfigurationsParams {
-	return &DeleteCustomConfigurationsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteCustomConfigurationsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteCustomConfigurationsParamsWithTimeout creates a new DeleteCustomConfigurationsParams object
 // with the ability to set a timeout on a request.
 func NewDeleteCustomConfigurationsParamsWithTimeout(timeout time.Duration) *DeleteCustomConfigurationsParams {
 	return &DeleteCustomConfigurationsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteCustomConfigurationsParamsWithContext creates a new DeleteCustomConfigurationsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteCustomConfigurationsParams].
 func NewDeleteCustomConfigurationsParamsWithContext(ctx context.Context) *DeleteCustomConfigurationsParams {
 	return &DeleteCustomConfigurationsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteCustomConfigurationsParams struct {
 	// Input.
 	Input *models.DeleteCustomConfigurationsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete custom configurations params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteCustomConfigurationsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete custom configurations params
+// WithTimeout adds the timeout to the delete custom configurations params.
 func (o *DeleteCustomConfigurationsParams) WithTimeout(timeout time.Duration) *DeleteCustomConfigurationsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete custom configurations params
+// SetTimeout adds the timeout to the delete custom configurations params.
 func (o *DeleteCustomConfigurationsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete custom configurations params
+// WithContext adds the context to the delete custom configurations params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteCustomConfigurationsParams].
 func (o *DeleteCustomConfigurationsParams) WithContext(ctx context.Context) *DeleteCustomConfigurationsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete custom configurations params
+// SetContext adds the context to the delete custom configurations params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteCustomConfigurationsParams].
 func (o *DeleteCustomConfigurationsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete custom configurations params
+// WithHTTPClient adds the HTTPClient to the delete custom configurations params.
 func (o *DeleteCustomConfigurationsParams) WithHTTPClient(client *http.Client) *DeleteCustomConfigurationsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete custom configurations params
+// SetHTTPClient adds the HTTPClient to the delete custom configurations params.
 func (o *DeleteCustomConfigurationsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete custom configurations params
+// WithInput adds the input to the delete custom configurations params.
 func (o *DeleteCustomConfigurationsParams) WithInput(input *models.DeleteCustomConfigurationsRequest) *DeleteCustomConfigurationsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete custom configurations params
+// SetInput adds the input to the delete custom configurations params.
 func (o *DeleteCustomConfigurationsParams) SetInput(input *models.DeleteCustomConfigurationsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteCustomConfigurationsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

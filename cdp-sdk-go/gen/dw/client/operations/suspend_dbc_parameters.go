@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewSuspendDbcParams creates a new SuspendDbcParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSuspendDbcParams() *SuspendDbcParams {
-	return &SuspendDbcParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSuspendDbcParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSuspendDbcParamsWithTimeout creates a new SuspendDbcParams object
 // with the ability to set a timeout on a request.
 func NewSuspendDbcParamsWithTimeout(timeout time.Duration) *SuspendDbcParams {
 	return &SuspendDbcParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSuspendDbcParamsWithContext creates a new SuspendDbcParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendDbcParams].
 func NewSuspendDbcParamsWithContext(ctx context.Context) *SuspendDbcParams {
 	return &SuspendDbcParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SuspendDbcParams struct {
 	// Input.
 	Input *models.SuspendDbcRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the suspend dbc params (not the query body).
@@ -83,54 +86,57 @@ func (o *SuspendDbcParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the suspend dbc params
+// WithTimeout adds the timeout to the suspend dbc params.
 func (o *SuspendDbcParams) WithTimeout(timeout time.Duration) *SuspendDbcParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the suspend dbc params
+// SetTimeout adds the timeout to the suspend dbc params.
 func (o *SuspendDbcParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the suspend dbc params
+// WithContext adds the context to the suspend dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendDbcParams].
 func (o *SuspendDbcParams) WithContext(ctx context.Context) *SuspendDbcParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the suspend dbc params
+// SetContext adds the context to the suspend dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendDbcParams].
 func (o *SuspendDbcParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the suspend dbc params
+// WithHTTPClient adds the HTTPClient to the suspend dbc params.
 func (o *SuspendDbcParams) WithHTTPClient(client *http.Client) *SuspendDbcParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the suspend dbc params
+// SetHTTPClient adds the HTTPClient to the suspend dbc params.
 func (o *SuspendDbcParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the suspend dbc params
+// WithInput adds the input to the suspend dbc params.
 func (o *SuspendDbcParams) WithInput(input *models.SuspendDbcRequest) *SuspendDbcParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the suspend dbc params
+// SetInput adds the input to the suspend dbc params.
 func (o *SuspendDbcParams) SetInput(input *models.SuspendDbcRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SuspendDbcParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

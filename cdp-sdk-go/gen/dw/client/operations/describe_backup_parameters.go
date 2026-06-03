@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeBackupParams creates a new DescribeBackupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeBackupParams() *DescribeBackupParams {
-	return &DescribeBackupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeBackupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeBackupParamsWithTimeout creates a new DescribeBackupParams object
 // with the ability to set a timeout on a request.
 func NewDescribeBackupParamsWithTimeout(timeout time.Duration) *DescribeBackupParams {
 	return &DescribeBackupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeBackupParamsWithContext creates a new DescribeBackupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeBackupParams].
 func NewDescribeBackupParamsWithContext(ctx context.Context) *DescribeBackupParams {
 	return &DescribeBackupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeBackupParams struct {
 	// Input.
 	Input *models.DescribeBackupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe backup params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeBackupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe backup params
+// WithTimeout adds the timeout to the describe backup params.
 func (o *DescribeBackupParams) WithTimeout(timeout time.Duration) *DescribeBackupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe backup params
+// SetTimeout adds the timeout to the describe backup params.
 func (o *DescribeBackupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe backup params
+// WithContext adds the context to the describe backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeBackupParams].
 func (o *DescribeBackupParams) WithContext(ctx context.Context) *DescribeBackupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe backup params
+// SetContext adds the context to the describe backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeBackupParams].
 func (o *DescribeBackupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe backup params
+// WithHTTPClient adds the HTTPClient to the describe backup params.
 func (o *DescribeBackupParams) WithHTTPClient(client *http.Client) *DescribeBackupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe backup params
+// SetHTTPClient adds the HTTPClient to the describe backup params.
 func (o *DescribeBackupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe backup params
+// WithInput adds the input to the describe backup params.
 func (o *DescribeBackupParams) WithInput(input *models.DescribeBackupRequest) *DescribeBackupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe backup params
+// SetInput adds the input to the describe backup params.
 func (o *DescribeBackupParams) SetInput(input *models.DescribeBackupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeBackupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

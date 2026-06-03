@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListHuesResponse Response object for the listHues method.
@@ -36,12 +37,12 @@ func (m *ListHuesResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListHuesResponse) validateResults(formats strfmt.Registry) error {
-	if swag.IsZero(m.Results) { // not required
+	if typeutils.IsZero(m.Results) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Results); i++ {
-		if swag.IsZero(m.Results[i]) { // not required
+		if typeutils.IsZero(m.Results[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListHuesResponse) contextValidateResults(ctx context.Context, formats s
 
 		if m.Results[i] != nil {
 
-			if swag.IsZero(m.Results[i]) { // not required
+			if typeutils.IsZero(m.Results[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListHuesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListHuesResponse) UnmarshalBinary(b []byte) error {
 	var res ListHuesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

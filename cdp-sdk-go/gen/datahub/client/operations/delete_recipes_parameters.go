@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDeleteRecipesParams creates a new DeleteRecipesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteRecipesParams() *DeleteRecipesParams {
-	return &DeleteRecipesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteRecipesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteRecipesParamsWithTimeout creates a new DeleteRecipesParams object
 // with the ability to set a timeout on a request.
 func NewDeleteRecipesParamsWithTimeout(timeout time.Duration) *DeleteRecipesParams {
 	return &DeleteRecipesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteRecipesParamsWithContext creates a new DeleteRecipesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteRecipesParams].
 func NewDeleteRecipesParamsWithContext(ctx context.Context) *DeleteRecipesParams {
 	return &DeleteRecipesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteRecipesParams struct {
 	// Input.
 	Input *models.DeleteRecipesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete recipes params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteRecipesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete recipes params
+// WithTimeout adds the timeout to the delete recipes params.
 func (o *DeleteRecipesParams) WithTimeout(timeout time.Duration) *DeleteRecipesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete recipes params
+// SetTimeout adds the timeout to the delete recipes params.
 func (o *DeleteRecipesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete recipes params
+// WithContext adds the context to the delete recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteRecipesParams].
 func (o *DeleteRecipesParams) WithContext(ctx context.Context) *DeleteRecipesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete recipes params
+// SetContext adds the context to the delete recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteRecipesParams].
 func (o *DeleteRecipesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete recipes params
+// WithHTTPClient adds the HTTPClient to the delete recipes params.
 func (o *DeleteRecipesParams) WithHTTPClient(client *http.Client) *DeleteRecipesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete recipes params
+// SetHTTPClient adds the HTTPClient to the delete recipes params.
 func (o *DeleteRecipesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete recipes params
+// WithInput adds the input to the delete recipes params.
 func (o *DeleteRecipesParams) WithInput(input *models.DeleteRecipesRequest) *DeleteRecipesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete recipes params
+// SetInput adds the input to the delete recipes params.
 func (o *DeleteRecipesParams) SetInput(input *models.DeleteRecipesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteRecipesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

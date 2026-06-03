@@ -34,6 +34,10 @@ func (f *dummyClientTransport) Submit(operation *runtime.ClientOperation) (inter
 	return f.submit(operation)
 }
 
+func (f *dummyClientTransport) SubmitContext(ctx context.Context, operation *runtime.ClientOperation) (interface{}, error) {
+	return f.Submit(operation)
+}
+
 func TestDescribeDatahubWithDiagnosticHandle_Success(t *testing.T) {
 	t.Parallel()
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeHueParams creates a new DescribeHueParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeHueParams() *DescribeHueParams {
-	return &DescribeHueParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeHueParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeHueParamsWithTimeout creates a new DescribeHueParams object
 // with the ability to set a timeout on a request.
 func NewDescribeHueParamsWithTimeout(timeout time.Duration) *DescribeHueParams {
 	return &DescribeHueParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeHueParamsWithContext creates a new DescribeHueParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeHueParams].
 func NewDescribeHueParamsWithContext(ctx context.Context) *DescribeHueParams {
 	return &DescribeHueParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeHueParams struct {
 	// Input.
 	Input *models.DescribeHueRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe hue params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeHueParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe hue params
+// WithTimeout adds the timeout to the describe hue params.
 func (o *DescribeHueParams) WithTimeout(timeout time.Duration) *DescribeHueParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe hue params
+// SetTimeout adds the timeout to the describe hue params.
 func (o *DescribeHueParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe hue params
+// WithContext adds the context to the describe hue params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeHueParams].
 func (o *DescribeHueParams) WithContext(ctx context.Context) *DescribeHueParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe hue params
+// SetContext adds the context to the describe hue params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeHueParams].
 func (o *DescribeHueParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe hue params
+// WithHTTPClient adds the HTTPClient to the describe hue params.
 func (o *DescribeHueParams) WithHTTPClient(client *http.Client) *DescribeHueParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe hue params
+// SetHTTPClient adds the HTTPClient to the describe hue params.
 func (o *DescribeHueParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe hue params
+// WithInput adds the input to the describe hue params.
 func (o *DescribeHueParams) WithInput(input *models.DescribeHueRequest) *DescribeHueParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe hue params
+// SetInput adds the input to the describe hue params.
 func (o *DescribeHueParams) SetInput(input *models.DescribeHueRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeHueParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

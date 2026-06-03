@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -98,7 +99,7 @@ func (m *CreateMlServingAppRequest) validateEnvironmentCrn(formats strfmt.Regist
 }
 
 func (m *CreateMlServingAppRequest) validateOzoneS3Creds(formats strfmt.Registry) error {
-	if swag.IsZero(m.OzoneS3Creds) { // not required
+	if typeutils.IsZero(m.OzoneS3Creds) { // not required
 		return nil
 	}
 
@@ -121,7 +122,7 @@ func (m *CreateMlServingAppRequest) validateOzoneS3Creds(formats strfmt.Registry
 }
 
 func (m *CreateMlServingAppRequest) validateProvisionK8sRequest(formats strfmt.Registry) error {
-	if swag.IsZero(m.ProvisionK8sRequest) { // not required
+	if typeutils.IsZero(m.ProvisionK8sRequest) { // not required
 		return nil
 	}
 
@@ -165,7 +166,7 @@ func (m *CreateMlServingAppRequest) contextValidateOzoneS3Creds(ctx context.Cont
 
 	if m.OzoneS3Creds != nil {
 
-		if swag.IsZero(m.OzoneS3Creds) { // not required
+		if typeutils.IsZero(m.OzoneS3Creds) { // not required
 			return nil
 		}
 
@@ -190,7 +191,7 @@ func (m *CreateMlServingAppRequest) contextValidateProvisionK8sRequest(ctx conte
 
 	if m.ProvisionK8sRequest != nil {
 
-		if swag.IsZero(m.ProvisionK8sRequest) { // not required
+		if typeutils.IsZero(m.ProvisionK8sRequest) { // not required
 			return nil
 		}
 
@@ -216,13 +217,13 @@ func (m *CreateMlServingAppRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateMlServingAppRequest) UnmarshalBinary(b []byte) error {
 	var res CreateMlServingAppRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

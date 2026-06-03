@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -77,7 +78,7 @@ func (m *DbcSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DbcSummary) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -89,7 +90,7 @@ func (m *DbcSummary) validateCreationDate(formats strfmt.Registry) error {
 }
 
 func (m *DbcSummary) validateCreator(formats strfmt.Registry) error {
-	if swag.IsZero(m.Creator) { // not required
+	if typeutils.IsZero(m.Creator) { // not required
 		return nil
 	}
 
@@ -112,7 +113,7 @@ func (m *DbcSummary) validateCreator(formats strfmt.Registry) error {
 }
 
 func (m *DbcSummary) validateResources(formats strfmt.Registry) error {
-	if swag.IsZero(m.Resources) { // not required
+	if typeutils.IsZero(m.Resources) { // not required
 		return nil
 	}
 
@@ -142,7 +143,7 @@ func (m *DbcSummary) validateResources(formats strfmt.Registry) error {
 }
 
 func (m *DbcSummary) validateStatusChangedAt(formats strfmt.Registry) error {
-	if swag.IsZero(m.StatusChangedAt) { // not required
+	if typeutils.IsZero(m.StatusChangedAt) { // not required
 		return nil
 	}
 
@@ -175,7 +176,7 @@ func (m *DbcSummary) contextValidateCreator(ctx context.Context, formats strfmt.
 
 	if m.Creator != nil {
 
-		if swag.IsZero(m.Creator) { // not required
+		if typeutils.IsZero(m.Creator) { // not required
 			return nil
 		}
 
@@ -216,13 +217,13 @@ func (m *DbcSummary) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DbcSummary) UnmarshalBinary(b []byte) error {
 	var res DbcSummary
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

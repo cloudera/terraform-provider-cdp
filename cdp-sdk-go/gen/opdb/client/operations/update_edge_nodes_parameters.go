@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewUpdateEdgeNodesParams creates a new UpdateEdgeNodesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateEdgeNodesParams() *UpdateEdgeNodesParams {
-	return &UpdateEdgeNodesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateEdgeNodesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateEdgeNodesParamsWithTimeout creates a new UpdateEdgeNodesParams object
 // with the ability to set a timeout on a request.
 func NewUpdateEdgeNodesParamsWithTimeout(timeout time.Duration) *UpdateEdgeNodesParams {
 	return &UpdateEdgeNodesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateEdgeNodesParamsWithContext creates a new UpdateEdgeNodesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateEdgeNodesParams].
 func NewUpdateEdgeNodesParamsWithContext(ctx context.Context) *UpdateEdgeNodesParams {
 	return &UpdateEdgeNodesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateEdgeNodesParams struct {
 	// Input.
 	Input *models.UpdateEdgeNodesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update edge nodes params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateEdgeNodesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update edge nodes params
+// WithTimeout adds the timeout to the update edge nodes params.
 func (o *UpdateEdgeNodesParams) WithTimeout(timeout time.Duration) *UpdateEdgeNodesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update edge nodes params
+// SetTimeout adds the timeout to the update edge nodes params.
 func (o *UpdateEdgeNodesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update edge nodes params
+// WithContext adds the context to the update edge nodes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateEdgeNodesParams].
 func (o *UpdateEdgeNodesParams) WithContext(ctx context.Context) *UpdateEdgeNodesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update edge nodes params
+// SetContext adds the context to the update edge nodes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateEdgeNodesParams].
 func (o *UpdateEdgeNodesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update edge nodes params
+// WithHTTPClient adds the HTTPClient to the update edge nodes params.
 func (o *UpdateEdgeNodesParams) WithHTTPClient(client *http.Client) *UpdateEdgeNodesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update edge nodes params
+// SetHTTPClient adds the HTTPClient to the update edge nodes params.
 func (o *UpdateEdgeNodesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update edge nodes params
+// WithInput adds the input to the update edge nodes params.
 func (o *UpdateEdgeNodesParams) WithInput(input *models.UpdateEdgeNodesRequest) *UpdateEdgeNodesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update edge nodes params
+// SetInput adds the input to the update edge nodes params.
 func (o *UpdateEdgeNodesParams) SetInput(input *models.UpdateEdgeNodesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateEdgeNodesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

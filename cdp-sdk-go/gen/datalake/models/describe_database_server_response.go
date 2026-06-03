@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -91,7 +92,7 @@ func (m *DescribeDatabaseServerResponse) Validate(formats strfmt.Registry) error
 }
 
 func (m *DescribeDatabaseServerResponse) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -135,7 +136,7 @@ func (m *DescribeDatabaseServerResponse) validateResourceStatusEnum(path, locati
 }
 
 func (m *DescribeDatabaseServerResponse) validateResourceStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.ResourceStatus) { // not required
+	if typeutils.IsZero(m.ResourceStatus) { // not required
 		return nil
 	}
 
@@ -148,7 +149,7 @@ func (m *DescribeDatabaseServerResponse) validateResourceStatus(formats strfmt.R
 }
 
 func (m *DescribeDatabaseServerResponse) validateSslConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.SslConfig) { // not required
+	if typeutils.IsZero(m.SslConfig) { // not required
 		return nil
 	}
 
@@ -263,7 +264,7 @@ func (m *DescribeDatabaseServerResponse) validateStatusEnum(path, location strin
 }
 
 func (m *DescribeDatabaseServerResponse) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -293,7 +294,7 @@ func (m *DescribeDatabaseServerResponse) contextValidateSslConfig(ctx context.Co
 
 	if m.SslConfig != nil {
 
-		if swag.IsZero(m.SslConfig) { // not required
+		if typeutils.IsZero(m.SslConfig) { // not required
 			return nil
 		}
 
@@ -319,13 +320,13 @@ func (m *DescribeDatabaseServerResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeDatabaseServerResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeDatabaseServerResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

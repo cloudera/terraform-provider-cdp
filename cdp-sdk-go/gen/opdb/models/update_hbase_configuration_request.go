@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -82,10 +82,6 @@ func (m *UpdateHbaseConfigurationRequest) validateConfigurationName(formats strf
 }
 
 func (m *UpdateHbaseConfigurationRequest) validateConfigurationType(formats strfmt.Registry) error {
-
-	if err := validate.Required("configurationType", "body", m.ConfigurationType); err != nil {
-		return err
-	}
 
 	if err := validate.Required("configurationType", "body", m.ConfigurationType); err != nil {
 		return err
@@ -167,13 +163,13 @@ func (m *UpdateHbaseConfigurationRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateHbaseConfigurationRequest) UnmarshalBinary(b []byte) error {
 	var res UpdateHbaseConfigurationRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewModifyMlServingAppParams creates a new ModifyMlServingAppParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewModifyMlServingAppParams() *ModifyMlServingAppParams {
-	return &ModifyMlServingAppParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewModifyMlServingAppParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewModifyMlServingAppParamsWithTimeout creates a new ModifyMlServingAppParams object
 // with the ability to set a timeout on a request.
 func NewModifyMlServingAppParamsWithTimeout(timeout time.Duration) *ModifyMlServingAppParams {
 	return &ModifyMlServingAppParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewModifyMlServingAppParamsWithContext creates a new ModifyMlServingAppParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ModifyMlServingAppParams].
 func NewModifyMlServingAppParamsWithContext(ctx context.Context) *ModifyMlServingAppParams {
 	return &ModifyMlServingAppParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ModifyMlServingAppParams struct {
 	// Input.
 	Input *models.ModifyMlServingAppRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the modify ml serving app params (not the query body).
@@ -83,54 +86,57 @@ func (o *ModifyMlServingAppParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the modify ml serving app params
+// WithTimeout adds the timeout to the modify ml serving app params.
 func (o *ModifyMlServingAppParams) WithTimeout(timeout time.Duration) *ModifyMlServingAppParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the modify ml serving app params
+// SetTimeout adds the timeout to the modify ml serving app params.
 func (o *ModifyMlServingAppParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the modify ml serving app params
+// WithContext adds the context to the modify ml serving app params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ModifyMlServingAppParams].
 func (o *ModifyMlServingAppParams) WithContext(ctx context.Context) *ModifyMlServingAppParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the modify ml serving app params
+// SetContext adds the context to the modify ml serving app params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ModifyMlServingAppParams].
 func (o *ModifyMlServingAppParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the modify ml serving app params
+// WithHTTPClient adds the HTTPClient to the modify ml serving app params.
 func (o *ModifyMlServingAppParams) WithHTTPClient(client *http.Client) *ModifyMlServingAppParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the modify ml serving app params
+// SetHTTPClient adds the HTTPClient to the modify ml serving app params.
 func (o *ModifyMlServingAppParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the modify ml serving app params
+// WithInput adds the input to the modify ml serving app params.
 func (o *ModifyMlServingAppParams) WithInput(input *models.ModifyMlServingAppRequest) *ModifyMlServingAppParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the modify ml serving app params
+// SetInput adds the input to the modify ml serving app params.
 func (o *ModifyMlServingAppParams) SetInput(input *models.ModifyMlServingAppRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ModifyMlServingAppParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

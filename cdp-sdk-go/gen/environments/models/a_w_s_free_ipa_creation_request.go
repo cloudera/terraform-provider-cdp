@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -78,7 +79,7 @@ func (m *AWSFreeIpaCreationRequest) validateArchitectureEnum(path, location stri
 }
 
 func (m *AWSFreeIpaCreationRequest) validateArchitecture(formats strfmt.Registry) error {
-	if swag.IsZero(m.Architecture) { // not required
+	if typeutils.IsZero(m.Architecture) { // not required
 		return nil
 	}
 
@@ -100,13 +101,13 @@ func (m *AWSFreeIpaCreationRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AWSFreeIpaCreationRequest) UnmarshalBinary(b []byte) error {
 	var res AWSFreeIpaCreationRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewStartDatalakeParams creates a new StartDatalakeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStartDatalakeParams() *StartDatalakeParams {
-	return &StartDatalakeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStartDatalakeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStartDatalakeParamsWithTimeout creates a new StartDatalakeParams object
 // with the ability to set a timeout on a request.
 func NewStartDatalakeParamsWithTimeout(timeout time.Duration) *StartDatalakeParams {
 	return &StartDatalakeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStartDatalakeParamsWithContext creates a new StartDatalakeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatalakeParams].
 func NewStartDatalakeParamsWithContext(ctx context.Context) *StartDatalakeParams {
 	return &StartDatalakeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StartDatalakeParams struct {
 	// Input.
 	Input *models.StartDatalakeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the start datalake params (not the query body).
@@ -83,54 +86,57 @@ func (o *StartDatalakeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the start datalake params
+// WithTimeout adds the timeout to the start datalake params.
 func (o *StartDatalakeParams) WithTimeout(timeout time.Duration) *StartDatalakeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the start datalake params
+// SetTimeout adds the timeout to the start datalake params.
 func (o *StartDatalakeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the start datalake params
+// WithContext adds the context to the start datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatalakeParams].
 func (o *StartDatalakeParams) WithContext(ctx context.Context) *StartDatalakeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the start datalake params
+// SetContext adds the context to the start datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatalakeParams].
 func (o *StartDatalakeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the start datalake params
+// WithHTTPClient adds the HTTPClient to the start datalake params.
 func (o *StartDatalakeParams) WithHTTPClient(client *http.Client) *StartDatalakeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the start datalake params
+// SetHTTPClient adds the HTTPClient to the start datalake params.
 func (o *StartDatalakeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the start datalake params
+// WithInput adds the input to the start datalake params.
 func (o *StartDatalakeParams) WithInput(input *models.StartDatalakeRequest) *StartDatalakeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the start datalake params
+// SetInput adds the input to the start datalake params.
 func (o *StartDatalakeParams) SetInput(input *models.StartDatalakeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StartDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

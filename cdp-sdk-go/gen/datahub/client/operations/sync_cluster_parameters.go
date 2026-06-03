@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewSyncClusterParams creates a new SyncClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSyncClusterParams() *SyncClusterParams {
-	return &SyncClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSyncClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSyncClusterParamsWithTimeout creates a new SyncClusterParams object
 // with the ability to set a timeout on a request.
 func NewSyncClusterParamsWithTimeout(timeout time.Duration) *SyncClusterParams {
 	return &SyncClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSyncClusterParamsWithContext creates a new SyncClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SyncClusterParams].
 func NewSyncClusterParamsWithContext(ctx context.Context) *SyncClusterParams {
 	return &SyncClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SyncClusterParams struct {
 	// Input.
 	Input *models.SyncClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the sync cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *SyncClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the sync cluster params
+// WithTimeout adds the timeout to the sync cluster params.
 func (o *SyncClusterParams) WithTimeout(timeout time.Duration) *SyncClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the sync cluster params
+// SetTimeout adds the timeout to the sync cluster params.
 func (o *SyncClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the sync cluster params
+// WithContext adds the context to the sync cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SyncClusterParams].
 func (o *SyncClusterParams) WithContext(ctx context.Context) *SyncClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the sync cluster params
+// SetContext adds the context to the sync cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SyncClusterParams].
 func (o *SyncClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the sync cluster params
+// WithHTTPClient adds the HTTPClient to the sync cluster params.
 func (o *SyncClusterParams) WithHTTPClient(client *http.Client) *SyncClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the sync cluster params
+// SetHTTPClient adds the HTTPClient to the sync cluster params.
 func (o *SyncClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the sync cluster params
+// WithInput adds the input to the sync cluster params.
 func (o *SyncClusterParams) WithInput(input *models.SyncClusterRequest) *SyncClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the sync cluster params
+// SetInput adds the input to the sync cluster params.
 func (o *SyncClusterParams) SetInput(input *models.SyncClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SyncClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

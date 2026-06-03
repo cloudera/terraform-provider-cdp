@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewStopClusterParams creates a new StopClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStopClusterParams() *StopClusterParams {
-	return &StopClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStopClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStopClusterParamsWithTimeout creates a new StopClusterParams object
 // with the ability to set a timeout on a request.
 func NewStopClusterParamsWithTimeout(timeout time.Duration) *StopClusterParams {
 	return &StopClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStopClusterParamsWithContext creates a new StopClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopClusterParams].
 func NewStopClusterParamsWithContext(ctx context.Context) *StopClusterParams {
 	return &StopClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StopClusterParams struct {
 	// Input.
 	Input *models.StopClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the stop cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *StopClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the stop cluster params
+// WithTimeout adds the timeout to the stop cluster params.
 func (o *StopClusterParams) WithTimeout(timeout time.Duration) *StopClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the stop cluster params
+// SetTimeout adds the timeout to the stop cluster params.
 func (o *StopClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the stop cluster params
+// WithContext adds the context to the stop cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopClusterParams].
 func (o *StopClusterParams) WithContext(ctx context.Context) *StopClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the stop cluster params
+// SetContext adds the context to the stop cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopClusterParams].
 func (o *StopClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the stop cluster params
+// WithHTTPClient adds the HTTPClient to the stop cluster params.
 func (o *StopClusterParams) WithHTTPClient(client *http.Client) *StopClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the stop cluster params
+// SetHTTPClient adds the HTTPClient to the stop cluster params.
 func (o *StopClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the stop cluster params
+// WithInput adds the input to the stop cluster params.
 func (o *StopClusterParams) WithInput(input *models.StopClusterRequest) *StopClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the stop cluster params
+// SetInput adds the input to the stop cluster params.
 func (o *StopClusterParams) SetInput(input *models.StopClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StopClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

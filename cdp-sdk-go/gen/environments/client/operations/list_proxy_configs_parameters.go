@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewListProxyConfigsParams creates a new ListProxyConfigsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListProxyConfigsParams() *ListProxyConfigsParams {
-	return &ListProxyConfigsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListProxyConfigsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListProxyConfigsParamsWithTimeout creates a new ListProxyConfigsParams object
 // with the ability to set a timeout on a request.
 func NewListProxyConfigsParamsWithTimeout(timeout time.Duration) *ListProxyConfigsParams {
 	return &ListProxyConfigsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListProxyConfigsParamsWithContext creates a new ListProxyConfigsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListProxyConfigsParams].
 func NewListProxyConfigsParamsWithContext(ctx context.Context) *ListProxyConfigsParams {
 	return &ListProxyConfigsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListProxyConfigsParams struct {
 	// Input.
 	Input *models.ListProxyConfigsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list proxy configs params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListProxyConfigsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list proxy configs params
+// WithTimeout adds the timeout to the list proxy configs params.
 func (o *ListProxyConfigsParams) WithTimeout(timeout time.Duration) *ListProxyConfigsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list proxy configs params
+// SetTimeout adds the timeout to the list proxy configs params.
 func (o *ListProxyConfigsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list proxy configs params
+// WithContext adds the context to the list proxy configs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListProxyConfigsParams].
 func (o *ListProxyConfigsParams) WithContext(ctx context.Context) *ListProxyConfigsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list proxy configs params
+// SetContext adds the context to the list proxy configs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListProxyConfigsParams].
 func (o *ListProxyConfigsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list proxy configs params
+// WithHTTPClient adds the HTTPClient to the list proxy configs params.
 func (o *ListProxyConfigsParams) WithHTTPClient(client *http.Client) *ListProxyConfigsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list proxy configs params
+// SetHTTPClient adds the HTTPClient to the list proxy configs params.
 func (o *ListProxyConfigsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list proxy configs params
+// WithInput adds the input to the list proxy configs params.
 func (o *ListProxyConfigsParams) WithInput(input *models.ListProxyConfigsRequest) *ListProxyConfigsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list proxy configs params
+// SetInput adds the input to the list proxy configs params.
 func (o *ListProxyConfigsParams) SetInput(input *models.ListProxyConfigsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListProxyConfigsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -47,7 +48,7 @@ func (m *ListRolesResponse) validateRoles(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Roles); i++ {
-		if swag.IsZero(m.Roles[i]) { // not required
+		if typeutils.IsZero(m.Roles[i]) { // not required
 			continue
 		}
 
@@ -91,7 +92,7 @@ func (m *ListRolesResponse) contextValidateRoles(ctx context.Context, formats st
 
 		if m.Roles[i] != nil {
 
-			if swag.IsZero(m.Roles[i]) { // not required
+			if typeutils.IsZero(m.Roles[i]) { // not required
 				return nil
 			}
 
@@ -119,13 +120,13 @@ func (m *ListRolesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListRolesResponse) UnmarshalBinary(b []byte) error {
 	var res ListRolesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

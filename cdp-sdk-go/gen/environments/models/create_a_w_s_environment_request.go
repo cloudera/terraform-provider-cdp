@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -205,7 +206,7 @@ func (m *CreateAWSEnvironmentRequest) validateAuthentication(formats strfmt.Regi
 }
 
 func (m *CreateAWSEnvironmentRequest) validateComputeClusterConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+	if typeutils.IsZero(m.ComputeClusterConfiguration) { // not required
 		return nil
 	}
 
@@ -237,7 +238,7 @@ func (m *CreateAWSEnvironmentRequest) validateCredentialName(formats strfmt.Regi
 }
 
 func (m *CreateAWSEnvironmentRequest) validateCustomDockerRegistry(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomDockerRegistry) { // not required
+	if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 		return nil
 	}
 
@@ -289,7 +290,7 @@ func (m *CreateAWSEnvironmentRequest) validateEndpointAccessGatewaySchemeEnum(pa
 }
 
 func (m *CreateAWSEnvironmentRequest) validateEndpointAccessGatewayScheme(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndpointAccessGatewayScheme) { // not required
+	if typeutils.IsZero(m.EndpointAccessGatewayScheme) { // not required
 		return nil
 	}
 
@@ -340,7 +341,7 @@ func (m *CreateAWSEnvironmentRequest) validateEnvironmentTypeEnum(path, location
 }
 
 func (m *CreateAWSEnvironmentRequest) validateEnvironmentType(formats strfmt.Registry) error {
-	if swag.IsZero(m.EnvironmentType) { // not required
+	if typeutils.IsZero(m.EnvironmentType) { // not required
 		return nil
 	}
 
@@ -353,7 +354,7 @@ func (m *CreateAWSEnvironmentRequest) validateEnvironmentType(formats strfmt.Reg
 }
 
 func (m *CreateAWSEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) error {
-	if swag.IsZero(m.FreeIpa) { // not required
+	if typeutils.IsZero(m.FreeIpa) { // not required
 		return nil
 	}
 
@@ -376,7 +377,7 @@ func (m *CreateAWSEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) e
 }
 
 func (m *CreateAWSEnvironmentRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -432,7 +433,7 @@ func (m *CreateAWSEnvironmentRequest) validateRegion(formats strfmt.Registry) er
 }
 
 func (m *CreateAWSEnvironmentRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -479,7 +480,7 @@ func (m *CreateAWSEnvironmentRequest) validateSecurityAccess(formats strfmt.Regi
 }
 
 func (m *CreateAWSEnvironmentRequest) validateSubnetIds(formats strfmt.Registry) error {
-	if swag.IsZero(m.SubnetIds) { // not required
+	if typeutils.IsZero(m.SubnetIds) { // not required
 		return nil
 	}
 
@@ -491,12 +492,12 @@ func (m *CreateAWSEnvironmentRequest) validateSubnetIds(formats strfmt.Registry)
 }
 
 func (m *CreateAWSEnvironmentRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -591,7 +592,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateComputeClusterConfiguration
 
 	if m.ComputeClusterConfiguration != nil {
 
-		if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+		if typeutils.IsZero(m.ComputeClusterConfiguration) { // not required
 			return nil
 		}
 
@@ -616,7 +617,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateCustomDockerRegistry(ctx co
 
 	if m.CustomDockerRegistry != nil {
 
-		if swag.IsZero(m.CustomDockerRegistry) { // not required
+		if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 			return nil
 		}
 
@@ -641,7 +642,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateFreeIpa(ctx context.Context
 
 	if m.FreeIpa != nil {
 
-		if swag.IsZero(m.FreeIpa) { // not required
+		if typeutils.IsZero(m.FreeIpa) { // not required
 			return nil
 		}
 
@@ -666,7 +667,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateImage(ctx context.Context, 
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -712,7 +713,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateSecurity(ctx context.Contex
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -760,7 +761,7 @@ func (m *CreateAWSEnvironmentRequest) contextValidateTags(ctx context.Context, f
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -788,13 +789,13 @@ func (m *CreateAWSEnvironmentRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAWSEnvironmentRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAWSEnvironmentRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

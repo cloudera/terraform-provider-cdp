@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewStartInstancesParams creates a new StartInstancesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStartInstancesParams() *StartInstancesParams {
-	return &StartInstancesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStartInstancesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStartInstancesParamsWithTimeout creates a new StartInstancesParams object
 // with the ability to set a timeout on a request.
 func NewStartInstancesParamsWithTimeout(timeout time.Duration) *StartInstancesParams {
 	return &StartInstancesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStartInstancesParamsWithContext creates a new StartInstancesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartInstancesParams].
 func NewStartInstancesParamsWithContext(ctx context.Context) *StartInstancesParams {
 	return &StartInstancesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StartInstancesParams struct {
 	// Input.
 	Input *models.StartInstancesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the start instances params (not the query body).
@@ -83,54 +86,57 @@ func (o *StartInstancesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the start instances params
+// WithTimeout adds the timeout to the start instances params.
 func (o *StartInstancesParams) WithTimeout(timeout time.Duration) *StartInstancesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the start instances params
+// SetTimeout adds the timeout to the start instances params.
 func (o *StartInstancesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the start instances params
+// WithContext adds the context to the start instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartInstancesParams].
 func (o *StartInstancesParams) WithContext(ctx context.Context) *StartInstancesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the start instances params
+// SetContext adds the context to the start instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartInstancesParams].
 func (o *StartInstancesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the start instances params
+// WithHTTPClient adds the HTTPClient to the start instances params.
 func (o *StartInstancesParams) WithHTTPClient(client *http.Client) *StartInstancesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the start instances params
+// SetHTTPClient adds the HTTPClient to the start instances params.
 func (o *StartInstancesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the start instances params
+// WithInput adds the input to the start instances params.
 func (o *StartInstancesParams) WithInput(input *models.StartInstancesRequest) *StartInstancesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the start instances params
+// SetInput adds the input to the start instances params.
 func (o *StartInstancesParams) SetInput(input *models.StartInstancesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StartInstancesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

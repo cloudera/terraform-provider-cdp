@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewListScalingActivitiesParams creates a new ListScalingActivitiesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListScalingActivitiesParams() *ListScalingActivitiesParams {
-	return &ListScalingActivitiesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListScalingActivitiesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListScalingActivitiesParamsWithTimeout creates a new ListScalingActivitiesParams object
 // with the ability to set a timeout on a request.
 func NewListScalingActivitiesParamsWithTimeout(timeout time.Duration) *ListScalingActivitiesParams {
 	return &ListScalingActivitiesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListScalingActivitiesParamsWithContext creates a new ListScalingActivitiesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScalingActivitiesParams].
 func NewListScalingActivitiesParamsWithContext(ctx context.Context) *ListScalingActivitiesParams {
 	return &ListScalingActivitiesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListScalingActivitiesParams struct {
 	// Input.
 	Input *models.ListScalingActivitiesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list scaling activities params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListScalingActivitiesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list scaling activities params
+// WithTimeout adds the timeout to the list scaling activities params.
 func (o *ListScalingActivitiesParams) WithTimeout(timeout time.Duration) *ListScalingActivitiesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list scaling activities params
+// SetTimeout adds the timeout to the list scaling activities params.
 func (o *ListScalingActivitiesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list scaling activities params
+// WithContext adds the context to the list scaling activities params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScalingActivitiesParams].
 func (o *ListScalingActivitiesParams) WithContext(ctx context.Context) *ListScalingActivitiesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list scaling activities params
+// SetContext adds the context to the list scaling activities params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScalingActivitiesParams].
 func (o *ListScalingActivitiesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list scaling activities params
+// WithHTTPClient adds the HTTPClient to the list scaling activities params.
 func (o *ListScalingActivitiesParams) WithHTTPClient(client *http.Client) *ListScalingActivitiesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list scaling activities params
+// SetHTTPClient adds the HTTPClient to the list scaling activities params.
 func (o *ListScalingActivitiesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list scaling activities params
+// WithInput adds the input to the list scaling activities params.
 func (o *ListScalingActivitiesParams) WithInput(input *models.ListScalingActivitiesRequest) *ListScalingActivitiesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list scaling activities params
+// SetInput adds the input to the list scaling activities params.
 func (o *ListScalingActivitiesParams) SetInput(input *models.ListScalingActivitiesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListScalingActivitiesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

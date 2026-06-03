@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -67,7 +68,7 @@ func (m *Account) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Account) validateAuthenticationPolicy(formats strfmt.Registry) error {
-	if swag.IsZero(m.AuthenticationPolicy) { // not required
+	if typeutils.IsZero(m.AuthenticationPolicy) { // not required
 		return nil
 	}
 
@@ -108,7 +109,7 @@ func (m *Account) validateClouderaSSOLoginEnabled(formats strfmt.Registry) error
 }
 
 func (m *Account) validateMachineUserWorkloadPasswordPolicy(formats strfmt.Registry) error {
-	if swag.IsZero(m.MachineUserWorkloadPasswordPolicy) { // not required
+	if typeutils.IsZero(m.MachineUserWorkloadPasswordPolicy) { // not required
 		return nil
 	}
 
@@ -180,7 +181,7 @@ func (m *Account) contextValidateAuthenticationPolicy(ctx context.Context, forma
 
 	if m.AuthenticationPolicy != nil {
 
-		if swag.IsZero(m.AuthenticationPolicy) { // not required
+		if typeutils.IsZero(m.AuthenticationPolicy) { // not required
 			return nil
 		}
 
@@ -205,7 +206,7 @@ func (m *Account) contextValidateMachineUserWorkloadPasswordPolicy(ctx context.C
 
 	if m.MachineUserWorkloadPasswordPolicy != nil {
 
-		if swag.IsZero(m.MachineUserWorkloadPasswordPolicy) { // not required
+		if typeutils.IsZero(m.MachineUserWorkloadPasswordPolicy) { // not required
 			return nil
 		}
 
@@ -252,13 +253,13 @@ func (m *Account) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Account) UnmarshalBinary(b []byte) error {
 	var res Account
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

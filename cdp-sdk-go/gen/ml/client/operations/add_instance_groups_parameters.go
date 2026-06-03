@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewAddInstanceGroupsParams creates a new AddInstanceGroupsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddInstanceGroupsParams() *AddInstanceGroupsParams {
-	return &AddInstanceGroupsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAddInstanceGroupsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAddInstanceGroupsParamsWithTimeout creates a new AddInstanceGroupsParams object
 // with the ability to set a timeout on a request.
 func NewAddInstanceGroupsParamsWithTimeout(timeout time.Duration) *AddInstanceGroupsParams {
 	return &AddInstanceGroupsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAddInstanceGroupsParamsWithContext creates a new AddInstanceGroupsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddInstanceGroupsParams].
 func NewAddInstanceGroupsParamsWithContext(ctx context.Context) *AddInstanceGroupsParams {
 	return &AddInstanceGroupsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AddInstanceGroupsParams struct {
 	// Input.
 	Input *models.AddInstanceGroupsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the add instance groups params (not the query body).
@@ -83,54 +86,57 @@ func (o *AddInstanceGroupsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the add instance groups params
+// WithTimeout adds the timeout to the add instance groups params.
 func (o *AddInstanceGroupsParams) WithTimeout(timeout time.Duration) *AddInstanceGroupsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the add instance groups params
+// SetTimeout adds the timeout to the add instance groups params.
 func (o *AddInstanceGroupsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the add instance groups params
+// WithContext adds the context to the add instance groups params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddInstanceGroupsParams].
 func (o *AddInstanceGroupsParams) WithContext(ctx context.Context) *AddInstanceGroupsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the add instance groups params
+// SetContext adds the context to the add instance groups params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddInstanceGroupsParams].
 func (o *AddInstanceGroupsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the add instance groups params
+// WithHTTPClient adds the HTTPClient to the add instance groups params.
 func (o *AddInstanceGroupsParams) WithHTTPClient(client *http.Client) *AddInstanceGroupsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the add instance groups params
+// SetHTTPClient adds the HTTPClient to the add instance groups params.
 func (o *AddInstanceGroupsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the add instance groups params
+// WithInput adds the input to the add instance groups params.
 func (o *AddInstanceGroupsParams) WithInput(input *models.AddInstanceGroupsRequest) *AddInstanceGroupsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the add instance groups params
+// SetInput adds the input to the add instance groups params.
 func (o *AddInstanceGroupsParams) SetInput(input *models.AddInstanceGroupsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AddInstanceGroupsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

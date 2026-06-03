@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDeleteVwDiagnosticDataJobParams creates a new DeleteVwDiagnosticDataJobParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteVwDiagnosticDataJobParams() *DeleteVwDiagnosticDataJobParams {
-	return &DeleteVwDiagnosticDataJobParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteVwDiagnosticDataJobParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteVwDiagnosticDataJobParamsWithTimeout creates a new DeleteVwDiagnosticDataJobParams object
 // with the ability to set a timeout on a request.
 func NewDeleteVwDiagnosticDataJobParamsWithTimeout(timeout time.Duration) *DeleteVwDiagnosticDataJobParams {
 	return &DeleteVwDiagnosticDataJobParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteVwDiagnosticDataJobParamsWithContext creates a new DeleteVwDiagnosticDataJobParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteVwDiagnosticDataJobParams].
 func NewDeleteVwDiagnosticDataJobParamsWithContext(ctx context.Context) *DeleteVwDiagnosticDataJobParams {
 	return &DeleteVwDiagnosticDataJobParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteVwDiagnosticDataJobParams struct {
 	// Input.
 	Input *models.DeleteVwDiagnosticDataJobRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete vw diagnostic data job params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteVwDiagnosticDataJobParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete vw diagnostic data job params
+// WithTimeout adds the timeout to the delete vw diagnostic data job params.
 func (o *DeleteVwDiagnosticDataJobParams) WithTimeout(timeout time.Duration) *DeleteVwDiagnosticDataJobParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete vw diagnostic data job params
+// SetTimeout adds the timeout to the delete vw diagnostic data job params.
 func (o *DeleteVwDiagnosticDataJobParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete vw diagnostic data job params
+// WithContext adds the context to the delete vw diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteVwDiagnosticDataJobParams].
 func (o *DeleteVwDiagnosticDataJobParams) WithContext(ctx context.Context) *DeleteVwDiagnosticDataJobParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete vw diagnostic data job params
+// SetContext adds the context to the delete vw diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteVwDiagnosticDataJobParams].
 func (o *DeleteVwDiagnosticDataJobParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete vw diagnostic data job params
+// WithHTTPClient adds the HTTPClient to the delete vw diagnostic data job params.
 func (o *DeleteVwDiagnosticDataJobParams) WithHTTPClient(client *http.Client) *DeleteVwDiagnosticDataJobParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete vw diagnostic data job params
+// SetHTTPClient adds the HTTPClient to the delete vw diagnostic data job params.
 func (o *DeleteVwDiagnosticDataJobParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete vw diagnostic data job params
+// WithInput adds the input to the delete vw diagnostic data job params.
 func (o *DeleteVwDiagnosticDataJobParams) WithInput(input *models.DeleteVwDiagnosticDataJobRequest) *DeleteVwDiagnosticDataJobParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete vw diagnostic data job params
+// SetInput adds the input to the delete vw diagnostic data job params.
 func (o *DeleteVwDiagnosticDataJobParams) SetInput(input *models.DeleteVwDiagnosticDataJobRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteVwDiagnosticDataJobParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

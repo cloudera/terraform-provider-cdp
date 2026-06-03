@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ExternalBucket External bucket details.
@@ -38,7 +39,7 @@ func (m *ExternalBucket) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ExternalBucket) validateAccessInfo(formats strfmt.Registry) error {
-	if swag.IsZero(m.AccessInfo) { // not required
+	if typeutils.IsZero(m.AccessInfo) { // not required
 		return nil
 	}
 
@@ -78,7 +79,7 @@ func (m *ExternalBucket) contextValidateAccessInfo(ctx context.Context, formats 
 
 	if m.AccessInfo != nil {
 
-		if swag.IsZero(m.AccessInfo) { // not required
+		if typeutils.IsZero(m.AccessInfo) { // not required
 			return nil
 		}
 
@@ -104,13 +105,13 @@ func (m *ExternalBucket) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ExternalBucket) UnmarshalBinary(b []byte) error {
 	var res ExternalBucket
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

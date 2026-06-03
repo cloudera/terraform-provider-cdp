@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -67,7 +68,7 @@ func (m *ListSupportedInstanceTypesRequest) Validate(formats strfmt.Registry) er
 }
 
 func (m *ListSupportedInstanceTypesRequest) validateArchitecture(formats strfmt.Registry) error {
-	if swag.IsZero(m.Architecture) { // not required
+	if typeutils.IsZero(m.Architecture) { // not required
 		return nil
 	}
 
@@ -93,10 +94,6 @@ func (m *ListSupportedInstanceTypesRequest) validateCloudPlatform(formats strfmt
 		return err
 	}
 
-	if err := validate.Required("cloudPlatform", "body", m.CloudPlatform); err != nil {
-		return err
-	}
-
 	if m.CloudPlatform != nil {
 		if err := m.CloudPlatform.Validate(formats); err != nil {
 			ve := new(errors.Validation)
@@ -116,7 +113,7 @@ func (m *ListSupportedInstanceTypesRequest) validateCloudPlatform(formats strfmt
 }
 
 func (m *ListSupportedInstanceTypesRequest) validateInstanceGroup(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroup) { // not required
+	if typeutils.IsZero(m.InstanceGroup) { // not required
 		return nil
 	}
 
@@ -142,10 +139,6 @@ func (m *ListSupportedInstanceTypesRequest) validateScaleType(formats strfmt.Reg
 		return err
 	}
 
-	if err := validate.Required("scaleType", "body", m.ScaleType); err != nil {
-		return err
-	}
-
 	if m.ScaleType != nil {
 		if err := m.ScaleType.Validate(formats); err != nil {
 			ve := new(errors.Validation)
@@ -165,10 +158,6 @@ func (m *ListSupportedInstanceTypesRequest) validateScaleType(formats strfmt.Reg
 }
 
 func (m *ListSupportedInstanceTypesRequest) validateStorageType(formats strfmt.Registry) error {
-
-	if err := validate.Required("storageType", "body", m.StorageType); err != nil {
-		return err
-	}
 
 	if err := validate.Required("storageType", "body", m.StorageType); err != nil {
 		return err
@@ -224,7 +213,7 @@ func (m *ListSupportedInstanceTypesRequest) ContextValidate(ctx context.Context,
 
 func (m *ListSupportedInstanceTypesRequest) contextValidateArchitecture(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Architecture) { // not required
+	if typeutils.IsZero(m.Architecture) { // not required
 		return nil
 	}
 
@@ -267,7 +256,7 @@ func (m *ListSupportedInstanceTypesRequest) contextValidateCloudPlatform(ctx con
 
 func (m *ListSupportedInstanceTypesRequest) contextValidateInstanceGroup(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.InstanceGroup) { // not required
+	if typeutils.IsZero(m.InstanceGroup) { // not required
 		return nil
 	}
 
@@ -334,13 +323,13 @@ func (m *ListSupportedInstanceTypesRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListSupportedInstanceTypesRequest) UnmarshalBinary(b []byte) error {
 	var res ListSupportedInstanceTypesRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

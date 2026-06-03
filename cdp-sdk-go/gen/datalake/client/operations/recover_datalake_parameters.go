@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewRecoverDatalakeParams creates a new RecoverDatalakeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRecoverDatalakeParams() *RecoverDatalakeParams {
-	return &RecoverDatalakeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRecoverDatalakeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRecoverDatalakeParamsWithTimeout creates a new RecoverDatalakeParams object
 // with the ability to set a timeout on a request.
 func NewRecoverDatalakeParamsWithTimeout(timeout time.Duration) *RecoverDatalakeParams {
 	return &RecoverDatalakeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRecoverDatalakeParamsWithContext creates a new RecoverDatalakeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RecoverDatalakeParams].
 func NewRecoverDatalakeParamsWithContext(ctx context.Context) *RecoverDatalakeParams {
 	return &RecoverDatalakeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RecoverDatalakeParams struct {
 	// Input.
 	Input *models.RecoverDatalakeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the recover datalake params (not the query body).
@@ -83,54 +86,57 @@ func (o *RecoverDatalakeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the recover datalake params
+// WithTimeout adds the timeout to the recover datalake params.
 func (o *RecoverDatalakeParams) WithTimeout(timeout time.Duration) *RecoverDatalakeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the recover datalake params
+// SetTimeout adds the timeout to the recover datalake params.
 func (o *RecoverDatalakeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the recover datalake params
+// WithContext adds the context to the recover datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RecoverDatalakeParams].
 func (o *RecoverDatalakeParams) WithContext(ctx context.Context) *RecoverDatalakeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the recover datalake params
+// SetContext adds the context to the recover datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RecoverDatalakeParams].
 func (o *RecoverDatalakeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the recover datalake params
+// WithHTTPClient adds the HTTPClient to the recover datalake params.
 func (o *RecoverDatalakeParams) WithHTTPClient(client *http.Client) *RecoverDatalakeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the recover datalake params
+// SetHTTPClient adds the HTTPClient to the recover datalake params.
 func (o *RecoverDatalakeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the recover datalake params
+// WithInput adds the input to the recover datalake params.
 func (o *RecoverDatalakeParams) WithInput(input *models.RecoverDatalakeRequest) *RecoverDatalakeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the recover datalake params
+// SetInput adds the input to the recover datalake params.
 func (o *RecoverDatalakeParams) SetInput(input *models.RecoverDatalakeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RecoverDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

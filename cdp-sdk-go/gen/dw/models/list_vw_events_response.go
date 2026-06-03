@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListVwEventsResponse Response object for the listVwEvents method.
@@ -36,12 +37,12 @@ func (m *ListVwEventsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListVwEventsResponse) validateEvents(formats strfmt.Registry) error {
-	if swag.IsZero(m.Events) { // not required
+	if typeutils.IsZero(m.Events) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Events); i++ {
-		if swag.IsZero(m.Events[i]) { // not required
+		if typeutils.IsZero(m.Events[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListVwEventsResponse) contextValidateEvents(ctx context.Context, format
 
 		if m.Events[i] != nil {
 
-			if swag.IsZero(m.Events[i]) { // not required
+			if typeutils.IsZero(m.Events[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListVwEventsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListVwEventsResponse) UnmarshalBinary(b []byte) error {
 	var res ListVwEventsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

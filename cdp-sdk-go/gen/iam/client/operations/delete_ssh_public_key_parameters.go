@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewDeleteSSHPublicKeyParams creates a new DeleteSSHPublicKeyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteSSHPublicKeyParams() *DeleteSSHPublicKeyParams {
-	return &DeleteSSHPublicKeyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteSSHPublicKeyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteSSHPublicKeyParamsWithTimeout creates a new DeleteSSHPublicKeyParams object
 // with the ability to set a timeout on a request.
 func NewDeleteSSHPublicKeyParamsWithTimeout(timeout time.Duration) *DeleteSSHPublicKeyParams {
 	return &DeleteSSHPublicKeyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteSSHPublicKeyParamsWithContext creates a new DeleteSSHPublicKeyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteSSHPublicKeyParams].
 func NewDeleteSSHPublicKeyParamsWithContext(ctx context.Context) *DeleteSSHPublicKeyParams {
 	return &DeleteSSHPublicKeyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteSSHPublicKeyParams struct {
 	// Input.
 	Input *models.DeleteSSHPublicKeyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete Ssh public key params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteSSHPublicKeyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete Ssh public key params
+// WithTimeout adds the timeout to the delete Ssh public key params.
 func (o *DeleteSSHPublicKeyParams) WithTimeout(timeout time.Duration) *DeleteSSHPublicKeyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete Ssh public key params
+// SetTimeout adds the timeout to the delete Ssh public key params.
 func (o *DeleteSSHPublicKeyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete Ssh public key params
+// WithContext adds the context to the delete Ssh public key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteSSHPublicKeyParams].
 func (o *DeleteSSHPublicKeyParams) WithContext(ctx context.Context) *DeleteSSHPublicKeyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete Ssh public key params
+// SetContext adds the context to the delete Ssh public key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteSSHPublicKeyParams].
 func (o *DeleteSSHPublicKeyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete Ssh public key params
+// WithHTTPClient adds the HTTPClient to the delete Ssh public key params.
 func (o *DeleteSSHPublicKeyParams) WithHTTPClient(client *http.Client) *DeleteSSHPublicKeyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete Ssh public key params
+// SetHTTPClient adds the HTTPClient to the delete Ssh public key params.
 func (o *DeleteSSHPublicKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete Ssh public key params
+// WithInput adds the input to the delete Ssh public key params.
 func (o *DeleteSSHPublicKeyParams) WithInput(input *models.DeleteSSHPublicKeyRequest) *DeleteSSHPublicKeyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete Ssh public key params
+// SetInput adds the input to the delete Ssh public key params.
 func (o *DeleteSSHPublicKeyParams) SetInput(input *models.DeleteSSHPublicKeyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteSSHPublicKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

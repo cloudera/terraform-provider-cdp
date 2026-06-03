@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewRestoreBackupParams creates a new RestoreBackupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRestoreBackupParams() *RestoreBackupParams {
-	return &RestoreBackupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRestoreBackupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRestoreBackupParamsWithTimeout creates a new RestoreBackupParams object
 // with the ability to set a timeout on a request.
 func NewRestoreBackupParamsWithTimeout(timeout time.Duration) *RestoreBackupParams {
 	return &RestoreBackupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRestoreBackupParamsWithContext creates a new RestoreBackupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreBackupParams].
 func NewRestoreBackupParamsWithContext(ctx context.Context) *RestoreBackupParams {
 	return &RestoreBackupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RestoreBackupParams struct {
 	// Input.
 	Input *models.RestoreBackupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the restore backup params (not the query body).
@@ -83,54 +86,57 @@ func (o *RestoreBackupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the restore backup params
+// WithTimeout adds the timeout to the restore backup params.
 func (o *RestoreBackupParams) WithTimeout(timeout time.Duration) *RestoreBackupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the restore backup params
+// SetTimeout adds the timeout to the restore backup params.
 func (o *RestoreBackupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the restore backup params
+// WithContext adds the context to the restore backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreBackupParams].
 func (o *RestoreBackupParams) WithContext(ctx context.Context) *RestoreBackupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the restore backup params
+// SetContext adds the context to the restore backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreBackupParams].
 func (o *RestoreBackupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the restore backup params
+// WithHTTPClient adds the HTTPClient to the restore backup params.
 func (o *RestoreBackupParams) WithHTTPClient(client *http.Client) *RestoreBackupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the restore backup params
+// SetHTTPClient adds the HTTPClient to the restore backup params.
 func (o *RestoreBackupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the restore backup params
+// WithInput adds the input to the restore backup params.
 func (o *RestoreBackupParams) WithInput(input *models.RestoreBackupRequest) *RestoreBackupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the restore backup params
+// SetInput adds the input to the restore backup params.
 func (o *RestoreBackupParams) SetInput(input *models.RestoreBackupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RestoreBackupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

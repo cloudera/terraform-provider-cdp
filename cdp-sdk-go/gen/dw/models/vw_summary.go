@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -193,7 +194,7 @@ func (m *VwSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateAutoscalingOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.AutoscalingOptions) { // not required
+	if typeutils.IsZero(m.AutoscalingOptions) { // not required
 		return nil
 	}
 
@@ -216,7 +217,7 @@ func (m *VwSummary) validateAutoscalingOptions(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -228,7 +229,7 @@ func (m *VwSummary) validateCreationDate(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateCreator(formats strfmt.Registry) error {
-	if swag.IsZero(m.Creator) { // not required
+	if typeutils.IsZero(m.Creator) { // not required
 		return nil
 	}
 
@@ -251,7 +252,7 @@ func (m *VwSummary) validateCreator(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateEndpoints(formats strfmt.Registry) error {
-	if swag.IsZero(m.Endpoints) { // not required
+	if typeutils.IsZero(m.Endpoints) { // not required
 		return nil
 	}
 
@@ -274,7 +275,7 @@ func (m *VwSummary) validateEndpoints(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateImpalaHaSettingsOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaHaSettingsOptions) { // not required
+	if typeutils.IsZero(m.ImpalaHaSettingsOptions) { // not required
 		return nil
 	}
 
@@ -297,7 +298,7 @@ func (m *VwSummary) validateImpalaHaSettingsOptions(formats strfmt.Registry) err
 }
 
 func (m *VwSummary) validateImpalaOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaOptions) { // not required
+	if typeutils.IsZero(m.ImpalaOptions) { // not required
 		return nil
 	}
 
@@ -320,7 +321,7 @@ func (m *VwSummary) validateImpalaOptions(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateJwtAuth(formats strfmt.Registry) error {
-	if swag.IsZero(m.JwtAuth) { // not required
+	if typeutils.IsZero(m.JwtAuth) { // not required
 		return nil
 	}
 
@@ -343,7 +344,7 @@ func (m *VwSummary) validateJwtAuth(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateQueryIsolationOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.QueryIsolationOptions) { // not required
+	if typeutils.IsZero(m.QueryIsolationOptions) { // not required
 		return nil
 	}
 
@@ -366,7 +367,7 @@ func (m *VwSummary) validateQueryIsolationOptions(formats strfmt.Registry) error
 }
 
 func (m *VwSummary) validateReplicaStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.ReplicaStatus) { // not required
+	if typeutils.IsZero(m.ReplicaStatus) { // not required
 		return nil
 	}
 
@@ -389,7 +390,7 @@ func (m *VwSummary) validateReplicaStatus(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateResources(formats strfmt.Registry) error {
-	if swag.IsZero(m.Resources) { // not required
+	if typeutils.IsZero(m.Resources) { // not required
 		return nil
 	}
 
@@ -419,7 +420,7 @@ func (m *VwSummary) validateResources(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateStatusChangedAt(formats strfmt.Registry) error {
-	if swag.IsZero(m.StatusChangedAt) { // not required
+	if typeutils.IsZero(m.StatusChangedAt) { // not required
 		return nil
 	}
 
@@ -431,7 +432,7 @@ func (m *VwSummary) validateStatusChangedAt(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateSupportedAuthMethods(formats strfmt.Registry) error {
-	if swag.IsZero(m.SupportedAuthMethods) { // not required
+	if typeutils.IsZero(m.SupportedAuthMethods) { // not required
 		return nil
 	}
 
@@ -454,12 +455,12 @@ func (m *VwSummary) validateSupportedAuthMethods(formats strfmt.Registry) error 
 }
 
 func (m *VwSummary) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -484,7 +485,7 @@ func (m *VwSummary) validateTags(formats strfmt.Registry) error {
 }
 
 func (m *VwSummary) validateVwType(formats strfmt.Registry) error {
-	if swag.IsZero(m.VwType) { // not required
+	if typeutils.IsZero(m.VwType) { // not required
 		return nil
 	}
 
@@ -566,7 +567,7 @@ func (m *VwSummary) contextValidateAutoscalingOptions(ctx context.Context, forma
 
 	if m.AutoscalingOptions != nil {
 
-		if swag.IsZero(m.AutoscalingOptions) { // not required
+		if typeutils.IsZero(m.AutoscalingOptions) { // not required
 			return nil
 		}
 
@@ -591,7 +592,7 @@ func (m *VwSummary) contextValidateCreator(ctx context.Context, formats strfmt.R
 
 	if m.Creator != nil {
 
-		if swag.IsZero(m.Creator) { // not required
+		if typeutils.IsZero(m.Creator) { // not required
 			return nil
 		}
 
@@ -616,7 +617,7 @@ func (m *VwSummary) contextValidateEndpoints(ctx context.Context, formats strfmt
 
 	if m.Endpoints != nil {
 
-		if swag.IsZero(m.Endpoints) { // not required
+		if typeutils.IsZero(m.Endpoints) { // not required
 			return nil
 		}
 
@@ -641,7 +642,7 @@ func (m *VwSummary) contextValidateImpalaHaSettingsOptions(ctx context.Context, 
 
 	if m.ImpalaHaSettingsOptions != nil {
 
-		if swag.IsZero(m.ImpalaHaSettingsOptions) { // not required
+		if typeutils.IsZero(m.ImpalaHaSettingsOptions) { // not required
 			return nil
 		}
 
@@ -666,7 +667,7 @@ func (m *VwSummary) contextValidateImpalaOptions(ctx context.Context, formats st
 
 	if m.ImpalaOptions != nil {
 
-		if swag.IsZero(m.ImpalaOptions) { // not required
+		if typeutils.IsZero(m.ImpalaOptions) { // not required
 			return nil
 		}
 
@@ -691,7 +692,7 @@ func (m *VwSummary) contextValidateJwtAuth(ctx context.Context, formats strfmt.R
 
 	if m.JwtAuth != nil {
 
-		if swag.IsZero(m.JwtAuth) { // not required
+		if typeutils.IsZero(m.JwtAuth) { // not required
 			return nil
 		}
 
@@ -716,7 +717,7 @@ func (m *VwSummary) contextValidateQueryIsolationOptions(ctx context.Context, fo
 
 	if m.QueryIsolationOptions != nil {
 
-		if swag.IsZero(m.QueryIsolationOptions) { // not required
+		if typeutils.IsZero(m.QueryIsolationOptions) { // not required
 			return nil
 		}
 
@@ -741,7 +742,7 @@ func (m *VwSummary) contextValidateReplicaStatus(ctx context.Context, formats st
 
 	if m.ReplicaStatus != nil {
 
-		if swag.IsZero(m.ReplicaStatus) { // not required
+		if typeutils.IsZero(m.ReplicaStatus) { // not required
 			return nil
 		}
 
@@ -781,7 +782,7 @@ func (m *VwSummary) contextValidateSupportedAuthMethods(ctx context.Context, for
 
 	if m.SupportedAuthMethods != nil {
 
-		if swag.IsZero(m.SupportedAuthMethods) { // not required
+		if typeutils.IsZero(m.SupportedAuthMethods) { // not required
 			return nil
 		}
 
@@ -808,7 +809,7 @@ func (m *VwSummary) contextValidateTags(ctx context.Context, formats strfmt.Regi
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -833,7 +834,7 @@ func (m *VwSummary) contextValidateTags(ctx context.Context, formats strfmt.Regi
 
 func (m *VwSummary) contextValidateVwType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.VwType) { // not required
+	if typeutils.IsZero(m.VwType) { // not required
 		return nil
 	}
 
@@ -858,13 +859,13 @@ func (m *VwSummary) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *VwSummary) UnmarshalBinary(b []byte) error {
 	var res VwSummary
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -943,13 +944,13 @@ func (m *VwSummaryEndpoints) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *VwSummaryEndpoints) UnmarshalBinary(b []byte) error {
 	var res VwSummaryEndpoints
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -980,13 +981,13 @@ func (m *VwSummaryJwtAuth) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *VwSummaryJwtAuth) UnmarshalBinary(b []byte) error {
 	var res VwSummaryJwtAuth
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -1070,13 +1071,13 @@ func (m *VwSummarySupportedAuthMethods) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *VwSummarySupportedAuthMethods) UnmarshalBinary(b []byte) error {
 	var res VwSummarySupportedAuthMethods
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -132,12 +133,12 @@ func (m *User) validateAccountAdmin(formats strfmt.Registry) error {
 }
 
 func (m *User) validateAzureCloudIdentities(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureCloudIdentities) { // not required
+	if typeutils.IsZero(m.AzureCloudIdentities) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AzureCloudIdentities); i++ {
-		if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+		if typeutils.IsZero(m.AzureCloudIdentities[i]) { // not required
 			continue
 		}
 
@@ -211,7 +212,7 @@ func (m *User) validateIdentityProviderCrn(formats strfmt.Registry) error {
 }
 
 func (m *User) validateLastInteractiveLogin(formats strfmt.Registry) error {
-	if swag.IsZero(m.LastInteractiveLogin) { // not required
+	if typeutils.IsZero(m.LastInteractiveLogin) { // not required
 		return nil
 	}
 
@@ -241,7 +242,7 @@ func (m *User) validateUserID(formats strfmt.Registry) error {
 }
 
 func (m *User) validateWorkloadPasswordDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.WorkloadPasswordDetails) { // not required
+	if typeutils.IsZero(m.WorkloadPasswordDetails) { // not required
 		return nil
 	}
 
@@ -287,7 +288,7 @@ func (m *User) contextValidateAzureCloudIdentities(ctx context.Context, formats 
 
 		if m.AzureCloudIdentities[i] != nil {
 
-			if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+			if typeutils.IsZero(m.AzureCloudIdentities[i]) { // not required
 				return nil
 			}
 
@@ -314,7 +315,7 @@ func (m *User) contextValidateWorkloadPasswordDetails(ctx context.Context, forma
 
 	if m.WorkloadPasswordDetails != nil {
 
-		if swag.IsZero(m.WorkloadPasswordDetails) { // not required
+		if typeutils.IsZero(m.WorkloadPasswordDetails) { // not required
 			return nil
 		}
 
@@ -340,13 +341,13 @@ func (m *User) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *User) UnmarshalBinary(b []byte) error {
 	var res User
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

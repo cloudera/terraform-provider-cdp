@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // UpdateToAwsImdsV2Response Response object for updating Data Hub to AWS IMDSv2.
@@ -33,13 +33,13 @@ func (m *UpdateToAwsImdsV2Response) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateToAwsImdsV2Response) UnmarshalBinary(b []byte) error {
 	var res UpdateToAwsImdsV2Response
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

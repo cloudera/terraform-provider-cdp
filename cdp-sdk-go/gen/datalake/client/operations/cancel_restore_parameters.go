@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewCancelRestoreParams creates a new CancelRestoreParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCancelRestoreParams() *CancelRestoreParams {
-	return &CancelRestoreParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCancelRestoreParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCancelRestoreParamsWithTimeout creates a new CancelRestoreParams object
 // with the ability to set a timeout on a request.
 func NewCancelRestoreParamsWithTimeout(timeout time.Duration) *CancelRestoreParams {
 	return &CancelRestoreParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCancelRestoreParamsWithContext creates a new CancelRestoreParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelRestoreParams].
 func NewCancelRestoreParamsWithContext(ctx context.Context) *CancelRestoreParams {
 	return &CancelRestoreParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CancelRestoreParams struct {
 	// Input.
 	Input *models.CancelRestoreRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the cancel restore params (not the query body).
@@ -83,54 +86,57 @@ func (o *CancelRestoreParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the cancel restore params
+// WithTimeout adds the timeout to the cancel restore params.
 func (o *CancelRestoreParams) WithTimeout(timeout time.Duration) *CancelRestoreParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the cancel restore params
+// SetTimeout adds the timeout to the cancel restore params.
 func (o *CancelRestoreParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the cancel restore params
+// WithContext adds the context to the cancel restore params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelRestoreParams].
 func (o *CancelRestoreParams) WithContext(ctx context.Context) *CancelRestoreParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the cancel restore params
+// SetContext adds the context to the cancel restore params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelRestoreParams].
 func (o *CancelRestoreParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the cancel restore params
+// WithHTTPClient adds the HTTPClient to the cancel restore params.
 func (o *CancelRestoreParams) WithHTTPClient(client *http.Client) *CancelRestoreParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the cancel restore params
+// SetHTTPClient adds the HTTPClient to the cancel restore params.
 func (o *CancelRestoreParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the cancel restore params
+// WithInput adds the input to the cancel restore params.
 func (o *CancelRestoreParams) WithInput(input *models.CancelRestoreRequest) *CancelRestoreParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the cancel restore params
+// SetInput adds the input to the cancel restore params.
 func (o *CancelRestoreParams) SetInput(input *models.CancelRestoreRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CancelRestoreParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

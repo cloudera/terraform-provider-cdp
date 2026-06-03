@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -80,7 +81,7 @@ func (m *IndividualScheduleRequest) validateConfiguration(formats strfmt.Registr
 }
 
 func (m *IndividualScheduleRequest) validateDescription(formats strfmt.Registry) error {
-	if swag.IsZero(m.Description) { // not required
+	if typeutils.IsZero(m.Description) { // not required
 		return nil
 	}
 
@@ -96,7 +97,7 @@ func (m *IndividualScheduleRequest) validateDescription(formats strfmt.Registry)
 }
 
 func (m *IndividualScheduleRequest) validateIdentifier(formats strfmt.Registry) error {
-	if swag.IsZero(m.Identifier) { // not required
+	if typeutils.IsZero(m.Identifier) { // not required
 		return nil
 	}
 
@@ -151,13 +152,13 @@ func (m *IndividualScheduleRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *IndividualScheduleRequest) UnmarshalBinary(b []byte) error {
 	var res IndividualScheduleRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -309,13 +310,13 @@ func (m *IndividualScheduleRequestConfiguration) MarshalBinary() ([]byte, error)
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *IndividualScheduleRequestConfiguration) UnmarshalBinary(b []byte) error {
 	var res IndividualScheduleRequestConfiguration
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -382,7 +383,7 @@ func (m *IndividualScheduleRequestConfigurationAction) validateResourceAdjustmen
 }
 
 func (m *IndividualScheduleRequestConfigurationAction) validateResourceAdjustmentType(formats strfmt.Registry) error {
-	if swag.IsZero(m.ResourceAdjustmentType) { // not required
+	if typeutils.IsZero(m.ResourceAdjustmentType) { // not required
 		return nil
 	}
 
@@ -417,13 +418,13 @@ func (m *IndividualScheduleRequestConfigurationAction) MarshalBinary() ([]byte, 
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *IndividualScheduleRequestConfigurationAction) UnmarshalBinary(b []byte) error {
 	var res IndividualScheduleRequestConfigurationAction
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -510,13 +511,13 @@ func (m *IndividualScheduleRequestConfigurationTrigger) MarshalBinary() ([]byte,
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *IndividualScheduleRequestConfigurationTrigger) UnmarshalBinary(b []byte) error {
 	var res IndividualScheduleRequestConfigurationTrigger
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

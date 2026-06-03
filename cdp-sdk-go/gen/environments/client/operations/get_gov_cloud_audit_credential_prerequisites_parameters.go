@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetGovCloudAuditCredentialPrerequisitesParams creates a new GetGovCloudAuditCredentialPrerequisitesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetGovCloudAuditCredentialPrerequisitesParams() *GetGovCloudAuditCredentialPrerequisitesParams {
-	return &GetGovCloudAuditCredentialPrerequisitesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetGovCloudAuditCredentialPrerequisitesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetGovCloudAuditCredentialPrerequisitesParamsWithTimeout creates a new GetGovCloudAuditCredentialPrerequisitesParams object
 // with the ability to set a timeout on a request.
 func NewGetGovCloudAuditCredentialPrerequisitesParamsWithTimeout(timeout time.Duration) *GetGovCloudAuditCredentialPrerequisitesParams {
 	return &GetGovCloudAuditCredentialPrerequisitesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetGovCloudAuditCredentialPrerequisitesParamsWithContext creates a new GetGovCloudAuditCredentialPrerequisitesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetGovCloudAuditCredentialPrerequisitesParams].
 func NewGetGovCloudAuditCredentialPrerequisitesParamsWithContext(ctx context.Context) *GetGovCloudAuditCredentialPrerequisitesParams {
 	return &GetGovCloudAuditCredentialPrerequisitesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetGovCloudAuditCredentialPrerequisitesParams struct {
 	// Input.
 	Input *models.GetGovCloudAuditCredentialPrerequisitesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get gov cloud audit credential prerequisites params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetGovCloudAuditCredentialPrerequisitesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get gov cloud audit credential prerequisites params
+// WithTimeout adds the timeout to the get gov cloud audit credential prerequisites params.
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) WithTimeout(timeout time.Duration) *GetGovCloudAuditCredentialPrerequisitesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get gov cloud audit credential prerequisites params
+// SetTimeout adds the timeout to the get gov cloud audit credential prerequisites params.
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get gov cloud audit credential prerequisites params
+// WithContext adds the context to the get gov cloud audit credential prerequisites params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetGovCloudAuditCredentialPrerequisitesParams].
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) WithContext(ctx context.Context) *GetGovCloudAuditCredentialPrerequisitesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get gov cloud audit credential prerequisites params
+// SetContext adds the context to the get gov cloud audit credential prerequisites params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetGovCloudAuditCredentialPrerequisitesParams].
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get gov cloud audit credential prerequisites params
+// WithHTTPClient adds the HTTPClient to the get gov cloud audit credential prerequisites params.
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) WithHTTPClient(client *http.Client) *GetGovCloudAuditCredentialPrerequisitesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get gov cloud audit credential prerequisites params
+// SetHTTPClient adds the HTTPClient to the get gov cloud audit credential prerequisites params.
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get gov cloud audit credential prerequisites params
+// WithInput adds the input to the get gov cloud audit credential prerequisites params.
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) WithInput(input *models.GetGovCloudAuditCredentialPrerequisitesRequest) *GetGovCloudAuditCredentialPrerequisitesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get gov cloud audit credential prerequisites params
+// SetInput adds the input to the get gov cloud audit credential prerequisites params.
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) SetInput(input *models.GetGovCloudAuditCredentialPrerequisitesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetGovCloudAuditCredentialPrerequisitesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

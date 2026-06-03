@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewStartDatabaseUpgradeParams creates a new StartDatabaseUpgradeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStartDatabaseUpgradeParams() *StartDatabaseUpgradeParams {
-	return &StartDatabaseUpgradeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStartDatabaseUpgradeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStartDatabaseUpgradeParamsWithTimeout creates a new StartDatabaseUpgradeParams object
 // with the ability to set a timeout on a request.
 func NewStartDatabaseUpgradeParamsWithTimeout(timeout time.Duration) *StartDatabaseUpgradeParams {
 	return &StartDatabaseUpgradeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStartDatabaseUpgradeParamsWithContext creates a new StartDatabaseUpgradeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatabaseUpgradeParams].
 func NewStartDatabaseUpgradeParamsWithContext(ctx context.Context) *StartDatabaseUpgradeParams {
 	return &StartDatabaseUpgradeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StartDatabaseUpgradeParams struct {
 	// Input.
 	Input *models.StartDatabaseUpgradeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the start database upgrade params (not the query body).
@@ -83,54 +86,57 @@ func (o *StartDatabaseUpgradeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the start database upgrade params
+// WithTimeout adds the timeout to the start database upgrade params.
 func (o *StartDatabaseUpgradeParams) WithTimeout(timeout time.Duration) *StartDatabaseUpgradeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the start database upgrade params
+// SetTimeout adds the timeout to the start database upgrade params.
 func (o *StartDatabaseUpgradeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the start database upgrade params
+// WithContext adds the context to the start database upgrade params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatabaseUpgradeParams].
 func (o *StartDatabaseUpgradeParams) WithContext(ctx context.Context) *StartDatabaseUpgradeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the start database upgrade params
+// SetContext adds the context to the start database upgrade params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatabaseUpgradeParams].
 func (o *StartDatabaseUpgradeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the start database upgrade params
+// WithHTTPClient adds the HTTPClient to the start database upgrade params.
 func (o *StartDatabaseUpgradeParams) WithHTTPClient(client *http.Client) *StartDatabaseUpgradeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the start database upgrade params
+// SetHTTPClient adds the HTTPClient to the start database upgrade params.
 func (o *StartDatabaseUpgradeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the start database upgrade params
+// WithInput adds the input to the start database upgrade params.
 func (o *StartDatabaseUpgradeParams) WithInput(input *models.StartDatabaseUpgradeRequest) *StartDatabaseUpgradeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the start database upgrade params
+// SetInput adds the input to the start database upgrade params.
 func (o *StartDatabaseUpgradeParams) SetInput(input *models.StartDatabaseUpgradeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StartDatabaseUpgradeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

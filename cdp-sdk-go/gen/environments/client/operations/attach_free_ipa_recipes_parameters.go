@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewAttachFreeIpaRecipesParams creates a new AttachFreeIpaRecipesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAttachFreeIpaRecipesParams() *AttachFreeIpaRecipesParams {
-	return &AttachFreeIpaRecipesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAttachFreeIpaRecipesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAttachFreeIpaRecipesParamsWithTimeout creates a new AttachFreeIpaRecipesParams object
 // with the ability to set a timeout on a request.
 func NewAttachFreeIpaRecipesParamsWithTimeout(timeout time.Duration) *AttachFreeIpaRecipesParams {
 	return &AttachFreeIpaRecipesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAttachFreeIpaRecipesParamsWithContext creates a new AttachFreeIpaRecipesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AttachFreeIpaRecipesParams].
 func NewAttachFreeIpaRecipesParamsWithContext(ctx context.Context) *AttachFreeIpaRecipesParams {
 	return &AttachFreeIpaRecipesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AttachFreeIpaRecipesParams struct {
 	// Input.
 	Input *models.AttachFreeIpaRecipesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the attach free ipa recipes params (not the query body).
@@ -83,54 +86,57 @@ func (o *AttachFreeIpaRecipesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the attach free ipa recipes params
+// WithTimeout adds the timeout to the attach free ipa recipes params.
 func (o *AttachFreeIpaRecipesParams) WithTimeout(timeout time.Duration) *AttachFreeIpaRecipesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the attach free ipa recipes params
+// SetTimeout adds the timeout to the attach free ipa recipes params.
 func (o *AttachFreeIpaRecipesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the attach free ipa recipes params
+// WithContext adds the context to the attach free ipa recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AttachFreeIpaRecipesParams].
 func (o *AttachFreeIpaRecipesParams) WithContext(ctx context.Context) *AttachFreeIpaRecipesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the attach free ipa recipes params
+// SetContext adds the context to the attach free ipa recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AttachFreeIpaRecipesParams].
 func (o *AttachFreeIpaRecipesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the attach free ipa recipes params
+// WithHTTPClient adds the HTTPClient to the attach free ipa recipes params.
 func (o *AttachFreeIpaRecipesParams) WithHTTPClient(client *http.Client) *AttachFreeIpaRecipesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the attach free ipa recipes params
+// SetHTTPClient adds the HTTPClient to the attach free ipa recipes params.
 func (o *AttachFreeIpaRecipesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the attach free ipa recipes params
+// WithInput adds the input to the attach free ipa recipes params.
 func (o *AttachFreeIpaRecipesParams) WithInput(input *models.AttachFreeIpaRecipesRequest) *AttachFreeIpaRecipesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the attach free ipa recipes params
+// SetInput adds the input to the attach free ipa recipes params.
 func (o *AttachFreeIpaRecipesParams) SetInput(input *models.AttachFreeIpaRecipesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AttachFreeIpaRecipesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

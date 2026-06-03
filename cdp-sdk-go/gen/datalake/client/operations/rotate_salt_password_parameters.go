@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewRotateSaltPasswordParams creates a new RotateSaltPasswordParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRotateSaltPasswordParams() *RotateSaltPasswordParams {
-	return &RotateSaltPasswordParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRotateSaltPasswordParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRotateSaltPasswordParamsWithTimeout creates a new RotateSaltPasswordParams object
 // with the ability to set a timeout on a request.
 func NewRotateSaltPasswordParamsWithTimeout(timeout time.Duration) *RotateSaltPasswordParams {
 	return &RotateSaltPasswordParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRotateSaltPasswordParamsWithContext creates a new RotateSaltPasswordParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RotateSaltPasswordParams].
 func NewRotateSaltPasswordParamsWithContext(ctx context.Context) *RotateSaltPasswordParams {
 	return &RotateSaltPasswordParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RotateSaltPasswordParams struct {
 	// Input.
 	Input *models.RotateSaltPasswordRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the rotate salt password params (not the query body).
@@ -83,54 +86,57 @@ func (o *RotateSaltPasswordParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the rotate salt password params
+// WithTimeout adds the timeout to the rotate salt password params.
 func (o *RotateSaltPasswordParams) WithTimeout(timeout time.Duration) *RotateSaltPasswordParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the rotate salt password params
+// SetTimeout adds the timeout to the rotate salt password params.
 func (o *RotateSaltPasswordParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the rotate salt password params
+// WithContext adds the context to the rotate salt password params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RotateSaltPasswordParams].
 func (o *RotateSaltPasswordParams) WithContext(ctx context.Context) *RotateSaltPasswordParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the rotate salt password params
+// SetContext adds the context to the rotate salt password params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RotateSaltPasswordParams].
 func (o *RotateSaltPasswordParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the rotate salt password params
+// WithHTTPClient adds the HTTPClient to the rotate salt password params.
 func (o *RotateSaltPasswordParams) WithHTTPClient(client *http.Client) *RotateSaltPasswordParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the rotate salt password params
+// SetHTTPClient adds the HTTPClient to the rotate salt password params.
 func (o *RotateSaltPasswordParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the rotate salt password params
+// WithInput adds the input to the rotate salt password params.
 func (o *RotateSaltPasswordParams) WithInput(input *models.RotateSaltPasswordRequest) *RotateSaltPasswordParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the rotate salt password params
+// SetInput adds the input to the rotate salt password params.
 func (o *RotateSaltPasswordParams) SetInput(input *models.RotateSaltPasswordRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RotateSaltPasswordParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ServiceStatus Information about a cluster service.
@@ -45,12 +46,12 @@ func (m *ServiceStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ServiceStatus) validateHealthChecks(formats strfmt.Registry) error {
-	if swag.IsZero(m.HealthChecks) { // not required
+	if typeutils.IsZero(m.HealthChecks) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.HealthChecks); i++ {
-		if swag.IsZero(m.HealthChecks[i]) { // not required
+		if typeutils.IsZero(m.HealthChecks[i]) { // not required
 			continue
 		}
 
@@ -94,7 +95,7 @@ func (m *ServiceStatus) contextValidateHealthChecks(ctx context.Context, formats
 
 		if m.HealthChecks[i] != nil {
 
-			if swag.IsZero(m.HealthChecks[i]) { // not required
+			if typeutils.IsZero(m.HealthChecks[i]) { // not required
 				return nil
 			}
 
@@ -122,13 +123,13 @@ func (m *ServiceStatus) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ServiceStatus) UnmarshalBinary(b []byte) error {
 	var res ServiceStatus
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

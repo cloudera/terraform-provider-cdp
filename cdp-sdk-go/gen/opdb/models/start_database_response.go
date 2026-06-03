@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // StartDatabaseResponse A response from starting the database.
@@ -38,7 +39,7 @@ func (m *StartDatabaseResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *StartDatabaseResponse) validatePreviousStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.PreviousStatus) { // not required
+	if typeutils.IsZero(m.PreviousStatus) { // not required
 		return nil
 	}
 
@@ -74,7 +75,7 @@ func (m *StartDatabaseResponse) ContextValidate(ctx context.Context, formats str
 
 func (m *StartDatabaseResponse) contextValidatePreviousStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.PreviousStatus) { // not required
+	if typeutils.IsZero(m.PreviousStatus) { // not required
 		return nil
 	}
 
@@ -99,13 +100,13 @@ func (m *StartDatabaseResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *StartDatabaseResponse) UnmarshalBinary(b []byte) error {
 	var res StartDatabaseResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

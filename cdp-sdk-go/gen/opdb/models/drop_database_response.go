@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DropDatabaseResponse A response which gives status of the database deletion
@@ -35,7 +36,7 @@ func (m *DropDatabaseResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DropDatabaseResponse) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -71,7 +72,7 @@ func (m *DropDatabaseResponse) ContextValidate(ctx context.Context, formats strf
 
 func (m *DropDatabaseResponse) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -96,13 +97,13 @@ func (m *DropDatabaseResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DropDatabaseResponse) UnmarshalBinary(b []byte) error {
 	var res DropDatabaseResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

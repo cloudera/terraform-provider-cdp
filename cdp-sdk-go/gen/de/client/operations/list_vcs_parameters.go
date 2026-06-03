@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewListVcsParams creates a new ListVcsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListVcsParams() *ListVcsParams {
-	return &ListVcsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListVcsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListVcsParamsWithTimeout creates a new ListVcsParams object
 // with the ability to set a timeout on a request.
 func NewListVcsParamsWithTimeout(timeout time.Duration) *ListVcsParams {
 	return &ListVcsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListVcsParamsWithContext creates a new ListVcsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVcsParams].
 func NewListVcsParamsWithContext(ctx context.Context) *ListVcsParams {
 	return &ListVcsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListVcsParams struct {
 	// Input.
 	Input *models.ListVcsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list vcs params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListVcsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list vcs params
+// WithTimeout adds the timeout to the list vcs params.
 func (o *ListVcsParams) WithTimeout(timeout time.Duration) *ListVcsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list vcs params
+// SetTimeout adds the timeout to the list vcs params.
 func (o *ListVcsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list vcs params
+// WithContext adds the context to the list vcs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVcsParams].
 func (o *ListVcsParams) WithContext(ctx context.Context) *ListVcsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list vcs params
+// SetContext adds the context to the list vcs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVcsParams].
 func (o *ListVcsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list vcs params
+// WithHTTPClient adds the HTTPClient to the list vcs params.
 func (o *ListVcsParams) WithHTTPClient(client *http.Client) *ListVcsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list vcs params
+// SetHTTPClient adds the HTTPClient to the list vcs params.
 func (o *ListVcsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list vcs params
+// WithInput adds the input to the list vcs params.
 func (o *ListVcsParams) WithInput(input *models.ListVcsRequest) *ListVcsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list vcs params
+// SetInput adds the input to the list vcs params.
 func (o *ListVcsParams) SetInput(input *models.ListVcsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListVcsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

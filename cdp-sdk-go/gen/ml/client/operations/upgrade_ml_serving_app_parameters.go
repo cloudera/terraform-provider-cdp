@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewUpgradeMlServingAppParams creates a new UpgradeMlServingAppParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpgradeMlServingAppParams() *UpgradeMlServingAppParams {
-	return &UpgradeMlServingAppParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpgradeMlServingAppParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpgradeMlServingAppParamsWithTimeout creates a new UpgradeMlServingAppParams object
 // with the ability to set a timeout on a request.
 func NewUpgradeMlServingAppParamsWithTimeout(timeout time.Duration) *UpgradeMlServingAppParams {
 	return &UpgradeMlServingAppParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpgradeMlServingAppParamsWithContext creates a new UpgradeMlServingAppParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeMlServingAppParams].
 func NewUpgradeMlServingAppParamsWithContext(ctx context.Context) *UpgradeMlServingAppParams {
 	return &UpgradeMlServingAppParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpgradeMlServingAppParams struct {
 	// Input.
 	Input *models.UpgradeMlServingAppRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upgrade ml serving app params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpgradeMlServingAppParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upgrade ml serving app params
+// WithTimeout adds the timeout to the upgrade ml serving app params.
 func (o *UpgradeMlServingAppParams) WithTimeout(timeout time.Duration) *UpgradeMlServingAppParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upgrade ml serving app params
+// SetTimeout adds the timeout to the upgrade ml serving app params.
 func (o *UpgradeMlServingAppParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upgrade ml serving app params
+// WithContext adds the context to the upgrade ml serving app params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeMlServingAppParams].
 func (o *UpgradeMlServingAppParams) WithContext(ctx context.Context) *UpgradeMlServingAppParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upgrade ml serving app params
+// SetContext adds the context to the upgrade ml serving app params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeMlServingAppParams].
 func (o *UpgradeMlServingAppParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upgrade ml serving app params
+// WithHTTPClient adds the HTTPClient to the upgrade ml serving app params.
 func (o *UpgradeMlServingAppParams) WithHTTPClient(client *http.Client) *UpgradeMlServingAppParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upgrade ml serving app params
+// SetHTTPClient adds the HTTPClient to the upgrade ml serving app params.
 func (o *UpgradeMlServingAppParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upgrade ml serving app params
+// WithInput adds the input to the upgrade ml serving app params.
 func (o *UpgradeMlServingAppParams) WithInput(input *models.UpgradeMlServingAppRequest) *UpgradeMlServingAppParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upgrade ml serving app params
+// SetInput adds the input to the upgrade ml serving app params.
 func (o *UpgradeMlServingAppParams) SetInput(input *models.UpgradeMlServingAppRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpgradeMlServingAppParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

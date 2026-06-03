@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // CollectDiagnosticsResponse Information about diagnostic bundle generation.
@@ -35,7 +36,7 @@ func (m *CollectDiagnosticsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CollectDiagnosticsResponse) validateDiagnosticsBundle(formats strfmt.Registry) error {
-	if swag.IsZero(m.DiagnosticsBundle) { // not required
+	if typeutils.IsZero(m.DiagnosticsBundle) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *CollectDiagnosticsResponse) contextValidateDiagnosticsBundle(ctx contex
 
 	if m.DiagnosticsBundle != nil {
 
-		if swag.IsZero(m.DiagnosticsBundle) { // not required
+		if typeutils.IsZero(m.DiagnosticsBundle) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *CollectDiagnosticsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CollectDiagnosticsResponse) UnmarshalBinary(b []byte) error {
 	var res CollectDiagnosticsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

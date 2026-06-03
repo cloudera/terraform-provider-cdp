@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewDeleteAuditCredentialParams creates a new DeleteAuditCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteAuditCredentialParams() *DeleteAuditCredentialParams {
-	return &DeleteAuditCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteAuditCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteAuditCredentialParamsWithTimeout creates a new DeleteAuditCredentialParams object
 // with the ability to set a timeout on a request.
 func NewDeleteAuditCredentialParamsWithTimeout(timeout time.Duration) *DeleteAuditCredentialParams {
 	return &DeleteAuditCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteAuditCredentialParamsWithContext creates a new DeleteAuditCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAuditCredentialParams].
 func NewDeleteAuditCredentialParamsWithContext(ctx context.Context) *DeleteAuditCredentialParams {
 	return &DeleteAuditCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteAuditCredentialParams struct {
 	// Input.
 	Input *models.DeleteAuditCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete audit credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteAuditCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete audit credential params
+// WithTimeout adds the timeout to the delete audit credential params.
 func (o *DeleteAuditCredentialParams) WithTimeout(timeout time.Duration) *DeleteAuditCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete audit credential params
+// SetTimeout adds the timeout to the delete audit credential params.
 func (o *DeleteAuditCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete audit credential params
+// WithContext adds the context to the delete audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAuditCredentialParams].
 func (o *DeleteAuditCredentialParams) WithContext(ctx context.Context) *DeleteAuditCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete audit credential params
+// SetContext adds the context to the delete audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAuditCredentialParams].
 func (o *DeleteAuditCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete audit credential params
+// WithHTTPClient adds the HTTPClient to the delete audit credential params.
 func (o *DeleteAuditCredentialParams) WithHTTPClient(client *http.Client) *DeleteAuditCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete audit credential params
+// SetHTTPClient adds the HTTPClient to the delete audit credential params.
 func (o *DeleteAuditCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete audit credential params
+// WithInput adds the input to the delete audit credential params.
 func (o *DeleteAuditCredentialParams) WithInput(input *models.DeleteAuditCredentialRequest) *DeleteAuditCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete audit credential params
+// SetInput adds the input to the delete audit credential params.
 func (o *DeleteAuditCredentialParams) SetInput(input *models.DeleteAuditCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteAuditCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

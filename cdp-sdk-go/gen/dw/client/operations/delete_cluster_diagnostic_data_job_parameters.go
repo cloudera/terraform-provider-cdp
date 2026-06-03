@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDeleteClusterDiagnosticDataJobParams creates a new DeleteClusterDiagnosticDataJobParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteClusterDiagnosticDataJobParams() *DeleteClusterDiagnosticDataJobParams {
-	return &DeleteClusterDiagnosticDataJobParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteClusterDiagnosticDataJobParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteClusterDiagnosticDataJobParamsWithTimeout creates a new DeleteClusterDiagnosticDataJobParams object
 // with the ability to set a timeout on a request.
 func NewDeleteClusterDiagnosticDataJobParamsWithTimeout(timeout time.Duration) *DeleteClusterDiagnosticDataJobParams {
 	return &DeleteClusterDiagnosticDataJobParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteClusterDiagnosticDataJobParamsWithContext creates a new DeleteClusterDiagnosticDataJobParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterDiagnosticDataJobParams].
 func NewDeleteClusterDiagnosticDataJobParamsWithContext(ctx context.Context) *DeleteClusterDiagnosticDataJobParams {
 	return &DeleteClusterDiagnosticDataJobParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteClusterDiagnosticDataJobParams struct {
 	// Input.
 	Input *models.DeleteClusterDiagnosticDataJobRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete cluster diagnostic data job params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteClusterDiagnosticDataJobParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete cluster diagnostic data job params
+// WithTimeout adds the timeout to the delete cluster diagnostic data job params.
 func (o *DeleteClusterDiagnosticDataJobParams) WithTimeout(timeout time.Duration) *DeleteClusterDiagnosticDataJobParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete cluster diagnostic data job params
+// SetTimeout adds the timeout to the delete cluster diagnostic data job params.
 func (o *DeleteClusterDiagnosticDataJobParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete cluster diagnostic data job params
+// WithContext adds the context to the delete cluster diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterDiagnosticDataJobParams].
 func (o *DeleteClusterDiagnosticDataJobParams) WithContext(ctx context.Context) *DeleteClusterDiagnosticDataJobParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete cluster diagnostic data job params
+// SetContext adds the context to the delete cluster diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterDiagnosticDataJobParams].
 func (o *DeleteClusterDiagnosticDataJobParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete cluster diagnostic data job params
+// WithHTTPClient adds the HTTPClient to the delete cluster diagnostic data job params.
 func (o *DeleteClusterDiagnosticDataJobParams) WithHTTPClient(client *http.Client) *DeleteClusterDiagnosticDataJobParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete cluster diagnostic data job params
+// SetHTTPClient adds the HTTPClient to the delete cluster diagnostic data job params.
 func (o *DeleteClusterDiagnosticDataJobParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete cluster diagnostic data job params
+// WithInput adds the input to the delete cluster diagnostic data job params.
 func (o *DeleteClusterDiagnosticDataJobParams) WithInput(input *models.DeleteClusterDiagnosticDataJobRequest) *DeleteClusterDiagnosticDataJobParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete cluster diagnostic data job params
+// SetInput adds the input to the delete cluster diagnostic data job params.
 func (o *DeleteClusterDiagnosticDataJobParams) SetInput(input *models.DeleteClusterDiagnosticDataJobRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteClusterDiagnosticDataJobParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

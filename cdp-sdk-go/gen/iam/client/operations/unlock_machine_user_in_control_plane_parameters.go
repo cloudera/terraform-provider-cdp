@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewUnlockMachineUserInControlPlaneParams creates a new UnlockMachineUserInControlPlaneParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnlockMachineUserInControlPlaneParams() *UnlockMachineUserInControlPlaneParams {
-	return &UnlockMachineUserInControlPlaneParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUnlockMachineUserInControlPlaneParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUnlockMachineUserInControlPlaneParamsWithTimeout creates a new UnlockMachineUserInControlPlaneParams object
 // with the ability to set a timeout on a request.
 func NewUnlockMachineUserInControlPlaneParamsWithTimeout(timeout time.Duration) *UnlockMachineUserInControlPlaneParams {
 	return &UnlockMachineUserInControlPlaneParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUnlockMachineUserInControlPlaneParamsWithContext creates a new UnlockMachineUserInControlPlaneParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnlockMachineUserInControlPlaneParams].
 func NewUnlockMachineUserInControlPlaneParamsWithContext(ctx context.Context) *UnlockMachineUserInControlPlaneParams {
 	return &UnlockMachineUserInControlPlaneParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UnlockMachineUserInControlPlaneParams struct {
 	// Input.
 	Input *models.UnlockMachineUserInControlPlaneRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the unlock machine user in control plane params (not the query body).
@@ -83,54 +86,57 @@ func (o *UnlockMachineUserInControlPlaneParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the unlock machine user in control plane params
+// WithTimeout adds the timeout to the unlock machine user in control plane params.
 func (o *UnlockMachineUserInControlPlaneParams) WithTimeout(timeout time.Duration) *UnlockMachineUserInControlPlaneParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the unlock machine user in control plane params
+// SetTimeout adds the timeout to the unlock machine user in control plane params.
 func (o *UnlockMachineUserInControlPlaneParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the unlock machine user in control plane params
+// WithContext adds the context to the unlock machine user in control plane params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnlockMachineUserInControlPlaneParams].
 func (o *UnlockMachineUserInControlPlaneParams) WithContext(ctx context.Context) *UnlockMachineUserInControlPlaneParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the unlock machine user in control plane params
+// SetContext adds the context to the unlock machine user in control plane params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnlockMachineUserInControlPlaneParams].
 func (o *UnlockMachineUserInControlPlaneParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the unlock machine user in control plane params
+// WithHTTPClient adds the HTTPClient to the unlock machine user in control plane params.
 func (o *UnlockMachineUserInControlPlaneParams) WithHTTPClient(client *http.Client) *UnlockMachineUserInControlPlaneParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the unlock machine user in control plane params
+// SetHTTPClient adds the HTTPClient to the unlock machine user in control plane params.
 func (o *UnlockMachineUserInControlPlaneParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the unlock machine user in control plane params
+// WithInput adds the input to the unlock machine user in control plane params.
 func (o *UnlockMachineUserInControlPlaneParams) WithInput(input *models.UnlockMachineUserInControlPlaneRequest) *UnlockMachineUserInControlPlaneParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the unlock machine user in control plane params
+// SetInput adds the input to the unlock machine user in control plane params.
 func (o *UnlockMachineUserInControlPlaneParams) SetInput(input *models.UnlockMachineUserInControlPlaneRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UnlockMachineUserInControlPlaneParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

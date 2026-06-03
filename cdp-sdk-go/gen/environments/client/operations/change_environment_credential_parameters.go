@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewChangeEnvironmentCredentialParams creates a new ChangeEnvironmentCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewChangeEnvironmentCredentialParams() *ChangeEnvironmentCredentialParams {
-	return &ChangeEnvironmentCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewChangeEnvironmentCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewChangeEnvironmentCredentialParamsWithTimeout creates a new ChangeEnvironmentCredentialParams object
 // with the ability to set a timeout on a request.
 func NewChangeEnvironmentCredentialParamsWithTimeout(timeout time.Duration) *ChangeEnvironmentCredentialParams {
 	return &ChangeEnvironmentCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewChangeEnvironmentCredentialParamsWithContext creates a new ChangeEnvironmentCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ChangeEnvironmentCredentialParams].
 func NewChangeEnvironmentCredentialParamsWithContext(ctx context.Context) *ChangeEnvironmentCredentialParams {
 	return &ChangeEnvironmentCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ChangeEnvironmentCredentialParams struct {
 	// Input.
 	Input *models.ChangeEnvironmentCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the change environment credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *ChangeEnvironmentCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the change environment credential params
+// WithTimeout adds the timeout to the change environment credential params.
 func (o *ChangeEnvironmentCredentialParams) WithTimeout(timeout time.Duration) *ChangeEnvironmentCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the change environment credential params
+// SetTimeout adds the timeout to the change environment credential params.
 func (o *ChangeEnvironmentCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the change environment credential params
+// WithContext adds the context to the change environment credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ChangeEnvironmentCredentialParams].
 func (o *ChangeEnvironmentCredentialParams) WithContext(ctx context.Context) *ChangeEnvironmentCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the change environment credential params
+// SetContext adds the context to the change environment credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ChangeEnvironmentCredentialParams].
 func (o *ChangeEnvironmentCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the change environment credential params
+// WithHTTPClient adds the HTTPClient to the change environment credential params.
 func (o *ChangeEnvironmentCredentialParams) WithHTTPClient(client *http.Client) *ChangeEnvironmentCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the change environment credential params
+// SetHTTPClient adds the HTTPClient to the change environment credential params.
 func (o *ChangeEnvironmentCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the change environment credential params
+// WithInput adds the input to the change environment credential params.
 func (o *ChangeEnvironmentCredentialParams) WithInput(input *models.ChangeEnvironmentCredentialRequest) *ChangeEnvironmentCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the change environment credential params
+// SetInput adds the input to the change environment credential params.
 func (o *ChangeEnvironmentCredentialParams) SetInput(input *models.ChangeEnvironmentCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ChangeEnvironmentCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

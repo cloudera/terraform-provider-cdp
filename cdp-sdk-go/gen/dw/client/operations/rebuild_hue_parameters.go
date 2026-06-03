@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewRebuildHueParams creates a new RebuildHueParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRebuildHueParams() *RebuildHueParams {
-	return &RebuildHueParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRebuildHueParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRebuildHueParamsWithTimeout creates a new RebuildHueParams object
 // with the ability to set a timeout on a request.
 func NewRebuildHueParamsWithTimeout(timeout time.Duration) *RebuildHueParams {
 	return &RebuildHueParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRebuildHueParamsWithContext creates a new RebuildHueParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildHueParams].
 func NewRebuildHueParamsWithContext(ctx context.Context) *RebuildHueParams {
 	return &RebuildHueParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RebuildHueParams struct {
 	// Input.
 	Input *models.RebuildHueRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the rebuild hue params (not the query body).
@@ -83,54 +86,57 @@ func (o *RebuildHueParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the rebuild hue params
+// WithTimeout adds the timeout to the rebuild hue params.
 func (o *RebuildHueParams) WithTimeout(timeout time.Duration) *RebuildHueParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the rebuild hue params
+// SetTimeout adds the timeout to the rebuild hue params.
 func (o *RebuildHueParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the rebuild hue params
+// WithContext adds the context to the rebuild hue params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildHueParams].
 func (o *RebuildHueParams) WithContext(ctx context.Context) *RebuildHueParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the rebuild hue params
+// SetContext adds the context to the rebuild hue params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildHueParams].
 func (o *RebuildHueParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the rebuild hue params
+// WithHTTPClient adds the HTTPClient to the rebuild hue params.
 func (o *RebuildHueParams) WithHTTPClient(client *http.Client) *RebuildHueParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the rebuild hue params
+// SetHTTPClient adds the HTTPClient to the rebuild hue params.
 func (o *RebuildHueParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the rebuild hue params
+// WithInput adds the input to the rebuild hue params.
 func (o *RebuildHueParams) WithInput(input *models.RebuildHueRequest) *RebuildHueParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the rebuild hue params
+// SetInput adds the input to the rebuild hue params.
 func (o *RebuildHueParams) SetInput(input *models.RebuildHueRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RebuildHueParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

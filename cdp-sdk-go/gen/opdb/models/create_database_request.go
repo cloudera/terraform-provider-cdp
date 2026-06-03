@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -168,7 +169,7 @@ func (m *CreateDatabaseRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateDatabaseRequest) validateArchitecture(formats strfmt.Registry) error {
-	if swag.IsZero(m.Architecture) { // not required
+	if typeutils.IsZero(m.Architecture) { // not required
 		return nil
 	}
 
@@ -189,7 +190,7 @@ func (m *CreateDatabaseRequest) validateArchitecture(formats strfmt.Registry) er
 }
 
 func (m *CreateDatabaseRequest) validateAttachedStorageForWorkers(formats strfmt.Registry) error {
-	if swag.IsZero(m.AttachedStorageForWorkers) { // not required
+	if typeutils.IsZero(m.AttachedStorageForWorkers) { // not required
 		return nil
 	}
 
@@ -212,7 +213,7 @@ func (m *CreateDatabaseRequest) validateAttachedStorageForWorkers(formats strfmt
 }
 
 func (m *CreateDatabaseRequest) validateAutoScalingParameters(formats strfmt.Registry) error {
-	if swag.IsZero(m.AutoScalingParameters) { // not required
+	if typeutils.IsZero(m.AutoScalingParameters) { // not required
 		return nil
 	}
 
@@ -235,7 +236,7 @@ func (m *CreateDatabaseRequest) validateAutoScalingParameters(formats strfmt.Reg
 }
 
 func (m *CreateDatabaseRequest) validateCustomInstanceTypes(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomInstanceTypes) { // not required
+	if typeutils.IsZero(m.CustomInstanceTypes) { // not required
 		return nil
 	}
 
@@ -258,12 +259,12 @@ func (m *CreateDatabaseRequest) validateCustomInstanceTypes(formats strfmt.Regis
 }
 
 func (m *CreateDatabaseRequest) validateCustomUserTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomUserTags) { // not required
+	if typeutils.IsZero(m.CustomUserTags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.CustomUserTags); i++ {
-		if swag.IsZero(m.CustomUserTags[i]) { // not required
+		if typeutils.IsZero(m.CustomUserTags[i]) { // not required
 			continue
 		}
 
@@ -306,7 +307,7 @@ func (m *CreateDatabaseRequest) validateEnvironmentName(formats strfmt.Registry)
 }
 
 func (m *CreateDatabaseRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -329,12 +330,12 @@ func (m *CreateDatabaseRequest) validateImage(formats strfmt.Registry) error {
 }
 
 func (m *CreateDatabaseRequest) validateRecipes(formats strfmt.Registry) error {
-	if swag.IsZero(m.Recipes) { // not required
+	if typeutils.IsZero(m.Recipes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Recipes); i++ {
-		if swag.IsZero(m.Recipes[i]) { // not required
+		if typeutils.IsZero(m.Recipes[i]) { // not required
 			continue
 		}
 
@@ -359,7 +360,7 @@ func (m *CreateDatabaseRequest) validateRecipes(formats strfmt.Registry) error {
 }
 
 func (m *CreateDatabaseRequest) validateScaleType(formats strfmt.Registry) error {
-	if swag.IsZero(m.ScaleType) { // not required
+	if typeutils.IsZero(m.ScaleType) { // not required
 		return nil
 	}
 
@@ -380,7 +381,7 @@ func (m *CreateDatabaseRequest) validateScaleType(formats strfmt.Registry) error
 }
 
 func (m *CreateDatabaseRequest) validateSecurityRequest(formats strfmt.Registry) error {
-	if swag.IsZero(m.SecurityRequest) { // not required
+	if typeutils.IsZero(m.SecurityRequest) { // not required
 		return nil
 	}
 
@@ -403,7 +404,7 @@ func (m *CreateDatabaseRequest) validateSecurityRequest(formats strfmt.Registry)
 }
 
 func (m *CreateDatabaseRequest) validateStorageType(formats strfmt.Registry) error {
-	if swag.IsZero(m.StorageType) { // not required
+	if typeutils.IsZero(m.StorageType) { // not required
 		return nil
 	}
 
@@ -424,12 +425,12 @@ func (m *CreateDatabaseRequest) validateStorageType(formats strfmt.Registry) err
 }
 
 func (m *CreateDatabaseRequest) validateVolumeEncryptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.VolumeEncryptions) { // not required
+	if typeutils.IsZero(m.VolumeEncryptions) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.VolumeEncryptions); i++ {
-		if swag.IsZero(m.VolumeEncryptions[i]) { // not required
+		if typeutils.IsZero(m.VolumeEncryptions[i]) { // not required
 			continue
 		}
 
@@ -509,7 +510,7 @@ func (m *CreateDatabaseRequest) ContextValidate(ctx context.Context, formats str
 
 func (m *CreateDatabaseRequest) contextValidateArchitecture(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Architecture) { // not required
+	if typeutils.IsZero(m.Architecture) { // not required
 		return nil
 	}
 
@@ -533,7 +534,7 @@ func (m *CreateDatabaseRequest) contextValidateAttachedStorageForWorkers(ctx con
 
 	if m.AttachedStorageForWorkers != nil {
 
-		if swag.IsZero(m.AttachedStorageForWorkers) { // not required
+		if typeutils.IsZero(m.AttachedStorageForWorkers) { // not required
 			return nil
 		}
 
@@ -558,7 +559,7 @@ func (m *CreateDatabaseRequest) contextValidateAutoScalingParameters(ctx context
 
 	if m.AutoScalingParameters != nil {
 
-		if swag.IsZero(m.AutoScalingParameters) { // not required
+		if typeutils.IsZero(m.AutoScalingParameters) { // not required
 			return nil
 		}
 
@@ -583,7 +584,7 @@ func (m *CreateDatabaseRequest) contextValidateCustomInstanceTypes(ctx context.C
 
 	if m.CustomInstanceTypes != nil {
 
-		if swag.IsZero(m.CustomInstanceTypes) { // not required
+		if typeutils.IsZero(m.CustomInstanceTypes) { // not required
 			return nil
 		}
 
@@ -610,7 +611,7 @@ func (m *CreateDatabaseRequest) contextValidateCustomUserTags(ctx context.Contex
 
 		if m.CustomUserTags[i] != nil {
 
-			if swag.IsZero(m.CustomUserTags[i]) { // not required
+			if typeutils.IsZero(m.CustomUserTags[i]) { // not required
 				return nil
 			}
 
@@ -637,7 +638,7 @@ func (m *CreateDatabaseRequest) contextValidateImage(ctx context.Context, format
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -664,7 +665,7 @@ func (m *CreateDatabaseRequest) contextValidateRecipes(ctx context.Context, form
 
 		if m.Recipes[i] != nil {
 
-			if swag.IsZero(m.Recipes[i]) { // not required
+			if typeutils.IsZero(m.Recipes[i]) { // not required
 				return nil
 			}
 
@@ -689,7 +690,7 @@ func (m *CreateDatabaseRequest) contextValidateRecipes(ctx context.Context, form
 
 func (m *CreateDatabaseRequest) contextValidateScaleType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ScaleType) { // not required
+	if typeutils.IsZero(m.ScaleType) { // not required
 		return nil
 	}
 
@@ -713,7 +714,7 @@ func (m *CreateDatabaseRequest) contextValidateSecurityRequest(ctx context.Conte
 
 	if m.SecurityRequest != nil {
 
-		if swag.IsZero(m.SecurityRequest) { // not required
+		if typeutils.IsZero(m.SecurityRequest) { // not required
 			return nil
 		}
 
@@ -736,7 +737,7 @@ func (m *CreateDatabaseRequest) contextValidateSecurityRequest(ctx context.Conte
 
 func (m *CreateDatabaseRequest) contextValidateStorageType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.StorageType) { // not required
+	if typeutils.IsZero(m.StorageType) { // not required
 		return nil
 	}
 
@@ -762,7 +763,7 @@ func (m *CreateDatabaseRequest) contextValidateVolumeEncryptions(ctx context.Con
 
 		if m.VolumeEncryptions[i] != nil {
 
-			if swag.IsZero(m.VolumeEncryptions[i]) { // not required
+			if typeutils.IsZero(m.VolumeEncryptions[i]) { // not required
 				return nil
 			}
 
@@ -790,13 +791,13 @@ func (m *CreateDatabaseRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateDatabaseRequest) UnmarshalBinary(b []byte) error {
 	var res CreateDatabaseRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

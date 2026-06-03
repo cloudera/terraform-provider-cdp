@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewMigrateZookeeperToKraftParams creates a new MigrateZookeeperToKraftParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewMigrateZookeeperToKraftParams() *MigrateZookeeperToKraftParams {
-	return &MigrateZookeeperToKraftParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewMigrateZookeeperToKraftParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewMigrateZookeeperToKraftParamsWithTimeout creates a new MigrateZookeeperToKraftParams object
 // with the ability to set a timeout on a request.
 func NewMigrateZookeeperToKraftParamsWithTimeout(timeout time.Duration) *MigrateZookeeperToKraftParams {
 	return &MigrateZookeeperToKraftParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewMigrateZookeeperToKraftParamsWithContext creates a new MigrateZookeeperToKraftParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateZookeeperToKraftParams].
 func NewMigrateZookeeperToKraftParamsWithContext(ctx context.Context) *MigrateZookeeperToKraftParams {
 	return &MigrateZookeeperToKraftParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type MigrateZookeeperToKraftParams struct {
 	// Input.
 	Input *models.MigrateZookeeperToKraftRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the migrate zookeeper to kraft params (not the query body).
@@ -83,54 +86,57 @@ func (o *MigrateZookeeperToKraftParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the migrate zookeeper to kraft params
+// WithTimeout adds the timeout to the migrate zookeeper to kraft params.
 func (o *MigrateZookeeperToKraftParams) WithTimeout(timeout time.Duration) *MigrateZookeeperToKraftParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the migrate zookeeper to kraft params
+// SetTimeout adds the timeout to the migrate zookeeper to kraft params.
 func (o *MigrateZookeeperToKraftParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the migrate zookeeper to kraft params
+// WithContext adds the context to the migrate zookeeper to kraft params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateZookeeperToKraftParams].
 func (o *MigrateZookeeperToKraftParams) WithContext(ctx context.Context) *MigrateZookeeperToKraftParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the migrate zookeeper to kraft params
+// SetContext adds the context to the migrate zookeeper to kraft params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [MigrateZookeeperToKraftParams].
 func (o *MigrateZookeeperToKraftParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the migrate zookeeper to kraft params
+// WithHTTPClient adds the HTTPClient to the migrate zookeeper to kraft params.
 func (o *MigrateZookeeperToKraftParams) WithHTTPClient(client *http.Client) *MigrateZookeeperToKraftParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the migrate zookeeper to kraft params
+// SetHTTPClient adds the HTTPClient to the migrate zookeeper to kraft params.
 func (o *MigrateZookeeperToKraftParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the migrate zookeeper to kraft params
+// WithInput adds the input to the migrate zookeeper to kraft params.
 func (o *MigrateZookeeperToKraftParams) WithInput(input *models.MigrateZookeeperToKraftRequest) *MigrateZookeeperToKraftParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the migrate zookeeper to kraft params
+// SetInput adds the input to the migrate zookeeper to kraft params.
 func (o *MigrateZookeeperToKraftParams) SetInput(input *models.MigrateZookeeperToKraftRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *MigrateZookeeperToKraftParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

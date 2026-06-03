@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewRebuildDbcParams creates a new RebuildDbcParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRebuildDbcParams() *RebuildDbcParams {
-	return &RebuildDbcParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRebuildDbcParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRebuildDbcParamsWithTimeout creates a new RebuildDbcParams object
 // with the ability to set a timeout on a request.
 func NewRebuildDbcParamsWithTimeout(timeout time.Duration) *RebuildDbcParams {
 	return &RebuildDbcParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRebuildDbcParamsWithContext creates a new RebuildDbcParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildDbcParams].
 func NewRebuildDbcParamsWithContext(ctx context.Context) *RebuildDbcParams {
 	return &RebuildDbcParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RebuildDbcParams struct {
 	// Input.
 	Input *models.RebuildDbcRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the rebuild dbc params (not the query body).
@@ -83,54 +86,57 @@ func (o *RebuildDbcParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the rebuild dbc params
+// WithTimeout adds the timeout to the rebuild dbc params.
 func (o *RebuildDbcParams) WithTimeout(timeout time.Duration) *RebuildDbcParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the rebuild dbc params
+// SetTimeout adds the timeout to the rebuild dbc params.
 func (o *RebuildDbcParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the rebuild dbc params
+// WithContext adds the context to the rebuild dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildDbcParams].
 func (o *RebuildDbcParams) WithContext(ctx context.Context) *RebuildDbcParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the rebuild dbc params
+// SetContext adds the context to the rebuild dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildDbcParams].
 func (o *RebuildDbcParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the rebuild dbc params
+// WithHTTPClient adds the HTTPClient to the rebuild dbc params.
 func (o *RebuildDbcParams) WithHTTPClient(client *http.Client) *RebuildDbcParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the rebuild dbc params
+// SetHTTPClient adds the HTTPClient to the rebuild dbc params.
 func (o *RebuildDbcParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the rebuild dbc params
+// WithInput adds the input to the rebuild dbc params.
 func (o *RebuildDbcParams) WithInput(input *models.RebuildDbcRequest) *RebuildDbcParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the rebuild dbc params
+// SetInput adds the input to the rebuild dbc params.
 func (o *RebuildDbcParams) SetInput(input *models.RebuildDbcRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RebuildDbcParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

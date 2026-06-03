@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewRetryFreeipaParams creates a new RetryFreeipaParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRetryFreeipaParams() *RetryFreeipaParams {
-	return &RetryFreeipaParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRetryFreeipaParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRetryFreeipaParamsWithTimeout creates a new RetryFreeipaParams object
 // with the ability to set a timeout on a request.
 func NewRetryFreeipaParamsWithTimeout(timeout time.Duration) *RetryFreeipaParams {
 	return &RetryFreeipaParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRetryFreeipaParamsWithContext creates a new RetryFreeipaParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryFreeipaParams].
 func NewRetryFreeipaParamsWithContext(ctx context.Context) *RetryFreeipaParams {
 	return &RetryFreeipaParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RetryFreeipaParams struct {
 	// Input.
 	Input *models.RetryFreeipaRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the retry freeipa params (not the query body).
@@ -83,54 +86,57 @@ func (o *RetryFreeipaParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the retry freeipa params
+// WithTimeout adds the timeout to the retry freeipa params.
 func (o *RetryFreeipaParams) WithTimeout(timeout time.Duration) *RetryFreeipaParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the retry freeipa params
+// SetTimeout adds the timeout to the retry freeipa params.
 func (o *RetryFreeipaParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the retry freeipa params
+// WithContext adds the context to the retry freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryFreeipaParams].
 func (o *RetryFreeipaParams) WithContext(ctx context.Context) *RetryFreeipaParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the retry freeipa params
+// SetContext adds the context to the retry freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryFreeipaParams].
 func (o *RetryFreeipaParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the retry freeipa params
+// WithHTTPClient adds the HTTPClient to the retry freeipa params.
 func (o *RetryFreeipaParams) WithHTTPClient(client *http.Client) *RetryFreeipaParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the retry freeipa params
+// SetHTTPClient adds the HTTPClient to the retry freeipa params.
 func (o *RetryFreeipaParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the retry freeipa params
+// WithInput adds the input to the retry freeipa params.
 func (o *RetryFreeipaParams) WithInput(input *models.RetryFreeipaRequest) *RetryFreeipaParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the retry freeipa params
+// SetInput adds the input to the retry freeipa params.
 func (o *RetryFreeipaParams) SetInput(input *models.RetryFreeipaRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RetryFreeipaParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewUpgradeClusterParams creates a new UpgradeClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpgradeClusterParams() *UpgradeClusterParams {
-	return &UpgradeClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpgradeClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpgradeClusterParamsWithTimeout creates a new UpgradeClusterParams object
 // with the ability to set a timeout on a request.
 func NewUpgradeClusterParamsWithTimeout(timeout time.Duration) *UpgradeClusterParams {
 	return &UpgradeClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpgradeClusterParamsWithContext creates a new UpgradeClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeClusterParams].
 func NewUpgradeClusterParamsWithContext(ctx context.Context) *UpgradeClusterParams {
 	return &UpgradeClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpgradeClusterParams struct {
 	// Input.
 	Input *models.UpgradeClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upgrade cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpgradeClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upgrade cluster params
+// WithTimeout adds the timeout to the upgrade cluster params.
 func (o *UpgradeClusterParams) WithTimeout(timeout time.Duration) *UpgradeClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upgrade cluster params
+// SetTimeout adds the timeout to the upgrade cluster params.
 func (o *UpgradeClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upgrade cluster params
+// WithContext adds the context to the upgrade cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeClusterParams].
 func (o *UpgradeClusterParams) WithContext(ctx context.Context) *UpgradeClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upgrade cluster params
+// SetContext adds the context to the upgrade cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeClusterParams].
 func (o *UpgradeClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upgrade cluster params
+// WithHTTPClient adds the HTTPClient to the upgrade cluster params.
 func (o *UpgradeClusterParams) WithHTTPClient(client *http.Client) *UpgradeClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upgrade cluster params
+// SetHTTPClient adds the HTTPClient to the upgrade cluster params.
 func (o *UpgradeClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upgrade cluster params
+// WithInput adds the input to the upgrade cluster params.
 func (o *UpgradeClusterParams) WithInput(input *models.UpgradeClusterRequest) *UpgradeClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upgrade cluster params
+// SetInput adds the input to the upgrade cluster params.
 func (o *UpgradeClusterParams) SetInput(input *models.UpgradeClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpgradeClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

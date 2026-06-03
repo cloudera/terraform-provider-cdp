@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeHbaseConfigurationResponse A response to describe the HBase configuration request.
@@ -35,7 +36,7 @@ func (m *DescribeHbaseConfigurationResponse) Validate(formats strfmt.Registry) e
 }
 
 func (m *DescribeHbaseConfigurationResponse) validateConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.Configuration) { // not required
+	if typeutils.IsZero(m.Configuration) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeHbaseConfigurationResponse) contextValidateConfiguration(ctx co
 
 	if m.Configuration != nil {
 
-		if swag.IsZero(m.Configuration) { // not required
+		if typeutils.IsZero(m.Configuration) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeHbaseConfigurationResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeHbaseConfigurationResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeHbaseConfigurationResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

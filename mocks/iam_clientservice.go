@@ -5,6 +5,8 @@
 package mocks
 
 import (
+	"context"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/client/operations"
 	"github.com/go-openapi/runtime"
 	mock "github.com/stretchr/testify/mock"
@@ -118,6 +120,93 @@ func (_c *MockIamClientService_AddMachineUserToGroup_Call) RunAndReturn(run func
 	return _c
 }
 
+// AddMachineUserToGroupContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AddMachineUserToGroupContext(ctx context.Context, params *operations.AddMachineUserToGroupParams, opts ...operations.ClientOption) (*operations.AddMachineUserToGroupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AddMachineUserToGroupContext")
+	}
+
+	var r0 *operations.AddMachineUserToGroupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddMachineUserToGroupParams, ...operations.ClientOption) (*operations.AddMachineUserToGroupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddMachineUserToGroupParams, ...operations.ClientOption) *operations.AddMachineUserToGroupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AddMachineUserToGroupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AddMachineUserToGroupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AddMachineUserToGroupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddMachineUserToGroupContext'
+type MockIamClientService_AddMachineUserToGroupContext_Call struct {
+	*mock.Call
+}
+
+// AddMachineUserToGroupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AddMachineUserToGroupParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AddMachineUserToGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AddMachineUserToGroupContext_Call {
+	return &MockIamClientService_AddMachineUserToGroupContext_Call{Call: _e.mock.On("AddMachineUserToGroupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AddMachineUserToGroupContext_Call) Run(run func(ctx context.Context, params *operations.AddMachineUserToGroupParams, opts ...operations.ClientOption)) *MockIamClientService_AddMachineUserToGroupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AddMachineUserToGroupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AddMachineUserToGroupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AddMachineUserToGroupContext_Call) Return(addMachineUserToGroupOK *operations.AddMachineUserToGroupOK, err error) *MockIamClientService_AddMachineUserToGroupContext_Call {
+	_c.Call.Return(addMachineUserToGroupOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AddMachineUserToGroupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AddMachineUserToGroupParams, opts ...operations.ClientOption) (*operations.AddMachineUserToGroupOK, error)) *MockIamClientService_AddMachineUserToGroupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AddSSHPublicKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AddSSHPublicKey(params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.AddSSHPublicKeyOK, error) {
 	// operations.ClientOption
@@ -195,6 +284,93 @@ func (_c *MockIamClientService_AddSSHPublicKey_Call) Return(addSSHPublicKeyOK *o
 }
 
 func (_c *MockIamClientService_AddSSHPublicKey_Call) RunAndReturn(run func(params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.AddSSHPublicKeyOK, error)) *MockIamClientService_AddSSHPublicKey_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// AddSSHPublicKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AddSSHPublicKeyContext(ctx context.Context, params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.AddSSHPublicKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AddSSHPublicKeyContext")
+	}
+
+	var r0 *operations.AddSSHPublicKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddSSHPublicKeyParams, ...operations.ClientOption) (*operations.AddSSHPublicKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddSSHPublicKeyParams, ...operations.ClientOption) *operations.AddSSHPublicKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AddSSHPublicKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AddSSHPublicKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AddSSHPublicKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddSSHPublicKeyContext'
+type MockIamClientService_AddSSHPublicKeyContext_Call struct {
+	*mock.Call
+}
+
+// AddSSHPublicKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AddSSHPublicKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AddSSHPublicKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AddSSHPublicKeyContext_Call {
+	return &MockIamClientService_AddSSHPublicKeyContext_Call{Call: _e.mock.On("AddSSHPublicKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AddSSHPublicKeyContext_Call) Run(run func(ctx context.Context, params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_AddSSHPublicKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AddSSHPublicKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AddSSHPublicKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AddSSHPublicKeyContext_Call) Return(addSSHPublicKeyOK *operations.AddSSHPublicKeyOK, err error) *MockIamClientService_AddSSHPublicKeyContext_Call {
+	_c.Call.Return(addSSHPublicKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AddSSHPublicKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.AddSSHPublicKeyOK, error)) *MockIamClientService_AddSSHPublicKeyContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -280,6 +456,93 @@ func (_c *MockIamClientService_AddUserToGroup_Call) RunAndReturn(run func(params
 	return _c
 }
 
+// AddUserToGroupContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AddUserToGroupContext(ctx context.Context, params *operations.AddUserToGroupParams, opts ...operations.ClientOption) (*operations.AddUserToGroupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AddUserToGroupContext")
+	}
+
+	var r0 *operations.AddUserToGroupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddUserToGroupParams, ...operations.ClientOption) (*operations.AddUserToGroupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddUserToGroupParams, ...operations.ClientOption) *operations.AddUserToGroupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AddUserToGroupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AddUserToGroupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AddUserToGroupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddUserToGroupContext'
+type MockIamClientService_AddUserToGroupContext_Call struct {
+	*mock.Call
+}
+
+// AddUserToGroupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AddUserToGroupParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AddUserToGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AddUserToGroupContext_Call {
+	return &MockIamClientService_AddUserToGroupContext_Call{Call: _e.mock.On("AddUserToGroupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AddUserToGroupContext_Call) Run(run func(ctx context.Context, params *operations.AddUserToGroupParams, opts ...operations.ClientOption)) *MockIamClientService_AddUserToGroupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AddUserToGroupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AddUserToGroupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AddUserToGroupContext_Call) Return(addUserToGroupOK *operations.AddUserToGroupOK, err error) *MockIamClientService_AddUserToGroupContext_Call {
+	_c.Call.Return(addUserToGroupOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AddUserToGroupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AddUserToGroupParams, opts ...operations.ClientOption) (*operations.AddUserToGroupOK, error)) *MockIamClientService_AddUserToGroupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AssignAzureCloudIdentity provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignAzureCloudIdentity(params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignAzureCloudIdentityOK, error) {
 	// operations.ClientOption
@@ -357,6 +620,93 @@ func (_c *MockIamClientService_AssignAzureCloudIdentity_Call) Return(assignAzure
 }
 
 func (_c *MockIamClientService_AssignAzureCloudIdentity_Call) RunAndReturn(run func(params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignAzureCloudIdentityOK, error)) *MockIamClientService_AssignAzureCloudIdentity_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// AssignAzureCloudIdentityContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignAzureCloudIdentityContext(ctx context.Context, params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignAzureCloudIdentityOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignAzureCloudIdentityContext")
+	}
+
+	var r0 *operations.AssignAzureCloudIdentityOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignAzureCloudIdentityParams, ...operations.ClientOption) (*operations.AssignAzureCloudIdentityOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignAzureCloudIdentityParams, ...operations.ClientOption) *operations.AssignAzureCloudIdentityOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignAzureCloudIdentityOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignAzureCloudIdentityParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignAzureCloudIdentityContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignAzureCloudIdentityContext'
+type MockIamClientService_AssignAzureCloudIdentityContext_Call struct {
+	*mock.Call
+}
+
+// AssignAzureCloudIdentityContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignAzureCloudIdentityParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignAzureCloudIdentityContext_Call {
+	return &MockIamClientService_AssignAzureCloudIdentityContext_Call{Call: _e.mock.On("AssignAzureCloudIdentityContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_AssignAzureCloudIdentityContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignAzureCloudIdentityParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignAzureCloudIdentityParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignAzureCloudIdentityContext_Call) Return(assignAzureCloudIdentityOK *operations.AssignAzureCloudIdentityOK, err error) *MockIamClientService_AssignAzureCloudIdentityContext_Call {
+	_c.Call.Return(assignAzureCloudIdentityOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignAzureCloudIdentityContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignAzureCloudIdentityOK, error)) *MockIamClientService_AssignAzureCloudIdentityContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -442,6 +792,93 @@ func (_c *MockIamClientService_AssignGroupResourceRole_Call) RunAndReturn(run fu
 	return _c
 }
 
+// AssignGroupResourceRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignGroupResourceRoleContext(ctx context.Context, params *operations.AssignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupResourceRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignGroupResourceRoleContext")
+	}
+
+	var r0 *operations.AssignGroupResourceRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignGroupResourceRoleParams, ...operations.ClientOption) (*operations.AssignGroupResourceRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignGroupResourceRoleParams, ...operations.ClientOption) *operations.AssignGroupResourceRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignGroupResourceRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignGroupResourceRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignGroupResourceRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignGroupResourceRoleContext'
+type MockIamClientService_AssignGroupResourceRoleContext_Call struct {
+	*mock.Call
+}
+
+// AssignGroupResourceRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignGroupResourceRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignGroupResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignGroupResourceRoleContext_Call {
+	return &MockIamClientService_AssignGroupResourceRoleContext_Call{Call: _e.mock.On("AssignGroupResourceRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignGroupResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignGroupResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignGroupResourceRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignGroupResourceRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignGroupResourceRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignGroupResourceRoleContext_Call) Return(assignGroupResourceRoleOK *operations.AssignGroupResourceRoleOK, err error) *MockIamClientService_AssignGroupResourceRoleContext_Call {
+	_c.Call.Return(assignGroupResourceRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignGroupResourceRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupResourceRoleOK, error)) *MockIamClientService_AssignGroupResourceRoleContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AssignGroupRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignGroupRole(params *operations.AssignGroupRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupRoleOK, error) {
 	// operations.ClientOption
@@ -519,6 +956,93 @@ func (_c *MockIamClientService_AssignGroupRole_Call) Return(assignGroupRoleOK *o
 }
 
 func (_c *MockIamClientService_AssignGroupRole_Call) RunAndReturn(run func(params *operations.AssignGroupRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupRoleOK, error)) *MockIamClientService_AssignGroupRole_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// AssignGroupRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignGroupRoleContext(ctx context.Context, params *operations.AssignGroupRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignGroupRoleContext")
+	}
+
+	var r0 *operations.AssignGroupRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignGroupRoleParams, ...operations.ClientOption) (*operations.AssignGroupRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignGroupRoleParams, ...operations.ClientOption) *operations.AssignGroupRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignGroupRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignGroupRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignGroupRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignGroupRoleContext'
+type MockIamClientService_AssignGroupRoleContext_Call struct {
+	*mock.Call
+}
+
+// AssignGroupRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignGroupRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignGroupRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignGroupRoleContext_Call {
+	return &MockIamClientService_AssignGroupRoleContext_Call{Call: _e.mock.On("AssignGroupRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignGroupRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignGroupRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignGroupRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignGroupRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignGroupRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignGroupRoleContext_Call) Return(assignGroupRoleOK *operations.AssignGroupRoleOK, err error) *MockIamClientService_AssignGroupRoleContext_Call {
+	_c.Call.Return(assignGroupRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignGroupRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignGroupRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupRoleOK, error)) *MockIamClientService_AssignGroupRoleContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -604,6 +1128,93 @@ func (_c *MockIamClientService_AssignMachineUserResourceRole_Call) RunAndReturn(
 	return _c
 }
 
+// AssignMachineUserResourceRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignMachineUserResourceRoleContext(ctx context.Context, params *operations.AssignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserResourceRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignMachineUserResourceRoleContext")
+	}
+
+	var r0 *operations.AssignMachineUserResourceRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignMachineUserResourceRoleParams, ...operations.ClientOption) (*operations.AssignMachineUserResourceRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignMachineUserResourceRoleParams, ...operations.ClientOption) *operations.AssignMachineUserResourceRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignMachineUserResourceRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignMachineUserResourceRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignMachineUserResourceRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignMachineUserResourceRoleContext'
+type MockIamClientService_AssignMachineUserResourceRoleContext_Call struct {
+	*mock.Call
+}
+
+// AssignMachineUserResourceRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignMachineUserResourceRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignMachineUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignMachineUserResourceRoleContext_Call {
+	return &MockIamClientService_AssignMachineUserResourceRoleContext_Call{Call: _e.mock.On("AssignMachineUserResourceRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignMachineUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignMachineUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignMachineUserResourceRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignMachineUserResourceRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignMachineUserResourceRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignMachineUserResourceRoleContext_Call) Return(assignMachineUserResourceRoleOK *operations.AssignMachineUserResourceRoleOK, err error) *MockIamClientService_AssignMachineUserResourceRoleContext_Call {
+	_c.Call.Return(assignMachineUserResourceRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignMachineUserResourceRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserResourceRoleOK, error)) *MockIamClientService_AssignMachineUserResourceRoleContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AssignMachineUserRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignMachineUserRole(params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserRoleOK, error) {
 	// operations.ClientOption
@@ -681,6 +1292,93 @@ func (_c *MockIamClientService_AssignMachineUserRole_Call) Return(assignMachineU
 }
 
 func (_c *MockIamClientService_AssignMachineUserRole_Call) RunAndReturn(run func(params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserRoleOK, error)) *MockIamClientService_AssignMachineUserRole_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// AssignMachineUserRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignMachineUserRoleContext(ctx context.Context, params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignMachineUserRoleContext")
+	}
+
+	var r0 *operations.AssignMachineUserRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignMachineUserRoleParams, ...operations.ClientOption) (*operations.AssignMachineUserRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignMachineUserRoleParams, ...operations.ClientOption) *operations.AssignMachineUserRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignMachineUserRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignMachineUserRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignMachineUserRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignMachineUserRoleContext'
+type MockIamClientService_AssignMachineUserRoleContext_Call struct {
+	*mock.Call
+}
+
+// AssignMachineUserRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignMachineUserRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignMachineUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignMachineUserRoleContext_Call {
+	return &MockIamClientService_AssignMachineUserRoleContext_Call{Call: _e.mock.On("AssignMachineUserRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignMachineUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignMachineUserRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignMachineUserRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignMachineUserRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignMachineUserRoleContext_Call) Return(assignMachineUserRoleOK *operations.AssignMachineUserRoleOK, err error) *MockIamClientService_AssignMachineUserRoleContext_Call {
+	_c.Call.Return(assignMachineUserRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignMachineUserRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserRoleOK, error)) *MockIamClientService_AssignMachineUserRoleContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -766,6 +1464,93 @@ func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call) Ru
 	return _c
 }
 
+// AssignServicePrincipalAzureCloudIdentityContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *operations.AssignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignServicePrincipalAzureCloudIdentityOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignServicePrincipalAzureCloudIdentityContext")
+	}
+
+	var r0 *operations.AssignServicePrincipalAzureCloudIdentityOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignServicePrincipalAzureCloudIdentityParams, ...operations.ClientOption) (*operations.AssignServicePrincipalAzureCloudIdentityOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignServicePrincipalAzureCloudIdentityParams, ...operations.ClientOption) *operations.AssignServicePrincipalAzureCloudIdentityOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignServicePrincipalAzureCloudIdentityOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignServicePrincipalAzureCloudIdentityParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignServicePrincipalAzureCloudIdentityContext'
+type MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call struct {
+	*mock.Call
+}
+
+// AssignServicePrincipalAzureCloudIdentityContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignServicePrincipalAzureCloudIdentityParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignServicePrincipalAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call {
+	return &MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call{Call: _e.mock.On("AssignServicePrincipalAzureCloudIdentityContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.AssignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignServicePrincipalAzureCloudIdentityParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignServicePrincipalAzureCloudIdentityParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call) Return(assignServicePrincipalAzureCloudIdentityOK *operations.AssignServicePrincipalAzureCloudIdentityOK, err error) *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call {
+	_c.Call.Return(assignServicePrincipalAzureCloudIdentityOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignServicePrincipalAzureCloudIdentityOK, error)) *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AssignUserResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignUserResourceRole(params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignUserResourceRoleOK, error) {
 	// operations.ClientOption
@@ -843,6 +1628,93 @@ func (_c *MockIamClientService_AssignUserResourceRole_Call) Return(assignUserRes
 }
 
 func (_c *MockIamClientService_AssignUserResourceRole_Call) RunAndReturn(run func(params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignUserResourceRoleOK, error)) *MockIamClientService_AssignUserResourceRole_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// AssignUserResourceRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignUserResourceRoleContext(ctx context.Context, params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignUserResourceRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignUserResourceRoleContext")
+	}
+
+	var r0 *operations.AssignUserResourceRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignUserResourceRoleParams, ...operations.ClientOption) (*operations.AssignUserResourceRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignUserResourceRoleParams, ...operations.ClientOption) *operations.AssignUserResourceRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignUserResourceRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignUserResourceRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignUserResourceRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignUserResourceRoleContext'
+type MockIamClientService_AssignUserResourceRoleContext_Call struct {
+	*mock.Call
+}
+
+// AssignUserResourceRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignUserResourceRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignUserResourceRoleContext_Call {
+	return &MockIamClientService_AssignUserResourceRoleContext_Call{Call: _e.mock.On("AssignUserResourceRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignUserResourceRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignUserResourceRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignUserResourceRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignUserResourceRoleContext_Call) Return(assignUserResourceRoleOK *operations.AssignUserResourceRoleOK, err error) *MockIamClientService_AssignUserResourceRoleContext_Call {
+	_c.Call.Return(assignUserResourceRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignUserResourceRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignUserResourceRoleOK, error)) *MockIamClientService_AssignUserResourceRoleContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -928,6 +1800,93 @@ func (_c *MockIamClientService_AssignUserRole_Call) RunAndReturn(run func(params
 	return _c
 }
 
+// AssignUserRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) AssignUserRoleContext(ctx context.Context, params *operations.AssignUserRoleParams, opts ...operations.ClientOption) (*operations.AssignUserRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssignUserRoleContext")
+	}
+
+	var r0 *operations.AssignUserRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignUserRoleParams, ...operations.ClientOption) (*operations.AssignUserRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AssignUserRoleParams, ...operations.ClientOption) *operations.AssignUserRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AssignUserRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AssignUserRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_AssignUserRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssignUserRoleContext'
+type MockIamClientService_AssignUserRoleContext_Call struct {
+	*mock.Call
+}
+
+// AssignUserRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AssignUserRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) AssignUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignUserRoleContext_Call {
+	return &MockIamClientService_AssignUserRoleContext_Call{Call: _e.mock.On("AssignUserRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_AssignUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignUserRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AssignUserRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AssignUserRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_AssignUserRoleContext_Call) Return(assignUserRoleOK *operations.AssignUserRoleOK, err error) *MockIamClientService_AssignUserRoleContext_Call {
+	_c.Call.Return(assignUserRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_AssignUserRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AssignUserRoleParams, opts ...operations.ClientOption) (*operations.AssignUserRoleOK, error)) *MockIamClientService_AssignUserRoleContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateGroup(params *operations.CreateGroupParams, opts ...operations.ClientOption) (*operations.CreateGroupOK, error) {
 	// operations.ClientOption
@@ -1009,6 +1968,93 @@ func (_c *MockIamClientService_CreateGroup_Call) RunAndReturn(run func(params *o
 	return _c
 }
 
+// CreateGroupContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateGroupContext(ctx context.Context, params *operations.CreateGroupParams, opts ...operations.ClientOption) (*operations.CreateGroupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateGroupContext")
+	}
+
+	var r0 *operations.CreateGroupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateGroupParams, ...operations.ClientOption) (*operations.CreateGroupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateGroupParams, ...operations.ClientOption) *operations.CreateGroupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateGroupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateGroupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateGroupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateGroupContext'
+type MockIamClientService_CreateGroupContext_Call struct {
+	*mock.Call
+}
+
+// CreateGroupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateGroupParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateGroupContext_Call {
+	return &MockIamClientService_CreateGroupContext_Call{Call: _e.mock.On("CreateGroupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateGroupContext_Call) Run(run func(ctx context.Context, params *operations.CreateGroupParams, opts ...operations.ClientOption)) *MockIamClientService_CreateGroupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateGroupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateGroupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateGroupContext_Call) Return(createGroupOK *operations.CreateGroupOK, err error) *MockIamClientService_CreateGroupContext_Call {
+	_c.Call.Return(createGroupOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateGroupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateGroupParams, opts ...operations.ClientOption) (*operations.CreateGroupOK, error)) *MockIamClientService_CreateGroupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateLdapProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateLdapProvider(params *operations.CreateLdapProviderParams, opts ...operations.ClientOption) (*operations.CreateLdapProviderOK, error) {
 	// operations.ClientOption
@@ -1086,6 +2132,93 @@ func (_c *MockIamClientService_CreateLdapProvider_Call) Return(createLdapProvide
 }
 
 func (_c *MockIamClientService_CreateLdapProvider_Call) RunAndReturn(run func(params *operations.CreateLdapProviderParams, opts ...operations.ClientOption) (*operations.CreateLdapProviderOK, error)) *MockIamClientService_CreateLdapProvider_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateLdapProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateLdapProviderContext(ctx context.Context, params *operations.CreateLdapProviderParams, opts ...operations.ClientOption) (*operations.CreateLdapProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateLdapProviderContext")
+	}
+
+	var r0 *operations.CreateLdapProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateLdapProviderParams, ...operations.ClientOption) (*operations.CreateLdapProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateLdapProviderParams, ...operations.ClientOption) *operations.CreateLdapProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateLdapProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateLdapProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateLdapProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateLdapProviderContext'
+type MockIamClientService_CreateLdapProviderContext_Call struct {
+	*mock.Call
+}
+
+// CreateLdapProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateLdapProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateLdapProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateLdapProviderContext_Call {
+	return &MockIamClientService_CreateLdapProviderContext_Call{Call: _e.mock.On("CreateLdapProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateLdapProviderContext_Call) Run(run func(ctx context.Context, params *operations.CreateLdapProviderParams, opts ...operations.ClientOption)) *MockIamClientService_CreateLdapProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateLdapProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateLdapProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateLdapProviderContext_Call) Return(createLdapProviderOK *operations.CreateLdapProviderOK, err error) *MockIamClientService_CreateLdapProviderContext_Call {
+	_c.Call.Return(createLdapProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateLdapProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateLdapProviderParams, opts ...operations.ClientOption) (*operations.CreateLdapProviderOK, error)) *MockIamClientService_CreateLdapProviderContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1252,6 +2385,180 @@ func (_c *MockIamClientService_CreateMachineUserAccessKey_Call) RunAndReturn(run
 	return _c
 }
 
+// CreateMachineUserAccessKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateMachineUserAccessKeyContext(ctx context.Context, params *operations.CreateMachineUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateMachineUserAccessKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateMachineUserAccessKeyContext")
+	}
+
+	var r0 *operations.CreateMachineUserAccessKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateMachineUserAccessKeyParams, ...operations.ClientOption) (*operations.CreateMachineUserAccessKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateMachineUserAccessKeyParams, ...operations.ClientOption) *operations.CreateMachineUserAccessKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateMachineUserAccessKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateMachineUserAccessKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateMachineUserAccessKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateMachineUserAccessKeyContext'
+type MockIamClientService_CreateMachineUserAccessKeyContext_Call struct {
+	*mock.Call
+}
+
+// CreateMachineUserAccessKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateMachineUserAccessKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateMachineUserAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateMachineUserAccessKeyContext_Call {
+	return &MockIamClientService_CreateMachineUserAccessKeyContext_Call{Call: _e.mock.On("CreateMachineUserAccessKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateMachineUserAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.CreateMachineUserAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_CreateMachineUserAccessKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateMachineUserAccessKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateMachineUserAccessKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateMachineUserAccessKeyContext_Call) Return(createMachineUserAccessKeyOK *operations.CreateMachineUserAccessKeyOK, err error) *MockIamClientService_CreateMachineUserAccessKeyContext_Call {
+	_c.Call.Return(createMachineUserAccessKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateMachineUserAccessKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateMachineUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateMachineUserAccessKeyOK, error)) *MockIamClientService_CreateMachineUserAccessKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateMachineUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateMachineUserContext(ctx context.Context, params *operations.CreateMachineUserParams, opts ...operations.ClientOption) (*operations.CreateMachineUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateMachineUserContext")
+	}
+
+	var r0 *operations.CreateMachineUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateMachineUserParams, ...operations.ClientOption) (*operations.CreateMachineUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateMachineUserParams, ...operations.ClientOption) *operations.CreateMachineUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateMachineUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateMachineUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateMachineUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateMachineUserContext'
+type MockIamClientService_CreateMachineUserContext_Call struct {
+	*mock.Call
+}
+
+// CreateMachineUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateMachineUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateMachineUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateMachineUserContext_Call {
+	return &MockIamClientService_CreateMachineUserContext_Call{Call: _e.mock.On("CreateMachineUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateMachineUserContext_Call) Run(run func(ctx context.Context, params *operations.CreateMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_CreateMachineUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateMachineUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateMachineUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateMachineUserContext_Call) Return(createMachineUserOK *operations.CreateMachineUserOK, err error) *MockIamClientService_CreateMachineUserContext_Call {
+	_c.Call.Return(createMachineUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateMachineUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateMachineUserParams, opts ...operations.ClientOption) (*operations.CreateMachineUserOK, error)) *MockIamClientService_CreateMachineUserContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateSamlProvider(params *operations.CreateSamlProviderParams, opts ...operations.ClientOption) (*operations.CreateSamlProviderOK, error) {
 	// operations.ClientOption
@@ -1333,6 +2640,93 @@ func (_c *MockIamClientService_CreateSamlProvider_Call) RunAndReturn(run func(pa
 	return _c
 }
 
+// CreateSamlProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateSamlProviderContext(ctx context.Context, params *operations.CreateSamlProviderParams, opts ...operations.ClientOption) (*operations.CreateSamlProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateSamlProviderContext")
+	}
+
+	var r0 *operations.CreateSamlProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateSamlProviderParams, ...operations.ClientOption) (*operations.CreateSamlProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateSamlProviderParams, ...operations.ClientOption) *operations.CreateSamlProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateSamlProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateSamlProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateSamlProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateSamlProviderContext'
+type MockIamClientService_CreateSamlProviderContext_Call struct {
+	*mock.Call
+}
+
+// CreateSamlProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateSamlProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateSamlProviderContext_Call {
+	return &MockIamClientService_CreateSamlProviderContext_Call{Call: _e.mock.On("CreateSamlProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.CreateSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_CreateSamlProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateSamlProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateSamlProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateSamlProviderContext_Call) Return(createSamlProviderOK *operations.CreateSamlProviderOK, err error) *MockIamClientService_CreateSamlProviderContext_Call {
+	_c.Call.Return(createSamlProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateSamlProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateSamlProviderParams, opts ...operations.ClientOption) (*operations.CreateSamlProviderOK, error)) *MockIamClientService_CreateSamlProviderContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateScimAccessToken provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateScimAccessToken(params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption) (*operations.CreateScimAccessTokenOK, error) {
 	// operations.ClientOption
@@ -1410,6 +2804,93 @@ func (_c *MockIamClientService_CreateScimAccessToken_Call) Return(createScimAcce
 }
 
 func (_c *MockIamClientService_CreateScimAccessToken_Call) RunAndReturn(run func(params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption) (*operations.CreateScimAccessTokenOK, error)) *MockIamClientService_CreateScimAccessToken_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateScimAccessTokenContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateScimAccessTokenContext(ctx context.Context, params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption) (*operations.CreateScimAccessTokenOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateScimAccessTokenContext")
+	}
+
+	var r0 *operations.CreateScimAccessTokenOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateScimAccessTokenParams, ...operations.ClientOption) (*operations.CreateScimAccessTokenOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateScimAccessTokenParams, ...operations.ClientOption) *operations.CreateScimAccessTokenOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateScimAccessTokenOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateScimAccessTokenParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateScimAccessTokenContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateScimAccessTokenContext'
+type MockIamClientService_CreateScimAccessTokenContext_Call struct {
+	*mock.Call
+}
+
+// CreateScimAccessTokenContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateScimAccessTokenParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateScimAccessTokenContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateScimAccessTokenContext_Call {
+	return &MockIamClientService_CreateScimAccessTokenContext_Call{Call: _e.mock.On("CreateScimAccessTokenContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateScimAccessTokenContext_Call) Run(run func(ctx context.Context, params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption)) *MockIamClientService_CreateScimAccessTokenContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateScimAccessTokenParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateScimAccessTokenParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateScimAccessTokenContext_Call) Return(createScimAccessTokenOK *operations.CreateScimAccessTokenOK, err error) *MockIamClientService_CreateScimAccessTokenContext_Call {
+	_c.Call.Return(createScimAccessTokenOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateScimAccessTokenContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption) (*operations.CreateScimAccessTokenOK, error)) *MockIamClientService_CreateScimAccessTokenContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1576,6 +3057,180 @@ func (_c *MockIamClientService_CreateUserAccessKey_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// CreateUserAccessKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateUserAccessKeyContext(ctx context.Context, params *operations.CreateUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateUserAccessKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateUserAccessKeyContext")
+	}
+
+	var r0 *operations.CreateUserAccessKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateUserAccessKeyParams, ...operations.ClientOption) (*operations.CreateUserAccessKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateUserAccessKeyParams, ...operations.ClientOption) *operations.CreateUserAccessKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateUserAccessKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateUserAccessKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateUserAccessKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateUserAccessKeyContext'
+type MockIamClientService_CreateUserAccessKeyContext_Call struct {
+	*mock.Call
+}
+
+// CreateUserAccessKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateUserAccessKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateUserAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateUserAccessKeyContext_Call {
+	return &MockIamClientService_CreateUserAccessKeyContext_Call{Call: _e.mock.On("CreateUserAccessKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateUserAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.CreateUserAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_CreateUserAccessKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateUserAccessKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateUserAccessKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateUserAccessKeyContext_Call) Return(createUserAccessKeyOK *operations.CreateUserAccessKeyOK, err error) *MockIamClientService_CreateUserAccessKeyContext_Call {
+	_c.Call.Return(createUserAccessKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateUserAccessKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateUserAccessKeyOK, error)) *MockIamClientService_CreateUserAccessKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) CreateUserContext(ctx context.Context, params *operations.CreateUserParams, opts ...operations.ClientOption) (*operations.CreateUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateUserContext")
+	}
+
+	var r0 *operations.CreateUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateUserParams, ...operations.ClientOption) (*operations.CreateUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateUserParams, ...operations.ClientOption) *operations.CreateUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_CreateUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateUserContext'
+type MockIamClientService_CreateUserContext_Call struct {
+	*mock.Call
+}
+
+// CreateUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) CreateUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateUserContext_Call {
+	return &MockIamClientService_CreateUserContext_Call{Call: _e.mock.On("CreateUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_CreateUserContext_Call) Run(run func(ctx context.Context, params *operations.CreateUserParams, opts ...operations.ClientOption)) *MockIamClientService_CreateUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_CreateUserContext_Call) Return(createUserOK *operations.CreateUserOK, err error) *MockIamClientService_CreateUserContext_Call {
+	_c.Call.Return(createUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_CreateUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateUserParams, opts ...operations.ClientOption) (*operations.CreateUserOK, error)) *MockIamClientService_CreateUserContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteAccessKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteAccessKey(params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption) (*operations.DeleteAccessKeyOK, error) {
 	// operations.ClientOption
@@ -1653,6 +3308,93 @@ func (_c *MockIamClientService_DeleteAccessKey_Call) Return(deleteAccessKeyOK *o
 }
 
 func (_c *MockIamClientService_DeleteAccessKey_Call) RunAndReturn(run func(params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption) (*operations.DeleteAccessKeyOK, error)) *MockIamClientService_DeleteAccessKey_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteAccessKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DeleteAccessKeyContext(ctx context.Context, params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption) (*operations.DeleteAccessKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteAccessKeyContext")
+	}
+
+	var r0 *operations.DeleteAccessKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteAccessKeyParams, ...operations.ClientOption) (*operations.DeleteAccessKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteAccessKeyParams, ...operations.ClientOption) *operations.DeleteAccessKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteAccessKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteAccessKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DeleteAccessKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteAccessKeyContext'
+type MockIamClientService_DeleteAccessKeyContext_Call struct {
+	*mock.Call
+}
+
+// DeleteAccessKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteAccessKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DeleteAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteAccessKeyContext_Call {
+	return &MockIamClientService_DeleteAccessKeyContext_Call{Call: _e.mock.On("DeleteAccessKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DeleteAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteAccessKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteAccessKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteAccessKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteAccessKeyContext_Call) Return(deleteAccessKeyOK *operations.DeleteAccessKeyOK, err error) *MockIamClientService_DeleteAccessKeyContext_Call {
+	_c.Call.Return(deleteAccessKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteAccessKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption) (*operations.DeleteAccessKeyOK, error)) *MockIamClientService_DeleteAccessKeyContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1738,6 +3480,93 @@ func (_c *MockIamClientService_DeleteGroup_Call) RunAndReturn(run func(params *o
 	return _c
 }
 
+// DeleteGroupContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DeleteGroupContext(ctx context.Context, params *operations.DeleteGroupParams, opts ...operations.ClientOption) (*operations.DeleteGroupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteGroupContext")
+	}
+
+	var r0 *operations.DeleteGroupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteGroupParams, ...operations.ClientOption) (*operations.DeleteGroupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteGroupParams, ...operations.ClientOption) *operations.DeleteGroupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteGroupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteGroupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DeleteGroupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteGroupContext'
+type MockIamClientService_DeleteGroupContext_Call struct {
+	*mock.Call
+}
+
+// DeleteGroupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteGroupParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DeleteGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteGroupContext_Call {
+	return &MockIamClientService_DeleteGroupContext_Call{Call: _e.mock.On("DeleteGroupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DeleteGroupContext_Call) Run(run func(ctx context.Context, params *operations.DeleteGroupParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteGroupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteGroupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteGroupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteGroupContext_Call) Return(deleteGroupOK *operations.DeleteGroupOK, err error) *MockIamClientService_DeleteGroupContext_Call {
+	_c.Call.Return(deleteGroupOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteGroupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteGroupParams, opts ...operations.ClientOption) (*operations.DeleteGroupOK, error)) *MockIamClientService_DeleteGroupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteMachineUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteMachineUser(params *operations.DeleteMachineUserParams, opts ...operations.ClientOption) (*operations.DeleteMachineUserOK, error) {
 	// operations.ClientOption
@@ -1815,6 +3644,93 @@ func (_c *MockIamClientService_DeleteMachineUser_Call) Return(deleteMachineUserO
 }
 
 func (_c *MockIamClientService_DeleteMachineUser_Call) RunAndReturn(run func(params *operations.DeleteMachineUserParams, opts ...operations.ClientOption) (*operations.DeleteMachineUserOK, error)) *MockIamClientService_DeleteMachineUser_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteMachineUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DeleteMachineUserContext(ctx context.Context, params *operations.DeleteMachineUserParams, opts ...operations.ClientOption) (*operations.DeleteMachineUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteMachineUserContext")
+	}
+
+	var r0 *operations.DeleteMachineUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteMachineUserParams, ...operations.ClientOption) (*operations.DeleteMachineUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteMachineUserParams, ...operations.ClientOption) *operations.DeleteMachineUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteMachineUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteMachineUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DeleteMachineUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteMachineUserContext'
+type MockIamClientService_DeleteMachineUserContext_Call struct {
+	*mock.Call
+}
+
+// DeleteMachineUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteMachineUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DeleteMachineUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteMachineUserContext_Call {
+	return &MockIamClientService_DeleteMachineUserContext_Call{Call: _e.mock.On("DeleteMachineUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DeleteMachineUserContext_Call) Run(run func(ctx context.Context, params *operations.DeleteMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteMachineUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteMachineUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteMachineUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteMachineUserContext_Call) Return(deleteMachineUserOK *operations.DeleteMachineUserOK, err error) *MockIamClientService_DeleteMachineUserContext_Call {
+	_c.Call.Return(deleteMachineUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteMachineUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteMachineUserParams, opts ...operations.ClientOption) (*operations.DeleteMachineUserOK, error)) *MockIamClientService_DeleteMachineUserContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1900,6 +3816,93 @@ func (_c *MockIamClientService_DeleteSSHPublicKey_Call) RunAndReturn(run func(pa
 	return _c
 }
 
+// DeleteSSHPublicKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DeleteSSHPublicKeyContext(ctx context.Context, params *operations.DeleteSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DeleteSSHPublicKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteSSHPublicKeyContext")
+	}
+
+	var r0 *operations.DeleteSSHPublicKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteSSHPublicKeyParams, ...operations.ClientOption) (*operations.DeleteSSHPublicKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteSSHPublicKeyParams, ...operations.ClientOption) *operations.DeleteSSHPublicKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteSSHPublicKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteSSHPublicKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DeleteSSHPublicKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteSSHPublicKeyContext'
+type MockIamClientService_DeleteSSHPublicKeyContext_Call struct {
+	*mock.Call
+}
+
+// DeleteSSHPublicKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteSSHPublicKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DeleteSSHPublicKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteSSHPublicKeyContext_Call {
+	return &MockIamClientService_DeleteSSHPublicKeyContext_Call{Call: _e.mock.On("DeleteSSHPublicKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DeleteSSHPublicKeyContext_Call) Run(run func(ctx context.Context, params *operations.DeleteSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteSSHPublicKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteSSHPublicKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteSSHPublicKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteSSHPublicKeyContext_Call) Return(deleteSSHPublicKeyOK *operations.DeleteSSHPublicKeyOK, err error) *MockIamClientService_DeleteSSHPublicKeyContext_Call {
+	_c.Call.Return(deleteSSHPublicKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteSSHPublicKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DeleteSSHPublicKeyOK, error)) *MockIamClientService_DeleteSSHPublicKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteSamlProvider(params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption) (*operations.DeleteSamlProviderOK, error) {
 	// operations.ClientOption
@@ -1977,6 +3980,93 @@ func (_c *MockIamClientService_DeleteSamlProvider_Call) Return(deleteSamlProvide
 }
 
 func (_c *MockIamClientService_DeleteSamlProvider_Call) RunAndReturn(run func(params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption) (*operations.DeleteSamlProviderOK, error)) *MockIamClientService_DeleteSamlProvider_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteSamlProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DeleteSamlProviderContext(ctx context.Context, params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption) (*operations.DeleteSamlProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteSamlProviderContext")
+	}
+
+	var r0 *operations.DeleteSamlProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteSamlProviderParams, ...operations.ClientOption) (*operations.DeleteSamlProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteSamlProviderParams, ...operations.ClientOption) *operations.DeleteSamlProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteSamlProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteSamlProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DeleteSamlProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteSamlProviderContext'
+type MockIamClientService_DeleteSamlProviderContext_Call struct {
+	*mock.Call
+}
+
+// DeleteSamlProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteSamlProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DeleteSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteSamlProviderContext_Call {
+	return &MockIamClientService_DeleteSamlProviderContext_Call{Call: _e.mock.On("DeleteSamlProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DeleteSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteSamlProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteSamlProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteSamlProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteSamlProviderContext_Call) Return(deleteSamlProviderOK *operations.DeleteSamlProviderOK, err error) *MockIamClientService_DeleteSamlProviderContext_Call {
+	_c.Call.Return(deleteSamlProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteSamlProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption) (*operations.DeleteSamlProviderOK, error)) *MockIamClientService_DeleteSamlProviderContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2062,6 +4152,93 @@ func (_c *MockIamClientService_DeleteScimAccessToken_Call) RunAndReturn(run func
 	return _c
 }
 
+// DeleteScimAccessTokenContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DeleteScimAccessTokenContext(ctx context.Context, params *operations.DeleteScimAccessTokenParams, opts ...operations.ClientOption) (*operations.DeleteScimAccessTokenOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteScimAccessTokenContext")
+	}
+
+	var r0 *operations.DeleteScimAccessTokenOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteScimAccessTokenParams, ...operations.ClientOption) (*operations.DeleteScimAccessTokenOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteScimAccessTokenParams, ...operations.ClientOption) *operations.DeleteScimAccessTokenOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteScimAccessTokenOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteScimAccessTokenParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DeleteScimAccessTokenContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteScimAccessTokenContext'
+type MockIamClientService_DeleteScimAccessTokenContext_Call struct {
+	*mock.Call
+}
+
+// DeleteScimAccessTokenContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteScimAccessTokenParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DeleteScimAccessTokenContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteScimAccessTokenContext_Call {
+	return &MockIamClientService_DeleteScimAccessTokenContext_Call{Call: _e.mock.On("DeleteScimAccessTokenContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DeleteScimAccessTokenContext_Call) Run(run func(ctx context.Context, params *operations.DeleteScimAccessTokenParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteScimAccessTokenContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteScimAccessTokenParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteScimAccessTokenParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteScimAccessTokenContext_Call) Return(deleteScimAccessTokenOK *operations.DeleteScimAccessTokenOK, err error) *MockIamClientService_DeleteScimAccessTokenContext_Call {
+	_c.Call.Return(deleteScimAccessTokenOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteScimAccessTokenContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteScimAccessTokenParams, opts ...operations.ClientOption) (*operations.DeleteScimAccessTokenOK, error)) *MockIamClientService_DeleteScimAccessTokenContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteUser(params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error) {
 	// operations.ClientOption
@@ -2139,6 +4316,93 @@ func (_c *MockIamClientService_DeleteUser_Call) Return(deleteUserOK *operations.
 }
 
 func (_c *MockIamClientService_DeleteUser_Call) RunAndReturn(run func(params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error)) *MockIamClientService_DeleteUser_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DeleteUserContext(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteUserContext")
+	}
+
+	var r0 *operations.DeleteUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteUserParams, ...operations.ClientOption) (*operations.DeleteUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteUserParams, ...operations.ClientOption) *operations.DeleteUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DeleteUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteUserContext'
+type MockIamClientService_DeleteUserContext_Call struct {
+	*mock.Call
+}
+
+// DeleteUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DeleteUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteUserContext_Call {
+	return &MockIamClientService_DeleteUserContext_Call{Call: _e.mock.On("DeleteUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DeleteUserContext_Call) Run(run func(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteUserContext_Call) Return(deleteUserOK *operations.DeleteUserOK, err error) *MockIamClientService_DeleteUserContext_Call {
+	_c.Call.Return(deleteUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DeleteUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error)) *MockIamClientService_DeleteUserContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2224,6 +4488,93 @@ func (_c *MockIamClientService_DescribeSSHPublicKey_Call) RunAndReturn(run func(
 	return _c
 }
 
+// DescribeSSHPublicKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DescribeSSHPublicKeyContext(ctx context.Context, params *operations.DescribeSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DescribeSSHPublicKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeSSHPublicKeyContext")
+	}
+
+	var r0 *operations.DescribeSSHPublicKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeSSHPublicKeyParams, ...operations.ClientOption) (*operations.DescribeSSHPublicKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeSSHPublicKeyParams, ...operations.ClientOption) *operations.DescribeSSHPublicKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeSSHPublicKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeSSHPublicKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DescribeSSHPublicKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeSSHPublicKeyContext'
+type MockIamClientService_DescribeSSHPublicKeyContext_Call struct {
+	*mock.Call
+}
+
+// DescribeSSHPublicKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeSSHPublicKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DescribeSSHPublicKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DescribeSSHPublicKeyContext_Call {
+	return &MockIamClientService_DescribeSSHPublicKeyContext_Call{Call: _e.mock.On("DescribeSSHPublicKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DescribeSSHPublicKeyContext_Call) Run(run func(ctx context.Context, params *operations.DescribeSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DescribeSSHPublicKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeSSHPublicKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeSSHPublicKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DescribeSSHPublicKeyContext_Call) Return(describeSSHPublicKeyOK *operations.DescribeSSHPublicKeyOK, err error) *MockIamClientService_DescribeSSHPublicKeyContext_Call {
+	_c.Call.Return(describeSSHPublicKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DescribeSSHPublicKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DescribeSSHPublicKeyOK, error)) *MockIamClientService_DescribeSSHPublicKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DescribeSamlProvider(params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption) (*operations.DescribeSamlProviderOK, error) {
 	// operations.ClientOption
@@ -2301,6 +4652,93 @@ func (_c *MockIamClientService_DescribeSamlProvider_Call) Return(describeSamlPro
 }
 
 func (_c *MockIamClientService_DescribeSamlProvider_Call) RunAndReturn(run func(params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption) (*operations.DescribeSamlProviderOK, error)) *MockIamClientService_DescribeSamlProvider_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeSamlProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DescribeSamlProviderContext(ctx context.Context, params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption) (*operations.DescribeSamlProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeSamlProviderContext")
+	}
+
+	var r0 *operations.DescribeSamlProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeSamlProviderParams, ...operations.ClientOption) (*operations.DescribeSamlProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeSamlProviderParams, ...operations.ClientOption) *operations.DescribeSamlProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeSamlProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeSamlProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DescribeSamlProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeSamlProviderContext'
+type MockIamClientService_DescribeSamlProviderContext_Call struct {
+	*mock.Call
+}
+
+// DescribeSamlProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeSamlProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DescribeSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DescribeSamlProviderContext_Call {
+	return &MockIamClientService_DescribeSamlProviderContext_Call{Call: _e.mock.On("DescribeSamlProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DescribeSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_DescribeSamlProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeSamlProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeSamlProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DescribeSamlProviderContext_Call) Return(describeSamlProviderOK *operations.DescribeSamlProviderOK, err error) *MockIamClientService_DescribeSamlProviderContext_Call {
+	_c.Call.Return(describeSamlProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DescribeSamlProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption) (*operations.DescribeSamlProviderOK, error)) *MockIamClientService_DescribeSamlProviderContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2386,6 +4824,93 @@ func (_c *MockIamClientService_DisableClouderaSSOLogin_Call) RunAndReturn(run fu
 	return _c
 }
 
+// DisableClouderaSSOLoginContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DisableClouderaSSOLoginContext(ctx context.Context, params *operations.DisableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.DisableClouderaSSOLoginOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DisableClouderaSSOLoginContext")
+	}
+
+	var r0 *operations.DisableClouderaSSOLoginOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DisableClouderaSSOLoginParams, ...operations.ClientOption) (*operations.DisableClouderaSSOLoginOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DisableClouderaSSOLoginParams, ...operations.ClientOption) *operations.DisableClouderaSSOLoginOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DisableClouderaSSOLoginOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DisableClouderaSSOLoginParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DisableClouderaSSOLoginContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DisableClouderaSSOLoginContext'
+type MockIamClientService_DisableClouderaSSOLoginContext_Call struct {
+	*mock.Call
+}
+
+// DisableClouderaSSOLoginContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DisableClouderaSSOLoginParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DisableClouderaSSOLoginContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DisableClouderaSSOLoginContext_Call {
+	return &MockIamClientService_DisableClouderaSSOLoginContext_Call{Call: _e.mock.On("DisableClouderaSSOLoginContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DisableClouderaSSOLoginContext_Call) Run(run func(ctx context.Context, params *operations.DisableClouderaSSOLoginParams, opts ...operations.ClientOption)) *MockIamClientService_DisableClouderaSSOLoginContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DisableClouderaSSOLoginParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DisableClouderaSSOLoginParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DisableClouderaSSOLoginContext_Call) Return(disableClouderaSSOLoginOK *operations.DisableClouderaSSOLoginOK, err error) *MockIamClientService_DisableClouderaSSOLoginContext_Call {
+	_c.Call.Return(disableClouderaSSOLoginOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DisableClouderaSSOLoginContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DisableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.DisableClouderaSSOLoginOK, error)) *MockIamClientService_DisableClouderaSSOLoginContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DisableUserWorkloadPasswordChangedNotifications provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DisableUserWorkloadPasswordChangedNotifications(params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// operations.ClientOption
@@ -2463,6 +4988,93 @@ func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_C
 }
 
 func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call) RunAndReturn(run func(params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error)) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DisableUserWorkloadPasswordChangedNotificationsContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) DisableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DisableUserWorkloadPasswordChangedNotificationsContext")
+	}
+
+	var r0 *operations.DisableUserWorkloadPasswordChangedNotificationsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DisableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DisableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) *operations.DisableUserWorkloadPasswordChangedNotificationsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DisableUserWorkloadPasswordChangedNotificationsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DisableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DisableUserWorkloadPasswordChangedNotificationsContext'
+type MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call struct {
+	*mock.Call
+}
+
+// DisableUserWorkloadPasswordChangedNotificationsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DisableUserWorkloadPasswordChangedNotificationsParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) DisableUserWorkloadPasswordChangedNotificationsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call {
+	return &MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call{Call: _e.mock.On("DisableUserWorkloadPasswordChangedNotificationsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call) Run(run func(ctx context.Context, params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DisableUserWorkloadPasswordChangedNotificationsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DisableUserWorkloadPasswordChangedNotificationsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call) Return(disableUserWorkloadPasswordChangedNotificationsOK *operations.DisableUserWorkloadPasswordChangedNotificationsOK, err error) *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call {
+	_c.Call.Return(disableUserWorkloadPasswordChangedNotificationsOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error)) *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2548,6 +5160,93 @@ func (_c *MockIamClientService_EnableClouderaSSOLogin_Call) RunAndReturn(run fun
 	return _c
 }
 
+// EnableClouderaSSOLoginContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) EnableClouderaSSOLoginContext(ctx context.Context, params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.EnableClouderaSSOLoginOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for EnableClouderaSSOLoginContext")
+	}
+
+	var r0 *operations.EnableClouderaSSOLoginOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.EnableClouderaSSOLoginParams, ...operations.ClientOption) (*operations.EnableClouderaSSOLoginOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.EnableClouderaSSOLoginParams, ...operations.ClientOption) *operations.EnableClouderaSSOLoginOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.EnableClouderaSSOLoginOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.EnableClouderaSSOLoginParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_EnableClouderaSSOLoginContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'EnableClouderaSSOLoginContext'
+type MockIamClientService_EnableClouderaSSOLoginContext_Call struct {
+	*mock.Call
+}
+
+// EnableClouderaSSOLoginContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.EnableClouderaSSOLoginParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) EnableClouderaSSOLoginContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_EnableClouderaSSOLoginContext_Call {
+	return &MockIamClientService_EnableClouderaSSOLoginContext_Call{Call: _e.mock.On("EnableClouderaSSOLoginContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_EnableClouderaSSOLoginContext_Call) Run(run func(ctx context.Context, params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption)) *MockIamClientService_EnableClouderaSSOLoginContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.EnableClouderaSSOLoginParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.EnableClouderaSSOLoginParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_EnableClouderaSSOLoginContext_Call) Return(enableClouderaSSOLoginOK *operations.EnableClouderaSSOLoginOK, err error) *MockIamClientService_EnableClouderaSSOLoginContext_Call {
+	_c.Call.Return(enableClouderaSSOLoginOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_EnableClouderaSSOLoginContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.EnableClouderaSSOLoginOK, error)) *MockIamClientService_EnableClouderaSSOLoginContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // EnableUserWorkloadPasswordChangedNotifications provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) EnableUserWorkloadPasswordChangedNotifications(params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// operations.ClientOption
@@ -2625,6 +5324,93 @@ func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Ca
 }
 
 func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call) RunAndReturn(run func(params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error)) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// EnableUserWorkloadPasswordChangedNotificationsContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) EnableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for EnableUserWorkloadPasswordChangedNotificationsContext")
+	}
+
+	var r0 *operations.EnableUserWorkloadPasswordChangedNotificationsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.EnableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.EnableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) *operations.EnableUserWorkloadPasswordChangedNotificationsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.EnableUserWorkloadPasswordChangedNotificationsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.EnableUserWorkloadPasswordChangedNotificationsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'EnableUserWorkloadPasswordChangedNotificationsContext'
+type MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call struct {
+	*mock.Call
+}
+
+// EnableUserWorkloadPasswordChangedNotificationsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.EnableUserWorkloadPasswordChangedNotificationsParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) EnableUserWorkloadPasswordChangedNotificationsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call {
+	return &MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call{Call: _e.mock.On("EnableUserWorkloadPasswordChangedNotificationsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call) Run(run func(ctx context.Context, params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.EnableUserWorkloadPasswordChangedNotificationsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.EnableUserWorkloadPasswordChangedNotificationsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call) Return(enableUserWorkloadPasswordChangedNotificationsOK *operations.EnableUserWorkloadPasswordChangedNotificationsOK, err error) *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call {
+	_c.Call.Return(enableUserWorkloadPasswordChangedNotificationsOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error)) *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2710,6 +5496,93 @@ func (_c *MockIamClientService_GenerateWorkloadAuthToken_Call) RunAndReturn(run 
 	return _c
 }
 
+// GenerateWorkloadAuthTokenContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) GenerateWorkloadAuthTokenContext(ctx context.Context, params *operations.GenerateWorkloadAuthTokenParams, opts ...operations.ClientOption) (*operations.GenerateWorkloadAuthTokenOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GenerateWorkloadAuthTokenContext")
+	}
+
+	var r0 *operations.GenerateWorkloadAuthTokenOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GenerateWorkloadAuthTokenParams, ...operations.ClientOption) (*operations.GenerateWorkloadAuthTokenOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GenerateWorkloadAuthTokenParams, ...operations.ClientOption) *operations.GenerateWorkloadAuthTokenOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GenerateWorkloadAuthTokenOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GenerateWorkloadAuthTokenParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_GenerateWorkloadAuthTokenContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GenerateWorkloadAuthTokenContext'
+type MockIamClientService_GenerateWorkloadAuthTokenContext_Call struct {
+	*mock.Call
+}
+
+// GenerateWorkloadAuthTokenContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GenerateWorkloadAuthTokenParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) GenerateWorkloadAuthTokenContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GenerateWorkloadAuthTokenContext_Call {
+	return &MockIamClientService_GenerateWorkloadAuthTokenContext_Call{Call: _e.mock.On("GenerateWorkloadAuthTokenContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_GenerateWorkloadAuthTokenContext_Call) Run(run func(ctx context.Context, params *operations.GenerateWorkloadAuthTokenParams, opts ...operations.ClientOption)) *MockIamClientService_GenerateWorkloadAuthTokenContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GenerateWorkloadAuthTokenParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GenerateWorkloadAuthTokenParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_GenerateWorkloadAuthTokenContext_Call) Return(generateWorkloadAuthTokenOK *operations.GenerateWorkloadAuthTokenOK, err error) *MockIamClientService_GenerateWorkloadAuthTokenContext_Call {
+	_c.Call.Return(generateWorkloadAuthTokenOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_GenerateWorkloadAuthTokenContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GenerateWorkloadAuthTokenParams, opts ...operations.ClientOption) (*operations.GenerateWorkloadAuthTokenOK, error)) *MockIamClientService_GenerateWorkloadAuthTokenContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetAccessKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccessKey(params *operations.GetAccessKeyParams, opts ...operations.ClientOption) (*operations.GetAccessKeyOK, error) {
 	// operations.ClientOption
@@ -2787,6 +5660,93 @@ func (_c *MockIamClientService_GetAccessKey_Call) Return(getAccessKeyOK *operati
 }
 
 func (_c *MockIamClientService_GetAccessKey_Call) RunAndReturn(run func(params *operations.GetAccessKeyParams, opts ...operations.ClientOption) (*operations.GetAccessKeyOK, error)) *MockIamClientService_GetAccessKey_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetAccessKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) GetAccessKeyContext(ctx context.Context, params *operations.GetAccessKeyParams, opts ...operations.ClientOption) (*operations.GetAccessKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAccessKeyContext")
+	}
+
+	var r0 *operations.GetAccessKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccessKeyParams, ...operations.ClientOption) (*operations.GetAccessKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccessKeyParams, ...operations.ClientOption) *operations.GetAccessKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAccessKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAccessKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_GetAccessKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAccessKeyContext'
+type MockIamClientService_GetAccessKeyContext_Call struct {
+	*mock.Call
+}
+
+// GetAccessKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAccessKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) GetAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetAccessKeyContext_Call {
+	return &MockIamClientService_GetAccessKeyContext_Call{Call: _e.mock.On("GetAccessKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_GetAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.GetAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccessKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAccessKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAccessKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_GetAccessKeyContext_Call) Return(getAccessKeyOK *operations.GetAccessKeyOK, err error) *MockIamClientService_GetAccessKeyContext_Call {
+	_c.Call.Return(getAccessKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_GetAccessKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAccessKeyParams, opts ...operations.ClientOption) (*operations.GetAccessKeyOK, error)) *MockIamClientService_GetAccessKeyContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2872,6 +5832,93 @@ func (_c *MockIamClientService_GetAccount_Call) RunAndReturn(run func(params *op
 	return _c
 }
 
+// GetAccountContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) GetAccountContext(ctx context.Context, params *operations.GetAccountParams, opts ...operations.ClientOption) (*operations.GetAccountOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAccountContext")
+	}
+
+	var r0 *operations.GetAccountOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountParams, ...operations.ClientOption) (*operations.GetAccountOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountParams, ...operations.ClientOption) *operations.GetAccountOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAccountOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAccountParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_GetAccountContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAccountContext'
+type MockIamClientService_GetAccountContext_Call struct {
+	*mock.Call
+}
+
+// GetAccountContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAccountParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) GetAccountContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetAccountContext_Call {
+	return &MockIamClientService_GetAccountContext_Call{Call: _e.mock.On("GetAccountContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_GetAccountContext_Call) Run(run func(ctx context.Context, params *operations.GetAccountParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccountContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAccountParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAccountParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_GetAccountContext_Call) Return(getAccountOK *operations.GetAccountOK, err error) *MockIamClientService_GetAccountContext_Call {
+	_c.Call.Return(getAccountOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_GetAccountContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAccountParams, opts ...operations.ClientOption) (*operations.GetAccountOK, error)) *MockIamClientService_GetAccountContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetAccountMessages provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccountMessages(params *operations.GetAccountMessagesParams, opts ...operations.ClientOption) (*operations.GetAccountMessagesOK, error) {
 	// operations.ClientOption
@@ -2949,6 +5996,93 @@ func (_c *MockIamClientService_GetAccountMessages_Call) Return(getAccountMessage
 }
 
 func (_c *MockIamClientService_GetAccountMessages_Call) RunAndReturn(run func(params *operations.GetAccountMessagesParams, opts ...operations.ClientOption) (*operations.GetAccountMessagesOK, error)) *MockIamClientService_GetAccountMessages_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetAccountMessagesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) GetAccountMessagesContext(ctx context.Context, params *operations.GetAccountMessagesParams, opts ...operations.ClientOption) (*operations.GetAccountMessagesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAccountMessagesContext")
+	}
+
+	var r0 *operations.GetAccountMessagesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountMessagesParams, ...operations.ClientOption) (*operations.GetAccountMessagesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetAccountMessagesParams, ...operations.ClientOption) *operations.GetAccountMessagesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetAccountMessagesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetAccountMessagesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_GetAccountMessagesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAccountMessagesContext'
+type MockIamClientService_GetAccountMessagesContext_Call struct {
+	*mock.Call
+}
+
+// GetAccountMessagesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetAccountMessagesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) GetAccountMessagesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetAccountMessagesContext_Call {
+	return &MockIamClientService_GetAccountMessagesContext_Call{Call: _e.mock.On("GetAccountMessagesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_GetAccountMessagesContext_Call) Run(run func(ctx context.Context, params *operations.GetAccountMessagesParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccountMessagesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetAccountMessagesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetAccountMessagesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_GetAccountMessagesContext_Call) Return(getAccountMessagesOK *operations.GetAccountMessagesOK, err error) *MockIamClientService_GetAccountMessagesContext_Call {
+	_c.Call.Return(getAccountMessagesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_GetAccountMessagesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetAccountMessagesParams, opts ...operations.ClientOption) (*operations.GetAccountMessagesOK, error)) *MockIamClientService_GetAccountMessagesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3034,6 +6168,93 @@ func (_c *MockIamClientService_GetDefaultIdentityProvider_Call) RunAndReturn(run
 	return _c
 }
 
+// GetDefaultIdentityProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) GetDefaultIdentityProviderContext(ctx context.Context, params *operations.GetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.GetDefaultIdentityProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetDefaultIdentityProviderContext")
+	}
+
+	var r0 *operations.GetDefaultIdentityProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetDefaultIdentityProviderParams, ...operations.ClientOption) (*operations.GetDefaultIdentityProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetDefaultIdentityProviderParams, ...operations.ClientOption) *operations.GetDefaultIdentityProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetDefaultIdentityProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetDefaultIdentityProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_GetDefaultIdentityProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetDefaultIdentityProviderContext'
+type MockIamClientService_GetDefaultIdentityProviderContext_Call struct {
+	*mock.Call
+}
+
+// GetDefaultIdentityProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetDefaultIdentityProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) GetDefaultIdentityProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetDefaultIdentityProviderContext_Call {
+	return &MockIamClientService_GetDefaultIdentityProviderContext_Call{Call: _e.mock.On("GetDefaultIdentityProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_GetDefaultIdentityProviderContext_Call) Run(run func(ctx context.Context, params *operations.GetDefaultIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_GetDefaultIdentityProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetDefaultIdentityProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetDefaultIdentityProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_GetDefaultIdentityProviderContext_Call) Return(getDefaultIdentityProviderOK *operations.GetDefaultIdentityProviderOK, err error) *MockIamClientService_GetDefaultIdentityProviderContext_Call {
+	_c.Call.Return(getDefaultIdentityProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_GetDefaultIdentityProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.GetDefaultIdentityProviderOK, error)) *MockIamClientService_GetDefaultIdentityProviderContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetUser(params *operations.GetUserParams, opts ...operations.ClientOption) (*operations.GetUserOK, error) {
 	// operations.ClientOption
@@ -3111,6 +6332,93 @@ func (_c *MockIamClientService_GetUser_Call) Return(getUserOK *operations.GetUse
 }
 
 func (_c *MockIamClientService_GetUser_Call) RunAndReturn(run func(params *operations.GetUserParams, opts ...operations.ClientOption) (*operations.GetUserOK, error)) *MockIamClientService_GetUser_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) GetUserContext(ctx context.Context, params *operations.GetUserParams, opts ...operations.ClientOption) (*operations.GetUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetUserContext")
+	}
+
+	var r0 *operations.GetUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetUserParams, ...operations.ClientOption) (*operations.GetUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetUserParams, ...operations.ClientOption) *operations.GetUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_GetUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetUserContext'
+type MockIamClientService_GetUserContext_Call struct {
+	*mock.Call
+}
+
+// GetUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) GetUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetUserContext_Call {
+	return &MockIamClientService_GetUserContext_Call{Call: _e.mock.On("GetUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_GetUserContext_Call) Run(run func(ctx context.Context, params *operations.GetUserParams, opts ...operations.ClientOption)) *MockIamClientService_GetUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_GetUserContext_Call) Return(getUserOK *operations.GetUserOK, err error) *MockIamClientService_GetUserContext_Call {
+	_c.Call.Return(getUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_GetUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetUserParams, opts ...operations.ClientOption) (*operations.GetUserOK, error)) *MockIamClientService_GetUserContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3196,6 +6504,93 @@ func (_c *MockIamClientService_ListAccessKeys_Call) RunAndReturn(run func(params
 	return _c
 }
 
+// ListAccessKeysContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListAccessKeysContext(ctx context.Context, params *operations.ListAccessKeysParams, opts ...operations.ClientOption) (*operations.ListAccessKeysOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListAccessKeysContext")
+	}
+
+	var r0 *operations.ListAccessKeysOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListAccessKeysParams, ...operations.ClientOption) (*operations.ListAccessKeysOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListAccessKeysParams, ...operations.ClientOption) *operations.ListAccessKeysOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListAccessKeysOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListAccessKeysParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListAccessKeysContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListAccessKeysContext'
+type MockIamClientService_ListAccessKeysContext_Call struct {
+	*mock.Call
+}
+
+// ListAccessKeysContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListAccessKeysParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListAccessKeysContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListAccessKeysContext_Call {
+	return &MockIamClientService_ListAccessKeysContext_Call{Call: _e.mock.On("ListAccessKeysContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListAccessKeysContext_Call) Run(run func(ctx context.Context, params *operations.ListAccessKeysParams, opts ...operations.ClientOption)) *MockIamClientService_ListAccessKeysContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListAccessKeysParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListAccessKeysParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListAccessKeysContext_Call) Return(listAccessKeysOK *operations.ListAccessKeysOK, err error) *MockIamClientService_ListAccessKeysContext_Call {
+	_c.Call.Return(listAccessKeysOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListAccessKeysContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListAccessKeysParams, opts ...operations.ClientOption) (*operations.ListAccessKeysOK, error)) *MockIamClientService_ListAccessKeysContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListGroupAssignedResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupAssignedResourceRoles(params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedResourceRolesOK, error) {
 	// operations.ClientOption
@@ -3273,6 +6668,93 @@ func (_c *MockIamClientService_ListGroupAssignedResourceRoles_Call) Return(listG
 }
 
 func (_c *MockIamClientService_ListGroupAssignedResourceRoles_Call) RunAndReturn(run func(params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedResourceRolesOK, error)) *MockIamClientService_ListGroupAssignedResourceRoles_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListGroupAssignedResourceRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListGroupAssignedResourceRolesContext(ctx context.Context, params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedResourceRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListGroupAssignedResourceRolesContext")
+	}
+
+	var r0 *operations.ListGroupAssignedResourceRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupAssignedResourceRolesParams, ...operations.ClientOption) (*operations.ListGroupAssignedResourceRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupAssignedResourceRolesParams, ...operations.ClientOption) *operations.ListGroupAssignedResourceRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListGroupAssignedResourceRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListGroupAssignedResourceRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListGroupAssignedResourceRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListGroupAssignedResourceRolesContext'
+type MockIamClientService_ListGroupAssignedResourceRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListGroupAssignedResourceRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListGroupAssignedResourceRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListGroupAssignedResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupAssignedResourceRolesContext_Call {
+	return &MockIamClientService_ListGroupAssignedResourceRolesContext_Call{Call: _e.mock.On("ListGroupAssignedResourceRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListGroupAssignedResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupAssignedResourceRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListGroupAssignedResourceRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListGroupAssignedResourceRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupAssignedResourceRolesContext_Call) Return(listGroupAssignedResourceRolesOK *operations.ListGroupAssignedResourceRolesOK, err error) *MockIamClientService_ListGroupAssignedResourceRolesContext_Call {
+	_c.Call.Return(listGroupAssignedResourceRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupAssignedResourceRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedResourceRolesOK, error)) *MockIamClientService_ListGroupAssignedResourceRolesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3358,6 +6840,93 @@ func (_c *MockIamClientService_ListGroupAssignedRoles_Call) RunAndReturn(run fun
 	return _c
 }
 
+// ListGroupAssignedRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListGroupAssignedRolesContext(ctx context.Context, params *operations.ListGroupAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListGroupAssignedRolesContext")
+	}
+
+	var r0 *operations.ListGroupAssignedRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupAssignedRolesParams, ...operations.ClientOption) (*operations.ListGroupAssignedRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupAssignedRolesParams, ...operations.ClientOption) *operations.ListGroupAssignedRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListGroupAssignedRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListGroupAssignedRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListGroupAssignedRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListGroupAssignedRolesContext'
+type MockIamClientService_ListGroupAssignedRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListGroupAssignedRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListGroupAssignedRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListGroupAssignedRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupAssignedRolesContext_Call {
+	return &MockIamClientService_ListGroupAssignedRolesContext_Call{Call: _e.mock.On("ListGroupAssignedRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListGroupAssignedRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupAssignedRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListGroupAssignedRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListGroupAssignedRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupAssignedRolesContext_Call) Return(listGroupAssignedRolesOK *operations.ListGroupAssignedRolesOK, err error) *MockIamClientService_ListGroupAssignedRolesContext_Call {
+	_c.Call.Return(listGroupAssignedRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupAssignedRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListGroupAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedRolesOK, error)) *MockIamClientService_ListGroupAssignedRolesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListGroupMembers provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupMembers(params *operations.ListGroupMembersParams, opts ...operations.ClientOption) (*operations.ListGroupMembersOK, error) {
 	// operations.ClientOption
@@ -3435,6 +7004,93 @@ func (_c *MockIamClientService_ListGroupMembers_Call) Return(listGroupMembersOK 
 }
 
 func (_c *MockIamClientService_ListGroupMembers_Call) RunAndReturn(run func(params *operations.ListGroupMembersParams, opts ...operations.ClientOption) (*operations.ListGroupMembersOK, error)) *MockIamClientService_ListGroupMembers_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListGroupMembersContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListGroupMembersContext(ctx context.Context, params *operations.ListGroupMembersParams, opts ...operations.ClientOption) (*operations.ListGroupMembersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListGroupMembersContext")
+	}
+
+	var r0 *operations.ListGroupMembersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupMembersParams, ...operations.ClientOption) (*operations.ListGroupMembersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupMembersParams, ...operations.ClientOption) *operations.ListGroupMembersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListGroupMembersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListGroupMembersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListGroupMembersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListGroupMembersContext'
+type MockIamClientService_ListGroupMembersContext_Call struct {
+	*mock.Call
+}
+
+// ListGroupMembersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListGroupMembersParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListGroupMembersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupMembersContext_Call {
+	return &MockIamClientService_ListGroupMembersContext_Call{Call: _e.mock.On("ListGroupMembersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListGroupMembersContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupMembersParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupMembersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListGroupMembersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListGroupMembersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupMembersContext_Call) Return(listGroupMembersOK *operations.ListGroupMembersOK, err error) *MockIamClientService_ListGroupMembersContext_Call {
+	_c.Call.Return(listGroupMembersOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupMembersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListGroupMembersParams, opts ...operations.ClientOption) (*operations.ListGroupMembersOK, error)) *MockIamClientService_ListGroupMembersContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3520,6 +7176,93 @@ func (_c *MockIamClientService_ListGroups_Call) RunAndReturn(run func(params *op
 	return _c
 }
 
+// ListGroupsContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListGroupsContext(ctx context.Context, params *operations.ListGroupsParams, opts ...operations.ClientOption) (*operations.ListGroupsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListGroupsContext")
+	}
+
+	var r0 *operations.ListGroupsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupsParams, ...operations.ClientOption) (*operations.ListGroupsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupsParams, ...operations.ClientOption) *operations.ListGroupsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListGroupsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListGroupsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListGroupsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListGroupsContext'
+type MockIamClientService_ListGroupsContext_Call struct {
+	*mock.Call
+}
+
+// ListGroupsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListGroupsParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListGroupsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsContext_Call {
+	return &MockIamClientService_ListGroupsContext_Call{Call: _e.mock.On("ListGroupsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListGroupsContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupsParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListGroupsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListGroupsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupsContext_Call) Return(listGroupsOK *operations.ListGroupsOK, err error) *MockIamClientService_ListGroupsContext_Call {
+	_c.Call.Return(listGroupsOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListGroupsParams, opts ...operations.ClientOption) (*operations.ListGroupsOK, error)) *MockIamClientService_ListGroupsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListGroupsForMachineUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupsForMachineUser(params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForMachineUserOK, error) {
 	// operations.ClientOption
@@ -3597,6 +7340,93 @@ func (_c *MockIamClientService_ListGroupsForMachineUser_Call) Return(listGroupsF
 }
 
 func (_c *MockIamClientService_ListGroupsForMachineUser_Call) RunAndReturn(run func(params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForMachineUserOK, error)) *MockIamClientService_ListGroupsForMachineUser_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListGroupsForMachineUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListGroupsForMachineUserContext(ctx context.Context, params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForMachineUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListGroupsForMachineUserContext")
+	}
+
+	var r0 *operations.ListGroupsForMachineUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupsForMachineUserParams, ...operations.ClientOption) (*operations.ListGroupsForMachineUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupsForMachineUserParams, ...operations.ClientOption) *operations.ListGroupsForMachineUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListGroupsForMachineUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListGroupsForMachineUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListGroupsForMachineUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListGroupsForMachineUserContext'
+type MockIamClientService_ListGroupsForMachineUserContext_Call struct {
+	*mock.Call
+}
+
+// ListGroupsForMachineUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListGroupsForMachineUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListGroupsForMachineUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsForMachineUserContext_Call {
+	return &MockIamClientService_ListGroupsForMachineUserContext_Call{Call: _e.mock.On("ListGroupsForMachineUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListGroupsForMachineUserContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsForMachineUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListGroupsForMachineUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListGroupsForMachineUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupsForMachineUserContext_Call) Return(listGroupsForMachineUserOK *operations.ListGroupsForMachineUserOK, err error) *MockIamClientService_ListGroupsForMachineUserContext_Call {
+	_c.Call.Return(listGroupsForMachineUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupsForMachineUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForMachineUserOK, error)) *MockIamClientService_ListGroupsForMachineUserContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3682,6 +7512,93 @@ func (_c *MockIamClientService_ListGroupsForUser_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// ListGroupsForUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListGroupsForUserContext(ctx context.Context, params *operations.ListGroupsForUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListGroupsForUserContext")
+	}
+
+	var r0 *operations.ListGroupsForUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupsForUserParams, ...operations.ClientOption) (*operations.ListGroupsForUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListGroupsForUserParams, ...operations.ClientOption) *operations.ListGroupsForUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListGroupsForUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListGroupsForUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListGroupsForUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListGroupsForUserContext'
+type MockIamClientService_ListGroupsForUserContext_Call struct {
+	*mock.Call
+}
+
+// ListGroupsForUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListGroupsForUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListGroupsForUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsForUserContext_Call {
+	return &MockIamClientService_ListGroupsForUserContext_Call{Call: _e.mock.On("ListGroupsForUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListGroupsForUserContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupsForUserParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsForUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListGroupsForUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListGroupsForUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupsForUserContext_Call) Return(listGroupsForUserOK *operations.ListGroupsForUserOK, err error) *MockIamClientService_ListGroupsForUserContext_Call {
+	_c.Call.Return(listGroupsForUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListGroupsForUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListGroupsForUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForUserOK, error)) *MockIamClientService_ListGroupsForUserContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListMachineUserAssignedResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUserAssignedResourceRoles(params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedResourceRolesOK, error) {
 	// operations.ClientOption
@@ -3759,6 +7676,93 @@ func (_c *MockIamClientService_ListMachineUserAssignedResourceRoles_Call) Return
 }
 
 func (_c *MockIamClientService_ListMachineUserAssignedResourceRoles_Call) RunAndReturn(run func(params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedResourceRolesOK, error)) *MockIamClientService_ListMachineUserAssignedResourceRoles_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListMachineUserAssignedResourceRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListMachineUserAssignedResourceRolesContext(ctx context.Context, params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedResourceRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListMachineUserAssignedResourceRolesContext")
+	}
+
+	var r0 *operations.ListMachineUserAssignedResourceRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListMachineUserAssignedResourceRolesParams, ...operations.ClientOption) (*operations.ListMachineUserAssignedResourceRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListMachineUserAssignedResourceRolesParams, ...operations.ClientOption) *operations.ListMachineUserAssignedResourceRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListMachineUserAssignedResourceRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListMachineUserAssignedResourceRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListMachineUserAssignedResourceRolesContext'
+type MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListMachineUserAssignedResourceRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListMachineUserAssignedResourceRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListMachineUserAssignedResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call {
+	return &MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call{Call: _e.mock.On("ListMachineUserAssignedResourceRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListMachineUserAssignedResourceRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListMachineUserAssignedResourceRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call) Return(listMachineUserAssignedResourceRolesOK *operations.ListMachineUserAssignedResourceRolesOK, err error) *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call {
+	_c.Call.Return(listMachineUserAssignedResourceRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedResourceRolesOK, error)) *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3844,6 +7848,93 @@ func (_c *MockIamClientService_ListMachineUserAssignedRoles_Call) RunAndReturn(r
 	return _c
 }
 
+// ListMachineUserAssignedRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListMachineUserAssignedRolesContext(ctx context.Context, params *operations.ListMachineUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListMachineUserAssignedRolesContext")
+	}
+
+	var r0 *operations.ListMachineUserAssignedRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListMachineUserAssignedRolesParams, ...operations.ClientOption) (*operations.ListMachineUserAssignedRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListMachineUserAssignedRolesParams, ...operations.ClientOption) *operations.ListMachineUserAssignedRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListMachineUserAssignedRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListMachineUserAssignedRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListMachineUserAssignedRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListMachineUserAssignedRolesContext'
+type MockIamClientService_ListMachineUserAssignedRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListMachineUserAssignedRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListMachineUserAssignedRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListMachineUserAssignedRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUserAssignedRolesContext_Call {
+	return &MockIamClientService_ListMachineUserAssignedRolesContext_Call{Call: _e.mock.On("ListMachineUserAssignedRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListMachineUserAssignedRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListMachineUserAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUserAssignedRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListMachineUserAssignedRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListMachineUserAssignedRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListMachineUserAssignedRolesContext_Call) Return(listMachineUserAssignedRolesOK *operations.ListMachineUserAssignedRolesOK, err error) *MockIamClientService_ListMachineUserAssignedRolesContext_Call {
+	_c.Call.Return(listMachineUserAssignedRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListMachineUserAssignedRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListMachineUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedRolesOK, error)) *MockIamClientService_ListMachineUserAssignedRolesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListMachineUsers provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUsers(params *operations.ListMachineUsersParams, opts ...operations.ClientOption) (*operations.ListMachineUsersOK, error) {
 	// operations.ClientOption
@@ -3921,6 +8012,93 @@ func (_c *MockIamClientService_ListMachineUsers_Call) Return(listMachineUsersOK 
 }
 
 func (_c *MockIamClientService_ListMachineUsers_Call) RunAndReturn(run func(params *operations.ListMachineUsersParams, opts ...operations.ClientOption) (*operations.ListMachineUsersOK, error)) *MockIamClientService_ListMachineUsers_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListMachineUsersContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListMachineUsersContext(ctx context.Context, params *operations.ListMachineUsersParams, opts ...operations.ClientOption) (*operations.ListMachineUsersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListMachineUsersContext")
+	}
+
+	var r0 *operations.ListMachineUsersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListMachineUsersParams, ...operations.ClientOption) (*operations.ListMachineUsersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListMachineUsersParams, ...operations.ClientOption) *operations.ListMachineUsersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListMachineUsersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListMachineUsersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListMachineUsersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListMachineUsersContext'
+type MockIamClientService_ListMachineUsersContext_Call struct {
+	*mock.Call
+}
+
+// ListMachineUsersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListMachineUsersParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListMachineUsersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUsersContext_Call {
+	return &MockIamClientService_ListMachineUsersContext_Call{Call: _e.mock.On("ListMachineUsersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListMachineUsersContext_Call) Run(run func(ctx context.Context, params *operations.ListMachineUsersParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUsersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListMachineUsersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListMachineUsersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListMachineUsersContext_Call) Return(listMachineUsersOK *operations.ListMachineUsersOK, err error) *MockIamClientService_ListMachineUsersContext_Call {
+	_c.Call.Return(listMachineUsersOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListMachineUsersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListMachineUsersParams, opts ...operations.ClientOption) (*operations.ListMachineUsersOK, error)) *MockIamClientService_ListMachineUsersContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4006,6 +8184,93 @@ func (_c *MockIamClientService_ListResourceAssignees_Call) RunAndReturn(run func
 	return _c
 }
 
+// ListResourceAssigneesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListResourceAssigneesContext(ctx context.Context, params *operations.ListResourceAssigneesParams, opts ...operations.ClientOption) (*operations.ListResourceAssigneesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListResourceAssigneesContext")
+	}
+
+	var r0 *operations.ListResourceAssigneesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListResourceAssigneesParams, ...operations.ClientOption) (*operations.ListResourceAssigneesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListResourceAssigneesParams, ...operations.ClientOption) *operations.ListResourceAssigneesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListResourceAssigneesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListResourceAssigneesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListResourceAssigneesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListResourceAssigneesContext'
+type MockIamClientService_ListResourceAssigneesContext_Call struct {
+	*mock.Call
+}
+
+// ListResourceAssigneesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListResourceAssigneesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListResourceAssigneesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListResourceAssigneesContext_Call {
+	return &MockIamClientService_ListResourceAssigneesContext_Call{Call: _e.mock.On("ListResourceAssigneesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListResourceAssigneesContext_Call) Run(run func(ctx context.Context, params *operations.ListResourceAssigneesParams, opts ...operations.ClientOption)) *MockIamClientService_ListResourceAssigneesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListResourceAssigneesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListResourceAssigneesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListResourceAssigneesContext_Call) Return(listResourceAssigneesOK *operations.ListResourceAssigneesOK, err error) *MockIamClientService_ListResourceAssigneesContext_Call {
+	_c.Call.Return(listResourceAssigneesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListResourceAssigneesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListResourceAssigneesParams, opts ...operations.ClientOption) (*operations.ListResourceAssigneesOK, error)) *MockIamClientService_ListResourceAssigneesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListResourceRoles(params *operations.ListResourceRolesParams, opts ...operations.ClientOption) (*operations.ListResourceRolesOK, error) {
 	// operations.ClientOption
@@ -4083,6 +8348,93 @@ func (_c *MockIamClientService_ListResourceRoles_Call) Return(listResourceRolesO
 }
 
 func (_c *MockIamClientService_ListResourceRoles_Call) RunAndReturn(run func(params *operations.ListResourceRolesParams, opts ...operations.ClientOption) (*operations.ListResourceRolesOK, error)) *MockIamClientService_ListResourceRoles_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListResourceRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListResourceRolesContext(ctx context.Context, params *operations.ListResourceRolesParams, opts ...operations.ClientOption) (*operations.ListResourceRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListResourceRolesContext")
+	}
+
+	var r0 *operations.ListResourceRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListResourceRolesParams, ...operations.ClientOption) (*operations.ListResourceRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListResourceRolesParams, ...operations.ClientOption) *operations.ListResourceRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListResourceRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListResourceRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListResourceRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListResourceRolesContext'
+type MockIamClientService_ListResourceRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListResourceRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListResourceRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListResourceRolesContext_Call {
+	return &MockIamClientService_ListResourceRolesContext_Call{Call: _e.mock.On("ListResourceRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListResourceRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListResourceRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListResourceRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListResourceRolesContext_Call) Return(listResourceRolesOK *operations.ListResourceRolesOK, err error) *MockIamClientService_ListResourceRolesContext_Call {
+	_c.Call.Return(listResourceRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListResourceRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListResourceRolesParams, opts ...operations.ClientOption) (*operations.ListResourceRolesOK, error)) *MockIamClientService_ListResourceRolesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4168,6 +8520,93 @@ func (_c *MockIamClientService_ListRoles_Call) RunAndReturn(run func(params *ope
 	return _c
 }
 
+// ListRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListRolesContext(ctx context.Context, params *operations.ListRolesParams, opts ...operations.ClientOption) (*operations.ListRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListRolesContext")
+	}
+
+	var r0 *operations.ListRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListRolesParams, ...operations.ClientOption) (*operations.ListRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListRolesParams, ...operations.ClientOption) *operations.ListRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListRolesContext'
+type MockIamClientService_ListRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListRolesContext_Call {
+	return &MockIamClientService_ListRolesContext_Call{Call: _e.mock.On("ListRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListRolesContext_Call) Return(listRolesOK *operations.ListRolesOK, err error) *MockIamClientService_ListRolesContext_Call {
+	_c.Call.Return(listRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListRolesParams, opts ...operations.ClientOption) (*operations.ListRolesOK, error)) *MockIamClientService_ListRolesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListSSHPublicKeys provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListSSHPublicKeys(params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption) (*operations.ListSSHPublicKeysOK, error) {
 	// operations.ClientOption
@@ -4245,6 +8684,93 @@ func (_c *MockIamClientService_ListSSHPublicKeys_Call) Return(listSSHPublicKeysO
 }
 
 func (_c *MockIamClientService_ListSSHPublicKeys_Call) RunAndReturn(run func(params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption) (*operations.ListSSHPublicKeysOK, error)) *MockIamClientService_ListSSHPublicKeys_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListSSHPublicKeysContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListSSHPublicKeysContext(ctx context.Context, params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption) (*operations.ListSSHPublicKeysOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListSSHPublicKeysContext")
+	}
+
+	var r0 *operations.ListSSHPublicKeysOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListSSHPublicKeysParams, ...operations.ClientOption) (*operations.ListSSHPublicKeysOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListSSHPublicKeysParams, ...operations.ClientOption) *operations.ListSSHPublicKeysOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListSSHPublicKeysOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListSSHPublicKeysParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListSSHPublicKeysContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListSSHPublicKeysContext'
+type MockIamClientService_ListSSHPublicKeysContext_Call struct {
+	*mock.Call
+}
+
+// ListSSHPublicKeysContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListSSHPublicKeysParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListSSHPublicKeysContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListSSHPublicKeysContext_Call {
+	return &MockIamClientService_ListSSHPublicKeysContext_Call{Call: _e.mock.On("ListSSHPublicKeysContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListSSHPublicKeysContext_Call) Run(run func(ctx context.Context, params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption)) *MockIamClientService_ListSSHPublicKeysContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListSSHPublicKeysParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListSSHPublicKeysParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListSSHPublicKeysContext_Call) Return(listSSHPublicKeysOK *operations.ListSSHPublicKeysOK, err error) *MockIamClientService_ListSSHPublicKeysContext_Call {
+	_c.Call.Return(listSSHPublicKeysOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListSSHPublicKeysContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption) (*operations.ListSSHPublicKeysOK, error)) *MockIamClientService_ListSSHPublicKeysContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4330,6 +8856,93 @@ func (_c *MockIamClientService_ListSamlProviders_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// ListSamlProvidersContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListSamlProvidersContext(ctx context.Context, params *operations.ListSamlProvidersParams, opts ...operations.ClientOption) (*operations.ListSamlProvidersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListSamlProvidersContext")
+	}
+
+	var r0 *operations.ListSamlProvidersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListSamlProvidersParams, ...operations.ClientOption) (*operations.ListSamlProvidersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListSamlProvidersParams, ...operations.ClientOption) *operations.ListSamlProvidersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListSamlProvidersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListSamlProvidersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListSamlProvidersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListSamlProvidersContext'
+type MockIamClientService_ListSamlProvidersContext_Call struct {
+	*mock.Call
+}
+
+// ListSamlProvidersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListSamlProvidersParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListSamlProvidersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListSamlProvidersContext_Call {
+	return &MockIamClientService_ListSamlProvidersContext_Call{Call: _e.mock.On("ListSamlProvidersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListSamlProvidersContext_Call) Run(run func(ctx context.Context, params *operations.ListSamlProvidersParams, opts ...operations.ClientOption)) *MockIamClientService_ListSamlProvidersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListSamlProvidersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListSamlProvidersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListSamlProvidersContext_Call) Return(listSamlProvidersOK *operations.ListSamlProvidersOK, err error) *MockIamClientService_ListSamlProvidersContext_Call {
+	_c.Call.Return(listSamlProvidersOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListSamlProvidersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListSamlProvidersParams, opts ...operations.ClientOption) (*operations.ListSamlProvidersOK, error)) *MockIamClientService_ListSamlProvidersContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListScimAccessTokens provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListScimAccessTokens(params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption) (*operations.ListScimAccessTokensOK, error) {
 	// operations.ClientOption
@@ -4407,6 +9020,93 @@ func (_c *MockIamClientService_ListScimAccessTokens_Call) Return(listScimAccessT
 }
 
 func (_c *MockIamClientService_ListScimAccessTokens_Call) RunAndReturn(run func(params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption) (*operations.ListScimAccessTokensOK, error)) *MockIamClientService_ListScimAccessTokens_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListScimAccessTokensContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListScimAccessTokensContext(ctx context.Context, params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption) (*operations.ListScimAccessTokensOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListScimAccessTokensContext")
+	}
+
+	var r0 *operations.ListScimAccessTokensOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListScimAccessTokensParams, ...operations.ClientOption) (*operations.ListScimAccessTokensOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListScimAccessTokensParams, ...operations.ClientOption) *operations.ListScimAccessTokensOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListScimAccessTokensOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListScimAccessTokensParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListScimAccessTokensContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListScimAccessTokensContext'
+type MockIamClientService_ListScimAccessTokensContext_Call struct {
+	*mock.Call
+}
+
+// ListScimAccessTokensContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListScimAccessTokensParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListScimAccessTokensContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListScimAccessTokensContext_Call {
+	return &MockIamClientService_ListScimAccessTokensContext_Call{Call: _e.mock.On("ListScimAccessTokensContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListScimAccessTokensContext_Call) Run(run func(ctx context.Context, params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption)) *MockIamClientService_ListScimAccessTokensContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListScimAccessTokensParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListScimAccessTokensParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListScimAccessTokensContext_Call) Return(listScimAccessTokensOK *operations.ListScimAccessTokensOK, err error) *MockIamClientService_ListScimAccessTokensContext_Call {
+	_c.Call.Return(listScimAccessTokensOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListScimAccessTokensContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption) (*operations.ListScimAccessTokensOK, error)) *MockIamClientService_ListScimAccessTokensContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4492,6 +9192,93 @@ func (_c *MockIamClientService_ListServicePrincipalCloudIdentities_Call) RunAndR
 	return _c
 }
 
+// ListServicePrincipalCloudIdentitiesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListServicePrincipalCloudIdentitiesContext(ctx context.Context, params *operations.ListServicePrincipalCloudIdentitiesParams, opts ...operations.ClientOption) (*operations.ListServicePrincipalCloudIdentitiesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListServicePrincipalCloudIdentitiesContext")
+	}
+
+	var r0 *operations.ListServicePrincipalCloudIdentitiesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListServicePrincipalCloudIdentitiesParams, ...operations.ClientOption) (*operations.ListServicePrincipalCloudIdentitiesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListServicePrincipalCloudIdentitiesParams, ...operations.ClientOption) *operations.ListServicePrincipalCloudIdentitiesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListServicePrincipalCloudIdentitiesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListServicePrincipalCloudIdentitiesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListServicePrincipalCloudIdentitiesContext'
+type MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call struct {
+	*mock.Call
+}
+
+// ListServicePrincipalCloudIdentitiesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListServicePrincipalCloudIdentitiesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListServicePrincipalCloudIdentitiesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call {
+	return &MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call{Call: _e.mock.On("ListServicePrincipalCloudIdentitiesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call) Run(run func(ctx context.Context, params *operations.ListServicePrincipalCloudIdentitiesParams, opts ...operations.ClientOption)) *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListServicePrincipalCloudIdentitiesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListServicePrincipalCloudIdentitiesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call) Return(listServicePrincipalCloudIdentitiesOK *operations.ListServicePrincipalCloudIdentitiesOK, err error) *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call {
+	_c.Call.Return(listServicePrincipalCloudIdentitiesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListServicePrincipalCloudIdentitiesParams, opts ...operations.ClientOption) (*operations.ListServicePrincipalCloudIdentitiesOK, error)) *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListUserAssignedResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUserAssignedResourceRoles(params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedResourceRolesOK, error) {
 	// operations.ClientOption
@@ -4569,6 +9356,93 @@ func (_c *MockIamClientService_ListUserAssignedResourceRoles_Call) Return(listUs
 }
 
 func (_c *MockIamClientService_ListUserAssignedResourceRoles_Call) RunAndReturn(run func(params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedResourceRolesOK, error)) *MockIamClientService_ListUserAssignedResourceRoles_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListUserAssignedResourceRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListUserAssignedResourceRolesContext(ctx context.Context, params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedResourceRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListUserAssignedResourceRolesContext")
+	}
+
+	var r0 *operations.ListUserAssignedResourceRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUserAssignedResourceRolesParams, ...operations.ClientOption) (*operations.ListUserAssignedResourceRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUserAssignedResourceRolesParams, ...operations.ClientOption) *operations.ListUserAssignedResourceRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListUserAssignedResourceRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListUserAssignedResourceRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListUserAssignedResourceRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListUserAssignedResourceRolesContext'
+type MockIamClientService_ListUserAssignedResourceRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListUserAssignedResourceRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListUserAssignedResourceRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListUserAssignedResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListUserAssignedResourceRolesContext_Call {
+	return &MockIamClientService_ListUserAssignedResourceRolesContext_Call{Call: _e.mock.On("ListUserAssignedResourceRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListUserAssignedResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListUserAssignedResourceRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListUserAssignedResourceRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListUserAssignedResourceRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListUserAssignedResourceRolesContext_Call) Return(listUserAssignedResourceRolesOK *operations.ListUserAssignedResourceRolesOK, err error) *MockIamClientService_ListUserAssignedResourceRolesContext_Call {
+	_c.Call.Return(listUserAssignedResourceRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListUserAssignedResourceRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedResourceRolesOK, error)) *MockIamClientService_ListUserAssignedResourceRolesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4654,6 +9528,93 @@ func (_c *MockIamClientService_ListUserAssignedRoles_Call) RunAndReturn(run func
 	return _c
 }
 
+// ListUserAssignedRolesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListUserAssignedRolesContext(ctx context.Context, params *operations.ListUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedRolesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListUserAssignedRolesContext")
+	}
+
+	var r0 *operations.ListUserAssignedRolesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUserAssignedRolesParams, ...operations.ClientOption) (*operations.ListUserAssignedRolesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUserAssignedRolesParams, ...operations.ClientOption) *operations.ListUserAssignedRolesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListUserAssignedRolesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListUserAssignedRolesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListUserAssignedRolesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListUserAssignedRolesContext'
+type MockIamClientService_ListUserAssignedRolesContext_Call struct {
+	*mock.Call
+}
+
+// ListUserAssignedRolesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListUserAssignedRolesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListUserAssignedRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListUserAssignedRolesContext_Call {
+	return &MockIamClientService_ListUserAssignedRolesContext_Call{Call: _e.mock.On("ListUserAssignedRolesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListUserAssignedRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListUserAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListUserAssignedRolesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListUserAssignedRolesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListUserAssignedRolesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListUserAssignedRolesContext_Call) Return(listUserAssignedRolesOK *operations.ListUserAssignedRolesOK, err error) *MockIamClientService_ListUserAssignedRolesContext_Call {
+	_c.Call.Return(listUserAssignedRolesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListUserAssignedRolesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedRolesOK, error)) *MockIamClientService_ListUserAssignedRolesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListUsers provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUsers(params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error) {
 	// operations.ClientOption
@@ -4731,6 +9692,93 @@ func (_c *MockIamClientService_ListUsers_Call) Return(listUsersOK *operations.Li
 }
 
 func (_c *MockIamClientService_ListUsers_Call) RunAndReturn(run func(params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error)) *MockIamClientService_ListUsers_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListUsersContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) ListUsersContext(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListUsersContext")
+	}
+
+	var r0 *operations.ListUsersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUsersParams, ...operations.ClientOption) (*operations.ListUsersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUsersParams, ...operations.ClientOption) *operations.ListUsersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListUsersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListUsersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_ListUsersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListUsersContext'
+type MockIamClientService_ListUsersContext_Call struct {
+	*mock.Call
+}
+
+// ListUsersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListUsersParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) ListUsersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListUsersContext_Call {
+	return &MockIamClientService_ListUsersContext_Call{Call: _e.mock.On("ListUsersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_ListUsersContext_Call) Run(run func(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption)) *MockIamClientService_ListUsersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListUsersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListUsersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_ListUsersContext_Call) Return(listUsersOK *operations.ListUsersOK, err error) *MockIamClientService_ListUsersContext_Call {
+	_c.Call.Return(listUsersOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_ListUsersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error)) *MockIamClientService_ListUsersContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4816,6 +9864,93 @@ func (_c *MockIamClientService_MigrateUsersToIdentityProvider_Call) RunAndReturn
 	return _c
 }
 
+// MigrateUsersToIdentityProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) MigrateUsersToIdentityProviderContext(ctx context.Context, params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for MigrateUsersToIdentityProviderContext")
+	}
+
+	var r0 *operations.MigrateUsersToIdentityProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.MigrateUsersToIdentityProviderParams, ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.MigrateUsersToIdentityProviderParams, ...operations.ClientOption) *operations.MigrateUsersToIdentityProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.MigrateUsersToIdentityProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.MigrateUsersToIdentityProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_MigrateUsersToIdentityProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'MigrateUsersToIdentityProviderContext'
+type MockIamClientService_MigrateUsersToIdentityProviderContext_Call struct {
+	*mock.Call
+}
+
+// MigrateUsersToIdentityProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.MigrateUsersToIdentityProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) MigrateUsersToIdentityProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_MigrateUsersToIdentityProviderContext_Call {
+	return &MockIamClientService_MigrateUsersToIdentityProviderContext_Call{Call: _e.mock.On("MigrateUsersToIdentityProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_MigrateUsersToIdentityProviderContext_Call) Run(run func(ctx context.Context, params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_MigrateUsersToIdentityProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.MigrateUsersToIdentityProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.MigrateUsersToIdentityProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_MigrateUsersToIdentityProviderContext_Call) Return(migrateUsersToIdentityProviderOK *operations.MigrateUsersToIdentityProviderOK, err error) *MockIamClientService_MigrateUsersToIdentityProviderContext_Call {
+	_c.Call.Return(migrateUsersToIdentityProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_MigrateUsersToIdentityProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error)) *MockIamClientService_MigrateUsersToIdentityProviderContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RemoveMachineUserFromGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) RemoveMachineUserFromGroup(params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error) {
 	// operations.ClientOption
@@ -4893,6 +10028,93 @@ func (_c *MockIamClientService_RemoveMachineUserFromGroup_Call) Return(removeMac
 }
 
 func (_c *MockIamClientService_RemoveMachineUserFromGroup_Call) RunAndReturn(run func(params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error)) *MockIamClientService_RemoveMachineUserFromGroup_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RemoveMachineUserFromGroupContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) RemoveMachineUserFromGroupContext(ctx context.Context, params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RemoveMachineUserFromGroupContext")
+	}
+
+	var r0 *operations.RemoveMachineUserFromGroupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RemoveMachineUserFromGroupParams, ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RemoveMachineUserFromGroupParams, ...operations.ClientOption) *operations.RemoveMachineUserFromGroupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RemoveMachineUserFromGroupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RemoveMachineUserFromGroupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_RemoveMachineUserFromGroupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RemoveMachineUserFromGroupContext'
+type MockIamClientService_RemoveMachineUserFromGroupContext_Call struct {
+	*mock.Call
+}
+
+// RemoveMachineUserFromGroupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RemoveMachineUserFromGroupParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) RemoveMachineUserFromGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_RemoveMachineUserFromGroupContext_Call {
+	return &MockIamClientService_RemoveMachineUserFromGroupContext_Call{Call: _e.mock.On("RemoveMachineUserFromGroupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_RemoveMachineUserFromGroupContext_Call) Run(run func(ctx context.Context, params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption)) *MockIamClientService_RemoveMachineUserFromGroupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RemoveMachineUserFromGroupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RemoveMachineUserFromGroupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_RemoveMachineUserFromGroupContext_Call) Return(removeMachineUserFromGroupOK *operations.RemoveMachineUserFromGroupOK, err error) *MockIamClientService_RemoveMachineUserFromGroupContext_Call {
+	_c.Call.Return(removeMachineUserFromGroupOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_RemoveMachineUserFromGroupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error)) *MockIamClientService_RemoveMachineUserFromGroupContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4978,6 +10200,93 @@ func (_c *MockIamClientService_RemoveUserFromGroup_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// RemoveUserFromGroupContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) RemoveUserFromGroupContext(ctx context.Context, params *operations.RemoveUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveUserFromGroupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RemoveUserFromGroupContext")
+	}
+
+	var r0 *operations.RemoveUserFromGroupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RemoveUserFromGroupParams, ...operations.ClientOption) (*operations.RemoveUserFromGroupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RemoveUserFromGroupParams, ...operations.ClientOption) *operations.RemoveUserFromGroupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RemoveUserFromGroupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RemoveUserFromGroupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_RemoveUserFromGroupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RemoveUserFromGroupContext'
+type MockIamClientService_RemoveUserFromGroupContext_Call struct {
+	*mock.Call
+}
+
+// RemoveUserFromGroupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RemoveUserFromGroupParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) RemoveUserFromGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_RemoveUserFromGroupContext_Call {
+	return &MockIamClientService_RemoveUserFromGroupContext_Call{Call: _e.mock.On("RemoveUserFromGroupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_RemoveUserFromGroupContext_Call) Run(run func(ctx context.Context, params *operations.RemoveUserFromGroupParams, opts ...operations.ClientOption)) *MockIamClientService_RemoveUserFromGroupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RemoveUserFromGroupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RemoveUserFromGroupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_RemoveUserFromGroupContext_Call) Return(removeUserFromGroupOK *operations.RemoveUserFromGroupOK, err error) *MockIamClientService_RemoveUserFromGroupContext_Call {
+	_c.Call.Return(removeUserFromGroupOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_RemoveUserFromGroupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RemoveUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveUserFromGroupOK, error)) *MockIamClientService_RemoveUserFromGroupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetAccountMessages provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetAccountMessages(params *operations.SetAccountMessagesParams, opts ...operations.ClientOption) (*operations.SetAccountMessagesOK, error) {
 	// operations.ClientOption
@@ -5055,6 +10364,93 @@ func (_c *MockIamClientService_SetAccountMessages_Call) Return(setAccountMessage
 }
 
 func (_c *MockIamClientService_SetAccountMessages_Call) RunAndReturn(run func(params *operations.SetAccountMessagesParams, opts ...operations.ClientOption) (*operations.SetAccountMessagesOK, error)) *MockIamClientService_SetAccountMessages_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetAccountMessagesContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) SetAccountMessagesContext(ctx context.Context, params *operations.SetAccountMessagesParams, opts ...operations.ClientOption) (*operations.SetAccountMessagesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAccountMessagesContext")
+	}
+
+	var r0 *operations.SetAccountMessagesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAccountMessagesParams, ...operations.ClientOption) (*operations.SetAccountMessagesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAccountMessagesParams, ...operations.ClientOption) *operations.SetAccountMessagesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetAccountMessagesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetAccountMessagesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_SetAccountMessagesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetAccountMessagesContext'
+type MockIamClientService_SetAccountMessagesContext_Call struct {
+	*mock.Call
+}
+
+// SetAccountMessagesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetAccountMessagesParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) SetAccountMessagesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetAccountMessagesContext_Call {
+	return &MockIamClientService_SetAccountMessagesContext_Call{Call: _e.mock.On("SetAccountMessagesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_SetAccountMessagesContext_Call) Run(run func(ctx context.Context, params *operations.SetAccountMessagesParams, opts ...operations.ClientOption)) *MockIamClientService_SetAccountMessagesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetAccountMessagesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetAccountMessagesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_SetAccountMessagesContext_Call) Return(setAccountMessagesOK *operations.SetAccountMessagesOK, err error) *MockIamClientService_SetAccountMessagesContext_Call {
+	_c.Call.Return(setAccountMessagesOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_SetAccountMessagesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetAccountMessagesParams, opts ...operations.ClientOption) (*operations.SetAccountMessagesOK, error)) *MockIamClientService_SetAccountMessagesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5140,6 +10536,93 @@ func (_c *MockIamClientService_SetAuthenticationPolicy_Call) RunAndReturn(run fu
 	return _c
 }
 
+// SetAuthenticationPolicyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) SetAuthenticationPolicyContext(ctx context.Context, params *operations.SetAuthenticationPolicyParams, opts ...operations.ClientOption) (*operations.SetAuthenticationPolicyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAuthenticationPolicyContext")
+	}
+
+	var r0 *operations.SetAuthenticationPolicyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAuthenticationPolicyParams, ...operations.ClientOption) (*operations.SetAuthenticationPolicyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetAuthenticationPolicyParams, ...operations.ClientOption) *operations.SetAuthenticationPolicyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetAuthenticationPolicyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetAuthenticationPolicyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_SetAuthenticationPolicyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetAuthenticationPolicyContext'
+type MockIamClientService_SetAuthenticationPolicyContext_Call struct {
+	*mock.Call
+}
+
+// SetAuthenticationPolicyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetAuthenticationPolicyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) SetAuthenticationPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetAuthenticationPolicyContext_Call {
+	return &MockIamClientService_SetAuthenticationPolicyContext_Call{Call: _e.mock.On("SetAuthenticationPolicyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_SetAuthenticationPolicyContext_Call) Run(run func(ctx context.Context, params *operations.SetAuthenticationPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_SetAuthenticationPolicyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetAuthenticationPolicyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetAuthenticationPolicyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_SetAuthenticationPolicyContext_Call) Return(setAuthenticationPolicyOK *operations.SetAuthenticationPolicyOK, err error) *MockIamClientService_SetAuthenticationPolicyContext_Call {
+	_c.Call.Return(setAuthenticationPolicyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_SetAuthenticationPolicyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetAuthenticationPolicyParams, opts ...operations.ClientOption) (*operations.SetAuthenticationPolicyOK, error)) *MockIamClientService_SetAuthenticationPolicyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetDefaultIdentityProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetDefaultIdentityProvider(params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.SetDefaultIdentityProviderOK, error) {
 	// operations.ClientOption
@@ -5217,6 +10700,93 @@ func (_c *MockIamClientService_SetDefaultIdentityProvider_Call) Return(setDefaul
 }
 
 func (_c *MockIamClientService_SetDefaultIdentityProvider_Call) RunAndReturn(run func(params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.SetDefaultIdentityProviderOK, error)) *MockIamClientService_SetDefaultIdentityProvider_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetDefaultIdentityProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) SetDefaultIdentityProviderContext(ctx context.Context, params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.SetDefaultIdentityProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetDefaultIdentityProviderContext")
+	}
+
+	var r0 *operations.SetDefaultIdentityProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetDefaultIdentityProviderParams, ...operations.ClientOption) (*operations.SetDefaultIdentityProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetDefaultIdentityProviderParams, ...operations.ClientOption) *operations.SetDefaultIdentityProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetDefaultIdentityProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetDefaultIdentityProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_SetDefaultIdentityProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetDefaultIdentityProviderContext'
+type MockIamClientService_SetDefaultIdentityProviderContext_Call struct {
+	*mock.Call
+}
+
+// SetDefaultIdentityProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetDefaultIdentityProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) SetDefaultIdentityProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetDefaultIdentityProviderContext_Call {
+	return &MockIamClientService_SetDefaultIdentityProviderContext_Call{Call: _e.mock.On("SetDefaultIdentityProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_SetDefaultIdentityProviderContext_Call) Run(run func(ctx context.Context, params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_SetDefaultIdentityProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetDefaultIdentityProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetDefaultIdentityProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_SetDefaultIdentityProviderContext_Call) Return(setDefaultIdentityProviderOK *operations.SetDefaultIdentityProviderOK, err error) *MockIamClientService_SetDefaultIdentityProviderContext_Call {
+	_c.Call.Return(setDefaultIdentityProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_SetDefaultIdentityProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.SetDefaultIdentityProviderOK, error)) *MockIamClientService_SetDefaultIdentityProviderContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5302,6 +10872,93 @@ func (_c *MockIamClientService_SetSamlAuthnRequestSigningKey_Call) RunAndReturn(
 	return _c
 }
 
+// SetSamlAuthnRequestSigningKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) SetSamlAuthnRequestSigningKeyContext(ctx context.Context, params *operations.SetSamlAuthnRequestSigningKeyParams, opts ...operations.ClientOption) (*operations.SetSamlAuthnRequestSigningKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetSamlAuthnRequestSigningKeyContext")
+	}
+
+	var r0 *operations.SetSamlAuthnRequestSigningKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetSamlAuthnRequestSigningKeyParams, ...operations.ClientOption) (*operations.SetSamlAuthnRequestSigningKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetSamlAuthnRequestSigningKeyParams, ...operations.ClientOption) *operations.SetSamlAuthnRequestSigningKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetSamlAuthnRequestSigningKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetSamlAuthnRequestSigningKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetSamlAuthnRequestSigningKeyContext'
+type MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call struct {
+	*mock.Call
+}
+
+// SetSamlAuthnRequestSigningKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetSamlAuthnRequestSigningKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) SetSamlAuthnRequestSigningKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call {
+	return &MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call{Call: _e.mock.On("SetSamlAuthnRequestSigningKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call) Run(run func(ctx context.Context, params *operations.SetSamlAuthnRequestSigningKeyParams, opts ...operations.ClientOption)) *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetSamlAuthnRequestSigningKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetSamlAuthnRequestSigningKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call) Return(setSamlAuthnRequestSigningKeyOK *operations.SetSamlAuthnRequestSigningKeyOK, err error) *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call {
+	_c.Call.Return(setSamlAuthnRequestSigningKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetSamlAuthnRequestSigningKeyParams, opts ...operations.ClientOption) (*operations.SetSamlAuthnRequestSigningKeyOK, error)) *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetSamlResponseDecryptionKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetSamlResponseDecryptionKey(params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption) (*operations.SetSamlResponseDecryptionKeyOK, error) {
 	// operations.ClientOption
@@ -5383,8 +11040,95 @@ func (_c *MockIamClientService_SetSamlResponseDecryptionKey_Call) RunAndReturn(r
 	return _c
 }
 
+// SetSamlResponseDecryptionKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) SetSamlResponseDecryptionKeyContext(ctx context.Context, params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption) (*operations.SetSamlResponseDecryptionKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetSamlResponseDecryptionKeyContext")
+	}
+
+	var r0 *operations.SetSamlResponseDecryptionKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetSamlResponseDecryptionKeyParams, ...operations.ClientOption) (*operations.SetSamlResponseDecryptionKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetSamlResponseDecryptionKeyParams, ...operations.ClientOption) *operations.SetSamlResponseDecryptionKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetSamlResponseDecryptionKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetSamlResponseDecryptionKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_SetSamlResponseDecryptionKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetSamlResponseDecryptionKeyContext'
+type MockIamClientService_SetSamlResponseDecryptionKeyContext_Call struct {
+	*mock.Call
+}
+
+// SetSamlResponseDecryptionKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetSamlResponseDecryptionKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) SetSamlResponseDecryptionKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call {
+	return &MockIamClientService_SetSamlResponseDecryptionKeyContext_Call{Call: _e.mock.On("SetSamlResponseDecryptionKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call) Run(run func(ctx context.Context, params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption)) *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetSamlResponseDecryptionKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetSamlResponseDecryptionKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call) Return(setSamlResponseDecryptionKeyOK *operations.SetSamlResponseDecryptionKeyOK, err error) *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call {
+	_c.Call.Return(setSamlResponseDecryptionKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption) (*operations.SetSamlResponseDecryptionKeyOK, error)) *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetTransport provides a mock function for the type MockIamClientService
-func (_mock *MockIamClientService) SetTransport(transport runtime.ClientTransport) {
+func (_mock *MockIamClientService) SetTransport(transport runtime.ContextualTransport) {
 	_mock.Called(transport)
 	return
 }
@@ -5395,16 +11139,16 @@ type MockIamClientService_SetTransport_Call struct {
 }
 
 // SetTransport is a helper method to define mock.On call
-//   - transport runtime.ClientTransport
+//   - transport runtime.ContextualTransport
 func (_e *MockIamClientService_Expecter) SetTransport(transport interface{}) *MockIamClientService_SetTransport_Call {
 	return &MockIamClientService_SetTransport_Call{Call: _e.mock.On("SetTransport", transport)}
 }
 
-func (_c *MockIamClientService_SetTransport_Call) Run(run func(transport runtime.ClientTransport)) *MockIamClientService_SetTransport_Call {
+func (_c *MockIamClientService_SetTransport_Call) Run(run func(transport runtime.ContextualTransport)) *MockIamClientService_SetTransport_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 runtime.ClientTransport
+		var arg0 runtime.ContextualTransport
 		if args[0] != nil {
-			arg0 = args[0].(runtime.ClientTransport)
+			arg0 = args[0].(runtime.ContextualTransport)
 		}
 		run(
 			arg0,
@@ -5418,7 +11162,7 @@ func (_c *MockIamClientService_SetTransport_Call) Return() *MockIamClientService
 	return _c
 }
 
-func (_c *MockIamClientService_SetTransport_Call) RunAndReturn(run func(transport runtime.ClientTransport)) *MockIamClientService_SetTransport_Call {
+func (_c *MockIamClientService_SetTransport_Call) RunAndReturn(run func(transport runtime.ContextualTransport)) *MockIamClientService_SetTransport_Call {
 	_c.Run(run)
 	return _c
 }
@@ -5504,6 +11248,93 @@ func (_c *MockIamClientService_SetWorkloadPassword_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// SetWorkloadPasswordContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) SetWorkloadPasswordContext(ctx context.Context, params *operations.SetWorkloadPasswordParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetWorkloadPasswordContext")
+	}
+
+	var r0 *operations.SetWorkloadPasswordOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetWorkloadPasswordParams, ...operations.ClientOption) (*operations.SetWorkloadPasswordOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetWorkloadPasswordParams, ...operations.ClientOption) *operations.SetWorkloadPasswordOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetWorkloadPasswordOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetWorkloadPasswordParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_SetWorkloadPasswordContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetWorkloadPasswordContext'
+type MockIamClientService_SetWorkloadPasswordContext_Call struct {
+	*mock.Call
+}
+
+// SetWorkloadPasswordContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetWorkloadPasswordParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) SetWorkloadPasswordContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetWorkloadPasswordContext_Call {
+	return &MockIamClientService_SetWorkloadPasswordContext_Call{Call: _e.mock.On("SetWorkloadPasswordContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_SetWorkloadPasswordContext_Call) Run(run func(ctx context.Context, params *operations.SetWorkloadPasswordParams, opts ...operations.ClientOption)) *MockIamClientService_SetWorkloadPasswordContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetWorkloadPasswordParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetWorkloadPasswordParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_SetWorkloadPasswordContext_Call) Return(setWorkloadPasswordOK *operations.SetWorkloadPasswordOK, err error) *MockIamClientService_SetWorkloadPasswordContext_Call {
+	_c.Call.Return(setWorkloadPasswordOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_SetWorkloadPasswordContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetWorkloadPasswordParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordOK, error)) *MockIamClientService_SetWorkloadPasswordContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetWorkloadPasswordPolicy provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetWorkloadPasswordPolicy(params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordPolicyOK, error) {
 	// operations.ClientOption
@@ -5581,6 +11412,93 @@ func (_c *MockIamClientService_SetWorkloadPasswordPolicy_Call) Return(setWorkloa
 }
 
 func (_c *MockIamClientService_SetWorkloadPasswordPolicy_Call) RunAndReturn(run func(params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordPolicyOK, error)) *MockIamClientService_SetWorkloadPasswordPolicy_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SetWorkloadPasswordPolicyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) SetWorkloadPasswordPolicyContext(ctx context.Context, params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordPolicyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetWorkloadPasswordPolicyContext")
+	}
+
+	var r0 *operations.SetWorkloadPasswordPolicyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetWorkloadPasswordPolicyParams, ...operations.ClientOption) (*operations.SetWorkloadPasswordPolicyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SetWorkloadPasswordPolicyParams, ...operations.ClientOption) *operations.SetWorkloadPasswordPolicyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SetWorkloadPasswordPolicyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SetWorkloadPasswordPolicyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_SetWorkloadPasswordPolicyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SetWorkloadPasswordPolicyContext'
+type MockIamClientService_SetWorkloadPasswordPolicyContext_Call struct {
+	*mock.Call
+}
+
+// SetWorkloadPasswordPolicyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SetWorkloadPasswordPolicyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) SetWorkloadPasswordPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetWorkloadPasswordPolicyContext_Call {
+	return &MockIamClientService_SetWorkloadPasswordPolicyContext_Call{Call: _e.mock.On("SetWorkloadPasswordPolicyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_SetWorkloadPasswordPolicyContext_Call) Run(run func(ctx context.Context, params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_SetWorkloadPasswordPolicyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SetWorkloadPasswordPolicyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SetWorkloadPasswordPolicyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_SetWorkloadPasswordPolicyContext_Call) Return(setWorkloadPasswordPolicyOK *operations.SetWorkloadPasswordPolicyOK, err error) *MockIamClientService_SetWorkloadPasswordPolicyContext_Call {
+	_c.Call.Return(setWorkloadPasswordPolicyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_SetWorkloadPasswordPolicyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordPolicyOK, error)) *MockIamClientService_SetWorkloadPasswordPolicyContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5666,6 +11584,93 @@ func (_c *MockIamClientService_UnassignAzureCloudIdentity_Call) RunAndReturn(run
 	return _c
 }
 
+// UnassignAzureCloudIdentityContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignAzureCloudIdentityContext(ctx context.Context, params *operations.UnassignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignAzureCloudIdentityOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignAzureCloudIdentityContext")
+	}
+
+	var r0 *operations.UnassignAzureCloudIdentityOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignAzureCloudIdentityParams, ...operations.ClientOption) (*operations.UnassignAzureCloudIdentityOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignAzureCloudIdentityParams, ...operations.ClientOption) *operations.UnassignAzureCloudIdentityOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignAzureCloudIdentityOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignAzureCloudIdentityParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignAzureCloudIdentityContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignAzureCloudIdentityContext'
+type MockIamClientService_UnassignAzureCloudIdentityContext_Call struct {
+	*mock.Call
+}
+
+// UnassignAzureCloudIdentityContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignAzureCloudIdentityParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignAzureCloudIdentityContext_Call {
+	return &MockIamClientService_UnassignAzureCloudIdentityContext_Call{Call: _e.mock.On("UnassignAzureCloudIdentityContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.UnassignAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignAzureCloudIdentityContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignAzureCloudIdentityParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignAzureCloudIdentityParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignAzureCloudIdentityContext_Call) Return(unassignAzureCloudIdentityOK *operations.UnassignAzureCloudIdentityOK, err error) *MockIamClientService_UnassignAzureCloudIdentityContext_Call {
+	_c.Call.Return(unassignAzureCloudIdentityOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignAzureCloudIdentityContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignAzureCloudIdentityOK, error)) *MockIamClientService_UnassignAzureCloudIdentityContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UnassignGroupResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignGroupResourceRole(params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupResourceRoleOK, error) {
 	// operations.ClientOption
@@ -5743,6 +11748,93 @@ func (_c *MockIamClientService_UnassignGroupResourceRole_Call) Return(unassignGr
 }
 
 func (_c *MockIamClientService_UnassignGroupResourceRole_Call) RunAndReturn(run func(params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupResourceRoleOK, error)) *MockIamClientService_UnassignGroupResourceRole_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UnassignGroupResourceRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignGroupResourceRoleContext(ctx context.Context, params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupResourceRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignGroupResourceRoleContext")
+	}
+
+	var r0 *operations.UnassignGroupResourceRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignGroupResourceRoleParams, ...operations.ClientOption) (*operations.UnassignGroupResourceRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignGroupResourceRoleParams, ...operations.ClientOption) *operations.UnassignGroupResourceRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignGroupResourceRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignGroupResourceRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignGroupResourceRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignGroupResourceRoleContext'
+type MockIamClientService_UnassignGroupResourceRoleContext_Call struct {
+	*mock.Call
+}
+
+// UnassignGroupResourceRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignGroupResourceRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignGroupResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignGroupResourceRoleContext_Call {
+	return &MockIamClientService_UnassignGroupResourceRoleContext_Call{Call: _e.mock.On("UnassignGroupResourceRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignGroupResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignGroupResourceRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignGroupResourceRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignGroupResourceRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignGroupResourceRoleContext_Call) Return(unassignGroupResourceRoleOK *operations.UnassignGroupResourceRoleOK, err error) *MockIamClientService_UnassignGroupResourceRoleContext_Call {
+	_c.Call.Return(unassignGroupResourceRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignGroupResourceRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupResourceRoleOK, error)) *MockIamClientService_UnassignGroupResourceRoleContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5828,6 +11920,93 @@ func (_c *MockIamClientService_UnassignGroupRole_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// UnassignGroupRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignGroupRoleContext(ctx context.Context, params *operations.UnassignGroupRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignGroupRoleContext")
+	}
+
+	var r0 *operations.UnassignGroupRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignGroupRoleParams, ...operations.ClientOption) (*operations.UnassignGroupRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignGroupRoleParams, ...operations.ClientOption) *operations.UnassignGroupRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignGroupRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignGroupRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignGroupRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignGroupRoleContext'
+type MockIamClientService_UnassignGroupRoleContext_Call struct {
+	*mock.Call
+}
+
+// UnassignGroupRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignGroupRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignGroupRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignGroupRoleContext_Call {
+	return &MockIamClientService_UnassignGroupRoleContext_Call{Call: _e.mock.On("UnassignGroupRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignGroupRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignGroupRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignGroupRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignGroupRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignGroupRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignGroupRoleContext_Call) Return(unassignGroupRoleOK *operations.UnassignGroupRoleOK, err error) *MockIamClientService_UnassignGroupRoleContext_Call {
+	_c.Call.Return(unassignGroupRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignGroupRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignGroupRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupRoleOK, error)) *MockIamClientService_UnassignGroupRoleContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UnassignMachineUserResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignMachineUserResourceRole(params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserResourceRoleOK, error) {
 	// operations.ClientOption
@@ -5905,6 +12084,93 @@ func (_c *MockIamClientService_UnassignMachineUserResourceRole_Call) Return(unas
 }
 
 func (_c *MockIamClientService_UnassignMachineUserResourceRole_Call) RunAndReturn(run func(params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserResourceRoleOK, error)) *MockIamClientService_UnassignMachineUserResourceRole_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UnassignMachineUserResourceRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignMachineUserResourceRoleContext(ctx context.Context, params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserResourceRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignMachineUserResourceRoleContext")
+	}
+
+	var r0 *operations.UnassignMachineUserResourceRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignMachineUserResourceRoleParams, ...operations.ClientOption) (*operations.UnassignMachineUserResourceRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignMachineUserResourceRoleParams, ...operations.ClientOption) *operations.UnassignMachineUserResourceRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignMachineUserResourceRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignMachineUserResourceRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignMachineUserResourceRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignMachineUserResourceRoleContext'
+type MockIamClientService_UnassignMachineUserResourceRoleContext_Call struct {
+	*mock.Call
+}
+
+// UnassignMachineUserResourceRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignMachineUserResourceRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignMachineUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignMachineUserResourceRoleContext_Call {
+	return &MockIamClientService_UnassignMachineUserResourceRoleContext_Call{Call: _e.mock.On("UnassignMachineUserResourceRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignMachineUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignMachineUserResourceRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignMachineUserResourceRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignMachineUserResourceRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignMachineUserResourceRoleContext_Call) Return(unassignMachineUserResourceRoleOK *operations.UnassignMachineUserResourceRoleOK, err error) *MockIamClientService_UnassignMachineUserResourceRoleContext_Call {
+	_c.Call.Return(unassignMachineUserResourceRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignMachineUserResourceRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserResourceRoleOK, error)) *MockIamClientService_UnassignMachineUserResourceRoleContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5990,6 +12256,93 @@ func (_c *MockIamClientService_UnassignMachineUserRole_Call) RunAndReturn(run fu
 	return _c
 }
 
+// UnassignMachineUserRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignMachineUserRoleContext(ctx context.Context, params *operations.UnassignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignMachineUserRoleContext")
+	}
+
+	var r0 *operations.UnassignMachineUserRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignMachineUserRoleParams, ...operations.ClientOption) (*operations.UnassignMachineUserRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignMachineUserRoleParams, ...operations.ClientOption) *operations.UnassignMachineUserRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignMachineUserRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignMachineUserRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignMachineUserRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignMachineUserRoleContext'
+type MockIamClientService_UnassignMachineUserRoleContext_Call struct {
+	*mock.Call
+}
+
+// UnassignMachineUserRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignMachineUserRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignMachineUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignMachineUserRoleContext_Call {
+	return &MockIamClientService_UnassignMachineUserRoleContext_Call{Call: _e.mock.On("UnassignMachineUserRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignMachineUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignMachineUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignMachineUserRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignMachineUserRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignMachineUserRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignMachineUserRoleContext_Call) Return(unassignMachineUserRoleOK *operations.UnassignMachineUserRoleOK, err error) *MockIamClientService_UnassignMachineUserRoleContext_Call {
+	_c.Call.Return(unassignMachineUserRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignMachineUserRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserRoleOK, error)) *MockIamClientService_UnassignMachineUserRoleContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UnassignServicePrincipalAzureCloudIdentity provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignServicePrincipalAzureCloudIdentity(params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignServicePrincipalAzureCloudIdentityOK, error) {
 	// operations.ClientOption
@@ -6067,6 +12420,93 @@ func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call) 
 }
 
 func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call) RunAndReturn(run func(params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignServicePrincipalAzureCloudIdentityOK, error)) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UnassignServicePrincipalAzureCloudIdentityContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignServicePrincipalAzureCloudIdentityOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignServicePrincipalAzureCloudIdentityContext")
+	}
+
+	var r0 *operations.UnassignServicePrincipalAzureCloudIdentityOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignServicePrincipalAzureCloudIdentityParams, ...operations.ClientOption) (*operations.UnassignServicePrincipalAzureCloudIdentityOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignServicePrincipalAzureCloudIdentityParams, ...operations.ClientOption) *operations.UnassignServicePrincipalAzureCloudIdentityOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignServicePrincipalAzureCloudIdentityOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignServicePrincipalAzureCloudIdentityParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignServicePrincipalAzureCloudIdentityContext'
+type MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call struct {
+	*mock.Call
+}
+
+// UnassignServicePrincipalAzureCloudIdentityContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignServicePrincipalAzureCloudIdentityParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignServicePrincipalAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call {
+	return &MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call{Call: _e.mock.On("UnassignServicePrincipalAzureCloudIdentityContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignServicePrincipalAzureCloudIdentityParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignServicePrincipalAzureCloudIdentityParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call) Return(unassignServicePrincipalAzureCloudIdentityOK *operations.UnassignServicePrincipalAzureCloudIdentityOK, err error) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call {
+	_c.Call.Return(unassignServicePrincipalAzureCloudIdentityOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignServicePrincipalAzureCloudIdentityOK, error)) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6152,6 +12592,93 @@ func (_c *MockIamClientService_UnassignUserResourceRole_Call) RunAndReturn(run f
 	return _c
 }
 
+// UnassignUserResourceRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignUserResourceRoleContext(ctx context.Context, params *operations.UnassignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserResourceRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignUserResourceRoleContext")
+	}
+
+	var r0 *operations.UnassignUserResourceRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignUserResourceRoleParams, ...operations.ClientOption) (*operations.UnassignUserResourceRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignUserResourceRoleParams, ...operations.ClientOption) *operations.UnassignUserResourceRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignUserResourceRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignUserResourceRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignUserResourceRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignUserResourceRoleContext'
+type MockIamClientService_UnassignUserResourceRoleContext_Call struct {
+	*mock.Call
+}
+
+// UnassignUserResourceRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignUserResourceRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignUserResourceRoleContext_Call {
+	return &MockIamClientService_UnassignUserResourceRoleContext_Call{Call: _e.mock.On("UnassignUserResourceRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignUserResourceRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignUserResourceRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignUserResourceRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignUserResourceRoleContext_Call) Return(unassignUserResourceRoleOK *operations.UnassignUserResourceRoleOK, err error) *MockIamClientService_UnassignUserResourceRoleContext_Call {
+	_c.Call.Return(unassignUserResourceRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignUserResourceRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserResourceRoleOK, error)) *MockIamClientService_UnassignUserResourceRoleContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UnassignUserRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignUserRole(params *operations.UnassignUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserRoleOK, error) {
 	// operations.ClientOption
@@ -6229,6 +12756,93 @@ func (_c *MockIamClientService_UnassignUserRole_Call) Return(unassignUserRoleOK 
 }
 
 func (_c *MockIamClientService_UnassignUserRole_Call) RunAndReturn(run func(params *operations.UnassignUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserRoleOK, error)) *MockIamClientService_UnassignUserRole_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UnassignUserRoleContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnassignUserRoleContext(ctx context.Context, params *operations.UnassignUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserRoleOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnassignUserRoleContext")
+	}
+
+	var r0 *operations.UnassignUserRoleOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignUserRoleParams, ...operations.ClientOption) (*operations.UnassignUserRoleOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnassignUserRoleParams, ...operations.ClientOption) *operations.UnassignUserRoleOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnassignUserRoleOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnassignUserRoleParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnassignUserRoleContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnassignUserRoleContext'
+type MockIamClientService_UnassignUserRoleContext_Call struct {
+	*mock.Call
+}
+
+// UnassignUserRoleContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnassignUserRoleParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnassignUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignUserRoleContext_Call {
+	return &MockIamClientService_UnassignUserRoleContext_Call{Call: _e.mock.On("UnassignUserRoleContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnassignUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignUserRoleContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnassignUserRoleParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnassignUserRoleParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignUserRoleContext_Call) Return(unassignUserRoleOK *operations.UnassignUserRoleOK, err error) *MockIamClientService_UnassignUserRoleContext_Call {
+	_c.Call.Return(unassignUserRoleOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnassignUserRoleContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnassignUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserRoleOK, error)) *MockIamClientService_UnassignUserRoleContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6314,6 +12928,93 @@ func (_c *MockIamClientService_UnlockMachineUserInControlPlane_Call) RunAndRetur
 	return _c
 }
 
+// UnlockMachineUserInControlPlaneContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnlockMachineUserInControlPlaneContext(ctx context.Context, params *operations.UnlockMachineUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockMachineUserInControlPlaneOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnlockMachineUserInControlPlaneContext")
+	}
+
+	var r0 *operations.UnlockMachineUserInControlPlaneOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnlockMachineUserInControlPlaneParams, ...operations.ClientOption) (*operations.UnlockMachineUserInControlPlaneOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnlockMachineUserInControlPlaneParams, ...operations.ClientOption) *operations.UnlockMachineUserInControlPlaneOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnlockMachineUserInControlPlaneOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnlockMachineUserInControlPlaneParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnlockMachineUserInControlPlaneContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnlockMachineUserInControlPlaneContext'
+type MockIamClientService_UnlockMachineUserInControlPlaneContext_Call struct {
+	*mock.Call
+}
+
+// UnlockMachineUserInControlPlaneContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnlockMachineUserInControlPlaneParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnlockMachineUserInControlPlaneContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call {
+	return &MockIamClientService_UnlockMachineUserInControlPlaneContext_Call{Call: _e.mock.On("UnlockMachineUserInControlPlaneContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call) Run(run func(ctx context.Context, params *operations.UnlockMachineUserInControlPlaneParams, opts ...operations.ClientOption)) *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnlockMachineUserInControlPlaneParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnlockMachineUserInControlPlaneParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call) Return(unlockMachineUserInControlPlaneOK *operations.UnlockMachineUserInControlPlaneOK, err error) *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call {
+	_c.Call.Return(unlockMachineUserInControlPlaneOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnlockMachineUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockMachineUserInControlPlaneOK, error)) *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UnlockUserInControlPlane provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnlockUserInControlPlane(params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockUserInControlPlaneOK, error) {
 	// operations.ClientOption
@@ -6391,6 +13092,93 @@ func (_c *MockIamClientService_UnlockUserInControlPlane_Call) Return(unlockUserI
 }
 
 func (_c *MockIamClientService_UnlockUserInControlPlane_Call) RunAndReturn(run func(params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockUserInControlPlaneOK, error)) *MockIamClientService_UnlockUserInControlPlane_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UnlockUserInControlPlaneContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnlockUserInControlPlaneContext(ctx context.Context, params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockUserInControlPlaneOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnlockUserInControlPlaneContext")
+	}
+
+	var r0 *operations.UnlockUserInControlPlaneOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnlockUserInControlPlaneParams, ...operations.ClientOption) (*operations.UnlockUserInControlPlaneOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnlockUserInControlPlaneParams, ...operations.ClientOption) *operations.UnlockUserInControlPlaneOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnlockUserInControlPlaneOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnlockUserInControlPlaneParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnlockUserInControlPlaneContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnlockUserInControlPlaneContext'
+type MockIamClientService_UnlockUserInControlPlaneContext_Call struct {
+	*mock.Call
+}
+
+// UnlockUserInControlPlaneContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnlockUserInControlPlaneParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnlockUserInControlPlaneContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnlockUserInControlPlaneContext_Call {
+	return &MockIamClientService_UnlockUserInControlPlaneContext_Call{Call: _e.mock.On("UnlockUserInControlPlaneContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnlockUserInControlPlaneContext_Call) Run(run func(ctx context.Context, params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption)) *MockIamClientService_UnlockUserInControlPlaneContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnlockUserInControlPlaneParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnlockUserInControlPlaneParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnlockUserInControlPlaneContext_Call) Return(unlockUserInControlPlaneOK *operations.UnlockUserInControlPlaneOK, err error) *MockIamClientService_UnlockUserInControlPlaneContext_Call {
+	_c.Call.Return(unlockUserInControlPlaneOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnlockUserInControlPlaneContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockUserInControlPlaneOK, error)) *MockIamClientService_UnlockUserInControlPlaneContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6476,6 +13264,93 @@ func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call) RunAndRetu
 	return _c
 }
 
+// UnsetWorkloadPasswordMinLifetimeContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnsetWorkloadPasswordMinLifetimeContext(ctx context.Context, params *operations.UnsetWorkloadPasswordMinLifetimeParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordMinLifetimeOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnsetWorkloadPasswordMinLifetimeContext")
+	}
+
+	var r0 *operations.UnsetWorkloadPasswordMinLifetimeOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnsetWorkloadPasswordMinLifetimeParams, ...operations.ClientOption) (*operations.UnsetWorkloadPasswordMinLifetimeOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnsetWorkloadPasswordMinLifetimeParams, ...operations.ClientOption) *operations.UnsetWorkloadPasswordMinLifetimeOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnsetWorkloadPasswordMinLifetimeOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnsetWorkloadPasswordMinLifetimeParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnsetWorkloadPasswordMinLifetimeContext'
+type MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call struct {
+	*mock.Call
+}
+
+// UnsetWorkloadPasswordMinLifetimeContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnsetWorkloadPasswordMinLifetimeParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordMinLifetimeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call {
+	return &MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call{Call: _e.mock.On("UnsetWorkloadPasswordMinLifetimeContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call) Run(run func(ctx context.Context, params *operations.UnsetWorkloadPasswordMinLifetimeParams, opts ...operations.ClientOption)) *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnsetWorkloadPasswordMinLifetimeParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnsetWorkloadPasswordMinLifetimeParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call) Return(unsetWorkloadPasswordMinLifetimeOK *operations.UnsetWorkloadPasswordMinLifetimeOK, err error) *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call {
+	_c.Call.Return(unsetWorkloadPasswordMinLifetimeOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnsetWorkloadPasswordMinLifetimeParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordMinLifetimeOK, error)) *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UnsetWorkloadPasswordPolicy provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnsetWorkloadPasswordPolicy(params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordPolicyOK, error) {
 	// operations.ClientOption
@@ -6553,6 +13428,93 @@ func (_c *MockIamClientService_UnsetWorkloadPasswordPolicy_Call) Return(unsetWor
 }
 
 func (_c *MockIamClientService_UnsetWorkloadPasswordPolicy_Call) RunAndReturn(run func(params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordPolicyOK, error)) *MockIamClientService_UnsetWorkloadPasswordPolicy_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UnsetWorkloadPasswordPolicyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UnsetWorkloadPasswordPolicyContext(ctx context.Context, params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordPolicyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UnsetWorkloadPasswordPolicyContext")
+	}
+
+	var r0 *operations.UnsetWorkloadPasswordPolicyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnsetWorkloadPasswordPolicyParams, ...operations.ClientOption) (*operations.UnsetWorkloadPasswordPolicyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UnsetWorkloadPasswordPolicyParams, ...operations.ClientOption) *operations.UnsetWorkloadPasswordPolicyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UnsetWorkloadPasswordPolicyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UnsetWorkloadPasswordPolicyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UnsetWorkloadPasswordPolicyContext'
+type MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call struct {
+	*mock.Call
+}
+
+// UnsetWorkloadPasswordPolicyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UnsetWorkloadPasswordPolicyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call {
+	return &MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call{Call: _e.mock.On("UnsetWorkloadPasswordPolicyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call) Run(run func(ctx context.Context, params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UnsetWorkloadPasswordPolicyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UnsetWorkloadPasswordPolicyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call) Return(unsetWorkloadPasswordPolicyOK *operations.UnsetWorkloadPasswordPolicyOK, err error) *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call {
+	_c.Call.Return(unsetWorkloadPasswordPolicyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordPolicyOK, error)) *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6638,6 +13600,93 @@ func (_c *MockIamClientService_UpdateAccessKey_Call) RunAndReturn(run func(param
 	return _c
 }
 
+// UpdateAccessKeyContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UpdateAccessKeyContext(ctx context.Context, params *operations.UpdateAccessKeyParams, opts ...operations.ClientOption) (*operations.UpdateAccessKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAccessKeyContext")
+	}
+
+	var r0 *operations.UpdateAccessKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAccessKeyParams, ...operations.ClientOption) (*operations.UpdateAccessKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAccessKeyParams, ...operations.ClientOption) *operations.UpdateAccessKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAccessKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAccessKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UpdateAccessKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAccessKeyContext'
+type MockIamClientService_UpdateAccessKeyContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAccessKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAccessKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UpdateAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateAccessKeyContext_Call {
+	return &MockIamClientService_UpdateAccessKeyContext_Call{Call: _e.mock.On("UpdateAccessKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UpdateAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateAccessKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAccessKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAccessKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateAccessKeyContext_Call) Return(updateAccessKeyOK *operations.UpdateAccessKeyOK, err error) *MockIamClientService_UpdateAccessKeyContext_Call {
+	_c.Call.Return(updateAccessKeyOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateAccessKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAccessKeyParams, opts ...operations.ClientOption) (*operations.UpdateAccessKeyOK, error)) *MockIamClientService_UpdateAccessKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateGroup(params *operations.UpdateGroupParams, opts ...operations.ClientOption) (*operations.UpdateGroupOK, error) {
 	// operations.ClientOption
@@ -6715,6 +13764,93 @@ func (_c *MockIamClientService_UpdateGroup_Call) Return(updateGroupOK *operation
 }
 
 func (_c *MockIamClientService_UpdateGroup_Call) RunAndReturn(run func(params *operations.UpdateGroupParams, opts ...operations.ClientOption) (*operations.UpdateGroupOK, error)) *MockIamClientService_UpdateGroup_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateGroupContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UpdateGroupContext(ctx context.Context, params *operations.UpdateGroupParams, opts ...operations.ClientOption) (*operations.UpdateGroupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateGroupContext")
+	}
+
+	var r0 *operations.UpdateGroupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateGroupParams, ...operations.ClientOption) (*operations.UpdateGroupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateGroupParams, ...operations.ClientOption) *operations.UpdateGroupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateGroupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateGroupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UpdateGroupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateGroupContext'
+type MockIamClientService_UpdateGroupContext_Call struct {
+	*mock.Call
+}
+
+// UpdateGroupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateGroupParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UpdateGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateGroupContext_Call {
+	return &MockIamClientService_UpdateGroupContext_Call{Call: _e.mock.On("UpdateGroupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UpdateGroupContext_Call) Run(run func(ctx context.Context, params *operations.UpdateGroupParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateGroupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateGroupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateGroupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateGroupContext_Call) Return(updateGroupOK *operations.UpdateGroupOK, err error) *MockIamClientService_UpdateGroupContext_Call {
+	_c.Call.Return(updateGroupOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateGroupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateGroupParams, opts ...operations.ClientOption) (*operations.UpdateGroupOK, error)) *MockIamClientService_UpdateGroupContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6800,6 +13936,93 @@ func (_c *MockIamClientService_UpdateLdapProvider_Call) RunAndReturn(run func(pa
 	return _c
 }
 
+// UpdateLdapProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UpdateLdapProviderContext(ctx context.Context, params *operations.UpdateLdapProviderParams, opts ...operations.ClientOption) (*operations.UpdateLdapProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateLdapProviderContext")
+	}
+
+	var r0 *operations.UpdateLdapProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateLdapProviderParams, ...operations.ClientOption) (*operations.UpdateLdapProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateLdapProviderParams, ...operations.ClientOption) *operations.UpdateLdapProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateLdapProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateLdapProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UpdateLdapProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateLdapProviderContext'
+type MockIamClientService_UpdateLdapProviderContext_Call struct {
+	*mock.Call
+}
+
+// UpdateLdapProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateLdapProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UpdateLdapProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateLdapProviderContext_Call {
+	return &MockIamClientService_UpdateLdapProviderContext_Call{Call: _e.mock.On("UpdateLdapProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UpdateLdapProviderContext_Call) Run(run func(ctx context.Context, params *operations.UpdateLdapProviderParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateLdapProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateLdapProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateLdapProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateLdapProviderContext_Call) Return(updateLdapProviderOK *operations.UpdateLdapProviderOK, err error) *MockIamClientService_UpdateLdapProviderContext_Call {
+	_c.Call.Return(updateLdapProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateLdapProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateLdapProviderParams, opts ...operations.ClientOption) (*operations.UpdateLdapProviderOK, error)) *MockIamClientService_UpdateLdapProviderContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateSamlProvider(params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption) (*operations.UpdateSamlProviderOK, error) {
 	// operations.ClientOption
@@ -6881,6 +14104,93 @@ func (_c *MockIamClientService_UpdateSamlProvider_Call) RunAndReturn(run func(pa
 	return _c
 }
 
+// UpdateSamlProviderContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UpdateSamlProviderContext(ctx context.Context, params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption) (*operations.UpdateSamlProviderOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSamlProviderContext")
+	}
+
+	var r0 *operations.UpdateSamlProviderOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSamlProviderParams, ...operations.ClientOption) (*operations.UpdateSamlProviderOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSamlProviderParams, ...operations.ClientOption) *operations.UpdateSamlProviderOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateSamlProviderOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateSamlProviderParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UpdateSamlProviderContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateSamlProviderContext'
+type MockIamClientService_UpdateSamlProviderContext_Call struct {
+	*mock.Call
+}
+
+// UpdateSamlProviderContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateSamlProviderParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UpdateSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateSamlProviderContext_Call {
+	return &MockIamClientService_UpdateSamlProviderContext_Call{Call: _e.mock.On("UpdateSamlProviderContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UpdateSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateSamlProviderContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateSamlProviderParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateSamlProviderParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateSamlProviderContext_Call) Return(updateSamlProviderOK *operations.UpdateSamlProviderOK, err error) *MockIamClientService_UpdateSamlProviderContext_Call {
+	_c.Call.Return(updateSamlProviderOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateSamlProviderContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption) (*operations.UpdateSamlProviderOK, error)) *MockIamClientService_UpdateSamlProviderContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateUser(params *operations.UpdateUserParams, opts ...operations.ClientOption) (*operations.UpdateUserOK, error) {
 	// operations.ClientOption
@@ -6958,6 +14268,93 @@ func (_c *MockIamClientService_UpdateUser_Call) Return(updateUserOK *operations.
 }
 
 func (_c *MockIamClientService_UpdateUser_Call) RunAndReturn(run func(params *operations.UpdateUserParams, opts ...operations.ClientOption) (*operations.UpdateUserOK, error)) *MockIamClientService_UpdateUser_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateUserContext provides a mock function for the type MockIamClientService
+func (_mock *MockIamClientService) UpdateUserContext(ctx context.Context, params *operations.UpdateUserParams, opts ...operations.ClientOption) (*operations.UpdateUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateUserContext")
+	}
+
+	var r0 *operations.UpdateUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateUserParams, ...operations.ClientOption) (*operations.UpdateUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateUserParams, ...operations.ClientOption) *operations.UpdateUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIamClientService_UpdateUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateUserContext'
+type MockIamClientService_UpdateUserContext_Call struct {
+	*mock.Call
+}
+
+// UpdateUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockIamClientService_Expecter) UpdateUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateUserContext_Call {
+	return &MockIamClientService_UpdateUserContext_Call{Call: _e.mock.On("UpdateUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockIamClientService_UpdateUserContext_Call) Run(run func(ctx context.Context, params *operations.UpdateUserParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateUserContext_Call) Return(updateUserOK *operations.UpdateUserOK, err error) *MockIamClientService_UpdateUserContext_Call {
+	_c.Call.Return(updateUserOK, err)
+	return _c
+}
+
+func (_c *MockIamClientService_UpdateUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateUserParams, opts ...operations.ClientOption) (*operations.UpdateUserOK, error)) *MockIamClientService_UpdateUserContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
